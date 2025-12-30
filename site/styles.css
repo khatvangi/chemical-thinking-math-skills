@@ -1,0 +1,161 @@
+/* Chemical Thinking - Custom Styles */
+
+:root {
+  --ct-primary: #6366f1;
+  --ct-secondary: #10b981;
+  --ct-accent: #f59e0b;
+}
+
+/* Primitive badges */
+.primitive-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.primitive-COLLECTION { background: #dbeafe; color: #1e40af; }
+.primitive-ARRANGEMENT { background: #fce7f3; color: #9d174d; }
+.primitive-DIRECTION { background: #d1fae5; color: #065f46; }
+.primitive-PROXIMITY { background: #fef3c7; color: #92400e; }
+.primitive-SAMENESS { background: #e0e7ff; color: #3730a3; }
+.primitive-CHANGE { background: #fee2e2; color: #991b1b; }
+.primitive-RATE { background: #ffedd5; color: #9a3412; }
+.primitive-ACCUMULATION { background: #f3e8ff; color: #6b21a8; }
+.primitive-SPREAD { background: #ccfbf1; color: #0f766e; }
+
+/* Hook section styling */
+.hook-section {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  border-left: 4px solid var(--ct-primary);
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 0 8px 8px 0;
+}
+
+.hook-section h3 {
+  margin-top: 0;
+  color: var(--ct-primary);
+}
+
+/* Recognition callout */
+.recognition-callout {
+  background: #fefce8;
+  border: 1px solid #facc15;
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.recognition-callout::before {
+  content: "🔍 Recognition";
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #854d0e;
+}
+
+/* Tool section */
+.tool-section {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+/* Interactive embed container */
+.interactive-container {
+  border: 2px solid var(--ct-secondary);
+  border-radius: 12px;
+  padding: 1rem;
+  margin: 2rem 0;
+  background: white;
+}
+
+.interactive-container h4 {
+  color: var(--ct-secondary);
+  margin-top: 0;
+}
+
+/* Chemistry connection box */
+.chemistry-connection {
+  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.chemistry-connection::before {
+  content: "⚗️ Chemistry Connection";
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: #065f46;
+}
+
+/* Practice widget container */
+.practice-container {
+  margin: 2rem 0;
+}
+
+/* Table styling for primitives */
+.primitives-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+}
+
+.primitives-table th {
+  background: var(--ct-primary);
+  color: white;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.primitives-table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.primitives-table tr:hover {
+  background: #f8fafc;
+}
+
+/* Mastery progress bar on lecture pages */
+.lecture-progress {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding: 0.75rem 1rem;
+  background: #f1f5f9;
+  border-radius: 8px;
+}
+
+.lecture-progress-bar {
+  flex: 1;
+  height: 8px;
+  background: #e2e8f0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.lecture-progress-fill {
+  height: 100%;
+  background: var(--ct-secondary);
+  transition: width 0.3s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .hook-section,
+  .tool-section,
+  .chemistry-connection {
+    padding: 1rem;
+    margin: 1rem 0;
+  }
+}

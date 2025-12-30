@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+ENV/
+.env
+
+# Quarto
+site/_site/
+site/.quarto/
+*.html
+!site/**/*.qmd
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+/tmp/
+
+# Large files (keep in extracted_zip but don't track)
+*.pdf
+*.zip
+
+# Node (if using npm for frontend)
+node_modules/
+02-pedagogical-models/mit-computational-thinking/
+03-linear-algebra/strang-18.06/
+07-visualization/PlutoUI.jl/

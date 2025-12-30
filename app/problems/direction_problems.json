@@ -1,0 +1,124 @@
+{
+  "primitive": "DIRECTION",
+  "description": "Things that point - vectors, angles, orientations",
+  "topics": {
+    "bond_angles": {
+      "difficulty_1": [
+        {
+          "id": "dir_ba_001",
+          "problem_text": "Water (H₂O) has a bent molecular geometry due to lone pairs on oxygen. What is the H-O-H bond angle in degrees?",
+          "correct_answer": "104.5",
+          "acceptable_answers": ["104.5", "104", "105", "~104.5"],
+          "hint1": "It's less than the tetrahedral angle (109.5°) because lone pairs repel more strongly.",
+          "hint2": "The answer is between 100° and 110°.",
+          "worked_solution": "Oxygen has 4 electron domains: 2 bonding pairs (O-H bonds) and 2 lone pairs. The lone pairs push the bonding pairs closer together, reducing the angle from the ideal tetrahedral 109.5° to approximately 104.5°.",
+          "chemistry_connection": "This bent geometry gives water its polarity, which is responsible for hydrogen bonding, high boiling point, and water's role as the 'universal solvent.'"
+        },
+        {
+          "id": "dir_ba_002",
+          "problem_text": "Methane (CH₄) has a perfect tetrahedral geometry. What is the H-C-H bond angle?",
+          "correct_answer": "109.5",
+          "acceptable_answers": ["109.5", "109", "110"],
+          "hint1": "All four C-H bonds are equivalent in methane.",
+          "hint2": "This is the angle that maximizes distance between 4 equivalent points on a sphere.",
+          "worked_solution": "With 4 bonding pairs and 0 lone pairs around carbon, VSEPR predicts tetrahedral geometry. The angle between any two vertices of a tetrahedron is arccos(-1/3) ≈ 109.5°.",
+          "chemistry_connection": "The tetrahedral carbon is the foundation of organic chemistry - sp³ hybridization gives this geometry."
+        },
+        {
+          "id": "dir_ba_003",
+          "problem_text": "Carbon dioxide (CO₂) is a linear molecule. What is the O=C=O bond angle?",
+          "correct_answer": "180",
+          "acceptable_answers": ["180", "180°"],
+          "hint1": "Linear means all atoms are on a straight line.",
+          "hint2": "A straight line has what angle?",
+          "worked_solution": "Carbon has 2 bonding domains (double bonds to each oxygen) and 0 lone pairs. Maximum separation of 2 domains = linear geometry = 180°.",
+          "chemistry_connection": "The linearity and symmetry of CO₂ means it has no net dipole moment, despite having polar C=O bonds. This matters for its IR absorption (greenhouse effect)."
+        }
+      ],
+      "difficulty_2": [
+        {
+          "id": "dir_ba_004",
+          "problem_text": "Ammonia (NH₃) has a trigonal pyramidal shape. The H-N-H bond angle is approximately what value?",
+          "correct_answer": "107",
+          "acceptable_answers": ["107", "107°", "106", "108"],
+          "hint1": "It's between water's angle and the tetrahedral angle.",
+          "hint2": "NH₃ has one lone pair; water has two. What does that tell you about the angle?",
+          "worked_solution": "Nitrogen has 4 electron domains: 3 bonding pairs and 1 lone pair. The lone pair compresses the bond angles, but less than water's 2 lone pairs do. Result: ~107°, between 104.5° (H₂O) and 109.5° (CH₄).",
+          "chemistry_connection": "Ammonia's lone pair makes it a Lewis base - it can donate electrons to form bonds with acids."
+        },
+        {
+          "id": "dir_ba_005",
+          "problem_text": "In sulfur hexafluoride (SF₆), sulfur is bonded to 6 fluorine atoms in an octahedral arrangement. What is the F-S-F bond angle for adjacent fluorines?",
+          "correct_answer": "90",
+          "acceptable_answers": ["90", "90°"],
+          "hint1": "An octahedron has 6 vertices arranged around a center point.",
+          "hint2": "Think of the arrangement as 4 atoms in a square plane, with 1 above and 1 below.",
+          "worked_solution": "Octahedral geometry places 6 atoms at maximum separation around a central atom. Adjacent atoms are at 90° to each other; opposite atoms are at 180°.",
+          "chemistry_connection": "SF₆ is an extremely stable gas used as an electrical insulator. The 6 fluorines completely surround sulfur, making it chemically inert."
+        }
+      ],
+      "difficulty_3": [
+        {
+          "id": "dir_ba_006",
+          "problem_text": "Xenon difluoride (XeF₂) is linear despite xenon having 3 lone pairs. What is the F-Xe-F bond angle?",
+          "correct_answer": "180",
+          "acceptable_answers": ["180", "180°"],
+          "hint1": "The geometry is determined by minimizing repulsion of 5 electron domains (3 lone pairs + 2 bonding pairs).",
+          "hint2": "In trigonal bipyramidal arrangement, where do lone pairs prefer to go?",
+          "worked_solution": "XeF₂ has 5 electron domains: 2 bonding pairs and 3 lone pairs. These adopt trigonal bipyramidal electronic geometry. Lone pairs occupy the equatorial positions (less repulsion at 120°), leaving the 2 bonding pairs in axial positions at 180° to each other.",
+          "chemistry_connection": "Noble gas compounds were once thought impossible. XeF₂ was one of the first synthesized, revolutionizing our understanding of chemical bonding."
+        }
+      ]
+    },
+    "dipoles": {
+      "difficulty_1": [
+        {
+          "id": "dir_dip_001",
+          "problem_text": "A water molecule has a dipole moment. In what direction does the dipole moment vector point: toward oxygen or toward the hydrogens?",
+          "correct_answer": "toward oxygen",
+          "acceptable_answers": ["toward oxygen", "oxygen", "O", "towards oxygen"],
+          "hint1": "Dipole moment points from partial positive to partial negative.",
+          "hint2": "Oxygen is more electronegative than hydrogen.",
+          "worked_solution": "Oxygen (χ = 3.44) is more electronegative than hydrogen (χ = 2.20). Electrons are pulled toward oxygen, making it δ⁻ and hydrogens δ⁺. The dipole moment vector points from positive to negative, i.e., toward oxygen.",
+          "chemistry_connection": "Water's dipole moment (1.85 D) allows it to dissolve ionic compounds and interact strongly with other polar molecules."
+        }
+      ],
+      "difficulty_2": [
+        {
+          "id": "dir_dip_002",
+          "problem_text": "CO₂ has two polar C=O bonds but zero net dipole moment. Why? Answer with one word describing the geometry.",
+          "correct_answer": "linear",
+          "acceptable_answers": ["linear", "symmetry", "symmetric", "180"],
+          "hint1": "The two bond dipoles point in opposite directions.",
+          "hint2": "What happens when you add two equal vectors pointing opposite directions?",
+          "worked_solution": "CO₂ is linear (180°). Each C=O bond has a dipole pointing toward oxygen. Since they point in exactly opposite directions, they cancel: μ_net = μ₁ + μ₂ = 0.",
+          "chemistry_connection": "Despite having no dipole moment, CO₂ absorbs IR radiation because its asymmetric stretch creates a temporary dipole. This is key to the greenhouse effect."
+        }
+      ]
+    },
+    "vectors_intro": {
+      "difficulty_1": [
+        {
+          "id": "dir_vec_001",
+          "problem_text": "A bond points from atom A at position (0, 0, 0) to atom B at position (1, 0, 0). What is the length of this bond vector?",
+          "correct_answer": "1",
+          "acceptable_answers": ["1", "1.0", "1 unit"],
+          "hint1": "Use the distance formula or just look at how far B is from A.",
+          "hint2": "B is at x=1, and A is at the origin.",
+          "worked_solution": "The bond vector is B - A = (1,0,0) - (0,0,0) = (1,0,0). The length is √(1² + 0² + 0²) = √1 = 1.",
+          "chemistry_connection": "In crystallography and molecular modeling, atomic positions are described by coordinate vectors. Bond lengths are the magnitudes of difference vectors."
+        },
+        {
+          "id": "dir_vec_002",
+          "problem_text": "Two vectors have the same magnitude and point in opposite directions. What is their sum?",
+          "correct_answer": "zero",
+          "acceptable_answers": ["zero", "0", "null", "nothing", "zero vector"],
+          "hint1": "Think of walking 10 steps north, then 10 steps south.",
+          "hint2": "Opposite directions with equal lengths...",
+          "worked_solution": "If v⃗ has magnitude m and direction d, then -v⃗ has magnitude m and direction opposite to d. Their sum: v⃗ + (-v⃗) = 0⃗ (the zero vector).",
+          "chemistry_connection": "This is exactly why CO₂ has no dipole moment: the two C=O bond dipoles are equal in magnitude, opposite in direction, and sum to zero."
+        }
+      ]
+    }
+  }
+}

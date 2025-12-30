@@ -1,0 +1,162 @@
+---
+title: "Practice Mode"
+subtitle: "Mastery-Based Adaptive Learning"
+format:
+  html:
+    include-after-body:
+      - text: |
+          <script src="../js/practice-widget.js"></script>
+---
+
+## How It Works
+
+1. **Choose a primitive** below
+2. **Answer problems** — get instant feedback
+3. **If wrong** → worked example + similar problem
+4. **Get 3 correct in a row** → mastery achieved!
+
+This is adaptive learning: problems adjust to your level.
+
+---
+
+## Choose Your Primitive
+
+::: {.panel-tabset}
+
+### DIRECTION
+
+<span class="primitive-badge primitive-DIRECTION">DIRECTION</span>
+
+*Vectors, bond angles, dipoles, orientations*
+
+<div id="practice-direction"></div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof ChemPractice !== 'undefined') {
+    new ChemPractice('practice-direction', {
+      primitive: 'DIRECTION',
+      topic: 'bond_angles',
+      apiUrl: 'http://localhost:8000'
+    });
+  }
+});
+</script>
+
+### COLLECTION
+
+<span class="primitive-badge primitive-COLLECTION">COLLECTION</span>
+
+*Sets, counting, moles, factorials*
+
+<div id="practice-collection"></div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof ChemPractice !== 'undefined') {
+    new ChemPractice('practice-collection', {
+      primitive: 'COLLECTION',
+      topic: 'moles',
+      apiUrl: 'http://localhost:8000'
+    });
+  }
+});
+</script>
+
+### CHANGE
+
+<span class="primitive-badge primitive-CHANGE">CHANGE</span>
+
+*Derivatives, reaction progress, transformations*
+
+<div id="practice-change"></div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof ChemPractice !== 'undefined') {
+    new ChemPractice('practice-change', {
+      primitive: 'CHANGE',
+      topic: 'reaction_progress',
+      apiUrl: 'http://localhost:8000'
+    });
+  }
+});
+</script>
+
+### RATE
+
+<span class="primitive-badge primitive-RATE">RATE</span>
+
+*Kinetics, half-life, differential equations*
+
+<div id="practice-rate"></div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof ChemPractice !== 'undefined') {
+    new ChemPractice('practice-rate', {
+      primitive: 'RATE',
+      topic: 'kinetics',
+      apiUrl: 'http://localhost:8000'
+    });
+  }
+});
+</script>
+
+### SPREAD
+
+<span class="primitive-badge primitive-SPREAD">SPREAD</span>
+
+*Probability, Boltzmann distribution, entropy*
+
+<div id="practice-spread"></div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof ChemPractice !== 'undefined') {
+    new ChemPractice('practice-spread', {
+      primitive: 'SPREAD',
+      topic: 'boltzmann_distribution',
+      apiUrl: 'http://localhost:8000'
+    });
+  }
+});
+</script>
+
+:::
+
+---
+
+## Your Progress
+
+| Primitive | Mastery | Last Practiced |
+|-----------|---------|----------------|
+| COLLECTION | ⬜⬜⬜ | — |
+| ARRANGEMENT | ⬜⬜⬜ | — |
+| DIRECTION | ⬜⬜⬜ | — |
+| PROXIMITY | ⬜⬜⬜ | — |
+| SAMENESS | ⬜⬜⬜ | — |
+| CHANGE | ⬜⬜⬜ | — |
+| RATE | ⬜⬜⬜ | — |
+| ACCUMULATION | ⬜⬜⬜ | — |
+| SPREAD | ⬜⬜⬜ | — |
+
+*Progress is saved locally in your browser.*
+
+---
+
+## Offline Mode
+
+If the backend server isn't running, the widget uses built-in seed problems. For the full adaptive experience with AI-generated feedback:
+
+```bash
+cd app/backend
+pip install -r requirements.txt
+python main.py
+```
+
+Make sure Ollama is running with a math model:
+
+```bash
+ollama run qwen2.5-math:7b
+```

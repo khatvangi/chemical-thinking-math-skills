@@ -1,0 +1,240 @@
+---
+title: "Lecture 4: Direction"
+subtitle: "Bonds Point — Vectors in Chemistry"
+format:
+  html:
+    include-after-body:
+      - text: |
+          <script src="../js/practice-widget.js"></script>
+---
+
+<span class="primitive-badge primitive-DIRECTION">DIRECTION</span>
+
+## The Hook {.hook-section}
+
+Look at these three molecules:
+
+| Molecule | Shape | Bond Angle |
+|----------|-------|------------|
+| CO₂ | Linear | 180° |
+| H₂O | Bent | 104.5° |
+| CH₄ | Tetrahedral | 109.5° |
+
+**What do you notice?**
+
+Bonds *point*. They have direction. The angle between them matters enormously for a molecule's properties.
+
+Water is bent → it's polar → it dissolves salt, forms hydrogen bonds, and makes life possible.
+
+CO₂ is linear → it's nonpolar → it's a gas at room temperature.
+
+Same atoms can give completely different molecules depending on **direction**.
+
+---
+
+::: {.recognition-callout}
+When something **points**, when **angles matter**, when **orientation** determines behavior — you're seeing **DIRECTION**.
+
+The mathematical tool that captures this: **vectors**.
+:::
+
+---
+
+## The Tool: Vectors {.tool-section}
+
+A **vector** is a quantity with both magnitude (size) and direction.
+
+### Notation
+
+$$\vec{v} = \begin{pmatrix} v_x \\ v_y \\ v_z \end{pmatrix}$$
+
+In chemistry, we use vectors for:
+
+- Bond directions
+- Dipole moments
+- Electric fields
+- Orbital orientations
+
+### Operations
+
+**Magnitude (length):**
+$$|\vec{v}| = \sqrt{v_x^2 + v_y^2 + v_z^2}$$
+
+**Dot product (angle relationship):**
+$$\vec{a} \cdot \vec{b} = |\vec{a}||\vec{b}|\cos\theta$$
+
+**Key insight:** The dot product tells you how aligned two vectors are:
+
+- Parallel → dot product is maximum (positive)
+- Perpendicular → dot product is zero
+- Opposite → dot product is negative
+
+---
+
+## Interactive: Bond Angles
+
+Move the slider to see how bond angle affects molecular polarity:
+
+```{ojs}
+//| echo: false
+viewof angle = Inputs.range([90, 180], {value: 104.5, step: 0.5, label: "H-O-H Angle (°)"})
+
+{
+  const svg = d3.create("svg")
+    .attr("width", 400)
+    .attr("height", 300)
+    .attr("viewBox", "-200 -150 400 300");
+
+  // Central atom (oxygen)
+  svg.append("circle")
+    .attr("cx", 0)
+    .attr("cy", 0)
+    .attr("r", 20)
+    .attr("fill", "#ef4444");
+
+  svg.append("text")
+    .attr("x", 0)
+    .attr("y", 5)
+    .attr("text-anchor", "middle")
+    .attr("fill", "white")
+    .attr("font-weight", "bold")
+    .text("O");
+
+  // Calculate hydrogen positions
+  const radians = angle * Math.PI / 180;
+  const bondLength = 80;
+
+  const h1x = bondLength * Math.cos(radians/2);
+  const h1y = -bondLength * Math.sin(radians/2);
+  const h2x = bondLength * Math.cos(radians/2);
+  const h2y = bondLength * Math.sin(radians/2);
+
+  // Bonds
+  svg.append("line")
+    .attr("x1", 0).attr("y1", 0)
+    .attr("x2", h1x).attr("y2", h1y)
+    .attr("stroke", "#666")
+    .attr("stroke-width", 4);
+
+  svg.append("line")
+    .attr("x1", 0).attr("y1", 0)
+    .attr("x2", h2x).attr("y2", h2y)
+    .attr("stroke", "#666")
+    .attr("stroke-width", 4);
+
+  // Hydrogens
+  svg.append("circle")
+    .attr("cx", h1x).attr("cy", h1y)
+    .attr("r", 15)
+    .attr("fill", "#3b82f6");
+
+  svg.append("circle")
+    .attr("cx", h2x).attr("cy", h2y)
+    .attr("r", 15)
+    .attr("fill", "#3b82f6");
+
+  svg.append("text")
+    .attr("x", h1x).attr("y", h1y + 4)
+    .attr("text-anchor", "middle")
+    .attr("fill", "white")
+    .attr("font-size", "12")
+    .text("H");
+
+  svg.append("text")
+    .attr("x", h2x).attr("y", h2y + 4)
+    .attr("text-anchor", "middle")
+    .attr("fill", "white")
+    .attr("font-size", "12")
+    .text("H");
+
+  // Dipole arrow
+  const polarity = (180 - angle) / 90; // 0 at 180°, 1 at 90°
+  const arrowLength = polarity * 60;
+
+  svg.append("line")
+    .attr("x1", 0).attr("y1", 0)
+    .attr("x2", -arrowLength).attr("y2", 0)
+    .attr("stroke", "#10b981")
+    .attr("stroke-width", 3)
+    .attr("marker-end", "url(#arrowhead)");
+
+  // Arrowhead definition
+  svg.append("defs").append("marker")
+    .attr("id", "arrowhead")
+    .attr("markerWidth", 10)
+    .attr("markerHeight", 7)
+    .attr("refX", 9)
+    .attr("refY", 3.5)
+    .attr("orient", "auto")
+    .append("polygon")
+    .attr("points", "0 0, 10 3.5, 0 7")
+    .attr("fill", "#10b981");
+
+  // Label
+  svg.append("text")
+    .attr("x", 0)
+    .attr("y", 120)
+    .attr("text-anchor", "middle")
+    .attr("font-size", "14")
+    .text(`Polarity: ${(polarity * 100).toFixed(0)}%`);
+
+  return svg.node();
+}
+```
+
+**Notice:** As the angle approaches 180° (linear), polarity drops to zero. The bond dipoles cancel!
+
+---
+
+::: {.chemistry-connection}
+**Why bond angles matter:**
+
+- **H₂O at 104.5°**: Bent → polar → hydrogen bonding → liquid at room temperature, dissolves ionic compounds, high heat capacity (regulates climate)
+
+- **CO₂ at 180°**: Linear → nonpolar → no hydrogen bonding → gas at room temperature, different solubility behavior
+
+Same atoms. Different angles. Completely different chemistry.
+:::
+
+---
+
+## Practice: DIRECTION Mastery
+
+<div id="practice-direction" class="practice-container"></div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof ChemPractice !== 'undefined') {
+    new ChemPractice('practice-direction', {
+      primitive: 'DIRECTION',
+      topic: 'bond_angles',
+      apiUrl: 'http://localhost:8000'
+    });
+  }
+});
+</script>
+
+---
+
+## Summary
+
+| Concept | Formula | Chemistry Use |
+|---------|---------|---------------|
+| Vector | $\vec{v} = (v_x, v_y, v_z)$ | Bond direction |
+| Magnitude | $\|\vec{v}\| = \sqrt{v_x^2 + v_y^2 + v_z^2}$ | Bond length |
+| Dot product | $\vec{a} \cdot \vec{b} = \|\vec{a}\|\|\vec{b}\|\cos\theta$ | Bond angle |
+| Vector sum | $\vec{a} + \vec{b}$ | Net dipole moment |
+
+---
+
+## Exercises
+
+1. **Water geometry**: If the H-O bond length is 0.96 Å and the H-O-H angle is 104.5°, calculate the H-H distance.
+
+2. **Dipole cancellation**: Explain why CCl₄ has no net dipole moment despite having four polar C-Cl bonds.
+
+3. **Vector addition**: Two bond dipoles each have magnitude 1.5 D and point at 120° to each other. What is the magnitude of the net dipole?
+
+---
+
+**Next:** [Lecture 5: Angles and Projections →](05-projections.qmd)

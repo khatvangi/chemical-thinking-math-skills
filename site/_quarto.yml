@@ -1,0 +1,61 @@
+project:
+  type: website
+  output-dir: _site
+
+website:
+  title: "Chemical Thinking"
+  subtitle: "The Grammar of Reality"
+  navbar:
+    background: primary
+    left:
+      - text: Home
+        href: index.qmd
+      - text: Lectures
+        menu:
+          - text: "Module 1: Structure"
+            href: lectures/module1.qmd
+          - text: "Module 2: Change"
+            href: lectures/module2.qmd
+          - text: "Module 3: Probability"
+            href: lectures/module3.qmd
+      - text: Practice
+        href: practice/index.qmd
+      - text: Resources
+        href: resources.qmd
+    right:
+      - icon: github
+        href: https://github.com/your-repo/chemical-thinking
+
+  sidebar:
+    - title: "Lectures"
+      style: docked
+      contents:
+        - section: "Module 1: Structure"
+          contents:
+            - lectures/01-orientation.qmd
+            - lectures/02-existence.qmd
+            - lectures/03-collection.qmd
+            - lectures/04-direction.qmd
+        - section: "Module 2: Change"
+          contents:
+            - lectures/09-sameness.qmd
+        - section: "Module 3: Probability"
+          contents:
+            - lectures/21-probability.qmd
+
+  page-footer:
+    center: "Chemical Thinking | Reality → Recognition → Tool"
+
+format:
+  html:
+    theme:
+      light: flatly
+      dark: darkly
+    css: styles.css
+    toc: true
+    toc-depth: 3
+    code-fold: true
+    code-tools: true
+
+execute:
+  freeze: auto

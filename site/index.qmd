@@ -1,0 +1,78 @@
+---
+title: "Chemical Thinking"
+subtitle: "The Grammar of Reality"
+---
+
+## Reality → Recognition → Tool
+
+Traditional math courses say: *"Here's a tool. Find applications."*
+
+We invert this: *"See reality. Recognize the pattern. Summon the tool."*
+
+---
+
+## The 9 Primitives
+
+Before "math" or "chemistry," there is human cognition parsing reality.
+
+| Primitive | You Notice... | Math Emerges | Chemistry Example |
+|-----------|---------------|--------------|-------------------|
+| **COLLECTION** | "There are many" | Sets, counting | Moles, electrons |
+| **ARRANGEMENT** | "Order matters" | Permutations, matrices | Stereoisomers |
+| **DIRECTION** | "It points" | Vectors | Bond angles, dipoles |
+| **PROXIMITY** | "Near vs far" | Functions, limits | Potential energy |
+| **SAMENESS** | "Unchanged" | Eigenvalues, symmetry | Molecular symmetry |
+| **CHANGE** | "Becoming" | Derivatives | Reactions |
+| **RATE** | "How fast" | Diff equations | Kinetics |
+| **ACCUMULATION** | "All together" | Integrals | Work, yield |
+| **SPREAD** | "Distributed" | Probability | Boltzmann |
+
+---
+
+## Course Structure
+
+::: {.panel-tabset}
+
+### Module 1: Structure
+**Weeks 1-4 | Lectures 1-8**
+
+*"What is a molecule?"*
+
+- Vectors and matrices
+- Counting and permutations
+- Symmetry and eigenvalues
+
+### Module 2: Change
+**Weeks 5-9 | Lectures 9-18**
+
+*"How do things transform?"*
+
+- Functions and limits
+- Derivatives and integrals
+- Differential equations
+
+### Module 3: Probability
+**Weeks 10-12 | Lectures 19-24**
+
+*"What happens with many particles?"*
+
+- Probability distributions
+- Statistical mechanics
+- Entropy and disorder
+
+:::
+
+---
+
+## Get Started
+
+1. **[Lecture 1: Orientation](lectures/01-orientation.qmd)** — Learn to see the primitives
+2. **[Practice Mode](practice/index.qmd)** — Interactive mastery-based exercises
+3. **[Resources](resources.qmd)** — PhET, Desmos, videos, references
+
+---
+
+::: {.callout-note}
+## Tech Stack
+Built with Julia + Pluto notebooks, Quarto, and Ollama-powered adaptive learning.
+:::
