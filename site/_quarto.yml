@@ -3,8 +3,7 @@ project:
   output-dir: _site
 
 website:
-  title: "Chemical Thinking"
-  subtitle: "The Grammar of Reality"
+  title: "Chemical Thinking: The Grammar of Reality"
   navbar:
     background: primary
     left:
