@@ -1,0 +1,236 @@
+---
+title: "Getting Started"
+subtitle: "Your guide to navigating Chemical Thinking"
+---
+
+## Welcome, Student!
+
+This guide will help you get set up and understand how to use all features of the Chemical Thinking course.
+
+---
+
+## Step 1: Create Your Profile
+
+Before you begin, register your student profile to track your progress.
+
+::: {.callout-note}
+## Quick Registration
+Enter your details below to create your learning profile. All data is stored locally on the course server.
+:::
+
+<div id="registration-form">
+<form id="student-form">
+  <div class="form-group">
+    <label for="student-name">Full Name:</label>
+    <input type="text" id="student-name" name="name" required class="form-control">
+  </div>
+  <div class="form-group">
+    <label for="student-email">Email:</label>
+    <input type="email" id="student-email" name="email" required class="form-control">
+  </div>
+  <div class="form-group">
+    <label for="student-id">Student ID:</label>
+    <input type="text" id="student-id" name="student_id" required class="form-control">
+  </div>
+  <button type="submit" class="btn btn-primary">Register</button>
+</form>
+<div id="registration-status"></div>
+</div>
+
+---
+
+## Step 2: Understand the Course Structure
+
+### The Learning Flow
+
+```
+📖 Lecture → 🧪 Interactive Demo → 💪 Practice → ✅ Mastery → 📝 Homework
+```
+
+### Navigation Map
+
+| Section | What You'll Find | When to Use |
+|---------|------------------|-------------|
+| **Home** | Course overview, quick links | Starting point |
+| **Lectures** | Content organized by module | Learning new material |
+| **Practice** | Interactive problems with AI feedback | Building mastery |
+| **Homework** | Assigned problems to submit | Weekly assignments |
+| **Progress** | Your mastery dashboard | Tracking advancement |
+
+---
+
+## Step 3: How to Study Each Lecture
+
+Each lecture follows the **Reality → Recognition → Tool** pattern:
+
+### 1. The Hook (2 min)
+Start with a real chemical phenomenon. Look at it. What do you notice?
+
+### 2. Recognition (5 min)
+Which primitive are you seeing? Is something pointing (DIRECTION)? Changing (CHANGE)? Spreading out (SPREAD)?
+
+### 3. The Tool (15 min)
+Now learn the mathematical machinery that captures this pattern. We don't memorize formulas—we understand why they work.
+
+### 4. Interactive (10 min)
+Play with sliders. Change parameters. See how the math responds to the chemistry.
+
+### 5. Practice (20 min)
+Attempt problems until you achieve mastery (3 correct in a row).
+
+---
+
+## Step 4: Using the Practice System
+
+Our adaptive practice system works like IXL:
+
+::: {.panel-tabset}
+
+### How It Works
+
+1. **Go to [Practice Hub](practice/index.qmd)**
+2. **Select a primitive** (e.g., DIRECTION)
+3. **Read the problem** — it's always based on real chemistry
+4. **Submit your answer**
+5. **Get instant feedback:**
+   - ✅ Correct → Progress toward mastery
+   - ❌ Wrong → Explanation + worked example + similar problem
+6. **Achieve mastery:** 3 correct answers in a row
+
+### Mastery Levels
+
+| Level | Meaning | Visual |
+|-------|---------|--------|
+| No attempts | Haven't started | ⬜⬜⬜ |
+| In progress | Working on it | 🟨⬜⬜ |
+| Almost there | 2/3 correct | 🟨🟨⬜ |
+| Mastered | 3/3 correct | 🟩🟩🟩 |
+
+### Tips for Success
+
+- **Don't guess** — Read carefully, think about the primitive
+- **Use hints** — They're there to help, not penalize
+- **Learn from mistakes** — Read the worked examples
+- **Take breaks** — Mastery comes with rest
+
+:::
+
+---
+
+## Step 5: Submitting Homework
+
+Homework is assigned weekly and covers material from lectures.
+
+### How to Submit
+
+1. **Go to [Homework](homework/index.qmd)**
+2. **Select the current assignment**
+3. **Complete all problems** — Similar to practice, but graded
+4. **Submit before deadline**
+5. **View feedback** after grading
+
+### Homework vs Practice
+
+| Feature | Practice | Homework |
+|---------|----------|----------|
+| Deadline | None | Weekly |
+| Attempts | Unlimited | One submission |
+| Grading | Mastery-based | Points-based |
+| Feedback | Instant | After deadline |
+| Purpose | Learning | Assessment |
+
+---
+
+## Step 6: Tracking Your Progress
+
+### Progress Dashboard
+
+Visit [My Progress](progress.qmd) to see:
+
+- **Mastery map** — Which primitives you've mastered
+- **Homework scores** — Your grades and feedback
+- **Time spent** — Learning analytics
+- **Weak areas** — Suggested topics to review
+
+### Primitive Mastery Grid
+
+```
+         Module 1      Module 2      Module 3
+         ──────────    ──────────    ──────────
+COLLECT  🟩🟩🟩
+ARRANGE  🟩🟩🟩
+DIRECT   🟨🟨⬜
+PROXIM               🟨⬜⬜
+SAME                 ⬜⬜⬜
+CHANGE               ⬜⬜⬜
+RATE                              ⬜⬜⬜
+ACCUM                             ⬜⬜⬜
+SPREAD                            ⬜⬜⬜
+```
+
+---
+
+## Technical Requirements
+
+### Browser
+- Chrome, Firefox, Safari, or Edge (latest versions)
+- JavaScript enabled
+- Cookies enabled (for saving progress)
+
+### Network
+- Stable internet connection
+- Access to: `https://unawaked-unlunar-alyvia.ngrok-free.dev`
+
+### For Offline Work
+Download lecture PDFs from each lecture page.
+
+---
+
+## Getting Help
+
+### Common Issues
+
+::: {.callout-warning collapse="true"}
+## Practice widget not loading?
+1. Check your internet connection
+2. Refresh the page
+3. Clear browser cache
+4. Try a different browser
+:::
+
+::: {.callout-warning collapse="true"}
+## Answers not submitting?
+1. Make sure you're logged in
+2. Check the API status: [Health Check](https://unawaked-unlunar-alyvia.ngrok-free.dev/health)
+3. Contact the instructor
+:::
+
+::: {.callout-warning collapse="true"}
+## Progress not saving?
+1. Ensure cookies are enabled
+2. Don't use incognito mode
+3. Progress is saved per browser/device
+:::
+
+### Contact
+
+- **Instructor Office Hours:** [Schedule TBD]
+- **Technical Issues:** Report on [GitHub Issues](https://github.com/khatvangi/chemical-thinking-math-skills/issues)
+
+---
+
+## Ready to Begin?
+
+::: {.grid}
+
+::: {.g-col-6}
+### Start Learning
+[Go to Lecture 1: Orientation →](lectures/01-orientation.qmd){.btn .btn-primary}
+:::
+
+::: {.g-col-6}
+### Jump to Practice
+[Practice Hub →](practice/index.qmd){.btn .btn-secondary}
+:::
+
+:::

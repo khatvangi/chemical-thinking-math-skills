@@ -10,8 +10,13 @@ website:
     left:
       - text: Home
         href: index.qmd
+      - text: Get Started
+        href: getting-started.qmd
       - text: Lectures
         menu:
+          - text: "All Lectures"
+            href: lectures/index.qmd
+          - text: "---"
           - text: "Module 1: Structure"
             href: lectures/module1.qmd
           - text: "Module 2: Change"
@@ -20,28 +25,30 @@ website:
             href: lectures/module3.qmd
       - text: Practice
         href: practice/index.qmd
-      - text: Resources
-        href: resources.qmd
+      - text: Homework
+        href: homework/index.qmd
+      - text: Progress
+        href: progress.qmd
     right:
       - icon: github
-        href: https://github.com/your-repo/chemical-thinking
+        href: https://github.com/khatvangi/chemical-thinking-math-skills
 
   sidebar:
     - title: "Lectures"
       style: docked
       contents:
+        - section: "Getting Started"
+          contents:
+            - getting-started.qmd
         - section: "Module 1: Structure"
           contents:
-            - lectures/01-orientation.qmd
-            - lectures/02-existence.qmd
-            - lectures/03-collection.qmd
             - lectures/04-direction.qmd
         - section: "Module 2: Change"
           contents:
-            - lectures/09-sameness.qmd
+            - text: "Coming Soon"
         - section: "Module 3: Probability"
           contents:
-            - lectures/21-probability.qmd
+            - text: "Coming Soon"
 
   page-footer:
     center: "Chemical Thinking | Reality → Recognition → Tool"

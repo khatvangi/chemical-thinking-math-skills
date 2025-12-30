@@ -9,9 +9,12 @@ from pydantic import BaseModel
 import httpx
 import json
 import re
-from typing import Optional
+from typing import Optional, List, Dict, Any
 
-app = FastAPI(title="Chemical Thinking API")
+# Import database module
+import database as db
+
+app = FastAPI(title="Chemical Thinking API", version="1.0.0")
 
 # CORS for frontend
 app.add_middleware(
@@ -241,6 +244,158 @@ async def list_primitives():
         "ACCUMULATION": ["work", "heat", "total_yield"],
         "SPREAD": ["boltzmann_distribution", "entropy", "orbital_probability"]
     }
+
+
+# ============== Student Endpoints ==============
+
+class StudentRegistration(BaseModel):
+    student_id: str
+    name: str
+    email: str
+
+
+class HomeworkSubmission(BaseModel):
+    student_id: str
+    assignment_id: int
+    answers: Dict[str, Any]
+
+
+@app.post("/students/register")
+async def register_student(student: StudentRegistration):
+    """Register a new student"""
+    result = db.create_student(student.student_id, student.name, student.email)
+    if not result["success"]:
+        raise HTTPException(status_code=400, detail=result["error"])
+    return result
+
+
+@app.get("/students/{student_id}")
+async def get_student(student_id: str):
+    """Get student profile"""
+    student = db.get_student(student_id)
+    if not student:
+        raise HTTPException(status_code=404, detail="Student not found")
+    db.update_last_active(student_id)
+    return student
+
+
+@app.get("/students/{student_id}/progress")
+async def get_student_progress(student_id: str):
+    """Get student's mastery progress"""
+    student = db.get_student(student_id)
+    if not student:
+        raise HTTPException(status_code=404, detail="Student not found")
+
+    progress = db.get_progress(student_id)
+
+    # Organize by primitive
+    by_primitive = {}
+    for p in progress:
+        if p["primitive"] not in by_primitive:
+            by_primitive[p["primitive"]] = []
+        by_primitive[p["primitive"]].append(p)
+
+    return {
+        "student_id": student_id,
+        "progress": progress,
+        "by_primitive": by_primitive,
+        "total_mastered": sum(1 for p in progress if p["mastery_achieved"]),
+        "total_attempts": sum(p["attempts"] for p in progress)
+    }
+
+
+# ============== Homework Endpoints ==============
+
+@app.get("/homework")
+async def list_homework():
+    """Get all active homework assignments"""
+    return db.get_active_assignments()
+
+
+@app.post("/homework/submit")
+async def submit_homework(submission: HomeworkSubmission):
+    """Submit homework answers"""
+    student = db.get_student(submission.student_id)
+    if not student:
+        raise HTTPException(status_code=404, detail="Student not found")
+
+    result = db.submit_homework(
+        submission.student_id,
+        submission.assignment_id,
+        submission.answers
+    )
+
+    if not result["success"]:
+        raise HTTPException(status_code=400, detail=result["error"])
+    return result
+
+
+@app.get("/homework/{student_id}/submissions")
+async def get_submissions(student_id: str):
+    """Get student's homework submissions"""
+    return db.get_student_submissions(student_id)
+
+
+# ============== Leaderboard ==============
+
+@app.get("/leaderboard")
+async def get_leaderboard(primitive: str = None, limit: int = 10):
+    """Get top students by mastery"""
+    return db.get_leaderboard(primitive, limit)
+
+
+# ============== Enhanced Grade with DB ==============
+
+class GradeWithStudent(AnswerSubmission):
+    student_id: Optional[str] = None
+
+
+@app.post("/grade-tracked")
+async def grade_with_tracking(submission: GradeWithStudent):
+    """Grade answer and track in database"""
+    # Get base grading
+    base_submission = AnswerSubmission(
+        problem_id=submission.problem_id,
+        problem_text=submission.problem_text,
+        correct_answer=submission.correct_answer,
+        student_answer=submission.student_answer,
+        primitive=submission.primitive,
+        topic=submission.topic,
+        hints_given=submission.hints_given
+    )
+
+    result = await grade_answer(base_submission)
+
+    # Track in database if student_id provided
+    if submission.student_id:
+        # Record attempt
+        db.record_attempt(
+            submission.student_id,
+            submission.primitive,
+            submission.topic,
+            submission.problem_text,
+            submission.student_answer,
+            submission.correct_answer,
+            result.correct,
+            result.feedback
+        )
+
+        # Update progress
+        progress = db.update_progress(
+            submission.student_id,
+            submission.primitive,
+            submission.topic,
+            result.correct
+        )
+
+        return {
+            **result.dict(),
+            "streak": progress["streak"],
+            "mastery_achieved": progress["mastery_achieved"],
+            "total_attempts": progress["attempts"]
+        }
+
+    return result
 
 
 if __name__ == "__main__":

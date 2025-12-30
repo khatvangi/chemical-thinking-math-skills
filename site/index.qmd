@@ -1,78 +1,175 @@
 ---
 title: "Chemical Thinking"
 subtitle: "The Grammar of Reality"
+page-layout: full
 ---
 
-## Reality → Recognition → Tool
+::: {.hero-banner}
+# Welcome to Chemical Thinking
+
+**A revolutionary mathematics course for chemistry students**
+
+*See reality. Recognize the pattern. Summon the tool.*
+
+[Get Started](getting-started.qmd){.btn-primary} [Practice Now](practice/index.qmd){.btn-secondary}
+:::
+
+---
+
+## What Makes This Course Different?
 
 Traditional math courses say: *"Here's a tool. Find applications."*
 
-We invert this: *"See reality. Recognize the pattern. Summon the tool."*
+**We invert this:** *"See reality. Recognize the pattern. Summon the tool."*
+
+| Traditional Approach | Chemical Thinking |
+|---------------------|-------------------|
+| Learn derivatives → Apply to kinetics | See reaction rates → Recognize CHANGE → Derivatives emerge |
+| Memorize matrix operations | See molecular symmetry → Recognize ARRANGEMENT → Matrices emerge |
+| Abstract vector algebra | See bond angles → Recognize DIRECTION → Vectors emerge |
 
 ---
 
 ## The 9 Primitives
 
-Before "math" or "chemistry," there is human cognition parsing reality.
+Before "math" or "chemistry," there is human cognition parsing reality. We perceive through fundamental patterns:
 
-| Primitive | You Notice... | Math Emerges | Chemistry Example |
-|-----------|---------------|--------------|-------------------|
-| **COLLECTION** | "There are many" | Sets, counting | Moles, electrons |
-| **ARRANGEMENT** | "Order matters" | Permutations, matrices | Stereoisomers |
-| **DIRECTION** | "It points" | Vectors | Bond angles, dipoles |
-| **PROXIMITY** | "Near vs far" | Functions, limits | Potential energy |
-| **SAMENESS** | "Unchanged" | Eigenvalues, symmetry | Molecular symmetry |
-| **CHANGE** | "Becoming" | Derivatives | Reactions |
-| **RATE** | "How fast" | Diff equations | Kinetics |
-| **ACCUMULATION** | "All together" | Integrals | Work, yield |
-| **SPREAD** | "Distributed" | Probability | Boltzmann |
+::: {.grid}
 
----
+::: {.g-col-4}
+### Structure
+- **COLLECTION** — "There are many"
+- **ARRANGEMENT** — "Order matters"
+- **DIRECTION** — "It points"
+:::
 
-## Course Structure
+::: {.g-col-4}
+### Change
+- **PROXIMITY** — "Near vs far"
+- **SAMENESS** — "Unchanged"
+- **CHANGE** — "Becoming"
+:::
 
-::: {.panel-tabset}
-
-### Module 1: Structure
-**Weeks 1-4 | Lectures 1-8**
-
-*"What is a molecule?"*
-
-- Vectors and matrices
-- Counting and permutations
-- Symmetry and eigenvalues
-
-### Module 2: Change
-**Weeks 5-9 | Lectures 9-18**
-
-*"How do things transform?"*
-
-- Functions and limits
-- Derivatives and integrals
-- Differential equations
-
-### Module 3: Probability
-**Weeks 10-12 | Lectures 19-24**
-
-*"What happens with many particles?"*
-
-- Probability distributions
-- Statistical mechanics
-- Entropy and disorder
+::: {.g-col-4}
+### Probability
+- **RATE** — "How fast"
+- **ACCUMULATION** — "All together"
+- **SPREAD** — "Distributed"
+:::
 
 :::
 
 ---
 
-## Get Started
+## Course Modules
 
-1. **[Lecture 1: Orientation](lectures/01-orientation.qmd)** — Learn to see the primitives
-2. **[Practice Mode](practice/index.qmd)** — Interactive mastery-based exercises
-3. **[Resources](resources.qmd)** — PhET, Desmos, videos, references
+::: {.panel-tabset}
+
+### Module 1: Structure (Weeks 1-4)
+
+**"What is a molecule?"**
+
+| Lecture | Primitive | Topic |
+|---------|-----------|-------|
+| 1 | — | Orientation: Learning to See |
+| 2 | EXISTENCE | What Kinds of Numbers? |
+| 3 | COLLECTION | Counting Things |
+| 4 | DIRECTION | Bonds Point (Vectors) |
+| 5 | DIRECTION | Angles and Projections |
+| 6 | DIRECTION | Coordinates |
+| 7 | ARRANGEMENT | Grids of Numbers (Matrices) |
+| 8 | ARRANGEMENT | Transformations |
+
+### Module 2: Change (Weeks 5-9)
+
+**"How do things transform?"**
+
+| Lecture | Primitive | Topic |
+|---------|-----------|-------|
+| 9 | SAMENESS | What Doesn't Change? |
+| 10 | SAMENESS | Eigenvalues |
+| 11 | SAMENESS | Symmetry |
+| 12 | PROXIMITY | Functions and Limits |
+| 13 | PROXIMITY | Asymptotes |
+| 14 | CHANGE | Instantaneous Rate |
+| 15 | CHANGE | Differentiation Rules |
+| 16 | RATE | Kinetics |
+| 17 | ACCUMULATION | Integration |
+| 18 | ACCUMULATION | Techniques |
+
+### Module 3: Probability (Weeks 10-12)
+
+**"What happens with many particles?"**
+
+| Lecture | Primitive | Topic |
+|---------|-----------|-------|
+| 19 | DYNAMICS | First-Order ODEs |
+| 20 | DYNAMICS | Second-Order Systems |
+| 21 | SPREAD | Probability Basics |
+| 22 | SPREAD | Distributions |
+| 23 | SPREAD | Expectation & Variance |
+| 24 | SYNTHESIS | The Complete Map |
+
+:::
 
 ---
 
-::: {.callout-note}
-## Tech Stack
-Built with Julia + Pluto notebooks, Quarto, and Ollama-powered adaptive learning.
+## How It Works
+
+```{mermaid}
+flowchart LR
+    A[📖 Read Lecture] --> B[🔬 See Phenomenon]
+    B --> C[🧠 Recognize Primitive]
+    C --> D[🔧 Learn Tool]
+    D --> E[💪 Practice]
+    E --> F{Mastery?}
+    F -->|No| G[Get Feedback]
+    G --> E
+    F -->|Yes| H[Next Topic]
+```
+
+### Adaptive Practice System
+
+Our IXL-style practice system:
+
+1. **Attempt a problem** based on real chemistry
+2. **Get instant feedback** from AI tutor
+3. **If wrong** → Worked example + similar problem
+4. **Repeat until mastery** (3 correct in a row)
+5. **Progress tracked** automatically
+
+---
+
+## Quick Links
+
+::: {.grid}
+
+::: {.g-col-4}
+### 📚 Learn
+- [Getting Started](getting-started.qmd)
+- [Lecture 4: Vectors](lectures/04-direction.qmd)
+- [All Lectures](lectures/index.qmd)
+:::
+
+::: {.g-col-4}
+### 💪 Practice
+- [Practice Hub](practice/index.qmd)
+- [Submit Homework](homework/index.qmd)
+- [My Progress](progress.qmd)
+:::
+
+::: {.g-col-4}
+### 🔗 Resources
+- [API Documentation](https://unawaked-unlunar-alyvia.ngrok-free.dev/docs)
+- [GitHub Repository](https://github.com/khatvangi/chemical-thinking-math-skills)
+- [Help & Support](help.qmd)
+:::
+
+:::
+
+---
+
+::: {.callout-tip}
+## First Time Here?
+Start with the [Getting Started Guide](getting-started.qmd) to set up your account and learn how to navigate the course.
 :::

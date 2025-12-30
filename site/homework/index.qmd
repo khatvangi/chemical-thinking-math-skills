@@ -1,0 +1,106 @@
+---
+title: "Homework"
+subtitle: "Submit and track your assignments"
+format:
+  html:
+    include-after-body:
+      - text: |
+          <script src="../js/homework.js"></script>
+---
+
+## Current Assignments
+
+<div id="assignments-list">
+  <p>Loading assignments...</p>
+</div>
+
+---
+
+## Submit Homework
+
+::: {.callout-important}
+## Before Submitting
+- Make sure you're logged in (check [Getting Started](../getting-started.qmd) if you haven't registered)
+- You can only submit once per assignment
+- Late submissions may not be accepted
+:::
+
+<div id="homework-form" style="display: none;">
+  <div class="form-group">
+    <label for="hw-student-id">Your Student ID:</label>
+    <input type="text" id="hw-student-id" class="form-control" placeholder="Enter your student ID">
+  </div>
+
+  <div id="assignment-selector">
+    <label for="hw-assignment">Select Assignment:</label>
+    <select id="hw-assignment" class="form-control">
+      <option value="">-- Select Assignment --</option>
+    </select>
+  </div>
+
+  <div id="problems-container" style="margin-top: 20px;">
+    <!-- Problems will be loaded here -->
+  </div>
+
+  <button id="submit-homework" class="btn btn-primary" style="margin-top: 20px;">Submit Homework</button>
+  <div id="submission-status"></div>
+</div>
+
+---
+
+## My Submissions
+
+<div id="my-submissions">
+  <p>Enter your Student ID above to view your submissions.</p>
+</div>
+
+---
+
+## Homework Guidelines
+
+### Format Requirements
+
+| Type | Format | Example |
+|------|--------|---------|
+| Numerical | Number with units | `104.5 degrees` or `104.5°` |
+| Multiple choice | Letter only | `A` or `B` |
+| Short answer | Brief phrase | `tetrahedral` |
+| Calculation | Show work if requested | Step-by-step solution |
+
+### Grading Rubric
+
+| Score | Meaning |
+|-------|---------|
+| 100% | All correct |
+| 80-99% | Minor errors |
+| 60-79% | Partial understanding |
+| Below 60% | Review material and retry practice |
+
+### Academic Integrity
+
+- Work independently unless collaboration is specified
+- Do not share answers with classmates
+- Use the practice system to prepare
+- Ask questions during office hours if stuck
+
+---
+
+## Homework Schedule
+
+| Week | Assignment | Topics | Due Date |
+|------|------------|--------|----------|
+| 1 | HW1: Orientation | Primitives overview | TBD |
+| 2 | HW2: Numbers & Counting | EXISTENCE, COLLECTION | TBD |
+| 3 | HW3: Vectors | DIRECTION | TBD |
+| 4 | HW4: Matrices | ARRANGEMENT | TBD |
+| 5-6 | HW5: Symmetry | SAMENESS | TBD |
+| 7-8 | HW6: Calculus I | CHANGE, PROXIMITY | TBD |
+| 9-10 | HW7: Calculus II | RATE, ACCUMULATION | TBD |
+| 11-12 | HW8: Probability | SPREAD | TBD |
+
+---
+
+::: {.callout-tip}
+## Pro Tip
+Practice until you achieve mastery (3 in a row) before attempting homework. The problems are similar but graded strictly!
+:::

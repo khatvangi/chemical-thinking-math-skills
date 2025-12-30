@@ -37,3 +37,4 @@ node_modules/
 02-pedagogical-models/mit-computational-thinking/
 03-linear-algebra/strang-18.06/
 07-visualization/PlutoUI.jl/
+*.db

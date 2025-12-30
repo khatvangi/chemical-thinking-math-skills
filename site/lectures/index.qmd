@@ -1,0 +1,76 @@
+---
+title: "All Lectures"
+subtitle: "24 lectures across 3 modules"
+---
+
+## Course Map
+
+Click on any lecture to begin learning.
+
+::: {.panel-tabset}
+
+### Module 1: Structure (Weeks 1-4)
+
+**"What is a molecule?"**
+
+| # | Title | Primitive | Status |
+|---|-------|-----------|--------|
+| 1 | [Orientation: Learning to See](01-orientation.qmd) | — | Coming Soon |
+| 2 | [What Kinds of Numbers?](02-existence.qmd) | EXISTENCE | Coming Soon |
+| 3 | [Counting Things](03-collection.qmd) | COLLECTION | Coming Soon |
+| 4 | [**Bonds Point (Vectors)**](04-direction.qmd) | DIRECTION | Available |
+| 5 | [Angles and Projections](05-projections.qmd) | DIRECTION | Coming Soon |
+| 6 | [Coordinates](06-coordinates.qmd) | DIRECTION | Coming Soon |
+| 7 | [Grids of Numbers (Matrices)](07-matrices.qmd) | ARRANGEMENT | Coming Soon |
+| 8 | [Transformations](08-transformations.qmd) | ARRANGEMENT | Coming Soon |
+
+### Module 2: Change (Weeks 5-9)
+
+**"How do things transform?"**
+
+| # | Title | Primitive | Status |
+|---|-------|-----------|--------|
+| 9 | What Doesn't Change? | SAMENESS | Coming Soon |
+| 10 | Eigenvalues | SAMENESS | Coming Soon |
+| 11 | Symmetry | SAMENESS | Coming Soon |
+| 12 | Functions and Limits | PROXIMITY | Coming Soon |
+| 13 | Asymptotes | PROXIMITY | Coming Soon |
+| 14 | Instantaneous Rate | CHANGE | Coming Soon |
+| 15 | Differentiation Rules | CHANGE | Coming Soon |
+| 16 | Kinetics | RATE | Coming Soon |
+| 17 | Integration | ACCUMULATION | Coming Soon |
+| 18 | Integration Techniques | ACCUMULATION | Coming Soon |
+
+### Module 3: Probability (Weeks 10-12)
+
+**"What happens with many particles?"**
+
+| # | Title | Primitive | Status |
+|---|-------|-----------|--------|
+| 19 | First-Order ODEs | DYNAMICS | Coming Soon |
+| 20 | Second-Order Systems | DYNAMICS | Coming Soon |
+| 21 | Probability Basics | SPREAD | Coming Soon |
+| 22 | Distributions | SPREAD | Coming Soon |
+| 23 | Expectation & Variance | SPREAD | Coming Soon |
+| 24 | The Complete Map | SYNTHESIS | Coming Soon |
+
+:::
+
+---
+
+## How to Use Lectures
+
+Each lecture follows the **Reality → Recognition → Tool** pattern:
+
+1. **Start with the Hook** — A real chemical phenomenon
+2. **Recognize the Primitive** — What pattern are you seeing?
+3. **Learn the Tool** — The math that captures this pattern
+4. **Play with Interactives** — Change parameters, see relationships
+5. **Practice until Mastery** — 3 correct in a row
+
+---
+
+::: {.callout-tip}
+## Recommended Path
+New to the course? Start with [Lecture 4: Bonds Point](04-direction.qmd) — it's our most complete lecture and demonstrates the full approach.
+:::
