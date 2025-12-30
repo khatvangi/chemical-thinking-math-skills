@@ -1,0 +1,349 @@
+---
+title: "DIRECTION: The Primitive"
+subtitle: "Things Point — Recognizing Direction Before Vectors"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+---
+
+<span class="primitive-badge primitive-DIRECTION">DIRECTION</span>
+
+## What Is Direction?
+
+Before we talk about vectors, dot products, or coordinate systems, let's notice something:
+
+**Things point.**
+
+A compass needle points north. Your finger points at what you want. A plant grows *toward* the light. A bond in a molecule points from one atom to another.
+
+Direction is one of the most fundamental ways we parse reality. It answers not "how much?" but **"which way?"**
+
+---
+
+## Direction Is Everywhere
+
+### In Animals: Built-In Compasses
+
+**Birds** have at least three independent systems for detecting direction:
+
+| System | Location | How It Works |
+|--------|----------|--------------|
+| Cryptochrome | Eyes | Quantum mechanism — literally *sees* magnetic field lines |
+| Magnetite | Beak | Iron oxide crystals act like compass needles |
+| Inner ear | Vestibular | Detects field through electromagnetic induction |
+
+A bird doesn't just detect that Earth's magnetic field *exists* — it knows *which way* the field points. That directional information is what enables navigation across thousands of miles.
+
+---
+
+**Honeybees** communicate direction through dance:
+
+::: {.callout-note}
+## The Waggle Dance
+When a bee finds food, she returns to the hive and dances on the vertical honeycomb:
+
+- The **angle** of her waggle run relative to vertical = angle to food source relative to the sun
+- Straight up = toward the sun
+- 45° left of vertical = 45° left of the sun
+
+Bees have evolved a **symbolic language** where direction is a core grammatical element.
+:::
+
+They translate one directional reference frame (sun-based) into another (gravity-based). Direction is so important that they evolved to *talk* about it.
+
+---
+
+### In Plants: Growth Has Direction
+
+Plants can't move, but they can grow — and they grow in specific directions.
+
+**Phototropism** (response to light):
+
+1. Light hits one side of the stem
+2. Growth hormone (auxin) migrates to the *shaded* side
+3. Shaded side grows faster
+4. Stem bends *toward* light
+
+The plant doesn't detect "there is light." It detects **where the light is coming from**.
+
+**Gravitropism** (response to gravity):
+
+- Specialized cells contain dense starch granules
+- Granules settle to the *bottom* — however the plant is oriented
+- This tells the plant which way is down
+- Roots grow down, stems grow up
+
+Same detection mechanism, opposite responses. The direction of gravity is the signal.
+
+---
+
+### In Your Body: The Vestibular System
+
+Your inner ear contains a **direction-sensing system**:
+
+| Component | Detects |
+|-----------|---------|
+| 3 semicircular canals | Rotational acceleration in 3 planes |
+| Otolith organs | Linear acceleration and gravity direction |
+
+This is why you know "which way is up" even with your eyes closed. Your brain has **head direction cells** — neurons that fire when your head points in a specific direction. You have a neural compass.
+
+---
+
+## The Core Insight
+
+::: {.callout-important}
+## Same Magnitude, Different Direction = Different Outcome
+
+This is the key insight that makes direction a fundamental primitive, not just a detail.
+:::
+
+### Example 1: Walking
+
+You walk 5 meters north. Your friend walks 5 meters south.
+
+- Same distance traveled
+- Opposite displacement
+- You end up 10 meters apart
+
+### Example 2: Force
+
+You push a box with 10 N of force to the left. Then you push with 10 N to the right.
+
+- Same force magnitude
+- Opposite directions
+- Opposite accelerations
+
+### Example 3: Bird V-Formation
+
+Birds flying in V-formation save 20-30% energy. Why?
+
+The lead bird creates wing-tip vortices:
+
+- **Behind** the lead bird: downdraft (costs energy)
+- **To the side** of the lead bird: updraft (saves energy)
+
+Same distance from the lead bird. Different direction. One position helps, one hurts.
+
+---
+
+## Direction in Chemistry
+
+### Bonds Point
+
+Look at these molecules:
+
+| Molecule | Geometry | Bond Angle |
+|----------|----------|------------|
+| CO₂ | Linear | 180° |
+| H₂O | Bent | 104.5° |
+| CH₄ | Tetrahedral | 109.5° |
+| NH₃ | Trigonal pyramidal | 107° |
+
+Bonds aren't just connections — they're **vectors** pointing from one atom to another in 3D space.
+
+The *directions* of these bonds determine:
+
+- Molecular shape
+- Polarity
+- Reactivity
+- Physical properties
+
+---
+
+### The CO₂ vs H₂O Problem
+
+Both molecules have polar bonds. But watch what happens:
+
+**CO₂ (linear, 180°)**
+
+```
+    δ-      δ+      δ-
+    O ←——— C ———→ O
+        ←       →
+    Bond dipoles point opposite directions
+
+    Net dipole: ZERO (they cancel)
+```
+
+**H₂O (bent, 104.5°)**
+
+```
+         δ-
+          O
+        ↙   ↘
+      H       H
+     δ+      δ+
+
+    Bond dipoles point at an angle
+
+    Net dipole: NOT ZERO (they add)
+```
+
+**Same type of polar bonds. Different geometry. Completely different polarity.**
+
+This is why:
+
+- CO₂ is a gas at room temperature
+- H₂O is a liquid that dissolves salts and enables life
+
+The *direction* of bonds is not optional information.
+
+---
+
+### Orbitals: Some Have Direction, Some Don't
+
+**S orbitals** are spherical — probability of finding the electron is the same in every direction at a given distance.
+
+**P orbitals** are dumbbell-shaped — probability is concentrated along specific axes (x, y, or z).
+
+```
+S orbital:     P orbital:
+
+    ∙            +
+   ∙∙∙          +++
+  ∙∙∙∙∙    ——— ●——— x-axis
+   ∙∙∙          +++
+    ∙            +
+
+ No direction    Points along x
+```
+
+This is why p orbitals can form directional bonds. S orbitals alone cannot explain molecular geometry.
+
+---
+
+### Stereochemistry: Direction as Life or Death
+
+**Thalidomide** exists as two mirror-image forms (enantiomers):
+
+| Form | Effect |
+|------|--------|
+| (R)-Thalidomide | Sedative (therapeutic) |
+| (S)-Thalidomide | Causes birth defects |
+
+Same atoms. Same bonds. Same bond lengths. Different **spatial arrangement**.
+
+One heals. One harms.
+
+Your enzymes are direction-sensitive. They bind one arrangement but reject its mirror image. Same atoms, just "pointing the wrong way."
+
+---
+
+## What Makes Direction Different?
+
+### Scalars vs. Things-That-Point
+
+| Property | Question | Type |
+|----------|----------|------|
+| Mass | How much stuff? | Scalar |
+| Temperature | How hot? | Scalar |
+| Concentration | How many per liter? | Scalar |
+| **Displacement** | **Which way and how far?** | **Vector** |
+| **Force** | **Which way and how hard?** | **Vector** |
+| **Dipole moment** | **Which way does charge separate?** | **Vector** |
+
+Scalars can be negative (like -20°C), but that negative is still a position on a number line, not a direction in space.
+
+Direction requires more than one number to specify. In 3D, you need three numbers (components along x, y, z) to capture "which way."
+
+---
+
+### Direction Requires a Reference Frame
+
+"The bond points in the x-direction."
+
+What defines x?
+
+"The molecule is oriented with the carbonyl up."
+
+What defines up?
+
+"The bird flew northeast."
+
+What defines north?
+
+Direction is always **relative to something**. There's no absolute "north" in space — only north relative to Earth's magnetic field, or north relative to the rotation axis.
+
+When we describe molecular geometry, we've implicitly chosen a coordinate system. We could rotate the whole molecule and nothing chemical would change — but our description would change.
+
+**The physics is in the relationships between directions, not the absolute directions themselves.**
+
+---
+
+## Recognition Exercise
+
+Before learning vectors, practice *recognizing* direction:
+
+### Classify Each as Directional or Non-directional:
+
+1. Temperature of a reaction
+2. Velocity of a gas molecule
+3. Bond length
+4. Bond angle
+5. Concentration
+6. Electric field at a point
+7. Molar mass
+8. Force on an electron
+9. Energy of a photon
+10. Momentum of a particle
+
+::: {.callout-tip collapse="true"}
+## Answers
+
+| Property | Type | Reason |
+|----------|------|--------|
+| Temperature | Non-directional | "How hot" is just a number |
+| Velocity | **Directional** | Speed + direction |
+| Bond length | Non-directional | Just a distance (number) |
+| Bond angle | Non-directional | An angle is a number |
+| Concentration | Non-directional | Particles per volume |
+| Electric field | **Directional** | Points from + to - |
+| Molar mass | Non-directional | Grams per mole |
+| Force | **Directional** | Push has a direction |
+| Energy | Non-directional | Just a quantity |
+| Momentum | **Directional** | Mass × velocity |
+:::
+
+---
+
+## The Cognitive Act
+
+::: {.recognition-callout}
+**When you see something that POINTS...**
+
+**When ANGLES matter...**
+
+**When ORIENTATION determines behavior...**
+
+**When the same magnitude in a different direction gives a different result...**
+
+You're seeing **DIRECTION**.
+:::
+
+The mathematical tool that captures direction is called a **vector**. That's what we'll learn next.
+
+But the tool comes second. First, recognize the primitive in reality.
+
+---
+
+## Summary
+
+| Observation | Why Direction Matters |
+|-------------|----------------------|
+| Birds navigate | Detecting field direction enables migration |
+| Bees communicate | Direction is part of their language |
+| Plants grow toward light | Light direction determines growth |
+| H₂O is polar, CO₂ isn't | Bond directions determine net polarity |
+| P orbitals form bonds | They have direction; s orbitals don't |
+| Thalidomide tragedy | Spatial arrangement determines drug effect |
+| You know "up" | Your vestibular system senses direction |
+
+---
+
+**Next:** [Lecture 4: Direction — Vectors in Chemistry →](04-direction.qmd)
+
+In the next lecture, we'll learn the mathematical tool for capturing direction: **vectors**. We'll see how to represent directions with numbers, add them, and find angles between them.
+
+But always remember: the tool serves the recognition. Vectors exist because reality is full of things that point.
