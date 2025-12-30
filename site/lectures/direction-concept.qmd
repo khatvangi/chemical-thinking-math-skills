@@ -1,314 +1,393 @@
 ---
 title: "DIRECTION: The Primitive"
-subtitle: "Things Point — Recognizing Direction Before Vectors"
+subtitle: "Things Point — Before Vectors, Before Chemistry"
 format:
   html:
     toc: true
     toc-depth: 3
+    include-after-body:
+      - text: |
+          <script src="../js/direction-visuals.js"></script>
 ---
 
 <span class="primitive-badge primitive-DIRECTION">DIRECTION</span>
 
-## What Is Direction?
+## Before Any Formalism
 
-Before we talk about vectors, dot products, or coordinate systems, let's notice something:
+Close your eyes. Point at something.
 
-**Things point.**
+You just did DIRECTION. No math required. No coordinates. No vectors. Your arm extended *toward*.
 
-A compass needle points north. Your finger points at what you want. A plant grows *toward* the light. A bond in a molecule points from one atom to another.
-
-Direction is one of the most fundamental ways we parse reality. It answers not "how much?" but **"which way?"**
+This is the primitive. Everything else is elaboration.
 
 ---
 
-## Direction Is Everywhere
+## The First Direction
 
-### In Animals: Built-In Compasses
+Before you had words, you had direction.
 
-**Birds** have at least three independent systems for detecting direction:
+An infant reaches. Not randomly — *toward* the face, *toward* the breast, *toward* the light. Reaching is the first intentional act. It has a *from* (the body) and a *to* (the object). The infant doesn't know "direction" but the infant *does* direction.
 
-| System | Location | How It Works |
-|--------|----------|--------------|
-| Cryptochrome | Eyes | Quantum mechanism — literally *sees* magnetic field lines |
-| Magnetite | Beak | Iron oxide crystals act like compass needles |
-| Inner ear | Vestibular | Detects field through electromagnetic induction |
-
-A bird doesn't just detect that Earth's magnetic field *exists* — it knows *which way* the field points. That directional information is what enables navigation across thousands of miles.
+Developmental psychologists call this **goal-directed behavior**. But that's just academic language for: the child points itself at the world.
 
 ---
 
-**Honeybees** communicate direction through dance:
+## Direction is Binary Before It Is Continuous
 
-::: {.callout-note}
-## The Waggle Dance
-When a bee finds food, she returns to the hive and dances on the vertical honeycomb:
+The first distinction isn't "which angle?" It's simpler:
 
-- The **angle** of her waggle run relative to vertical = angle to food source relative to the sun
-- Straight up = toward the sun
-- 45° left of vertical = 45° left of the sun
+**Toward / Away**
 
-Bees have evolved a **symbolic language** where direction is a core grammatical element.
-:::
+This is the ur-direction. The amoeba moves *toward* nutrients and *away from* toxins. No angles. No degrees. Just: approach or flee.
 
-They translate one directional reference frame (sun-based) into another (gravity-based). Direction is so important that they evolved to *talk* about it.
+<div id="toward-away-visual" class="interactive-container"></div>
+
+Everything else elaborates this binary.
 
 ---
 
-### In Plants: Growth Has Direction
+## Direction in the World
 
-Plants can't move, but they can grow — and they grow in specific directions.
+**Gravity**
+Drop something. It falls *down*. Not sideways. Not up. Down. The universe has a preferred direction at every point near mass.
 
-**Phototropism** (response to light):
+**Light**
+The sun is *there*. Light comes *from* there *to* here. You don't see in all directions equally — you see what's in front of your eyes. Vision is directional.
 
-1. Light hits one side of the stem
-2. Growth hormone (auxin) migrates to the *shaded* side
-3. Shaded side grows faster
-4. Stem bends *toward* light
+**Rivers**
+Water flows *from* mountains *to* sea. Not the reverse. The landscape has direction built into it.
 
-The plant doesn't detect "there is light." It detects **where the light is coming from**.
+**Wind**
+Air moves. It comes *from* somewhere, goes *to* somewhere. You feel it on one side of your face, not the other.
 
-**Gravitropism** (response to gravity):
+**Growth**
+Trees grow *up*. Roots grow *down*. Sunflowers turn *toward* the sun. Life knows direction.
 
-- Specialized cells contain dense starch granules
-- Granules settle to the *bottom* — however the plant is oriented
-- This tells the plant which way is down
-- Roots grow down, stems grow up
-
-Same detection mechanism, opposite responses. The direction of gravity is the signal.
+**Time**
+Yesterday is *behind*. Tomorrow is *ahead*. We speak of time spatially because DIRECTION is how we parse sequence.
 
 ---
 
-### In Your Body: The Vestibular System
+## Direction in Animals
 
-Your inner ear contains a **direction-sensing system**:
+**Predator and prey**
+The lion faces the gazelle. The gazelle faces away. Survival depends on knowing which way threats point.
 
-| Component | Detects |
-|-----------|---------|
-| 3 semicircular canals | Rotational acceleration in 3 planes |
-| Otolith organs | Linear acceleration and gravity direction |
+**Migration**
+Birds fly south. Whales swim to breeding grounds. Salmon return upstream. Animals navigate — they know *toward*.
 
-This is why you know "which way is up" even with your eyes closed. Your brain has **head direction cells** — neurons that fire when your head points in a specific direction. You have a neural compass.
-
----
-
-## The Core Insight
-
-::: {.callout-important}
-## Same Magnitude, Different Direction = Different Outcome
-
-This is the key insight that makes direction a fundamental primitive, not just a detail.
-:::
-
-### Example 1: Walking
-
-You walk 5 meters north. Your friend walks 5 meters south.
-
-- Same distance traveled
-- Opposite displacement
-- You end up 10 meters apart
-
-### Example 2: Force
-
-You push a box with 10 N of force to the left. Then you push with 10 N to the right.
-
-- Same force magnitude
-- Opposite directions
-- Opposite accelerations
-
-### Example 3: Bird V-Formation
-
-Birds flying in V-formation save 20-30% energy. Why?
-
-The lead bird creates wing-tip vortices:
-
-- **Behind** the lead bird: downdraft (costs energy)
-- **To the side** of the lead bird: updraft (saves energy)
-
-Same distance from the lead bird. Different direction. One position helps, one hurts.
+**Attention**
+Where is the cat looking? Follow its gaze. Attention *points*. We read direction in other minds.
 
 ---
 
-## Direction in Chemistry
+## Direction in the Body
 
-### Bonds Point
+| Experience | Direction |
+|------------|-----------|
+| Reaching | Arm extends *toward* object |
+| Walking | Body moves *forward* |
+| Looking | Eyes aim *at* |
+| Pointing | Finger indicates *there* |
+| Turning | Body rotates to *face* |
+| Breathing | Air flows *in*, then *out* |
+| Listening | Head tilts *toward* sound |
 
-Look at these molecules:
-
-| Molecule | Geometry | Bond Angle |
-|----------|----------|------------|
-| CO₂ | Linear | 180° |
-| H₂O | Bent | 104.5° |
-| CH₄ | Tetrahedral | 109.5° |
-| NH₃ | Trigonal pyramidal | 107° |
-
-Bonds aren't just connections — they're **vectors** pointing from one atom to another in 3D space.
-
-The *directions* of these bonds determine:
-
-- Molecular shape
-- Polarity
-- Reactivity
-- Physical properties
+We are direction-perceiving, direction-producing beings. It's not learned. It's what having a body means.
 
 ---
 
-### The CO₂ vs H₂O Problem
+## The Six Directions from the Body
 
-Both molecules have polar bonds. But watch what happens:
+Once you have a body that moves, directions emerge:
 
-**CO₂ (linear, 180°)**
+**Forward / Back** — An animal that moves has a front. The front is where you're going. The back is where you've been.
+
+**Left / Right** — Perpendicular to forward. They define your body plane.
+
+**Up / Down** — Perpendicular to the ground plane. Against or with gravity.
+
+| Direction | Bodily Basis |
+|-----------|--------------|
+| Forward | Where the face points |
+| Backward | Behind the head |
+| Left | Arm-side |
+| Right | Arm-side |
+| Up | Against gravity |
+| Down | With gravity |
+
+<div id="body-directions-visual" class="interactive-container"></div>
+
+**This is not mathematics imposed on the body. This is the body generating mathematics.**
+
+---
+
+## Direction in Language
+
+We can't speak without direction:
+
+- "Go **to** the store"
+- "Come **from** work"
+- "Look **at** this"
+- "Turn **toward** me"
+- "Move **away** from the edge"
+- "The road leads **into** the mountains"
+
+Prepositions are direction words. Grammar encodes DIRECTION.
+
+---
+
+## Direction in Mind
+
+| Mental State | Direction |
+|--------------|-----------|
+| **Attention** | Points *at* object of focus |
+| **Intention** | Points *toward* goal |
+| **Desire** | Points *toward* wanted |
+| **Fear** | Points *away from* threat |
+| **Memory** | Points *backward* in time |
+| **Hope** | Points *forward* in time |
+| **Reasoning** | Points *from* premise *to* conclusion |
+
+Thought itself is directional. "Where is this argument going?" "What follows from this?"
+
+---
+
+## Direction as Relation
+
+A direction is not a thing. It's a *relation between things*.
+
+"The library is north" — north of what? Of here. Of me.
+
+"The bond points toward oxygen" — from where? From carbon.
+
+Every direction has an **origin** (the "from") and an **orientation** (the "toward").
+
+This is why vectors have a tail and a head. Not because mathematicians decided it. Because direction has a source and an aim.
+
+---
+
+## Direction Without Movement
+
+Critical insight: **direction does not require motion**.
+
+A compass needle points north even when nothing moves.
+A signpost points to the city even standing still.
+A bond points from atom to atom in a frozen crystal.
+
+Direction is about **orientation**, not **motion**.
+
+---
+
+## Continuous Direction: The Circle
+
+Toward/away gave us two directions.
+Forward/back/left/right gave us four.
+Add up/down, we have six.
+
+But direction is not discrete. Between north and east lies northeast. Between northeast and north lies north-northeast. And so on.
+
+Direction, in a plane, is a **circle**.
+
+Every point on the circle is a direction. Infinite directions. The angle θ parameterizes them.
+
+<div id="circle-directions-visual" class="interactive-container"></div>
+
+**The circle is the space of all directions in 2D.**
+
+---
+
+## The Sphere of Directions (3D)
+
+In three dimensions, direction is a **sphere**.
+
+Every point on the sphere's surface is a direction you could point.
+
+- North pole: straight up
+- South pole: straight down
+- Equator: all horizontal directions
+
+Two angles parameterize it: θ (azimuth) and φ (elevation).
+
+<div id="sphere-directions-visual" class="interactive-container"></div>
+
+**The sphere is the space of all directions in 3D.**
+
+This is what the owl's head does when it swivels — it samples the sphere of directions.
+
+---
+
+## Combining Directions
+
+What happens when two directions meet?
+
+<div id="combining-directions-visual" class="interactive-container"></div>
+
+**Case 1: Same direction**
+They reinforce. Two arrows pointing the same way make a stronger "point."
+
+**Case 2: Opposite directions**
+They oppose. Two arrows pointing opposite ways cancel.
+
+**Case 3: Perpendicular directions**
+They're independent. Neither reinforces nor opposes.
+
+**Case 4: Oblique directions**
+Partial reinforcement, partial independence.
+
+*How do we measure "how much of direction A is in direction B"?*
+
+This question **demands** the dot product. But we're not there yet. We're just noticing that directions can be compared.
+
+---
+
+## Direction and Magnitude
+
+Some directions come with "how much":
+
+- The wind blows east — but how strongly?
+- The hill slopes down — but how steeply?
+- The pull is toward Earth — but how hard?
+
+**Magnitude** is the "how much" attached to direction.
+
+Together, direction + magnitude = **vector**.
+
+But notice: you can have direction without magnitude (a compass heading), and you can have magnitude without direction (temperature). The vector is the *combination*.
+
+---
+
+## Direction in Gradients
+
+A landscape has high points and low points.
+
+At any location, there is a direction called "steepest uphill." This is the **gradient**.
+
+<div id="gradient-visual" class="interactive-container"></div>
+
+The gradient is not just "uphill" — it's the *direction of greatest increase*.
+
+In chemistry:
+
+- **Concentration gradient**: molecules diffuse *down* the gradient (high → low)
+- **Potential energy gradient**: systems move *down* the gradient (toward lower energy)
+- **Electric potential gradient**: charges move *down* the gradient
+
+Gradient = "which way is uphill?"
+
+---
+
+## Direction in Causation
+
+"A causes B"
+
+This is a direction. From A to B. Not from B to A.
+
+Causation has an arrow. The arrow points from cause to effect.
+
+<div id="causation-visual" class="interactive-container"></div>
+
+This is not metaphor. Causation *is* directional. The asymmetry of time makes it so. Effects don't precede causes.
+
+Every mechanism in chemistry is a sequence of causal arrows:
 
 ```
-    δ-      δ+      δ-
-    O ←——— C ———→ O
-        ←       →
-    Bond dipoles point opposite directions
-
-    Net dipole: ZERO (they cancel)
+Nucleophile → Electrophile → Transition state → Product
 ```
 
-**H₂O (bent, 104.5°)**
-
-```
-         δ-
-          O
-        ↙   ↘
-      H       H
-     δ+      δ+
-
-    Bond dipoles point at an angle
-
-    Net dipole: NOT ZERO (they add)
-```
-
-**Same type of polar bonds. Different geometry. Completely different polarity.**
-
-This is why:
-
-- CO₂ is a gas at room temperature
-- H₂O is a liquid that dissolves salts and enables life
-
-The *direction* of bonds is not optional information.
+DIRECTION again.
 
 ---
 
-### Orbitals: Some Have Direction, Some Don't
+## What DIRECTION Is NOT
 
-**S orbitals** are spherical — probability of finding the electron is the same in every direction at a given distance.
+**DIRECTION ≠ Location**
+"Where is it?" is different from "Which way does it point?"
+A thing can be *at* a location without pointing anywhere.
 
-**P orbitals** are dumbbell-shaped — probability is concentrated along specific axes (x, y, or z).
+**DIRECTION ≠ Distance**
+"How far?" is different from "Which way?"
+You can know direction without knowing distance, and vice versa.
 
-```
-S orbital:     P orbital:
-
-    ∙            +
-   ∙∙∙          +++
-  ∙∙∙∙∙    ——— ●——— x-axis
-   ∙∙∙          +++
-    ∙            +
-
- No direction    Points along x
-```
-
-This is why p orbitals can form directional bonds. S orbitals alone cannot explain molecular geometry.
+**DIRECTION ≠ Motion**
+A stationary arrow still points.
+Direction exists without movement.
 
 ---
 
-### Stereochemistry: Direction as Life or Death
+## The Components of DIRECTION
 
-**Thalidomide** exists as two mirror-image forms (enantiomers):
+When we perceive direction, what exactly do we perceive?
 
-| Form | Effect |
-|------|--------|
-| (R)-Thalidomide | Sedative (therapeutic) |
-| (S)-Thalidomide | Causes birth defects |
+1. **Orientation** — the line along which it points
+2. **Sense** — which way along that line (forward vs backward)
+3. **Magnitude** (sometimes) — how strongly it points, how far it extends
 
-Same atoms. Same bonds. Same bond lengths. Different **spatial arrangement**.
-
-One heals. One harms.
-
-Your enzymes are direction-sensitive. They bind one arrangement but reject its mirror image. Same atoms, just "pointing the wrong way."
+A weathervane has orientation and sense.
+A gust of wind has orientation, sense, and magnitude.
 
 ---
 
-## What Makes Direction Different?
+## Kinds of DIRECTION
 
-### Scalars vs. Things-That-Point
+| Kind | What Varies | Example |
+|------|-------------|---------|
+| **Spatial** | Position in space | Up, north, toward the door |
+| **Temporal** | Position in time | Before, after, toward the future |
+| **Causal** | Source and result | From cause to effect |
+| **Intentional** | Agent and goal | Toward what is wanted |
+| **Gradient** | High to low | Downhill, toward lower pressure |
+| **Relational** | Between entities | From giver to receiver |
 
-| Property | Question | Type |
-|----------|----------|------|
-| Mass | How much stuff? | Scalar |
-| Temperature | How hot? | Scalar |
-| Concentration | How many per liter? | Scalar |
-| **Displacement** | **Which way and how far?** | **Vector** |
-| **Force** | **Which way and how hard?** | **Vector** |
-| **Dipole moment** | **Which way does charge separate?** | **Vector** |
-
-Scalars can be negative (like -20°C), but that negative is still a position on a number line, not a direction in space.
-
-Direction requires more than one number to specify. In 3D, you need three numbers (components along x, y, z) to capture "which way."
+These feel different. But the cognitive act is the same: **something points**.
 
 ---
 
-### Direction Requires a Reference Frame
+## Why DIRECTION Needs Formalization
 
-"The bond points in the x-direction."
+Pointing works for simple situations. But:
 
-What defines x?
+- How do you describe the direction precisely enough for someone else to replicate?
+- How do you combine two directions?
+- How do you ask "how much of this direction is in that direction?"
+- How do you compute with directions?
 
-"The molecule is oriented with the carbonyl up."
+These questions demand a tool.
 
-What defines up?
+The tool is the **vector**.
 
-"The bird flew northeast."
-
-What defines north?
-
-Direction is always **relative to something**. There's no absolute "north" in space — only north relative to Earth's magnetic field, or north relative to the rotation axis.
-
-When we describe molecular geometry, we've implicitly chosen a coordinate system. We could rotate the whole molecule and nothing chemical would change — but our description would change.
-
-**The physics is in the relationships between directions, not the absolute directions themselves.**
+But the vector is not the primitive. DIRECTION is the primitive. The vector is notation for what we already perceive.
 
 ---
 
-## Recognition Exercise
+## The Bridge to Formalism
 
-Before learning vectors, practice *recognizing* direction:
+| Perception | Formal Tool |
+|------------|-------------|
+| "It points somewhere" | Vector |
+| "How aligned are these two directions?" | Dot product |
+| "What's perpendicular to both?" | Cross product |
+| "Which way is uphill?" | Gradient |
+| "Describe this direction precisely" | Components, coordinates |
 
-### Classify Each as Directional or Non-directional:
-
-1. Temperature of a reaction
-2. Velocity of a gas molecule
-3. Bond length
-4. Bond angle
-5. Concentration
-6. Electric field at a point
-7. Molar mass
-8. Force on an electron
-9. Energy of a photon
-10. Momentum of a particle
-
-::: {.callout-tip collapse="true"}
-## Answers
-
-| Property | Type | Reason |
-|----------|------|--------|
-| Temperature | Non-directional | "How hot" is just a number |
-| Velocity | **Directional** | Speed + direction |
-| Bond length | Non-directional | Just a distance (number) |
-| Bond angle | Non-directional | An angle is a number |
-| Concentration | Non-directional | Particles per volume |
-| Electric field | **Directional** | Points from + to - |
-| Molar mass | Non-directional | Grams per mole |
-| Force | **Directional** | Push has a direction |
-| Energy | Non-directional | Just a quantity |
-| Momentum | **Directional** | Mass × velocity |
-:::
+We will learn all of these. But always remember: **the perception came first**.
 
 ---
 
-## The Cognitive Act
+## Summary: What DIRECTION Is
+
+| Layer | Description |
+|-------|-------------|
+| **Bodily** | Reaching, facing, orienting |
+| **Perceptual** | Seeing "toward" and "away from" |
+| **Spatial** | The six directions, the circle, the sphere |
+| **Relational** | From-to, source-target, origin-aim |
+| **Causal** | Cause → effect |
+| **Gradient** | Uphill direction in a field |
+
+All of these are **the same cognitive primitive** applied in different contexts.
+
+---
 
 ::: {.recognition-callout}
 **When you see something that POINTS...**
@@ -322,28 +401,16 @@ Before learning vectors, practice *recognizing* direction:
 You're seeing **DIRECTION**.
 :::
 
-The mathematical tool that captures direction is called a **vector**. That's what we'll learn next.
+---
 
-But the tool comes second. First, recognize the primitive in reality.
+## Next
+
+Now we take DIRECTION and apply it.
+
+**First application:** [Chemistry — Bonds Point →](04-direction.qmd)
+
+Bonds have direction. Dipoles have direction. Orbitals have direction. The vector becomes the tool for computing with what we now see.
 
 ---
 
-## Summary
-
-| Observation | Why Direction Matters |
-|-------------|----------------------|
-| Birds navigate | Detecting field direction enables migration |
-| Bees communicate | Direction is part of their language |
-| Plants grow toward light | Light direction determines growth |
-| H₂O is polar, CO₂ isn't | Bond directions determine net polarity |
-| P orbitals form bonds | They have direction; s orbitals don't |
-| Thalidomide tragedy | Spatial arrangement determines drug effect |
-| You know "up" | Your vestibular system senses direction |
-
----
-
-**Next:** [Lecture 4: Direction — Vectors in Chemistry →](04-direction.qmd)
-
-In the next lecture, we'll learn the mathematical tool for capturing direction: **vectors**. We'll see how to represent directions with numbers, add them, and find angles between them.
-
-But always remember: the tool serves the recognition. Vectors exist because reality is full of things that point.
+**The vector is secondary. The perception came first.**
