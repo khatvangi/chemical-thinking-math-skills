@@ -490,10 +490,72 @@ class ChemPractice {
                 hint1: "Linear means the atoms are in a straight line.",
                 hint2: "What's the angle of a straight line?",
                 worked_solution: "CO₂ has 2 bonding domains (double bonds) and no lone pairs on carbon. Maximum separation = straight line = 180°."
+            },
+            {
+                problem_text: "Ammonia (NH₃) has a trigonal pyramidal shape. What is the H-N-H bond angle in degrees?",
+                correct_answer: "107",
+                hint1: "It's between water's angle and the tetrahedral angle.",
+                hint2: "NH₃ has one lone pair; water has two.",
+                worked_solution: "Nitrogen has 3 bonding pairs and 1 lone pair. The lone pair compresses the bond angles to about 107°."
+            },
+            {
+                problem_text: "Boron trifluoride (BF₃) has a trigonal planar geometry. What is the F-B-F bond angle?",
+                correct_answer: "120",
+                hint1: "Trigonal planar means 3 atoms arranged in a plane around the central atom.",
+                hint2: "360° divided by 3 equals...",
+                worked_solution: "BF₃ has 3 bonding pairs and no lone pairs. They arrange in a plane at 120° to each other."
+            },
+            {
+                problem_text: "Sulfur hexafluoride (SF₆) has an octahedral geometry. What is the F-S-F bond angle between adjacent fluorines?",
+                correct_answer: "90",
+                hint1: "Octahedral means 6 atoms around a central atom.",
+                hint2: "Think of 4 atoms in a square plane, with 1 above and 1 below.",
+                worked_solution: "In octahedral geometry, adjacent atoms are at 90° and opposite atoms are at 180°."
+            },
+            {
+                problem_text: "Phosphorus pentachloride (PCl₅) has a trigonal bipyramidal geometry. What is the Cl-P-Cl angle between equatorial chlorines?",
+                correct_answer: "120",
+                hint1: "Trigonal bipyramidal has 3 equatorial and 2 axial positions.",
+                hint2: "The equatorial positions form a triangle.",
+                worked_solution: "The 3 equatorial Cl atoms form a trigonal plane at 120° to each other. Axial-equatorial angle is 90°."
+            },
+            {
+                problem_text: "Hydrogen sulfide (H₂S) is similar to water but with sulfur. Its bond angle is about 92°. Is this larger or smaller than water's angle? (Answer: larger or smaller)",
+                correct_answer: "smaller",
+                hint1: "Water's angle is about 104.5°.",
+                hint2: "Sulfur is larger than oxygen...",
+                worked_solution: "H₂S has a bond angle of ~92°, smaller than H₂O (104.5°). Larger central atoms have less effective orbital overlap, leading to smaller angles."
+            },
+            {
+                problem_text: "Ethene (C₂H₄) has a planar structure. What is the H-C-H bond angle?",
+                correct_answer: "120",
+                hint1: "Each carbon is sp² hybridized.",
+                hint2: "Trigonal planar geometry around each carbon.",
+                worked_solution: "In ethene, each carbon has 3 regions of electron density (2 H atoms + 1 C=C). This gives sp² hybridization with 120° angles."
+            },
+            {
+                problem_text: "Acetylene (C₂H₂) is a linear molecule. What is the H-C-C bond angle?",
+                correct_answer: "180",
+                hint1: "Linear molecules have atoms in a straight line.",
+                hint2: "Each carbon is sp hybridized.",
+                worked_solution: "In acetylene, each carbon has 2 regions of electron density. This gives sp hybridization with 180° angles."
             }
         ];
 
-        return problems[Math.floor(Math.random() * problems.length)];
+        // Track used problems to avoid immediate repeats
+        if (!this.usedProblems) this.usedProblems = [];
+
+        let available = problems.filter((p, i) => !this.usedProblems.includes(i));
+        if (available.length === 0) {
+            this.usedProblems = [];
+            available = problems;
+        }
+
+        const idx = Math.floor(Math.random() * available.length);
+        const problemIdx = problems.indexOf(available[idx]);
+        this.usedProblems.push(problemIdx);
+
+        return available[idx];
     }
 }
 
