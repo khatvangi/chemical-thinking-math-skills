@@ -7,10 +7,11 @@ const CONFIG = {
     // For local development
     // API_URL: 'http://localhost:8000',
 
-    // For nitrogen server (students connect here)
-    API_URL: 'http://nitrogen:8000',
+    // Public URL (accessible from anywhere)
+    API_URL: 'https://unawaked-unlunar-alyvia.ngrok-free.dev',
 
-    // Alternative: use IP directly
+    // For local network only:
+    // API_URL: 'http://nitrogen:8000',
     // API_URL: 'http://10.2.16.245:8000',
 
     // Mastery settings
