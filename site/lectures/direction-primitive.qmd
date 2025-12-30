@@ -1,0 +1,355 @@
+---
+title: "DIRECTION"
+subtitle: "The first primitive. Before vectors, before coordinates, before chemistry."
+format:
+  html:
+    toc: false
+    page-layout: full
+    css: ../styles/direction-primitive.css
+    include-in-header:
+      - text: |
+          <link rel="preconnect" href="https://fonts.googleapis.com">
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+          <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    include-after-body:
+      - text: |
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+          <script src="../js/direction-primitive.js"></script>
+---
+
+<div class="hero-section" id="hero">
+  <canvas id="particle-canvas"></canvas>
+  <div class="hero-content">
+    <h1 class="hero-title">DIRECTION</h1>
+    <p class="hero-subtitle">The first primitive. Before vectors, before coordinates, before chemistry.</p>
+    <div class="scroll-indicator">↓</div>
+  </div>
+</div>
+
+<div class="content-wrapper">
+
+<section class="prose-section" id="opening">
+
+## Point at something.
+
+I'm serious. Right now, wherever you are, point at something. The door. The window. Your coffee cup. Something behind you that you can't even see.
+
+<div class="interactive-panel">
+<div class="interactive-left">
+
+Done?
+
+You just did DIRECTION.
+
+No numbers involved. No angles measured. No coordinate system consulted. Your arm extended *toward* a thing, and you knew — without any mathematics whatsoever — exactly what you were doing.
+
+</div>
+<div class="interactive-right">
+<div id="pointing-arm" class="interactive-container"></div>
+</div>
+</div>
+
+This is not trivial. This is not "just pointing." This is the cognitive foundation underneath everything we're going to build in this course. You've been doing DIRECTION since the first week of your life. An infant reaches — not randomly, not spasmodically, but *toward*. Toward the face. Toward the breast. Toward the bright thing that moves. That reach has structure: there's a FROM (the baby's body) and a TO (the thing it wants). That structure is direction. The infant doesn't know the word, can't define the concept, has no idea what a vector is. But the infant *does* direction, fluently, every waking moment.
+
+<div class="pull-quote">
+If you already understand direction — if your body has understood it since before you could speak — what exactly do you need mathematics for?
+</div>
+
+Hold that question. It's the right question. We'll come back to it. But first, let's go deeper into what you already know.
+
+</section>
+
+---
+
+<section class="prose-section" id="first-distinction">
+
+## The First Distinction
+
+Forget north and south. Forget degrees and radians. Forget x-components and y-components. Before any of that, there's something simpler. Something so simple that organisms without brains can do it.
+
+**Toward. Away.**
+
+That's it. The first direction. The ur-direction. An amoeba — a single cell with no nervous system — moves toward nutrients and away from toxins. No angles involved. No measurement. Just a binary: approach this, flee that.
+
+<div id="toward-away" class="interactive-container full-width"></div>
+
+Think about what that means. Direction doesn't require intelligence. It doesn't require learning. It doesn't require mathematics. A blob of protoplasm drifting in pond water *has* direction built into its behavior. Toward food. Away from poison. The blob doesn't know it's doing direction. But it is.
+
+This binary — toward/away — is where it all starts. Everything else is elaboration. When we talk about angles, we're just specifying *how much* toward or away relative to something else. When we talk about coordinates, we're just setting up a reference system to describe toward and away precisely. When we talk about vectors, we're just packaging toward/away with a magnitude. But the seed of all of it is here, in the amoeba, in the infant's reach, in your pointing arm.
+
+**Approach or flee. That's the foundation.**
+
+</section>
+
+---
+
+<section class="prose-section" id="body">
+
+## Direction in the Body
+
+You don't just perceive direction. You *are* directional.
+
+Think about your body. You have a front and a back. This isn't arbitrary — it's deeply functional. Your face is on the front: eyes facing forward, mouth facing forward, the whole sensory apparatus oriented in the direction you typically move. Your back is what you leave behind, what faces away from where you're going, what you protect by turning away.
+
+This asymmetry creates direction. A sphere doesn't have a "front." A cube doesn't face anywhere. But you do. You face things. And the moment you have a facing, you have a forward and a backward, and the whole architecture of direction begins to unfold.
+
+<div id="body-directions" class="interactive-container full-width"></div>
+
+Once you have forward and backward, you get left and right for free — they're perpendicular to your forward, in the plane of your body. And once you have that plane, you get up and down — perpendicular to the ground you stand on, aligned with gravity.
+
+**Six directions**, all emerging from the fact that you have a body, that body has a front, and that body exists in a gravitational field.
+
+Here's what's strange: we usually think mathematics is something we impose on the body, some abstract system we learn and then apply to physical situations. But direction runs the other way. **The body generates the mathematics.** Left and right aren't concepts you learned in school that you then apply to your body — they're consequences of having a bilateral body that moves through space. Up and down aren't abstractions — they're what happens when a creature lives in a gravitational field.
+
+<div class="insight-box">
+You are the origin of your coordinate system. You always have been.
+</div>
+
+</section>
+
+---
+
+<section class="prose-section" id="stillness">
+
+## Direction Without Movement
+
+Here's something important, and it's easy to miss: **direction doesn't require anything to move.**
+
+A weathervane points north even when the air is perfectly still. A signpost points toward the city even though the sign isn't going anywhere. An arrow painted on the floor points down the hallway, fixed and motionless.
+
+We sometimes talk as if direction and motion are the same thing. They're not. Motion involves direction, yes — if you're moving, you're moving *some way* rather than *some other way*. But direction can exist in perfect stillness. A compass needle points north while sitting in your palm. A bond between two atoms points from one nucleus to the other in a frozen crystal where nothing moves at all.
+
+This matters because when we get to chemistry, we'll be talking about the *direction* of bonds, the *direction* of dipole moments, the *direction* of orbital lobes. These things aren't moving. They're not going anywhere. But they point. They have orientation.
+
+**Direction is about orientation, not motion. A thing can point without going.**
+
+</section>
+
+---
+
+<section class="prose-section" id="circle">
+
+## The Circle of Directions
+
+Let's stay in two dimensions for a moment. Imagine you're standing in an open field, and you can point in any direction on the horizon. How many directions are there?
+
+Your first answer might be four: north, south, east, west. But obviously that's not all of them. There's also northeast, and northwest, and all the directions in between. What about north-northeast? That's a direction too. And between north and north-northeast? Also a direction.
+
+You see where this is going. There isn't a finite list. Direction, even in a flat plane, is **continuous**. Between any two directions, there's another direction. And another. And another.
+
+What shape has this property? What shape gives you a continuous infinity of options, all equidistant from a center point?
+
+**A circle.**
+
+<div id="circle-directions" class="interactive-container full-width"></div>
+
+The circle is the space of all directions in two dimensions. Every point on the circle is a direction you could point. The angle θ — measured from some reference direction like "east" or "the positive x-axis" — tells you which direction. Zero degrees is east. Ninety degrees is north. One hundred eighty degrees is west. And everything in between is also a direction, smoothly varying as you travel around the circle.
+
+This isn't a metaphor. It's not "directions are *like* a circle." Directions, in 2D, literally *are* a circle. The set of all possible directions you could point, from a single location in a plane, is precisely the set of points on a circle centered at that location. **The circle is direction space.**
+
+</section>
+
+---
+
+<section class="prose-section" id="sphere">
+
+## The Sphere of Directions
+
+Now go to three dimensions. You're not restricted to the horizon anymore. You can point up. You can point down. You can point anywhere.
+
+What's the shape now?
+
+**A sphere.**
+
+<div id="sphere-directions" class="interactive-container full-width"></div>
+
+Every point on the surface of a sphere is a direction you could point in 3D. Straight up is the north pole. Straight down is the south pole. All the horizontal directions form the equator. And everywhere in between — all the directions that are somewhat up, somewhat sideways — cover the rest of the sphere's surface.
+
+Two angles now: the **azimuth** (which compass direction on the horizon) and the **elevation** (how far above or below the horizon). Together they pick out a point on the sphere. That point is a direction.
+
+This is what an owl does when it swivels its head. It's sampling the sphere of directions, selecting one to focus its attention on. The owl doesn't know spherical coordinates, but the owl's head is parameterized by them anyway.
+
+</section>
+
+---
+
+<section class="prose-section" id="relation">
+
+## Direction as Relation
+
+There's something philosophically important here that's easy to overlook. **Direction is not a property of a thing. It's a relation between things.**
+
+When you say "the library is north," north of *what*? Of here. Of where you're standing. The library doesn't have "northness" as an intrinsic property — you can't examine the library in isolation and discover that it's north. Northness only exists in relation to something else.
+
+When we say "the bond points toward the oxygen," we mean from the carbon. The bond doesn't just point — it points from one atom toward another. It's a relation.
+
+This is why the vector, when we get to it, has two parts: a tail and a head. A starting point and an ending point. A from and a to. That structure isn't an arbitrary mathematical convention. It reflects the relational nature of direction itself. Direction doesn't just exist in space — it exists *between* positions in space.
+
+**Every direction has an origin. Every arrow has a tail.**
+
+</section>
+
+---
+
+<section class="prose-section" id="comparing">
+
+## When Directions Meet
+
+What happens when you have two directions at once?
+
+Imagine two people standing back to back, pointing opposite ways. Their directions conflict completely. If you tried to combine their pointings into a single direction, you'd get nothing — they cancel.
+
+Now imagine two people standing side by side, pointing the same way. Their directions reinforce. Combined, they point even more emphatically in that direction.
+
+What about perpendicular? Two people, one pointing north, one pointing east. Their directions don't conflict, but they don't reinforce either. They're independent. Neither one affects the other.
+
+And oblique angles — neither aligned nor perpendicular? Some partial reinforcement, some partial independence.
+
+<div id="comparing-directions" class="interactive-container full-width"></div>
+
+This raises a natural question: **how do you measure how much one direction has "in common" with another direction?** How aligned are they? How much of the north-pointing is in the northeast-pointing?
+
+If you've had physics or calculus, you might recognize that this question leads to the dot product. But we're not there yet. For now, just notice that the question is sensible. Directions can be compared. They can be more or less aligned. Whatever tool lets us compute with direction will have to handle this comparison somehow.
+
+</section>
+
+---
+
+<section class="prose-section" id="magnitude">
+
+## Magnitude Enters
+
+So far, direction is pure orientation. Which way, not how much. But in the physical world, direction often comes attached to intensity.
+
+The wind blows east. But is it a gentle breeze or a gale? Both point east. They differ in strength.
+
+The ground slopes downward. But is it a gentle incline or a cliff? Both point down. They differ in steepness.
+
+Something pulls you toward the earth. But is it the gravity of a planet or the gravity of a marble? Both point the same way. They differ in magnitude.
+
+<div id="magnitude-slider" class="interactive-container full-width"></div>
+
+**Direction plus magnitude. Which way, and how much.** This combination occurs so often that it deserves a name.
+
+We call it a **vector**.
+
+But here's what's crucial: you can have direction without magnitude, and you can have magnitude without direction. A compass bearing is pure direction — it tells you which way is north but says nothing about how far or how strong. A temperature is pure magnitude — it tells you how hot but doesn't point anywhere.
+
+The vector is specifically for quantities that have both. It's the tool for things that *point* with *intensity*.
+
+</section>
+
+---
+
+<section class="prose-section" id="gradient">
+
+## Gradients: Direction From Landscape
+
+Imagine hiking in hilly terrain. At any moment, you're standing at some elevation. Some directions would take you uphill, some downhill. But one direction is special: the direction of *steepest* ascent. The way that goes up fastest.
+
+This is the **gradient**.
+
+<div id="gradient-landscape" class="interactive-container full-width"></div>
+
+The gradient isn't just "uphill." It's the specific direction that gains elevation most rapidly. If you want to climb as efficiently as possible, follow the gradient. If you want to descend as quickly as possible, go directly opposite the gradient.
+
+Now abstract away from literal hills. Any quantity that varies across space has a gradient. Temperature varies across a room — the gradient points toward where it's getting hotter fastest. Concentration varies across a solution — the gradient points toward higher concentration. Pressure varies across the atmosphere — the gradient points toward higher pressure.
+
+In chemistry, gradients are everywhere:
+
+- Molecules diffuse **down** concentration gradients — from high concentration toward low
+- Systems evolve **down** energy gradients — from high energy toward low
+- Electrons flow **down** electric potential gradients
+
+The word "down" here means "opposite to the gradient direction."
+
+**The gradient is direction extracted from a landscape. Wherever something varies, there's a gradient pointing the way of steepest increase.**
+
+</section>
+
+---
+
+<section class="prose-section" id="causation">
+
+## Direction in Causation
+
+Here's one more place direction appears, and it's subtle.
+
+**A causes B.**
+
+This statement has a direction. It goes from A to B. Not from B to A. Causes precede effects, effects follow causes, and there's an arrow pointing from one to the other.
+
+<div id="causation-flow" class="interactive-container full-width"></div>
+
+This isn't metaphor. Causation genuinely is directional. The asymmetry comes from time — the past is fixed, the future is open, and causes must precede their effects. The arrow of causation points in the direction of increasing time.
+
+Every mechanism in chemistry is a sequence of these arrows. The nucleophile attacks the electrophile. The bond breaks. The intermediate forms. The product emerges. Each step points to the next. Cause, then effect, then cause again, then effect again. A chain of directed relationships.
+
+When you draw a reaction mechanism, you draw arrows. Those arrows aren't just notation — they're the causal structure of the transformation.
+
+</section>
+
+---
+
+<section class="prose-section" id="formalize">
+
+## Why Formalize?
+
+Now we return to the question from the beginning.
+
+You already know direction. Your body knows it. Your language encodes it. Your mind uses it constantly. **What could mathematics possibly add?**
+
+Here's what: *precision* and *computation*.
+
+You can point at the library and say "it's over there." But can you describe that direction precisely enough that someone in another city, looking at a map, could determine exactly which way you mean? Pointing doesn't scale. It doesn't transmit. It doesn't record.
+
+You can feel that two directions are "kind of aligned." But can you say *how* aligned? Can you compute whether they're more aligned than two other directions? Can you quantify the comparison?
+
+You can sense that the hill is steeper this way than that way. But can you calculate exactly how steep? Can you predict where a rolling ball will go?
+
+**This is what formalization gives you.** Not new perception — the perception was already there. What you get is the ability to be precise about what you perceive, to communicate it exactly, to calculate with it, to make predictions.
+
+The vector is notation for direction. The dot product is notation for comparing directions. The gradient is notation for direction of steepest change. None of these are new ideas. They're tools for working rigorously with ideas you've had your whole life.
+
+</section>
+
+---
+
+<section class="prose-section" id="bridge">
+
+## The Bridge
+
+<div id="bridge-animation" class="interactive-container full-width"></div>
+
+| What you already perceive | The formal tool |
+|---------------------------|-----------------|
+| "It points somewhere" | Vector |
+| "How aligned are these two directions?" | Dot product |
+| "What's perpendicular to both?" | Cross product |
+| "Which way is steepest?" | Gradient |
+| "Describe this direction exactly" | Components, coordinates |
+
+Each of these tools exists to capture something you already understand. The mathematics isn't replacing your intuition — it's making your intuition precise enough to compute with.
+
+</section>
+
+---
+
+<section class="closing-section" id="closing">
+
+<div class="closing-box">
+<p class="closing-quote">You knew DIRECTION before you knew chemistry, before you knew mathematics, before you knew words.</p>
+<p class="closing-statement">We're just giving names to what you already see.</p>
+</div>
+
+<a href="04-direction.qmd" class="next-button">
+  <span>Next: Vectors in Chemistry</span>
+  <span class="next-arrow">→</span>
+</a>
+
+</section>
+
+</div>
+
+<div class="scroll-progress" id="scroll-progress"></div>
+<div class="section-nav" id="section-nav"></div>

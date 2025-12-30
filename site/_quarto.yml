@@ -42,7 +42,7 @@ website:
         - section: "Module 1: Structure"
           contents:
             - text: "DIRECTION: The Primitive"
-              href: lectures/direction-concept.qmd
+              href: lectures/direction-primitive.qmd
             - text: "Vectors in Chemistry"
               href: lectures/04-direction.qmd
         - section: "Module 2: Change"
