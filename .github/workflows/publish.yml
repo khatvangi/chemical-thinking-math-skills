@@ -29,9 +29,10 @@ jobs:
           cd site
           quarto render
 
-      - name: Copy standalone pages
+      - name: Copy standalone pages and CNAME
         run: |
           cp site/direction.html site/_site/direction.html
+          cp site/CNAME site/_site/CNAME
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
