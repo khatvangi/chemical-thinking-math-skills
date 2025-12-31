@@ -1,0 +1,1467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Just Direction | Lecture 04 | Chemical Thinking</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0D1117;
+            --bg-secondary: #161B22;
+            --bg-tertiary: #1c2128;
+            --bg-card: #21262d;
+            --text-primary: #E6EDF3;
+            --text-secondary: #8B949E;
+            --text-muted: #6e7681;
+            --accent-blue: #58A6FF;
+            --accent-coral: #F78166;
+            --accent-green: #7EE787;
+            --accent-purple: #a855f7;
+            --accent-yellow: #d29922;
+            --accent-red: #f85149;
+            --border-subtle: rgba(255,255,255,0.08);
+            --font-heading: 'Fraunces', Georgia, serif;
+            --font-body: 'Inter', -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 17px;
+        }
+
+        .nav-header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            background: rgba(13, 17, 23, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-subtle);
+            z-index: 100;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand { font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-secondary); }
+        .nav-brand a { color: var(--accent-blue); text-decoration: none; }
+        .nav-section { font-family: var(--font-mono); font-size: 0.85rem; color: var(--accent-purple); }
+
+        .content { max-width: 900px; margin: 0 auto; padding: 6rem 2rem 4rem; }
+
+        .section-header { margin-bottom: 3rem; }
+        .section-number { font-family: var(--font-mono); font-size: 0.85rem; color: var(--accent-coral); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem; }
+        .section-title { font-family: var(--font-heading); font-size: 3rem; font-weight: 500; margin-bottom: 1rem; line-height: 1.2; }
+        .section-subtitle { font-size: 1.25rem; color: var(--text-secondary); font-style: italic; }
+
+        .opening-visual {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 3rem 0;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .orbitals-canvas { width: 100%; height: 350px; display: block; }
+        .visual-caption { text-align: center; margin-top: 1.5rem; font-size: 1.1rem; color: var(--text-primary); }
+
+        /* Insight box */
+        .insight-box {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(88, 166, 255, 0.1));
+            border: 1px solid var(--accent-purple);
+            border-radius: 12px;
+            padding: 1.5rem 2rem;
+            margin: 2rem 0;
+        }
+
+        .insight-label {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--accent-purple);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+        }
+
+        .insight-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        /* Interactive sections */
+        .interactive-section { margin: 3rem 0; }
+
+        .interactive-title {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--accent-blue);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .interactive-title::before { content: ">"; color: var(--accent-coral); }
+
+        .interactive-box {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .normalize-canvas { width: 100%; height: 350px; display: block; margin-bottom: 1.5rem; }
+
+        .control-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .control-label {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            min-width: 100px;
+        }
+
+        .slider {
+            flex: 1;
+            min-width: 150px;
+            -webkit-appearance: none;
+            height: 6px;
+            background: var(--bg-tertiary);
+            border-radius: 3px;
+            outline: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px; height: 18px;
+            background: var(--accent-blue);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .value-display {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--accent-blue);
+            min-width: 50px;
+            text-align: right;
+        }
+
+        .normalize-btn {
+            background: var(--accent-purple);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 1rem;
+        }
+
+        .normalize-btn:hover {
+            background: #c084fc;
+            transform: translateY(-2px);
+        }
+
+        .result-display {
+            background: var(--bg-tertiary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            font-family: var(--font-mono);
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .result-row:last-child { border-bottom: none; }
+        .result-label { color: var(--text-secondary); }
+        .result-value { color: var(--accent-green); font-size: 1.1rem; }
+
+        /* Basis vectors section */
+        .basis-section { margin: 3rem 0; }
+
+        .basis-title {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--accent-yellow);
+            margin-bottom: 1rem;
+        }
+
+        .basis-container {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .basis-canvas { width: 100%; height: 300px; display: block; margin-bottom: 1.5rem; }
+
+        .basis-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .basis-card {
+            background: var(--bg-tertiary);
+            border-radius: 12px;
+            padding: 1.25rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+
+        .basis-card:hover { border-color: var(--accent-blue); }
+        .basis-card.active { border-color: var(--accent-purple); background: var(--bg-card); }
+
+        .basis-symbol {
+            font-family: var(--font-mono);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .basis-i .basis-symbol { color: var(--accent-coral); }
+        .basis-j .basis-symbol { color: var(--accent-green); }
+        .basis-k .basis-symbol { color: var(--accent-blue); }
+
+        .basis-vector {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .basis-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        /* Bridge section */
+        .bridge-section { margin: 3rem 0; }
+
+        .bridge-title {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--accent-green);
+            margin-bottom: 1rem;
+        }
+
+        .bridge-box {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .formula-large {
+            text-align: center;
+            font-family: var(--font-mono);
+            font-size: 1.8rem;
+            color: var(--accent-purple);
+            margin: 1.5rem 0;
+        }
+
+        .formula-explain {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .decomposition-canvas { width: 100%; height: 250px; display: block; }
+
+        /* Examples section */
+        .examples-section { margin: 3rem 0; }
+
+        .examples-title {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--accent-coral);
+            margin-bottom: 1.5rem;
+        }
+
+        .example-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .example-tab {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            padding: 0.75rem 1.25rem;
+            border-radius: 8px;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .example-tab:hover { background: var(--bg-tertiary); color: var(--text-primary); }
+        .example-tab.active { background: var(--accent-purple); color: white; border-color: var(--accent-purple); }
+
+        .example-content {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--border-subtle);
+            display: none;
+        }
+
+        .example-content.active { display: block; }
+
+        .example-canvas { width: 100%; height: 280px; display: block; margin-bottom: 1rem; }
+
+        .example-text { color: var(--text-secondary); line-height: 1.7; }
+
+        /* Practice section */
+        .practice-section {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(126, 231, 135, 0.1));
+            border-radius: 16px;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .practice-title { font-family: var(--font-heading); font-size: 1.5rem; margin-bottom: 1.5rem; }
+
+        .practice-problem {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .problem-number { font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent-purple); margin-bottom: 0.5rem; }
+        .problem-text { margin-bottom: 1rem; line-height: 1.6; }
+
+        .problem-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .problem-input:focus { outline: none; border-color: var(--accent-blue); }
+
+        .problem-hint { font-size: 0.85rem; color: var(--text-muted); font-style: italic; margin-bottom: 0.5rem; }
+
+        .problem-check {
+            background: var(--accent-purple);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+
+        .problem-feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .problem-feedback.correct {
+            display: block;
+            background: rgba(126, 231, 135, 0.1);
+            border: 1px solid var(--accent-green);
+            color: var(--accent-green);
+        }
+
+        .problem-feedback.incorrect {
+            display: block;
+            background: rgba(248, 81, 73, 0.1);
+            border: 1px solid var(--accent-red);
+            color: var(--accent-red);
+        }
+
+        /* Navigation */
+        .nav-footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            padding: 0.75rem 1.25rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover { background: var(--bg-tertiary); color: var(--text-primary); }
+        .nav-link.next { color: var(--accent-blue); }
+
+        .page-footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border-subtle);
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .section-title { font-size: 2rem; }
+            .basis-grid { grid-template-columns: 1fr; }
+            .example-tabs { flex-wrap: wrap; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav-header">
+        <div class="nav-brand"><a href="/primitives/direction.html">DIRECTION</a> / Lecture 04</div>
+        <div class="nav-section">Section 3 of 7</div>
+    </nav>
+
+    <main class="content">
+        <header class="section-header">
+            <div class="section-number">Lecture 04 · Section 3</div>
+            <h1 class="section-title">Just Direction</h1>
+            <p class="section-subtitle">Sometimes we only care where it points, not how long it is.</p>
+        </header>
+
+        <!-- Opening: p-orbitals -->
+        <section class="opening-visual">
+            <canvas id="orbitals-canvas" class="orbitals-canvas"></canvas>
+            <p class="visual-caption">Same shape. Same energy. Different directions.</p>
+        </section>
+
+        <!-- Key insight -->
+        <div class="insight-box">
+            <div class="insight-label">Key Insight</div>
+            <p class="insight-text">
+                The three p-orbitals (pₓ, pᵧ, pᵤ) are identical in shape and energy.
+                The <em>only</em> difference is which way they point. To talk about
+                direction without size, we use <strong>unit vectors</strong> — arrows of length 1.
+            </p>
+        </div>
+
+        <!-- Interactive: Normalize any vector -->
+        <section class="interactive-section">
+            <h2 class="interactive-title">Explore: Shrink any vector to length 1</h2>
+            <div class="interactive-box">
+                <canvas id="normalize-canvas" class="normalize-canvas"></canvas>
+
+                <div class="control-row">
+                    <span class="control-label">Vector x</span>
+                    <input type="range" class="slider" id="vec-x" min="-3" max="3" step="0.1" value="3">
+                    <span class="value-display" id="vec-x-val">3.0</span>
+                </div>
+
+                <div class="control-row">
+                    <span class="control-label">Vector y</span>
+                    <input type="range" class="slider" id="vec-y" min="-3" max="3" step="0.1" value="4">
+                    <span class="value-display" id="vec-y-val">4.0</span>
+                </div>
+
+                <button class="normalize-btn" id="normalize-btn">Normalize → Length = 1</button>
+
+                <div class="result-display">
+                    <div class="result-row">
+                        <span class="result-label">Original vector</span>
+                        <span class="result-value" id="original-vec">[3.0, 4.0]</span>
+                    </div>
+                    <div class="result-row">
+                        <span class="result-label">Magnitude |v|</span>
+                        <span class="result-value" id="magnitude">5.00</span>
+                    </div>
+                    <div class="result-row">
+                        <span class="result-label">Unit vector v̂ = v/|v|</span>
+                        <span class="result-value" id="unit-vec">[0.60, 0.80]</span>
+                    </div>
+                    <div class="result-row">
+                        <span class="result-label">Check: |v̂|</span>
+                        <span class="result-value" id="unit-mag">1.00</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Basis vectors -->
+        <section class="basis-section">
+            <h2 class="basis-title">The building blocks: î, ĵ, k̂</h2>
+            <div class="basis-container">
+                <canvas id="basis-canvas" class="basis-canvas"></canvas>
+
+                <div class="basis-grid">
+                    <div class="basis-card basis-i active" data-basis="i">
+                        <div class="basis-symbol">î</div>
+                        <div class="basis-vector">[1, 0, 0]</div>
+                        <div class="basis-desc">Points along x-axis</div>
+                    </div>
+                    <div class="basis-card basis-j" data-basis="j">
+                        <div class="basis-symbol">ĵ</div>
+                        <div class="basis-vector">[0, 1, 0]</div>
+                        <div class="basis-desc">Points along y-axis</div>
+                    </div>
+                    <div class="basis-card basis-k" data-basis="k">
+                        <div class="basis-symbol">k̂</div>
+                        <div class="basis-vector">[0, 0, 1]</div>
+                        <div class="basis-desc">Points along z-axis</div>
+                    </div>
+                </div>
+
+                <p style="text-align: center; margin-top: 1.5rem; color: var(--text-secondary);">
+                    Any vector can be written as a combination: <code style="color: var(--accent-purple);">v⃗ = vₓî + vᵧĵ + vᵤk̂</code>
+                </p>
+            </div>
+        </section>
+
+        <!-- Bridge: Any vector = magnitude × direction -->
+        <section class="bridge-section">
+            <h2 class="bridge-title">Every vector = how long × which way</h2>
+            <div class="bridge-box">
+                <div class="formula-large">v⃗ = |v| · v̂</div>
+                <p class="formula-explain">
+                    Any vector is its magnitude times its unit vector.<br>
+                    Separate "how much" from "which direction."
+                </p>
+
+                <canvas id="decomposition-canvas" class="decomposition-canvas"></canvas>
+
+                <p style="text-align: center; margin-top: 1rem; color: var(--text-secondary);">
+                    The unit vector v̂ keeps the direction, throws away the size.
+                </p>
+            </div>
+        </section>
+
+        <!-- Examples -->
+        <section class="examples-section">
+            <h2 class="examples-title">Chemistry examples</h2>
+
+            <div class="example-tabs">
+                <button class="example-tab active" data-example="p-orbitals">p-Orbitals</button>
+                <button class="example-tab" data-example="sp3">sp³ Hybrids</button>
+                <button class="example-tab" data-example="crystal">Crystal Axes</button>
+            </div>
+
+            <div class="example-content active" id="ex-p-orbitals">
+                <canvas id="p-orbital-canvas" class="example-canvas"></canvas>
+                <p class="example-text">
+                    The three p-orbitals point along the coordinate axes: pₓ along î, pᵧ along ĵ, pᵤ along k̂.
+                    They're mutually perpendicular (90° apart). When atoms bond, these directions determine
+                    molecular geometry — like the 90° angles in H₂S.
+                </p>
+            </div>
+
+            <div class="example-content" id="ex-sp3">
+                <canvas id="sp3-canvas" class="example-canvas"></canvas>
+                <p class="example-text">
+                    In sp³ hybridization (like methane CH₄), four equivalent orbitals point toward the vertices
+                    of a tetrahedron. Each direction is a unit vector. The angle between any two is 109.5°,
+                    the tetrahedral angle. This minimizes electron repulsion.
+                </p>
+            </div>
+
+            <div class="example-content" id="ex-crystal">
+                <canvas id="crystal-canvas" class="example-canvas"></canvas>
+                <p class="example-text">
+                    Crystal structures are described using unit cell vectors a⃗, b⃗, c⃗. In a cubic crystal,
+                    these are just î, ĵ, k̂ scaled by the lattice parameter. Directions like [1,1,1]
+                    point along the body diagonal — normalize to get the unit direction.
+                </p>
+            </div>
+        </section>
+
+        <!-- Practice -->
+        <section class="practice-section">
+            <h2 class="practice-title">Your Turn</h2>
+
+            <div class="practice-problem">
+                <div class="problem-number">Problem 1</div>
+                <div class="problem-text">
+                    Normalize the vector [3, 4, 0]. What is the unit vector?
+                </div>
+                <p class="problem-hint">Hint: First find |v| = √(3² + 4² + 0²), then divide each component by |v|.</p>
+                <input type="text" class="problem-input" id="p1-answer" placeholder="[?, ?, ?]">
+                <button class="problem-check" onclick="checkP1()">Check</button>
+                <div class="problem-feedback" id="p1-feedback"></div>
+            </div>
+
+            <div class="practice-problem">
+                <div class="problem-number">Problem 2</div>
+                <div class="problem-text">
+                    One sp³ hybrid orbital points in direction [1, 1, 1]. What is the unit vector for this direction?
+                </div>
+                <p class="problem-hint">Hint: |[1,1,1]| = √3 ≈ 1.732</p>
+                <input type="text" class="problem-input" id="p2-answer" placeholder="[?, ?, ?]">
+                <button class="problem-check" onclick="checkP2()">Check</button>
+                <div class="problem-feedback" id="p2-feedback"></div>
+            </div>
+
+            <div class="practice-problem">
+                <div class="problem-number">Problem 3</div>
+                <div class="problem-text">
+                    Write the vector [2.5, 1.5, 2.0] in the form |v| · v̂ (magnitude × unit vector).
+                </div>
+                <input type="text" class="problem-input" id="p3-answer" placeholder="magnitude = ?, unit vector = [?, ?, ?]">
+                <button class="problem-check" onclick="checkP3()">Check</button>
+                <div class="problem-feedback" id="p3-feedback"></div>
+            </div>
+        </section>
+
+        <nav class="nav-footer">
+            <a href="sec2-how-long.html" class="nav-link">← How Long?</a>
+            <a href="sec4-components.html" class="nav-link next">Next: Breaking Apart →</a>
+        </nav>
+    </main>
+
+    <footer class="page-footer">
+        <p>Chemical Thinking: The Grammar of Reality</p>
+        <p>Lecture 04: DIRECTION Tools · Section 3</p>
+    </footer>
+
+    <script>
+        // ========================================
+        // P-ORBITALS OPENING
+        // ========================================
+        (function() {
+            const canvas = document.getElementById('orbitals-canvas');
+            const ctx = canvas.getContext('2d');
+
+            function resize() {
+                const rect = canvas.parentElement.getBoundingClientRect();
+                canvas.width = rect.width;
+                canvas.height = 350;
+            }
+            resize();
+            window.addEventListener('resize', () => { resize(); draw(); });
+
+            let time = 0;
+
+            function drawOrbital(cx, cy, angle, color, label) {
+                const lobeLen = 60;
+                const lobeWidth = 25;
+
+                ctx.save();
+                ctx.translate(cx, cy);
+                ctx.rotate(angle);
+
+                // Positive lobe
+                const gradient1 = ctx.createRadialGradient(0, -lobeLen/2, 0, 0, -lobeLen/2, lobeLen);
+                gradient1.addColorStop(0, color);
+                gradient1.addColorStop(1, 'transparent');
+
+                ctx.fillStyle = gradient1;
+                ctx.beginPath();
+                ctx.ellipse(0, -lobeLen/2, lobeWidth, lobeLen/2, 0, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Negative lobe
+                const gradient2 = ctx.createRadialGradient(0, lobeLen/2, 0, 0, lobeLen/2, lobeLen);
+                gradient2.addColorStop(0, color.replace('0.6', '0.3'));
+                gradient2.addColorStop(1, 'transparent');
+
+                ctx.fillStyle = gradient2;
+                ctx.beginPath();
+                ctx.ellipse(0, lobeLen/2, lobeWidth, lobeLen/2, 0, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Node at center
+                ctx.fillStyle = '#0D1117';
+                ctx.beginPath();
+                ctx.arc(0, 0, 8, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.restore();
+
+                // Label
+                ctx.fillStyle = color.replace('0.6', '1');
+                ctx.font = 'bold 16px "JetBrains Mono", monospace';
+                ctx.textAlign = 'center';
+                ctx.fillText(label, cx, cy + 100);
+            }
+
+            function draw() {
+                const w = canvas.width;
+                const h = canvas.height;
+                ctx.clearRect(0, 0, w, h);
+
+                const spacing = w / 4;
+                const y = h / 2 - 20;
+
+                // Subtle rotation animation
+                const wobble = Math.sin(time) * 0.05;
+
+                // px (horizontal)
+                drawOrbital(spacing, y, Math.PI/2 + wobble, 'rgba(247, 129, 102, 0.6)', 'pₓ');
+
+                // py (vertical)
+                drawOrbital(spacing * 2, y, wobble, 'rgba(126, 231, 135, 0.6)', 'pᵧ');
+
+                // pz (into page - shown as circle)
+                const pzX = spacing * 3;
+                const gradient = ctx.createRadialGradient(pzX, y, 0, pzX, y, 50);
+                gradient.addColorStop(0, 'rgba(88, 166, 255, 0.6)');
+                gradient.addColorStop(0.5, 'rgba(88, 166, 255, 0.3)');
+                gradient.addColorStop(1, 'transparent');
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                ctx.arc(pzX, y, 50, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Inner darker ring for pz
+                ctx.strokeStyle = 'rgba(88, 166, 255, 0.4)';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([4, 4]);
+                ctx.beginPath();
+                ctx.arc(pzX, y, 30, 0, Math.PI * 2);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                ctx.fillStyle = '#0D1117';
+                ctx.beginPath();
+                ctx.arc(pzX, y, 8, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = 'rgba(88, 166, 255, 1)';
+                ctx.font = 'bold 16px "JetBrains Mono", monospace';
+                ctx.textAlign = 'center';
+                ctx.fillText('pᵤ', pzX, y + 100);
+                ctx.font = '12px "JetBrains Mono", monospace';
+                ctx.fillStyle = 'rgba(88, 166, 255, 0.7)';
+                ctx.fillText('(into page)', pzX, y + 118);
+
+                // Direction arrows
+                ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+                ctx.lineWidth = 2;
+
+                // x arrow
+                ctx.beginPath();
+                ctx.moveTo(spacing - 80, y);
+                ctx.lineTo(spacing + 80, y);
+                ctx.stroke();
+                drawArrowhead(ctx, spacing + 80, y, 0);
+
+                // y arrow
+                ctx.beginPath();
+                ctx.moveTo(spacing * 2, y + 80);
+                ctx.lineTo(spacing * 2, y - 80);
+                ctx.stroke();
+                drawArrowhead(ctx, spacing * 2, y - 80, -Math.PI/2);
+
+                time += 0.02;
+                requestAnimationFrame(draw);
+            }
+
+            function drawArrowhead(ctx, x, y, angle) {
+                ctx.save();
+                ctx.translate(x, y);
+                ctx.rotate(angle);
+                ctx.fillStyle = 'rgba(255,255,255,0.3)';
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.lineTo(-10, -5);
+                ctx.lineTo(-10, 5);
+                ctx.closePath();
+                ctx.fill();
+                ctx.restore();
+            }
+
+            draw();
+        })();
+
+        // ========================================
+        // NORMALIZE INTERACTIVE
+        // ========================================
+        (function() {
+            const canvas = document.getElementById('normalize-canvas');
+            const ctx = canvas.getContext('2d');
+
+            const vecX = document.getElementById('vec-x');
+            const vecY = document.getElementById('vec-y');
+            const vecXVal = document.getElementById('vec-x-val');
+            const vecYVal = document.getElementById('vec-y-val');
+            const normalizeBtn = document.getElementById('normalize-btn');
+            const originalVec = document.getElementById('original-vec');
+            const magnitude = document.getElementById('magnitude');
+            const unitVec = document.getElementById('unit-vec');
+            const unitMag = document.getElementById('unit-mag');
+
+            let showUnit = false;
+            let animProgress = 0;
+
+            function resize() {
+                const rect = canvas.parentElement.getBoundingClientRect();
+                canvas.width = rect.width - 40;
+                canvas.height = 350;
+            }
+            resize();
+            window.addEventListener('resize', () => { resize(); draw(); });
+
+            function draw() {
+                const w = canvas.width;
+                const h = canvas.height;
+                ctx.clearRect(0, 0, w, h);
+
+                const x = parseFloat(vecX.value);
+                const y = parseFloat(vecY.value);
+
+                vecXVal.textContent = x.toFixed(1);
+                vecYVal.textContent = y.toFixed(1);
+
+                const mag = Math.sqrt(x*x + y*y);
+                const ux = mag > 0 ? x / mag : 0;
+                const uy = mag > 0 ? y / mag : 0;
+
+                // Update displays
+                originalVec.textContent = `[${x.toFixed(1)}, ${y.toFixed(1)}]`;
+                magnitude.textContent = mag.toFixed(2);
+                unitVec.textContent = `[${ux.toFixed(2)}, ${uy.toFixed(2)}]`;
+                unitMag.textContent = (mag > 0 ? 1 : 0).toFixed(2);
+
+                const cx = w / 2;
+                const cy = h / 2;
+                const scale = 50;
+
+                // Grid
+                ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+                ctx.lineWidth = 1;
+                for (let i = -5; i <= 5; i++) {
+                    ctx.beginPath();
+                    ctx.moveTo(cx + i * scale, 0);
+                    ctx.lineTo(cx + i * scale, h);
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.moveTo(0, cy + i * scale);
+                    ctx.lineTo(w, cy + i * scale);
+                    ctx.stroke();
+                }
+
+                // Axes
+                ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(0, cy);
+                ctx.lineTo(w, cy);
+                ctx.moveTo(cx, 0);
+                ctx.lineTo(cx, h);
+                ctx.stroke();
+
+                // Unit circle (reference)
+                ctx.strokeStyle = 'rgba(168, 85, 247, 0.3)';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([5, 5]);
+                ctx.beginPath();
+                ctx.arc(cx, cy, scale, 0, Math.PI * 2);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                ctx.fillStyle = 'rgba(168, 85, 247, 0.5)';
+                ctx.font = '11px "JetBrains Mono", monospace';
+                ctx.fillText('|v| = 1', cx + scale + 5, cy - 5);
+
+                // Interpolate for animation
+                const displayX = showUnit ? x * (1 - animProgress) + ux * animProgress : x;
+                const displayY = showUnit ? y * (1 - animProgress) + uy * animProgress : y;
+
+                // Original vector (faded when showing unit)
+                if (showUnit && animProgress > 0) {
+                    ctx.strokeStyle = `rgba(88, 166, 255, ${0.3})`;
+                    ctx.lineWidth = 3;
+                    ctx.setLineDash([5, 5]);
+                    ctx.beginPath();
+                    ctx.moveTo(cx, cy);
+                    ctx.lineTo(cx + x * scale, cy - y * scale);
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+                }
+
+                // Current/animated vector
+                const endX = cx + displayX * scale;
+                const endY = cy - displayY * scale;
+
+                ctx.strokeStyle = showUnit ? '#a855f7' : '#58a6ff';
+                ctx.lineWidth = 4;
+                ctx.lineCap = 'round';
+                ctx.beginPath();
+                ctx.moveTo(cx, cy);
+                ctx.lineTo(endX, endY);
+                ctx.stroke();
+
+                // Arrowhead
+                const angle = Math.atan2(cy - endY, endX - cx);
+                ctx.fillStyle = showUnit ? '#a855f7' : '#58a6ff';
+                ctx.beginPath();
+                ctx.moveTo(endX, endY);
+                ctx.lineTo(endX - 15 * Math.cos(angle - 0.4), endY + 15 * Math.sin(angle - 0.4));
+                ctx.lineTo(endX - 15 * Math.cos(angle + 0.4), endY + 15 * Math.sin(angle + 0.4));
+                ctx.closePath();
+                ctx.fill();
+
+                // Labels
+                ctx.fillStyle = '#8b949e';
+                ctx.font = '12px "JetBrains Mono", monospace';
+                ctx.textAlign = 'center';
+                ctx.fillText('x', w - 15, cy + 20);
+                ctx.fillText('y', cx + 15, 15);
+
+                // Show length
+                const currentMag = Math.sqrt(displayX*displayX + displayY*displayY);
+                ctx.fillStyle = showUnit ? '#a855f7' : '#58a6ff';
+                ctx.font = 'bold 14px "JetBrains Mono", monospace';
+                const labelX = cx + displayX * scale / 2 + 15;
+                const labelY = cy - displayY * scale / 2;
+                ctx.fillText(`|v| = ${currentMag.toFixed(2)}`, labelX, labelY);
+
+                // Animation
+                if (showUnit && animProgress < 1) {
+                    animProgress += 0.03;
+                    requestAnimationFrame(draw);
+                } else if (!showUnit && animProgress > 0) {
+                    animProgress -= 0.03;
+                    requestAnimationFrame(draw);
+                }
+            }
+
+            vecX.addEventListener('input', () => { showUnit = false; draw(); });
+            vecY.addEventListener('input', () => { showUnit = false; draw(); });
+
+            normalizeBtn.addEventListener('click', () => {
+                showUnit = !showUnit;
+                normalizeBtn.textContent = showUnit ? 'Show Original' : 'Normalize → Length = 1';
+                draw();
+            });
+
+            draw();
+        })();
+
+        // ========================================
+        // BASIS VECTORS
+        // ========================================
+        (function() {
+            const canvas = document.getElementById('basis-canvas');
+            const ctx = canvas.getContext('2d');
+
+            let activeBasis = 'i';
+
+            function resize() {
+                const rect = canvas.parentElement.getBoundingClientRect();
+                canvas.width = rect.width - 40;
+                canvas.height = 300;
+            }
+            resize();
+            window.addEventListener('resize', () => { resize(); draw(); });
+
+            let time = 0;
+
+            function draw() {
+                const w = canvas.width;
+                const h = canvas.height;
+                ctx.clearRect(0, 0, w, h);
+
+                const cx = w / 2;
+                const cy = h / 2 + 20;
+                const scale = 80;
+                const isoAngle = Math.PI / 6;
+
+                function toIso(px, py, pz) {
+                    const ix = (px - pz) * Math.cos(isoAngle) * scale;
+                    const iy = -py * scale + (px + pz) * Math.sin(isoAngle) * scale * 0.5;
+                    return [cx + ix, cy + iy];
+                }
+
+                // Origin
+                const [ox, oy] = toIso(0, 0, 0);
+
+                // Draw axes
+                const axisLen = 1.8;
+
+                // All three basis vectors
+                const bases = {
+                    'i': { end: [axisLen, 0, 0], color: '#F78166', label: 'î' },
+                    'j': { end: [0, axisLen, 0], color: '#7EE787', label: 'ĵ' },
+                    'k': { end: [0, 0, axisLen], color: '#58A6FF', label: 'k̂' }
+                };
+
+                // Draw inactive axes first
+                Object.entries(bases).forEach(([key, basis]) => {
+                    if (key === activeBasis) return;
+
+                    const [ex, ey] = toIso(...basis.end);
+
+                    ctx.strokeStyle = basis.color.replace(')', ', 0.3)').replace('rgb', 'rgba');
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.moveTo(ox, oy);
+                    ctx.lineTo(ex, ey);
+                    ctx.stroke();
+
+                    ctx.fillStyle = basis.color.replace(')', ', 0.5)').replace('rgb', 'rgba');
+                    ctx.font = '14px "JetBrains Mono", monospace';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(basis.label, ex + (ex - ox) * 0.15, ey + (ey - oy) * 0.15);
+                });
+
+                // Draw active axis with animation
+                const active = bases[activeBasis];
+                const pulse = 1 + 0.05 * Math.sin(time * 3);
+                const [ax, ay] = toIso(
+                    active.end[0] * pulse,
+                    active.end[1] * pulse,
+                    active.end[2] * pulse
+                );
+
+                ctx.strokeStyle = active.color;
+                ctx.lineWidth = 5;
+                ctx.lineCap = 'round';
+                ctx.beginPath();
+                ctx.moveTo(ox, oy);
+                ctx.lineTo(ax, ay);
+                ctx.stroke();
+
+                // Arrowhead
+                const angle = Math.atan2(ay - oy, ax - ox);
+                ctx.fillStyle = active.color;
+                ctx.beginPath();
+                ctx.moveTo(ax, ay);
+                ctx.lineTo(ax - 15 * Math.cos(angle - 0.4), ay - 15 * Math.sin(angle - 0.4));
+                ctx.lineTo(ax - 15 * Math.cos(angle + 0.4), ay - 15 * Math.sin(angle + 0.4));
+                ctx.closePath();
+                ctx.fill();
+
+                // Label
+                ctx.fillStyle = active.color;
+                ctx.font = 'bold 18px "JetBrains Mono", monospace';
+                ctx.fillText(active.label, ax + (ax - ox) * 0.2, ay + (ay - oy) * 0.2);
+
+                // Origin point
+                ctx.fillStyle = '#fff';
+                ctx.beginPath();
+                ctx.arc(ox, oy, 5, 0, Math.PI * 2);
+                ctx.fill();
+
+                time += 0.02;
+                requestAnimationFrame(draw);
+            }
+
+            // Basis card clicks
+            document.querySelectorAll('.basis-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    document.querySelectorAll('.basis-card').forEach(c => c.classList.remove('active'));
+                    card.classList.add('active');
+                    activeBasis = card.dataset.basis;
+                });
+            });
+
+            draw();
+        })();
+
+        // ========================================
+        // DECOMPOSITION
+        // ========================================
+        (function() {
+            const canvas = document.getElementById('decomposition-canvas');
+            const ctx = canvas.getContext('2d');
+
+            canvas.width = 700;
+            canvas.height = 250;
+
+            let time = 0;
+
+            function draw() {
+                ctx.clearRect(0, 0, 700, 250);
+
+                // Left: Original vector
+                const lx = 120, ly = 180;
+                const vx = 3, vy = 2;
+                const scale = 40;
+
+                ctx.strokeStyle = '#58a6ff';
+                ctx.lineWidth = 4;
+                ctx.beginPath();
+                ctx.moveTo(lx, ly);
+                ctx.lineTo(lx + vx * scale, ly - vy * scale);
+                ctx.stroke();
+
+                drawArrow(ctx, lx + vx * scale, ly - vy * scale, Math.atan2(-vy, vx), '#58a6ff');
+
+                ctx.fillStyle = '#58a6ff';
+                ctx.font = 'bold 16px "JetBrains Mono", monospace';
+                ctx.textAlign = 'center';
+                ctx.fillText('v⃗', lx + vx * scale / 2 + 15, ly - vy * scale / 2 - 10);
+
+                ctx.fillStyle = '#8b949e';
+                ctx.font = '14px "JetBrains Mono", monospace';
+                ctx.fillText('[3, 2]', lx + vx * scale / 2, ly + 30);
+
+                // Equals
+                ctx.fillStyle = '#7ee787';
+                ctx.font = 'bold 24px "JetBrains Mono", monospace';
+                ctx.fillText('=', 250, 130);
+
+                // Middle: Magnitude
+                const pulse = 0.9 + 0.1 * Math.sin(time * 2);
+                const mag = Math.sqrt(vx*vx + vy*vy);
+
+                ctx.fillStyle = '#f78166';
+                ctx.font = `bold ${20 * pulse}px "JetBrains Mono", monospace`;
+                ctx.fillText(`${mag.toFixed(2)}`, 330, 130);
+
+                ctx.fillStyle = '#8b949e';
+                ctx.font = '12px "JetBrains Mono", monospace';
+                ctx.fillText('magnitude', 330, 155);
+
+                // Times
+                ctx.fillStyle = '#7ee787';
+                ctx.font = 'bold 24px "JetBrains Mono", monospace';
+                ctx.fillText('×', 410, 130);
+
+                // Right: Unit vector
+                const rx = 530, ry = 180;
+                const ux = vx / mag, uy = vy / mag;
+                const uScale = 60;
+
+                // Unit circle
+                ctx.strokeStyle = 'rgba(168, 85, 247, 0.3)';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([4, 4]);
+                ctx.beginPath();
+                ctx.arc(rx, ry, uScale, 0, Math.PI * 2);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                ctx.strokeStyle = '#a855f7';
+                ctx.lineWidth = 4;
+                ctx.beginPath();
+                ctx.moveTo(rx, ry);
+                ctx.lineTo(rx + ux * uScale, ry - uy * uScale);
+                ctx.stroke();
+
+                drawArrow(ctx, rx + ux * uScale, ry - uy * uScale, Math.atan2(-uy, ux), '#a855f7');
+
+                ctx.fillStyle = '#a855f7';
+                ctx.font = 'bold 16px "JetBrains Mono", monospace';
+                ctx.fillText('v̂', rx + ux * uScale / 2 + 15, ry - uy * uScale / 2 - 10);
+
+                ctx.fillStyle = '#8b949e';
+                ctx.font = '14px "JetBrains Mono", monospace';
+                ctx.fillText(`[${ux.toFixed(2)}, ${uy.toFixed(2)}]`, rx, ry + 50);
+                ctx.fillText('unit vector', rx, ry + 70);
+
+                time += 0.02;
+                requestAnimationFrame(draw);
+            }
+
+            function drawArrow(ctx, x, y, angle, color) {
+                ctx.fillStyle = color;
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+                ctx.lineTo(x - 12 * Math.cos(angle - 0.4), y + 12 * Math.sin(angle - 0.4));
+                ctx.lineTo(x - 12 * Math.cos(angle + 0.4), y + 12 * Math.sin(angle + 0.4));
+                ctx.closePath();
+                ctx.fill();
+            }
+
+            draw();
+        })();
+
+        // ========================================
+        // EXAMPLES
+        // ========================================
+        document.querySelectorAll('.example-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.example-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.example-content').forEach(c => c.classList.remove('active'));
+
+                tab.classList.add('active');
+                const example = tab.dataset.example;
+                document.getElementById('ex-' + example).classList.add('active');
+
+                drawExample(example);
+            });
+        });
+
+        function drawExample(example) {
+            const canvasMap = {
+                'p-orbitals': 'p-orbital-canvas',
+                'sp3': 'sp3-canvas',
+                'crystal': 'crystal-canvas'
+            };
+
+            const canvas = document.getElementById(canvasMap[example]);
+            if (!canvas) return;
+
+            const ctx = canvas.getContext('2d');
+            canvas.width = canvas.parentElement.clientWidth - 30;
+            canvas.height = 280;
+
+            const w = canvas.width;
+            const h = canvas.height;
+            const cx = w / 2;
+            const cy = h / 2;
+
+            ctx.clearRect(0, 0, w, h);
+
+            if (example === 'p-orbitals') {
+                // Draw three p-orbitals as arrows
+                const arrows = [
+                    { dx: 1, dy: 0, color: '#F78166', label: 'pₓ → î' },
+                    { dx: 0, dy: -1, color: '#7EE787', label: 'pᵧ → ĵ' },
+                    { dx: 0.5, dy: 0.5, color: '#58A6FF', label: 'pᵤ → k̂' }
+                ];
+
+                const scale = 80;
+
+                arrows.forEach((arr, i) => {
+                    const sx = cx + (i - 1) * 150;
+                    const ex = sx + arr.dx * scale;
+                    const ey = cy + arr.dy * scale;
+
+                    ctx.strokeStyle = arr.color;
+                    ctx.lineWidth = 4;
+                    ctx.beginPath();
+                    ctx.moveTo(sx, cy);
+                    ctx.lineTo(ex, ey);
+                    ctx.stroke();
+
+                    const angle = Math.atan2(ey - cy, ex - sx);
+                    ctx.fillStyle = arr.color;
+                    ctx.beginPath();
+                    ctx.moveTo(ex, ey);
+                    ctx.lineTo(ex - 12 * Math.cos(angle - 0.4), ey - 12 * Math.sin(angle - 0.4));
+                    ctx.lineTo(ex - 12 * Math.cos(angle + 0.4), ey - 12 * Math.sin(angle + 0.4));
+                    ctx.closePath();
+                    ctx.fill();
+
+                    ctx.font = '14px "JetBrains Mono", monospace';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(arr.label, sx, cy + 100);
+                });
+
+            } else if (example === 'sp3') {
+                // Tetrahedral directions
+                const scale = 70;
+                const dirs = [
+                    [1, 1, 1],
+                    [1, -1, -1],
+                    [-1, 1, -1],
+                    [-1, -1, 1]
+                ];
+
+                const isoAngle = Math.PI / 6;
+
+                function toIso(px, py, pz) {
+                    const ix = (px - pz) * Math.cos(isoAngle) * scale;
+                    const iy = -py * scale + (px + pz) * Math.sin(isoAngle) * scale * 0.4;
+                    return [cx + ix, cy + iy];
+                }
+
+                const colors = ['#F78166', '#7EE787', '#58A6FF', '#a855f7'];
+
+                dirs.forEach((dir, i) => {
+                    // Normalize
+                    const len = Math.sqrt(dir[0]**2 + dir[1]**2 + dir[2]**2);
+                    const nx = dir[0] / len;
+                    const ny = dir[1] / len;
+                    const nz = dir[2] / len;
+
+                    const [ex, ey] = toIso(nx, ny, nz);
+
+                    ctx.strokeStyle = colors[i];
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.moveTo(cx, cy);
+                    ctx.lineTo(ex, ey);
+                    ctx.stroke();
+
+                    const angle = Math.atan2(ey - cy, ex - cx);
+                    ctx.fillStyle = colors[i];
+                    ctx.beginPath();
+                    ctx.moveTo(ex, ey);
+                    ctx.lineTo(ex - 10 * Math.cos(angle - 0.4), ey - 10 * Math.sin(angle - 0.4));
+                    ctx.lineTo(ex - 10 * Math.cos(angle + 0.4), ey - 10 * Math.sin(angle + 0.4));
+                    ctx.closePath();
+                    ctx.fill();
+                });
+
+                // Central atom
+                ctx.fillStyle = '#6b7280';
+                ctx.beginPath();
+                ctx.arc(cx, cy, 15, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = '#fff';
+                ctx.font = 'bold 12px "JetBrains Mono", monospace';
+                ctx.textAlign = 'center';
+                ctx.fillText('C', cx, cy + 4);
+
+                ctx.fillStyle = '#8b949e';
+                ctx.font = '12px "JetBrains Mono", monospace';
+                ctx.fillText('109.5° between any two', cx, h - 20);
+
+            } else if (example === 'crystal') {
+                // Crystal unit cell
+                const scale = 50;
+                const isoAngle = Math.PI / 6;
+
+                function toIso(px, py, pz) {
+                    const ix = (px - pz) * Math.cos(isoAngle) * scale;
+                    const iy = -py * scale + (px + pz) * Math.sin(isoAngle) * scale * 0.5;
+                    return [cx + ix - 30, cy + iy + 30];
+                }
+
+                // Draw cube edges
+                const vertices = [
+                    [0,0,0], [1,0,0], [1,1,0], [0,1,0],
+                    [0,0,1], [1,0,1], [1,1,1], [0,1,1]
+                ];
+
+                const edges = [
+                    [0,1], [1,2], [2,3], [3,0],
+                    [4,5], [5,6], [6,7], [7,4],
+                    [0,4], [1,5], [2,6], [3,7]
+                ];
+
+                ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+                ctx.lineWidth = 1;
+
+                edges.forEach(([a, b]) => {
+                    const [x1, y1] = toIso(...vertices[a]);
+                    const [x2, y2] = toIso(...vertices[b]);
+                    ctx.beginPath();
+                    ctx.moveTo(x1, y1);
+                    ctx.lineTo(x2, y2);
+                    ctx.stroke();
+                });
+
+                // Unit vectors
+                const [ox, oy] = toIso(0, 0, 0);
+                const bases = [
+                    { end: [1, 0, 0], color: '#F78166', label: 'a⃗' },
+                    { end: [0, 1, 0], color: '#7EE787', label: 'b⃗' },
+                    { end: [0, 0, 1], color: '#58A6FF', label: 'c⃗' }
+                ];
+
+                bases.forEach(b => {
+                    const [ex, ey] = toIso(...b.end);
+                    ctx.strokeStyle = b.color;
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.moveTo(ox, oy);
+                    ctx.lineTo(ex, ey);
+                    ctx.stroke();
+
+                    ctx.fillStyle = b.color;
+                    ctx.font = '14px "JetBrains Mono", monospace';
+                    ctx.fillText(b.label, ex + 10, ey);
+                });
+
+                // Body diagonal [1,1,1]
+                const [dx, dy] = toIso(1, 1, 1);
+                ctx.strokeStyle = '#a855f7';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([5, 5]);
+                ctx.beginPath();
+                ctx.moveTo(ox, oy);
+                ctx.lineTo(dx, dy);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                ctx.fillStyle = '#a855f7';
+                ctx.fillText('[1,1,1]', dx + 10, dy);
+            }
+        }
+
+        setTimeout(() => drawExample('p-orbitals'), 100);
+
+        // ========================================
+        // PRACTICE
+        // ========================================
+        function checkP1() {
+            const answer = document.getElementById('p1-answer').value;
+            const feedback = document.getElementById('p1-feedback');
+
+            // |[3,4,0]| = 5, so unit = [0.6, 0.8, 0]
+            const hasCorrect = answer.includes('0.6') && answer.includes('0.8');
+
+            if (hasCorrect) {
+                feedback.className = 'problem-feedback correct';
+                feedback.innerHTML = '<strong>Correct!</strong> |v| = √(9 + 16 + 0) = 5. Unit vector = [3/5, 4/5, 0] = [0.6, 0.8, 0]. This is the classic 3-4-5 right triangle!';
+            } else {
+                feedback.className = 'problem-feedback incorrect';
+                feedback.innerHTML = '<strong>Try again.</strong> First: |v| = √(3² + 4²) = √25 = 5. Then divide each component by 5: [3/5, 4/5, 0] = ?';
+            }
+        }
+
+        function checkP2() {
+            const answer = document.getElementById('p2-answer').value;
+            const feedback = document.getElementById('p2-feedback');
+
+            // [1,1,1]/√3 ≈ [0.577, 0.577, 0.577]
+            const hasCorrect = answer.includes('0.577') || answer.includes('0.58') ||
+                              (answer.includes('1') && answer.includes('√3')) ||
+                              answer.includes('1/1.73');
+
+            if (hasCorrect) {
+                feedback.className = 'problem-feedback correct';
+                feedback.innerHTML = '<strong>Correct!</strong> [1,1,1]/√3 = [1/√3, 1/√3, 1/√3] ≈ [0.577, 0.577, 0.577]. All components equal — this points along the body diagonal of a cube.';
+            } else {
+                feedback.className = 'problem-feedback incorrect';
+                feedback.innerHTML = '<strong>Try again.</strong> |[1,1,1]| = √(1+1+1) = √3 ≈ 1.732. Divide each component by √3.';
+            }
+        }
+
+        function checkP3() {
+            const answer = document.getElementById('p3-answer').value.toLowerCase();
+            const feedback = document.getElementById('p3-feedback');
+
+            // |[2.5, 1.5, 2.0]| = √(6.25 + 2.25 + 4) = √12.5 ≈ 3.54
+            // unit ≈ [0.71, 0.42, 0.57]
+            const hasMag = answer.includes('3.5') || answer.includes('√12.5');
+            const hasUnit = answer.includes('0.7') || answer.includes('0.4') || answer.includes('0.5');
+
+            if (hasMag && hasUnit) {
+                feedback.className = 'problem-feedback correct';
+                feedback.innerHTML = '<strong>Correct!</strong> |v| = √12.5 ≈ 3.54. Unit vector ≈ [0.71, 0.42, 0.57]. So v⃗ = 3.54 × [0.71, 0.42, 0.57].';
+            } else if (hasMag || hasUnit) {
+                feedback.className = 'problem-feedback incorrect';
+                feedback.innerHTML = '<strong>Partial.</strong> You need both the magnitude (√12.5 ≈ 3.54) AND the unit vector (each component divided by 3.54).';
+            } else {
+                feedback.className = 'problem-feedback incorrect';
+                feedback.innerHTML = '<strong>Try again.</strong> First find |v| = √(2.5² + 1.5² + 2.0²). Then divide each component by |v| to get the unit vector.';
+            }
+        }
+    </script>
+</body>
+</html>
