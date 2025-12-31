@@ -1,0 +1,1521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Points? | Lecture 04 | Chemical Thinking</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <style>
+        :root {
+            --bg-primary: #0D1117;
+            --bg-secondary: #161B22;
+            --bg-tertiary: #1c2128;
+            --bg-card: #21262d;
+            --text-primary: #E6EDF3;
+            --text-secondary: #8B949E;
+            --text-muted: #6e7681;
+            --accent-blue: #58A6FF;
+            --accent-coral: #F78166;
+            --accent-green: #7EE787;
+            --accent-purple: #a855f7;
+            --accent-yellow: #d29922;
+            --accent-red: #f85149;
+            --border-subtle: rgba(255,255,255,0.08);
+            --font-heading: 'Fraunces', Georgia, serif;
+            --font-body: 'Inter', -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 17px;
+        }
+
+        /* Navigation */
+        .nav-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(13, 17, 23, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-subtle);
+            z-index: 100;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .nav-brand a {
+            color: var(--accent-blue);
+            text-decoration: none;
+        }
+
+        .nav-section {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--accent-purple);
+        }
+
+        /* Main content */
+        .content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 6rem 2rem 4rem;
+        }
+
+        /* Section header */
+        .section-header {
+            margin-bottom: 3rem;
+        }
+
+        .section-number {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--accent-coral);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .section-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        /* Opening visual */
+        .opening-visual {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 3rem 0;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .molecule-canvas {
+            width: 100%;
+            height: 350px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .visual-caption {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+        }
+
+        /* Causal chain */
+        .causal-chain {
+            margin: 3rem 0;
+        }
+
+        .causal-title {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--accent-green);
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .chain-container {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .chain-step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .chain-step:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .chain-step.active {
+            background: var(--bg-tertiary);
+        }
+
+        .chain-marker {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--bg-tertiary);
+            border: 2px solid var(--accent-purple);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .chain-step.active .chain-marker {
+            background: var(--accent-purple);
+            color: var(--bg-primary);
+        }
+
+        .chain-connector {
+            width: 2px;
+            height: 20px;
+            background: var(--border-subtle);
+            margin-left: 11px;
+            margin-bottom: 0.5rem;
+        }
+
+        .chain-step.active + .chain-connector {
+            background: var(--accent-purple);
+        }
+
+        .chain-text {
+            flex: 1;
+        }
+
+        .chain-main {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .chain-because {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .chain-detail {
+            display: none;
+            margin-top: 0.75rem;
+            padding: 1rem;
+            background: var(--bg-card);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .chain-step.active .chain-detail {
+            display: block;
+        }
+
+        /* Interactive section */
+        .interactive-section {
+            margin: 3rem 0;
+        }
+
+        .interactive-title {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--accent-blue);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .interactive-title::before {
+            content: ">";
+            color: var(--accent-coral);
+        }
+
+        .interactive-box {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .periodic-canvas {
+            width: 100%;
+            height: 300px;
+            display: block;
+            margin-bottom: 1rem;
+        }
+
+        .element-info {
+            display: flex;
+            justify-content: space-around;
+            padding: 1rem;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+        }
+
+        .element-info-item {
+            text-align: center;
+        }
+
+        .element-info-label {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .element-info-value {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin-top: 0.25rem;
+        }
+
+        /* Bridge section */
+        .bridge-section {
+            margin: 3rem 0;
+        }
+
+        .bridge-title {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--accent-yellow);
+            margin-bottom: 1rem;
+        }
+
+        .bridge-container {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .bridge-toggle {
+            display: flex;
+            background: var(--bg-tertiary);
+            padding: 0.5rem;
+        }
+
+        .bridge-toggle-btn {
+            flex: 1;
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .bridge-toggle-btn.active {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        .bridge-content {
+            padding: 2rem;
+            min-height: 300px;
+        }
+
+        .bridge-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 3rem;
+        }
+
+        .bridge-arrow-view, .bridge-numbers-view {
+            text-align: center;
+        }
+
+        .bridge-canvas {
+            width: 300px;
+            height: 200px;
+            display: block;
+            margin: 0 auto 1rem;
+        }
+
+        .bridge-label {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .bridge-equals {
+            font-size: 2rem;
+            color: var(--accent-green);
+        }
+
+        .numbers-display {
+            font-family: var(--font-mono);
+            font-size: 1.5rem;
+            color: var(--accent-blue);
+            background: var(--bg-tertiary);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+        }
+
+        /* Examples section */
+        .examples-section {
+            margin: 3rem 0;
+        }
+
+        .examples-title {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--accent-coral);
+            margin-bottom: 1.5rem;
+        }
+
+        .example-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .example-card {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-subtle);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .example-card:hover {
+            border-color: var(--accent-blue);
+            transform: translateY(-2px);
+        }
+
+        .example-card.active {
+            border-color: var(--accent-blue);
+            background: var(--bg-tertiary);
+        }
+
+        .example-molecule {
+            font-family: var(--font-mono);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .example-name {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .example-electronegativity {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .example-detail {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            border: 1px solid var(--border-subtle);
+            display: none;
+        }
+
+        .example-detail.active {
+            display: block;
+        }
+
+        .example-canvas {
+            width: 100%;
+            height: 200px;
+            margin-bottom: 1rem;
+        }
+
+        /* Practice section */
+        .practice-section {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(88, 166, 255, 0.1));
+            border-radius: 16px;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .practice-title {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .practice-problem {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .problem-number {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--accent-purple);
+            margin-bottom: 0.5rem;
+        }
+
+        .problem-text {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .problem-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .problem-input:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+        }
+
+        .problem-hint {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .problem-check {
+            background: var(--accent-blue);
+            color: var(--bg-primary);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            cursor: pointer;
+            margin-top: 0.5rem;
+        }
+
+        .problem-feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .problem-feedback.correct {
+            display: block;
+            background: rgba(126, 231, 135, 0.1);
+            border: 1px solid var(--accent-green);
+            color: var(--accent-green);
+        }
+
+        .problem-feedback.incorrect {
+            display: block;
+            background: rgba(248, 81, 73, 0.1);
+            border: 1px solid var(--accent-red);
+            color: var(--accent-red);
+        }
+
+        /* Navigation footer */
+        .nav-footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            padding: 0.75rem 1.25rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .nav-link.next {
+            color: var(--accent-blue);
+        }
+
+        /* Footer */
+        .page-footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border-subtle);
+            margin-top: 2rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .bridge-visual {
+                flex-direction: column;
+            }
+
+            .example-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav-header">
+        <div class="nav-brand">
+            <a href="/primitives/direction.html">DIRECTION</a> / Lecture 04
+        </div>
+        <div class="nav-section">Section 1 of 7</div>
+    </nav>
+
+    <!-- Main content -->
+    <main class="content">
+        <!-- Section header -->
+        <header class="section-header">
+            <div class="section-number">Lecture 04 &middot; Section 1</div>
+            <h1 class="section-title">What Points?</h1>
+            <p class="section-subtitle">Bonds have direction. Electrons don't share equally.</p>
+        </header>
+
+        <!-- Opening visual: Water molecule -->
+        <section class="opening-visual">
+            <canvas id="water-molecule-canvas" class="molecule-canvas"></canvas>
+            <p class="visual-caption">These bonds point somewhere. Why toward hydrogen?</p>
+        </section>
+
+        <!-- Causal chain -->
+        <section class="causal-chain">
+            <h2 class="causal-title">Why does the arrow point this way?</h2>
+            <div class="chain-container">
+                <div class="chain-step active" data-step="1">
+                    <div class="chain-marker">1</div>
+                    <div class="chain-text">
+                        <div class="chain-main">Water is asymmetric</div>
+                        <div class="chain-because">electrons aren't shared equally</div>
+                        <div class="chain-detail">
+                            In H₂O, the oxygen atom holds onto the shared electrons more tightly than hydrogen does. This creates an uneven distribution: more electron density around oxygen (δ-), less around hydrogen (δ+).
+                        </div>
+                    </div>
+                </div>
+                <div class="chain-connector"></div>
+
+                <div class="chain-step" data-step="2">
+                    <div class="chain-marker">2</div>
+                    <div class="chain-text">
+                        <div class="chain-main">Oxygen pulls electrons harder</div>
+                        <div class="chain-because">it's more electronegative</div>
+                        <div class="chain-detail">
+                            Electronegativity measures how strongly an atom attracts shared electrons. Oxygen (3.44) pulls much harder than hydrogen (2.20). This difference creates the asymmetry.
+                        </div>
+                    </div>
+                </div>
+                <div class="chain-connector"></div>
+
+                <div class="chain-step" data-step="3">
+                    <div class="chain-marker">3</div>
+                    <div class="chain-text">
+                        <div class="chain-main">Oxygen has more protons pulling on shell 2</div>
+                        <div class="chain-because">8 protons vs. 1 proton</div>
+                        <div class="chain-detail">
+                            Oxygen has 8 protons in its nucleus pulling on the electrons in its second shell. Hydrogen has only 1 proton. More protons = stronger pull on the shared electrons.
+                        </div>
+                    </div>
+                </div>
+                <div class="chain-connector"></div>
+
+                <div class="chain-step" data-step="4">
+                    <div class="chain-marker">4</div>
+                    <div class="chain-text">
+                        <div class="chain-main">Smaller atom, stronger pull</div>
+                        <div class="chain-because">electrons are closer to nucleus</div>
+                        <div class="chain-detail">
+                            Oxygen's electrons are in shell 2, relatively close to the nucleus. The closer the electrons, the stronger the attraction. This is why electronegativity generally increases across a period (left to right) and decreases down a group.
+                        </div>
+                    </div>
+                </div>
+                <div class="chain-connector"></div>
+
+                <div class="chain-step" data-step="5">
+                    <div class="chain-marker">∴</div>
+                    <div class="chain-text">
+                        <div class="chain-main">Bond dipole points H → O</div>
+                        <div class="chain-because">from δ+ toward δ-</div>
+                        <div class="chain-detail">
+                            The arrow represents the direction of electron pull. It points FROM the less electronegative atom (hydrogen, δ+) TOWARD the more electronegative atom (oxygen, δ-). This is a <strong>vector</strong>: it has magnitude (how polar) and direction (which way electrons shift).
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive: Electronegativity explorer -->
+        <section class="interactive-section">
+            <h2 class="interactive-title">Explore: Which way does the arrow point?</h2>
+            <div class="interactive-box">
+                <canvas id="periodic-canvas" class="periodic-canvas"></canvas>
+                <p style="text-align: center; color: var(--text-secondary); margin-bottom: 1rem;">
+                    Click any two elements to see the bond dipole direction
+                </p>
+                <div class="element-info">
+                    <div class="element-info-item">
+                        <div class="element-info-label">Element 1</div>
+                        <div class="element-info-value" id="element1-display">H</div>
+                    </div>
+                    <div class="element-info-item">
+                        <div class="element-info-label">→</div>
+                        <div class="element-info-value" id="arrow-direction">→</div>
+                    </div>
+                    <div class="element-info-item">
+                        <div class="element-info-label">Element 2</div>
+                        <div class="element-info-value" id="element2-display">O</div>
+                    </div>
+                    <div class="element-info-item">
+                        <div class="element-info-label">ΔEN</div>
+                        <div class="element-info-value" id="delta-en">1.24</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bridge: Arrow ↔ Numbers -->
+        <section class="bridge-section">
+            <h2 class="bridge-title">Same thing, two languages</h2>
+            <div class="bridge-container">
+                <div class="bridge-toggle">
+                    <button class="bridge-toggle-btn active" data-view="both">Both Views</button>
+                    <button class="bridge-toggle-btn" data-view="arrow">Arrow Only</button>
+                    <button class="bridge-toggle-btn" data-view="numbers">Numbers Only</button>
+                </div>
+                <div class="bridge-content">
+                    <div class="bridge-visual">
+                        <div class="bridge-arrow-view" id="arrow-view">
+                            <canvas id="arrow-canvas" class="bridge-canvas"></canvas>
+                            <div class="bridge-label">Visual: Arrow in space</div>
+                        </div>
+                        <div class="bridge-equals">=</div>
+                        <div class="bridge-numbers-view" id="numbers-view">
+                            <div class="numbers-display" id="vector-numbers">[0.96, 0, 0]</div>
+                            <div class="bridge-label" style="margin-top: 1rem;">Numerical: List of coordinates</div>
+                        </div>
+                    </div>
+                    <p style="text-align: center; margin-top: 1.5rem; color: var(--text-secondary);">
+                        Drag the arrow to see the numbers change
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Examples -->
+        <section class="examples-section">
+            <h2 class="examples-title">Examples: Polar bonds across the periodic table</h2>
+            <div class="example-grid">
+                <div class="example-card active" data-example="hf">
+                    <div class="example-molecule">H—F</div>
+                    <div class="example-name">Hydrogen Fluoride</div>
+                    <div class="example-electronegativity">ΔEN = 1.78 (most polar)</div>
+                </div>
+                <div class="example-card" data-example="hcl">
+                    <div class="example-molecule">H—Cl</div>
+                    <div class="example-name">Hydrogen Chloride</div>
+                    <div class="example-electronegativity">ΔEN = 0.96</div>
+                </div>
+                <div class="example-card" data-example="hbr">
+                    <div class="example-molecule">H—Br</div>
+                    <div class="example-name">Hydrogen Bromide</div>
+                    <div class="example-electronegativity">ΔEN = 0.76</div>
+                </div>
+                <div class="example-card" data-example="ch">
+                    <div class="example-molecule">C—H</div>
+                    <div class="example-name">Carbon-Hydrogen</div>
+                    <div class="example-electronegativity">ΔEN = 0.35 (nearly nonpolar)</div>
+                </div>
+            </div>
+            <div class="example-detail active" id="example-hf">
+                <canvas id="hf-canvas" class="example-canvas"></canvas>
+                <p>Fluorine is the most electronegative element (3.98). It pulls electrons so strongly from hydrogen that HF is a weak acid — it can donate its H⁺. The bond dipole is the largest of any hydrogen halide.</p>
+            </div>
+            <div class="example-detail" id="example-hcl">
+                <canvas id="hcl-canvas" class="example-canvas"></canvas>
+                <p>Chlorine (3.16) is less electronegative than fluorine but still pulls strongly. HCl is a strong acid — it fully dissociates in water. The arrow points firmly toward chlorine.</p>
+            </div>
+            <div class="example-detail" id="example-hbr">
+                <canvas id="hbr-canvas" class="example-canvas"></canvas>
+                <p>Bromine (2.96) is larger than chlorine. Its outer electrons are farther from the nucleus, so it pulls less strongly. The bond is less polar, but still clearly directional.</p>
+            </div>
+            <div class="example-detail" id="example-ch">
+                <canvas id="ch-canvas" class="example-canvas"></canvas>
+                <p>Carbon (2.55) and hydrogen (2.20) have similar electronegativities. The arrow is tiny — electrons are shared almost equally. This is why hydrocarbons are nonpolar and don't mix with water.</p>
+            </div>
+        </section>
+
+        <!-- Practice -->
+        <section class="practice-section">
+            <h2 class="practice-title">Your Turn</h2>
+
+            <div class="practice-problem">
+                <div class="problem-number">Problem 1</div>
+                <div class="problem-text">
+                    In a bond between nitrogen (N, EN = 3.04) and hydrogen (H, EN = 2.20), which way does the bond dipole arrow point?
+                </div>
+                <select class="problem-input" id="problem1-answer">
+                    <option value="">Select an answer...</option>
+                    <option value="n-to-h">N → H (toward hydrogen)</option>
+                    <option value="h-to-n">H → N (toward nitrogen)</option>
+                    <option value="no-arrow">No arrow (nonpolar)</option>
+                </select>
+                <button class="problem-check" onclick="checkProblem1()">Check</button>
+                <div class="problem-feedback" id="problem1-feedback"></div>
+            </div>
+
+            <div class="practice-problem">
+                <div class="problem-number">Problem 2</div>
+                <div class="problem-text">
+                    Build the causal chain: Why is O—H more polar than S—H?<br>
+                    <span class="problem-hint">Hint: Compare oxygen and sulfur's position in the periodic table.</span>
+                </div>
+                <textarea class="problem-input" id="problem2-answer" rows="4" placeholder="Oxygen is more electronegative than sulfur because..."></textarea>
+                <button class="problem-check" onclick="checkProblem2()">Check</button>
+                <div class="problem-feedback" id="problem2-feedback"></div>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <nav class="nav-footer">
+            <a href="/primitives/direction.html" class="nav-link">
+                ← Back to DIRECTION Primitive
+            </a>
+            <a href="sec2-how-long.html" class="nav-link next">
+                Next: How Long? →
+            </a>
+        </nav>
+    </main>
+
+    <!-- Footer -->
+    <footer class="page-footer">
+        <p>Chemical Thinking: The Grammar of Reality</p>
+        <p>Lecture 04: DIRECTION Tools &middot; Section 1</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // ========================================
+        // WATER MOLECULE VISUALIZATION
+        // ========================================
+        (function() {
+            const canvas = document.getElementById('water-molecule-canvas');
+            const ctx = canvas.getContext('2d');
+
+            function resize() {
+                const rect = canvas.parentElement.getBoundingClientRect();
+                canvas.width = rect.width;
+                canvas.height = 350;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            let time = 0;
+
+            function draw() {
+                const w = canvas.width;
+                const h = canvas.height;
+                ctx.clearRect(0, 0, w, h);
+
+                const centerX = w / 2;
+                const centerY = h / 2;
+                const bondLength = 100;
+                const angle = 104.5 * Math.PI / 180;
+
+                // Calculate positions
+                const oX = centerX;
+                const oY = centerY + 20;
+
+                const h1X = oX - bondLength * Math.sin(angle / 2);
+                const h1Y = oY - bondLength * Math.cos(angle / 2);
+
+                const h2X = oX + bondLength * Math.sin(angle / 2);
+                const h2Y = oY - bondLength * Math.cos(angle / 2);
+
+                // Draw electron density cloud (shifted toward O)
+                const gradient = ctx.createRadialGradient(oX, oY, 0, oX, oY, 80);
+                gradient.addColorStop(0, 'rgba(248, 81, 73, 0.3)');
+                gradient.addColorStop(1, 'rgba(248, 81, 73, 0)');
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                ctx.arc(oX, oY, 80, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Draw bonds
+                ctx.strokeStyle = '#6e7681';
+                ctx.lineWidth = 8;
+                ctx.lineCap = 'round';
+
+                ctx.beginPath();
+                ctx.moveTo(oX, oY);
+                ctx.lineTo(h1X, h1Y);
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.moveTo(oX, oY);
+                ctx.lineTo(h2X, h2Y);
+                ctx.stroke();
+
+                // Draw bond dipole arrows (animated)
+                const arrowPulse = 0.8 + 0.2 * Math.sin(time * 2);
+
+                // Arrow 1: H1 → O
+                drawDipoleArrow(ctx, h1X, h1Y, oX, oY, arrowPulse);
+
+                // Arrow 2: H2 → O
+                drawDipoleArrow(ctx, h2X, h2Y, oX, oY, arrowPulse);
+
+                // Draw atoms
+                // Oxygen
+                ctx.fillStyle = '#ef4444';
+                ctx.beginPath();
+                ctx.arc(oX, oY, 30, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = '#fff';
+                ctx.font = 'bold 20px "JetBrains Mono", monospace';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('O', oX, oY);
+
+                // Partial charge on O
+                ctx.font = '14px "JetBrains Mono", monospace';
+                ctx.fillStyle = '#f85149';
+                ctx.fillText('δ-', oX + 40, oY);
+
+                // Hydrogen atoms
+                ctx.fillStyle = '#3b82f6';
+                ctx.beginPath();
+                ctx.arc(h1X, h1Y, 20, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.arc(h2X, h2Y, 20, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = '#fff';
+                ctx.font = 'bold 16px "JetBrains Mono", monospace';
+                ctx.fillText('H', h1X, h1Y);
+                ctx.fillText('H', h2X, h2Y);
+
+                // Partial charges on H
+                ctx.font = '14px "JetBrains Mono", monospace';
+                ctx.fillStyle = '#58a6ff';
+                ctx.fillText('δ+', h1X - 35, h1Y - 10);
+                ctx.fillText('δ+', h2X + 35, h2Y - 10);
+
+                // Bond angle indicator
+                ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.arc(oX, oY, 40, -Math.PI/2 - angle/2, -Math.PI/2 + angle/2);
+                ctx.stroke();
+
+                ctx.fillStyle = 'rgba(255,255,255,0.6)';
+                ctx.font = '12px "JetBrains Mono", monospace';
+                ctx.fillText('104.5°', oX, oY - 55);
+
+                time += 0.016;
+                requestAnimationFrame(draw);
+            }
+
+            function drawDipoleArrow(ctx, x1, y1, x2, y2, alpha) {
+                const dx = x2 - x1;
+                const dy = y2 - y1;
+                const len = Math.sqrt(dx * dx + dy * dy);
+
+                // Start and end points (shortened to not overlap atoms)
+                const startOffset = 25;
+                const endOffset = 35;
+
+                const sx = x1 + (dx / len) * startOffset;
+                const sy = y1 + (dy / len) * startOffset;
+                const ex = x2 - (dx / len) * endOffset;
+                const ey = y2 - (dy / len) * endOffset;
+
+                // Draw arrow line
+                ctx.strokeStyle = `rgba(126, 231, 135, ${alpha})`;
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(sx, sy);
+                ctx.lineTo(ex, ey);
+                ctx.stroke();
+
+                // Draw arrowhead
+                const headLen = 12;
+                const angle = Math.atan2(ey - sy, ex - sx);
+
+                ctx.fillStyle = `rgba(126, 231, 135, ${alpha})`;
+                ctx.beginPath();
+                ctx.moveTo(ex, ey);
+                ctx.lineTo(ex - headLen * Math.cos(angle - Math.PI/6), ey - headLen * Math.sin(angle - Math.PI/6));
+                ctx.lineTo(ex - headLen * Math.cos(angle + Math.PI/6), ey - headLen * Math.sin(angle + Math.PI/6));
+                ctx.closePath();
+                ctx.fill();
+            }
+
+            draw();
+        })();
+
+        // ========================================
+        // CAUSAL CHAIN INTERACTION
+        // ========================================
+        document.querySelectorAll('.chain-step').forEach(step => {
+            step.addEventListener('click', () => {
+                document.querySelectorAll('.chain-step').forEach(s => s.classList.remove('active'));
+                step.classList.add('active');
+            });
+        });
+
+        // ========================================
+        // ELECTRONEGATIVITY PERIODIC TABLE
+        // ========================================
+        (function() {
+            const canvas = document.getElementById('periodic-canvas');
+            const ctx = canvas.getContext('2d');
+
+            // Electronegativity data (Pauling scale)
+            const elements = {
+                'H': { en: 2.20, row: 0, col: 0 },
+                'Li': { en: 0.98, row: 1, col: 0 }, 'Be': { en: 1.57, row: 1, col: 1 },
+                'B': { en: 2.04, row: 1, col: 12 }, 'C': { en: 2.55, row: 1, col: 13 },
+                'N': { en: 3.04, row: 1, col: 14 }, 'O': { en: 3.44, row: 1, col: 15 },
+                'F': { en: 3.98, row: 1, col: 16 }, 'Na': { en: 0.93, row: 2, col: 0 },
+                'Mg': { en: 1.31, row: 2, col: 1 }, 'Al': { en: 1.61, row: 2, col: 12 },
+                'Si': { en: 1.90, row: 2, col: 13 }, 'P': { en: 2.19, row: 2, col: 14 },
+                'S': { en: 2.58, row: 2, col: 15 }, 'Cl': { en: 3.16, row: 2, col: 16 },
+                'K': { en: 0.82, row: 3, col: 0 }, 'Ca': { en: 1.00, row: 3, col: 1 },
+                'Br': { en: 2.96, row: 3, col: 16 }, 'I': { en: 2.66, row: 4, col: 16 }
+            };
+
+            let selected = ['H', 'O'];
+
+            function resize() {
+                const rect = canvas.parentElement.getBoundingClientRect();
+                canvas.width = rect.width - 40;
+                canvas.height = 300;
+            }
+            resize();
+            window.addEventListener('resize', () => { resize(); draw(); });
+
+            function getColor(en) {
+                // Color scale from blue (low EN) to red (high EN)
+                const t = (en - 0.7) / (4.0 - 0.7);
+                const r = Math.floor(100 + t * 155);
+                const g = Math.floor(150 - t * 100);
+                const b = Math.floor(255 - t * 200);
+                return `rgb(${r}, ${g}, ${b})`;
+            }
+
+            function draw() {
+                const w = canvas.width;
+                const h = canvas.height;
+                ctx.clearRect(0, 0, w, h);
+
+                const cellW = Math.min(40, (w - 40) / 18);
+                const cellH = 45;
+                const startX = (w - 17 * cellW) / 2;
+                const startY = 20;
+
+                // Draw elements
+                for (const [symbol, data] of Object.entries(elements)) {
+                    const x = startX + data.col * cellW;
+                    const y = startY + data.row * cellH;
+
+                    const isSelected = selected.includes(symbol);
+
+                    // Cell background
+                    ctx.fillStyle = getColor(data.en);
+                    if (isSelected) {
+                        ctx.fillStyle = '#a855f7';
+                    }
+                    ctx.fillRect(x, y, cellW - 2, cellH - 2);
+
+                    // Border for selected
+                    if (isSelected) {
+                        ctx.strokeStyle = '#fff';
+                        ctx.lineWidth = 2;
+                        ctx.strokeRect(x, y, cellW - 2, cellH - 2);
+                    }
+
+                    // Symbol
+                    ctx.fillStyle = '#fff';
+                    ctx.font = `bold ${Math.min(14, cellW * 0.4)}px "JetBrains Mono", monospace`;
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(symbol, x + cellW/2 - 1, y + cellH/2 - 5);
+
+                    // EN value
+                    ctx.font = `${Math.min(10, cellW * 0.25)}px "JetBrains Mono", monospace`;
+                    ctx.fillStyle = 'rgba(255,255,255,0.7)';
+                    ctx.fillText(data.en.toFixed(1), x + cellW/2 - 1, y + cellH/2 + 10);
+                }
+
+                // Draw bond arrow between selected elements
+                if (selected.length === 2) {
+                    const el1 = elements[selected[0]];
+                    const el2 = elements[selected[1]];
+
+                    if (el1 && el2) {
+                        const x1 = startX + el1.col * cellW + cellW/2;
+                        const y1 = startY + el1.row * cellH + cellH/2;
+                        const x2 = startX + el2.col * cellW + cellW/2;
+                        const y2 = startY + el2.row * cellH + cellH/2;
+
+                        // Draw arrow from lower EN to higher EN
+                        const fromLower = el1.en < el2.en;
+                        const sx = fromLower ? x1 : x2;
+                        const sy = fromLower ? y1 : y2;
+                        const ex = fromLower ? x2 : x1;
+                        const ey = fromLower ? y2 : y1;
+
+                        ctx.strokeStyle = '#7ee787';
+                        ctx.lineWidth = 3;
+                        ctx.setLineDash([5, 5]);
+                        ctx.beginPath();
+                        ctx.moveTo(sx, sy);
+                        ctx.lineTo(ex, ey);
+                        ctx.stroke();
+                        ctx.setLineDash([]);
+
+                        // Arrowhead
+                        const angle = Math.atan2(ey - sy, ex - sx);
+                        ctx.fillStyle = '#7ee787';
+                        ctx.beginPath();
+                        ctx.moveTo(ex, ey);
+                        ctx.lineTo(ex - 15 * Math.cos(angle - 0.4), ey - 15 * Math.sin(angle - 0.4));
+                        ctx.lineTo(ex - 15 * Math.cos(angle + 0.4), ey - 15 * Math.sin(angle + 0.4));
+                        ctx.closePath();
+                        ctx.fill();
+                    }
+                }
+
+                // Legend
+                ctx.font = '11px "JetBrains Mono", monospace';
+                ctx.fillStyle = '#8b949e';
+                ctx.textAlign = 'left';
+                ctx.fillText('Low EN', 10, h - 10);
+                ctx.textAlign = 'right';
+                ctx.fillText('High EN', w - 10, h - 10);
+
+                // Gradient bar
+                const gradW = 100;
+                const grad = ctx.createLinearGradient(w/2 - gradW/2, 0, w/2 + gradW/2, 0);
+                grad.addColorStop(0, getColor(0.7));
+                grad.addColorStop(1, getColor(4.0));
+                ctx.fillStyle = grad;
+                ctx.fillRect(w/2 - gradW/2, h - 20, gradW, 10);
+            }
+
+            canvas.addEventListener('click', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                const cellW = Math.min(40, (canvas.width - 40) / 18);
+                const cellH = 45;
+                const startX = (canvas.width - 17 * cellW) / 2;
+                const startY = 20;
+
+                for (const [symbol, data] of Object.entries(elements)) {
+                    const ex = startX + data.col * cellW;
+                    const ey = startY + data.row * cellH;
+
+                    if (x >= ex && x <= ex + cellW && y >= ey && y <= ey + cellH) {
+                        if (selected.includes(symbol)) {
+                            // Deselect
+                            selected = selected.filter(s => s !== symbol);
+                        } else if (selected.length < 2) {
+                            selected.push(symbol);
+                        } else {
+                            selected = [selected[1], symbol];
+                        }
+                        updateDisplay();
+                        draw();
+                        break;
+                    }
+                }
+            });
+
+            function updateDisplay() {
+                const el1 = selected[0] || '?';
+                const el2 = selected[1] || '?';
+
+                document.getElementById('element1-display').textContent = el1;
+                document.getElementById('element2-display').textContent = el2;
+
+                if (selected.length === 2 && elements[el1] && elements[el2]) {
+                    const en1 = elements[el1].en;
+                    const en2 = elements[el2].en;
+                    const delta = Math.abs(en1 - en2).toFixed(2);
+
+                    document.getElementById('delta-en').textContent = delta;
+
+                    if (en1 < en2) {
+                        document.getElementById('arrow-direction').textContent = '→';
+                    } else if (en1 > en2) {
+                        document.getElementById('arrow-direction').textContent = '←';
+                    } else {
+                        document.getElementById('arrow-direction').textContent = '—';
+                    }
+                }
+            }
+
+            draw();
+        })();
+
+        // ========================================
+        // BRIDGE: ARROW ↔ NUMBERS
+        // ========================================
+        (function() {
+            const canvas = document.getElementById('arrow-canvas');
+            const ctx = canvas.getContext('2d');
+
+            canvas.width = 300;
+            canvas.height = 200;
+
+            let vectorX = 0.96;
+            let vectorY = 0;
+            let dragging = false;
+
+            function draw() {
+                ctx.clearRect(0, 0, 300, 200);
+
+                const cx = 150;
+                const cy = 100;
+                const scale = 100;
+
+                // Grid
+                ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+                ctx.lineWidth = 1;
+                for (let i = -1; i <= 1; i++) {
+                    ctx.beginPath();
+                    ctx.moveTo(cx + i * scale, 0);
+                    ctx.lineTo(cx + i * scale, 200);
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.moveTo(0, cy + i * scale);
+                    ctx.lineTo(300, cy + i * scale);
+                    ctx.stroke();
+                }
+
+                // Axes
+                ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(0, cy);
+                ctx.lineTo(300, cy);
+                ctx.moveTo(cx, 0);
+                ctx.lineTo(cx, 200);
+                ctx.stroke();
+
+                // Vector arrow
+                const endX = cx + vectorX * scale;
+                const endY = cy - vectorY * scale;
+
+                ctx.strokeStyle = '#7ee787';
+                ctx.lineWidth = 4;
+                ctx.lineCap = 'round';
+                ctx.beginPath();
+                ctx.moveTo(cx, cy);
+                ctx.lineTo(endX, endY);
+                ctx.stroke();
+
+                // Arrowhead
+                const angle = Math.atan2(cy - endY, endX - cx);
+                ctx.fillStyle = '#7ee787';
+                ctx.beginPath();
+                ctx.moveTo(endX, endY);
+                ctx.lineTo(endX - 15 * Math.cos(angle - 0.4), endY + 15 * Math.sin(angle - 0.4));
+                ctx.lineTo(endX - 15 * Math.cos(angle + 0.4), endY + 15 * Math.sin(angle + 0.4));
+                ctx.closePath();
+                ctx.fill();
+
+                // Draggable point
+                ctx.fillStyle = '#fff';
+                ctx.beginPath();
+                ctx.arc(endX, endY, 8, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Labels
+                ctx.fillStyle = '#8b949e';
+                ctx.font = '12px "JetBrains Mono", monospace';
+                ctx.textAlign = 'center';
+                ctx.fillText('x', 290, cy + 15);
+                ctx.fillText('y', cx + 15, 15);
+
+                // Update numbers display
+                document.getElementById('vector-numbers').textContent =
+                    `[${vectorX.toFixed(2)}, ${vectorY.toFixed(2)}, 0]`;
+            }
+
+            canvas.addEventListener('mousedown', (e) => {
+                dragging = true;
+            });
+
+            canvas.addEventListener('mousemove', (e) => {
+                if (!dragging) return;
+
+                const rect = canvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                vectorX = (x - 150) / 100;
+                vectorY = (100 - y) / 100;
+
+                // Clamp
+                const len = Math.sqrt(vectorX * vectorX + vectorY * vectorY);
+                if (len > 1.5) {
+                    vectorX = vectorX / len * 1.5;
+                    vectorY = vectorY / len * 1.5;
+                }
+
+                draw();
+            });
+
+            canvas.addEventListener('mouseup', () => dragging = false);
+            canvas.addEventListener('mouseleave', () => dragging = false);
+
+            // Toggle buttons
+            document.querySelectorAll('.bridge-toggle-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.bridge-toggle-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+
+                    const view = btn.dataset.view;
+                    const arrowView = document.getElementById('arrow-view');
+                    const numbersView = document.getElementById('numbers-view');
+                    const equals = document.querySelector('.bridge-equals');
+
+                    if (view === 'arrow') {
+                        arrowView.style.display = 'block';
+                        numbersView.style.display = 'none';
+                        equals.style.display = 'none';
+                    } else if (view === 'numbers') {
+                        arrowView.style.display = 'none';
+                        numbersView.style.display = 'block';
+                        equals.style.display = 'none';
+                    } else {
+                        arrowView.style.display = 'block';
+                        numbersView.style.display = 'block';
+                        equals.style.display = 'block';
+                    }
+                });
+            });
+
+            draw();
+        })();
+
+        // ========================================
+        // EXAMPLES
+        // ========================================
+        document.querySelectorAll('.example-card').forEach(card => {
+            card.addEventListener('click', () => {
+                document.querySelectorAll('.example-card').forEach(c => c.classList.remove('active'));
+                document.querySelectorAll('.example-detail').forEach(d => d.classList.remove('active'));
+
+                card.classList.add('active');
+                const example = card.dataset.example;
+                document.getElementById('example-' + example).classList.add('active');
+
+                drawExample(example);
+            });
+        });
+
+        function drawExample(example) {
+            const canvasId = example + '-canvas';
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+
+            const ctx = canvas.getContext('2d');
+            canvas.width = canvas.parentElement.clientWidth - 30;
+            canvas.height = 200;
+
+            const data = {
+                'hf': { atom1: 'H', atom2: 'F', en1: 2.20, en2: 3.98, color1: '#3b82f6', color2: '#22c55e' },
+                'hcl': { atom1: 'H', atom2: 'Cl', en1: 2.20, en2: 3.16, color1: '#3b82f6', color2: '#22c55e' },
+                'hbr': { atom1: 'H', atom2: 'Br', en1: 2.20, en2: 2.96, color1: '#3b82f6', color2: '#a855f7' },
+                'ch': { atom1: 'C', atom2: 'H', en1: 2.55, en2: 2.20, color1: '#6b7280', color2: '#3b82f6' }
+            };
+
+            const d = data[example];
+            if (!d) return;
+
+            const cx = canvas.width / 2;
+            const cy = canvas.height / 2;
+            const bondLen = 120;
+
+            // Positions
+            const x1 = cx - bondLen/2;
+            const x2 = cx + bondLen/2;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Bond
+            ctx.strokeStyle = '#6e7681';
+            ctx.lineWidth = 8;
+            ctx.beginPath();
+            ctx.moveTo(x1, cy);
+            ctx.lineTo(x2, cy);
+            ctx.stroke();
+
+            // Dipole arrow
+            const delta = d.en2 - d.en1;
+            const arrowLen = Math.abs(delta) * 30;
+
+            if (Math.abs(delta) > 0.1) {
+                const arrowStart = delta > 0 ? x1 + 25 : x2 - 25;
+                const arrowEnd = delta > 0 ? x2 - 35 : x1 + 35;
+
+                ctx.strokeStyle = '#7ee787';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(arrowStart, cy);
+                ctx.lineTo(arrowEnd, cy);
+                ctx.stroke();
+
+                // Arrowhead
+                const dir = delta > 0 ? 1 : -1;
+                ctx.fillStyle = '#7ee787';
+                ctx.beginPath();
+                ctx.moveTo(arrowEnd, cy);
+                ctx.lineTo(arrowEnd - dir * 12, cy - 6);
+                ctx.lineTo(arrowEnd - dir * 12, cy + 6);
+                ctx.closePath();
+                ctx.fill();
+            }
+
+            // Atoms
+            ctx.fillStyle = d.color1;
+            ctx.beginPath();
+            ctx.arc(x1, cy, 25, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.fillStyle = d.color2;
+            ctx.beginPath();
+            ctx.arc(x2, cy, 25, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Labels
+            ctx.fillStyle = '#fff';
+            ctx.font = 'bold 18px "JetBrains Mono", monospace';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(d.atom1, x1, cy);
+            ctx.fillText(d.atom2, x2, cy);
+
+            // EN values
+            ctx.font = '12px "JetBrains Mono", monospace';
+            ctx.fillStyle = '#8b949e';
+            ctx.fillText(d.en1.toFixed(2), x1, cy + 45);
+            ctx.fillText(d.en2.toFixed(2), x2, cy + 45);
+
+            // Partial charges
+            if (Math.abs(delta) > 0.1) {
+                ctx.font = '14px "JetBrains Mono", monospace';
+                if (delta > 0) {
+                    ctx.fillStyle = '#58a6ff';
+                    ctx.fillText('δ+', x1, cy - 40);
+                    ctx.fillStyle = '#f85149';
+                    ctx.fillText('δ-', x2, cy - 40);
+                } else {
+                    ctx.fillStyle = '#f85149';
+                    ctx.fillText('δ-', x1, cy - 40);
+                    ctx.fillStyle = '#58a6ff';
+                    ctx.fillText('δ+', x2, cy - 40);
+                }
+            }
+        }
+
+        // Draw initial example
+        setTimeout(() => drawExample('hf'), 100);
+
+        // ========================================
+        // PRACTICE PROBLEMS
+        // ========================================
+        function checkProblem1() {
+            const answer = document.getElementById('problem1-answer').value;
+            const feedback = document.getElementById('problem1-feedback');
+
+            if (answer === 'h-to-n') {
+                feedback.className = 'problem-feedback correct';
+                feedback.innerHTML = '<strong>Correct!</strong> Nitrogen (EN = 3.04) is more electronegative than hydrogen (EN = 2.20). The arrow points FROM H (δ+) TOWARD N (δ-). This is why ammonia (NH₃) is polar and can form hydrogen bonds.';
+            } else if (answer === 'n-to-h') {
+                feedback.className = 'problem-feedback incorrect';
+                feedback.innerHTML = '<strong>Not quite.</strong> Remember: the arrow points FROM the less electronegative atom TOWARD the more electronegative atom. Which atom has the higher electronegativity?';
+            } else if (answer === 'no-arrow') {
+                feedback.className = 'problem-feedback incorrect';
+                feedback.innerHTML = '<strong>Not quite.</strong> With ΔEN = 0.84, this bond is definitely polar. The electrons are not shared equally.';
+            } else {
+                feedback.className = 'problem-feedback incorrect';
+                feedback.innerHTML = 'Please select an answer.';
+            }
+        }
+
+        function checkProblem2() {
+            const answer = document.getElementById('problem2-answer').value.toLowerCase();
+            const feedback = document.getElementById('problem2-feedback');
+
+            const keywords = ['smaller', 'proton', 'shell', 'closer', 'period', 'size', 'radius', 'row'];
+            const hasGoodReasoning = keywords.some(k => answer.includes(k));
+
+            if (answer.length < 20) {
+                feedback.className = 'problem-feedback incorrect';
+                feedback.innerHTML = 'Please write a more complete explanation.';
+            } else if (hasGoodReasoning) {
+                feedback.className = 'problem-feedback correct';
+                feedback.innerHTML = '<strong>Good reasoning!</strong> Key insight: O and S are in the same group (column 16), but O is in period 2 while S is in period 3. Oxygen\'s valence electrons are closer to the nucleus (shell 2 vs shell 3), so oxygen pulls harder on shared electrons → higher electronegativity → more polar bond.';
+            } else {
+                feedback.className = 'problem-feedback incorrect';
+                feedback.innerHTML = '<strong>Think about position in the periodic table.</strong> O and S are in the same column. What\'s different about their rows? How does that affect electron-nucleus distance?';
+            }
+        }
+    </script>
+</body>
+</html>
