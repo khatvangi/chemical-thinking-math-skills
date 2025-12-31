@@ -54,35 +54,52 @@ The mathematical machinery that captures the primitive:
 
 ## DIRECTION: Complete Implementation
 
-### Concept Page: `lectures/direction-concept.qmd`
+### Standalone Concept Page: `site/direction.html`
 
-**Content layers:**
-1. The first direction (infant reaching)
-2. Binary direction (toward/away as ur-direction)
-3. Direction in the world (gravity, light, rivers, wind, growth, time)
-4. Direction in animals (predator-prey, migration, attention)
-5. Direction in the body (reaching, walking, looking, pointing)
-6. The six directions from the body
-7. Direction in language (prepositions encode direction)
-8. Direction in mind (attention, intention, memory)
-9. Direction as relation (from-to structure)
-10. Direction without movement (orientation ≠ motion)
-11. Continuous direction: circle (2D) and sphere (3D)
-12. Combining directions
-13. Gradients and causation
-14. Bridge to vectors
+**Architecture Decision:** Standalone HTML bypassing Quarto for full visual control. Workflow modified to copy to `_site/` on deploy.
 
-**Interactive Visualizations** (`js/direction-visuals.js`):
+**Live URL:** https://khatvangi.github.io/chemical-thinking-math-skills/direction.html
 
-| Visual | Interaction | Insight |
-|--------|-------------|---------|
-| Toward/Away | Drag food/danger | Organism responds to stimuli |
-| Body Directions | Rotate figure | Forward/back rotate with body; up/down stay fixed |
-| Circle (2D) | Slider 0-360° | All directions parameterized by angle |
-| Sphere (3D) | θ and φ sliders | All 3D directions on sphere surface |
-| Combining | Two direction sliders | Same/opposite/perpendicular/oblique |
-| Gradient | Click heightmap | Arrow shows steepest uphill |
-| Causation | Toggle buttons | Reaction chain vs reasoning chain |
+**Core Insight: Asymmetry is the Genesis of Direction**
+
+SAMENESS and DIRECTION are dual/twin primitives:
+- SAMENESS = what remains unchanged (symmetry, invariance)
+- DIRECTION = what breaks the sameness (asymmetry creates direction)
+
+**Document Structure (7 Parts):**
+
+| Part | Title | Content |
+|------|-------|---------|
+| Prologue | — | Genesis: Asymmetry creates direction |
+| I | Before Direction | Symmetric world has no direction |
+| II | The First Direction | Toward/away as ur-direction (chemotaxis) |
+| III | The Circle | 2D direction space, angles, comparison |
+| IV | Higher Dimensions | 3D sphere of directions |
+| V | Magnitude | Direction + length = vectors |
+| VI | Direction Without Motion | Causation, gradients, field lines |
+| VII | Bridge to Vectors | Perception → Tool |
+
+**Features:**
+- Definition popups (CSS hover with `data-definition` attributes)
+- Academic endnotes with anchor back-links
+- Formal definitions block
+- Perception→Tool bridge table
+- Scroll-triggered section reveals (IntersectionObserver)
+- Typography: Fraunces (headings), Inter (body), JetBrains Mono (code)
+
+**9 Interactive Visualizations (In Progress):**
+
+| # | Visual | Status | Key Insight |
+|---|--------|--------|-------------|
+| 1 | Symmetry Breaking | ⬜ TODO | Sphere → marked sphere → cone morph |
+| 2 | Circle of Directions | ⬜ TODO | All 2D directions parameterized by angle |
+| 3 | Ur-Direction (Amoeba) | ⬜ TODO | Chemotaxis: seek nutrients, flee toxins |
+| 4 | Comparing Directions | ⬜ TODO | Same/opposite/perpendicular/oblique |
+| 5 | Gradient Landscape | ⬜ TODO | Click heightmap → steepest direction |
+| 6 | Sphere of Directions | ⬜ TODO | 3D directions on sphere surface |
+| 7 | Body Directions | ⬜ TODO | Asymmetric body creates forward |
+| 8 | Causation Flow | ⬜ TODO | Field lines, cause → effect |
+| 9 | Bridge Animation | ⬜ TODO | Perception primitive → math tool |
 
 ### Tool Page: `lectures/04-direction.qmd`
 
@@ -140,10 +157,10 @@ chem-math-course/
 │   ├── getting-started.qmd      # Student guide
 │   ├── progress.qmd             # Progress dashboard
 │   ├── styles.css               # Custom styling
+│   ├── direction.html           # DIRECTION standalone page (bypasses Quarto)
 │   │
 │   ├── lectures/
-│   │   ├── direction-concept.qmd  # DIRECTION primitive (deep)
-│   │   └── 04-direction.qmd       # Vectors in chemistry
+│   │   └── 04-direction.qmd       # Vectors in chemistry (tool page)
 │   │
 │   ├── practice/
 │   │   └── index.qmd            # Practice mode hub
@@ -152,8 +169,7 @@ chem-math-course/
 │   │   └── index.qmd            # HW submission
 │   │
 │   └── js/
-│       ├── practice-widget.js   # IXL-style adaptive learning
-│       └── direction-visuals.js # 7 interactive visualizations
+│       └── practice-widget.js   # IXL-style adaptive learning
 │
 └── extracted_zip/               # Original planning docs
 ```
@@ -202,7 +218,8 @@ cd site && quarto preview          # Site on :4321
 ## Deployment
 
 **Site:** GitHub Pages (automatic via Actions)
-- Push to main → builds Quarto → deploys to Pages
+- Push to main → builds Quarto → copies standalone HTML → deploys to Pages
+- Workflow copies `site/direction.html` to `site/_site/direction.html` before upload
 - Live at: https://khatvangi.github.io/chemical-thinking-math-skills/
 
 **API:** ngrok tunnel (manual start)
@@ -218,12 +235,51 @@ cd site && quarto preview          # Site on :4321
 ## Writing Style
 
 ### For Concept Pages (Primitives)
-- Direct, almost poetic prose
+Rigorous academic prose with cognitive archaeology:
+- Begin with genesis (where does this primitive come from?)
 - Build from bodily experience outward
 - Examples before definitions
-- Let the reader FEEL the primitive before naming it
-- Interactive elements for exploration
-- End with "why we need formalization"
+- Interactive visualizations throughout
+- Formal definitions block near the end
+- Bridge table: Perception → Tool
+
+### For Standalone HTML Pages
+When bypassing Quarto for full visual control:
+```css
+/* Definition popups */
+.def-popup { position: relative; cursor: help; }
+.def-tooltip {
+    position: absolute; bottom: calc(100% + 10px);
+    opacity: 0; visibility: hidden;
+}
+.def-popup:hover .def-tooltip { opacity: 1; visibility: visible; }
+
+/* Part headers */
+.part-header { text-align: center; margin: 6rem 0 4rem; }
+.part-number { font-family: monospace; color: var(--accent-purple); }
+
+/* Visual placeholders */
+.visual-placeholder {
+    background: var(--bg-secondary);
+    border: 2px dashed var(--text-muted);
+    min-height: 300px;
+}
+```
+
+JavaScript patterns:
+```javascript
+// Populate tooltips from data attributes
+document.querySelectorAll('.def-popup').forEach(el => {
+    const tooltip = el.querySelector('.def-tooltip');
+    if (tooltip) tooltip.textContent = el.dataset.definition;
+});
+
+// Scroll-triggered reveals
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => e.isIntersecting && e.target.classList.add('visible'));
+}, { threshold: 0.1 });
+document.querySelectorAll('.part').forEach(p => observer.observe(p));
+```
 
 ### For Tool Pages (Math)
 - Hook with chemical phenomenon
@@ -267,10 +323,11 @@ When developing a primitive:
 - [x] API backend (FastAPI + Ollama)
 - [x] Student database (SQLite)
 - [x] Practice widget (IXL-style)
-- [x] **DIRECTION primitive** (concept page + 7 visuals)
+- [x] **DIRECTION concept page** (standalone HTML, rigorous academic text)
 - [x] **DIRECTION tool** (vectors lecture)
 
 ### In Progress
+- [ ] **DIRECTION visualizations** (9 interactive canvases for direction.html)
 - [ ] Other Module 1 primitives (COLLECTION, ARRANGEMENT, PROXIMITY)
 
 ### Planned

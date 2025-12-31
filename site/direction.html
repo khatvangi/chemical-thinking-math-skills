@@ -565,6 +565,13 @@
             <p>This is the null case. Direction requires its negation.</p>
         </section>
 
+        <!-- VISUAL: Isotropic Void -->
+        <div class="visual-container" id="isotropic-void">
+            <div class="visual-label">Visual: The Isotropic Void</div>
+            <canvas id="isotropic-void-canvas" width="700" height="350"></canvas>
+            <p class="visual-caption">Every point equivalent. Every direction the same. The question "which way?" has no answer.</p>
+        </div>
+
         <section>
             <h3>1.2 The Breaking</h3>
 
@@ -578,6 +585,13 @@
 
             <p><strong>The cone's direction exists because the cone lacks the rotational symmetry of the sphere.</strong></p>
         </section>
+
+        <!-- VISUAL: The Breaking -->
+        <div class="visual-container" id="symmetry-breaking-intro">
+            <div class="visual-label">Visual: The Breaking</div>
+            <canvas id="breaking-canvas" width="700" height="350"></canvas>
+            <p class="visual-caption">Click to place a mass. Watch isotropy shatter. Direction emerges everywhere.</p>
+        </div>
 
         <section>
             <h3>1.3 The Formal Structure</h3>
@@ -599,8 +613,11 @@
         <!-- VISUAL: Symmetry Breaking -->
         <div class="visual-container" id="symmetry-breaking">
             <div class="visual-label">Visual: Symmetry Breaking</div>
-            <div class="visual-placeholder" id="symmetry-breaking-canvas">
-                [Three.js: Sphere → Marked Sphere → Cone morph with direction vector fading in]
+            <canvas id="sphere-cone-canvas" width="700" height="350"></canvas>
+            <div class="morph-controls" style="margin-top: 1rem; display: flex; align-items: center; gap: 1rem; justify-content: center;">
+                <span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);">SYMMETRY</span>
+                <input type="range" id="morph-slider" min="0" max="100" value="0" style="width: 200px; accent-color: var(--accent-purple);">
+                <span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);">DIRECTION</span>
             </div>
             <p class="visual-caption">As symmetry decreases, direction emerges. The shape itself begins to point.</p>
         </div>
@@ -659,10 +676,8 @@
         <!-- VISUAL: Ur-Direction -->
         <div class="visual-container" id="ur-direction">
             <div class="visual-label">Visual: The Ur-Direction</div>
-            <div class="visual-placeholder" id="ur-direction-canvas">
-                [Canvas: Living amoeba with toward/away arrows tracking nutrient and toxin]
-            </div>
-            <p class="visual-caption">The first direction: toward what sustains, away from what destroys.</p>
+            <canvas id="amoeba-canvas" width="700" height="400"></canvas>
+            <p class="visual-caption">The first direction: toward what sustains, away from what destroys. Drag the nutrient or toxin.</p>
         </div>
 
         <section>
@@ -686,10 +701,12 @@
         <!-- VISUAL: Six Directions -->
         <div class="visual-container" id="body-directions">
             <div class="visual-label">Visual: The Six Directions</div>
-            <div class="visual-placeholder" id="body-directions-canvas">
-                [Canvas: Human figure with six labeled arrows, rotation control]
+            <canvas id="body-directions-canvas" width="700" height="400"></canvas>
+            <div style="margin-top: 1rem; display: flex; align-items: center; gap: 1rem; justify-content: center;">
+                <span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted);">ROTATE BODY</span>
+                <input type="range" id="body-rotation" min="0" max="360" value="0" style="width: 180px; accent-color: var(--accent-coral);">
             </div>
-            <p class="visual-caption">Forward and back come from the body. Up and down come from the Earth. You are the origin of your own coordinate system.</p>
+            <p class="visual-caption">Forward and back rotate WITH you. Up and down stay fixed by gravity. Asymmetry creates your coordinate system.</p>
         </div>
 
         <section>
@@ -750,10 +767,8 @@
         <!-- VISUAL: Circle of Directions -->
         <div class="visual-container" id="circle-directions">
             <div class="visual-label">Visual: The Circle of Directions</div>
-            <div class="visual-placeholder" id="circle-directions-canvas">
-                [SVG: Circle with draggable direction arrow, angle θ display]
-            </div>
-            <p class="visual-caption">Every point on the circle is a direction. The angle θ specifies which one.</p>
+            <canvas id="circle-directions-canvas" width="700" height="350"></canvas>
+            <p class="visual-caption">Drag anywhere on the circle. Every point is a direction. θ specifies which one.</p>
         </div>
 
         <section>
@@ -823,10 +838,8 @@
         <!-- VISUAL: Comparing Directions -->
         <div class="visual-container" id="comparing-directions">
             <div class="visual-label">Visual: Comparing Directions</div>
-            <div class="visual-placeholder" id="comparing-directions-canvas">
-                [SVG: Two draggable arrows, angle display, alignment bar]
-            </div>
-            <p class="visual-caption">The angle between two directions — and later, the dot product — quantifies their alignment.</p>
+            <canvas id="comparing-directions-canvas" width="700" height="350"></canvas>
+            <p class="visual-caption">Drag either arrow. The angle between them measures alignment.</p>
         </div>
 
         <section>
@@ -892,10 +905,8 @@
         <!-- VISUAL: Gradient Landscape -->
         <div class="visual-container" id="gradient-landscape">
             <div class="visual-label">Visual: The Gradient Landscape</div>
-            <div class="visual-placeholder" id="gradient-landscape-canvas">
-                [Canvas: 2D heatmap, click to show gradient arrow, drop ball to roll downhill]
-            </div>
-            <p class="visual-caption">The gradient points uphill — toward increasing values. Systems typically evolve downhill.</p>
+            <canvas id="gradient-landscape-canvas" width="700" height="400"></canvas>
+            <p class="visual-caption">Click anywhere. The gradient arrow points uphill. The ball rolls downhill.</p>
         </div>
 
         <section>
@@ -1228,6 +1239,1437 @@
                 scrollHint.style.opacity = '1';
             }
         });
+
+        // ============================================
+        // ISOTROPIC VOID VISUALIZATION
+        // ============================================
+        (function() {
+            const canvas = document.getElementById('isotropic-void-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            // Responsive sizing
+            function resize() {
+                const container = canvas.parentElement;
+                const rect = container.getBoundingClientRect();
+                canvas.width = Math.min(700, rect.width - 64);
+                canvas.height = 350;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            // Grid properties
+            const gridSpacing = 40;
+
+            // Particles - drifting aimlessly with no net direction
+            const particles = [];
+            const numParticles = 60;
+
+            for (let i = 0; i < numParticles; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    vx: (Math.random() - 0.5) * 0.5,
+                    vy: (Math.random() - 0.5) * 0.5,
+                    size: 2 + Math.random() * 2,
+                    alpha: 0.2 + Math.random() * 0.3
+                });
+            }
+
+            let time = 0;
+
+            function draw() {
+                const w = canvas.width;
+                const h = canvas.height;
+
+                // Clear with background
+                ctx.fillStyle = '#0D1117';
+                ctx.fillRect(0, 0, w, h);
+
+                // Subtle breathing effect for uniformity
+                const breathe = 0.02 + Math.sin(time * 0.5) * 0.01;
+
+                // Draw grid - uniform, no variation
+                ctx.strokeStyle = `rgba(88, 166, 255, ${breathe})`;
+                ctx.lineWidth = 1;
+
+                // Vertical lines
+                for (let x = gridSpacing; x < w; x += gridSpacing) {
+                    ctx.beginPath();
+                    ctx.moveTo(x, 0);
+                    ctx.lineTo(x, h);
+                    ctx.stroke();
+                }
+
+                // Horizontal lines
+                for (let y = gridSpacing; y < h; y += gridSpacing) {
+                    ctx.beginPath();
+                    ctx.moveTo(0, y);
+                    ctx.lineTo(w, y);
+                    ctx.stroke();
+                }
+
+                // Grid intersection dots - all identical
+                ctx.fillStyle = `rgba(88, 166, 255, ${breathe * 2})`;
+                for (let x = gridSpacing; x < w; x += gridSpacing) {
+                    for (let y = gridSpacing; y < h; y += gridSpacing) {
+                        ctx.beginPath();
+                        ctx.arc(x, y, 2, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                }
+
+                // Update and draw particles - random walk, no net direction
+                particles.forEach(p => {
+                    // Brownian motion - random direction changes
+                    p.vx += (Math.random() - 0.5) * 0.1;
+                    p.vy += (Math.random() - 0.5) * 0.1;
+
+                    // Damping to prevent runaway
+                    p.vx *= 0.98;
+                    p.vy *= 0.98;
+
+                    // Update position
+                    p.x += p.vx;
+                    p.y += p.vy;
+
+                    // Wrap at edges (infinite space)
+                    if (p.x < 0) p.x += w;
+                    if (p.x > w) p.x -= w;
+                    if (p.y < 0) p.y += h;
+                    if (p.y > h) p.y -= h;
+
+                    // Draw particle - uniform color, no directionality
+                    ctx.fillStyle = `rgba(139, 148, 158, ${p.alpha})`;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+
+                // Center label
+                ctx.font = '12px "JetBrains Mono", monospace';
+                ctx.fillStyle = 'rgba(110, 118, 129, 0.5)';
+                ctx.textAlign = 'center';
+                ctx.fillText('every point ≡ every other point', w/2, h - 20);
+
+                time += 0.016;
+                requestAnimationFrame(draw);
+            }
+
+            draw();
+        })();
+
+        // ============================================
+        // THE BREAKING VISUALIZATION
+        // ============================================
+        (function() {
+            const canvas = document.getElementById('breaking-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            function resize() {
+                const container = canvas.parentElement;
+                const rect = container.getBoundingClientRect();
+                canvas.width = Math.min(700, rect.width - 64);
+                canvas.height = 350;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            const gridSpacing = 40;
+            let mass = null; // {x, y}
+            let transitionProgress = 0;
+            let time = 0;
+
+            canvas.addEventListener('click', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                mass = {
+                    x: e.clientX - rect.left,
+                    y: e.clientY - rect.top
+                };
+                transitionProgress = 0;
+            });
+
+            function draw() {
+                const w = canvas.width;
+                const h = canvas.height;
+
+                ctx.fillStyle = '#0D1117';
+                ctx.fillRect(0, 0, w, h);
+
+                // Transition animation
+                if (mass && transitionProgress < 1) {
+                    transitionProgress += 0.02;
+                }
+                const t = mass ? Math.min(transitionProgress, 1) : 0;
+                const easedT = t * t * (3 - 2 * t); // smooth step
+
+                // Draw grid
+                const breathe = 0.02 + Math.sin(time * 0.5) * 0.01;
+                ctx.strokeStyle = `rgba(88, 166, 255, ${breathe + easedT * 0.03})`;
+                ctx.lineWidth = 1;
+
+                for (let x = gridSpacing; x < w; x += gridSpacing) {
+                    ctx.beginPath();
+                    ctx.moveTo(x, 0);
+                    ctx.lineTo(x, h);
+                    ctx.stroke();
+                }
+                for (let y = gridSpacing; y < h; y += gridSpacing) {
+                    ctx.beginPath();
+                    ctx.moveTo(0, y);
+                    ctx.lineTo(w, y);
+                    ctx.stroke();
+                }
+
+                // Grid dots
+                ctx.fillStyle = `rgba(88, 166, 255, ${breathe * 2})`;
+                for (let x = gridSpacing; x < w; x += gridSpacing) {
+                    for (let y = gridSpacing; y < h; y += gridSpacing) {
+                        ctx.beginPath();
+                        ctx.arc(x, y, 2, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                }
+
+                // If mass exists, draw gradient field
+                if (mass && easedT > 0) {
+                    // Draw the mass
+                    const pulse = 1 + Math.sin(time * 3) * 0.1;
+                    const massRadius = 15 * pulse * easedT;
+
+                    // Glow
+                    const gradient = ctx.createRadialGradient(mass.x, mass.y, 0, mass.x, mass.y, 80);
+                    gradient.addColorStop(0, `rgba(247, 129, 102, ${0.3 * easedT})`);
+                    gradient.addColorStop(1, 'rgba(247, 129, 102, 0)');
+                    ctx.fillStyle = gradient;
+                    ctx.beginPath();
+                    ctx.arc(mass.x, mass.y, 80, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // Mass itself
+                    ctx.fillStyle = `rgba(247, 129, 102, ${easedT})`;
+                    ctx.beginPath();
+                    ctx.arc(mass.x, mass.y, massRadius, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // Direction arrows at grid points
+                    for (let x = gridSpacing; x < w; x += gridSpacing) {
+                        for (let y = gridSpacing; y < h; y += gridSpacing) {
+                            const dx = mass.x - x;
+                            const dy = mass.y - y;
+                            const dist = Math.sqrt(dx * dx + dy * dy);
+                            if (dist < 25) continue; // Too close to mass
+
+                            // Normalize
+                            const nx = dx / dist;
+                            const ny = dy / dist;
+
+                            // Arrow length based on gradient strength (inverse square-ish)
+                            const strength = Math.min(20, 400 / dist) * easedT;
+
+                            // Draw arrow
+                            const arrowLen = strength;
+                            const endX = x + nx * arrowLen;
+                            const endY = y + ny * arrowLen;
+
+                            ctx.strokeStyle = `rgba(247, 129, 102, ${0.4 * easedT * (strength / 20)})`;
+                            ctx.lineWidth = 1.5;
+                            ctx.beginPath();
+                            ctx.moveTo(x, y);
+                            ctx.lineTo(endX, endY);
+                            ctx.stroke();
+
+                            // Arrowhead
+                            const headLen = 4;
+                            const angle = Math.atan2(ny, nx);
+                            ctx.beginPath();
+                            ctx.moveTo(endX, endY);
+                            ctx.lineTo(endX - headLen * Math.cos(angle - 0.5), endY - headLen * Math.sin(angle - 0.5));
+                            ctx.moveTo(endX, endY);
+                            ctx.lineTo(endX - headLen * Math.cos(angle + 0.5), endY - headLen * Math.sin(angle + 0.5));
+                            ctx.stroke();
+                        }
+                    }
+
+                    // Label
+                    ctx.font = '12px "JetBrains Mono", monospace';
+                    ctx.fillStyle = `rgba(247, 129, 102, ${0.7 * easedT})`;
+                    ctx.textAlign = 'center';
+                    ctx.fillText('one mass → direction everywhere', w/2, h - 20);
+                } else {
+                    // Prompt to click
+                    ctx.font = '12px "JetBrains Mono", monospace';
+                    ctx.fillStyle = 'rgba(110, 118, 129, 0.6)';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('click anywhere to break the symmetry', w/2, h - 20);
+                }
+
+                time += 0.016;
+                requestAnimationFrame(draw);
+            }
+
+            draw();
+        })();
+
+        // ============================================
+        // SPHERE → CONE MORPH VISUALIZATION
+        // ============================================
+        (function() {
+            const canvas = document.getElementById('sphere-cone-canvas');
+            const slider = document.getElementById('morph-slider');
+            if (!canvas || !slider) return;
+            const ctx = canvas.getContext('2d');
+
+            function resize() {
+                const container = canvas.parentElement;
+                const rect = container.getBoundingClientRect();
+                canvas.width = Math.min(700, rect.width - 64);
+                canvas.height = 350;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            let morphT = 0;
+            let rotationAngle = 0;
+
+            slider.addEventListener('input', () => {
+                morphT = slider.value / 100;
+            });
+
+            function draw() {
+                const w = canvas.width;
+                const h = canvas.height;
+
+                ctx.fillStyle = '#0D1117';
+                ctx.fillRect(0, 0, w, h);
+
+                rotationAngle += 0.02;
+
+                const centerX = w / 2;
+                const centerY = h / 2;
+                const radius = 80;
+
+                // Draw 3D-ish shape morphing from sphere to cone
+                // Using wireframe approach
+                const numMeridians = 12;
+                const numParallels = 8;
+
+                ctx.strokeStyle = `rgba(168, 85, 247, ${0.3 + morphT * 0.2})`;
+                ctx.lineWidth = 1;
+
+                // Calculate morph: sphere has uniform radius, cone tapers
+                function getRadius(phi, t) {
+                    // phi: 0 = top, PI = bottom
+                    // t: 0 = sphere, 1 = cone
+                    const sphereR = radius;
+                    // Cone: max radius at bottom, 0 at top
+                    const coneR = radius * (phi / Math.PI);
+                    return sphereR * (1 - t) + coneR * t;
+                }
+
+                function getY(phi, t) {
+                    // Sphere: y varies with cos(phi)
+                    // Cone: y varies linearly
+                    const sphereY = -Math.cos(phi) * radius;
+                    const coneY = (phi / Math.PI) * radius * 1.5 - radius * 0.75;
+                    return sphereY * (1 - t) + coneY * t;
+                }
+
+                // Draw parallels (horizontal circles)
+                for (let i = 1; i < numParallels; i++) {
+                    const phi = (i / numParallels) * Math.PI;
+                    const r = getRadius(phi, morphT);
+                    const y = getY(phi, morphT);
+
+                    ctx.beginPath();
+                    for (let j = 0; j <= 32; j++) {
+                        const theta = (j / 32) * Math.PI * 2 + rotationAngle;
+                        const x = Math.cos(theta) * r;
+                        const z = Math.sin(theta) * r;
+                        // Simple 3D to 2D projection
+                        const scale = 1 + z / 400;
+                        const px = centerX + x * scale;
+                        const py = centerY + y * scale;
+                        if (j === 0) ctx.moveTo(px, py);
+                        else ctx.lineTo(px, py);
+                    }
+                    ctx.stroke();
+                }
+
+                // Draw meridians (vertical lines)
+                for (let j = 0; j < numMeridians; j++) {
+                    const theta = (j / numMeridians) * Math.PI * 2 + rotationAngle;
+                    ctx.beginPath();
+                    for (let i = 0; i <= 16; i++) {
+                        const phi = (i / 16) * Math.PI;
+                        const r = getRadius(phi, morphT);
+                        const y = getY(phi, morphT);
+                        const x = Math.cos(theta) * r;
+                        const z = Math.sin(theta) * r;
+                        const scale = 1 + z / 400;
+                        const px = centerX + x * scale;
+                        const py = centerY + y * scale;
+                        if (i === 0) ctx.moveTo(px, py);
+                        else ctx.lineTo(px, py);
+                    }
+                    ctx.stroke();
+                }
+
+                // Direction arrow (fades in as cone develops)
+                if (morphT > 0.1) {
+                    const arrowAlpha = (morphT - 0.1) / 0.9;
+                    const tipY = centerY + getY(0, morphT) - 20;
+                    const arrowLen = 60 * arrowAlpha;
+
+                    ctx.strokeStyle = `rgba(247, 129, 102, ${arrowAlpha})`;
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.moveTo(centerX, tipY);
+                    ctx.lineTo(centerX, tipY - arrowLen);
+                    ctx.stroke();
+
+                    // Arrowhead
+                    ctx.beginPath();
+                    ctx.moveTo(centerX, tipY - arrowLen);
+                    ctx.lineTo(centerX - 8, tipY - arrowLen + 12);
+                    ctx.moveTo(centerX, tipY - arrowLen);
+                    ctx.lineTo(centerX + 8, tipY - arrowLen + 12);
+                    ctx.stroke();
+
+                    // "IT POINTS" label
+                    ctx.font = '11px "JetBrains Mono", monospace';
+                    ctx.fillStyle = `rgba(247, 129, 102, ${arrowAlpha * 0.8})`;
+                    ctx.textAlign = 'center';
+                    ctx.fillText('IT POINTS', centerX, tipY - arrowLen - 15);
+                }
+
+                // Labels
+                ctx.font = '12px "JetBrains Mono", monospace';
+                ctx.textAlign = 'center';
+
+                if (morphT < 0.3) {
+                    ctx.fillStyle = 'rgba(168, 85, 247, 0.7)';
+                    ctx.fillText('sphere: rotate any way, looks the same', centerX, h - 25);
+                } else if (morphT > 0.7) {
+                    ctx.fillStyle = 'rgba(247, 129, 102, 0.7)';
+                    ctx.fillText('cone: rotation is detectable — it has direction', centerX, h - 25);
+                } else {
+                    ctx.fillStyle = 'rgba(139, 148, 158, 0.5)';
+                    ctx.fillText('symmetry breaking...', centerX, h - 25);
+                }
+
+                requestAnimationFrame(draw);
+            }
+
+            draw();
+        })();
+
+        // ============================================
+        // AMOEBA UR-DIRECTION VISUALIZATION
+        // ============================================
+        (function() {
+            const canvas = document.getElementById('amoeba-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            function resize() {
+                const container = canvas.parentElement;
+                const rect = container.getBoundingClientRect();
+                canvas.width = Math.min(700, rect.width - 64);
+                canvas.height = 400;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            // Amoeba state
+            const amoeba = {
+                x: 350, y: 200,
+                vx: 0, vy: 0,
+                membranePoints: [],
+                numPoints: 24,
+                baseRadius: 35
+            };
+
+            // Initialize membrane
+            for (let i = 0; i < amoeba.numPoints; i++) {
+                const angle = (i / amoeba.numPoints) * Math.PI * 2;
+                amoeba.membranePoints.push({
+                    angle: angle,
+                    radius: amoeba.baseRadius,
+                    targetRadius: amoeba.baseRadius,
+                    phase: Math.random() * Math.PI * 2
+                });
+            }
+
+            // Nutrient and toxin
+            let nutrient = { x: 550, y: 150 };
+            let toxin = { x: 150, y: 300 };
+
+            // Dragging
+            let dragging = null;
+            let dragOffset = { x: 0, y: 0 };
+
+            canvas.addEventListener('mousedown', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                const mx = e.clientX - rect.left;
+                const my = e.clientY - rect.top;
+
+                // Check nutrient
+                if (Math.hypot(mx - nutrient.x, my - nutrient.y) < 25) {
+                    dragging = 'nutrient';
+                    dragOffset = { x: nutrient.x - mx, y: nutrient.y - my };
+                }
+                // Check toxin
+                else if (Math.hypot(mx - toxin.x, my - toxin.y) < 25) {
+                    dragging = 'toxin';
+                    dragOffset = { x: toxin.x - mx, y: toxin.y - my };
+                }
+            });
+
+            canvas.addEventListener('mousemove', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                const mx = e.clientX - rect.left;
+                const my = e.clientY - rect.top;
+
+                if (dragging === 'nutrient') {
+                    nutrient.x = mx + dragOffset.x;
+                    nutrient.y = my + dragOffset.y;
+                } else if (dragging === 'toxin') {
+                    toxin.x = mx + dragOffset.x;
+                    toxin.y = my + dragOffset.y;
+                }
+            });
+
+            canvas.addEventListener('mouseup', () => { dragging = null; });
+            canvas.addEventListener('mouseleave', () => { dragging = null; });
+
+            let time = 0;
+
+            function draw() {
+                const w = canvas.width;
+                const h = canvas.height;
+
+                // Background - petri dish
+                ctx.fillStyle = '#0a0e12';
+                ctx.fillRect(0, 0, w, h);
+
+                // Petri dish edge
+                ctx.strokeStyle = 'rgba(88, 166, 255, 0.1)';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(w/2, h/2, Math.min(w, h) * 0.45, 0, Math.PI * 2);
+                ctx.stroke();
+
+                // Environment particles
+                ctx.fillStyle = 'rgba(139, 148, 158, 0.15)';
+                for (let i = 0; i < 40; i++) {
+                    const px = (Math.sin(time * 0.3 + i * 1.7) * 0.5 + 0.5) * w;
+                    const py = (Math.cos(time * 0.2 + i * 2.3) * 0.5 + 0.5) * h;
+                    ctx.beginPath();
+                    ctx.arc(px, py, 1.5, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+
+                // Calculate forces on amoeba
+                const ndx = nutrient.x - amoeba.x;
+                const ndy = nutrient.y - amoeba.y;
+                const ndist = Math.sqrt(ndx * ndx + ndy * ndy);
+
+                const tdx = toxin.x - amoeba.x;
+                const tdy = toxin.y - amoeba.y;
+                const tdist = Math.sqrt(tdx * tdx + tdy * tdy);
+
+                // Chemotaxis: toward nutrient, away from toxin
+                let fx = 0, fy = 0;
+                if (ndist > 50) {
+                    fx += (ndx / ndist) * 0.015;
+                    fy += (ndy / ndist) * 0.015;
+                }
+                // Toxin repulsion - always active, stronger when close
+                const repelStrength = 0.02 + Math.min(0.2, 300 / (tdist * tdist + 50));
+                fx -= (tdx / (tdist + 1)) * repelStrength;
+                fy -= (tdy / (tdist + 1)) * repelStrength;
+
+                // Apply forces
+                amoeba.vx += fx;
+                amoeba.vy += fy;
+                amoeba.vx *= 0.95;
+                amoeba.vy *= 0.95;
+
+                // Speed limit
+                const speed = Math.sqrt(amoeba.vx * amoeba.vx + amoeba.vy * amoeba.vy);
+                if (speed > 1.5) {
+                    amoeba.vx = (amoeba.vx / speed) * 1.5;
+                    amoeba.vy = (amoeba.vy / speed) * 1.5;
+                }
+
+                amoeba.x += amoeba.vx;
+                amoeba.y += amoeba.vy;
+
+                // Boundary
+                amoeba.x = Math.max(50, Math.min(w - 50, amoeba.x));
+                amoeba.y = Math.max(50, Math.min(h - 50, amoeba.y));
+
+                // Update membrane - pseudopod toward nutrient
+                const moveAngle = Math.atan2(amoeba.vy, amoeba.vx);
+                amoeba.membranePoints.forEach((p, i) => {
+                    const angleDiff = Math.abs(((p.angle - moveAngle + Math.PI) % (Math.PI * 2)) - Math.PI);
+                    const extension = speed > 0.2 ? Math.max(0, 1 - angleDiff / 1.2) * 12 : 0;
+                    p.targetRadius = amoeba.baseRadius + extension + Math.sin(time * 2 + p.phase) * 3;
+                    p.radius += (p.targetRadius - p.radius) * 0.1;
+                });
+
+                // Draw slime trail
+                ctx.fillStyle = 'rgba(126, 231, 135, 0.03)';
+                ctx.beginPath();
+                ctx.arc(amoeba.x - amoeba.vx * 5, amoeba.y - amoeba.vy * 5, 25, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Draw amoeba membrane
+                ctx.beginPath();
+                const pts = amoeba.membranePoints;
+                for (let i = 0; i <= pts.length; i++) {
+                    const p = pts[i % pts.length];
+                    const x = amoeba.x + Math.cos(p.angle) * p.radius;
+                    const y = amoeba.y + Math.sin(p.angle) * p.radius;
+                    if (i === 0) ctx.moveTo(x, y);
+                    else {
+                        const prev = pts[(i - 1 + pts.length) % pts.length];
+                        const px = amoeba.x + Math.cos(prev.angle) * prev.radius;
+                        const py = amoeba.y + Math.sin(prev.angle) * prev.radius;
+                        const cpx = (px + x) / 2 + (Math.random() - 0.5) * 2;
+                        const cpy = (py + y) / 2 + (Math.random() - 0.5) * 2;
+                        ctx.quadraticCurveTo(cpx, cpy, x, y);
+                    }
+                }
+                ctx.closePath();
+
+                const amoebaGrad = ctx.createRadialGradient(amoeba.x, amoeba.y, 0, amoeba.x, amoeba.y, 45);
+                amoebaGrad.addColorStop(0, 'rgba(126, 231, 135, 0.4)');
+                amoebaGrad.addColorStop(0.7, 'rgba(126, 231, 135, 0.25)');
+                amoebaGrad.addColorStop(1, 'rgba(126, 231, 135, 0.15)');
+                ctx.fillStyle = amoebaGrad;
+                ctx.fill();
+                ctx.strokeStyle = 'rgba(126, 231, 135, 0.6)';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                // Nucleus
+                ctx.fillStyle = 'rgba(126, 231, 135, 0.5)';
+                ctx.beginPath();
+                ctx.arc(amoeba.x + Math.sin(time) * 3, amoeba.y + Math.cos(time * 0.7) * 3, 10, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Draw nutrient (green, pulsing)
+                const nPulse = 1 + Math.sin(time * 3) * 0.15;
+                ctx.fillStyle = 'rgba(126, 231, 135, 0.3)';
+                ctx.beginPath();
+                ctx.arc(nutrient.x, nutrient.y, 30 * nPulse, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = '#7EE787';
+                ctx.beginPath();
+                ctx.arc(nutrient.x, nutrient.y, 15 * nPulse, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.font = 'bold 14px "Inter", sans-serif';
+                ctx.fillStyle = '#0D1117';
+                ctx.textAlign = 'center';
+                ctx.fillText('N', nutrient.x, nutrient.y + 5);
+
+                // Draw toxin (red, spiky)
+                ctx.fillStyle = 'rgba(247, 129, 102, 0.3)';
+                ctx.beginPath();
+                ctx.arc(toxin.x, toxin.y, 25, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = '#F78166';
+                ctx.beginPath();
+                for (let i = 0; i < 8; i++) {
+                    const a = (i / 8) * Math.PI * 2;
+                    const r = i % 2 === 0 ? 18 : 10;
+                    const x = toxin.x + Math.cos(a) * r;
+                    const y = toxin.y + Math.sin(a) * r;
+                    if (i === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.closePath();
+                ctx.fill();
+                ctx.font = 'bold 12px "Inter", sans-serif';
+                ctx.fillStyle = '#0D1117';
+                ctx.textAlign = 'center';
+                ctx.fillText('T', toxin.x, toxin.y + 4);
+
+                // Direction arrows
+                // Toward nutrient
+                if (ndist > 60) {
+                    const arrowX = amoeba.x + (ndx / ndist) * 55;
+                    const arrowY = amoeba.y + (ndy / ndist) * 55;
+                    ctx.strokeStyle = 'rgba(126, 231, 135, 0.6)';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.moveTo(amoeba.x + (ndx / ndist) * 45, amoeba.y + (ndy / ndist) * 45);
+                    ctx.lineTo(arrowX, arrowY);
+                    ctx.stroke();
+                    // Arrow head
+                    const ang = Math.atan2(ndy, ndx);
+                    ctx.beginPath();
+                    ctx.moveTo(arrowX, arrowY);
+                    ctx.lineTo(arrowX - 8 * Math.cos(ang - 0.4), arrowY - 8 * Math.sin(ang - 0.4));
+                    ctx.moveTo(arrowX, arrowY);
+                    ctx.lineTo(arrowX - 8 * Math.cos(ang + 0.4), arrowY - 8 * Math.sin(ang + 0.4));
+                    ctx.stroke();
+                }
+
+                // Away from toxin
+                if (tdist < 200) {
+                    const awayX = amoeba.x - (tdx / tdist) * 55;
+                    const awayY = amoeba.y - (tdy / tdist) * 55;
+                    ctx.strokeStyle = 'rgba(247, 129, 102, 0.5)';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.moveTo(amoeba.x - (tdx / tdist) * 45, amoeba.y - (tdy / tdist) * 45);
+                    ctx.lineTo(awayX, awayY);
+                    ctx.stroke();
+                    const ang = Math.atan2(-tdy, -tdx);
+                    ctx.beginPath();
+                    ctx.moveTo(awayX, awayY);
+                    ctx.lineTo(awayX - 8 * Math.cos(ang - 0.4), awayY - 8 * Math.sin(ang - 0.4));
+                    ctx.moveTo(awayX, awayY);
+                    ctx.lineTo(awayX - 8 * Math.cos(ang + 0.4), awayY - 8 * Math.sin(ang + 0.4));
+                    ctx.stroke();
+                }
+
+                // Labels
+                ctx.font = '11px "JetBrains Mono", monospace';
+                ctx.textAlign = 'left';
+                ctx.fillStyle = 'rgba(126, 231, 135, 0.7)';
+                ctx.fillText('TOWARD', 20, 30);
+                ctx.fillStyle = 'rgba(247, 129, 102, 0.7)';
+                ctx.fillText('AWAY', 20, 50);
+
+                time += 0.016;
+                requestAnimationFrame(draw);
+            }
+
+            draw();
+        })();
+
+        // ============================================
+        // BODY DIRECTIONS VISUALIZATION
+        // ============================================
+        (function() {
+            const canvas = document.getElementById('body-directions-canvas');
+            const slider = document.getElementById('body-rotation');
+            if (!canvas || !slider) return;
+            const ctx = canvas.getContext('2d');
+
+            function resize() {
+                const container = canvas.parentElement;
+                const rect = container.getBoundingClientRect();
+                canvas.width = Math.min(700, rect.width - 64);
+                canvas.height = 400;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            let bodyAngle = 0;
+
+            slider.addEventListener('input', () => {
+                bodyAngle = (slider.value / 180) * Math.PI;
+            });
+
+            function drawArrow(x1, y1, x2, y2, color, label, labelPos) {
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x2, y2);
+                ctx.stroke();
+
+                // Arrowhead
+                const angle = Math.atan2(y2 - y1, x2 - x1);
+                const headLen = 12;
+                ctx.beginPath();
+                ctx.moveTo(x2, y2);
+                ctx.lineTo(x2 - headLen * Math.cos(angle - 0.4), y2 - headLen * Math.sin(angle - 0.4));
+                ctx.moveTo(x2, y2);
+                ctx.lineTo(x2 - headLen * Math.cos(angle + 0.4), y2 - headLen * Math.sin(angle + 0.4));
+                ctx.stroke();
+
+                // Label
+                ctx.font = '11px "JetBrains Mono", monospace';
+                ctx.fillStyle = color;
+                ctx.textAlign = 'center';
+                ctx.fillText(label, labelPos.x, labelPos.y);
+            }
+
+            function draw() {
+                const w = canvas.width;
+                const h = canvas.height;
+
+                ctx.fillStyle = '#0D1117';
+                ctx.fillRect(0, 0, w, h);
+
+                const centerX = w / 2;
+                const centerY = h / 2;
+
+                // Draw floor grid (rotates with perspective)
+                ctx.strokeStyle = 'rgba(88, 166, 255, 0.08)';
+                ctx.lineWidth = 1;
+                for (let i = -5; i <= 5; i++) {
+                    ctx.beginPath();
+                    ctx.moveTo(centerX + i * 40, centerY - 150);
+                    ctx.lineTo(centerX + i * 40, centerY + 150);
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.moveTo(centerX - 200, centerY + i * 30);
+                    ctx.lineTo(centerX + 200, centerY + i * 30);
+                    ctx.stroke();
+                }
+
+                // Draw body (top-down view, asymmetric - face pointing forward)
+                ctx.save();
+                ctx.translate(centerX, centerY);
+                ctx.rotate(bodyAngle);
+
+                // Body ellipse
+                ctx.fillStyle = 'rgba(168, 85, 247, 0.3)';
+                ctx.strokeStyle = 'rgba(168, 85, 247, 0.6)';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.ellipse(0, 0, 35, 45, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+
+                // Face/front indicator (asymmetry!)
+                ctx.fillStyle = 'rgba(247, 129, 102, 0.8)';
+                ctx.beginPath();
+                ctx.arc(0, -35, 15, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Eyes
+                ctx.fillStyle = '#0D1117';
+                ctx.beginPath();
+                ctx.arc(-6, -38, 3, 0, Math.PI * 2);
+                ctx.arc(6, -38, 3, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Forward arrow (body-relative)
+                const arrowLen = 80;
+                drawArrow(0, -50, 0, -50 - arrowLen, 'rgba(126, 231, 135, 0.9)', '', {x: 0, y: 0});
+                ctx.fillStyle = 'rgba(126, 231, 135, 0.9)';
+                ctx.save();
+                ctx.translate(0, -50 - arrowLen - 15);
+                ctx.rotate(-bodyAngle); // Counter-rotate for readable text
+                ctx.fillText('FORWARD', 0, 0);
+                ctx.restore();
+
+                // Backward arrow
+                drawArrow(0, 50, 0, 50 + arrowLen * 0.7, 'rgba(126, 231, 135, 0.5)', '', {x: 0, y: 0});
+                ctx.fillStyle = 'rgba(126, 231, 135, 0.5)';
+                ctx.save();
+                ctx.translate(0, 50 + arrowLen * 0.7 + 15);
+                ctx.rotate(-bodyAngle);
+                ctx.fillText('BACK', 0, 0);
+                ctx.restore();
+
+                // Left arrow
+                drawArrow(-40, 0, -40 - arrowLen * 0.6, 0, 'rgba(88, 166, 255, 0.7)', '', {x: 0, y: 0});
+                ctx.fillStyle = 'rgba(88, 166, 255, 0.7)';
+                ctx.save();
+                ctx.translate(-40 - arrowLen * 0.6 - 20, 0);
+                ctx.rotate(-bodyAngle);
+                ctx.fillText('LEFT', 0, 4);
+                ctx.restore();
+
+                // Right arrow
+                drawArrow(40, 0, 40 + arrowLen * 0.6, 0, 'rgba(88, 166, 255, 0.7)', '', {x: 0, y: 0});
+                ctx.fillStyle = 'rgba(88, 166, 255, 0.7)';
+                ctx.save();
+                ctx.translate(40 + arrowLen * 0.6 + 20, 0);
+                ctx.rotate(-bodyAngle);
+                ctx.fillText('RIGHT', 0, 4);
+                ctx.restore();
+
+                ctx.restore();
+
+                // Up/Down arrows - FIXED, don't rotate with body
+                // These are drawn outside the rotation transform
+                const upDownX = w - 80;
+                ctx.strokeStyle = 'rgba(247, 129, 102, 0.8)';
+                ctx.lineWidth = 3;
+
+                // Up arrow
+                ctx.beginPath();
+                ctx.moveTo(upDownX, centerY);
+                ctx.lineTo(upDownX, centerY - 80);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(upDownX, centerY - 80);
+                ctx.lineTo(upDownX - 10, centerY - 68);
+                ctx.moveTo(upDownX, centerY - 80);
+                ctx.lineTo(upDownX + 10, centerY - 68);
+                ctx.stroke();
+                ctx.fillStyle = 'rgba(247, 129, 102, 0.8)';
+                ctx.font = '11px "JetBrains Mono", monospace';
+                ctx.textAlign = 'center';
+                ctx.fillText('UP', upDownX, centerY - 90);
+                ctx.fillText('(gravity)', upDownX, centerY - 105);
+
+                // Down arrow
+                ctx.beginPath();
+                ctx.moveTo(upDownX, centerY);
+                ctx.lineTo(upDownX, centerY + 80);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(upDownX, centerY + 80);
+                ctx.lineTo(upDownX - 10, centerY + 68);
+                ctx.moveTo(upDownX, centerY + 80);
+                ctx.lineTo(upDownX + 10, centerY + 68);
+                ctx.stroke();
+                ctx.fillText('DOWN', upDownX, centerY + 100);
+
+                // Earth symbol
+                ctx.fillStyle = 'rgba(247, 129, 102, 0.3)';
+                ctx.beginPath();
+                ctx.arc(upDownX, centerY + 130, 20, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = 'rgba(247, 129, 102, 0.6)';
+                ctx.font = '14px serif';
+                ctx.fillText('⊕', upDownX, centerY + 135);
+
+                // Annotations
+                ctx.font = '12px "JetBrains Mono", monospace';
+                ctx.textAlign = 'left';
+                ctx.fillStyle = 'rgba(126, 231, 135, 0.6)';
+                ctx.fillText('BODY-RELATIVE', 30, 30);
+                ctx.fillText('(rotates with you)', 30, 48);
+                ctx.fillStyle = 'rgba(247, 129, 102, 0.6)';
+                ctx.textAlign = 'right';
+                ctx.fillText('GRAVITY-FIXED', w - 30, 30);
+                ctx.fillText('(always the same)', w - 30, 48);
+
+                // Center point
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, 4, 0, Math.PI * 2);
+                ctx.fill();
+
+                requestAnimationFrame(draw);
+            }
+
+            draw();
+        })();
+
+        // ============================================
+        // CIRCLE OF DIRECTIONS VISUALIZATION
+        // ============================================
+        (function() {
+            const canvas = document.getElementById('circle-directions-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            function resize() {
+                const container = canvas.parentElement;
+                const rect = container.getBoundingClientRect();
+                canvas.width = Math.min(700, rect.width - 64);
+                canvas.height = 350;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            let angle = Math.PI / 4; // Start at 45°
+            let isDragging = false;
+
+            function getMouseAngle(e) {
+                const rect = canvas.getBoundingClientRect();
+                const mx = e.clientX - rect.left - canvas.width / 2;
+                const my = e.clientY - rect.top - canvas.height / 2;
+                return Math.atan2(-my, mx); // Negative y for screen coords
+            }
+
+            canvas.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                angle = getMouseAngle(e);
+            });
+
+            canvas.addEventListener('mousemove', (e) => {
+                if (isDragging) {
+                    angle = getMouseAngle(e);
+                }
+            });
+
+            canvas.addEventListener('mouseup', () => { isDragging = false; });
+            canvas.addEventListener('mouseleave', () => { isDragging = false; });
+
+            function draw() {
+                const w = canvas.width;
+                const h = canvas.height;
+
+                ctx.fillStyle = '#0D1117';
+                ctx.fillRect(0, 0, w, h);
+
+                const centerX = w / 2;
+                const centerY = h / 2;
+                const radius = 120;
+
+                // Draw circle
+                ctx.strokeStyle = 'rgba(88, 166, 255, 0.4)';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+                ctx.stroke();
+
+                // Draw tick marks and labels
+                const directions = [
+                    { angle: 0, label: '0°', sublabel: 'E' },
+                    { angle: Math.PI / 2, label: '90°', sublabel: 'N' },
+                    { angle: Math.PI, label: '180°', sublabel: 'W' },
+                    { angle: 3 * Math.PI / 2, label: '270°', sublabel: 'S' }
+                ];
+
+                ctx.font = '11px "JetBrains Mono", monospace';
+                directions.forEach(d => {
+                    const x1 = centerX + Math.cos(d.angle) * (radius - 10);
+                    const y1 = centerY - Math.sin(d.angle) * (radius - 10);
+                    const x2 = centerX + Math.cos(d.angle) * (radius + 10);
+                    const y2 = centerY - Math.sin(d.angle) * (radius + 10);
+
+                    ctx.strokeStyle = 'rgba(88, 166, 255, 0.3)';
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.moveTo(x1, y1);
+                    ctx.lineTo(x2, y2);
+                    ctx.stroke();
+
+                    const labelX = centerX + Math.cos(d.angle) * (radius + 30);
+                    const labelY = centerY - Math.sin(d.angle) * (radius + 30);
+                    ctx.fillStyle = 'rgba(88, 166, 255, 0.6)';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(d.label, labelX, labelY + 4);
+                });
+
+                // Draw arc showing angle
+                ctx.strokeStyle = 'rgba(126, 231, 135, 0.3)';
+                ctx.lineWidth = 20;
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, 40, 0, -angle, angle < 0);
+                ctx.stroke();
+
+                // Draw direction arrow
+                const arrowX = centerX + Math.cos(angle) * radius;
+                const arrowY = centerY - Math.sin(angle) * radius;
+
+                ctx.strokeStyle = 'rgba(247, 129, 102, 0.9)';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.lineTo(arrowX, arrowY);
+                ctx.stroke();
+
+                // Arrowhead
+                const headLen = 15;
+                ctx.beginPath();
+                ctx.moveTo(arrowX, arrowY);
+                ctx.lineTo(arrowX - headLen * Math.cos(angle - 0.4), arrowY + headLen * Math.sin(angle - 0.4));
+                ctx.moveTo(arrowX, arrowY);
+                ctx.lineTo(arrowX - headLen * Math.cos(angle + 0.4), arrowY + headLen * Math.sin(angle + 0.4));
+                ctx.stroke();
+
+                // Draw point on circle
+                ctx.fillStyle = '#F78166';
+                ctx.beginPath();
+                ctx.arc(arrowX, arrowY, 8, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Center point
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, 4, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Angle display
+                let degrees = (angle * 180 / Math.PI);
+                if (degrees < 0) degrees += 360;
+                degrees = degrees.toFixed(1);
+
+                ctx.font = 'bold 24px "JetBrains Mono", monospace';
+                ctx.fillStyle = 'rgba(126, 231, 135, 0.9)';
+                ctx.textAlign = 'center';
+                ctx.fillText(`θ = ${degrees}°`, centerX, centerY + radius + 60);
+
+                // Coordinates
+                const cosVal = Math.cos(angle).toFixed(3);
+                const sinVal = Math.sin(angle).toFixed(3);
+                ctx.font = '12px "JetBrains Mono", monospace';
+                ctx.fillStyle = 'rgba(139, 148, 158, 0.7)';
+                ctx.fillText(`(cos θ, sin θ) = (${cosVal}, ${sinVal})`, centerX, centerY + radius + 85);
+
+                requestAnimationFrame(draw);
+            }
+
+            draw();
+        })();
+
+        // ============================================
+        // COMPARING DIRECTIONS VISUALIZATION
+        // ============================================
+        (function() {
+            const canvas = document.getElementById('comparing-directions-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            function resize() {
+                const container = canvas.parentElement;
+                const rect = container.getBoundingClientRect();
+                canvas.width = Math.min(700, rect.width - 64);
+                canvas.height = 350;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            let angle1 = Math.PI / 6;  // 30°
+            let angle2 = Math.PI * 2 / 3; // 120°
+            let dragging = null;
+
+            function getMouseAngle(e) {
+                const rect = canvas.getBoundingClientRect();
+                const mx = e.clientX - rect.left - canvas.width / 2;
+                const my = e.clientY - rect.top - canvas.height / 2;
+                return Math.atan2(-my, mx);
+            }
+
+            canvas.addEventListener('mousedown', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                const mx = e.clientX - rect.left - canvas.width / 2;
+                const my = e.clientY - rect.top - canvas.height / 2;
+                const r = 100;
+
+                // Check which arrow tip is closer
+                const d1 = Math.hypot(mx - Math.cos(angle1) * r, my + Math.sin(angle1) * r);
+                const d2 = Math.hypot(mx - Math.cos(angle2) * r, my + Math.sin(angle2) * r);
+
+                if (d1 < 30) dragging = 1;
+                else if (d2 < 30) dragging = 2;
+                else dragging = null;
+            });
+
+            canvas.addEventListener('mousemove', (e) => {
+                if (dragging === 1) angle1 = getMouseAngle(e);
+                else if (dragging === 2) angle2 = getMouseAngle(e);
+            });
+
+            canvas.addEventListener('mouseup', () => { dragging = null; });
+            canvas.addEventListener('mouseleave', () => { dragging = null; });
+
+            function draw() {
+                const w = canvas.width;
+                const h = canvas.height;
+
+                ctx.fillStyle = '#0D1117';
+                ctx.fillRect(0, 0, w, h);
+
+                const centerX = w / 2;
+                const centerY = h / 2 - 20;
+                const arrowLen = 100;
+
+                // Reference circle
+                ctx.strokeStyle = 'rgba(88, 166, 255, 0.15)';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, arrowLen, 0, Math.PI * 2);
+                ctx.stroke();
+
+                // Draw arc between arrows
+                let angleBetween = angle2 - angle1;
+                if (angleBetween < 0) angleBetween += Math.PI * 2;
+                if (angleBetween > Math.PI) angleBetween = Math.PI * 2 - angleBetween;
+
+                ctx.strokeStyle = 'rgba(168, 85, 247, 0.4)';
+                ctx.lineWidth = 8;
+                ctx.beginPath();
+                const startAngle = Math.min(angle1, angle2);
+                const endAngle = Math.max(angle1, angle2);
+                ctx.arc(centerX, centerY, 40, -endAngle, -startAngle);
+                ctx.stroke();
+
+                // Arrow 1 (coral)
+                const x1 = centerX + Math.cos(angle1) * arrowLen;
+                const y1 = centerY - Math.sin(angle1) * arrowLen;
+                ctx.strokeStyle = 'rgba(247, 129, 102, 0.9)';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.lineTo(x1, y1);
+                ctx.stroke();
+                // Arrowhead
+                ctx.beginPath();
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x1 - 12 * Math.cos(angle1 - 0.4), y1 + 12 * Math.sin(angle1 - 0.4));
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x1 - 12 * Math.cos(angle1 + 0.4), y1 + 12 * Math.sin(angle1 + 0.4));
+                ctx.stroke();
+                // Dot
+                ctx.fillStyle = '#F78166';
+                ctx.beginPath();
+                ctx.arc(x1, y1, 6, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Arrow 2 (green)
+                const x2 = centerX + Math.cos(angle2) * arrowLen;
+                const y2 = centerY - Math.sin(angle2) * arrowLen;
+                ctx.strokeStyle = 'rgba(126, 231, 135, 0.9)';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.lineTo(x2, y2);
+                ctx.stroke();
+                // Arrowhead
+                ctx.beginPath();
+                ctx.moveTo(x2, y2);
+                ctx.lineTo(x2 - 12 * Math.cos(angle2 - 0.4), y2 + 12 * Math.sin(angle2 - 0.4));
+                ctx.moveTo(x2, y2);
+                ctx.lineTo(x2 - 12 * Math.cos(angle2 + 0.4), y2 + 12 * Math.sin(angle2 + 0.4));
+                ctx.stroke();
+                // Dot
+                ctx.fillStyle = '#7EE787';
+                ctx.beginPath();
+                ctx.arc(x2, y2, 6, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Center
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, 4, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Angle display
+                const degreesBetween = (angleBetween * 180 / Math.PI).toFixed(1);
+                ctx.font = 'bold 20px "JetBrains Mono", monospace';
+                ctx.fillStyle = 'rgba(168, 85, 247, 0.9)';
+                ctx.textAlign = 'center';
+                ctx.fillText(`Δθ = ${degreesBetween}°`, centerX, centerY + arrowLen + 50);
+
+                // Dot product preview
+                const dotProduct = Math.cos(angleBetween);
+                ctx.font = '14px "JetBrains Mono", monospace';
+                ctx.fillStyle = 'rgba(139, 148, 158, 0.7)';
+                ctx.fillText(`cos(Δθ) = ${dotProduct.toFixed(3)}`, centerX, centerY + arrowLen + 75);
+
+                // Alignment bar
+                const barWidth = 200;
+                const barX = centerX - barWidth / 2;
+                const barY = centerY + arrowLen + 100;
+
+                // Background
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+                ctx.fillRect(barX, barY, barWidth, 10);
+
+                // Fill based on alignment (-1 to 1 mapped to 0-200)
+                const fillWidth = (dotProduct + 1) / 2 * barWidth;
+                const barColor = dotProduct > 0 ? 'rgba(126, 231, 135, 0.7)' : 'rgba(247, 129, 102, 0.7)';
+                ctx.fillStyle = barColor;
+                ctx.fillRect(barX, barY, fillWidth, 10);
+
+                // Labels
+                ctx.font = '10px "JetBrains Mono", monospace';
+                ctx.fillStyle = 'rgba(247, 129, 102, 0.6)';
+                ctx.textAlign = 'left';
+                ctx.fillText('OPPOSITE', barX, barY + 25);
+                ctx.fillStyle = 'rgba(126, 231, 135, 0.6)';
+                ctx.textAlign = 'right';
+                ctx.fillText('ALIGNED', barX + barWidth, barY + 25);
+                ctx.fillStyle = 'rgba(139, 148, 158, 0.5)';
+                ctx.textAlign = 'center';
+                ctx.fillText('⊥', barX + barWidth / 2, barY + 25);
+
+                requestAnimationFrame(draw);
+            }
+
+            draw();
+        })();
+
+        // ============================================
+        // GRADIENT LANDSCAPE VISUALIZATION
+        // ============================================
+        (function() {
+            const canvas = document.getElementById('gradient-landscape-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            function resize() {
+                const container = canvas.parentElement;
+                const rect = container.getBoundingClientRect();
+                canvas.width = Math.min(700, rect.width - 64);
+                canvas.height = 400;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            // Potential function: two peaks
+            function potential(x, y) {
+                const w = canvas.width;
+                const h = canvas.height;
+                // Normalize coordinates
+                const nx = x / w;
+                const ny = y / h;
+                // Two peaks
+                const p1 = Math.exp(-((nx - 0.3) ** 2 + (ny - 0.35) ** 2) * 15);
+                const p2 = Math.exp(-((nx - 0.7) ** 2 + (ny - 0.6) ** 2) * 12) * 0.8;
+                return p1 + p2;
+            }
+
+            // Gradient (numerical)
+            function gradient(x, y) {
+                const dx = 2;
+                const gx = (potential(x + dx, y) - potential(x - dx, y)) / (2 * dx);
+                const gy = (potential(x, y + dx) - potential(x, y - dx)) / (2 * dx);
+                return { x: gx, y: gy };
+            }
+
+            // Ball state
+            let ball = null;
+
+            canvas.addEventListener('click', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                ball = {
+                    x: e.clientX - rect.left,
+                    y: e.clientY - rect.top,
+                    vx: 0,
+                    vy: 0
+                };
+            });
+
+            function draw() {
+                const w = canvas.width;
+                const h = canvas.height;
+
+                // Draw heightmap
+                const imageData = ctx.createImageData(w, h);
+                for (let y = 0; y < h; y++) {
+                    for (let x = 0; x < w; x++) {
+                        const val = potential(x, y);
+                        const i = (y * w + x) * 4;
+                        // Color: blue (low) to red (high)
+                        imageData.data[i] = Math.floor(val * 200 + 30);
+                        imageData.data[i + 1] = Math.floor(val * 80 + 20);
+                        imageData.data[i + 2] = Math.floor((1 - val) * 150 + 50);
+                        imageData.data[i + 3] = 255;
+                    }
+                }
+                ctx.putImageData(imageData, 0, 0);
+
+                // Draw contour lines (simplified)
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+                ctx.lineWidth = 1;
+                for (let level = 0.1; level < 1; level += 0.15) {
+                    ctx.beginPath();
+                    for (let x = 0; x < w; x += 5) {
+                        for (let y = 0; y < h; y += 5) {
+                            const val = potential(x, y);
+                            if (Math.abs(val - level) < 0.03) {
+                                ctx.moveTo(x, y);
+                                ctx.lineTo(x + 2, y + 2);
+                            }
+                        }
+                    }
+                    ctx.stroke();
+                }
+
+                // Draw gradient arrows (sparse grid)
+                const arrowSpacing = 60;
+                for (let x = arrowSpacing; x < w; x += arrowSpacing) {
+                    for (let y = arrowSpacing; y < h; y += arrowSpacing) {
+                        const g = gradient(x, y);
+                        const mag = Math.sqrt(g.x * g.x + g.y * g.y);
+                        if (mag < 0.0001) continue;
+
+                        const arrowLen = Math.min(25, mag * 500);
+                        const nx = g.x / mag;
+                        const ny = g.y / mag;
+
+                        ctx.strokeStyle = `rgba(126, 231, 135, ${Math.min(0.8, mag * 8)})`;
+                        ctx.lineWidth = 1.5;
+                        ctx.beginPath();
+                        ctx.moveTo(x, y);
+                        ctx.lineTo(x + nx * arrowLen, y + ny * arrowLen);
+                        ctx.stroke();
+
+                        // Arrowhead
+                        const angle = Math.atan2(ny, nx);
+                        ctx.beginPath();
+                        ctx.moveTo(x + nx * arrowLen, y + ny * arrowLen);
+                        ctx.lineTo(x + nx * arrowLen - 5 * Math.cos(angle - 0.5), y + ny * arrowLen - 5 * Math.sin(angle - 0.5));
+                        ctx.moveTo(x + nx * arrowLen, y + ny * arrowLen);
+                        ctx.lineTo(x + nx * arrowLen - 5 * Math.cos(angle + 0.5), y + ny * arrowLen - 5 * Math.sin(angle + 0.5));
+                        ctx.stroke();
+                    }
+                }
+
+                // Update and draw ball
+                if (ball) {
+                    const g = gradient(ball.x, ball.y);
+                    // Ball rolls DOWN the gradient (negative gradient)
+                    ball.vx -= g.x * 150;
+                    ball.vy -= g.y * 150;
+                    ball.vx *= 0.95; // friction
+                    ball.vy *= 0.95;
+
+                    ball.x += ball.vx * 0.016;
+                    ball.y += ball.vy * 0.016;
+
+                    // Boundary
+                    ball.x = Math.max(10, Math.min(w - 10, ball.x));
+                    ball.y = Math.max(10, Math.min(h - 10, ball.y));
+
+                    // Draw ball
+                    ctx.fillStyle = 'rgba(247, 129, 102, 0.9)';
+                    ctx.beginPath();
+                    ctx.arc(ball.x, ball.y, 10, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+
+                    // Show gradient at ball position
+                    const bg = gradient(ball.x, ball.y);
+                    const bmag = Math.sqrt(bg.x * bg.x + bg.y * bg.y);
+                    if (bmag > 0.0001) {
+                        const blen = 40;
+                        ctx.strokeStyle = 'rgba(126, 231, 135, 0.9)';
+                        ctx.lineWidth = 3;
+                        ctx.beginPath();
+                        ctx.moveTo(ball.x, ball.y);
+                        ctx.lineTo(ball.x + (bg.x / bmag) * blen, ball.y + (bg.y / bmag) * blen);
+                        ctx.stroke();
+
+                        // Label
+                        ctx.font = '10px "JetBrains Mono", monospace';
+                        ctx.fillStyle = 'rgba(126, 231, 135, 0.8)';
+                        ctx.textAlign = 'center';
+                        ctx.fillText('∇f (uphill)', ball.x + (bg.x / bmag) * blen, ball.y + (bg.y / bmag) * blen - 10);
+                    }
+                }
+
+                // Legend
+                ctx.font = '11px "JetBrains Mono", monospace';
+                ctx.textAlign = 'left';
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+                ctx.fillText('HIGH', 15, 25);
+                ctx.fillStyle = 'rgba(100, 100, 200, 0.7)';
+                ctx.fillText('LOW', 15, h - 15);
+
+                if (!ball) {
+                    ctx.font = '12px "JetBrains Mono", monospace';
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('click to drop a ball', w / 2, h - 20);
+                }
+
+                requestAnimationFrame(draw);
+            }
+
+            draw();
+        })();
     </script>
 
 </body>
