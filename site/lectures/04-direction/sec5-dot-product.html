@@ -1,0 +1,1438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Aligned? | Dot Product</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a25;
+            --text-primary: #e8e6e3;
+            --text-secondary: #a9a6a0;
+            --text-muted: #6b6966;
+            --accent-blue: #4a9eff;
+            --accent-purple: #9d7aff;
+            --accent-green: #4ade80;
+            --accent-red: #f87171;
+            --accent-yellow: #fbbf24;
+            --accent-cyan: #22d3ee;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Fraunces', serif;
+            font-weight: 600;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            color: var(--accent-cyan);
+            margin: 3rem 0 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--bg-tertiary);
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .visual-container {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border: 1px solid var(--bg-tertiary);
+        }
+
+        canvas {
+            display: block;
+            margin: 0 auto;
+            border-radius: 8px;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+            justify-content: center;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .control-group label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        input[type="range"] {
+            width: 140px;
+            accent-color: var(--accent-blue);
+        }
+
+        .value-display {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--accent-blue);
+        }
+
+        .formula-box {
+            background: var(--bg-tertiary);
+            border-left: 3px solid var(--accent-purple);
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            font-family: 'JetBrains Mono', monospace;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .formula-box .main {
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .formula-box .explanation {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .insight-box {
+            background: linear-gradient(135deg, rgba(74, 158, 255, 0.1), rgba(34, 211, 238, 0.1));
+            border: 1px solid var(--accent-blue);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .insight-box h4 {
+            color: var(--accent-cyan);
+            margin-bottom: 0.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+        }
+
+        .causal-chain {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .chain-step {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .chain-step:hover {
+            transform: translateX(5px);
+            border-left: 3px solid var(--accent-blue);
+        }
+
+        .chain-step.active {
+            border-left: 3px solid var(--accent-cyan);
+            background: rgba(34, 211, 238, 0.1);
+        }
+
+        .chain-arrow {
+            color: var(--accent-blue);
+            font-size: 1.5rem;
+            text-align: center;
+            padding: 0.5rem 0;
+        }
+
+        .step-number {
+            width: 30px;
+            height: 30px;
+            background: var(--accent-blue);
+            color: var(--bg-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-title {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .step-detail {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            display: none;
+        }
+
+        .chain-step.active .step-detail {
+            display: block;
+            margin-top: 0.5rem;
+        }
+
+        .view-toggle {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .view-btn {
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--bg-tertiary);
+            color: var(--text-secondary);
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .view-btn:hover {
+            border-color: var(--accent-blue);
+        }
+
+        .view-btn.active {
+            background: var(--accent-blue);
+            color: var(--bg-primary);
+            border-color: var(--accent-blue);
+        }
+
+        .example-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .example-card {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--bg-tertiary);
+            transition: all 0.3s ease;
+        }
+
+        .example-card:hover {
+            border-color: var(--accent-blue);
+            transform: translateY(-2px);
+        }
+
+        .example-card h4 {
+            color: var(--accent-cyan);
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+        }
+
+        .example-card canvas {
+            margin: 1rem 0;
+        }
+
+        .example-card .result {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--accent-green);
+            text-align: center;
+            padding: 0.5rem;
+            background: var(--bg-tertiary);
+            border-radius: 4px;
+        }
+
+        .practice-section {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 3rem 0;
+        }
+
+        .problem {
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .problem-question {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .problem-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .option-btn {
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--bg-tertiary);
+            color: var(--text-secondary);
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            transition: all 0.3s ease;
+        }
+
+        .option-btn:hover {
+            border-color: var(--accent-blue);
+            color: var(--text-primary);
+        }
+
+        .option-btn.correct {
+            background: var(--accent-green);
+            color: var(--bg-primary);
+            border-color: var(--accent-green);
+        }
+
+        .option-btn.incorrect {
+            background: var(--accent-red);
+            color: var(--bg-primary);
+            border-color: var(--accent-red);
+        }
+
+        .feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .feedback.correct {
+            background: rgba(74, 222, 128, 0.1);
+            border: 1px solid var(--accent-green);
+            color: var(--accent-green);
+        }
+
+        .feedback.incorrect {
+            background: rgba(248, 113, 113, 0.1);
+            border: 1px solid var(--accent-red);
+            color: var(--accent-red);
+        }
+
+        .result-display {
+            text-align: center;
+            padding: 1rem;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .dot-value {
+            font-size: 2rem;
+            font-family: 'Fraunces', serif;
+            font-weight: 600;
+        }
+
+        .dot-value.positive { color: var(--accent-green); }
+        .dot-value.zero { color: var(--accent-yellow); }
+        .dot-value.negative { color: var(--accent-red); }
+
+        .alignment-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        .angle-display {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            color: var(--accent-cyan);
+        }
+
+        .nav-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent-blue);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--accent-blue);
+            border-radius: 8px;
+            margin: 2rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: var(--accent-blue);
+            color: var(--bg-primary);
+        }
+
+        .two-formulas {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        @media (max-width: 600px) {
+            .two-formulas {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .bridge-visual {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem;
+        }
+
+        .bridge-arrow {
+            font-size: 2rem;
+            color: var(--accent-purple);
+        }
+
+        .bridge-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="sec4-components.html" class="nav-link">← Section 4: Breaking Apart</a>
+
+        <h1>How Aligned?</h1>
+        <p class="subtitle">Measuring agreement between directions</p>
+
+        <!-- Opening Visual: Two bond dipoles -->
+        <div class="visual-container">
+            <canvas id="alignmentCanvas" width="700" height="350"></canvas>
+            <div class="controls">
+                <div class="control-group">
+                    <label>Rotate Second Dipole</label>
+                    <input type="range" id="angleSlider" min="0" max="360" value="60">
+                    <span class="value-display" id="angleValue">60°</span>
+                </div>
+            </div>
+            <div class="result-display">
+                <div class="dot-value positive" id="dotResult">+0.50</div>
+                <div class="alignment-label" id="alignmentLabel">Partially aligned → reinforcing</div>
+                <div class="angle-display" id="angleDisplay">θ = 60°</div>
+            </div>
+        </div>
+
+        <p>When two directions interact, how much do they <em>agree</em>? The dot product answers: a number that ranges from +1 (perfectly aligned) through 0 (perpendicular) to -1 (opposite).</p>
+
+        <!-- Causal Chain: Why alignment matters -->
+        <h2>Why Alignment Matters</h2>
+
+        <div class="causal-chain">
+            <div class="chain-step active" data-step="1">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <div class="step-title">Two bond dipoles in a molecule</div>
+                    <div class="step-detail">Each O-H bond in water has a dipole pointing toward oxygen</div>
+                </div>
+            </div>
+            <div class="chain-arrow">↓</div>
+            <div class="chain-step" data-step="2">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <div class="step-title">Alignment determines molecular polarity</div>
+                    <div class="step-detail">If dipoles align → they add (polar). If opposite → they cancel (nonpolar)</div>
+                </div>
+            </div>
+            <div class="chain-arrow">↓</div>
+            <div class="chain-step" data-step="3">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <div class="step-title">Polarity determines solubility</div>
+                    <div class="step-detail">Polar molecules dissolve in polar solvents (like dissolves like)</div>
+                </div>
+            </div>
+            <div class="chain-arrow">↓</div>
+            <div class="chain-step" data-step="4">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <div class="step-title">Solubility determines reactivity</div>
+                    <div class="step-detail">Molecules must meet to react — solubility enables chemistry</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="insight-box">
+            <h4>THE QUESTION</h4>
+            <p>Given two directions, how much does one "point in the direction" of the other? This is the essence of the dot product.</p>
+        </div>
+
+        <!-- The Geometric View: Projection -->
+        <h2>The Geometric View: Shadow on a Line</h2>
+
+        <p>Imagine shining a light perpendicular to vector <strong>b</strong>. The shadow of vector <strong>a</strong> on <strong>b</strong> tells you how much <strong>a</strong> agrees with <strong>b</strong>'s direction.</p>
+
+        <div class="visual-container">
+            <canvas id="projectionCanvas" width="700" height="400"></canvas>
+            <div class="controls">
+                <div class="control-group">
+                    <label>Vector a angle</label>
+                    <input type="range" id="vecAAngle" min="0" max="180" value="45">
+                    <span class="value-display" id="vecAAngleVal">45°</span>
+                </div>
+                <div class="control-group">
+                    <label>|a| magnitude</label>
+                    <input type="range" id="vecAMag" min="50" max="150" value="120">
+                    <span class="value-display" id="vecAMagVal">1.20</span>
+                </div>
+            </div>
+            <div class="result-display">
+                <div class="angle-display">
+                    Projection length: <span id="projLength">0.85</span> = |a| × cos(θ) = <span id="projCalc">1.20 × 0.71</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="formula-box">
+            <div class="main">a · b = |a| |b| cos(θ)</div>
+            <div class="explanation">Dot product = (length of a) × (length of b) × (cosine of angle between them)</div>
+        </div>
+
+        <!-- The Numerical View -->
+        <h2>The Numerical View: Multiply and Add</h2>
+
+        <p>When vectors are written as components, the dot product becomes simple arithmetic:</p>
+
+        <div class="formula-box">
+            <div class="main">(a₁, a₂, a₃) · (b₁, b₂, b₃) = a₁b₁ + a₂b₂ + a₃b₃</div>
+            <div class="explanation">Multiply corresponding components, then add them all up</div>
+        </div>
+
+        <div class="visual-container">
+            <canvas id="numericalCanvas" width="700" height="350"></canvas>
+            <div class="controls">
+                <div class="control-group">
+                    <label>a₁</label>
+                    <input type="range" id="a1" min="-100" max="100" value="80">
+                    <span class="value-display" id="a1Val">0.80</span>
+                </div>
+                <div class="control-group">
+                    <label>a₂</label>
+                    <input type="range" id="a2" min="-100" max="100" value="60">
+                    <span class="value-display" id="a2Val">0.60</span>
+                </div>
+                <div class="control-group">
+                    <label>b₁</label>
+                    <input type="range" id="b1" min="-100" max="100" value="40">
+                    <span class="value-display" id="b1Val">0.40</span>
+                </div>
+                <div class="control-group">
+                    <label>b₂</label>
+                    <input type="range" id="b2" min="-100" max="100" value="90">
+                    <span class="value-display" id="b2Val">0.90</span>
+                </div>
+            </div>
+            <div class="result-display">
+                <div class="angle-display" id="numericResult">
+                    a · b = (0.80)(0.40) + (0.60)(0.90) = 0.32 + 0.54 = <strong>0.86</strong>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bridge: Two views are the same -->
+        <h2>The Bridge: Same Answer, Two Paths</h2>
+
+        <div class="view-toggle">
+            <button class="view-btn active" data-view="geometric">Geometric</button>
+            <button class="view-btn" data-view="numeric">Numeric</button>
+            <button class="view-btn" data-view="both">Both</button>
+        </div>
+
+        <div class="visual-container">
+            <canvas id="bridgeCanvas" width="700" height="350"></canvas>
+            <div class="bridge-visual">
+                <div class="formula-box" id="geoFormula" style="width: 100%; text-align: center;">
+                    <div class="main">|a| |b| cos(θ) = <span id="geoResult">0.86</span></div>
+                    <div class="explanation">Geometric: lengths × cosine</div>
+                </div>
+                <div class="bridge-arrow">↕</div>
+                <div class="bridge-label">These always give the same number!</div>
+                <div class="bridge-arrow">↕</div>
+                <div class="formula-box" id="numFormula" style="width: 100%; text-align: center;">
+                    <div class="main">a₁b₁ + a₂b₂ = <span id="numResult">0.86</span></div>
+                    <div class="explanation">Numeric: multiply-and-add components</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="insight-box">
+            <h4>THE MIRACLE</h4>
+            <p>No matter which formula you use, you get the same answer. The geometric view (projection) and the algebraic view (multiply-add) are two perspectives on the same fundamental operation.</p>
+        </div>
+
+        <!-- Special Cases -->
+        <h2>Special Cases: The Three Regimes</h2>
+
+        <div class="example-grid">
+            <div class="example-card">
+                <h4>Perfectly Aligned (θ = 0°)</h4>
+                <canvas id="alignedCanvas" width="240" height="120"></canvas>
+                <p>cos(0°) = 1</p>
+                <div class="result">a · b = |a| |b| (maximum)</div>
+            </div>
+            <div class="example-card">
+                <h4>Perpendicular (θ = 90°)</h4>
+                <canvas id="perpCanvas" width="240" height="120"></canvas>
+                <p>cos(90°) = 0</p>
+                <div class="result">a · b = 0 (orthogonal)</div>
+            </div>
+            <div class="example-card">
+                <h4>Opposite (θ = 180°)</h4>
+                <canvas id="oppositeCanvas" width="240" height="120"></canvas>
+                <p>cos(180°) = -1</p>
+                <div class="result">a · b = -|a| |b| (minimum)</div>
+            </div>
+        </div>
+
+        <!-- Chemistry Examples -->
+        <h2>Chemistry Applications</h2>
+
+        <h3>1. Bond Angles in Water</h3>
+
+        <div class="visual-container">
+            <canvas id="waterCanvas" width="700" height="350"></canvas>
+            <div class="controls">
+                <div class="control-group">
+                    <label>Bond Angle</label>
+                    <input type="range" id="bondAngle" min="90" max="180" value="104.5" step="0.5">
+                    <span class="value-display" id="bondAngleVal">104.5°</span>
+                </div>
+            </div>
+            <div class="result-display">
+                <div class="angle-display">
+                    cos(104.5°) = <span id="waterCos">-0.25</span> → Dipoles <span id="waterAlign">partially cancel</span>
+                </div>
+                <div class="alignment-label">
+                    Net dipole magnitude: <span id="waterDipole">1.50</span> D (water is polar!)
+                </div>
+            </div>
+        </div>
+
+        <h3>2. Work = Force · Displacement</h3>
+
+        <div class="visual-container">
+            <canvas id="workCanvas" width="700" height="300"></canvas>
+            <div class="controls">
+                <div class="control-group">
+                    <label>Push Angle</label>
+                    <input type="range" id="pushAngle" min="0" max="90" value="30">
+                    <span class="value-display" id="pushAngleVal">30°</span>
+                </div>
+            </div>
+            <div class="result-display">
+                <div class="angle-display">
+                    Work = F · d = |F| |d| cos(θ) = 100 × 5 × cos(30°) = <span id="workResult">433</span> J
+                </div>
+                <div class="alignment-label" id="workLabel">Pushing partly sideways wastes effort</div>
+            </div>
+        </div>
+
+        <h3>3. Orbital Overlap</h3>
+
+        <div class="visual-container">
+            <canvas id="orbitalCanvas" width="700" height="300"></canvas>
+            <div class="controls">
+                <div class="control-group">
+                    <label>Orbital Alignment</label>
+                    <input type="range" id="orbitalAngle" min="0" max="180" value="0">
+                    <span class="value-display" id="orbitalAngleVal">0° (bonding)</span>
+                </div>
+            </div>
+            <div class="result-display">
+                <div class="angle-display">
+                    Overlap integral ∝ cos(θ): <span id="overlapVal">+1.00</span>
+                </div>
+                <div class="alignment-label" id="orbitalLabel">Maximum bonding (constructive interference)</div>
+            </div>
+        </div>
+
+        <!-- Practice Problems -->
+        <h2>Practice</h2>
+
+        <div class="practice-section">
+            <div class="problem">
+                <div class="problem-question">
+                    <strong>Problem 1:</strong> Two vectors a = (3, 4) and b = (4, -3). What is a · b?
+                </div>
+                <div class="problem-options">
+                    <button class="option-btn" data-correct="true">0</button>
+                    <button class="option-btn">25</button>
+                    <button class="option-btn">12</button>
+                    <button class="option-btn">-25</button>
+                </div>
+                <div class="feedback" id="feedback1">
+                    <strong>Correct!</strong> a · b = (3)(4) + (4)(-3) = 12 - 12 = 0. These vectors are perpendicular!
+                </div>
+            </div>
+
+            <div class="problem">
+                <div class="problem-question">
+                    <strong>Problem 2:</strong> If a · b = 0 and neither vector is zero, what does this tell you?
+                </div>
+                <div class="problem-options">
+                    <button class="option-btn">They have the same magnitude</button>
+                    <button class="option-btn" data-correct="true">They are perpendicular</button>
+                    <button class="option-btn">They point in the same direction</button>
+                    <button class="option-btn">One is the negative of the other</button>
+                </div>
+                <div class="feedback" id="feedback2">
+                    <strong>Correct!</strong> Since a · b = |a||b|cos(θ), and neither magnitude is zero, we must have cos(θ) = 0, meaning θ = 90°.
+                </div>
+            </div>
+
+            <div class="problem">
+                <div class="problem-question">
+                    <strong>Problem 3:</strong> CO₂ is linear (180° bond angle). The C=O bond dipoles point in opposite directions. What is the net molecular dipole?
+                </div>
+                <div class="problem-options">
+                    <button class="option-btn" data-correct="true">Zero (nonpolar)</button>
+                    <button class="option-btn">Double the bond dipole</button>
+                    <button class="option-btn">Equal to one bond dipole</button>
+                    <button class="option-btn">Half the bond dipole</button>
+                </div>
+                <div class="feedback" id="feedback3">
+                    <strong>Correct!</strong> When dipoles point in exactly opposite directions (θ = 180°), they cancel completely. This is why CO₂ is nonpolar despite having polar bonds.
+                </div>
+            </div>
+
+            <div class="problem">
+                <div class="problem-question">
+                    <strong>Problem 4:</strong> You push a box with force 50 N at an angle of 60° above horizontal. How much force actually moves the box forward?
+                </div>
+                <div class="problem-options">
+                    <button class="option-btn">50 N</button>
+                    <button class="option-btn">43 N</button>
+                    <button class="option-btn" data-correct="true">25 N</button>
+                    <button class="option-btn">0 N</button>
+                </div>
+                <div class="feedback" id="feedback4">
+                    <strong>Correct!</strong> The horizontal component is 50 × cos(60°) = 50 × 0.5 = 25 N. Only this part does work in the direction of motion.
+                </div>
+            </div>
+        </div>
+
+        <a href="sec6-cross-product.html" class="nav-link">Section 6: What's Perpendicular? →</a>
+    </div>
+
+    <script>
+        // === Main Alignment Visualization ===
+        const alignCanvas = document.getElementById('alignmentCanvas');
+        const alignCtx = alignCanvas.getContext('2d');
+        const angleSlider = document.getElementById('angleSlider');
+        const angleValue = document.getElementById('angleValue');
+        const dotResult = document.getElementById('dotResult');
+        const alignmentLabel = document.getElementById('alignmentLabel');
+        const angleDisplay = document.getElementById('angleDisplay');
+
+        function drawAlignment() {
+            const angle = parseFloat(angleSlider.value);
+            const theta = angle * Math.PI / 180;
+
+            alignCtx.fillStyle = '#0a0a0f';
+            alignCtx.fillRect(0, 0, 700, 350);
+
+            const cx = 350, cy = 175;
+            const len = 120;
+
+            // Fixed first dipole (pointing right)
+            const a = { x: len, y: 0 };
+            // Second dipole at angle
+            const b = { x: len * Math.cos(theta), y: -len * Math.sin(theta) };
+
+            // Draw faint angle arc
+            alignCtx.beginPath();
+            alignCtx.arc(cx, cy, 50, 0, -theta, theta > 0);
+            alignCtx.strokeStyle = 'rgba(157, 122, 255, 0.3)';
+            alignCtx.lineWidth = 2;
+            alignCtx.stroke();
+
+            // Draw first vector (blue)
+            drawArrow(alignCtx, cx, cy, cx + a.x, cy + a.y, '#4a9eff', 4);
+            alignCtx.fillStyle = '#4a9eff';
+            alignCtx.font = '16px JetBrains Mono';
+            alignCtx.fillText('a', cx + a.x + 15, cy + 5);
+
+            // Draw second vector (cyan)
+            drawArrow(alignCtx, cx, cy, cx + b.x, cy + b.y, '#22d3ee', 4);
+            alignCtx.fillStyle = '#22d3ee';
+            alignCtx.fillText('b', cx + b.x + 15, cy + b.y);
+
+            // Calculate dot product (normalized)
+            const dotProd = Math.cos(theta);
+
+            // Update displays
+            angleValue.textContent = angle + '°';
+            dotResult.textContent = (dotProd >= 0 ? '+' : '') + dotProd.toFixed(2);
+            angleDisplay.textContent = 'θ = ' + angle + '°';
+
+            // Update color and label based on value
+            dotResult.className = 'dot-value ' + (dotProd > 0.1 ? 'positive' : dotProd < -0.1 ? 'negative' : 'zero');
+
+            if (dotProd > 0.9) alignmentLabel.textContent = 'Nearly aligned → strong reinforcement';
+            else if (dotProd > 0.1) alignmentLabel.textContent = 'Partially aligned → partial reinforcement';
+            else if (dotProd > -0.1) alignmentLabel.textContent = 'Perpendicular → no interaction';
+            else if (dotProd > -0.9) alignmentLabel.textContent = 'Partially opposed → partial cancellation';
+            else alignmentLabel.textContent = 'Opposite → complete cancellation';
+        }
+
+        function drawArrow(ctx, x1, y1, x2, y2, color, width = 3) {
+            const headLen = 12;
+            const angle = Math.atan2(y2 - y1, x2 - x1);
+
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.strokeStyle = color;
+            ctx.lineWidth = width;
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(x2, y2);
+            ctx.lineTo(x2 - headLen * Math.cos(angle - Math.PI/6), y2 - headLen * Math.sin(angle - Math.PI/6));
+            ctx.lineTo(x2 - headLen * Math.cos(angle + Math.PI/6), y2 - headLen * Math.sin(angle + Math.PI/6));
+            ctx.closePath();
+            ctx.fillStyle = color;
+            ctx.fill();
+        }
+
+        angleSlider.addEventListener('input', drawAlignment);
+        drawAlignment();
+
+        // === Projection Visualization ===
+        const projCanvas = document.getElementById('projectionCanvas');
+        const projCtx = projCanvas.getContext('2d');
+        const vecAAngle = document.getElementById('vecAAngle');
+        const vecAMag = document.getElementById('vecAMag');
+
+        function drawProjection() {
+            const angleA = parseFloat(vecAAngle.value) * Math.PI / 180;
+            const magA = parseFloat(vecAMag.value);
+
+            projCtx.fillStyle = '#0a0a0f';
+            projCtx.fillRect(0, 0, 700, 400);
+
+            const cx = 200, cy = 300;
+            const bLen = 200;
+
+            // Vector b is horizontal
+            const bEnd = { x: cx + bLen, y: cy };
+
+            // Vector a at angle
+            const aEnd = { x: cx + magA * Math.cos(angleA), y: cy - magA * Math.sin(angleA) };
+
+            // Projection of a onto b
+            const projLen = magA * Math.cos(angleA);
+            const projEnd = { x: cx + projLen, y: cy };
+
+            // Draw light rays (dashed)
+            projCtx.setLineDash([5, 5]);
+            projCtx.strokeStyle = 'rgba(251, 191, 36, 0.3)';
+            projCtx.lineWidth = 1;
+            projCtx.beginPath();
+            projCtx.moveTo(aEnd.x, aEnd.y);
+            projCtx.lineTo(projEnd.x, projEnd.y);
+            projCtx.stroke();
+            projCtx.setLineDash([]);
+
+            // Draw b vector
+            drawArrow(projCtx, cx, cy, bEnd.x, bEnd.y, '#22d3ee', 4);
+            projCtx.fillStyle = '#22d3ee';
+            projCtx.font = '18px JetBrains Mono';
+            projCtx.fillText('b', bEnd.x + 10, cy + 25);
+
+            // Draw projection (shadow)
+            projCtx.beginPath();
+            projCtx.moveTo(cx, cy + 5);
+            projCtx.lineTo(projEnd.x, cy + 5);
+            projCtx.strokeStyle = '#fbbf24';
+            projCtx.lineWidth = 6;
+            projCtx.stroke();
+            projCtx.fillStyle = '#fbbf24';
+            projCtx.font = '14px JetBrains Mono';
+            projCtx.fillText('projection', cx + projLen/2 - 35, cy + 30);
+
+            // Draw a vector
+            drawArrow(projCtx, cx, cy, aEnd.x, aEnd.y, '#4a9eff', 4);
+            projCtx.fillStyle = '#4a9eff';
+            projCtx.font = '18px JetBrains Mono';
+            projCtx.fillText('a', aEnd.x + 10, aEnd.y);
+
+            // Draw angle arc
+            projCtx.beginPath();
+            projCtx.arc(cx, cy, 40, -angleA, 0);
+            projCtx.strokeStyle = 'rgba(157, 122, 255, 0.5)';
+            projCtx.lineWidth = 2;
+            projCtx.stroke();
+            projCtx.fillStyle = '#9d7aff';
+            projCtx.font = '14px JetBrains Mono';
+            projCtx.fillText('θ', cx + 50, cy - 15);
+
+            // Right angle marker
+            if (Math.abs(projLen) > 10) {
+                projCtx.strokeStyle = 'rgba(251, 191, 36, 0.5)';
+                projCtx.lineWidth = 1;
+                projCtx.beginPath();
+                projCtx.moveTo(projEnd.x, projEnd.y - 10);
+                projCtx.lineTo(projEnd.x - 10, projEnd.y - 10);
+                projCtx.lineTo(projEnd.x - 10, projEnd.y);
+                projCtx.stroke();
+            }
+
+            // Update displays
+            document.getElementById('vecAAngleVal').textContent = vecAAngle.value + '°';
+            document.getElementById('vecAMagVal').textContent = (magA / 100).toFixed(2);
+
+            const cosTheta = Math.cos(angleA);
+            const proj = (magA / 100) * cosTheta;
+            document.getElementById('projLength').textContent = proj.toFixed(2);
+            document.getElementById('projCalc').textContent = (magA / 100).toFixed(2) + ' × ' + cosTheta.toFixed(2);
+        }
+
+        vecAAngle.addEventListener('input', drawProjection);
+        vecAMag.addEventListener('input', drawProjection);
+        drawProjection();
+
+        // === Numerical View ===
+        const numCanvas = document.getElementById('numericalCanvas');
+        const numCtx = numCanvas.getContext('2d');
+        const a1Slider = document.getElementById('a1');
+        const a2Slider = document.getElementById('a2');
+        const b1Slider = document.getElementById('b1');
+        const b2Slider = document.getElementById('b2');
+
+        function drawNumerical() {
+            const a1 = parseFloat(a1Slider.value) / 100;
+            const a2 = parseFloat(a2Slider.value) / 100;
+            const b1 = parseFloat(b1Slider.value) / 100;
+            const b2 = parseFloat(b2Slider.value) / 100;
+
+            numCtx.fillStyle = '#0a0a0f';
+            numCtx.fillRect(0, 0, 700, 350);
+
+            const cx = 350, cy = 175;
+            const scale = 150;
+
+            // Grid
+            numCtx.strokeStyle = 'rgba(255,255,255,0.1)';
+            numCtx.lineWidth = 1;
+            for (let i = -1; i <= 1; i += 0.5) {
+                numCtx.beginPath();
+                numCtx.moveTo(cx + i * scale, cy - scale);
+                numCtx.lineTo(cx + i * scale, cy + scale);
+                numCtx.stroke();
+                numCtx.beginPath();
+                numCtx.moveTo(cx - scale, cy + i * scale);
+                numCtx.lineTo(cx + scale, cy + i * scale);
+                numCtx.stroke();
+            }
+
+            // Axes
+            numCtx.strokeStyle = 'rgba(255,255,255,0.3)';
+            numCtx.lineWidth = 2;
+            numCtx.beginPath();
+            numCtx.moveTo(cx - scale - 20, cy);
+            numCtx.lineTo(cx + scale + 20, cy);
+            numCtx.moveTo(cx, cy - scale - 20);
+            numCtx.lineTo(cx, cy + scale + 20);
+            numCtx.stroke();
+
+            // Draw vectors
+            drawArrow(numCtx, cx, cy, cx + a1 * scale, cy - a2 * scale, '#4a9eff', 4);
+            drawArrow(numCtx, cx, cy, cx + b1 * scale, cy - b2 * scale, '#22d3ee', 4);
+
+            // Labels
+            numCtx.fillStyle = '#4a9eff';
+            numCtx.font = '16px JetBrains Mono';
+            numCtx.fillText('a = (' + a1.toFixed(2) + ', ' + a2.toFixed(2) + ')', cx + a1 * scale + 10, cy - a2 * scale);
+            numCtx.fillStyle = '#22d3ee';
+            numCtx.fillText('b = (' + b1.toFixed(2) + ', ' + b2.toFixed(2) + ')', cx + b1 * scale + 10, cy - b2 * scale + 20);
+
+            // Update value displays
+            document.getElementById('a1Val').textContent = a1.toFixed(2);
+            document.getElementById('a2Val').textContent = a2.toFixed(2);
+            document.getElementById('b1Val').textContent = b1.toFixed(2);
+            document.getElementById('b2Val').textContent = b2.toFixed(2);
+
+            // Calculate dot product
+            const dot = a1 * b1 + a2 * b2;
+            const term1 = a1 * b1;
+            const term2 = a2 * b2;
+
+            document.getElementById('numericResult').innerHTML =
+                'a · b = (' + a1.toFixed(2) + ')(' + b1.toFixed(2) + ') + (' + a2.toFixed(2) + ')(' + b2.toFixed(2) + ') = ' +
+                term1.toFixed(2) + ' + ' + term2.toFixed(2) + ' = <strong>' + dot.toFixed(2) + '</strong>';
+        }
+
+        [a1Slider, a2Slider, b1Slider, b2Slider].forEach(s => s.addEventListener('input', drawNumerical));
+        drawNumerical();
+
+        // === Bridge Visualization ===
+        const bridgeCanvas = document.getElementById('bridgeCanvas');
+        const bridgeCtx = bridgeCanvas.getContext('2d');
+        let currentView = 'geometric';
+
+        function drawBridge() {
+            const a1 = parseFloat(a1Slider.value) / 100;
+            const a2 = parseFloat(a2Slider.value) / 100;
+            const b1 = parseFloat(b1Slider.value) / 100;
+            const b2 = parseFloat(b2Slider.value) / 100;
+
+            bridgeCtx.fillStyle = '#0a0a0f';
+            bridgeCtx.fillRect(0, 0, 700, 350);
+
+            const cx = 350, cy = 175;
+            const scale = 120;
+
+            // Draw vectors
+            drawArrow(bridgeCtx, cx, cy, cx + a1 * scale, cy - a2 * scale, '#4a9eff', 3);
+            drawArrow(bridgeCtx, cx, cy, cx + b1 * scale, cy - b2 * scale, '#22d3ee', 3);
+
+            // Calculate both ways
+            const magA = Math.sqrt(a1*a1 + a2*a2);
+            const magB = Math.sqrt(b1*b1 + b2*b2);
+            const dotNum = a1*b1 + a2*b2;
+            const cosTheta = dotNum / (magA * magB);
+            const dotGeo = magA * magB * cosTheta;
+
+            // Show projection if geometric view
+            if (currentView === 'geometric' || currentView === 'both') {
+                // Project a onto b
+                const projScale = dotNum / (magB * magB);
+                const projX = b1 * projScale * scale;
+                const projY = -b2 * projScale * scale;
+
+                bridgeCtx.setLineDash([5, 5]);
+                bridgeCtx.strokeStyle = 'rgba(251, 191, 36, 0.5)';
+                bridgeCtx.beginPath();
+                bridgeCtx.moveTo(cx + a1 * scale, cy - a2 * scale);
+                bridgeCtx.lineTo(cx + projX, cy + projY);
+                bridgeCtx.stroke();
+                bridgeCtx.setLineDash([]);
+
+                // Draw projection
+                bridgeCtx.beginPath();
+                bridgeCtx.moveTo(cx, cy);
+                bridgeCtx.lineTo(cx + projX, cy + projY);
+                bridgeCtx.strokeStyle = '#fbbf24';
+                bridgeCtx.lineWidth = 4;
+                bridgeCtx.stroke();
+            }
+
+            // Show components if numeric view
+            if (currentView === 'numeric' || currentView === 'both') {
+                // Component boxes
+                bridgeCtx.fillStyle = 'rgba(74, 158, 255, 0.2)';
+                bridgeCtx.fillRect(cx, cy - a2 * scale, a1 * scale, a2 * scale);
+                bridgeCtx.fillStyle = 'rgba(34, 211, 238, 0.2)';
+                bridgeCtx.fillRect(cx, cy - b2 * scale, b1 * scale, b2 * scale);
+            }
+
+            // Update formula displays
+            document.getElementById('geoResult').textContent = dotGeo.toFixed(2);
+            document.getElementById('numResult').textContent = dotNum.toFixed(2);
+        }
+
+        document.querySelectorAll('.view-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentView = btn.dataset.view;
+                drawBridge();
+            });
+        });
+
+        [a1Slider, a2Slider, b1Slider, b2Slider].forEach(s => s.addEventListener('input', drawBridge));
+        drawBridge();
+
+        // === Special Cases ===
+        function drawSpecialCase(canvasId, angle) {
+            const canvas = document.getElementById(canvasId);
+            const ctx = canvas.getContext('2d');
+
+            ctx.fillStyle = '#12121a';
+            ctx.fillRect(0, 0, 240, 120);
+
+            const cx = 60, cy = 60;
+            const len = 50;
+            const theta = angle * Math.PI / 180;
+
+            drawArrow(ctx, cx, cy, cx + len, cy, '#4a9eff', 3);
+            drawArrow(ctx, cx, cy, cx + len * Math.cos(theta), cy - len * Math.sin(theta), '#22d3ee', 3);
+        }
+
+        drawSpecialCase('alignedCanvas', 0);
+        drawSpecialCase('perpCanvas', 90);
+        drawSpecialCase('oppositeCanvas', 180);
+
+        // === Water Molecule ===
+        const waterCanvas = document.getElementById('waterCanvas');
+        const waterCtx = waterCanvas.getContext('2d');
+        const bondAngleSlider = document.getElementById('bondAngle');
+
+        function drawWater() {
+            const bondAngle = parseFloat(bondAngleSlider.value);
+            const halfAngle = bondAngle / 2 * Math.PI / 180;
+
+            waterCtx.fillStyle = '#0a0a0f';
+            waterCtx.fillRect(0, 0, 700, 350);
+
+            const cx = 350, cy = 200;
+            const bondLen = 80;
+            const dipoleLen = 60;
+
+            // Oxygen atom
+            waterCtx.beginPath();
+            waterCtx.arc(cx, cy, 25, 0, Math.PI * 2);
+            waterCtx.fillStyle = '#f87171';
+            waterCtx.fill();
+            waterCtx.fillStyle = '#fff';
+            waterCtx.font = '16px Inter';
+            waterCtx.textAlign = 'center';
+            waterCtx.fillText('O', cx, cy + 5);
+
+            // Hydrogen positions
+            const h1 = { x: cx - bondLen * Math.sin(halfAngle), y: cy - bondLen * Math.cos(halfAngle) };
+            const h2 = { x: cx + bondLen * Math.sin(halfAngle), y: cy - bondLen * Math.cos(halfAngle) };
+
+            // Bonds
+            waterCtx.strokeStyle = '#6b6966';
+            waterCtx.lineWidth = 4;
+            waterCtx.beginPath();
+            waterCtx.moveTo(cx, cy);
+            waterCtx.lineTo(h1.x, h1.y);
+            waterCtx.moveTo(cx, cy);
+            waterCtx.lineTo(h2.x, h2.y);
+            waterCtx.stroke();
+
+            // Hydrogen atoms
+            waterCtx.beginPath();
+            waterCtx.arc(h1.x, h1.y, 15, 0, Math.PI * 2);
+            waterCtx.fillStyle = '#fff';
+            waterCtx.fill();
+            waterCtx.beginPath();
+            waterCtx.arc(h2.x, h2.y, 15, 0, Math.PI * 2);
+            waterCtx.fill();
+            waterCtx.fillStyle = '#333';
+            waterCtx.font = '12px Inter';
+            waterCtx.fillText('H', h1.x, h1.y + 4);
+            waterCtx.fillText('H', h2.x, h2.y + 4);
+
+            // Bond dipoles (pointing toward O)
+            const mid1 = { x: (cx + h1.x) / 2, y: (cy + h1.y) / 2 };
+            const mid2 = { x: (cx + h2.x) / 2, y: (cy + h2.y) / 2 };
+            const dir1 = { x: (cx - h1.x) / bondLen, y: (cy - h1.y) / bondLen };
+            const dir2 = { x: (cx - h2.x) / bondLen, y: (cy - h2.y) / bondLen };
+
+            drawArrow(waterCtx, mid1.x - dir1.x * 20, mid1.y - dir1.y * 20,
+                      mid1.x + dir1.x * 20, mid1.y + dir1.y * 20, '#4a9eff', 3);
+            drawArrow(waterCtx, mid2.x - dir2.x * 20, mid2.y - dir2.y * 20,
+                      mid2.x + dir2.x * 20, mid2.y + dir2.y * 20, '#22d3ee', 3);
+
+            // Net dipole (resultant)
+            const netY = dir1.y + dir2.y;
+            const netMag = Math.sqrt(netY * netY) * dipoleLen;
+            if (netMag > 5) {
+                drawArrow(waterCtx, cx, cy + 35, cx, cy + 35 - netMag, '#fbbf24', 4);
+                waterCtx.fillStyle = '#fbbf24';
+                waterCtx.font = '12px JetBrains Mono';
+                waterCtx.fillText('net dipole', cx, cy + 50);
+            }
+
+            // Angle arc
+            waterCtx.beginPath();
+            waterCtx.arc(cx, cy, 40, -Math.PI/2 - halfAngle, -Math.PI/2 + halfAngle);
+            waterCtx.strokeStyle = 'rgba(157, 122, 255, 0.5)';
+            waterCtx.lineWidth = 2;
+            waterCtx.stroke();
+
+            // Update displays
+            document.getElementById('bondAngleVal').textContent = bondAngle + '°';
+            const cosVal = Math.cos(bondAngle * Math.PI / 180);
+            document.getElementById('waterCos').textContent = cosVal.toFixed(2);
+
+            // Dipole interpretation
+            if (cosVal > 0.1) {
+                document.getElementById('waterAlign').textContent = 'partially reinforce';
+            } else if (cosVal > -0.1) {
+                document.getElementById('waterAlign').textContent = 'are perpendicular';
+            } else if (cosVal > -0.9) {
+                document.getElementById('waterAlign').textContent = 'partially cancel';
+            } else {
+                document.getElementById('waterAlign').textContent = 'completely cancel';
+            }
+
+            // Net dipole magnitude (simplified model)
+            const netDipole = Math.abs(2 * Math.cos(halfAngle)) * 0.91;
+            document.getElementById('waterDipole').textContent = netDipole.toFixed(2);
+        }
+
+        bondAngleSlider.addEventListener('input', drawWater);
+        drawWater();
+
+        // === Work Visualization ===
+        const workCanvas = document.getElementById('workCanvas');
+        const workCtx = workCanvas.getContext('2d');
+        const pushAngleSlider = document.getElementById('pushAngle');
+
+        function drawWork() {
+            const pushAngle = parseFloat(pushAngleSlider.value);
+            const theta = pushAngle * Math.PI / 180;
+
+            workCtx.fillStyle = '#0a0a0f';
+            workCtx.fillRect(0, 0, 700, 300);
+
+            // Ground
+            workCtx.fillStyle = '#1a1a25';
+            workCtx.fillRect(0, 220, 700, 80);
+
+            // Box
+            const boxX = 250;
+            workCtx.fillStyle = '#4a9eff';
+            workCtx.fillRect(boxX, 170, 60, 50);
+
+            // Displacement arrow
+            drawArrow(workCtx, boxX + 60, 195, boxX + 200, 195, '#22d3ee', 3);
+            workCtx.fillStyle = '#22d3ee';
+            workCtx.font = '14px JetBrains Mono';
+            workCtx.fillText('d = 5 m', boxX + 110, 185);
+
+            // Force arrow (from person pushing)
+            const forceLen = 100;
+            const forceX = boxX - 10;
+            const forceY = 195;
+            const fEndX = forceX + forceLen * Math.cos(theta);
+            const fEndY = forceY - forceLen * Math.sin(theta);
+
+            drawArrow(workCtx, forceX - forceLen * Math.cos(theta), forceY + forceLen * Math.sin(theta),
+                      forceX, forceY, '#f87171', 4);
+            workCtx.fillStyle = '#f87171';
+            workCtx.fillText('F = 100 N', forceX - 80, forceY - 40);
+
+            // Angle arc
+            workCtx.beginPath();
+            workCtx.arc(forceX, forceY, 30, -theta, 0);
+            workCtx.strokeStyle = 'rgba(157, 122, 255, 0.5)';
+            workCtx.lineWidth = 2;
+            workCtx.stroke();
+            workCtx.fillStyle = '#9d7aff';
+            workCtx.fillText(pushAngle + '°', forceX - 50, forceY + 20);
+
+            // Horizontal component
+            const horizComp = 100 * Math.cos(theta);
+            workCtx.setLineDash([5, 5]);
+            workCtx.strokeStyle = 'rgba(251, 191, 36, 0.5)';
+            workCtx.beginPath();
+            workCtx.moveTo(forceX - forceLen * Math.cos(theta), forceY + forceLen * Math.sin(theta));
+            workCtx.lineTo(forceX - forceLen * Math.cos(theta), forceY);
+            workCtx.lineTo(forceX, forceY);
+            workCtx.stroke();
+            workCtx.setLineDash([]);
+
+            // Update displays
+            document.getElementById('pushAngleVal').textContent = pushAngle + '°';
+            const work = 100 * 5 * Math.cos(theta);
+            document.getElementById('workResult').textContent = work.toFixed(0);
+
+            if (pushAngle < 10) {
+                document.getElementById('workLabel').textContent = 'Pushing horizontally → maximum efficiency';
+            } else if (pushAngle < 45) {
+                document.getElementById('workLabel').textContent = 'Pushing at an angle → some effort wasted lifting';
+            } else if (pushAngle < 80) {
+                document.getElementById('workLabel').textContent = 'Pushing steeply → mostly lifting, little forward motion';
+            } else {
+                document.getElementById('workLabel').textContent = 'Pushing straight up → no forward motion at all!';
+            }
+        }
+
+        pushAngleSlider.addEventListener('input', drawWork);
+        drawWork();
+
+        // === Orbital Overlap ===
+        const orbitalCanvas = document.getElementById('orbitalCanvas');
+        const orbCtx = orbitalCanvas.getContext('2d');
+        const orbitalAngleSlider = document.getElementById('orbitalAngle');
+
+        function drawOrbital() {
+            const angle = parseFloat(orbitalAngleSlider.value);
+            const theta = angle * Math.PI / 180;
+
+            orbCtx.fillStyle = '#0a0a0f';
+            orbCtx.fillRect(0, 0, 700, 300);
+
+            const cx = 350, cy = 150;
+
+            // Draw first p-orbital (fixed, horizontal)
+            drawPOrbital(orbCtx, cx - 100, cy, 0, '#4a9eff', 0.6);
+
+            // Draw second p-orbital (rotatable)
+            drawPOrbital(orbCtx, cx + 100, cy, theta, '#22d3ee', 0.6);
+
+            // Overlap region visualization
+            const overlap = Math.cos(theta);
+            if (overlap > 0) {
+                orbCtx.fillStyle = 'rgba(74, 222, 128, ' + (overlap * 0.3) + ')';
+                orbCtx.beginPath();
+                orbCtx.arc(cx, cy, 30 * overlap, 0, Math.PI * 2);
+                orbCtx.fill();
+            } else if (overlap < 0) {
+                orbCtx.fillStyle = 'rgba(248, 113, 113, ' + (-overlap * 0.3) + ')';
+                orbCtx.beginPath();
+                orbCtx.arc(cx, cy, 30 * -overlap, 0, Math.PI * 2);
+                orbCtx.fill();
+            }
+
+            // Update displays
+            const overlapVal = Math.cos(theta);
+            document.getElementById('orbitalAngleVal').textContent = angle + '° (' +
+                (angle < 45 ? 'bonding' : angle < 135 ? 'non-bonding' : 'antibonding') + ')';
+            document.getElementById('overlapVal').textContent = (overlapVal >= 0 ? '+' : '') + overlapVal.toFixed(2);
+
+            if (overlapVal > 0.7) {
+                document.getElementById('orbitalLabel').textContent = 'Strong bonding (constructive interference)';
+            } else if (overlapVal > 0.1) {
+                document.getElementById('orbitalLabel').textContent = 'Weak bonding';
+            } else if (overlapVal > -0.1) {
+                document.getElementById('orbitalLabel').textContent = 'Non-bonding (orbitals orthogonal)';
+            } else if (overlapVal > -0.7) {
+                document.getElementById('orbitalLabel').textContent = 'Weak antibonding';
+            } else {
+                document.getElementById('orbitalLabel').textContent = 'Strong antibonding (destructive interference)';
+            }
+        }
+
+        function drawPOrbital(ctx, x, y, angle, color, alpha) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(-angle);
+
+            const lobeLen = 60;
+            const lobeWidth = 25;
+
+            // Positive lobe
+            ctx.beginPath();
+            ctx.ellipse(lobeLen/2, 0, lobeLen/2, lobeWidth, 0, 0, Math.PI * 2);
+            ctx.fillStyle = color.replace(')', ', ' + alpha + ')').replace('rgb', 'rgba');
+            ctx.fill();
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Negative lobe
+            ctx.beginPath();
+            ctx.ellipse(-lobeLen/2, 0, lobeLen/2, lobeWidth, 0, 0, Math.PI * 2);
+            ctx.fillStyle = color.replace(')', ', ' + (alpha * 0.5) + ')').replace('rgb', 'rgba');
+            ctx.fill();
+            ctx.strokeStyle = color;
+            ctx.stroke();
+
+            // +/- labels
+            ctx.fillStyle = '#fff';
+            ctx.font = '14px Inter';
+            ctx.textAlign = 'center';
+            ctx.fillText('+', lobeLen/2, 5);
+            ctx.fillText('−', -lobeLen/2, 5);
+
+            ctx.restore();
+        }
+
+        orbitalAngleSlider.addEventListener('input', drawOrbital);
+        drawOrbital();
+
+        // === Causal Chain Interaction ===
+        document.querySelectorAll('.chain-step').forEach(step => {
+            step.addEventListener('click', () => {
+                document.querySelectorAll('.chain-step').forEach(s => s.classList.remove('active'));
+                step.classList.add('active');
+            });
+        });
+
+        // === Practice Problems ===
+        document.querySelectorAll('.problem-options').forEach((options, i) => {
+            const feedback = document.getElementById('feedback' + (i + 1));
+            options.querySelectorAll('.option-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const isCorrect = btn.dataset.correct === 'true';
+
+                    options.querySelectorAll('.option-btn').forEach(b => {
+                        b.disabled = true;
+                        if (b.dataset.correct === 'true') b.classList.add('correct');
+                        else if (b === btn && !isCorrect) b.classList.add('incorrect');
+                    });
+
+                    feedback.classList.add('show');
+                    feedback.classList.add(isCorrect ? 'correct' : 'incorrect');
+                    if (!isCorrect) {
+                        feedback.innerHTML = '<strong>Not quite.</strong> ' + feedback.innerHTML.split('</strong>')[1];
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
