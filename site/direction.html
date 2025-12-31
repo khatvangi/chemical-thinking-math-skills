@@ -6,7 +6,8 @@
     <title>DIRECTION | Chemical Thinking</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
     <style>
         :root {
             --bg-primary: #0D1117;
@@ -14,11 +15,15 @@
             --bg-tertiary: #1c2128;
             --text-primary: #E6EDF3;
             --text-secondary: #8B949E;
+            --text-muted: #6e7681;
             --accent-blue: #58A6FF;
             --accent-coral: #F78166;
             --accent-green: #7EE787;
-            --gradient-start: #667eea;
-            --gradient-end: #764ba2;
+            --accent-purple: #a855f7;
+            --border-subtle: rgba(255,255,255,0.08);
+            --font-heading: 'Fraunces', Georgia, serif;
+            --font-body: 'Inter', -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
         }
 
         * {
@@ -32,11 +37,12 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, sans-serif;
+            font-family: var(--font-body);
             background: var(--bg-primary);
             color: var(--text-primary);
-            line-height: 1.7;
-            overflow-x: hidden;
+            line-height: 1.75;
+            font-size: 17px;
+            -webkit-font-smoothing: antialiased;
         }
 
         /* ========== SCROLL PROGRESS ========== */
@@ -45,143 +51,106 @@
             top: 0;
             left: 0;
             height: 3px;
-            background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
             z-index: 1000;
             width: 0%;
             transition: width 50ms linear;
         }
 
-        /* ========== SECTION NAV ========== */
-        .section-nav {
-            position: fixed;
-            right: 2rem;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 100;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .nav-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: var(--text-secondary);
-            opacity: 0.3;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .nav-dot:hover, .nav-dot.active {
-            opacity: 1;
-            background: var(--accent-blue);
-            transform: scale(1.3);
-        }
-
-        @media (max-width: 1100px) {
-            .section-nav { display: none; }
-        }
-
         /* ========== HERO ========== */
         .hero {
-            position: relative;
-            height: 100vh;
+            min-height: 70vh;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
+            text-align: center;
+            padding: 4rem 2rem;
+            position: relative;
             overflow: hidden;
         }
 
-        #particle-canvas {
+        .hero::before {
+            content: '';
             position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 1;
-            text-align: center;
-            padding: 2rem;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at center, rgba(88, 166, 255, 0.08) 0%, transparent 70%);
+            pointer-events: none;
         }
 
         .hero-title {
-            font-family: 'Fraunces', serif;
-            font-size: clamp(4rem, 12vw, 9rem);
+            font-family: var(--font-heading);
+            font-size: clamp(4rem, 12vw, 8rem);
             font-weight: 300;
             letter-spacing: 0.25em;
-            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            opacity: 0;
-            animation: fadeUp 1.2s ease forwards;
         }
 
         .hero-subtitle {
-            font-family: 'Fraunces', serif;
+            font-family: var(--font-heading);
             font-style: italic;
             font-size: 1.3rem;
             color: var(--text-secondary);
-            margin-top: 1.5rem;
-            opacity: 0;
-            animation: fadeUp 1s ease 0.4s forwards;
+            font-weight: 400;
         }
 
         .scroll-hint {
             position: absolute;
-            bottom: 3rem;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 2rem;
-            color: var(--text-secondary);
-            opacity: 0;
-            animation: fadeUp 0.8s ease 0.8s forwards, bounce 2s ease-in-out 1.5s infinite;
-            cursor: pointer;
-        }
-
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            bottom: 2rem;
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            animation: bounce 2s infinite;
         }
 
         @keyframes bounce {
-            0%, 100% { transform: translateX(-50%) translateY(0); }
-            50% { transform: translateX(-50%) translateY(-12px); }
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-12px); }
+            60% { transform: translateY(-6px); }
         }
 
-        /* ========== CONTENT ========== */
+        /* ========== MAIN CONTENT ========== */
         .content {
-            max-width: 800px;
+            max-width: 780px;
             margin: 0 auto;
-            padding: 6rem 2rem;
+            padding: 0 2rem 6rem;
         }
 
-        section {
-            margin-bottom: 8rem;
-            opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
-        }
-
-        section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
+        /* ========== TYPOGRAPHY ========== */
         h2 {
-            font-family: 'Fraunces', serif;
-            font-size: 2.5rem;
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
             font-weight: 400;
-            margin-bottom: 2rem;
+            margin: 5rem 0 2rem;
+            color: var(--text-primary);
+            letter-spacing: 0.02em;
+        }
+
+        h3 {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin: 3.5rem 0 1.5rem;
             color: var(--text-primary);
         }
 
+        h4 {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 2rem 0 1rem;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
         p {
-            font-size: 1.15rem;
             margin-bottom: 1.5rem;
             color: var(--text-primary);
         }
@@ -193,1761 +162,1073 @@
 
         em {
             font-style: italic;
+            color: var(--text-primary);
         }
 
+        /* ========== HORIZONTAL RULES ========== */
         hr {
             border: none;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
-            margin: 5rem 0;
+            background: linear-gradient(90deg, transparent, var(--border-subtle), transparent);
+            margin: 4rem 0;
         }
 
-        /* ========== SPECIAL ELEMENTS ========== */
-        .callout {
-            background: linear-gradient(135deg, rgba(247,129,102,0.1), rgba(247,129,102,0.05));
-            border-left: 3px solid var(--accent-coral);
-            padding: 1.5rem 2rem;
-            margin: 2.5rem 0;
-            font-family: 'Fraunces', serif;
-            font-style: italic;
-            font-size: 1.35rem;
+        .section-break {
+            text-align: center;
+            margin: 4rem 0;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            letter-spacing: 0.5em;
+        }
+
+        /* ========== DEFINITION POPUPS ========== */
+        .def-popup {
+            color: var(--accent-green);
+            cursor: help;
+            border-bottom: 1px dotted var(--accent-green);
+            position: relative;
+        }
+
+        .def-popup:hover {
+            color: #9ef0a0;
+        }
+
+        .def-tooltip {
+            position: absolute;
+            bottom: calc(100% + 10px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            width: 320px;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: var(--text-primary);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s, visibility 0.2s;
+            pointer-events: none;
+        }
+
+        .def-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 8px solid transparent;
+            border-top-color: var(--bg-tertiary);
+        }
+
+        .def-popup:hover .def-tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* ========== LISTS ========== */
+        ul, ol {
+            margin: 1.5rem 0;
+            padding-left: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.75rem;
+        }
+
+        li strong {
             color: var(--accent-coral);
         }
 
-        .insight {
-            background: linear-gradient(135deg, rgba(88,166,255,0.15), rgba(118,75,162,0.1));
-            border: 1px solid var(--accent-blue);
-            border-radius: 8px;
-            padding: 1.5rem 2rem;
-            margin: 2.5rem 0;
-            text-align: center;
-            font-weight: 500;
-            font-size: 1.1rem;
-        }
-
         /* ========== INTERACTIVE CONTAINERS ========== */
-        .interactive {
+        .visual-container {
             background: var(--bg-secondary);
-            border: 1px solid rgba(255,255,255,0.08);
+            border: 1px solid var(--border-subtle);
             border-radius: 12px;
             padding: 2rem;
-            margin: 2.5rem 0;
-            text-align: center;
-        }
-
-        .interactive svg {
-            display: block;
-            margin: 0 auto;
-        }
-
-        .interactive-hint {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            margin-top: 1rem;
-        }
-
-        .controls {
-            margin-top: 1.5rem;
+            margin: 3rem 0;
+            min-height: 400px;
             display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
+            justify-content: center;
         }
 
-        input[type="range"] {
-            -webkit-appearance: none;
-            width: 180px;
-            height: 6px;
-            border-radius: 3px;
-            background: rgba(255,255,255,0.1);
+        .visual-container.full-width {
+            margin-left: -2rem;
+            margin-right: -2rem;
+            border-radius: 0;
+            border-left: none;
+            border-right: none;
         }
 
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            background: var(--accent-blue);
-            cursor: pointer;
+        .visual-label {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 1.5rem;
         }
 
-        .btn {
-            padding: 0.6rem 1.2rem;
-            background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(255,255,255,0.15);
-            border-radius: 6px;
-            color: var(--text-primary);
-            font-family: inherit;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
+        .visual-caption {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-top: 1.5rem;
+            font-style: italic;
+            max-width: 500px;
         }
 
-        .btn:hover {
-            background: var(--accent-blue);
-            border-color: var(--accent-blue);
+        .visual-placeholder {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, rgba(88,166,255,0.05), rgba(168,85,247,0.05));
+            border: 2px dashed var(--border-subtle);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
         }
 
-        .btn.active {
-            background: var(--accent-blue);
-            border-color: var(--accent-blue);
-        }
-
-        /* ========== TABLE ========== */
+        /* ========== TABLES ========== */
         table {
             width: 100%;
             border-collapse: collapse;
             margin: 2rem 0;
+            font-size: 0.95rem;
         }
 
         th, td {
             padding: 1rem;
             text-align: left;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid var(--border-subtle);
         }
 
         th {
-            color: var(--text-secondary);
+            font-family: var(--font-heading);
             font-weight: 500;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
         }
 
         td:first-child {
-            font-style: italic;
             color: var(--text-secondary);
+            font-style: italic;
         }
 
         td:last-child {
-            font-family: 'JetBrains Mono', monospace;
+            font-family: var(--font-mono);
             color: var(--accent-blue);
         }
 
-        /* ========== CLOSING ========== */
-        .closing {
-            text-align: center;
-            padding: 4rem 0;
-        }
-
-        .closing-box {
+        /* ========== DEFINITION BLOCK ========== */
+        .definition-block {
             background: var(--bg-secondary);
-            border-radius: 16px;
-            padding: 3rem;
-            position: relative;
-            margin-bottom: 2rem;
+            border-left: 3px solid var(--accent-blue);
+            padding: 2rem;
+            margin: 2.5rem 0;
+            border-radius: 0 8px 8px 0;
         }
 
-        .closing-box::before {
-            content: '';
-            position: absolute;
-            inset: -1px;
-            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
-            border-radius: 17px;
-            z-index: -1;
-            opacity: 0.6;
+        .definition-block p {
+            margin-bottom: 1.25rem;
         }
 
-        .closing-quote {
-            font-family: 'Fraunces', serif;
+        .definition-block p:last-child {
+            margin-bottom: 0;
+        }
+
+        .definition-block strong {
+            color: var(--accent-coral);
+        }
+
+        /* ========== MATH ========== */
+        .katex-display {
+            margin: 1.5rem 0;
+            overflow-x: auto;
+        }
+
+        .math-inline {
+            font-family: var(--font-mono);
+            color: var(--accent-blue);
+        }
+
+        /* ========== BLOCKQUOTES / PULLQUOTES ========== */
+        blockquote {
+            font-family: var(--font-heading);
             font-style: italic;
+            font-size: 1.3rem;
+            color: var(--accent-coral);
+            border-left: 3px solid var(--accent-coral);
+            padding-left: 1.5rem;
+            margin: 2.5rem 0;
+            line-height: 1.6;
+        }
+
+        /* ========== ENDNOTES ========== */
+        .endnotes {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .endnotes h2 {
             font-size: 1.5rem;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
         }
 
-        .closing-note {
-            color: var(--text-secondary);
-        }
-
-        .next-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 1rem 2rem;
-            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 500;
-            margin-top: 2rem;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .next-link:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(102,126,234,0.3);
-        }
-
-        .next-link .arrow {
-            transition: transform 0.3s ease;
-        }
-
-        .next-link:hover .arrow {
-            transform: translateX(5px);
-        }
-
-        /* ========== BACK LINK ========== */
-        .back-link {
-            position: fixed;
-            top: 1.5rem;
-            left: 1.5rem;
-            color: var(--text-secondary);
-            text-decoration: none;
+        .endnote {
             font-size: 0.9rem;
-            z-index: 100;
-            opacity: 0.7;
-            transition: opacity 0.2s;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            padding-left: 2rem;
+            position: relative;
         }
 
-        .back-link:hover {
+        .endnote-num {
+            position: absolute;
+            left: 0;
+            color: var(--accent-blue);
+            font-weight: 600;
+        }
+
+        sup a {
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        sup a:hover {
+            text-decoration: underline;
+        }
+
+        /* ========== FOOTER ========== */
+        .page-footer {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .page-footer em {
+            color: var(--text-secondary);
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 768px) {
+            body {
+                font-size: 16px;
+            }
+
+            .content {
+                padding: 0 1.5rem 4rem;
+            }
+
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            h3 {
+                font-size: 1.3rem;
+            }
+
+            .hero-title {
+                letter-spacing: 0.15em;
+            }
+
+            .visual-container {
+                padding: 1.5rem;
+                margin: 2rem 0;
+            }
+
+            .def-tooltip {
+                width: 260px;
+                left: 0;
+                transform: translateX(0);
+            }
+
+            table {
+                font-size: 0.85rem;
+            }
+
+            th, td {
+                padding: 0.75rem;
+            }
+        }
+
+        /* ========== SECTION VISIBILITY ========== */
+        section {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        section.visible {
             opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ========== PART HEADERS ========== */
+        .part-header {
+            text-align: center;
+            margin: 6rem 0 4rem;
+        }
+
+        .part-number {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--accent-purple);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-bottom: 0.5rem;
+        }
+
+        .part-title {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 400;
             color: var(--text-primary);
+        }
+
+        /* ========== PROLOGUE SPECIAL ========== */
+        .prologue {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 4rem;
+        }
+
+        .prologue p {
+            font-size: 1.1rem;
+            line-height: 1.9;
         }
     </style>
 </head>
 <body>
+    <div class="scroll-progress" id="progress"></div>
 
-<div class="scroll-progress" id="progress"></div>
-
-<a href="index.html" class="back-link">← Back to Course</a>
-
-<nav class="section-nav" id="nav"></nav>
-
-<!-- ==================== HERO ==================== -->
-<header class="hero" id="hero">
-    <canvas id="particle-canvas"></canvas>
-    <div class="hero-content">
+    <!-- HERO -->
+    <header class="hero">
         <h1 class="hero-title">DIRECTION</h1>
-        <p class="hero-subtitle">The first primitive. Before vectors, before coordinates, before chemistry.</p>
-    </div>
-    <div class="scroll-hint" onclick="document.getElementById('s1').scrollIntoView({behavior:'smooth'})">↓</div>
-</header>
+        <p class="hero-subtitle">The primitive of orientation. The sister of SAMENESS.</p>
+        <div class="scroll-hint">↓</div>
+    </header>
 
-<!-- ==================== CONTENT ==================== -->
-<main class="content">
+    <!-- MAIN CONTENT -->
+    <main class="content">
 
-<!-- Section 1: Point at something -->
-<section id="s1">
-    <h2>Point at something.</h2>
-    <p>I'm serious. Right now, wherever you are, point at something. The door. The window. Your coffee cup. Something behind you that you can't even see.</p>
-    <p>Done?</p>
-    <p>You just did <strong>DIRECTION</strong>.</p>
-    <p>No numbers involved. No angles measured. No coordinate system consulted. Your arm extended <em>toward</em> a thing, and you knew — without any mathematics whatsoever — exactly what you were doing.</p>
+        <!-- PROLOGUE -->
+        <section class="prologue">
+            <hr>
+            <h2>Prologue: Two Sisters</h2>
 
-    <div class="interactive" id="pointing-arm"></div>
+            <p>SAMENESS and DIRECTION are twins born from the same mother.</p>
 
-    <p>This is not trivial. This is not "just pointing." This is the cognitive foundation underneath everything we're going to build in this course. You've been doing DIRECTION since the first week of your life. An infant reaches — not randomly, not spasmodically, but <em>toward</em>. Toward the face. Toward the breast. Toward the bright thing that moves. That reach has structure: there's a FROM (the baby's body) and a TO (the thing it wants). That structure is direction.</p>
+            <p><span class="def-popup" data-definition="Symmetry: An invariance under transformation. A system has symmetry with respect to operation T if applying T leaves the system unchanged. The collection of all such operations forms the symmetry group of the system.">Symmetry<span class="def-tooltip"></span></span> is what remains unchanged under transformation. Rotate a sphere — it looks identical. Translate empty space — indistinguishable from before. The persistence of form through change: this is SAMENESS.</p>
 
-    <div class="callout">If you already understand direction — if your body has understood it since before you could speak — what exactly do you need mathematics for?</div>
+            <p><span class="def-popup" data-definition="Asymmetry: The absence of invariance under some transformation. A system has asymmetry when applying operation T produces a distinguishable result. Asymmetry breaks degeneracy and creates distinction.">Asymmetry<span class="def-tooltip"></span></span> is where invariance fails. Rotate a cone — you can tell. Translate toward a mass — the gravitational field changes. The failure of sameness under transformation creates distinction. Distinction in space is orientation. Orientation is DIRECTION.</p>
 
-    <p>Hold that question. It's the right question. We'll come back to it. But first, let's go deeper into what you already know.</p>
-</section>
+            <p><strong>Every direction exists because some symmetry is broken.</strong><br>
+            <strong>Every symmetry persists because some direction is absent.</strong></p>
 
-<hr>
+            <p>SAMENESS gives invariance. Asymmetry gives direction.</p>
 
-<!-- Section 2: Toward / Away -->
-<section id="s2">
-    <h2>The First Distinction</h2>
-    <p>Forget north and south. Forget degrees and radians. Forget x-components and y-components. Before any of that, there's something simpler. Something so simple that organisms without brains can do it.</p>
-    <p><strong>Toward. Away.</strong></p>
-    <p>That's it. The first direction. The ur-direction. An amoeba — a single cell with no nervous system — moves toward nutrients and away from toxins. No angles involved. No measurement. Just a binary: approach this, flee that.</p>
+            <p>The primitives require each other.</p>
+        </section>
 
-    <div class="interactive" id="toward-away"></div>
+        <hr>
 
-    <p>Think about what that means. Direction doesn't require intelligence. It doesn't require learning. It doesn't require mathematics. A blob of protoplasm drifting in pond water <em>has</em> direction built into its behavior. Toward food. Away from poison. The blob doesn't know it's doing direction. But it is.</p>
-    <p>This binary — toward/away — is where it all starts. Everything else is elaboration.</p>
-    <p><strong>Approach or flee. That's the foundation.</strong></p>
-</section>
+        <!-- PART I -->
+        <div class="part-header">
+            <div class="part-number">Part I</div>
+            <div class="part-title">Symmetry, Asymmetry, and the Genesis of Direction</div>
+        </div>
 
-<hr>
+        <section>
+            <h3>1.1 The Symmetric Void</h3>
 
-<!-- Section 3: Direction in the Body -->
-<section id="s3">
-    <h2>Direction in the Body</h2>
-    <p>You don't just perceive direction. You <em>are</em> directional.</p>
-    <p>Think about your body. You have a front and a back. This isn't arbitrary — it's deeply functional. Your face is on the front: eyes facing forward, mouth facing forward, the whole sensory apparatus oriented in the direction you typically move. Your back is what you leave behind, what faces away from where you're going.</p>
-    <p>This asymmetry creates direction. A sphere doesn't have a "front." A cube doesn't face anywhere. But you do. You face things.</p>
+            <p>Consider a state of perfect symmetry.</p>
 
-    <div class="interactive" id="body-directions"></div>
+            <p>An infinite homogeneous space. No matter. No fields. No gradients. Every point identical to every other point. Every direction equivalent to every other direction. The <span class="def-popup" data-definition="Isotropic: Having the same properties in all directions. An isotropic space or field shows no preferred orientation. Isotropy is rotational symmetry — invariance under arbitrary rotations about any point.">isotropic<span class="def-tooltip"></span></span> void.</p>
 
-    <p>Once you have forward and backward, you get left and right for free — they're perpendicular to your forward. And once you have that plane, you get up and down — perpendicular to the ground, aligned with gravity.</p>
-    <p><strong>Six directions</strong>, all emerging from the fact that you have a body, that body has a front, and that body exists in a gravitational field.</p>
+            <p>In this space, the question "which way?" has no answer. All ways are the same way. The concept of direction fails to gain traction because there is nothing to distinguish one orientation from another.</p>
 
-    <div class="insight">You are the origin of your coordinate system. You always have been.</div>
-</section>
+            <p>This is the null case. Direction requires its negation.</p>
+        </section>
 
-<hr>
+        <section>
+            <h3>1.2 The Breaking</h3>
 
-<!-- Section 4: Circle of Directions -->
-<section id="s4">
-    <h2>The Circle of Directions</h2>
-    <p>Let's stay in two dimensions for a moment. Imagine you're standing in an open field, and you can point in any direction on the horizon. How many directions are there?</p>
-    <p>Your first answer might be four: north, south, east, west. But obviously that's not all of them. There's also northeast, and northwest, and all the directions in between. What about north-northeast? That's a direction too. And between north and north-northeast? Also a direction.</p>
-    <p>You see where this is going. There isn't a finite list. Direction, even in a flat plane, is <strong>continuous</strong>. Between any two directions, there's another direction.</p>
-    <p>What shape has this property?</p>
-    <p><strong>A circle.</strong></p>
+            <p>Now introduce an asymmetry.</p>
 
-    <div class="interactive" id="circle-directions"></div>
+            <p>Place a single massive body in the void. Instantly, the isotropy breaks. Every point in space now has a relationship to that mass — nearer or farther, attracted more or less. A <span class="def-popup" data-definition="Gradient: A vector field indicating the direction and rate of fastest increase of a scalar quantity. For a scalar field f, the gradient ∇f points in the direction where f increases most rapidly, with magnitude equal to that rate of increase.">gradient<span class="def-tooltip"></span></span> exists. And gradients have direction: toward the mass (down the potential) or away from it (up the potential).</p>
 
-    <p>The circle is the space of all directions in two dimensions. Every point on the circle is a direction you could point. The angle θ — measured from some reference direction — tells you which direction.</p>
-    <p>This isn't a metaphor. Directions, in 2D, literally <em>are</em> a circle. <strong>The circle is direction space.</strong></p>
-</section>
+            <p>One object. One broken symmetry. Direction exists throughout the entire space.</p>
 
-<hr>
+            <p>Or consider: rotate a perfect sphere, and nothing changes (symmetry preserved). Rotate a cone, and the change is detectable (symmetry broken). The cone has an axis. The cone points. The sphere does not.</p>
 
-<!-- Section 5: Sphere of Directions -->
-<section id="s5">
-    <h2>The Sphere of Directions</h2>
-    <p>Now go to three dimensions. You're not restricted to the horizon anymore. You can point up. You can point down. You can point anywhere.</p>
-    <p>What's the shape now?</p>
-    <p><strong>A sphere.</strong></p>
+            <p><strong>The cone's direction exists because the cone lacks the rotational symmetry of the sphere.</strong></p>
+        </section>
 
-    <div class="interactive" id="sphere-directions"></div>
+        <section>
+            <h3>1.3 The Formal Structure</h3>
 
-    <p>Every point on the surface of a sphere is a direction you could point in 3D. Straight up is the north pole. Straight down is the south pole. All the horizontal directions form the equator.</p>
-    <p>Two angles now: the <strong>azimuth</strong> (compass direction) and the <strong>elevation</strong> (how far above or below the horizon). Together they pick out a point on the sphere. That point is a direction.</p>
-    <p><strong>The sphere is the space of all directions in 3D.</strong></p>
-</section>
+            <p>For direction to exist, three elements must coincide:</p>
 
-<hr>
+            <h4>A. A state space</h4>
+            <p>The set of possible configurations. Physical space. Phase space. The space of molecular conformations. The space of possible beliefs. Direction is always direction <em>in</em> something — a space that admits distinct positions.</p>
 
-<!-- Section 6: Comparing Directions -->
-<section id="s6">
-    <h2>When Directions Meet</h2>
-    <p>What happens when you have two directions at once?</p>
-    <p>Imagine two people standing back to back, pointing opposite ways. Their directions conflict completely. If you tried to combine their pointings, you'd get nothing — they cancel.</p>
-    <p>Now imagine two people standing side by side, pointing the same way. Their directions reinforce.</p>
-    <p>What about perpendicular? Neither reinforces nor opposes. They're independent.</p>
+            <h4>B. An asymmetry</h4>
+            <p>Something that distinguishes one region, axis, or trajectory from another. A gradient. A boundary condition. A shape with distinguishable ends. Without asymmetry, all orientations in the state space are equivalent, and "direction" becomes a distinction without a difference.</p>
 
-    <div class="interactive" id="comparing-directions"></div>
+            <h4>C. A structure that respects the asymmetry</h4>
+            <p>Dynamics, geometry, or constraints that preserve and propagate the distinction. The asymmetry must have consequences — must matter to how the system behaves or how we describe it.</p>
 
-    <p>This raises a natural question: <strong>how do you measure how much one direction has "in common" with another direction?</strong></p>
-    <p>If you've had physics, you might recognize this leads to the dot product. But we're not there yet. For now, just notice that directions can be compared. They can be more or less aligned.</p>
-</section>
+            <p>When all three obtain, direction is present. Remove any one, and direction dissolves.</p>
+        </section>
 
-<hr>
+        <!-- VISUAL: Symmetry Breaking -->
+        <div class="visual-container" id="symmetry-breaking">
+            <div class="visual-label">Visual: Symmetry Breaking</div>
+            <div class="visual-placeholder" id="symmetry-breaking-canvas">
+                [Three.js: Sphere → Marked Sphere → Cone morph with direction vector fading in]
+            </div>
+            <p class="visual-caption">As symmetry decreases, direction emerges. The shape itself begins to point.</p>
+        </div>
 
-<!-- Section 7: Magnitude -->
-<section id="s7">
-    <h2>Magnitude Enters</h2>
-    <p>So far, direction is pure orientation. Which way, not how much. But in the physical world, direction often comes attached to intensity.</p>
-    <p>The wind blows east. But is it a gentle breeze or a gale? Both point east. They differ in strength.</p>
-    <p>The ground slopes downward. But is it a gentle incline or a cliff? Both point down. They differ in steepness.</p>
+        <section>
+            <h3>1.4 The Taxonomy of Asymmetries</h3>
 
-    <div class="interactive" id="magnitude-demo"></div>
+            <p>Different kinds of asymmetry generate different kinds of direction. The literature recognizes several families:<sup><a href="#fn1" id="ref1">1</a></sup></p>
 
-    <p><strong>Direction plus magnitude. Which way, and how much.</strong> This combination occurs so often that it deserves a name.</p>
-    <p>We call it a <strong>vector</strong>.</p>
-    <p>But here's what's crucial: you can have direction without magnitude, and you can have magnitude without direction. The vector is specifically for quantities that have both. It's the tool for things that <em>point</em> with <em>intensity</em>.</p>
-</section>
+            <p><strong>Geometric asymmetry → Spatial direction</strong><br>
+            A cone points because its shape has a distinguished axis. A polar molecule has a direction because charge is distributed asymmetrically. The asymmetry is in the spatial structure of the object.</p>
 
-<hr>
+            <p><strong>Thermodynamic asymmetry → Temporal direction</strong><br>
+            The <span class="def-popup" data-definition="Arrow of time: The asymmetry between past and future directions in time. Typically grounded in the thermodynamic arrow (entropy was lower in the past), but philosophically distinct from the psychological arrow (we remember the past, not the future) and the cosmological arrow (the universe expands).">arrow of time<span class="def-tooltip"></span></span> points from past to future because entropy was lower in the past. The fundamental laws of physics are largely time-reversal symmetric; the direction of time emerges from asymmetric boundary conditions (the low-entropy early universe).<sup><a href="#fn2" id="ref2">2</a></sup></p>
 
-<!-- Section 8: Gradient -->
-<section id="s8">
-    <h2>Gradients: Direction From Landscape</h2>
-    <p>Imagine hiking in hilly terrain. At any moment, you're standing at some elevation. Some directions would take you uphill, some downhill. But one direction is special: the direction of <em>steepest</em> ascent. The way that goes up fastest.</p>
-    <p>This is the <strong>gradient</strong>.</p>
+            <p><strong>Interventionist asymmetry → Causal direction</strong><br>
+            Causes precede effects. We can manipulate causes to change effects; we cannot manipulate effects to change causes. This asymmetry — which philosophers call the "arrow of causation" — grounds the directionality of causal relationships.<sup><a href="#fn3" id="ref3">3</a></sup></p>
 
-    <div class="interactive" id="gradient-landscape"></div>
+            <p><strong>Gradient asymmetry → Field direction</strong><br>
+            Wherever a scalar quantity varies across space, there is a gradient, and the gradient points in the direction of steepest increase. Concentration gradients. Temperature gradients. Electric potential gradients. The asymmetry is in the field values themselves.</p>
 
-    <p>The gradient isn't just "uphill." It's the specific direction that gains elevation most rapidly.</p>
-    <p>In chemistry, gradients are everywhere:</p>
-    <ul style="margin: 1rem 0 1.5rem 1.5rem; color: var(--text-primary);">
-        <li>Molecules diffuse <strong>down</strong> concentration gradients</li>
-        <li>Systems evolve <strong>down</strong> energy gradients</li>
-        <li>Electrons flow <strong>down</strong> electric potential gradients</li>
-    </ul>
-    <p><strong>The gradient is direction extracted from a landscape.</strong></p>
-</section>
+            <p><strong>Anatomical asymmetry → Bodily direction</strong><br>
+            An organism with a front and a back has direction built into its morphology. Bilateral symmetry with a distinguished anterior end. The body's asymmetry generates a coordinate system: forward/backward, left/right, up/down (the last anchored to external gravity, not body structure).<sup><a href="#fn4" id="ref4">4</a></sup></p>
 
-<hr>
+            <p><strong>Informational asymmetry → Intentional direction</strong><br>
+            A system that represents a goal state and acts to reduce the difference between current and goal states exhibits directionality: toward the goal. This is the direction of purpose, of aim. The asymmetry lies in the system's internal model — it distinguishes where it wants to be from where it is.<sup><a href="#fn5" id="ref5">5</a></sup></p>
 
-<!-- Section 9: Causation -->
-<section id="s9">
-    <h2>Direction in Causation</h2>
-    <p><strong>A causes B.</strong></p>
-    <p>This statement has a direction. It goes from A to B. Not from B to A. Causes precede effects, and there's an arrow pointing from one to the other.</p>
+            <p>These categories share formal structure. In each case:</p>
+            <ul>
+                <li>A state space exists</li>
+                <li>An asymmetry distinguishes one orientation from others</li>
+                <li>The distinction has physical or behavioral consequences</li>
+            </ul>
+        </section>
 
-    <div class="interactive" id="causation-flow"></div>
+        <hr>
 
-    <p>This isn't metaphor. Causation genuinely is directional. The asymmetry comes from time — the past is fixed, the future is open, and causes must precede their effects.</p>
-    <p>Every mechanism in chemistry is a sequence of these arrows. The nucleophile attacks the electrophile. The bond breaks. The intermediate forms. The product emerges. Each step points to the next.</p>
-</section>
+        <!-- PART II -->
+        <div class="part-header">
+            <div class="part-number">Part II</div>
+            <div class="part-title">Direction Before Formalization</div>
+        </div>
 
-<hr>
+        <section>
+            <h3>2.1 The Organism's Direction</h3>
 
-<!-- Section 10: Why Formalize -->
-<section id="s10">
-    <h2>Why Formalize?</h2>
-    <p>Now we return to the question from the beginning.</p>
-    <p>You already know direction. Your body knows it. Your language encodes it. Your mind uses it constantly. <strong>What could mathematics possibly add?</strong></p>
-    <p>Here's what: <em>precision</em> and <em>computation</em>.</p>
-    <p>You can point at the library and say "it's over there." But can you describe that direction precisely enough that someone in another city could replicate it?</p>
-    <p>You can feel that two directions are "kind of aligned." But can you say <em>how</em> aligned? Can you quantify the comparison?</p>
-    <p><strong>This is what formalization gives you.</strong> Not new perception — the perception was already there. What you get is the ability to be precise about what you perceive, to calculate with it, to make predictions.</p>
-</section>
+            <p>Long before mathematics, there was the amoeba.</p>
 
-<hr>
+            <p>The amoeba moves through its environment. Toward nutrients. Away from toxins. No nervous system computes gradients. No representation of "direction" exists in the single cell. Directionality is present in the behavior: approach and avoidance.</p>
 
-<!-- Section 11: Bridge -->
-<section id="s11">
-    <h2>The Bridge</h2>
+            <p>This is the <span class="def-popup" data-definition="Ur-direction: The most primitive form of directionality — the toward/away binary. Present in organisms without nervous systems (chemotaxis), in infant behavior (approach/avoidance), and as the cognitive foundation for more elaborated directional concepts.">ur-direction<span class="def-tooltip"></span></span>. The binary: toward and away. Approach and flee. Before angles, before degrees, before coordinate systems — there is this fundamental two-valued orientation.</p>
 
-    <div class="interactive" id="bridge-animation"></div>
+            <p>The mathematics of direction will give us continuous angles, unit vectors, dot products. These are refinements. The seed is binary: this way (toward) or that way (away).</p>
+        </section>
 
-    <table>
-        <thead>
-            <tr><th>What you already perceive</th><th>The formal tool</th></tr>
-        </thead>
-        <tbody>
-            <tr><td>"It points somewhere"</td><td>Vector</td></tr>
-            <tr><td>"How aligned are these two?"</td><td>Dot Product</td></tr>
-            <tr><td>"What's perpendicular to both?"</td><td>Cross Product</td></tr>
-            <tr><td>"Which way is steepest?"</td><td>Gradient</td></tr>
-            <tr><td>"Describe this direction exactly"</td><td>Components</td></tr>
-        </tbody>
-    </table>
+        <!-- VISUAL: Ur-Direction -->
+        <div class="visual-container" id="ur-direction">
+            <div class="visual-label">Visual: The Ur-Direction</div>
+            <div class="visual-placeholder" id="ur-direction-canvas">
+                [Canvas: Living amoeba with toward/away arrows tracking nutrient and toxin]
+            </div>
+            <p class="visual-caption">The first direction: toward what sustains, away from what destroys.</p>
+        </div>
 
-    <p>Each of these tools exists to capture something you already understand. The mathematics isn't replacing your intuition — it's making your intuition precise enough to compute with.</p>
-</section>
+        <section>
+            <h3>2.2 Direction in the Body</h3>
 
-<hr>
+            <p>The human body is asymmetric.</p>
 
-<!-- Closing -->
-<section class="closing" id="closing">
-    <div class="closing-box">
-        <p class="closing-quote">You knew DIRECTION before you knew chemistry, before you knew mathematics, before you knew words.</p>
-        <p class="closing-note">We're just giving names to what you already see.</p>
-    </div>
-    <a href="lectures/04-direction.html" class="next-link">
-        <span>Next: Vectors in Chemistry</span>
-        <span class="arrow">→</span>
-    </a>
-</section>
+            <p>You have a face. The face points forward — toward where you typically move, toward what you typically engage. The back of your head points away. This asymmetry is not arbitrary. Bilateral organisms that locomote develop anterior-posterior asymmetry because the front encounters the environment first. Eyes, mouth, sensory organs concentrate at the leading edge.</p>
 
-</main>
+            <p>From this single asymmetry — front versus back — a coordinate system unfolds:</p>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script>
-// ============================================
-// SCROLL PROGRESS & SECTION VISIBILITY
-// ============================================
-const progress = document.getElementById('progress');
-const sections = document.querySelectorAll('section');
-const nav = document.getElementById('nav');
+            <p><strong>Forward / Backward</strong>: Defined by the body's axis of locomotion, the direction the face points.</p>
 
-// Create nav dots
-sections.forEach((s, i) => {
-    const dot = document.createElement('div');
-    dot.className = 'nav-dot';
-    dot.onclick = () => s.scrollIntoView({ behavior: 'smooth' });
-    nav.appendChild(dot);
-});
+            <p><strong>Left / Right</strong>: Perpendicular to forward, in the horizontal plane of the body. Defined by bilateral symmetry (or rather, by the bilateral symmetry's axis).</p>
 
-const dots = nav.querySelectorAll('.nav-dot');
+            <p><strong>Up / Down</strong>: Perpendicular to the body's horizontal plane, aligned with gravity. This direction is anchored to the external world — up remains up even when you lie down.</p>
 
-// Intersection observer for sections
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-            const idx = Array.from(sections).indexOf(entry.target);
-            dots.forEach((d, i) => d.classList.toggle('active', i === idx));
-        }
-    });
-}, { threshold: 0.15 });
+            <p>Six directions. Three pairs of opposites. Generated by two asymmetries: the body's front/back distinction (intrinsic) and gravity (extrinsic).</p>
+        </section>
 
-sections.forEach(s => observer.observe(s));
+        <!-- VISUAL: Six Directions -->
+        <div class="visual-container" id="body-directions">
+            <div class="visual-label">Visual: The Six Directions</div>
+            <div class="visual-placeholder" id="body-directions-canvas">
+                [Canvas: Human figure with six labeled arrows, rotation control]
+            </div>
+            <p class="visual-caption">Forward and back come from the body. Up and down come from the Earth. You are the origin of your own coordinate system.</p>
+        </div>
 
-// Scroll progress
-window.addEventListener('scroll', () => {
-    const scrollTop = window.scrollY;
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    progress.style.width = (scrollTop / docHeight * 100) + '%';
-});
+        <section>
+            <h3>2.3 The Development of Directional Concepts</h3>
 
-// ============================================
-// PARTICLE CANVAS
-// ============================================
-const canvas = document.getElementById('particle-canvas');
-const ctx = canvas.getContext('2d');
-let particles = [];
+            <p>Developmental psychology tracks how children acquire directional concepts.<sup><a href="#fn6" id="ref6">6</a></sup></p>
 
-function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-}
+            <p>The sequence is consistent across cultures:</p>
 
-function createParticles() {
-    particles = [];
-    const count = Math.min(100, Math.floor(window.innerWidth / 15));
-    for (let i = 0; i < count; i++) {
-        particles.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            vx: (Math.random() - 0.5) * 0.4,
-            vy: (Math.random() - 0.5) * 0.4,
-            r: Math.random() * 2 + 1
+            <ol>
+                <li><strong>Toward/Away</strong> — Present in infancy. Reaching toward, turning away. Preverbal and prereflective.</li>
+                <li><strong>Forward/Backward</strong> — Emerges with locomotion. The crawling infant discovers that bodies have fronts.</li>
+                <li><strong>Up/Down</strong> — Anchored in gravity, learned through falling and climbing. Universal and early.</li>
+                <li><strong>Left/Right</strong> — Late and difficult. Children master forward/back by age 3-4 but struggle with left/right until 6-7. The distinction lacks external anchoring (unlike up/down with gravity). It is purely body-relative, and bodies rotate.</li>
+            </ol>
+
+            <p>The mathematical formalization of direction — vectors, angles, coordinates — comes much later, typically in adolescence. The perceptual and bodily understanding precedes the formal understanding by a decade or more.</p>
+
+            <p><strong>This matters pedagogically.</strong> Students encountering vectors are not learning direction from scratch. They are formalizing something they have known, in a bodily sense, since infancy.</p>
+        </section>
+
+        <section>
+            <h3>2.4 Direction Without Movement</h3>
+
+            <p>A critical distinction: direction does not require motion.</p>
+
+            <p>A weathervane points north even when the air is still. A signpost points toward the city while standing motionless. A bond between atoms points from one nucleus to the other in a frozen crystal.</p>
+
+            <p>Direction is orientation in space. Motion is change of position over time. They are related — motion has a direction — but they are not identical. Static objects can have direction. A photograph of an arrow has direction. A sculpture facing east has direction.</p>
+
+            <p>This matters for chemistry. We speak of the <em>direction</em> of a bond, the <em>direction</em> of a dipole moment, the <em>direction</em> of an orbital lobe. These are not moving. They are oriented. The language of direction applies to static structures.</p>
+        </section>
+
+        <hr>
+
+        <!-- PART III -->
+        <div class="part-header">
+            <div class="part-number">Part III</div>
+            <div class="part-title">The Geometry of Direction</div>
+        </div>
+
+        <section>
+            <h3>3.1 The Circle of Directions (Two Dimensions)</h3>
+
+            <p>Consider all possible directions in a plane.</p>
+
+            <p>Between north and east lies northeast. Between north and northeast lies north-northeast. Between any two directions, another direction exists. Direction in two dimensions is continuous.</p>
+
+            <p>What shape captures "all possible directions from a point"?</p>
+
+            <p><strong>A circle.</strong></p>
+
+            <p>Every point on a circle (centered at some origin) represents a direction: the direction from the origin to that point. The circle is not merely analogous to direction space; it <em>is</em> direction space in two dimensions. The set of all directions from a point in a plane is topologically identical to the circle S¹.</p>
+
+            <p>A single number parameterizes position on the circle: the angle θ, measured from some reference direction (conventionally, the positive x-axis, counterclockwise). As θ varies from 0° to 360°, you traverse all possible directions, returning to where you started.</p>
+        </section>
+
+        <!-- VISUAL: Circle of Directions -->
+        <div class="visual-container" id="circle-directions">
+            <div class="visual-label">Visual: The Circle of Directions</div>
+            <div class="visual-placeholder" id="circle-directions-canvas">
+                [SVG: Circle with draggable direction arrow, angle θ display]
+            </div>
+            <p class="visual-caption">Every point on the circle is a direction. The angle θ specifies which one.</p>
+        </div>
+
+        <section>
+            <h3>3.2 The Sphere of Directions (Three Dimensions)</h3>
+
+            <p>Extend to three dimensions.</p>
+
+            <p>Now you can point up, down, and everywhere in between. The set of all directions from a point in three-dimensional space is a <span class="def-popup" data-definition="2-sphere (S²): The set of all points equidistant from a central point in three-dimensional space. Equivalently, the set of all unit vectors in ℝ³. Parameterized by two angles: azimuth (θ, 0° to 360°) and elevation (φ, -90° to +90° or 0° to 180°).">sphere<span class="def-tooltip"></span></span>.</p>
+
+            <p>Every point on the surface of a sphere represents a direction: the direction from the center to that surface point. The sphere S² is direction space in three dimensions.</p>
+
+            <p>Two angles parameterize position on the sphere:</p>
+            <ul>
+                <li><strong>Azimuth (θ)</strong>: The compass direction — the angle in the horizontal plane.</li>
+                <li><strong>Elevation (φ)</strong>: The angle above or below the horizon.</li>
+            </ul>
+
+            <p>As θ and φ vary over their full ranges, every possible direction in 3D space is covered.</p>
+
+            <p>This is what the owl's head does when it swivels. The owl samples the sphere of directions, selecting one for its gaze. The mathematics of spherical coordinates describes this sampling.</p>
+        </section>
+
+        <!-- VISUAL: Sphere of Directions -->
+        <div class="visual-container" id="sphere-directions">
+            <div class="visual-label">Visual: The Sphere of Directions</div>
+            <div class="visual-placeholder" id="sphere-directions-canvas">
+                [Three.js: 3D sphere with direction arrow, azimuth/elevation controls]
+            </div>
+            <p class="visual-caption">In three dimensions, direction space is a sphere. Two angles specify any direction.</p>
+        </div>
+
+        <section>
+            <h3>3.3 Direction as Relation</h3>
+
+            <p>Direction is a relation between points.</p>
+
+            <p>"The library is north" — north of <em>what</em>? The library has no intrinsic northness. The statement requires a reference: the library is north <em>of here</em>.</p>
+
+            <p>"The bond points toward the oxygen" — from <em>where</em>? From the carbon.</p>
+
+            <p>Every direction has an origin. Every arrow has a tail. This reflects the relational nature of direction itself. Direction is a binary relation: from A, toward B.</p>
+
+            <p>The <span class="def-popup" data-definition="Vector: A mathematical object with both magnitude and direction. Formally, an element of a vector space. Geometrically, represented as an arrow with a tail (origin) and head (terminus), encoding direction and length.">vector<span class="def-tooltip"></span></span>, when we formalize it, will have two pieces: a starting point and an ending point, or equivalently, an origin and a displacement. The structure of the formalism mirrors the structure of direction as relation.</p>
+        </section>
+
+        <section>
+            <h3>3.4 Comparing Directions</h3>
+
+            <p>Given two directions, how similar are they?</p>
+
+            <p>At the extremes:</p>
+            <ul>
+                <li><strong>Same direction</strong>: The two directions are identical. Perfect alignment.</li>
+                <li><strong>Opposite directions</strong>: The two directions differ by 180°. Perfect opposition.</li>
+                <li><strong>Perpendicular directions</strong>: The two directions differ by 90°. Complete independence.</li>
+            </ul>
+
+            <p>Between these: partial alignment, partial opposition.</p>
+
+            <p>A question arises: <em>How much</em> of direction A is "in" direction B? If B is close to A, most of A is captured by B. If B is perpendicular to A, none of A is captured. If B is opposite to A, the relationship is maximally negative.</p>
+
+            <p>This question — quantifying the alignment of two directions — leads to the <span class="def-popup" data-definition="Dot product (inner product): An operation on two vectors yielding a scalar. For vectors a and b, the dot product a·b = |a||b|cos(θ), where θ is the angle between them. Positive when aligned, zero when perpendicular, negative when opposed.">dot product<span class="def-tooltip"></span></span>. The dot product measures the extent to which two directions agree.</p>
+
+            <p>The <em>question</em> precedes the <em>tool</em>. You can feel that northeast is "more north than east." The dot product is notation for that intuition.</p>
+        </section>
+
+        <!-- VISUAL: Comparing Directions -->
+        <div class="visual-container" id="comparing-directions">
+            <div class="visual-label">Visual: Comparing Directions</div>
+            <div class="visual-placeholder" id="comparing-directions-canvas">
+                [SVG: Two draggable arrows, angle display, alignment bar]
+            </div>
+            <p class="visual-caption">The angle between two directions — and later, the dot product — quantifies their alignment.</p>
+        </div>
+
+        <section>
+            <h3>3.5 Magnitude and Direction</h3>
+
+            <p>Some directed quantities have intensity.</p>
+
+            <p>The wind blows east. How strongly? A breeze or a gale — both east, different magnitudes.</p>
+
+            <p>The ground slopes downward. How steeply? A gentle incline or a cliff — both down, different magnitudes.</p>
+
+            <p><strong>Direction</strong> specifies orientation. <strong>Magnitude</strong> specifies intensity. The combination is ubiquitous: velocity, force, acceleration, electric field, dipole moment.</p>
+
+            <p>A <strong>vector</strong> packages both: direction (which way) and magnitude (how much). Graphically, an arrow of specified length pointing in a specified direction.</p>
+
+            <p>Direction and magnitude are separable:</p>
+            <ul>
+                <li><strong>Pure direction</strong> (no magnitude): a compass heading, a unit vector, an orientation.</li>
+                <li><strong>Pure magnitude</strong> (no direction): temperature, mass, concentration — scalars.</li>
+                <li><strong>Both</strong>: vectors.</li>
+            </ul>
+
+            <p>The vector is the formalization of the primitive. Direction came first, in perception and behavior. The vector notation came later, to enable calculation.</p>
+        </section>
+
+        <!-- VISUAL: Direction vs Magnitude -->
+        <div class="visual-container" id="magnitude-direction">
+            <div class="visual-label">Visual: Direction vs. Magnitude</div>
+            <div class="visual-placeholder" id="magnitude-direction-canvas">
+                [SVG: Three panels — direction only, magnitude only, both (vector)]
+            </div>
+            <p class="visual-caption">Direction answers "which way?" Magnitude answers "how much?" Vectors answer both.</p>
+        </div>
+
+        <hr>
+
+        <!-- PART IV -->
+        <div class="part-header">
+            <div class="part-number">Part IV</div>
+            <div class="part-title">Direction in Physical Systems</div>
+        </div>
+
+        <section>
+            <h3>4.1 Gradients: Direction from Landscape</h3>
+
+            <p>Consider a scalar field — a quantity that varies across space. Temperature in a room. Concentration in a solution. Electric potential around a charge. Elevation on terrain.</p>
+
+            <p>At any point, some directions lead to higher values, others to lower values. One direction is special: the direction of steepest ascent — the way that increases the value most rapidly. This is the <strong>gradient</strong>.</p>
+
+            <p>Formally, for a scalar field f(x,y,z), the gradient ∇f is a vector field pointing in the direction of greatest increase of f at each point. The magnitude of the gradient equals the rate of that increase.</p>
+
+            <p>Physical systems respond to gradients:</p>
+            <ul>
+                <li><strong>Thermal diffusion</strong>: Heat flows down the temperature gradient (from hot to cold).</li>
+                <li><strong>Molecular diffusion</strong>: Particles flow down the concentration gradient (from high to low concentration).</li>
+                <li><strong>Electrostatics</strong>: Positive charges move down the electric potential gradient.</li>
+                <li><strong>Gravity</strong>: Objects move down the gravitational potential gradient.</li>
+            </ul>
+
+            <p>In each case, "down" means "opposite to the gradient direction." Systems evolve toward lower values of the relevant potential. The gradient specifies "uphill."</p>
+        </section>
+
+        <!-- VISUAL: Gradient Landscape -->
+        <div class="visual-container" id="gradient-landscape">
+            <div class="visual-label">Visual: The Gradient Landscape</div>
+            <div class="visual-placeholder" id="gradient-landscape-canvas">
+                [Canvas: 2D heatmap, click to show gradient arrow, drop ball to roll downhill]
+            </div>
+            <p class="visual-caption">The gradient points uphill — toward increasing values. Systems typically evolve downhill.</p>
+        </div>
+
+        <section>
+            <h3>4.2 Causation: The Direction of Influence</h3>
+
+            <p>A causes B.</p>
+
+            <p>This statement has direction. A comes before B (in time). Manipulating A changes B; manipulating B does not change A. The relationship is asymmetric.</p>
+
+            <p>The arrow of causation points from cause to effect. The asymmetry is grounded in the structure of time and intervention. We can wiggle causes experimentally and observe effects change. We cannot wiggle effects and observe causes change.</p>
+
+            <p>In chemistry, reaction mechanisms are chains of causal arrows:</p>
+
+            <p style="text-align: center; font-family: var(--font-mono); color: var(--accent-blue); font-size: 1.1rem; margin: 2rem 0;">
+                Nucleophile → Electrophile → Transition State → Product
+            </p>
+
+            <p>Each arrow represents "leads to" — a directional relationship in the space of molecular events. The mechanism has a direction: from reactants toward products.</p>
+
+            <p>This is direction in a non-spatial sense. The "space" is the space of chemical transformations. The "direction" is the trajectory from earlier states to later states.</p>
+        </section>
+
+        <!-- VISUAL: Causation -->
+        <div class="visual-container" id="causation-flow">
+            <div class="visual-label">Visual: The Arrow of Causation</div>
+            <div class="visual-placeholder" id="causation-flow-canvas">
+                [SVG: Cause → Effect boxes, timeline, chemistry mechanism example]
+            </div>
+            <p class="visual-caption">Causation has direction. Time has direction. Mechanism arrows trace causal flow.</p>
+        </div>
+
+        <section>
+            <h3>4.3 Direction in Molecular Structure</h3>
+
+            <p>A covalent bond has direction. It extends from one nucleus to another.</p>
+
+            <p>When bonded atoms differ in electronegativity, the bond has a <strong>dipole moment</strong> — a vector pointing from partial positive toward partial negative. The dipole moment encodes both magnitude of charge separation and direction of that separation.</p>
+
+            <p>Molecular geometry is a collection of bond directions. Water: two O-H bonds at 104.5°. Ammonia: three N-H bonds in pyramidal arrangement. Methane: four C-H bonds in tetrahedral directions. The shape of a molecule is a set of directions from a central point.</p>
+
+            <p>Atomic orbitals have direction. The three p orbitals — p<sub>x</sub>, p<sub>y</sub>, p<sub>z</sub> — are identical in shape but point along different axes. The d orbitals have more complex orientations. Hybridization theory combines these to predict bond directions.</p>
+
+            <p>VSEPR theory predicts molecular geometry by assuming electron domains repel and arrange to maximize angular separation — to spread as far apart as possible on the sphere of directions around a central atom.</p>
+
+            <p><strong>Direction is not peripheral to chemistry. Direction <em>is</em> molecular structure.</strong></p>
+        </section>
+
+        <section>
+            <h3>4.4 Vector Fields</h3>
+
+            <p>A <strong>vector field</strong> assigns a direction (with magnitude) to every point in a region.</p>
+
+            <p>The gravitational field around Earth: at every point, a vector pointing toward Earth's center.</p>
+
+            <p>The electric field around a charge: at every point, a vector pointing away from positive charge (or toward negative).</p>
+
+            <p>The velocity field in a flowing fluid: at every point, a vector indicating direction and speed of flow.</p>
+
+            <p>Fields make direction systematic — direction everywhere, simultaneously. Vector calculus (divergence, curl, line integrals) describes how direction varies across space, how it flows, how it accumulates.</p>
+        </section>
+
+        <hr>
+
+        <!-- PART V -->
+        <div class="part-header">
+            <div class="part-number">Part V</div>
+            <div class="part-title">The Formalism</div>
+        </div>
+
+        <section>
+            <h3>5.1 Why Formalize?</h3>
+
+            <p>You already understand direction. What does mathematical formalism add?</p>
+
+            <p><strong>Precision</strong>: You can point at the library and say "over there." Formalism lets you say "bearing 047°, distance 2.3 km" — a specification reproducible by anyone with a map and compass.</p>
+
+            <p><strong>Calculation</strong>: You can sense the hill is steeper this way. Formalism lets you compute the exact slope, predict where a ball will roll, design a road with acceptable grade.</p>
+
+            <p><strong>Communication</strong>: Bodily direction knowledge is private. Formalized direction can be written, transmitted, stored, shared.</p>
+
+            <p><strong>Generalization</strong>: Physical intuitions are anchored in three spatial dimensions. Formalism generalizes to any number of dimensions — essential for thermodynamics (high-dimensional state spaces), quantum mechanics (infinite-dimensional Hilbert spaces), and data science (hundreds of features).</p>
+
+            <p>The formalism extends intuition's reach.</p>
+        </section>
+
+        <section>
+            <h3>5.2 The Bridge</h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Perception</th>
+                        <th>Formal Tool</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>"It points somewhere"</td>
+                        <td>Vector</td>
+                    </tr>
+                    <tr>
+                        <td>"How aligned are these two directions?"</td>
+                        <td>Dot product</td>
+                    </tr>
+                    <tr>
+                        <td>"What's perpendicular to both?"</td>
+                        <td>Cross product</td>
+                    </tr>
+                    <tr>
+                        <td>"Which way is steepest?"</td>
+                        <td>Gradient</td>
+                    </tr>
+                    <tr>
+                        <td>"Describe this direction exactly"</td>
+                        <td>Components</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>Each tool formalizes a question you already know how to ask.</p>
+        </section>
+
+        <!-- VISUAL: The Bridge -->
+        <div class="visual-container" id="bridge-animation">
+            <div class="visual-label">Visual: The Bridge</div>
+            <div class="visual-placeholder" id="bridge-animation-canvas">
+                [SVG: Two columns with animated connecting lines on scroll]
+            </div>
+            <p class="visual-caption">The perception came first. The mathematics is notation for what you already see.</p>
+        </div>
+
+        <section>
+            <h3>5.3 Formal Definitions</h3>
+
+            <p>These definitions are for reference. Terms appear throughout with popup definitions on hover.</p>
+
+            <div class="definition-block">
+                <p><strong>Vector</strong>: An element of a vector space; a quantity with magnitude and direction. In ℝ³, represented as <strong>v</strong> = (v₁, v₂, v₃). Magnitude: |<strong>v</strong>| = √(v₁² + v₂² + v₃²).</p>
+
+                <p><strong>Unit vector</strong>: A vector of magnitude 1. For nonzero <strong>v</strong>, the unit vector is <strong>v̂</strong> = <strong>v</strong>/|<strong>v</strong>|. Unit vectors encode pure direction.</p>
+
+                <p><strong>Dot product</strong>: For <strong>a</strong> = (a₁, a₂, a₃) and <strong>b</strong> = (b₁, b₂, b₃):<br>
+                <span style="font-family: var(--font-mono); color: var(--accent-blue);">a · b = a₁b₁ + a₂b₂ + a₃b₃ = |a||b|cos(θ)</span><br>
+                Measures alignment. Positive when aligned, zero when perpendicular, negative when opposed.</p>
+
+                <p><strong>Cross product</strong>: For <strong>a</strong> and <strong>b</strong> in ℝ³:<br>
+                <span style="font-family: var(--font-mono); color: var(--accent-blue);">a × b = (a₂b₃ - a₃b₂, a₃b₁ - a₁b₃, a₁b₂ - a₂b₁)</span><br>
+                Yields a vector perpendicular to both, with magnitude |<strong>a</strong>||<strong>b</strong>|sin(θ).</p>
+
+                <p><strong>Gradient</strong>: For scalar f(x, y, z):<br>
+                <span style="font-family: var(--font-mono); color: var(--accent-blue);">∇f = (∂f/∂x, ∂f/∂y, ∂f/∂z)</span><br>
+                Points toward steepest increase.</p>
+
+                <p><strong>Basis</strong>: A set of vectors {<strong>e</strong>₁, <strong>e</strong>₂, ..., <strong>e</strong>ₙ} spanning the space. Standard basis in ℝ³: <strong>î</strong> = (1,0,0), <strong>ĵ</strong> = (0,1,0), <strong>k̂</strong> = (0,0,1).</p>
+
+                <p><strong>Components</strong>: Coefficients in a basis expansion. For <strong>v</strong> = v₁<strong>î</strong> + v₂<strong>ĵ</strong> + v₃<strong>k̂</strong>, components are (v₁, v₂, v₃).</p>
+            </div>
+        </section>
+
+        <hr>
+
+        <!-- PART VI -->
+        <div class="part-header">
+            <div class="part-number">Part VI</div>
+            <div class="part-title">SAMENESS and DIRECTION as Duals</div>
+        </div>
+
+        <section>
+            <h3>6.1 The Symmetry-Asymmetry Duality</h3>
+
+            <p>SAMENESS detects what is preserved under transformation.<br>
+            DIRECTION detects what is distinguished by transformation.</p>
+
+            <p>These are dual perspectives on the same structure.</p>
+
+            <p>Consider rotation. A sphere is unchanged by any rotation about its center — full rotational symmetry. SAMENESS is maximal. A cone is changed by most rotations — only rotations about its axis preserve it. Partial symmetry. DIRECTION (the axis) emerges where symmetry is broken.</p>
+
+            <p><strong>The more symmetry a system has, the less direction it can support.<br>
+            The more direction a system exhibits, the less symmetry it can have.</strong></p>
+        </section>
+
+        <section>
+            <h3>6.2 Symmetry Operations Define Equivalence of Directions</h3>
+
+            <p>The symmetry operations of a system — the transformations leaving it unchanged — define which directions are equivalent.</p>
+
+            <p>A crystal with cubic symmetry has no preferred direction along any cube diagonal or face normal. They are all equivalent by symmetry. Introduce a defect that breaks cubic symmetry, and those directions become distinguishable.</p>
+
+            <p><span class="def-popup" data-definition="Group theory: The mathematical study of symmetry. A group is a set of operations closed under composition, with an identity element and inverses. The symmetry group of a system contains all transformations leaving the system invariant.">Group theory<span class="def-tooltip"></span></span>, the mathematics of symmetry, implicitly describes direction. The symmetry group specifies which directions are equivalent. Everything outside that equivalence is where direction gains traction.</p>
+        </section>
+
+        <section>
+            <h3>6.3 Chemistry Applications</h3>
+
+            <p>Symmetry and direction interact throughout chemistry:</p>
+
+            <p><strong>Molecular symmetry</strong> (SAMENESS): Does the molecule have a plane of symmetry? An inversion center? A rotation axis? Point groups classify molecular symmetry. Spectroscopy, polarity, chirality depend on these symmetries.</p>
+
+            <p><strong>Dipole moments</strong> (DIRECTION): A molecule has a net dipole moment if and only if its charge distribution is asymmetric — if symmetry is insufficient to cancel bond dipoles. The presence or absence of certain symmetry elements determines whether direction emerges.</p>
+
+            <p><strong>Selection rules</strong>: Spectroscopic transitions are allowed or forbidden based on symmetry. The electric field of light has direction; it drives only transitions with appropriate symmetry relationship to that direction.</p>
+
+            <p><strong>Stereochemistry</strong>: Which face of a molecule is attacked? Which configuration results? Direction in reactions is constrained by symmetry of reactants, catalysts, and transition states.</p>
+
+            <p>The sister primitives work together.</p>
+        </section>
+
+        <hr>
+
+        <!-- PART VII -->
+        <div class="part-header">
+            <div class="part-number">Part VII</div>
+            <div class="part-title">Summary</div>
+        </div>
+
+        <section>
+            <h3>7.1 What Direction Is</h3>
+
+            <p>Direction is orientation in a state space, made possible by asymmetry.</p>
+
+            <p>In symmetric situations, no direction is preferred; all orientations are equivalent. Asymmetry — in geometry, in boundary conditions, in dynamics — breaks equivalence and creates distinction. That distinction is direction.</p>
+
+            <p>The perception of direction precedes its formalization. Infants reach toward; amoebas chemotax; humans point and face. The body generates directional experience through its own asymmetries (front/back) and its relationship to external asymmetries (gravity).</p>
+
+            <p>The formalism — vectors, dot products, gradients — captures this perception in notation. The tools enable precision, calculation, and communication. They serve the perception; they do not replace it.</p>
+        </section>
+
+        <section>
+            <h3>7.2 Forward</h3>
+
+            <p>We take DIRECTION into chemistry:</p>
+
+            <p><strong>Lecture 4: Bonds Point</strong> — The bond as a vector. Molecular geometry as a collection of directions.</p>
+
+            <p><strong>Lecture 5: Angles and Projections</strong> — The dot product as a tool for comparing bond directions. Bond angles.</p>
+
+            <p><strong>Lecture 6: Coordinates</strong> — Basis vectors and components. Representing molecular structures.</p>
+
+            <p>The primitive is established. Now we apply it.</p>
+        </section>
+
+        <!-- ENDNOTES -->
+        <div class="endnotes">
+            <h2>Endnotes</h2>
+
+            <div class="endnote" id="fn1">
+                <span class="endnote-num">[1]</span>
+                For a comprehensive treatment of symmetry breaking and direction, see the Stanford Encyclopedia of Philosophy entry "Symmetry and Symmetry Breaking" (Brading & Castellani, 2003) and "Thermodynamic Asymmetry in Time" (North, 2011). <a href="#ref1">↩</a>
+            </div>
+
+            <div class="endnote" id="fn2">
+                <span class="endnote-num">[2]</span>
+                The thermodynamic arrow of time is analyzed in Price (1996), <em>Time's Arrow and Archimedes' Point</em>, and Albert (2000), <em>Time and Chance</em>. The puzzle: microscopic laws are time-symmetric; macroscopic directionality emerges from low-entropy boundary conditions. <a href="#ref2">↩</a>
+            </div>
+
+            <div class="endnote" id="fn3">
+                <span class="endnote-num">[3]</span>
+                The interventionist account of causation is developed in Woodward (2003), <em>Making Things Happen</em>, and Pearl (2000), <em>Causality</em>. Causal direction reflects the asymmetry of intervention: earlier variables can be manipulated to change later ones, not vice versa. <a href="#ref3">↩</a>
+            </div>
+
+            <div class="endnote" id="fn4">
+                <span class="endnote-num">[4]</span>
+                Anatomical asymmetry and its developmental origins are discussed in Palmer (2004), "Symmetry Breaking and the Evolution of Development" (<em>Science</em> 306:828-833), and Levin (2005), "Left-right asymmetry in embryonic development" (<em>Annual Review of Cell and Developmental Biology</em> 21:319-345). <a href="#ref4">↩</a>
+            </div>
+
+            <div class="endnote" id="fn5">
+                <span class="endnote-num">[5]</span>
+                Teleonomic direction and goal-directed systems are analyzed in Corning (2014), "Systems Theory and the Role of Synergy in the Evolution of Living Systems" (<em>Systems Research and Behavioral Science</em> 31:523-542). <a href="#ref5">↩</a>
+            </div>
+
+            <div class="endnote" id="fn6">
+                <span class="endnote-num">[6]</span>
+                The developmental sequence of spatial concepts is reviewed in Newcombe & Huttenlocher (2000), <em>Making Space: The Development of Spatial Representation and Reasoning</em>. The difficulty of left/right reflects its lack of external anchoring. <a href="#ref6">↩</a>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="page-footer">
+        <p><em>Chemical Thinking: The Grammar of Reality</em></p>
+        <p>DIRECTION — Version 2.0 — December 2024</p>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script>
+        // ============================================
+        // SCROLL PROGRESS
+        // ============================================
+        const progress = document.getElementById('progress');
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            progress.style.width = (scrollTop / docHeight * 100) + '%';
         });
-    }
-}
 
-function animateParticles() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // ============================================
+        // SECTION VISIBILITY
+        // ============================================
+        const sections = document.querySelectorAll('section');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
 
-    particles.forEach((p, i) => {
-        p.x += p.vx;
-        p.y += p.vy;
-        if (p.x < 0) p.x = canvas.width;
-        if (p.x > canvas.width) p.x = 0;
-        if (p.y < 0) p.y = canvas.height;
-        if (p.y > canvas.height) p.y = 0;
+        sections.forEach(s => observer.observe(s));
 
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(88, 166, 255, 0.6)';
-        ctx.fill();
-
-        // Connect nearby
-        for (let j = i + 1; j < particles.length; j++) {
-            const p2 = particles[j];
-            const dx = p.x - p2.x;
-            const dy = p.y - p2.y;
-            const dist = Math.sqrt(dx*dx + dy*dy);
-            if (dist < 120) {
-                ctx.beginPath();
-                ctx.moveTo(p.x, p.y);
-                ctx.lineTo(p2.x, p2.y);
-                ctx.strokeStyle = `rgba(88, 166, 255, ${0.15 * (1 - dist/120)})`;
-                ctx.stroke();
+        // ============================================
+        // DEFINITION POPUPS
+        // ============================================
+        document.querySelectorAll('.def-popup').forEach(el => {
+            const definition = el.dataset.definition;
+            const tooltip = el.querySelector('.def-tooltip');
+            if (tooltip && definition) {
+                tooltip.textContent = definition;
             }
-        }
-    });
-
-    requestAnimationFrame(animateParticles);
-}
-
-window.addEventListener('resize', () => { resizeCanvas(); createParticles(); });
-resizeCanvas();
-createParticles();
-animateParticles();
-
-// ============================================
-// INTERACTIVE: POINTING ARM
-// ============================================
-(function() {
-    const container = document.getElementById('pointing-arm');
-    if (!container) return;
-
-    const W = 400, H = 280;
-    const cx = 120, cy = 140;
-    let tx = 300, ty = 100;
-    let dragging = false;
-
-    function render() {
-        const dx = tx - cx, dy = ty - cy;
-        const dist = Math.sqrt(dx*dx + dy*dy);
-        const len = Math.max(30, Math.min(dist * 0.85, 180));
-        const ax = cx + (dx/dist) * len;
-        const ay = cy + (dy/dist) * len;
-
-        container.innerHTML = `
-            <svg width="${W}" height="${H}" style="cursor:crosshair">
-                <defs>
-                    <marker id="arr1" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-                        <polygon points="0 0,10 3.5,0 7" fill="#58A6FF"/>
-                    </marker>
-                </defs>
-                <circle cx="${cx}" cy="${cy}" r="22" fill="#334155"/>
-                <text x="${cx}" y="${cy+5}" text-anchor="middle" fill="#fff" font-size="13">you</text>
-                <line x1="${cx}" y1="${cy}" x2="${ax}" y2="${ay}" stroke="#58A6FF" stroke-width="4" marker-end="url(#arr1)"/>
-                <circle cx="${tx}" cy="${ty}" r="16" fill="#7EE787" style="cursor:grab" id="target1"/>
-                <text x="${tx}" y="${ty+32}" text-anchor="middle" fill="#8B949E" font-size="11">target</text>
-            </svg>
-            <p class="interactive-hint">Drag the target</p>
-        `;
-
-        document.getElementById('target1').onmousedown = (e) => { dragging = true; e.preventDefault(); };
-    }
-
-    container.onmousemove = (e) => {
-        if (!dragging) return;
-        const rect = container.querySelector('svg').getBoundingClientRect();
-        tx = Math.max(30, Math.min(W-30, e.clientX - rect.left));
-        ty = Math.max(30, Math.min(H-30, e.clientY - rect.top));
-        render();
-    };
-    document.onmouseup = () => dragging = false;
-    render();
-})();
-
-// ============================================
-// INTERACTIVE: LIVING AMOEBA SIMULATION
-// ============================================
-(function() {
-    const container = document.getElementById('toward-away');
-    if (!container) return;
-
-    const W = 600, H = 380;
-
-    // Create canvas
-    container.innerHTML = `
-        <canvas id="amoeba-canvas" width="${W}" height="${H}" style="border-radius:12px; cursor:crosshair;"></canvas>
-        <p class="interactive-hint">Drag the amoeba away — watch it seek its way back</p>
-    `;
-
-    const canvas = document.getElementById('amoeba-canvas');
-    const ctx = canvas.getContext('2d');
-
-    // Environment particles (floating debris, bacteria, organic matter)
-    const particles = [];
-    for (let i = 0; i < 35; i++) {
-        particles.push({
-            x: Math.random() * W,
-            y: Math.random() * H,
-            r: Math.random() * 2.5 + 0.5,
-            vx: (Math.random() - 0.5) * 0.3,
-            vy: (Math.random() - 0.5) * 0.3,
-            opacity: Math.random() * 0.4 + 0.1,
-            type: Math.random() > 0.7 ? 'bacteria' : 'debris'
         });
-    }
 
-    // Amoeba state
-    let amoeba = {
-        x: W/2,
-        y: H/2,
-        vx: 0,
-        vy: 0,
-        baseRadius: 32,
-        points: [],
-        numPoints: 28,
-        phase: 0,
-        trail: []
-    };
-
-    // Initialize membrane points
-    for (let i = 0; i < amoeba.numPoints; i++) {
-        amoeba.points.push({
-            angle: (i / amoeba.numPoints) * Math.PI * 2,
-            radius: amoeba.baseRadius,
-            targetRadius: amoeba.baseRadius,
-            noise: Math.random() * 1000
-        });
-    }
-
-    // Stimuli
-    let nutrient = { x: 500, y: 100, radius: 20 };
-    let toxin = { x: 100, y: 280, radius: 18 };
-
-    // Drag state
-    let drag = null;
-    let dragOffset = { x: 0, y: 0 };
-
-    // Organic noise function
-    function noise(x, t) {
-        return Math.sin(x * 2.3 + t) * 0.5 +
-               Math.sin(x * 5.7 + t * 1.3) * 0.3 +
-               Math.sin(x * 11.1 + t * 0.7) * 0.2;
-    }
-
-    function updateParticles() {
-        particles.forEach(p => {
-            p.x += p.vx;
-            p.y += p.vy;
-            // Wrap around
-            if (p.x < 0) p.x = W;
-            if (p.x > W) p.x = 0;
-            if (p.y < 0) p.y = H;
-            if (p.y > H) p.y = 0;
-            // Slight random drift
-            p.vx += (Math.random() - 0.5) * 0.02;
-            p.vy += (Math.random() - 0.5) * 0.02;
-            p.vx *= 0.99;
-            p.vy *= 0.99;
-        });
-    }
-
-    function update() {
-        updateParticles();
-
-        // Store trail
-        if (amoeba.trail.length > 60) amoeba.trail.shift();
-        amoeba.trail.push({ x: amoeba.x, y: amoeba.y });
-
-        if (drag === 'amoeba') {
-            amoeba.vx *= 0.7;
-            amoeba.vy *= 0.7;
-        } else {
-            // Calculate attraction to nutrient
-            const ndx = nutrient.x - amoeba.x;
-            const ndy = nutrient.y - amoeba.y;
-            const ndist = Math.sqrt(ndx*ndx + ndy*ndy);
-
-            // Calculate repulsion from toxin
-            const tdx = toxin.x - amoeba.x;
-            const tdy = toxin.y - amoeba.y;
-            const tdist = Math.sqrt(tdx*tdx + tdy*tdy);
-
-            // Chemotaxis forces - balanced seeking and fleeing
-            const attractStrength = 0.03 + Math.min(0.06, 150 / (ndist + 80));
-            // STRONG repulsion from toxin - ALWAYS active, stronger when closer
-            const repelStrength = 0.04 + Math.min(0.25, 400 / (tdist * tdist + 50));
-
-            // Apply attraction to nutrient
-            if (ndist > 15) {
-                amoeba.vx += (ndx / ndist) * attractStrength;
-                amoeba.vy += (ndy / ndist) * attractStrength;
-            }
-
-            // Apply repulsion from toxin - ALWAYS FLEE
-            if (tdist > 5) {
-                amoeba.vx -= (tdx / tdist) * repelStrength;
-                amoeba.vy -= (tdy / tdist) * repelStrength;
-            }
-
-            // Organic damping - slower, more deliberate
-            amoeba.vx *= 0.94;
-            amoeba.vy *= 0.94;
-
-            // Moderate speed limit
-            const speed = Math.sqrt(amoeba.vx*amoeba.vx + amoeba.vy*amoeba.vy);
-            if (speed > 1.8) {
-                amoeba.vx = (amoeba.vx / speed) * 1.8;
-                amoeba.vy = (amoeba.vy / speed) * 1.8;
-            }
-
-            // Move
-            amoeba.x += amoeba.vx;
-            amoeba.y += amoeba.vy;
-
-            // Boundary
-            amoeba.x = Math.max(45, Math.min(W-45, amoeba.x));
-            amoeba.y = Math.max(45, Math.min(H-45, amoeba.y));
-        }
-
-        // Update membrane - pseudopods extend toward nutrient
-        amoeba.phase += 0.03;
-        const toNutrientAngle = Math.atan2(nutrient.y - amoeba.y, nutrient.x - amoeba.x);
-        const fromToxinAngle = Math.atan2(amoeba.y - toxin.y, amoeba.x - toxin.x);
-
-        for (let i = 0; i < amoeba.points.length; i++) {
-            const p = amoeba.points[i];
-
-            let angleDiffN = p.angle - toNutrientAngle;
-            while (angleDiffN > Math.PI) angleDiffN -= Math.PI * 2;
-            while (angleDiffN < -Math.PI) angleDiffN += Math.PI * 2;
-            const nutrientInfluence = Math.max(0, 1 - Math.abs(angleDiffN) / (Math.PI * 0.5));
-
-            let angleDiffT = p.angle - fromToxinAngle;
-            while (angleDiffT > Math.PI) angleDiffT -= Math.PI * 2;
-            while (angleDiffT < -Math.PI) angleDiffT += Math.PI * 2;
-            const toxinInfluence = Math.max(0, 1 - Math.abs(angleDiffT) / (Math.PI * 0.4));
-
-            const baseNoise = noise(p.noise, amoeba.phase) * 5;
-            const pseudopodExtension = nutrientInfluence * 22;
-            const retractionFromToxin = toxinInfluence * 10;
-
-            p.targetRadius = amoeba.baseRadius + baseNoise + pseudopodExtension - retractionFromToxin;
-            p.radius += (p.targetRadius - p.radius) * 0.12;
-        }
-    }
-
-    function draw() {
-        ctx.clearRect(0, 0, W, H);
-
-        // Background - murky pond water
-        const bgGrad = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, W * 0.7);
-        bgGrad.addColorStop(0, '#0d1a12');
-        bgGrad.addColorStop(1, '#060a08');
-        ctx.fillStyle = bgGrad;
-        ctx.fillRect(0, 0, W, H);
-
-        // Petri dish edge
-        ctx.strokeStyle = 'rgba(100, 140, 100, 0.2)';
-        ctx.lineWidth = 3;
-        ctx.beginPath();
-        ctx.arc(W/2, H/2, Math.min(W, H) * 0.48, 0, Math.PI * 2);
-        ctx.stroke();
-
-        // Draw floating particles (environment)
-        particles.forEach(p => {
-            if (p.type === 'bacteria') {
-                ctx.fillStyle = `rgba(120, 180, 120, ${p.opacity})`;
-                ctx.beginPath();
-                ctx.ellipse(p.x, p.y, p.r * 1.5, p.r * 0.7, Math.atan2(p.vy, p.vx), 0, Math.PI * 2);
-                ctx.fill();
+        // ============================================
+        // SCROLL HINT FADE
+        // ============================================
+        const scrollHint = document.querySelector('.scroll-hint');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                scrollHint.style.opacity = '0';
             } else {
-                ctx.fillStyle = `rgba(80, 100, 80, ${p.opacity})`;
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                ctx.fill();
+                scrollHint.style.opacity = '1';
             }
         });
-
-        // Draw amoeba trail (slime trail)
-        if (amoeba.trail.length > 2) {
-            ctx.beginPath();
-            ctx.moveTo(amoeba.trail[0].x, amoeba.trail[0].y);
-            for (let i = 1; i < amoeba.trail.length; i++) {
-                ctx.lineTo(amoeba.trail[i].x, amoeba.trail[i].y);
-            }
-            ctx.strokeStyle = 'rgba(140, 180, 140, 0.15)';
-            ctx.lineWidth = 8;
-            ctx.lineCap = 'round';
-            ctx.stroke();
-        }
-
-        // Draw nutrient (green, glowing, pulsing)
-        const pulse = 1 + Math.sin(amoeba.phase * 2) * 0.1;
-        const ngrd = ctx.createRadialGradient(nutrient.x, nutrient.y, 0, nutrient.x, nutrient.y, nutrient.radius * 3 * pulse);
-        ngrd.addColorStop(0, 'rgba(34, 197, 94, 0.95)');
-        ngrd.addColorStop(0.4, 'rgba(34, 197, 94, 0.3)');
-        ngrd.addColorStop(1, 'rgba(34, 197, 94, 0)');
-        ctx.fillStyle = ngrd;
-        ctx.beginPath();
-        ctx.arc(nutrient.x, nutrient.y, nutrient.radius * 3 * pulse, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.fillStyle = '#22c55e';
-        ctx.beginPath();
-        ctx.arc(nutrient.x, nutrient.y, nutrient.radius, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.fillStyle = 'rgba(255,255,255,0.9)';
-        ctx.font = '12px Inter, sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillText('nutrient', nutrient.x, nutrient.y + nutrient.radius + 16);
-
-        // Draw toxin (red, warning, pulsing)
-        const tgrd = ctx.createRadialGradient(toxin.x, toxin.y, 0, toxin.x, toxin.y, toxin.radius * 3);
-        tgrd.addColorStop(0, 'rgba(220, 38, 38, 0.9)');
-        tgrd.addColorStop(0.4, 'rgba(220, 38, 38, 0.25)');
-        tgrd.addColorStop(1, 'rgba(220, 38, 38, 0)');
-        ctx.fillStyle = tgrd;
-        ctx.beginPath();
-        ctx.arc(toxin.x, toxin.y, toxin.radius * 3, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.fillStyle = '#dc2626';
-        ctx.beginPath();
-        ctx.arc(toxin.x, toxin.y, toxin.radius, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.fillStyle = 'rgba(255,255,255,0.9)';
-        ctx.fillText('toxin', toxin.x, toxin.y + toxin.radius + 16);
-
-        // Draw amoeba membrane
-        ctx.beginPath();
-        const firstP = amoeba.points[0];
-        ctx.moveTo(
-            amoeba.x + Math.cos(firstP.angle) * firstP.radius,
-            amoeba.y + Math.sin(firstP.angle) * firstP.radius
-        );
-
-        // Smooth curve through points
-        for (let i = 0; i < amoeba.points.length; i++) {
-            const p0 = amoeba.points[i];
-            const p1 = amoeba.points[(i + 1) % amoeba.points.length];
-
-            const x0 = amoeba.x + Math.cos(p0.angle) * p0.radius;
-            const y0 = amoeba.y + Math.sin(p0.angle) * p0.radius;
-            const x1 = amoeba.x + Math.cos(p1.angle) * p1.radius;
-            const y1 = amoeba.y + Math.sin(p1.angle) * p1.radius;
-
-            const mx = (x0 + x1) / 2;
-            const my = (y0 + y1) / 2;
-
-            ctx.quadraticCurveTo(x0, y0, mx, my);
-        }
-        ctx.closePath();
-
-        // Amoeba fill - translucent, organic
-        const agrd = ctx.createRadialGradient(amoeba.x, amoeba.y, 0, amoeba.x, amoeba.y, amoeba.baseRadius * 1.3);
-        agrd.addColorStop(0, 'rgba(180, 200, 180, 0.85)');
-        agrd.addColorStop(0.6, 'rgba(140, 170, 140, 0.7)');
-        agrd.addColorStop(1, 'rgba(100, 140, 100, 0.5)');
-        ctx.fillStyle = agrd;
-        ctx.fill();
-
-        // Membrane outline
-        ctx.strokeStyle = 'rgba(80, 120, 80, 0.8)';
-        ctx.lineWidth = 2;
-        ctx.stroke();
-
-        // Nucleus
-        ctx.beginPath();
-        ctx.arc(amoeba.x - 5, amoeba.y - 3, 12, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(60, 90, 60, 0.7)';
-        ctx.fill();
-        ctx.strokeStyle = 'rgba(40, 70, 40, 0.6)';
-        ctx.lineWidth = 1;
-        ctx.stroke();
-
-        // Internal granules (cytoplasm texture)
-        for (let i = 0; i < 8; i++) {
-            const gx = amoeba.x + (Math.sin(i * 1.7 + amoeba.phase * 0.5) * 15);
-            const gy = amoeba.y + (Math.cos(i * 2.3 + amoeba.phase * 0.3) * 12);
-            ctx.beginPath();
-            ctx.arc(gx, gy, 2 + Math.sin(i + amoeba.phase) * 1, 0, Math.PI * 2);
-            ctx.fillStyle = 'rgba(90, 130, 90, 0.4)';
-            ctx.fill();
-        }
-
-        // Label
-        ctx.fillStyle = 'rgba(255,255,255,0.6)';
-        ctx.font = '11px sans-serif';
-        ctx.fillText('amoeba', amoeba.x, amoeba.y + amoeba.baseRadius + 25);
-    }
-
-    function animate() {
-        update();
-        draw();
-        requestAnimationFrame(animate);
-    }
-
-    // Mouse handling
-    function getMousePos(e) {
-        const rect = canvas.getBoundingClientRect();
-        return {
-            x: (e.clientX - rect.left) * (W / rect.width),
-            y: (e.clientY - rect.top) * (H / rect.height)
-        };
-    }
-
-    function hitTest(pos) {
-        // Check amoeba
-        const adx = pos.x - amoeba.x, ady = pos.y - amoeba.y;
-        if (Math.sqrt(adx*adx + ady*ady) < amoeba.baseRadius + 10) return 'amoeba';
-
-        // Check nutrient
-        const ndx = pos.x - nutrient.x, ndy = pos.y - nutrient.y;
-        if (Math.sqrt(ndx*ndx + ndy*ndy) < nutrient.radius + 5) return 'nutrient';
-
-        // Check toxin
-        const tdx = pos.x - toxin.x, tdy = pos.y - toxin.y;
-        if (Math.sqrt(tdx*tdx + tdy*tdy) < toxin.radius + 5) return 'toxin';
-
-        return null;
-    }
-
-    canvas.addEventListener('mousedown', (e) => {
-        const pos = getMousePos(e);
-        drag = hitTest(pos);
-        if (drag) {
-            const target = drag === 'amoeba' ? amoeba : (drag === 'nutrient' ? nutrient : toxin);
-            dragOffset.x = pos.x - target.x;
-            dragOffset.y = pos.y - target.y;
-            canvas.style.cursor = 'grabbing';
-        }
-    });
-
-    canvas.addEventListener('mousemove', (e) => {
-        const pos = getMousePos(e);
-
-        if (drag) {
-            const target = drag === 'amoeba' ? amoeba : (drag === 'nutrient' ? nutrient : toxin);
-            target.x = Math.max(40, Math.min(W-40, pos.x - dragOffset.x));
-            target.y = Math.max(40, Math.min(H-40, pos.y - dragOffset.y));
-        } else {
-            canvas.style.cursor = hitTest(pos) ? 'grab' : 'crosshair';
-        }
-    });
-
-    canvas.addEventListener('mouseup', () => {
-        drag = null;
-        canvas.style.cursor = 'crosshair';
-    });
-
-    canvas.addEventListener('mouseleave', () => {
-        drag = null;
-    });
-
-    // Touch support
-    canvas.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        const touch = e.touches[0];
-        const pos = getMousePos(touch);
-        drag = hitTest(pos);
-        if (drag) {
-            const target = drag === 'amoeba' ? amoeba : (drag === 'nutrient' ? nutrient : toxin);
-            dragOffset.x = pos.x - target.x;
-            dragOffset.y = pos.y - target.y;
-        }
-    });
-
-    canvas.addEventListener('touchmove', (e) => {
-        e.preventDefault();
-        if (!drag) return;
-        const touch = e.touches[0];
-        const pos = getMousePos(touch);
-        const target = drag === 'amoeba' ? amoeba : (drag === 'nutrient' ? nutrient : toxin);
-        target.x = Math.max(40, Math.min(W-40, pos.x - dragOffset.x));
-        target.y = Math.max(40, Math.min(H-40, pos.y - dragOffset.y));
-    });
-
-    canvas.addEventListener('touchend', () => {
-        drag = null;
-    });
-
-    animate();
-})();
-
-// ============================================
-// INTERACTIVE: BODY DIRECTIONS - ASYMMETRY CREATES DIRECTION
-// ============================================
-(function() {
-    const container = document.getElementById('body-directions');
-    if (!container) return;
-
-    const W = 580, H = 420;
-
-    container.innerHTML = `
-        <canvas id="body-canvas" width="${W}" height="${H}" style="border-radius:12px;"></canvas>
-        <div class="controls" style="margin-top:1rem;">
-            <input type="range" id="bodyRot" min="0" max="360" value="0" style="width:200px">
-            <span id="rotLabel" style="color:var(--text-secondary);font-size:0.9rem;margin-left:1rem">Rotate the body</span>
-        </div>
-        <p class="interactive-hint">A sphere has no direction. A body with a face DOES.</p>
-    `;
-
-    const canvas = document.getElementById('body-canvas');
-    const ctx = canvas.getContext('2d');
-    let rot = 0;
-    let targetRot = 0;
-
-    function draw() {
-        ctx.clearRect(0, 0, W, H);
-
-        // Background
-        ctx.fillStyle = '#0D1117';
-        ctx.fillRect(0, 0, W, H);
-
-        // Smooth rotation
-        rot += (targetRot - rot) * 0.1;
-        const rad = rot * Math.PI / 180;
-
-        // ===== LEFT SIDE: SYMMETRIC SPHERE (NO DIRECTION) =====
-        const sx = 145, sy = 180;
-
-        // Label
-        ctx.fillStyle = '#64748b';
-        ctx.font = '14px Inter, sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillText('SYMMETRIC', sx, 50);
-        ctx.fillStyle = '#8B949E';
-        ctx.font = '11px Inter, sans-serif';
-        ctx.fillText('(no front, no back)', sx, 68);
-
-        // Draw sphere
-        const sgrd = ctx.createRadialGradient(sx - 15, sy - 20, 0, sx, sy, 55);
-        sgrd.addColorStop(0, '#4a5568');
-        sgrd.addColorStop(1, '#1a202c');
-        ctx.fillStyle = sgrd;
-        ctx.beginPath();
-        ctx.arc(sx, sy, 55, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.strokeStyle = '#64748b';
-        ctx.lineWidth = 2;
-        ctx.stroke();
-
-        // Question marks around sphere - no inherent direction
-        ctx.fillStyle = 'rgba(100, 116, 139, 0.5)';
-        ctx.font = '16px Inter, sans-serif';
-        ctx.fillText('?', sx + 75, sy);
-        ctx.fillText('?', sx - 75, sy);
-        ctx.fillText('?', sx, sy - 75);
-        ctx.fillText('?', sx, sy + 85);
-
-        // "Which way is forward?" text
-        ctx.fillStyle = '#F78166';
-        ctx.font = 'italic 12px Inter, sans-serif';
-        ctx.fillText('Which way is forward?', sx, sy + 120);
-        ctx.fillStyle = '#64748b';
-        ctx.font = '11px Inter, sans-serif';
-        ctx.fillText('(there is none)', sx, sy + 138);
-
-        // ===== RIGHT SIDE: ASYMMETRIC BODY (HAS DIRECTION) =====
-        const bx = 420, by = 180;
-
-        // Label
-        ctx.fillStyle = '#58A6FF';
-        ctx.font = '14px Inter, sans-serif';
-        ctx.fillText('ASYMMETRIC', bx, 50);
-        ctx.fillStyle = '#8B949E';
-        ctx.font = '11px Inter, sans-serif';
-        ctx.fillText('(front ≠ back)', bx, 68);
-
-        ctx.save();
-        ctx.translate(bx, by);
-        ctx.rotate(-rad);
-
-        // Body (oval, taller than wide)
-        const bgrd = ctx.createRadialGradient(0, -10, 0, 0, 0, 50);
-        bgrd.addColorStop(0, '#4a5568');
-        bgrd.addColorStop(1, '#1a202c');
-        ctx.fillStyle = bgrd;
-        ctx.beginPath();
-        ctx.ellipse(0, 0, 35, 50, 0, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.strokeStyle = '#58A6FF';
-        ctx.lineWidth = 2;
-        ctx.stroke();
-
-        // FACE - this creates the FRONT (the asymmetry!)
-        // Eyes
-        ctx.fillStyle = '#fff';
-        ctx.beginPath();
-        ctx.ellipse(-12, -20, 6, 8, 0, 0, Math.PI * 2);
-        ctx.ellipse(12, -20, 6, 8, 0, 0, Math.PI * 2);
-        ctx.fill();
-
-        // Pupils - looking forward
-        ctx.fillStyle = '#1a202c';
-        ctx.beginPath();
-        ctx.arc(-12, -20, 3, 0, Math.PI * 2);
-        ctx.arc(12, -20, 3, 0, Math.PI * 2);
-        ctx.fill();
-
-        // Nose
-        ctx.strokeStyle = '#8B949E';
-        ctx.lineWidth = 1.5;
-        ctx.beginPath();
-        ctx.moveTo(0, -12);
-        ctx.lineTo(0, -2);
-        ctx.stroke();
-
-        // Mouth
-        ctx.beginPath();
-        ctx.arc(0, 8, 10, 0.2, Math.PI - 0.2);
-        ctx.stroke();
-
-        // FORWARD arrow (from face)
-        ctx.strokeStyle = '#58A6FF';
-        ctx.lineWidth = 3;
-        ctx.beginPath();
-        ctx.moveTo(0, -55);
-        ctx.lineTo(0, -90);
-        ctx.stroke();
-        // Arrowhead
-        ctx.fillStyle = '#58A6FF';
-        ctx.beginPath();
-        ctx.moveTo(0, -95);
-        ctx.lineTo(-6, -85);
-        ctx.lineTo(6, -85);
-        ctx.closePath();
-        ctx.fill();
-
-        // FORWARD label
-        ctx.fillStyle = '#58A6FF';
-        ctx.font = 'bold 11px Inter, sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillText('FORWARD', 0, -105);
-
-        // BACK arrow
-        ctx.strokeStyle = '#64748b';
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-        ctx.moveTo(0, 55);
-        ctx.lineTo(0, 80);
-        ctx.stroke();
-        ctx.fillStyle = '#64748b';
-        ctx.beginPath();
-        ctx.moveTo(0, 85);
-        ctx.lineTo(-5, 77);
-        ctx.lineTo(5, 77);
-        ctx.closePath();
-        ctx.fill();
-        ctx.font = '10px Inter, sans-serif';
-        ctx.fillText('BACK', 0, 100);
-
-        // LEFT arrow
-        ctx.strokeStyle = '#a855f7';
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-        ctx.moveTo(-40, 0);
-        ctx.lineTo(-65, 0);
-        ctx.stroke();
-        ctx.fillStyle = '#a855f7';
-        ctx.beginPath();
-        ctx.moveTo(-70, 0);
-        ctx.lineTo(-62, -5);
-        ctx.lineTo(-62, 5);
-        ctx.closePath();
-        ctx.fill();
-        ctx.font = '10px Inter, sans-serif';
-        ctx.fillText('LEFT', -82, 4);
-
-        // RIGHT arrow
-        ctx.strokeStyle = '#ec4899';
-        ctx.beginPath();
-        ctx.moveTo(40, 0);
-        ctx.lineTo(65, 0);
-        ctx.stroke();
-        ctx.fillStyle = '#ec4899';
-        ctx.beginPath();
-        ctx.moveTo(70, 0);
-        ctx.lineTo(62, -5);
-        ctx.lineTo(62, 5);
-        ctx.closePath();
-        ctx.fill();
-        ctx.fillText('RIGHT', 82, 4);
-
-        ctx.restore();
-
-        // UP arrow (fixed, doesn't rotate with body)
-        ctx.strokeStyle = '#7EE787';
-        ctx.lineWidth = 2;
-        ctx.beginPath();
-        ctx.moveTo(bx, by - 130);
-        ctx.lineTo(bx, by - 160);
-        ctx.stroke();
-        ctx.fillStyle = '#7EE787';
-        ctx.beginPath();
-        ctx.moveTo(bx, by - 165);
-        ctx.lineTo(bx - 5, by - 157);
-        ctx.lineTo(bx + 5, by - 157);
-        ctx.closePath();
-        ctx.fill();
-        ctx.font = '10px Inter, sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillText('UP (gravity)', bx, by - 175);
-
-        // Key insight callout
-        ctx.fillStyle = '#7EE787';
-        ctx.font = 'bold 13px Inter, sans-serif';
-        ctx.fillText('The face creates FORWARD', bx, by + 130);
-        ctx.fillStyle = '#8B949E';
-        ctx.font = '12px Inter, sans-serif';
-        ctx.fillText('Asymmetry → Direction', bx, by + 150);
-
-        // Dividing line
-        ctx.strokeStyle = 'rgba(100, 116, 139, 0.3)';
-        ctx.lineWidth = 1;
-        ctx.setLineDash([5, 5]);
-        ctx.beginPath();
-        ctx.moveTo(W/2, 40);
-        ctx.lineTo(W/2, H - 40);
-        ctx.stroke();
-        ctx.setLineDash([]);
-
-        // Comparison text at bottom
-        ctx.fillStyle = '#64748b';
-        ctx.font = '11px Inter, sans-serif';
-        ctx.textAlign = 'left';
-        ctx.fillText('No direction possible', 60, H - 25);
-        ctx.textAlign = 'right';
-        ctx.fillText('Direction emerges from structure', W - 60, H - 25);
-
-        requestAnimationFrame(draw);
-    }
-
-    document.getElementById('bodyRot').oninput = (e) => {
-        targetRot = +e.target.value;
-        document.getElementById('rotLabel').textContent = `Rotation: ${Math.round(targetRot)}°`;
-    };
-
-    draw();
-})();
-
-// ============================================
-// INTERACTIVE: CIRCLE DIRECTIONS
-// ============================================
-(function() {
-    const container = document.getElementById('circle-directions');
-    if (!container) return;
-
-    const W = 420, H = 380;
-    const cx = W/2, cy = H/2 - 20;
-    const R = 110;
-    let angle = 45;
-    let dragging = false;
-
-    function render() {
-        const rad = angle * Math.PI / 180;
-        const px = cx + Math.cos(rad) * R;
-        const py = cy - Math.sin(rad) * R;
-        const ax = cx + Math.cos(rad) * (R + 30);
-        const ay = cy - Math.sin(rad) * (R + 30);
-
-        const cardinals = [{l:'E (0°)',a:0},{l:'N (90°)',a:90},{l:'W (180°)',a:180},{l:'S (270°)',a:270}];
-        let labels = '';
-        cardinals.forEach(c => {
-            const r = c.a * Math.PI / 180;
-            const lx = cx + Math.cos(r) * (R + 45);
-            const ly = cy - Math.sin(r) * (R + 45);
-            const active = Math.abs(angle - c.a) < 12 || Math.abs(angle - c.a - 360) < 12;
-            labels += `<text x="${lx}" y="${ly+4}" text-anchor="middle" fill="${active ? '#58A6FF' : '#64748b'}" font-size="11" font-weight="${active?'bold':'normal'}">${c.l}</text>`;
-        });
-
-        container.innerHTML = `
-            <svg width="${W}" height="${H}" style="cursor:pointer">
-                <defs><marker id="arrC" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#58A6FF"/></marker></defs>
-                <circle cx="${cx}" cy="${cy}" r="${R}" fill="rgba(88,166,255,0.08)" stroke="#64748b" stroke-width="2"/>
-                ${labels}
-                <circle cx="${cx}" cy="${cy}" r="5" fill="#334155"/>
-                <line x1="${cx}" y1="${cy}" x2="${ax}" y2="${ay}" stroke="#58A6FF" stroke-width="4" marker-end="url(#arrC)"/>
-                <circle cx="${px}" cy="${py}" r="10" fill="#58A6FF" style="cursor:grab" id="circleHandle"/>
-            </svg>
-            <div class="controls">
-                <input type="range" id="circleSlider" min="0" max="360" value="${angle}">
-                <span style="font-family:'JetBrains Mono';color:#58A6FF;font-size:1.2rem">θ = ${Math.round(angle)}°</span>
-            </div>
-        `;
-
-        document.getElementById('circleHandle').onmousedown = () => dragging = true;
-        document.getElementById('circleSlider').oninput = (e) => { angle = +e.target.value; render(); };
-    }
-
-    container.onmousemove = (e) => {
-        if (!dragging) return;
-        const svg = container.querySelector('svg');
-        const rect = svg.getBoundingClientRect();
-        const mx = e.clientX - rect.left - cx;
-        const my = -(e.clientY - rect.top - cy);
-        angle = (Math.atan2(my, mx) * 180 / Math.PI + 360) % 360;
-        render();
-    };
-    document.addEventListener('mouseup', () => dragging = false);
-    render();
-})();
-
-// ============================================
-// INTERACTIVE: SPHERE (3D)
-// ============================================
-(function() {
-    const container = document.getElementById('sphere-directions');
-    if (!container) return;
-
-    if (typeof THREE === 'undefined') {
-        container.innerHTML = '<p style="color:#64748b;text-align:center;padding:2rem;">3D requires Three.js</p>';
-        return;
-    }
-
-    const W = 450, H = 320;
-    container.innerHTML = `
-        <div id="sphereCanvas" style="width:${W}px;height:${H}px;margin:0 auto"></div>
-        <div class="controls">
-            <div><label style="color:#8B949E;font-size:0.85rem">Azimuth:</label> <input type="range" id="sTheta" min="0" max="360" value="45"> <span id="sThetaV" style="color:#58A6FF">45°</span></div>
-            <div><label style="color:#8B949E;font-size:0.85rem">Elevation:</label> <input type="range" id="sPhi" min="-90" max="90" value="30"> <span id="sPhiV" style="color:#7EE787">30°</span></div>
-        </div>
-        <p class="interactive-hint">Drag to rotate view</p>
-    `;
-
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(50, W/H, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(W, H);
-    document.getElementById('sphereCanvas').appendChild(renderer.domElement);
-
-    const sphereGeo = new THREE.SphereGeometry(1, 24, 18);
-    const sphereMat = new THREE.MeshBasicMaterial({ color: 0x58A6FF, wireframe: true, transparent: true, opacity: 0.25 });
-    scene.add(new THREE.Mesh(sphereGeo, sphereMat));
-
-    const arrow = new THREE.ArrowHelper(new THREE.Vector3(1,0,0), new THREE.Vector3(0,0,0), 1.4, 0x58A6FF, 0.2, 0.1);
-    scene.add(arrow);
-
-    const pointGeo = new THREE.SphereGeometry(0.08, 16, 16);
-    const point = new THREE.Mesh(pointGeo, new THREE.MeshBasicMaterial({ color: 0x58A6FF }));
-    scene.add(point);
-
-    camera.position.set(2.5, 1.5, 2.5);
-    camera.lookAt(0, 0, 0);
-
-    let isDrag = false, prevX = 0, prevY = 0, rotX = 0.4, rotY = 0.5;
-    renderer.domElement.onmousedown = (e) => { isDrag = true; prevX = e.clientX; prevY = e.clientY; };
-    document.onmousemove = (e) => {
-        if (!isDrag) return;
-        rotY += (e.clientX - prevX) * 0.01;
-        rotX += (e.clientY - prevY) * 0.01;
-        rotX = Math.max(-1.5, Math.min(1.5, rotX));
-        prevX = e.clientX; prevY = e.clientY;
-        updateCam();
-    };
-    document.addEventListener('mouseup', () => isDrag = false);
-
-    function updateCam() {
-        const r = 3.5;
-        camera.position.set(r*Math.cos(rotX)*Math.sin(rotY), r*Math.sin(rotX), r*Math.cos(rotX)*Math.cos(rotY));
-        camera.lookAt(0,0,0);
-    }
-
-    function updateArrow() {
-        const theta = +document.getElementById('sTheta').value * Math.PI / 180;
-        const phi = +document.getElementById('sPhi').value * Math.PI / 180;
-        const x = Math.cos(phi) * Math.cos(theta);
-        const y = Math.sin(phi);
-        const z = Math.cos(phi) * Math.sin(theta);
-        arrow.setDirection(new THREE.Vector3(x, y, z).normalize());
-        point.position.set(x, y, z);
-        document.getElementById('sThetaV').textContent = document.getElementById('sTheta').value + '°';
-        document.getElementById('sPhiV').textContent = document.getElementById('sPhi').value + '°';
-    }
-
-    document.getElementById('sTheta').oninput = updateArrow;
-    document.getElementById('sPhi').oninput = updateArrow;
-
-    function animate() {
-        requestAnimationFrame(animate);
-        renderer.render(scene, camera);
-    }
-    updateCam();
-    updateArrow();
-    animate();
-})();
-
-// ============================================
-// INTERACTIVE: COMPARING DIRECTIONS
-// ============================================
-(function() {
-    const container = document.getElementById('comparing-directions');
-    if (!container) return;
-
-    const W = 500, H = 320;
-    const cx = W/2, cy = 140;
-    const L = 85;
-    let angleA = 25, angleB = 70;
-    let drag = null;
-
-    function render() {
-        const radA = angleA * Math.PI / 180;
-        const radB = angleB * Math.PI / 180;
-        const ax = cx + Math.cos(radA) * L;
-        const ay = cy - Math.sin(radA) * L;
-        const bx = cx + Math.cos(radB) * L;
-        const by = cy - Math.sin(radB) * L;
-
-        let diff = Math.abs(angleA - angleB);
-        if (diff > 180) diff = 360 - diff;
-
-        let rel, bgc;
-        if (diff < 12) { rel = 'SAME — reinforce'; bgc = 'rgba(126,231,135,0.2)'; }
-        else if (diff > 168) { rel = 'OPPOSITE — cancel'; bgc = 'rgba(247,129,102,0.2)'; }
-        else if (diff > 78 && diff < 102) { rel = 'PERPENDICULAR — independent'; bgc = 'rgba(88,166,255,0.2)'; }
-        else { rel = `OBLIQUE (${Math.round(diff)}°)`; bgc = 'rgba(139,148,158,0.15)'; }
-
-        container.innerHTML = `
-            <svg width="${W}" height="${H}">
-                <defs>
-                    <marker id="arrA" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#58A6FF"/></marker>
-                    <marker id="arrB" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#F78166"/></marker>
-                </defs>
-                <circle cx="${cx}" cy="${cy}" r="${L+20}" fill="none" stroke="#334155" stroke-width="1" stroke-dasharray="4"/>
-                <circle cx="${cx}" cy="${cy}" r="5" fill="#334155"/>
-                <line x1="${cx}" y1="${cy}" x2="${ax}" y2="${ay}" stroke="#58A6FF" stroke-width="5" marker-end="url(#arrA)"/>
-                <circle cx="${ax}" cy="${ay}" r="14" fill="rgba(88,166,255,0.2)" style="cursor:grab" class="h" data-w="a"/>
-                <text x="${ax+18}" y="${ay+5}" fill="#58A6FF" font-weight="bold">A</text>
-                <line x1="${cx}" y1="${cy}" x2="${bx}" y2="${by}" stroke="#F78166" stroke-width="5" marker-end="url(#arrB)"/>
-                <circle cx="${bx}" cy="${by}" r="14" fill="rgba(247,129,102,0.2)" style="cursor:grab" class="h" data-w="b"/>
-                <text x="${bx+18}" y="${by+5}" fill="#F78166" font-weight="bold">B</text>
-                <text x="${cx}" y="${cy+L+55}" text-anchor="middle" fill="#F59E0B" font-size="15" font-weight="bold">${Math.round(diff)}°</text>
-            </svg>
-            <div style="background:${bgc}; padding:0.75rem 1.5rem; border-radius:6px; margin-top:0.5rem; font-weight:500;">${rel}</div>
-            <div class="controls" style="margin-top:1rem">
-                <button class="btn" onclick="window.setAngles(0,0)">Same</button>
-                <button class="btn" onclick="window.setAngles(0,90)">Perpendicular</button>
-                <button class="btn" onclick="window.setAngles(0,180)">Opposite</button>
-            </div>
-        `;
-
-        container.querySelectorAll('.h').forEach(el => {
-            el.onmousedown = () => { drag = el.dataset.w; };
-        });
-    }
-
-    window.setAngles = (a, b) => { angleA = a; angleB = b; render(); };
-
-    container.onmousemove = (e) => {
-        if (!drag) return;
-        const svg = container.querySelector('svg');
-        const rect = svg.getBoundingClientRect();
-        const mx = e.clientX - rect.left - cx;
-        const my = -(e.clientY - rect.top - cy);
-        const a = (Math.atan2(my, mx) * 180 / Math.PI + 360) % 360;
-        if (drag === 'a') angleA = a; else angleB = a;
-        render();
-    };
-    document.addEventListener('mouseup', () => drag = null);
-    render();
-})();
-
-// ============================================
-// INTERACTIVE: MAGNITUDE
-// ============================================
-(function() {
-    const container = document.getElementById('magnitude-demo');
-    if (!container) return;
-
-    const W = 500, H = 200;
-    let mag = 0.6;
-
-    function render() {
-        const len = 70 * mag;
-        container.innerHTML = `
-            <svg width="${W}" height="${H}">
-                <text x="85" y="30" text-anchor="middle" fill="#64748b" font-size="11" font-weight="bold">DIRECTION ONLY</text>
-                <circle cx="85" cy="100" r="30" fill="none" stroke="#64748b"/>
-                <line x1="85" y1="100" x2="85" y2="70" stroke="#58A6FF" stroke-width="3"/>
-                <text x="85" y="150" text-anchor="middle" fill="#8B949E" font-size="10">"which way"</text>
-
-                <text x="250" y="30" text-anchor="middle" fill="#64748b" font-size="11" font-weight="bold">MAGNITUDE ONLY</text>
-                <rect x="238" y="60" width="24" height="70" fill="none" stroke="#64748b" rx="4"/>
-                <rect x="240" y="${130 - mag*65}" width="20" height="${mag*65}" fill="#F78166" rx="2"/>
-                <text x="250" y="50" text-anchor="middle" fill="#F78166" font-size="13">${Math.round(mag*100)}°</text>
-                <text x="250" y="150" text-anchor="middle" fill="#8B949E" font-size="10">"how much"</text>
-
-                <text x="415" y="30" text-anchor="middle" fill="#64748b" font-size="11" font-weight="bold">BOTH (VECTOR)</text>
-                <circle cx="380" cy="100" r="5" fill="#334155"/>
-                <line x1="380" y1="100" x2="${380+len}" y2="100" stroke="#58A6FF" stroke-width="${3+mag*3}"/>
-                <polygon points="${380+len},100 ${380+len-8},95 ${380+len-8},105" fill="#58A6FF"/>
-                <text x="415" y="150" text-anchor="middle" fill="#8B949E" font-size="10">"which way + how much"</text>
-            </svg>
-            <div class="controls">
-                <input type="range" id="magSlider" min="0.1" max="1" step="0.01" value="${mag}">
-                <span style="color:#8B949E">Magnitude: ${Math.round(mag*100)}%</span>
-            </div>
-        `;
-        document.getElementById('magSlider').oninput = (e) => { mag = +e.target.value; render(); };
-    }
-    render();
-})();
-
-// ============================================
-// INTERACTIVE: GRADIENT
-// ============================================
-(function() {
-    const container = document.getElementById('gradient-landscape');
-    if (!container) return;
-
-    const W = 480, H = 300;
-    const grid = 12;
-    let clickX = W/2, clickY = H/2;
-    let balls = [];
-
-    container.innerHTML = `
-        <canvas id="gradCanvas" width="${W}" height="${H}" style="cursor:crosshair;border-radius:6px"></canvas>
-        <div class="controls">
-            <button class="btn" id="dropBall">Drop Ball</button>
-            <button class="btn" id="clearBalls">Clear</button>
-        </div>
-        <p class="interactive-hint">Click to see gradient direction (steepest uphill)</p>
-    `;
-
-    const canvas = document.getElementById('gradCanvas');
-    const ctx = canvas.getContext('2d');
-
-    function height(x, y) {
-        const d1 = Math.sqrt((x - W*0.3)**2 + (y - H*0.35)**2);
-        const d2 = Math.sqrt((x - W*0.7)**2 + (y - H*0.6)**2);
-        return Math.exp(-d1*d1/10000) * 0.85 + Math.exp(-d2*d2/14000) * 0.65;
-    }
-
-    function gradient(x, y) {
-        const e = 2;
-        return { dx: (height(x+e,y) - height(x-e,y)) / (2*e), dy: (height(x,y+e) - height(x,y-e)) / (2*e) };
-    }
-
-    function hColor(h) {
-        const r = Math.floor(255 * Math.min(1, h * 2));
-        const g = Math.floor(255 * (h < 0.5 ? h * 2 : 2 - h * 2));
-        const b = Math.floor(255 * Math.max(0, 1 - h * 2));
-        return `rgb(${r},${g},${b})`;
-    }
-
-    function render() {
-        for (let x = 0; x < W; x += grid) {
-            for (let y = 0; y < H; y += grid) {
-                ctx.fillStyle = hColor(height(x + grid/2, y + grid/2));
-                ctx.globalAlpha = 0.85;
-                ctx.fillRect(x, y, grid, grid);
-            }
-        }
-        ctx.globalAlpha = 1;
-
-        const g = gradient(clickX, clickY);
-        const m = Math.sqrt(g.dx*g.dx + g.dy*g.dy);
-        if (m > 0.0001) {
-            const len = Math.min(45, m * 2000);
-            const gx = (g.dx/m) * len;
-            const gy = (g.dy/m) * len;
-            ctx.beginPath();
-            ctx.moveTo(clickX, clickY);
-            ctx.lineTo(clickX + gx, clickY + gy);
-            ctx.strokeStyle = '#fff';
-            ctx.lineWidth = 4;
-            ctx.stroke();
-            const a = Math.atan2(gy, gx);
-            ctx.beginPath();
-            ctx.moveTo(clickX + gx, clickY + gy);
-            ctx.lineTo(clickX + gx - 10*Math.cos(a-0.4), clickY + gy - 10*Math.sin(a-0.4));
-            ctx.lineTo(clickX + gx - 10*Math.cos(a+0.4), clickY + gy - 10*Math.sin(a+0.4));
-            ctx.closePath();
-            ctx.fillStyle = '#fff';
-            ctx.fill();
-        }
-
-        ctx.beginPath();
-        ctx.arc(clickX, clickY, 7, 0, Math.PI*2);
-        ctx.strokeStyle = '#fff';
-        ctx.lineWidth = 3;
-        ctx.stroke();
-
-        balls.forEach(b => {
-            ctx.beginPath();
-            ctx.arc(b.x, b.y, 5, 0, Math.PI*2);
-            ctx.fillStyle = '#7EE787';
-            ctx.fill();
-        });
-    }
-
-    function updateBalls() {
-        balls.forEach(b => {
-            if (b.stopped) return;
-            const g = gradient(b.x, b.y);
-            b.vx = b.vx * 0.96 - g.dx * 400;
-            b.vy = b.vy * 0.96 - g.dy * 400;
-            b.x += b.vx * 0.02;
-            b.y += b.vy * 0.02;
-            b.x = Math.max(5, Math.min(W-5, b.x));
-            b.y = Math.max(5, Math.min(H-5, b.y));
-            if (Math.abs(b.vx) < 0.05 && Math.abs(b.vy) < 0.05) b.stopped = true;
-        });
-    }
-
-    canvas.onclick = (e) => {
-        const rect = canvas.getBoundingClientRect();
-        clickX = e.clientX - rect.left;
-        clickY = e.clientY - rect.top;
-    };
-
-    document.getElementById('dropBall').onclick = () => {
-        balls.push({ x: clickX, y: clickY, vx: 0, vy: 0, stopped: false });
-    };
-    document.getElementById('clearBalls').onclick = () => { balls = []; };
-
-    function loop() {
-        updateBalls();
-        render();
-        requestAnimationFrame(loop);
-    }
-    loop();
-})();
-
-// ============================================
-// INTERACTIVE: CAUSATION
-// ============================================
-(function() {
-    const container = document.getElementById('causation-flow');
-    if (!container) return;
-
-    const W = 520, H = 160;
-    const examples = {
-        physics: { nodes: ['Match struck', 'Heat', 'Paper ignites', 'Fire'], c: '#58A6FF' },
-        chem: { nodes: ['Nucleophile', 'Attack', 'TS', 'Product'], c: '#7EE787' }
-    };
-    let current = 'physics';
-    let phase = 0;
-
-    function render() {
-        const ex = examples[current];
-        const n = ex.nodes.length;
-        const sp = W / (n + 1);
-
-        let nodes = '';
-        ex.nodes.forEach((node, i) => {
-            const x = sp * (i + 1);
-            const active = i <= phase;
-            nodes += `<rect x="${x-48}" y="60" width="96" height="36" rx="5" fill="${active ? ex.c : '#334155'}" opacity="${active ? 0.9 : 0.4}"/>`;
-            nodes += `<text x="${x}" y="83" text-anchor="middle" fill="${active ? '#0D1117' : '#8B949E'}" font-size="11" font-weight="500">${node}</text>`;
-            if (i < n - 1) {
-                const nx = sp * (i + 2);
-                nodes += `<line x1="${x+50}" y1="78" x2="${nx-55}" y2="78" stroke="${ex.c}" stroke-width="2" opacity="${i < phase ? 1 : 0.2}" stroke-dasharray="${i < phase ? 'none' : '5'}"/>`;
-                nodes += `<polygon points="${nx-52},78 ${nx-60},74 ${nx-60},82" fill="${ex.c}" opacity="${i < phase ? 1 : 0.2}"/>`;
-            }
-        });
-
-        container.innerHTML = `
-            <svg width="${W}" height="${H}">
-                <line x1="30" y1="25" x2="${W-30}" y2="25" stroke="#64748b" stroke-width="1"/>
-                <polygon points="${W-30},25 ${W-38},21 ${W-38},29" fill="#64748b"/>
-                <text x="${W/2}" y="16" text-anchor="middle" fill="#64748b" font-size="10">time →</text>
-                ${nodes}
-            </svg>
-            <div class="controls">
-                <button class="btn ${current==='physics'?'active':''}" id="physBtn">Physical</button>
-                <button class="btn ${current==='chem'?'active':''}" id="chemBtn">Chemical</button>
-            </div>
-        `;
-
-        document.getElementById('physBtn').onclick = () => { current = 'physics'; phase = 0; render(); };
-        document.getElementById('chemBtn').onclick = () => { current = 'chem'; phase = 0; render(); };
-    }
-
-    setInterval(() => {
-        phase++;
-        if (phase >= examples[current].nodes.length) phase = 0;
-        render();
-    }, 1100);
-
-    render();
-})();
-
-// ============================================
-// INTERACTIVE: BRIDGE ANIMATION
-// ============================================
-(function() {
-    const container = document.getElementById('bridge-animation');
-    if (!container) return;
-
-    const W = 550, H = 220;
-    const rows = [
-        { p: '"It points somewhere"', t: 'Vector' },
-        { p: '"How aligned are they?"', t: 'Dot Product' },
-        { p: '"What\'s perpendicular?"', t: 'Cross Product' },
-        { p: '"Which way is steepest?"', t: 'Gradient' },
-        { p: '"Describe exactly"', t: 'Components' }
-    ];
-    let visible = 0;
-
-    function render() {
-        const rh = H / rows.length;
-        let content = '';
-        rows.forEach((r, i) => {
-            const y = 20 + i * rh;
-            const vis = i < visible;
-            content += `<text x="20" y="${y}" fill="${vis ? '#F78166' : '#64748b'}" font-style="italic" font-size="13" opacity="${vis ? 1 : 0.3}">${r.p}</text>`;
-            if (vis) {
-                content += `<line x1="210" y1="${y-4}" x2="${W-160}" y2="${y-4}" stroke="url(#bridgeGrad)" stroke-width="2"/>`;
-                content += `<polygon points="${W-155},${y-4} ${W-163},${y-8} ${W-163},${y}" fill="#58A6FF"/>`;
-            }
-            content += `<text x="${W-20}" y="${y}" text-anchor="end" fill="${vis ? '#58A6FF' : '#64748b'}" font-family="'JetBrains Mono',monospace" font-size="13" opacity="${vis ? 1 : 0.3}">${r.t}</text>`;
-        });
-
-        container.innerHTML = `
-            <svg width="${W}" height="${H}">
-                <defs>
-                    <linearGradient id="bridgeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stop-color="#F78166"/>
-                        <stop offset="100%" stop-color="#58A6FF"/>
-                    </linearGradient>
-                </defs>
-                ${content}
-            </svg>
-        `;
-    }
-
-    const obs = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
-            const int = setInterval(() => {
-                visible++;
-                render();
-                if (visible > rows.length) clearInterval(int);
-            }, 350);
-            obs.disconnect();
-        }
-    }, { threshold: 0.5 });
-
-    obs.observe(container);
-    render();
-})();
-</script>
+    </script>
 
 </body>
 </html>
