@@ -781,68 +781,355 @@ animateParticles();
 })();
 
 // ============================================
-// INTERACTIVE: TOWARD/AWAY
+// INTERACTIVE: LIVING AMOEBA SIMULATION
 // ============================================
 (function() {
     const container = document.getElementById('toward-away');
     if (!container) return;
 
-    const W = 550, H = 280;
-    const cx = W/2, cy = H/2;
-    let foodX = 140, foodY = 120;
-    let dangerX = 410, dangerY = 120;
-    let drag = null;
+    const W = 600, H = 350;
 
-    function render() {
-        const fdx = foodX - cx, fdy = foodY - cy;
-        const fdist = Math.sqrt(fdx*fdx + fdy*fdy);
-        const ddx = dangerX - cx, ddy = dangerY - cy;
-        const ddist = Math.sqrt(ddx*ddx + ddy*ddy);
+    // Create canvas
+    container.innerHTML = `
+        <canvas id="amoeba-canvas" width="${W}" height="${H}" style="border-radius:12px; cursor:crosshair;"></canvas>
+        <p class="interactive-hint">Drag the amoeba, nutrient, or toxin</p>
+    `;
 
-        const towardX = cx + (fdx/fdist) * 55;
-        const towardY = cy + (fdy/fdist) * 55;
-        const awayX = cx - (ddx/ddist) * 55;
-        const awayY = cy - (ddy/ddist) * 55;
+    const canvas = document.getElementById('amoeba-canvas');
+    const ctx = canvas.getContext('2d');
 
-        container.innerHTML = `
-            <svg width="${W}" height="${H}">
-                <defs>
-                    <marker id="arrG" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#7EE787"/></marker>
-                    <marker id="arrR" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#F78166"/></marker>
-                </defs>
-                <circle cx="${foodX}" cy="${foodY}" r="28" fill="#22c55e" style="cursor:grab" class="drag" data-t="food"/>
-                <text x="${foodX}" y="${foodY+6}" text-anchor="middle" fill="#fff" font-size="18">🍎</text>
-                <text x="${foodX}" y="${foodY+48}" text-anchor="middle" fill="#7EE787" font-size="11">GOOD</text>
+    // Amoeba state
+    let amoeba = {
+        x: W/2,
+        y: H/2,
+        vx: 0,
+        vy: 0,
+        baseRadius: 35,
+        points: [], // membrane points
+        numPoints: 24,
+        phase: 0
+    };
 
-                <circle cx="${dangerX}" cy="${dangerY}" r="28" fill="#dc2626" style="cursor:grab" class="drag" data-t="danger"/>
-                <text x="${dangerX}" y="${dangerY+6}" text-anchor="middle" fill="#fff" font-size="18">☠️</text>
-                <text x="${dangerX}" y="${dangerY+48}" text-anchor="middle" fill="#F78166" font-size="11">BAD</text>
-
-                <circle cx="${cx}" cy="${cy}" r="24" fill="#334155"/>
-                <text x="${cx}" y="${cy+5}" text-anchor="middle" fill="#fff" font-size="11">organism</text>
-
-                <line x1="${cx}" y1="${cy}" x2="${towardX}" y2="${towardY}" stroke="#7EE787" stroke-width="4" marker-end="url(#arrG)"/>
-                <line x1="${cx}" y1="${cy}" x2="${awayX}" y2="${awayY}" stroke="#F78166" stroke-width="4" marker-end="url(#arrR)"/>
-            </svg>
-            <p class="interactive-hint">Drag the food and danger</p>
-        `;
-
-        container.querySelectorAll('.drag').forEach(el => {
-            el.onmousedown = (e) => { drag = el.dataset.t; e.preventDefault(); };
+    // Initialize membrane points
+    for (let i = 0; i < amoeba.numPoints; i++) {
+        amoeba.points.push({
+            angle: (i / amoeba.numPoints) * Math.PI * 2,
+            radius: amoeba.baseRadius,
+            targetRadius: amoeba.baseRadius,
+            noise: Math.random() * 1000
         });
     }
 
-    container.onmousemove = (e) => {
+    // Stimuli
+    let nutrient = { x: 480, y: 120, radius: 22 };
+    let toxin = { x: 120, y: 230, radius: 22 };
+
+    // Drag state
+    let drag = null;
+    let dragOffset = { x: 0, y: 0 };
+
+    // Organic noise function
+    function noise(x, t) {
+        return Math.sin(x * 2.3 + t) * 0.5 +
+               Math.sin(x * 5.7 + t * 1.3) * 0.3 +
+               Math.sin(x * 11.1 + t * 0.7) * 0.2;
+    }
+
+    function update() {
+        if (drag === 'amoeba') {
+            // Being dragged - don't move autonomously
+            amoeba.vx *= 0.8;
+            amoeba.vy *= 0.8;
+        } else {
+            // Calculate attraction to nutrient
+            const ndx = nutrient.x - amoeba.x;
+            const ndy = nutrient.y - amoeba.y;
+            const ndist = Math.sqrt(ndx*ndx + ndy*ndy);
+
+            // Calculate repulsion from toxin
+            const tdx = toxin.x - amoeba.x;
+            const tdy = toxin.y - amoeba.y;
+            const tdist = Math.sqrt(tdx*tdx + tdy*tdy);
+
+            // Chemotaxis: stronger when closer (inverse square, capped)
+            const attractStrength = Math.min(0.015, 80 / (ndist * ndist + 100));
+            const repelStrength = Math.min(0.02, 120 / (tdist * tdist + 100));
+
+            // Apply forces
+            if (ndist > 5) {
+                amoeba.vx += (ndx / ndist) * attractStrength;
+                amoeba.vy += (ndy / ndist) * attractStrength;
+            }
+            if (tdist > 5) {
+                amoeba.vx -= (tdx / tdist) * repelStrength;
+                amoeba.vy -= (tdy / tdist) * repelStrength;
+            }
+
+            // Damping - organic, slow movement
+            amoeba.vx *= 0.96;
+            amoeba.vy *= 0.96;
+
+            // Speed limit
+            const speed = Math.sqrt(amoeba.vx*amoeba.vx + amoeba.vy*amoeba.vy);
+            if (speed > 1.2) {
+                amoeba.vx = (amoeba.vx / speed) * 1.2;
+                amoeba.vy = (amoeba.vy / speed) * 1.2;
+            }
+
+            // Move
+            amoeba.x += amoeba.vx;
+            amoeba.y += amoeba.vy;
+
+            // Boundary
+            amoeba.x = Math.max(50, Math.min(W-50, amoeba.x));
+            amoeba.y = Math.max(50, Math.min(H-50, amoeba.y));
+        }
+
+        // Update membrane - pseudopods extend toward nutrient
+        amoeba.phase += 0.02;
+        const toNutrientAngle = Math.atan2(nutrient.y - amoeba.y, nutrient.x - amoeba.x);
+        const fromToxinAngle = Math.atan2(amoeba.y - toxin.y, amoeba.x - toxin.x);
+
+        for (let i = 0; i < amoeba.points.length; i++) {
+            const p = amoeba.points[i];
+
+            // Angle difference to nutrient (pseudopod extends toward food)
+            let angleDiffN = p.angle - toNutrientAngle;
+            while (angleDiffN > Math.PI) angleDiffN -= Math.PI * 2;
+            while (angleDiffN < -Math.PI) angleDiffN += Math.PI * 2;
+            const nutrientInfluence = Math.max(0, 1 - Math.abs(angleDiffN) / (Math.PI * 0.6));
+
+            // Angle difference from toxin (retract away from danger)
+            let angleDiffT = p.angle - fromToxinAngle;
+            while (angleDiffT > Math.PI) angleDiffT -= Math.PI * 2;
+            while (angleDiffT < -Math.PI) angleDiffT += Math.PI * 2;
+            const toxinInfluence = Math.max(0, 1 - Math.abs(angleDiffT) / (Math.PI * 0.5));
+
+            // Calculate target radius with organic noise
+            const baseNoise = noise(p.noise, amoeba.phase) * 6;
+            const pseudopodExtension = nutrientInfluence * 18;
+            const retractionFromToxin = toxinInfluence * 8;
+
+            p.targetRadius = amoeba.baseRadius + baseNoise + pseudopodExtension - retractionFromToxin;
+
+            // Smooth transition
+            p.radius += (p.targetRadius - p.radius) * 0.08;
+        }
+    }
+
+    function draw() {
+        ctx.clearRect(0, 0, W, H);
+
+        // Background - petri dish feel
+        ctx.fillStyle = '#0a0e14';
+        ctx.fillRect(0, 0, W, H);
+
+        // Subtle grid
+        ctx.strokeStyle = 'rgba(88, 166, 255, 0.05)';
+        ctx.lineWidth = 1;
+        for (let x = 0; x < W; x += 40) {
+            ctx.beginPath();
+            ctx.moveTo(x, 0);
+            ctx.lineTo(x, H);
+            ctx.stroke();
+        }
+        for (let y = 0; y < H; y += 40) {
+            ctx.beginPath();
+            ctx.moveTo(0, y);
+            ctx.lineTo(W, y);
+            ctx.stroke();
+        }
+
+        // Draw nutrient (green, glowing)
+        const ngrd = ctx.createRadialGradient(nutrient.x, nutrient.y, 0, nutrient.x, nutrient.y, nutrient.radius * 2);
+        ngrd.addColorStop(0, 'rgba(34, 197, 94, 0.9)');
+        ngrd.addColorStop(0.5, 'rgba(34, 197, 94, 0.4)');
+        ngrd.addColorStop(1, 'rgba(34, 197, 94, 0)');
+        ctx.fillStyle = ngrd;
+        ctx.beginPath();
+        ctx.arc(nutrient.x, nutrient.y, nutrient.radius * 2, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = '#22c55e';
+        ctx.beginPath();
+        ctx.arc(nutrient.x, nutrient.y, nutrient.radius, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#fff';
+        ctx.font = '14px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('nutrient', nutrient.x, nutrient.y + nutrient.radius + 18);
+
+        // Draw toxin (red, warning)
+        const tgrd = ctx.createRadialGradient(toxin.x, toxin.y, 0, toxin.x, toxin.y, toxin.radius * 2);
+        tgrd.addColorStop(0, 'rgba(220, 38, 38, 0.9)');
+        tgrd.addColorStop(0.5, 'rgba(220, 38, 38, 0.3)');
+        tgrd.addColorStop(1, 'rgba(220, 38, 38, 0)');
+        ctx.fillStyle = tgrd;
+        ctx.beginPath();
+        ctx.arc(toxin.x, toxin.y, toxin.radius * 2, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = '#dc2626';
+        ctx.beginPath();
+        ctx.arc(toxin.x, toxin.y, toxin.radius, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#fff';
+        ctx.fillText('toxin', toxin.x, toxin.y + toxin.radius + 18);
+
+        // Draw amoeba membrane
+        ctx.beginPath();
+        const firstP = amoeba.points[0];
+        ctx.moveTo(
+            amoeba.x + Math.cos(firstP.angle) * firstP.radius,
+            amoeba.y + Math.sin(firstP.angle) * firstP.radius
+        );
+
+        // Smooth curve through points
+        for (let i = 0; i < amoeba.points.length; i++) {
+            const p0 = amoeba.points[i];
+            const p1 = amoeba.points[(i + 1) % amoeba.points.length];
+
+            const x0 = amoeba.x + Math.cos(p0.angle) * p0.radius;
+            const y0 = amoeba.y + Math.sin(p0.angle) * p0.radius;
+            const x1 = amoeba.x + Math.cos(p1.angle) * p1.radius;
+            const y1 = amoeba.y + Math.sin(p1.angle) * p1.radius;
+
+            const mx = (x0 + x1) / 2;
+            const my = (y0 + y1) / 2;
+
+            ctx.quadraticCurveTo(x0, y0, mx, my);
+        }
+        ctx.closePath();
+
+        // Amoeba fill - translucent, organic
+        const agrd = ctx.createRadialGradient(amoeba.x, amoeba.y, 0, amoeba.x, amoeba.y, amoeba.baseRadius * 1.3);
+        agrd.addColorStop(0, 'rgba(180, 200, 180, 0.85)');
+        agrd.addColorStop(0.6, 'rgba(140, 170, 140, 0.7)');
+        agrd.addColorStop(1, 'rgba(100, 140, 100, 0.5)');
+        ctx.fillStyle = agrd;
+        ctx.fill();
+
+        // Membrane outline
+        ctx.strokeStyle = 'rgba(80, 120, 80, 0.8)';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Nucleus
+        ctx.beginPath();
+        ctx.arc(amoeba.x - 5, amoeba.y - 3, 12, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(60, 90, 60, 0.7)';
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(40, 70, 40, 0.6)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        // Internal granules (cytoplasm texture)
+        for (let i = 0; i < 8; i++) {
+            const gx = amoeba.x + (Math.sin(i * 1.7 + amoeba.phase * 0.5) * 15);
+            const gy = amoeba.y + (Math.cos(i * 2.3 + amoeba.phase * 0.3) * 12);
+            ctx.beginPath();
+            ctx.arc(gx, gy, 2 + Math.sin(i + amoeba.phase) * 1, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(90, 130, 90, 0.4)';
+            ctx.fill();
+        }
+
+        // Label
+        ctx.fillStyle = 'rgba(255,255,255,0.6)';
+        ctx.font = '11px sans-serif';
+        ctx.fillText('amoeba', amoeba.x, amoeba.y + amoeba.baseRadius + 25);
+    }
+
+    function animate() {
+        update();
+        draw();
+        requestAnimationFrame(animate);
+    }
+
+    // Mouse handling
+    function getMousePos(e) {
+        const rect = canvas.getBoundingClientRect();
+        return {
+            x: (e.clientX - rect.left) * (W / rect.width),
+            y: (e.clientY - rect.top) * (H / rect.height)
+        };
+    }
+
+    function hitTest(pos) {
+        // Check amoeba
+        const adx = pos.x - amoeba.x, ady = pos.y - amoeba.y;
+        if (Math.sqrt(adx*adx + ady*ady) < amoeba.baseRadius + 10) return 'amoeba';
+
+        // Check nutrient
+        const ndx = pos.x - nutrient.x, ndy = pos.y - nutrient.y;
+        if (Math.sqrt(ndx*ndx + ndy*ndy) < nutrient.radius + 5) return 'nutrient';
+
+        // Check toxin
+        const tdx = pos.x - toxin.x, tdy = pos.y - toxin.y;
+        if (Math.sqrt(tdx*tdx + tdy*tdy) < toxin.radius + 5) return 'toxin';
+
+        return null;
+    }
+
+    canvas.addEventListener('mousedown', (e) => {
+        const pos = getMousePos(e);
+        drag = hitTest(pos);
+        if (drag) {
+            const target = drag === 'amoeba' ? amoeba : (drag === 'nutrient' ? nutrient : toxin);
+            dragOffset.x = pos.x - target.x;
+            dragOffset.y = pos.y - target.y;
+            canvas.style.cursor = 'grabbing';
+        }
+    });
+
+    canvas.addEventListener('mousemove', (e) => {
+        const pos = getMousePos(e);
+
+        if (drag) {
+            const target = drag === 'amoeba' ? amoeba : (drag === 'nutrient' ? nutrient : toxin);
+            target.x = Math.max(40, Math.min(W-40, pos.x - dragOffset.x));
+            target.y = Math.max(40, Math.min(H-40, pos.y - dragOffset.y));
+        } else {
+            canvas.style.cursor = hitTest(pos) ? 'grab' : 'crosshair';
+        }
+    });
+
+    canvas.addEventListener('mouseup', () => {
+        drag = null;
+        canvas.style.cursor = 'crosshair';
+    });
+
+    canvas.addEventListener('mouseleave', () => {
+        drag = null;
+    });
+
+    // Touch support
+    canvas.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        const touch = e.touches[0];
+        const pos = getMousePos(touch);
+        drag = hitTest(pos);
+        if (drag) {
+            const target = drag === 'amoeba' ? amoeba : (drag === 'nutrient' ? nutrient : toxin);
+            dragOffset.x = pos.x - target.x;
+            dragOffset.y = pos.y - target.y;
+        }
+    });
+
+    canvas.addEventListener('touchmove', (e) => {
+        e.preventDefault();
         if (!drag) return;
-        const rect = container.querySelector('svg').getBoundingClientRect();
-        const x = Math.max(40, Math.min(W-40, e.clientX - rect.left));
-        const y = Math.max(40, Math.min(H-40, e.clientY - rect.top));
-        if (drag === 'food') { foodX = x; foodY = y; }
-        else { dangerX = x; dangerY = y; }
-        render();
-    };
-    document.addEventListener('mouseup', () => drag = null);
-    render();
+        const touch = e.touches[0];
+        const pos = getMousePos(touch);
+        const target = drag === 'amoeba' ? amoeba : (drag === 'nutrient' ? nutrient : toxin);
+        target.x = Math.max(40, Math.min(W-40, pos.x - dragOffset.x));
+        target.y = Math.max(40, Math.min(H-40, pos.y - dragOffset.y));
+    });
+
+    canvas.addEventListener('touchend', () => {
+        drag = null;
+    });
+
+    animate();
 })();
 
 // ============================================
