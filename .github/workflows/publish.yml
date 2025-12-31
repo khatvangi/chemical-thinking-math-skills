@@ -32,8 +32,10 @@ jobs:
       - name: Copy standalone pages and CNAME
         run: |
           mkdir -p site/_site/primitives
+          mkdir -p site/_site/lectures/03-collection
           mkdir -p site/_site/lectures/04-direction
           cp site/primitives/direction.html site/_site/primitives/direction.html
+          cp -r site/lectures/03-collection/*.html site/_site/lectures/03-collection/ 2>/dev/null || true
           cp -r site/lectures/04-direction/*.html site/_site/lectures/04-direction/ 2>/dev/null || true
           cp site/CNAME site/_site/CNAME
 
