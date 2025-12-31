@@ -160,7 +160,7 @@ Our IXL-style practice system:
 
 ::: {.g-col-4}
 ### 🔗 Resources
-- [API Documentation](https://unawaked-unlunar-alyvia.ngrok-free.dev/docs)
+- [API Documentation](https://api.thebeakers.com/docs)
 - [GitHub Repository](https://github.com/khatvangi/chemical-thinking-math-skills)
 - [Help & Support](help.qmd)
 :::

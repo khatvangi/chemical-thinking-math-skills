@@ -179,7 +179,7 @@ SPREAD                            ⬜⬜⬜
 
 ### Network
 - Stable internet connection
-- Access to: `https://unawaked-unlunar-alyvia.ngrok-free.dev`
+- Access to: `https://api.thebeakers.com`
 
 ### For Offline Work
 Download lecture PDFs from each lecture page.
@@ -201,7 +201,7 @@ Download lecture PDFs from each lecture page.
 ::: {.callout-warning collapse="true"}
 ## Answers not submitting?
 1. Make sure you're logged in
-2. Check the API status: [Health Check](https://unawaked-unlunar-alyvia.ngrok-free.dev/health)
+2. Check the API status: [Health Check](https://api.thebeakers.com/health)
 3. Contact the instructor
 :::
 

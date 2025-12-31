@@ -2,7 +2,7 @@
  * Chemical Thinking - Homework System
  */
 
-const API_URL = 'https://unawaked-unlunar-alyvia.ngrok-free.dev';
+const API_URL = 'https://api.thebeakers.com';
 
 // Load assignments on page load
 document.addEventListener('DOMContentLoaded', async function() {

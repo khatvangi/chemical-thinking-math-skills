@@ -2,7 +2,7 @@
  * Chemical Thinking - Progress Dashboard
  */
 
-const API_URL = 'https://unawaked-unlunar-alyvia.ngrok-free.dev';
+const API_URL = 'https://api.thebeakers.com';
 
 const PRIMITIVES = [
     'COLLECTION', 'ARRANGEMENT', 'DIRECTION',

@@ -208,7 +208,7 @@ document.addEventListener('DOMContentLoaded', function() {
     new ChemPractice('practice-direction', {
       primitive: 'DIRECTION',
       topic: 'bond_angles',
-      apiUrl: 'https://unawaked-unlunar-alyvia.ngrok-free.dev'
+      apiUrl: 'https://api.thebeakers.com'
     });
   }
 });
