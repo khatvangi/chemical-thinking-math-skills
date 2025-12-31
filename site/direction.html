@@ -1496,7 +1496,7 @@
         })();
 
         // ============================================
-        // SPHERE → CONE MORPH VISUALIZATION
+        // SPHERE → CONE MORPH VISUALIZATION (SIDE VIEW)
         // ============================================
         (function() {
             const canvas = document.getElementById('sphere-cone-canvas');
@@ -1524,111 +1524,151 @@
                 const w = canvas.width;
                 const h = canvas.height;
 
-                ctx.fillStyle = '#0a0d12';
+                ctx.fillStyle = '#080a0e';
                 ctx.fillRect(0, 0, w, h);
 
-                rotationAngle += 0.015;
+                rotationAngle += 0.012;
 
                 const centerX = w / 2;
-                const centerY = h / 2;
-                const radius = 85;
-                const numMeridians = 16;
-                const numParallels = 10;
+                const centerY = h / 2 + 20;
+                const radius = 100;
 
-                // Bright purple wireframe
-                ctx.strokeStyle = `rgba(200, 140, 255, ${0.5 + morphT * 0.3})`;
+                // 3D to 2D projection (side view with slight tilt)
+                function project(x, y, z) {
+                    const cosR = Math.cos(rotationAngle);
+                    const sinR = Math.sin(rotationAngle);
+                    // Rotate around Y axis
+                    const rx = x * cosR - z * sinR;
+                    const rz = x * sinR + z * cosR;
+                    // Slight perspective
+                    const scale = 1 / (1 - rz * 0.001);
+                    return {
+                        x: centerX + rx * scale,
+                        y: centerY - y * scale,
+                        z: rz
+                    };
+                }
+
+                // Morph function: sphere point to cone point
+                function morphPoint(theta, phi, t) {
+                    // Sphere: standard spherical coordinates
+                    const sphereX = radius * Math.sin(phi) * Math.cos(theta);
+                    const sphereY = radius * Math.cos(phi);
+                    const sphereZ = radius * Math.sin(phi) * Math.sin(theta);
+
+                    // Cone: tip at top, base at bottom
+                    // phi=0 is top (tip), phi=PI is bottom (wide base)
+                    const coneHeight = radius * 1.8;
+                    const coneRadius = (phi / Math.PI) * radius * 0.9;
+                    const coneY = radius - (phi / Math.PI) * coneHeight;
+                    const coneX = coneRadius * Math.cos(theta);
+                    const coneZ = coneRadius * Math.sin(theta);
+
+                    return {
+                        x: sphereX * (1 - t) + coneX * t,
+                        y: sphereY * (1 - t) + coneY * t,
+                        z: sphereZ * (1 - t) + coneZ * t
+                    };
+                }
+
+                // Draw wireframe
+                ctx.strokeStyle = `rgba(200, 140, 255, ${0.6 + morphT * 0.3})`;
                 ctx.lineWidth = 1.5;
 
-                function getRadius(phi, t) {
-                    const sphereR = radius;
-                    const coneR = radius * (phi / Math.PI);
-                    return sphereR * (1 - t) + coneR * t;
-                }
-
-                function getY(phi, t) {
-                    const sphereY = -Math.cos(phi) * radius;
-                    const coneY = (phi / Math.PI) * radius * 1.5 - radius * 0.75;
-                    return sphereY * (1 - t) + coneY * t;
-                }
-
-                // Parallels
-                for (let i = 1; i < numParallels; i++) {
-                    const phi = (i / numParallels) * Math.PI;
-                    const r = getRadius(phi, morphT);
-                    const y = getY(phi, morphT);
-
+                // Latitude circles (parallels)
+                for (let i = 1; i <= 8; i++) {
+                    const phi = (i / 9) * Math.PI;
                     ctx.beginPath();
-                    for (let j = 0; j <= 40; j++) {
-                        const theta = (j / 40) * Math.PI * 2 + rotationAngle;
-                        const x = Math.cos(theta) * r;
-                        const z = Math.sin(theta) * r;
-                        const scale = 1 + z / 350;
-                        const px = centerX + x * scale;
-                        const py = centerY + y * scale;
-                        if (j === 0) ctx.moveTo(px, py);
-                        else ctx.lineTo(px, py);
+                    let started = false;
+                    for (let j = 0; j <= 48; j++) {
+                        const theta = (j / 48) * Math.PI * 2;
+                        const pt = morphPoint(theta, phi, morphT);
+                        const p = project(pt.x, pt.y, pt.z);
+                        if (!started) {
+                            ctx.moveTo(p.x, p.y);
+                            started = true;
+                        } else {
+                            ctx.lineTo(p.x, p.y);
+                        }
                     }
                     ctx.stroke();
                 }
 
-                // Meridians
-                for (let j = 0; j < numMeridians; j++) {
-                    const theta = (j / numMeridians) * Math.PI * 2 + rotationAngle;
+                // Longitude lines (meridians)
+                for (let j = 0; j < 12; j++) {
+                    const theta = (j / 12) * Math.PI * 2;
                     ctx.beginPath();
-                    for (let i = 0; i <= 20; i++) {
-                        const phi = (i / 20) * Math.PI;
-                        const r = getRadius(phi, morphT);
-                        const y = getY(phi, morphT);
-                        const x = Math.cos(theta) * r;
-                        const z = Math.sin(theta) * r;
-                        const scale = 1 + z / 350;
-                        const px = centerX + x * scale;
-                        const py = centerY + y * scale;
-                        if (i === 0) ctx.moveTo(px, py);
-                        else ctx.lineTo(px, py);
+                    for (let i = 0; i <= 24; i++) {
+                        const phi = (i / 24) * Math.PI;
+                        const pt = morphPoint(theta, phi, morphT);
+                        const p = project(pt.x, pt.y, pt.z);
+                        if (i === 0) ctx.moveTo(p.x, p.y);
+                        else ctx.lineTo(p.x, p.y);
                     }
                     ctx.stroke();
                 }
 
-                // Direction arrow - bright orange/coral
-                if (morphT > 0.1) {
-                    const arrowAlpha = (morphT - 0.1) / 0.9;
-                    const tipY = centerY + getY(0, morphT) - 25;
-                    const arrowLen = 70 * arrowAlpha;
+                // Highlight the tip when cone forms
+                if (morphT > 0.3) {
+                    const tipPt = morphPoint(0, 0, morphT);
+                    const tipP = project(tipPt.x, tipPt.y, tipPt.z);
+                    const tipAlpha = (morphT - 0.3) / 0.7;
 
-                    ctx.strokeStyle = `rgba(255, 150, 100, ${arrowAlpha})`;
-                    ctx.lineWidth = 4;
+                    // Glowing tip
+                    ctx.fillStyle = `rgba(255, 200, 100, ${tipAlpha * 0.9})`;
                     ctx.beginPath();
-                    ctx.moveTo(centerX, tipY);
-                    ctx.lineTo(centerX, tipY - arrowLen);
-                    ctx.stroke();
+                    ctx.arc(tipP.x, tipP.y, 6 + tipAlpha * 4, 0, Math.PI * 2);
+                    ctx.fill();
 
-                    ctx.beginPath();
-                    ctx.moveTo(centerX, tipY - arrowLen);
-                    ctx.lineTo(centerX - 10, tipY - arrowLen + 15);
-                    ctx.moveTo(centerX, tipY - arrowLen);
-                    ctx.lineTo(centerX + 10, tipY - arrowLen + 15);
-                    ctx.stroke();
+                    // Direction arrow from tip
+                    if (morphT > 0.5) {
+                        const arrowAlpha = (morphT - 0.5) / 0.5;
+                        const arrowLen = 60 * arrowAlpha;
 
-                    ctx.font = 'bold 14px "JetBrains Mono", monospace';
-                    ctx.fillStyle = `rgba(255, 180, 130, ${arrowAlpha})`;
-                    ctx.textAlign = 'center';
-                    ctx.fillText('IT POINTS ↑', centerX, tipY - arrowLen - 18);
+                        ctx.strokeStyle = `rgba(255, 160, 100, ${arrowAlpha * 0.95})`;
+                        ctx.lineWidth = 4;
+                        ctx.beginPath();
+                        ctx.moveTo(tipP.x, tipP.y);
+                        ctx.lineTo(tipP.x, tipP.y - arrowLen);
+                        ctx.stroke();
+
+                        // Arrowhead
+                        ctx.fillStyle = `rgba(255, 160, 100, ${arrowAlpha * 0.95})`;
+                        ctx.beginPath();
+                        ctx.moveTo(tipP.x, tipP.y - arrowLen);
+                        ctx.lineTo(tipP.x - 10, tipP.y - arrowLen + 15);
+                        ctx.lineTo(tipP.x + 10, tipP.y - arrowLen + 15);
+                        ctx.closePath();
+                        ctx.fill();
+
+                        // Label
+                        ctx.font = 'bold 14px "JetBrains Mono", monospace';
+                        ctx.fillStyle = `rgba(255, 180, 130, ${arrowAlpha * 0.95})`;
+                        ctx.textAlign = 'center';
+                        ctx.fillText('DIRECTION', tipP.x, tipP.y - arrowLen - 12);
+                    }
                 }
 
+                // Status text
                 ctx.font = 'bold 13px "JetBrains Mono", monospace';
                 ctx.textAlign = 'center';
 
-                if (morphT < 0.3) {
-                    ctx.fillStyle = 'rgba(200, 160, 255, 0.9)';
-                    ctx.fillText('SPHERE: rotate any way → looks the same', centerX, h - 22);
-                } else if (morphT > 0.7) {
+                if (morphT < 0.25) {
+                    ctx.fillStyle = 'rgba(200, 160, 255, 0.95)';
+                    ctx.fillText('SPHERE: every direction equivalent (no preferred axis)', centerX, h - 18);
+                } else if (morphT > 0.75) {
                     ctx.fillStyle = 'rgba(255, 180, 130, 0.95)';
-                    ctx.fillText('CONE: rotation detectable → HAS DIRECTION', centerX, h - 22);
+                    ctx.fillText('CONE: one direction is special → IT POINTS', centerX, h - 18);
                 } else {
-                    ctx.fillStyle = 'rgba(180, 180, 200, 0.8)';
-                    ctx.fillText('symmetry breaking...', centerX, h - 22);
+                    ctx.fillStyle = 'rgba(220, 200, 255, 0.8)';
+                    ctx.fillText('symmetry breaking → direction emerges...', centerX, h - 18);
                 }
+
+                // Morph percentage
+                ctx.font = 'bold 12px "JetBrains Mono", monospace';
+                ctx.fillStyle = 'rgba(150, 150, 180, 0.7)';
+                ctx.textAlign = 'left';
+                ctx.fillText(`${Math.round(morphT * 100)}%`, 15, 25);
 
                 requestAnimationFrame(draw);
             }
