@@ -794,8 +794,18 @@
         <!-- VISUAL: Sphere of Directions -->
         <div class="visual-container" id="sphere-directions">
             <div class="visual-label">Visual: The Sphere of Directions</div>
-            <div class="visual-placeholder" id="sphere-directions-canvas">
-                [Three.js: 3D sphere with direction arrow, azimuth/elevation controls]
+            <canvas id="sphere-directions-canvas" width="700" height="400"></canvas>
+            <div style="display: flex; gap: 2rem; justify-content: center; margin-top: 1rem; flex-wrap: wrap;">
+                <label style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary);">
+                    <span style="font-family: var(--font-mono); min-width: 100px;">θ (azimuth)</span>
+                    <input type="range" id="sphere-azimuth" min="0" max="360" value="45" style="width: 140px;">
+                    <span id="sphere-azimuth-val" style="font-family: var(--font-mono); min-width: 45px;">45°</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary);">
+                    <span style="font-family: var(--font-mono); min-width: 100px;">φ (elevation)</span>
+                    <input type="range" id="sphere-elevation" min="-90" max="90" value="30" style="width: 140px;">
+                    <span id="sphere-elevation-val" style="font-family: var(--font-mono); min-width: 45px;">30°</span>
+                </label>
             </div>
             <p class="visual-caption">In three dimensions, direction space is a sphere. Two angles specify any direction.</p>
         </div>
@@ -868,8 +878,18 @@
         <!-- VISUAL: Direction vs Magnitude -->
         <div class="visual-container" id="magnitude-direction">
             <div class="visual-label">Visual: Direction vs. Magnitude</div>
-            <div class="visual-placeholder" id="magnitude-direction-canvas">
-                [SVG: Three panels — direction only, magnitude only, both (vector)]
+            <canvas id="magnitude-direction-canvas" width="700" height="320"></canvas>
+            <div style="display: flex; gap: 2rem; justify-content: center; margin-top: 1rem; flex-wrap: wrap;">
+                <label style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary);">
+                    <span style="font-family: var(--font-mono);">Direction θ</span>
+                    <input type="range" id="mag-dir-angle" min="0" max="360" value="45" style="width: 120px;">
+                    <span id="mag-dir-angle-val" style="font-family: var(--font-mono); min-width: 40px;">45°</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-secondary);">
+                    <span style="font-family: var(--font-mono);">Magnitude |v|</span>
+                    <input type="range" id="mag-dir-length" min="20" max="100" value="60" style="width: 120px;">
+                    <span id="mag-dir-length-val" style="font-family: var(--font-mono); min-width: 40px;">60</span>
+                </label>
             </div>
             <p class="visual-caption">Direction answers "which way?" Magnitude answers "how much?" Vectors answer both.</p>
         </div>
@@ -932,9 +952,7 @@
         <!-- VISUAL: Causation -->
         <div class="visual-container" id="causation-flow">
             <div class="visual-label">Visual: The Arrow of Causation</div>
-            <div class="visual-placeholder" id="causation-flow-canvas">
-                [SVG: Cause → Effect boxes, timeline, chemistry mechanism example]
-            </div>
+            <canvas id="causation-flow-canvas" width="700" height="350"></canvas>
             <p class="visual-caption">Causation has direction. Time has direction. Mechanism arrows trace causal flow.</p>
         </div>
 
@@ -1032,9 +1050,7 @@
         <!-- VISUAL: The Bridge -->
         <div class="visual-container" id="bridge-animation">
             <div class="visual-label">Visual: The Bridge</div>
-            <div class="visual-placeholder" id="bridge-animation-canvas">
-                [SVG: Two columns with animated connecting lines on scroll]
-            </div>
+            <canvas id="bridge-animation-canvas" width="700" height="380"></canvas>
             <p class="visual-caption">The perception came first. The mathematics is notation for what you already see.</p>
         </div>
 
@@ -2632,6 +2648,795 @@
                     ctx.textAlign = 'center';
                     ctx.fillText('⬤ click to drop a ball', w / 2, h - 20);
                 }
+
+                requestAnimationFrame(draw);
+            }
+
+            draw();
+        })();
+
+        // ============================================
+        // SPHERE OF DIRECTIONS VISUALIZATION
+        // ============================================
+        (function() {
+            const canvas = document.getElementById('sphere-directions-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            const azimuthSlider = document.getElementById('sphere-azimuth');
+            const elevationSlider = document.getElementById('sphere-elevation');
+            const azimuthVal = document.getElementById('sphere-azimuth-val');
+            const elevationVal = document.getElementById('sphere-elevation-val');
+
+            function resize() {
+                const container = canvas.parentElement;
+                const rect = container.getBoundingClientRect();
+                canvas.width = Math.min(700, rect.width - 64);
+                canvas.height = 400;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            let viewAngleY = 0.3;  // View rotation
+            let autoRotate = 0;
+
+            function project(x, y, z) {
+                // Simple 3D to 2D projection with rotation
+                const cosA = Math.cos(viewAngleY + autoRotate);
+                const sinA = Math.sin(viewAngleY + autoRotate);
+                const rx = x * cosA - z * sinA;
+                const rz = x * sinA + z * cosA;
+
+                const scale = 120;
+                const cx = canvas.width / 2;
+                const cy = canvas.height / 2;
+                const perspective = 4 / (4 + rz * 0.3);
+
+                return {
+                    x: cx + rx * scale * perspective,
+                    y: cy - y * scale * perspective,
+                    z: rz
+                };
+            }
+
+            function draw() {
+                const w = canvas.width;
+                const h = canvas.height;
+                autoRotate += 0.003;
+
+                ctx.fillStyle = '#080a0e';
+                ctx.fillRect(0, 0, w, h);
+
+                const azimuth = parseFloat(azimuthSlider.value) * Math.PI / 180;
+                const elevation = parseFloat(elevationSlider.value) * Math.PI / 180;
+
+                azimuthVal.textContent = azimuthSlider.value + '°';
+                elevationVal.textContent = elevationSlider.value + '°';
+
+                // Draw wireframe sphere
+                ctx.strokeStyle = 'rgba(100, 180, 255, 0.3)';
+                ctx.lineWidth = 1;
+
+                // Latitude circles
+                for (let lat = -75; lat <= 75; lat += 30) {
+                    const latRad = lat * Math.PI / 180;
+                    const r = Math.cos(latRad);
+                    const yLevel = Math.sin(latRad);
+
+                    ctx.beginPath();
+                    for (let lon = 0; lon <= 360; lon += 5) {
+                        const lonRad = lon * Math.PI / 180;
+                        const x = r * Math.cos(lonRad);
+                        const z = r * Math.sin(lonRad);
+                        const p = project(x, yLevel, z);
+
+                        if (lon === 0) ctx.moveTo(p.x, p.y);
+                        else ctx.lineTo(p.x, p.y);
+                    }
+                    ctx.stroke();
+                }
+
+                // Longitude lines
+                for (let lon = 0; lon < 360; lon += 30) {
+                    const lonRad = lon * Math.PI / 180;
+                    ctx.beginPath();
+                    for (let lat = -90; lat <= 90; lat += 5) {
+                        const latRad = lat * Math.PI / 180;
+                        const x = Math.cos(latRad) * Math.cos(lonRad);
+                        const y = Math.sin(latRad);
+                        const z = Math.cos(latRad) * Math.sin(lonRad);
+                        const p = project(x, y, z);
+
+                        if (lat === -90) ctx.moveTo(p.x, p.y);
+                        else ctx.lineTo(p.x, p.y);
+                    }
+                    ctx.stroke();
+                }
+
+                // Equator - brighter
+                ctx.strokeStyle = 'rgba(100, 180, 255, 0.6)';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                for (let lon = 0; lon <= 360; lon += 5) {
+                    const lonRad = lon * Math.PI / 180;
+                    const p = project(Math.cos(lonRad), 0, Math.sin(lonRad));
+                    if (lon === 0) ctx.moveTo(p.x, p.y);
+                    else ctx.lineTo(p.x, p.y);
+                }
+                ctx.stroke();
+
+                // Draw coordinate axes
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+                ctx.lineWidth = 1;
+
+                // X axis
+                let p1 = project(-1.3, 0, 0);
+                let p2 = project(1.3, 0, 0);
+                ctx.beginPath();
+                ctx.moveTo(p1.x, p1.y);
+                ctx.lineTo(p2.x, p2.y);
+                ctx.stroke();
+                ctx.font = 'bold 14px "JetBrains Mono", monospace';
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+                ctx.fillText('x', p2.x + 10, p2.y + 5);
+
+                // Y axis
+                p1 = project(0, -1.3, 0);
+                p2 = project(0, 1.3, 0);
+                ctx.beginPath();
+                ctx.moveTo(p1.x, p1.y);
+                ctx.lineTo(p2.x, p2.y);
+                ctx.stroke();
+                ctx.fillText('y', p2.x + 5, p2.y - 5);
+
+                // Z axis
+                p1 = project(0, 0, -1.3);
+                p2 = project(0, 0, 1.3);
+                ctx.beginPath();
+                ctx.moveTo(p1.x, p1.y);
+                ctx.lineTo(p2.x, p2.y);
+                ctx.stroke();
+                ctx.fillText('z', p2.x + 5, p2.y + 5);
+
+                // Calculate direction vector from angles
+                const dx = Math.cos(elevation) * Math.cos(azimuth);
+                const dy = Math.sin(elevation);
+                const dz = Math.cos(elevation) * Math.sin(azimuth);
+
+                // Draw direction arrow from center to sphere surface
+                const origin = project(0, 0, 0);
+                const tip = project(dx * 1.15, dy * 1.15, dz * 1.15);
+                const surface = project(dx, dy, dz);
+
+                // Arrow shaft - bright orange
+                ctx.strokeStyle = 'rgba(255, 160, 100, 0.95)';
+                ctx.lineWidth = 4;
+                ctx.beginPath();
+                ctx.moveTo(origin.x, origin.y);
+                ctx.lineTo(tip.x, tip.y);
+                ctx.stroke();
+
+                // Arrowhead
+                const angle = Math.atan2(tip.y - origin.y, tip.x - origin.x);
+                ctx.fillStyle = 'rgba(255, 160, 100, 0.95)';
+                ctx.beginPath();
+                ctx.moveTo(tip.x, tip.y);
+                ctx.lineTo(tip.x - 14 * Math.cos(angle - 0.4), tip.y - 14 * Math.sin(angle - 0.4));
+                ctx.lineTo(tip.x - 14 * Math.cos(angle + 0.4), tip.y - 14 * Math.sin(angle + 0.4));
+                ctx.closePath();
+                ctx.fill();
+
+                // Draw point on sphere surface - bright
+                ctx.fillStyle = 'rgba(80, 255, 140, 0.95)';
+                ctx.beginPath();
+                ctx.arc(surface.x, surface.y, 8, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.8)';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                // Show angle arcs
+                // Azimuth arc on equator
+                ctx.strokeStyle = 'rgba(200, 140, 255, 0.7)';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                for (let a = 0; a <= azimuth; a += 0.05) {
+                    const p = project(Math.cos(a) * 0.4, 0, Math.sin(a) * 0.4);
+                    if (a === 0) ctx.moveTo(p.x, p.y);
+                    else ctx.lineTo(p.x, p.y);
+                }
+                ctx.stroke();
+
+                // Elevation arc
+                ctx.strokeStyle = 'rgba(255, 200, 100, 0.7)';
+                ctx.beginPath();
+                const step = elevation > 0 ? 0.05 : -0.05;
+                for (let e = 0; Math.abs(e) <= Math.abs(elevation); e += step) {
+                    const px = Math.cos(e) * Math.cos(azimuth) * 0.5;
+                    const py = Math.sin(e) * 0.5;
+                    const pz = Math.cos(e) * Math.sin(azimuth) * 0.5;
+                    const p = project(px, py, pz);
+                    if (e === 0) ctx.moveTo(p.x, p.y);
+                    else ctx.lineTo(p.x, p.y);
+                }
+                ctx.stroke();
+
+                // Labels
+                ctx.font = 'bold 14px "JetBrains Mono", monospace';
+                ctx.fillStyle = 'rgba(200, 140, 255, 0.95)';
+                ctx.textAlign = 'center';
+                ctx.fillText('θ', w / 2 + 50, h / 2 + 25);
+
+                ctx.fillStyle = 'rgba(255, 200, 100, 0.95)';
+                ctx.fillText('φ', surface.x + 30, surface.y - 10);
+
+                // Info text
+                ctx.font = 'bold 13px "JetBrains Mono", monospace';
+                ctx.fillStyle = 'rgba(80, 255, 140, 0.9)';
+                ctx.textAlign = 'left';
+                ctx.fillText(`Direction: (${dx.toFixed(2)}, ${dy.toFixed(2)}, ${dz.toFixed(2)})`, 15, 25);
+
+                requestAnimationFrame(draw);
+            }
+
+            draw();
+        })();
+
+        // ============================================
+        // MAGNITUDE + DIRECTION VISUALIZATION
+        // ============================================
+        (function() {
+            const canvas = document.getElementById('magnitude-direction-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            const angleSlider = document.getElementById('mag-dir-angle');
+            const lengthSlider = document.getElementById('mag-dir-length');
+            const angleVal = document.getElementById('mag-dir-angle-val');
+            const lengthVal = document.getElementById('mag-dir-length-val');
+
+            function resize() {
+                const container = canvas.parentElement;
+                const rect = container.getBoundingClientRect();
+                canvas.width = Math.min(700, rect.width - 64);
+                canvas.height = 320;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            function drawArrow(x, y, angle, length, color, label) {
+                const endX = x + Math.cos(angle) * length;
+                const endY = y - Math.sin(angle) * length;
+
+                // Shaft
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 4;
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+                ctx.lineTo(endX, endY);
+                ctx.stroke();
+
+                // Arrowhead
+                const headLen = 12;
+                const headAngle = 0.4;
+                ctx.fillStyle = color;
+                ctx.beginPath();
+                ctx.moveTo(endX, endY);
+                ctx.lineTo(endX - headLen * Math.cos(angle - headAngle), endY + headLen * Math.sin(angle - headAngle));
+                ctx.lineTo(endX - headLen * Math.cos(angle + headAngle), endY + headLen * Math.sin(angle + headAngle));
+                ctx.closePath();
+                ctx.fill();
+
+                // Origin dot
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+                ctx.beginPath();
+                ctx.arc(x, y, 5, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Label
+                if (label) {
+                    ctx.font = 'bold 14px "JetBrains Mono", monospace';
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(label, x, y + 80);
+                }
+            }
+
+            function draw() {
+                const w = canvas.width;
+                const h = canvas.height;
+
+                ctx.fillStyle = '#080a0e';
+                ctx.fillRect(0, 0, w, h);
+
+                const angle = parseFloat(angleSlider.value) * Math.PI / 180;
+                const magnitude = parseFloat(lengthSlider.value);
+
+                angleVal.textContent = angleSlider.value + '°';
+                lengthVal.textContent = magnitude;
+
+                const panelWidth = w / 3;
+                const centerY = h / 2 - 20;
+
+                // Panel dividers
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+                ctx.lineWidth = 1;
+                ctx.setLineDash([5, 5]);
+                ctx.beginPath();
+                ctx.moveTo(panelWidth, 40);
+                ctx.lineTo(panelWidth, h - 40);
+                ctx.moveTo(panelWidth * 2, 40);
+                ctx.lineTo(panelWidth * 2, h - 40);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Panel titles
+                ctx.font = 'bold 15px "JetBrains Mono", monospace';
+                ctx.textAlign = 'center';
+                ctx.fillStyle = 'rgba(200, 140, 255, 0.95)';
+                ctx.fillText('DIRECTION ONLY', panelWidth / 2, 30);
+                ctx.fillStyle = 'rgba(100, 200, 255, 0.95)';
+                ctx.fillText('MAGNITUDE ONLY', panelWidth * 1.5, 30);
+                ctx.fillStyle = 'rgba(80, 255, 140, 0.95)';
+                ctx.fillText('VECTOR (BOTH)', panelWidth * 2.5, 30);
+
+                // Panel 1: Direction only (unit vector, fixed length)
+                const unitLen = 60;
+                drawArrow(panelWidth / 2, centerY, angle, unitLen, 'rgba(200, 140, 255, 0.95)', '');
+
+                // Direction circle
+                ctx.strokeStyle = 'rgba(200, 140, 255, 0.3)';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(panelWidth / 2, centerY, unitLen, 0, Math.PI * 2);
+                ctx.stroke();
+
+                // Angle arc
+                ctx.strokeStyle = 'rgba(200, 140, 255, 0.6)';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(panelWidth / 2, centerY, 25, 0, -angle, true);
+                ctx.stroke();
+
+                ctx.font = 'bold 12px "JetBrains Mono", monospace';
+                ctx.fillStyle = 'rgba(200, 140, 255, 0.95)';
+                ctx.fillText(`θ = ${angleSlider.value}°`, panelWidth / 2, centerY + 95);
+                ctx.fillStyle = 'rgba(180, 180, 180, 0.8)';
+                ctx.fillText('|v̂| = 1 (unit)', panelWidth / 2, centerY + 115);
+
+                // Panel 2: Magnitude only (bar)
+                const barWidth = 25;
+                const maxBarHeight = 100;
+                const barHeight = (magnitude / 100) * maxBarHeight;
+                const barX = panelWidth * 1.5 - barWidth / 2;
+                const barY = centerY + 50 - barHeight;
+
+                // Bar background
+                ctx.fillStyle = 'rgba(100, 200, 255, 0.15)';
+                ctx.fillRect(barX, centerY + 50 - maxBarHeight, barWidth, maxBarHeight);
+
+                // Bar fill
+                ctx.fillStyle = 'rgba(100, 200, 255, 0.9)';
+                ctx.fillRect(barX, barY, barWidth, barHeight);
+
+                // Bar outline
+                ctx.strokeStyle = 'rgba(100, 200, 255, 0.95)';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(barX, centerY + 50 - maxBarHeight, barWidth, maxBarHeight);
+
+                // Magnitude value
+                ctx.font = 'bold 16px "JetBrains Mono", monospace';
+                ctx.fillStyle = 'rgba(100, 200, 255, 0.95)';
+                ctx.textAlign = 'center';
+                ctx.fillText(magnitude.toString(), panelWidth * 1.5, centerY + 75);
+                ctx.font = 'bold 12px "JetBrains Mono", monospace';
+                ctx.fillStyle = 'rgba(180, 180, 180, 0.8)';
+                ctx.fillText('no direction', panelWidth * 1.5, centerY + 115);
+                ctx.fillText('(scalar)', panelWidth * 1.5, centerY + 130);
+
+                // Panel 3: Vector (both)
+                drawArrow(panelWidth * 2.5, centerY, angle, magnitude, 'rgba(80, 255, 140, 0.95)', '');
+
+                // Max length indicator circle
+                ctx.strokeStyle = 'rgba(80, 255, 140, 0.2)';
+                ctx.lineWidth = 1;
+                ctx.setLineDash([3, 3]);
+                ctx.beginPath();
+                ctx.arc(panelWidth * 2.5, centerY, 100, 0, Math.PI * 2);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Vector info
+                const vx = Math.cos(angle) * magnitude;
+                const vy = Math.sin(angle) * magnitude;
+                ctx.font = 'bold 12px "JetBrains Mono", monospace';
+                ctx.fillStyle = 'rgba(80, 255, 140, 0.95)';
+                ctx.textAlign = 'center';
+                ctx.fillText(`v = (${vx.toFixed(0)}, ${vy.toFixed(0)})`, panelWidth * 2.5, centerY + 95);
+                ctx.fillText(`|v| = ${magnitude}, θ = ${angleSlider.value}°`, panelWidth * 2.5, centerY + 115);
+
+                requestAnimationFrame(draw);
+            }
+
+            draw();
+        })();
+
+        // ============================================
+        // CAUSATION FLOW VISUALIZATION
+        // ============================================
+        (function() {
+            const canvas = document.getElementById('causation-flow-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            function resize() {
+                const container = canvas.parentElement;
+                const rect = container.getBoundingClientRect();
+                canvas.width = Math.min(700, rect.width - 64);
+                canvas.height = 350;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            let time = 0;
+
+            // Mechanism steps
+            const steps = [
+                { label: 'Nucleophile', shortLabel: 'Nu⁻', color: 'rgba(100, 200, 255, 0.95)' },
+                { label: 'Electrophile', shortLabel: 'E⁺', color: 'rgba(255, 160, 100, 0.95)' },
+                { label: 'Transition State', shortLabel: 'TS‡', color: 'rgba(200, 140, 255, 0.95)' },
+                { label: 'Product', shortLabel: 'P', color: 'rgba(80, 255, 140, 0.95)' }
+            ];
+
+            // Flowing particles along arrows
+            const particles = [];
+            for (let i = 0; i < 12; i++) {
+                particles.push({
+                    progress: Math.random(),
+                    speed: 0.003 + Math.random() * 0.002,
+                    segment: Math.floor(Math.random() * 3)
+                });
+            }
+
+            function draw() {
+                const w = canvas.width;
+                const h = canvas.height;
+                time += 0.016;
+
+                ctx.fillStyle = '#080a0e';
+                ctx.fillRect(0, 0, w, h);
+
+                // Top section: Generic Cause → Effect
+                const topY = 70;
+                const boxW = 100;
+                const boxH = 45;
+                const gap = 80;
+
+                // Cause box
+                const causeX = w / 2 - boxW - gap / 2;
+                ctx.fillStyle = 'rgba(255, 160, 100, 0.15)';
+                ctx.fillRect(causeX, topY, boxW, boxH);
+                ctx.strokeStyle = 'rgba(255, 160, 100, 0.9)';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(causeX, topY, boxW, boxH);
+
+                ctx.font = 'bold 16px "JetBrains Mono", monospace';
+                ctx.fillStyle = 'rgba(255, 160, 100, 0.95)';
+                ctx.textAlign = 'center';
+                ctx.fillText('CAUSE', causeX + boxW / 2, topY + boxH / 2 + 6);
+
+                // Effect box
+                const effectX = w / 2 + gap / 2;
+                ctx.fillStyle = 'rgba(80, 255, 140, 0.15)';
+                ctx.fillRect(effectX, topY, boxW, boxH);
+                ctx.strokeStyle = 'rgba(80, 255, 140, 0.9)';
+                ctx.strokeRect(effectX, topY, boxW, boxH);
+
+                ctx.fillStyle = 'rgba(80, 255, 140, 0.95)';
+                ctx.fillText('EFFECT', effectX + boxW / 2, topY + boxH / 2 + 6);
+
+                // Arrow between
+                const arrowY = topY + boxH / 2;
+                const arrowStartX = causeX + boxW + 10;
+                const arrowEndX = effectX - 10;
+
+                // Pulsing arrow
+                const pulse = 0.7 + Math.sin(time * 3) * 0.3;
+                ctx.strokeStyle = `rgba(255, 255, 255, ${pulse})`;
+                ctx.lineWidth = 4;
+                ctx.beginPath();
+                ctx.moveTo(arrowStartX, arrowY);
+                ctx.lineTo(arrowEndX - 15, arrowY);
+                ctx.stroke();
+
+                // Arrowhead
+                ctx.fillStyle = `rgba(255, 255, 255, ${pulse})`;
+                ctx.beginPath();
+                ctx.moveTo(arrowEndX, arrowY);
+                ctx.lineTo(arrowEndX - 15, arrowY - 8);
+                ctx.lineTo(arrowEndX - 15, arrowY + 8);
+                ctx.closePath();
+                ctx.fill();
+
+                // Time arrow underneath
+                ctx.font = 'bold 12px "JetBrains Mono", monospace';
+                ctx.fillStyle = 'rgba(180, 180, 180, 0.7)';
+                ctx.fillText('time →', w / 2, topY + boxH + 25);
+
+                // Divider
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+                ctx.lineWidth = 1;
+                ctx.setLineDash([5, 5]);
+                ctx.beginPath();
+                ctx.moveTo(50, 155);
+                ctx.lineTo(w - 50, 155);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Bottom section: Chemistry Mechanism
+                ctx.font = 'bold 14px "JetBrains Mono", monospace';
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+                ctx.textAlign = 'center';
+                ctx.fillText('Reaction Mechanism (SN2)', w / 2, 180);
+
+                const mechY = 240;
+                const stepSpacing = (w - 100) / (steps.length - 1);
+                const startX = 50;
+
+                // Draw step boxes
+                steps.forEach((step, i) => {
+                    const x = startX + i * stepSpacing;
+                    const boxSize = 50;
+
+                    // Box
+                    ctx.fillStyle = step.color.replace('0.95', '0.15');
+                    ctx.beginPath();
+                    ctx.arc(x, mechY, boxSize / 2, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    ctx.strokeStyle = step.color;
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.arc(x, mechY, boxSize / 2, 0, Math.PI * 2);
+                    ctx.stroke();
+
+                    // Short label inside
+                    ctx.font = 'bold 14px "JetBrains Mono", monospace';
+                    ctx.fillStyle = step.color;
+                    ctx.textAlign = 'center';
+                    ctx.fillText(step.shortLabel, x, mechY + 5);
+
+                    // Full label below
+                    ctx.font = 'bold 11px "JetBrains Mono", monospace';
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+                    ctx.fillText(step.label, x, mechY + 50);
+                });
+
+                // Draw arrows between steps
+                for (let i = 0; i < steps.length - 1; i++) {
+                    const x1 = startX + i * stepSpacing + 30;
+                    const x2 = startX + (i + 1) * stepSpacing - 30;
+
+                    // Arrow shaft
+                    ctx.strokeStyle = 'rgba(255, 255, 255, 0.7)';
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.moveTo(x1, mechY);
+                    ctx.lineTo(x2 - 10, mechY);
+                    ctx.stroke();
+
+                    // Arrowhead
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+                    ctx.beginPath();
+                    ctx.moveTo(x2, mechY);
+                    ctx.lineTo(x2 - 12, mechY - 6);
+                    ctx.lineTo(x2 - 12, mechY + 6);
+                    ctx.closePath();
+                    ctx.fill();
+                }
+
+                // Animate flowing particles
+                particles.forEach(p => {
+                    p.progress += p.speed;
+                    if (p.progress > 1) {
+                        p.progress = 0;
+                        p.segment = (p.segment + 1) % 3;
+                    }
+
+                    const x1 = startX + p.segment * stepSpacing + 30;
+                    const x2 = startX + (p.segment + 1) * stepSpacing - 30;
+                    const px = x1 + (x2 - x1) * p.progress;
+
+                    ctx.fillStyle = 'rgba(255, 255, 100, 0.9)';
+                    ctx.beginPath();
+                    ctx.arc(px, mechY, 4, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+
+                // Timeline arrow at bottom
+                ctx.strokeStyle = 'rgba(180, 180, 180, 0.5)';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(30, h - 30);
+                ctx.lineTo(w - 30, h - 30);
+                ctx.stroke();
+
+                // Timeline arrowhead
+                ctx.fillStyle = 'rgba(180, 180, 180, 0.5)';
+                ctx.beginPath();
+                ctx.moveTo(w - 30, h - 30);
+                ctx.lineTo(w - 45, h - 36);
+                ctx.lineTo(w - 45, h - 24);
+                ctx.closePath();
+                ctx.fill();
+
+                ctx.font = 'bold 12px "JetBrains Mono", monospace';
+                ctx.fillStyle = 'rgba(180, 180, 180, 0.7)';
+                ctx.textAlign = 'left';
+                ctx.fillText('Reactants', 35, h - 15);
+                ctx.textAlign = 'right';
+                ctx.fillText('Products', w - 45, h - 15);
+                ctx.textAlign = 'center';
+                ctx.fillText('TIME', w / 2, h - 15);
+
+                requestAnimationFrame(draw);
+            }
+
+            draw();
+        })();
+
+        // ============================================
+        // BRIDGE ANIMATION VISUALIZATION
+        // ============================================
+        (function() {
+            const canvas = document.getElementById('bridge-animation-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            function resize() {
+                const container = canvas.parentElement;
+                const rect = container.getBoundingClientRect();
+                canvas.width = Math.min(700, rect.width - 64);
+                canvas.height = 380;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            let time = 0;
+
+            const bridges = [
+                { perception: '"It points somewhere"', tool: 'Vector', color: 'rgba(255, 160, 100, 0.95)' },
+                { perception: '"How aligned?"', tool: 'Dot Product', color: 'rgba(100, 200, 255, 0.95)' },
+                { perception: '"Perpendicular to both?"', tool: 'Cross Product', color: 'rgba(200, 140, 255, 0.95)' },
+                { perception: '"Which way is steepest?"', tool: 'Gradient', color: 'rgba(80, 255, 140, 0.95)' },
+                { perception: '"Describe exactly"', tool: 'Components', color: 'rgba(255, 200, 100, 0.95)' }
+            ];
+
+            // Particles flowing across bridges
+            const particles = [];
+            for (let i = 0; i < 20; i++) {
+                particles.push({
+                    bridge: Math.floor(Math.random() * bridges.length),
+                    progress: Math.random(),
+                    speed: 0.004 + Math.random() * 0.003
+                });
+            }
+
+            function draw() {
+                const w = canvas.width;
+                const h = canvas.height;
+                time += 0.016;
+
+                ctx.fillStyle = '#080a0e';
+                ctx.fillRect(0, 0, w, h);
+
+                // Column headers
+                ctx.font = 'bold 16px "JetBrains Mono", monospace';
+                ctx.textAlign = 'center';
+
+                ctx.fillStyle = 'rgba(255, 160, 100, 0.95)';
+                ctx.fillText('PERCEPTION', 120, 35);
+
+                ctx.fillStyle = 'rgba(80, 255, 140, 0.95)';
+                ctx.fillText('FORMAL TOOL', w - 120, 35);
+
+                // Draw bridge
+                const startY = 70;
+                const rowHeight = 60;
+                const leftX = 30;
+                const rightX = w - 30;
+                const leftBoxW = 200;
+                const rightBoxW = 140;
+
+                bridges.forEach((bridge, i) => {
+                    const y = startY + i * rowHeight;
+
+                    // Left box (perception)
+                    ctx.fillStyle = bridge.color.replace('0.95', '0.1');
+                    ctx.fillRect(leftX, y, leftBoxW, 40);
+                    ctx.strokeStyle = bridge.color.replace('0.95', '0.5');
+                    ctx.lineWidth = 2;
+                    ctx.strokeRect(leftX, y, leftBoxW, 40);
+
+                    ctx.font = 'bold 13px "JetBrains Mono", monospace';
+                    ctx.fillStyle = bridge.color;
+                    ctx.textAlign = 'left';
+                    ctx.fillText(bridge.perception, leftX + 10, y + 26);
+
+                    // Right box (tool)
+                    ctx.fillStyle = bridge.color.replace('0.95', '0.15');
+                    ctx.fillRect(rightX - rightBoxW, y, rightBoxW, 40);
+                    ctx.strokeStyle = bridge.color;
+                    ctx.lineWidth = 2;
+                    ctx.strokeRect(rightX - rightBoxW, y, rightBoxW, 40);
+
+                    ctx.font = 'bold 14px "JetBrains Mono", monospace';
+                    ctx.fillStyle = bridge.color;
+                    ctx.textAlign = 'center';
+                    ctx.fillText(bridge.tool, rightX - rightBoxW / 2, y + 26);
+
+                    // Connecting line
+                    const lineStartX = leftX + leftBoxW;
+                    const lineEndX = rightX - rightBoxW;
+                    const lineY = y + 20;
+
+                    // Draw curved bridge line
+                    const cp1x = lineStartX + (lineEndX - lineStartX) * 0.3;
+                    const cp2x = lineStartX + (lineEndX - lineStartX) * 0.7;
+
+                    ctx.strokeStyle = bridge.color.replace('0.95', '0.3');
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.moveTo(lineStartX, lineY);
+                    ctx.bezierCurveTo(cp1x, lineY - 15, cp2x, lineY + 15, lineEndX, lineY);
+                    ctx.stroke();
+
+                    // Arrow at end
+                    ctx.fillStyle = bridge.color.replace('0.95', '0.5');
+                    ctx.beginPath();
+                    ctx.moveTo(lineEndX, lineY);
+                    ctx.lineTo(lineEndX - 10, lineY - 5);
+                    ctx.lineTo(lineEndX - 10, lineY + 5);
+                    ctx.closePath();
+                    ctx.fill();
+                });
+
+                // Draw flowing particles
+                particles.forEach(p => {
+                    p.progress += p.speed;
+                    if (p.progress > 1) {
+                        p.progress = 0;
+                        p.bridge = Math.floor(Math.random() * bridges.length);
+                    }
+
+                    const bridge = bridges[p.bridge];
+                    const y = startY + p.bridge * rowHeight + 20;
+                    const lineStartX = leftX + leftBoxW;
+                    const lineEndX = rightX - rightBoxW;
+
+                    // Bezier curve position
+                    const t = p.progress;
+                    const cp1x = lineStartX + (lineEndX - lineStartX) * 0.3;
+                    const cp2x = lineStartX + (lineEndX - lineStartX) * 0.7;
+                    const cp1y = y - 15;
+                    const cp2y = y + 15;
+
+                    // Cubic bezier formula
+                    const mt = 1 - t;
+                    const px = mt*mt*mt*lineStartX + 3*mt*mt*t*cp1x + 3*mt*t*t*cp2x + t*t*t*lineEndX;
+                    const py = mt*mt*mt*y + 3*mt*mt*t*cp1y + 3*mt*t*t*cp2y + t*t*t*y;
+
+                    ctx.fillStyle = bridge.color;
+                    ctx.beginPath();
+                    ctx.arc(px, py, 4, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+
+                // Bottom text
+                ctx.font = 'bold 13px "JetBrains Mono", monospace';
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+                ctx.textAlign = 'center';
+                ctx.fillText('Intuition → Formalism', w / 2, h - 20);
 
                 requestAnimationFrame(draw);
             }
