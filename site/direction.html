@@ -2339,122 +2339,118 @@
                 const w = canvas.width;
                 const h = canvas.height;
 
-                ctx.fillStyle = '#0D1117';
+                ctx.fillStyle = '#080a0e';
                 ctx.fillRect(0, 0, w, h);
 
                 const centerX = w / 2;
-                const centerY = h / 2 - 20;
-                const arrowLen = 100;
+                const centerY = h / 2 - 25;
+                const arrowLen = 110;
 
-                // Reference circle
-                ctx.strokeStyle = 'rgba(88, 166, 255, 0.15)';
-                ctx.lineWidth = 1;
+                // Reference circle - BRIGHTER
+                ctx.strokeStyle = 'rgba(100, 180, 255, 0.3)';
+                ctx.lineWidth = 2;
                 ctx.beginPath();
                 ctx.arc(centerX, centerY, arrowLen, 0, Math.PI * 2);
                 ctx.stroke();
 
-                // Draw arc between arrows
+                // Draw arc between arrows - BRIGHTER PURPLE
                 let angleBetween = angle2 - angle1;
                 if (angleBetween < 0) angleBetween += Math.PI * 2;
                 if (angleBetween > Math.PI) angleBetween = Math.PI * 2 - angleBetween;
 
-                ctx.strokeStyle = 'rgba(168, 85, 247, 0.4)';
-                ctx.lineWidth = 8;
+                ctx.strokeStyle = 'rgba(200, 140, 255, 0.6)';
+                ctx.lineWidth = 12;
                 ctx.beginPath();
                 const startAngle = Math.min(angle1, angle2);
                 const endAngle = Math.max(angle1, angle2);
-                ctx.arc(centerX, centerY, 40, -endAngle, -startAngle);
+                ctx.arc(centerX, centerY, 45, -endAngle, -startAngle);
                 ctx.stroke();
 
-                // Arrow 1 (coral)
+                // Arrow 1 - BRIGHT ORANGE
                 const x1 = centerX + Math.cos(angle1) * arrowLen;
                 const y1 = centerY - Math.sin(angle1) * arrowLen;
-                ctx.strokeStyle = 'rgba(247, 129, 102, 0.9)';
-                ctx.lineWidth = 3;
+                ctx.strokeStyle = 'rgba(255, 160, 100, 0.95)';
+                ctx.lineWidth = 4;
                 ctx.beginPath();
                 ctx.moveTo(centerX, centerY);
                 ctx.lineTo(x1, y1);
                 ctx.stroke();
-                // Arrowhead
                 ctx.beginPath();
                 ctx.moveTo(x1, y1);
-                ctx.lineTo(x1 - 12 * Math.cos(angle1 - 0.4), y1 + 12 * Math.sin(angle1 - 0.4));
+                ctx.lineTo(x1 - 14 * Math.cos(angle1 - 0.4), y1 + 14 * Math.sin(angle1 - 0.4));
                 ctx.moveTo(x1, y1);
-                ctx.lineTo(x1 - 12 * Math.cos(angle1 + 0.4), y1 + 12 * Math.sin(angle1 + 0.4));
+                ctx.lineTo(x1 - 14 * Math.cos(angle1 + 0.4), y1 + 14 * Math.sin(angle1 + 0.4));
                 ctx.stroke();
-                // Dot
-                ctx.fillStyle = '#F78166';
+                ctx.fillStyle = '#FF9060';
                 ctx.beginPath();
-                ctx.arc(x1, y1, 6, 0, Math.PI * 2);
+                ctx.arc(x1, y1, 9, 0, Math.PI * 2);
                 ctx.fill();
 
-                // Arrow 2 (green)
+                // Arrow 2 - BRIGHT GREEN
                 const x2 = centerX + Math.cos(angle2) * arrowLen;
                 const y2 = centerY - Math.sin(angle2) * arrowLen;
-                ctx.strokeStyle = 'rgba(126, 231, 135, 0.9)';
-                ctx.lineWidth = 3;
+                ctx.strokeStyle = 'rgba(80, 255, 140, 0.95)';
+                ctx.lineWidth = 4;
                 ctx.beginPath();
                 ctx.moveTo(centerX, centerY);
                 ctx.lineTo(x2, y2);
                 ctx.stroke();
-                // Arrowhead
                 ctx.beginPath();
                 ctx.moveTo(x2, y2);
-                ctx.lineTo(x2 - 12 * Math.cos(angle2 - 0.4), y2 + 12 * Math.sin(angle2 - 0.4));
+                ctx.lineTo(x2 - 14 * Math.cos(angle2 - 0.4), y2 + 14 * Math.sin(angle2 - 0.4));
                 ctx.moveTo(x2, y2);
-                ctx.lineTo(x2 - 12 * Math.cos(angle2 + 0.4), y2 + 12 * Math.sin(angle2 + 0.4));
+                ctx.lineTo(x2 - 14 * Math.cos(angle2 + 0.4), y2 + 14 * Math.sin(angle2 + 0.4));
                 ctx.stroke();
-                // Dot
-                ctx.fillStyle = '#7EE787';
+                ctx.fillStyle = '#60FF90';
                 ctx.beginPath();
-                ctx.arc(x2, y2, 6, 0, Math.PI * 2);
+                ctx.arc(x2, y2, 9, 0, Math.PI * 2);
                 ctx.fill();
 
                 // Center
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
                 ctx.beginPath();
-                ctx.arc(centerX, centerY, 4, 0, Math.PI * 2);
+                ctx.arc(centerX, centerY, 5, 0, Math.PI * 2);
                 ctx.fill();
 
-                // Angle display
+                // Angle display - BRIGHTER
                 const degreesBetween = (angleBetween * 180 / Math.PI).toFixed(1);
-                ctx.font = 'bold 20px "JetBrains Mono", monospace';
-                ctx.fillStyle = 'rgba(168, 85, 247, 0.9)';
+                ctx.font = 'bold 26px "JetBrains Mono", monospace';
+                ctx.fillStyle = 'rgba(200, 160, 255, 0.95)';
                 ctx.textAlign = 'center';
-                ctx.fillText(`Δθ = ${degreesBetween}°`, centerX, centerY + arrowLen + 50);
+                ctx.fillText(`Δθ = ${degreesBetween}°`, centerX, centerY + arrowLen + 48);
 
-                // Dot product preview
+                // Dot product preview - BRIGHTER
                 const dotProduct = Math.cos(angleBetween);
-                ctx.font = '14px "JetBrains Mono", monospace';
-                ctx.fillStyle = 'rgba(139, 148, 158, 0.7)';
-                ctx.fillText(`cos(Δθ) = ${dotProduct.toFixed(3)}`, centerX, centerY + arrowLen + 75);
+                ctx.font = 'bold 15px "JetBrains Mono", monospace';
+                ctx.fillStyle = 'rgba(180, 200, 220, 0.9)';
+                ctx.fillText(`cos(Δθ) = ${dotProduct.toFixed(3)}`, centerX, centerY + arrowLen + 72);
 
-                // Alignment bar
-                const barWidth = 200;
+                // Alignment bar - BRIGHTER
+                const barWidth = 220;
                 const barX = centerX - barWidth / 2;
-                const barY = centerY + arrowLen + 100;
+                const barY = centerY + arrowLen + 95;
 
                 // Background
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
-                ctx.fillRect(barX, barY, barWidth, 10);
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
+                ctx.fillRect(barX, barY, barWidth, 14);
 
-                // Fill based on alignment (-1 to 1 mapped to 0-200)
+                // Fill based on alignment - BRIGHTER
                 const fillWidth = (dotProduct + 1) / 2 * barWidth;
-                const barColor = dotProduct > 0 ? 'rgba(126, 231, 135, 0.7)' : 'rgba(247, 129, 102, 0.7)';
+                const barColor = dotProduct > 0 ? 'rgba(80, 255, 140, 0.85)' : 'rgba(255, 120, 100, 0.85)';
                 ctx.fillStyle = barColor;
-                ctx.fillRect(barX, barY, fillWidth, 10);
+                ctx.fillRect(barX, barY, fillWidth, 14);
 
-                // Labels
-                ctx.font = '10px "JetBrains Mono", monospace';
-                ctx.fillStyle = 'rgba(247, 129, 102, 0.6)';
+                // Labels - BRIGHTER
+                ctx.font = 'bold 11px "JetBrains Mono", monospace';
+                ctx.fillStyle = 'rgba(255, 130, 110, 0.9)';
                 ctx.textAlign = 'left';
-                ctx.fillText('OPPOSITE', barX, barY + 25);
-                ctx.fillStyle = 'rgba(126, 231, 135, 0.6)';
+                ctx.fillText('OPPOSITE', barX, barY + 30);
+                ctx.fillStyle = 'rgba(80, 255, 140, 0.9)';
                 ctx.textAlign = 'right';
-                ctx.fillText('ALIGNED', barX + barWidth, barY + 25);
-                ctx.fillStyle = 'rgba(139, 148, 158, 0.5)';
+                ctx.fillText('ALIGNED', barX + barWidth, barY + 30);
+                ctx.fillStyle = 'rgba(180, 200, 220, 0.7)';
                 ctx.textAlign = 'center';
-                ctx.fillText('⊥', barX + barWidth / 2, barY + 25);
+                ctx.fillText('⊥', barX + barWidth / 2, barY + 30);
 
                 requestAnimationFrame(draw);
             }
@@ -2517,30 +2513,30 @@
                 const w = canvas.width;
                 const h = canvas.height;
 
-                // Draw heightmap
+                // Draw heightmap - BRIGHTER COLORS
                 const imageData = ctx.createImageData(w, h);
                 for (let y = 0; y < h; y++) {
                     for (let x = 0; x < w; x++) {
                         const val = potential(x, y);
                         const i = (y * w + x) * 4;
-                        // Color: blue (low) to red (high)
-                        imageData.data[i] = Math.floor(val * 200 + 30);
-                        imageData.data[i + 1] = Math.floor(val * 80 + 20);
-                        imageData.data[i + 2] = Math.floor((1 - val) * 150 + 50);
+                        // Color: deep blue (low) to bright orange/red (high)
+                        imageData.data[i] = Math.floor(val * 230 + 25);
+                        imageData.data[i + 1] = Math.floor(val * 120 + 30);
+                        imageData.data[i + 2] = Math.floor((1 - val) * 200 + 40);
                         imageData.data[i + 3] = 255;
                     }
                 }
                 ctx.putImageData(imageData, 0, 0);
 
-                // Draw contour lines (simplified)
-                ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+                // Draw contour lines - BRIGHTER
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
                 ctx.lineWidth = 1;
-                for (let level = 0.1; level < 1; level += 0.15) {
+                for (let level = 0.1; level < 1; level += 0.12) {
                     ctx.beginPath();
-                    for (let x = 0; x < w; x += 5) {
-                        for (let y = 0; y < h; y += 5) {
+                    for (let x = 0; x < w; x += 4) {
+                        for (let y = 0; y < h; y += 4) {
                             const val = potential(x, y);
-                            if (Math.abs(val - level) < 0.03) {
+                            if (Math.abs(val - level) < 0.025) {
                                 ctx.moveTo(x, y);
                                 ctx.lineTo(x + 2, y + 2);
                             }
@@ -2549,20 +2545,20 @@
                     ctx.stroke();
                 }
 
-                // Draw gradient arrows (sparse grid)
-                const arrowSpacing = 60;
+                // Draw gradient arrows - BRIGHTER
+                const arrowSpacing = 55;
                 for (let x = arrowSpacing; x < w; x += arrowSpacing) {
                     for (let y = arrowSpacing; y < h; y += arrowSpacing) {
                         const g = gradient(x, y);
                         const mag = Math.sqrt(g.x * g.x + g.y * g.y);
                         if (mag < 0.0001) continue;
 
-                        const arrowLen = Math.min(25, mag * 500);
+                        const arrowLen = Math.min(30, mag * 600);
                         const nx = g.x / mag;
                         const ny = g.y / mag;
 
-                        ctx.strokeStyle = `rgba(126, 231, 135, ${Math.min(0.8, mag * 8)})`;
-                        ctx.lineWidth = 1.5;
+                        ctx.strokeStyle = `rgba(80, 255, 140, ${Math.min(0.95, mag * 12)})`;
+                        ctx.lineWidth = 2;
                         ctx.beginPath();
                         ctx.moveTo(x, y);
                         ctx.lineTo(x + nx * arrowLen, y + ny * arrowLen);
@@ -2572,9 +2568,9 @@
                         const angle = Math.atan2(ny, nx);
                         ctx.beginPath();
                         ctx.moveTo(x + nx * arrowLen, y + ny * arrowLen);
-                        ctx.lineTo(x + nx * arrowLen - 5 * Math.cos(angle - 0.5), y + ny * arrowLen - 5 * Math.sin(angle - 0.5));
+                        ctx.lineTo(x + nx * arrowLen - 7 * Math.cos(angle - 0.5), y + ny * arrowLen - 7 * Math.sin(angle - 0.5));
                         ctx.moveTo(x + nx * arrowLen, y + ny * arrowLen);
-                        ctx.lineTo(x + nx * arrowLen - 5 * Math.cos(angle + 0.5), y + ny * arrowLen - 5 * Math.sin(angle + 0.5));
+                        ctx.lineTo(x + nx * arrowLen - 7 * Math.cos(angle + 0.5), y + ny * arrowLen - 7 * Math.sin(angle + 0.5));
                         ctx.stroke();
                     }
                 }
@@ -2582,61 +2578,59 @@
                 // Update and draw ball
                 if (ball) {
                     const g = gradient(ball.x, ball.y);
-                    // Ball rolls DOWN the gradient (negative gradient)
                     ball.vx -= g.x * 150;
                     ball.vy -= g.y * 150;
-                    ball.vx *= 0.95; // friction
+                    ball.vx *= 0.95;
                     ball.vy *= 0.95;
 
                     ball.x += ball.vx * 0.016;
                     ball.y += ball.vy * 0.016;
 
-                    // Boundary
                     ball.x = Math.max(10, Math.min(w - 10, ball.x));
                     ball.y = Math.max(10, Math.min(h - 10, ball.y));
 
-                    // Draw ball
-                    ctx.fillStyle = 'rgba(247, 129, 102, 0.9)';
+                    // Draw ball - BRIGHTER
+                    ctx.fillStyle = 'rgba(255, 200, 80, 0.95)';
                     ctx.beginPath();
-                    ctx.arc(ball.x, ball.y, 10, 0, Math.PI * 2);
+                    ctx.arc(ball.x, ball.y, 12, 0, Math.PI * 2);
                     ctx.fill();
-                    ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
-                    ctx.lineWidth = 2;
+                    ctx.strokeStyle = 'rgba(255, 255, 255, 0.8)';
+                    ctx.lineWidth = 3;
                     ctx.stroke();
 
-                    // Show gradient at ball position
+                    // Show gradient at ball position - BRIGHTER
                     const bg = gradient(ball.x, ball.y);
                     const bmag = Math.sqrt(bg.x * bg.x + bg.y * bg.y);
                     if (bmag > 0.0001) {
-                        const blen = 40;
-                        ctx.strokeStyle = 'rgba(126, 231, 135, 0.9)';
-                        ctx.lineWidth = 3;
+                        const blen = 50;
+                        ctx.strokeStyle = 'rgba(80, 255, 140, 0.95)';
+                        ctx.lineWidth = 4;
                         ctx.beginPath();
                         ctx.moveTo(ball.x, ball.y);
                         ctx.lineTo(ball.x + (bg.x / bmag) * blen, ball.y + (bg.y / bmag) * blen);
                         ctx.stroke();
 
                         // Label
-                        ctx.font = '10px "JetBrains Mono", monospace';
-                        ctx.fillStyle = 'rgba(126, 231, 135, 0.8)';
+                        ctx.font = 'bold 12px "JetBrains Mono", monospace';
+                        ctx.fillStyle = 'rgba(80, 255, 140, 0.95)';
                         ctx.textAlign = 'center';
-                        ctx.fillText('∇f (uphill)', ball.x + (bg.x / bmag) * blen, ball.y + (bg.y / bmag) * blen - 10);
+                        ctx.fillText('∇f (uphill)', ball.x + (bg.x / bmag) * blen, ball.y + (bg.y / bmag) * blen - 12);
                     }
                 }
 
-                // Legend
-                ctx.font = '11px "JetBrains Mono", monospace';
+                // Legend - BRIGHTER
+                ctx.font = 'bold 13px "JetBrains Mono", monospace';
                 ctx.textAlign = 'left';
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
-                ctx.fillText('HIGH', 15, 25);
-                ctx.fillStyle = 'rgba(100, 100, 200, 0.7)';
-                ctx.fillText('LOW', 15, h - 15);
+                ctx.fillStyle = 'rgba(255, 180, 100, 0.95)';
+                ctx.fillText('HIGH ↑', 15, 28);
+                ctx.fillStyle = 'rgba(80, 120, 220, 0.9)';
+                ctx.fillText('LOW ↓', 15, h - 18);
 
                 if (!ball) {
-                    ctx.font = '12px "JetBrains Mono", monospace';
-                    ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+                    ctx.font = 'bold 14px "JetBrains Mono", monospace';
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
                     ctx.textAlign = 'center';
-                    ctx.fillText('click to drop a ball', w / 2, h - 20);
+                    ctx.fillText('⬤ click to drop a ball', w / 2, h - 20);
                 }
 
                 requestAnimationFrame(draw);
