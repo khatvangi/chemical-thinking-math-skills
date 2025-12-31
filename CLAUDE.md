@@ -4,8 +4,11 @@
 
 A mathematics course for chemistry undergraduates inverting traditional pedagogy: **Reality → Recognition → Tool** (not Tool → Application).
 
-**Live Site:** https://course.thebeakers.com
+**Live Site:** https://course.thebeakers.com (pending DNS fix)
 **API:** https://api.thebeakers.com (Cloudflare Tunnel)
+**Main Domain:** thebeakers.com (reserved for future science blog, Aeon-style)
+
+**⚠️ DNS Action Required:** Update nameservers at Hostinger from `jay/aisha.ns.cloudflare.com` to `ignat.ns.cloudflare.com` and `sonia.ns.cloudflare.com`
 
 **Model:** MIT 18.S191 "Computational Thinking"
 **Tech Stack:** Quarto + JavaScript (site), FastAPI + Ollama (backend), SQLite (student data)
@@ -87,19 +90,22 @@ SAMENESS and DIRECTION are dual/twin primitives:
 - Scroll-triggered section reveals (IntersectionObserver)
 - Typography: Fraunces (headings), Inter (body), JetBrains Mono (code)
 
-**9 Interactive Visualizations (In Progress):**
+**12 Interactive Visualizations (Complete):**
 
 | # | Visual | Status | Key Insight |
 |---|--------|--------|-------------|
-| 1 | Symmetry Breaking | ⬜ TODO | Sphere → marked sphere → cone morph |
-| 2 | Circle of Directions | ⬜ TODO | All 2D directions parameterized by angle |
-| 3 | Ur-Direction (Amoeba) | ⬜ TODO | Chemotaxis: seek nutrients, flee toxins |
-| 4 | Comparing Directions | ⬜ TODO | Same/opposite/perpendicular/oblique |
-| 5 | Gradient Landscape | ⬜ TODO | Click heightmap → steepest direction |
-| 6 | Sphere of Directions | ⬜ TODO | 3D directions on sphere surface |
-| 7 | Body Directions | ⬜ TODO | Asymmetric body creates forward |
-| 8 | Causation Flow | ⬜ TODO | Field lines, cause → effect |
-| 9 | Bridge Animation | ⬜ TODO | Perception primitive → math tool |
+| 1 | Symmetry Breaking | ✅ Done | Sphere → cone morph (3D wireframe, side view) |
+| 2 | Circle of Directions | ✅ Done | All 2D directions parameterized by angle |
+| 3 | Ur-Direction (Amoeba) | ✅ Done | Chemotaxis: seek nutrients, flee toxins |
+| 4 | Comparing Directions | ✅ Done | Same/opposite/perpendicular/oblique |
+| 5 | Gradient Landscape | ✅ Done | Topographic heightmap with gradient arrows |
+| 6 | Sphere of Directions | ✅ Done | 3D wireframe sphere with azimuth/elevation |
+| 7 | Body Directions | ✅ Done | Asymmetric body creates forward |
+| 8 | Asymmetric Bodies | ✅ Done | Fish/arrow/person showing forward direction |
+| 9 | Magnitude + Direction | ✅ Done | Three-panel comparison (same dir, same mag, both) |
+| 10 | Causation Flow | ✅ Done | SN2 reaction with flowing particles |
+| 11 | Field Lines | ✅ Done | Electric field between charges |
+| 12 | Bridge Animation | ✅ Done | Perception → formalism with bezier curves |
 
 ### Tool Page: `lectures/04-direction.qmd`
 
@@ -180,19 +186,19 @@ chem-math-course/
 
 **Architecture:**
 ```
-Student → GitHub Pages Site → Practice Widget (JS)
-                                      ↓
-                             ngrok public URL
-                                      ↓
-                             FastAPI Backend (Python)
-                                      ↓
-                             Ollama (local LLM)
-                             └── qwen3:latest (grading)
+Student → course.thebeakers.com (GitHub Pages) → Practice Widget (JS)
+                                                        ↓
+                                          api.thebeakers.com (Cloudflare Tunnel)
+                                                        ↓
+                                          FastAPI Backend (localhost:8000)
+                                                        ↓
+                                          Ollama (local LLM)
+                                          └── qwen3:latest (grading)
 ```
 
 **How it works:**
 1. Student answers problem in practice widget
-2. Widget sends to API via ngrok tunnel
+2. Widget sends to API via Cloudflare Tunnel (api.thebeakers.com)
 3. LLM checks answer, provides feedback
 4. If wrong → worked example + similar problem
 5. Repeat until 3 correct in a row = mastery
@@ -206,11 +212,14 @@ Student → GitHub Pages Site → Practice Widget (JS)
 
 **To run locally:**
 ```bash
-./start-server.sh
-# or manually:
-cd app/backend && python main.py  # API on :8000
-ngrok http 8000                    # Public tunnel
-cd site && quarto preview          # Site on :4321
+# Start the API backend
+cd app/backend && python main.py  # API on localhost:8000
+
+# Start the Cloudflare Tunnel (in another terminal)
+cloudflared tunnel run chem-api   # Exposes as api.thebeakers.com
+
+# Preview site locally (optional)
+cd site && quarto preview          # Site on localhost:4321
 ```
 
 ---
@@ -326,16 +335,25 @@ When developing a primitive:
 - [x] Practice widget (IXL-style)
 - [x] **DIRECTION concept page** (standalone HTML, rigorous academic text)
 - [x] **DIRECTION tool** (vectors lecture)
+- [x] **DIRECTION visualizations** (12 interactive canvas animations)
+- [x] Cloudflare Tunnel setup (api.thebeakers.com → localhost:8000)
+- [x] Custom domain configuration (course.thebeakers.com)
 
 ### In Progress
-- [ ] **DIRECTION visualizations** (9 interactive canvases for direction.html)
 - [ ] Other Module 1 primitives (COLLECTION, ARRANGEMENT, PROXIMITY)
 
 ### Planned
 - [ ] Module 2: CHANGE primitives
 - [ ] Module 3: PROBABILITY primitives
-- [ ] Permanent API URL (domain + Cloudflare Tunnel)
 - [ ] Manim videos for complex concepts
+- [ ] thebeakers.com science blog (Aeon-style)
+
+### DNS Setup (Pending)
+Update nameservers at Hostinger:
+- FROM: `jay.ns.cloudflare.com`, `aisha.ns.cloudflare.com`
+- TO: `ignat.ns.cloudflare.com`, `sonia.ns.cloudflare.com`
+
+Once updated, wait 1-24 hours for propagation.
 
 ---
 
