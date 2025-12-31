@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIRECTION | Chemical Thinking</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0D1117;
+            --bg-secondary: #161B22;
+            --bg-tertiary: #1c2128;
+            --text-primary: #E6EDF3;
+            --text-secondary: #8B949E;
+            --accent-blue: #58A6FF;
+            --accent-coral: #F78166;
+            --accent-green: #7EE787;
+            --gradient-start: #667eea;
+            --gradient-end: #764ba2;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* ========== SCROLL PROGRESS ========== */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+            z-index: 1000;
+            width: 0%;
+            transition: width 50ms linear;
+        }
+
+        /* ========== SECTION NAV ========== */
+        .section-nav {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--text-secondary);
+            opacity: 0.3;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-dot:hover, .nav-dot.active {
+            opacity: 1;
+            background: var(--accent-blue);
+            transform: scale(1.3);
+        }
+
+        @media (max-width: 1100px) {
+            .section-nav { display: none; }
+        }
+
+        /* ========== HERO ========== */
+        .hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        #particle-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .hero-title {
+            font-family: 'Fraunces', serif;
+            font-size: clamp(4rem, 12vw, 9rem);
+            font-weight: 300;
+            letter-spacing: 0.25em;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            opacity: 0;
+            animation: fadeUp 1.2s ease forwards;
+        }
+
+        .hero-subtitle {
+            font-family: 'Fraunces', serif;
+            font-style: italic;
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            margin-top: 1.5rem;
+            opacity: 0;
+            animation: fadeUp 1s ease 0.4s forwards;
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2rem;
+            color: var(--text-secondary);
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.8s forwards, bounce 2s ease-in-out 1.5s infinite;
+            cursor: pointer;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-12px); }
+        }
+
+        /* ========== CONTENT ========== */
+        .content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 6rem 2rem;
+        }
+
+        section {
+            margin-bottom: 8rem;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        h2 {
+            font-family: 'Fraunces', serif;
+            font-size: 2.5rem;
+            font-weight: 400;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+        }
+
+        p {
+            font-size: 1.15rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        strong {
+            color: var(--accent-blue);
+            font-weight: 600;
+        }
+
+        em {
+            font-style: italic;
+        }
+
+        hr {
+            border: none;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+            margin: 5rem 0;
+        }
+
+        /* ========== SPECIAL ELEMENTS ========== */
+        .callout {
+            background: linear-gradient(135deg, rgba(247,129,102,0.1), rgba(247,129,102,0.05));
+            border-left: 3px solid var(--accent-coral);
+            padding: 1.5rem 2rem;
+            margin: 2.5rem 0;
+            font-family: 'Fraunces', serif;
+            font-style: italic;
+            font-size: 1.35rem;
+            color: var(--accent-coral);
+        }
+
+        .insight {
+            background: linear-gradient(135deg, rgba(88,166,255,0.15), rgba(118,75,162,0.1));
+            border: 1px solid var(--accent-blue);
+            border-radius: 8px;
+            padding: 1.5rem 2rem;
+            margin: 2.5rem 0;
+            text-align: center;
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+
+        /* ========== INTERACTIVE CONTAINERS ========== */
+        .interactive {
+            background: var(--bg-secondary);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2.5rem 0;
+            text-align: center;
+        }
+
+        .interactive svg {
+            display: block;
+            margin: 0 auto;
+        }
+
+        .interactive-hint {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+        }
+
+        .controls {
+            margin-top: 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 180px;
+            height: 6px;
+            border-radius: 3px;
+            background: rgba(255,255,255,0.1);
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--accent-blue);
+            cursor: pointer;
+        }
+
+        .btn {
+            padding: 0.6rem 1.2rem;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn:hover {
+            background: var(--accent-blue);
+            border-color: var(--accent-blue);
+        }
+
+        .btn.active {
+            background: var(--accent-blue);
+            border-color: var(--accent-blue);
+        }
+
+        /* ========== TABLE ========== */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        th {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        td:first-child {
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+
+        td:last-child {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-blue);
+        }
+
+        /* ========== CLOSING ========== */
+        .closing {
+            text-align: center;
+            padding: 4rem 0;
+        }
+
+        .closing-box {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 3rem;
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .closing-box::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            border-radius: 17px;
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        .closing-quote {
+            font-family: 'Fraunces', serif;
+            font-style: italic;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .closing-note {
+            color: var(--text-secondary);
+        }
+
+        .next-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            margin-top: 2rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .next-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(102,126,234,0.3);
+        }
+
+        .next-link .arrow {
+            transition: transform 0.3s ease;
+        }
+
+        .next-link:hover .arrow {
+            transform: translateX(5px);
+        }
+
+        /* ========== BACK LINK ========== */
+        .back-link {
+            position: fixed;
+            top: 1.5rem;
+            left: 1.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            z-index: 100;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .back-link:hover {
+            opacity: 1;
+            color: var(--text-primary);
+        }
+    </style>
+</head>
+<body>
+
+<div class="scroll-progress" id="progress"></div>
+
+<a href="index.html" class="back-link">← Back to Course</a>
+
+<nav class="section-nav" id="nav"></nav>
+
+<!-- ==================== HERO ==================== -->
+<header class="hero" id="hero">
+    <canvas id="particle-canvas"></canvas>
+    <div class="hero-content">
+        <h1 class="hero-title">DIRECTION</h1>
+        <p class="hero-subtitle">The first primitive. Before vectors, before coordinates, before chemistry.</p>
+    </div>
+    <div class="scroll-hint" onclick="document.getElementById('s1').scrollIntoView({behavior:'smooth'})">↓</div>
+</header>
+
+<!-- ==================== CONTENT ==================== -->
+<main class="content">
+
+<!-- Section 1: Point at something -->
+<section id="s1">
+    <h2>Point at something.</h2>
+    <p>I'm serious. Right now, wherever you are, point at something. The door. The window. Your coffee cup. Something behind you that you can't even see.</p>
+    <p>Done?</p>
+    <p>You just did <strong>DIRECTION</strong>.</p>
+    <p>No numbers involved. No angles measured. No coordinate system consulted. Your arm extended <em>toward</em> a thing, and you knew — without any mathematics whatsoever — exactly what you were doing.</p>
+
+    <div class="interactive" id="pointing-arm"></div>
+
+    <p>This is not trivial. This is not "just pointing." This is the cognitive foundation underneath everything we're going to build in this course. You've been doing DIRECTION since the first week of your life. An infant reaches — not randomly, not spasmodically, but <em>toward</em>. Toward the face. Toward the breast. Toward the bright thing that moves. That reach has structure: there's a FROM (the baby's body) and a TO (the thing it wants). That structure is direction.</p>
+
+    <div class="callout">If you already understand direction — if your body has understood it since before you could speak — what exactly do you need mathematics for?</div>
+
+    <p>Hold that question. It's the right question. We'll come back to it. But first, let's go deeper into what you already know.</p>
+</section>
+
+<hr>
+
+<!-- Section 2: Toward / Away -->
+<section id="s2">
+    <h2>The First Distinction</h2>
+    <p>Forget north and south. Forget degrees and radians. Forget x-components and y-components. Before any of that, there's something simpler. Something so simple that organisms without brains can do it.</p>
+    <p><strong>Toward. Away.</strong></p>
+    <p>That's it. The first direction. The ur-direction. An amoeba — a single cell with no nervous system — moves toward nutrients and away from toxins. No angles involved. No measurement. Just a binary: approach this, flee that.</p>
+
+    <div class="interactive" id="toward-away"></div>
+
+    <p>Think about what that means. Direction doesn't require intelligence. It doesn't require learning. It doesn't require mathematics. A blob of protoplasm drifting in pond water <em>has</em> direction built into its behavior. Toward food. Away from poison. The blob doesn't know it's doing direction. But it is.</p>
+    <p>This binary — toward/away — is where it all starts. Everything else is elaboration.</p>
+    <p><strong>Approach or flee. That's the foundation.</strong></p>
+</section>
+
+<hr>
+
+<!-- Section 3: Direction in the Body -->
+<section id="s3">
+    <h2>Direction in the Body</h2>
+    <p>You don't just perceive direction. You <em>are</em> directional.</p>
+    <p>Think about your body. You have a front and a back. This isn't arbitrary — it's deeply functional. Your face is on the front: eyes facing forward, mouth facing forward, the whole sensory apparatus oriented in the direction you typically move. Your back is what you leave behind, what faces away from where you're going.</p>
+    <p>This asymmetry creates direction. A sphere doesn't have a "front." A cube doesn't face anywhere. But you do. You face things.</p>
+
+    <div class="interactive" id="body-directions"></div>
+
+    <p>Once you have forward and backward, you get left and right for free — they're perpendicular to your forward. And once you have that plane, you get up and down — perpendicular to the ground, aligned with gravity.</p>
+    <p><strong>Six directions</strong>, all emerging from the fact that you have a body, that body has a front, and that body exists in a gravitational field.</p>
+
+    <div class="insight">You are the origin of your coordinate system. You always have been.</div>
+</section>
+
+<hr>
+
+<!-- Section 4: Circle of Directions -->
+<section id="s4">
+    <h2>The Circle of Directions</h2>
+    <p>Let's stay in two dimensions for a moment. Imagine you're standing in an open field, and you can point in any direction on the horizon. How many directions are there?</p>
+    <p>Your first answer might be four: north, south, east, west. But obviously that's not all of them. There's also northeast, and northwest, and all the directions in between. What about north-northeast? That's a direction too. And between north and north-northeast? Also a direction.</p>
+    <p>You see where this is going. There isn't a finite list. Direction, even in a flat plane, is <strong>continuous</strong>. Between any two directions, there's another direction.</p>
+    <p>What shape has this property?</p>
+    <p><strong>A circle.</strong></p>
+
+    <div class="interactive" id="circle-directions"></div>
+
+    <p>The circle is the space of all directions in two dimensions. Every point on the circle is a direction you could point. The angle θ — measured from some reference direction — tells you which direction.</p>
+    <p>This isn't a metaphor. Directions, in 2D, literally <em>are</em> a circle. <strong>The circle is direction space.</strong></p>
+</section>
+
+<hr>
+
+<!-- Section 5: Sphere of Directions -->
+<section id="s5">
+    <h2>The Sphere of Directions</h2>
+    <p>Now go to three dimensions. You're not restricted to the horizon anymore. You can point up. You can point down. You can point anywhere.</p>
+    <p>What's the shape now?</p>
+    <p><strong>A sphere.</strong></p>
+
+    <div class="interactive" id="sphere-directions"></div>
+
+    <p>Every point on the surface of a sphere is a direction you could point in 3D. Straight up is the north pole. Straight down is the south pole. All the horizontal directions form the equator.</p>
+    <p>Two angles now: the <strong>azimuth</strong> (compass direction) and the <strong>elevation</strong> (how far above or below the horizon). Together they pick out a point on the sphere. That point is a direction.</p>
+    <p><strong>The sphere is the space of all directions in 3D.</strong></p>
+</section>
+
+<hr>
+
+<!-- Section 6: Comparing Directions -->
+<section id="s6">
+    <h2>When Directions Meet</h2>
+    <p>What happens when you have two directions at once?</p>
+    <p>Imagine two people standing back to back, pointing opposite ways. Their directions conflict completely. If you tried to combine their pointings, you'd get nothing — they cancel.</p>
+    <p>Now imagine two people standing side by side, pointing the same way. Their directions reinforce.</p>
+    <p>What about perpendicular? Neither reinforces nor opposes. They're independent.</p>
+
+    <div class="interactive" id="comparing-directions"></div>
+
+    <p>This raises a natural question: <strong>how do you measure how much one direction has "in common" with another direction?</strong></p>
+    <p>If you've had physics, you might recognize this leads to the dot product. But we're not there yet. For now, just notice that directions can be compared. They can be more or less aligned.</p>
+</section>
+
+<hr>
+
+<!-- Section 7: Magnitude -->
+<section id="s7">
+    <h2>Magnitude Enters</h2>
+    <p>So far, direction is pure orientation. Which way, not how much. But in the physical world, direction often comes attached to intensity.</p>
+    <p>The wind blows east. But is it a gentle breeze or a gale? Both point east. They differ in strength.</p>
+    <p>The ground slopes downward. But is it a gentle incline or a cliff? Both point down. They differ in steepness.</p>
+
+    <div class="interactive" id="magnitude-demo"></div>
+
+    <p><strong>Direction plus magnitude. Which way, and how much.</strong> This combination occurs so often that it deserves a name.</p>
+    <p>We call it a <strong>vector</strong>.</p>
+    <p>But here's what's crucial: you can have direction without magnitude, and you can have magnitude without direction. The vector is specifically for quantities that have both. It's the tool for things that <em>point</em> with <em>intensity</em>.</p>
+</section>
+
+<hr>
+
+<!-- Section 8: Gradient -->
+<section id="s8">
+    <h2>Gradients: Direction From Landscape</h2>
+    <p>Imagine hiking in hilly terrain. At any moment, you're standing at some elevation. Some directions would take you uphill, some downhill. But one direction is special: the direction of <em>steepest</em> ascent. The way that goes up fastest.</p>
+    <p>This is the <strong>gradient</strong>.</p>
+
+    <div class="interactive" id="gradient-landscape"></div>
+
+    <p>The gradient isn't just "uphill." It's the specific direction that gains elevation most rapidly.</p>
+    <p>In chemistry, gradients are everywhere:</p>
+    <ul style="margin: 1rem 0 1.5rem 1.5rem; color: var(--text-primary);">
+        <li>Molecules diffuse <strong>down</strong> concentration gradients</li>
+        <li>Systems evolve <strong>down</strong> energy gradients</li>
+        <li>Electrons flow <strong>down</strong> electric potential gradients</li>
+    </ul>
+    <p><strong>The gradient is direction extracted from a landscape.</strong></p>
+</section>
+
+<hr>
+
+<!-- Section 9: Causation -->
+<section id="s9">
+    <h2>Direction in Causation</h2>
+    <p><strong>A causes B.</strong></p>
+    <p>This statement has a direction. It goes from A to B. Not from B to A. Causes precede effects, and there's an arrow pointing from one to the other.</p>
+
+    <div class="interactive" id="causation-flow"></div>
+
+    <p>This isn't metaphor. Causation genuinely is directional. The asymmetry comes from time — the past is fixed, the future is open, and causes must precede their effects.</p>
+    <p>Every mechanism in chemistry is a sequence of these arrows. The nucleophile attacks the electrophile. The bond breaks. The intermediate forms. The product emerges. Each step points to the next.</p>
+</section>
+
+<hr>
+
+<!-- Section 10: Why Formalize -->
+<section id="s10">
+    <h2>Why Formalize?</h2>
+    <p>Now we return to the question from the beginning.</p>
+    <p>You already know direction. Your body knows it. Your language encodes it. Your mind uses it constantly. <strong>What could mathematics possibly add?</strong></p>
+    <p>Here's what: <em>precision</em> and <em>computation</em>.</p>
+    <p>You can point at the library and say "it's over there." But can you describe that direction precisely enough that someone in another city could replicate it?</p>
+    <p>You can feel that two directions are "kind of aligned." But can you say <em>how</em> aligned? Can you quantify the comparison?</p>
+    <p><strong>This is what formalization gives you.</strong> Not new perception — the perception was already there. What you get is the ability to be precise about what you perceive, to calculate with it, to make predictions.</p>
+</section>
+
+<hr>
+
+<!-- Section 11: Bridge -->
+<section id="s11">
+    <h2>The Bridge</h2>
+
+    <div class="interactive" id="bridge-animation"></div>
+
+    <table>
+        <thead>
+            <tr><th>What you already perceive</th><th>The formal tool</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>"It points somewhere"</td><td>Vector</td></tr>
+            <tr><td>"How aligned are these two?"</td><td>Dot Product</td></tr>
+            <tr><td>"What's perpendicular to both?"</td><td>Cross Product</td></tr>
+            <tr><td>"Which way is steepest?"</td><td>Gradient</td></tr>
+            <tr><td>"Describe this direction exactly"</td><td>Components</td></tr>
+        </tbody>
+    </table>
+
+    <p>Each of these tools exists to capture something you already understand. The mathematics isn't replacing your intuition — it's making your intuition precise enough to compute with.</p>
+</section>
+
+<hr>
+
+<!-- Closing -->
+<section class="closing" id="closing">
+    <div class="closing-box">
+        <p class="closing-quote">You knew DIRECTION before you knew chemistry, before you knew mathematics, before you knew words.</p>
+        <p class="closing-note">We're just giving names to what you already see.</p>
+    </div>
+    <a href="lectures/04-direction.html" class="next-link">
+        <span>Next: Vectors in Chemistry</span>
+        <span class="arrow">→</span>
+    </a>
+</section>
+
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+// ============================================
+// SCROLL PROGRESS & SECTION VISIBILITY
+// ============================================
+const progress = document.getElementById('progress');
+const sections = document.querySelectorAll('section');
+const nav = document.getElementById('nav');
+
+// Create nav dots
+sections.forEach((s, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'nav-dot';
+    dot.onclick = () => s.scrollIntoView({ behavior: 'smooth' });
+    nav.appendChild(dot);
+});
+
+const dots = nav.querySelectorAll('.nav-dot');
+
+// Intersection observer for sections
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            const idx = Array.from(sections).indexOf(entry.target);
+            dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+        }
+    });
+}, { threshold: 0.15 });
+
+sections.forEach(s => observer.observe(s));
+
+// Scroll progress
+window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    progress.style.width = (scrollTop / docHeight * 100) + '%';
+});
+
+// ============================================
+// PARTICLE CANVAS
+// ============================================
+const canvas = document.getElementById('particle-canvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+
+function createParticles() {
+    particles = [];
+    const count = Math.min(100, Math.floor(window.innerWidth / 15));
+    for (let i = 0; i < count; i++) {
+        particles.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            vx: (Math.random() - 0.5) * 0.4,
+            vy: (Math.random() - 0.5) * 0.4,
+            r: Math.random() * 2 + 1
+        });
+    }
+}
+
+function animateParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    particles.forEach((p, i) => {
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < 0) p.x = canvas.width;
+        if (p.x > canvas.width) p.x = 0;
+        if (p.y < 0) p.y = canvas.height;
+        if (p.y > canvas.height) p.y = 0;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(88, 166, 255, 0.6)';
+        ctx.fill();
+
+        // Connect nearby
+        for (let j = i + 1; j < particles.length; j++) {
+            const p2 = particles[j];
+            const dx = p.x - p2.x;
+            const dy = p.y - p2.y;
+            const dist = Math.sqrt(dx*dx + dy*dy);
+            if (dist < 120) {
+                ctx.beginPath();
+                ctx.moveTo(p.x, p.y);
+                ctx.lineTo(p2.x, p2.y);
+                ctx.strokeStyle = `rgba(88, 166, 255, ${0.15 * (1 - dist/120)})`;
+                ctx.stroke();
+            }
+        }
+    });
+
+    requestAnimationFrame(animateParticles);
+}
+
+window.addEventListener('resize', () => { resizeCanvas(); createParticles(); });
+resizeCanvas();
+createParticles();
+animateParticles();
+
+// ============================================
+// INTERACTIVE: POINTING ARM
+// ============================================
+(function() {
+    const container = document.getElementById('pointing-arm');
+    if (!container) return;
+
+    const W = 400, H = 280;
+    const cx = 120, cy = 140;
+    let tx = 300, ty = 100;
+    let dragging = false;
+
+    function render() {
+        const dx = tx - cx, dy = ty - cy;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        const len = Math.min(dist * 0.7, 100);
+        const ax = cx + (dx/dist) * len;
+        const ay = cy + (dy/dist) * len;
+
+        container.innerHTML = `
+            <svg width="${W}" height="${H}" style="cursor:crosshair">
+                <defs>
+                    <marker id="arr1" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                        <polygon points="0 0,10 3.5,0 7" fill="#58A6FF"/>
+                    </marker>
+                </defs>
+                <circle cx="${cx}" cy="${cy}" r="22" fill="#334155"/>
+                <text x="${cx}" y="${cy+5}" text-anchor="middle" fill="#fff" font-size="13">you</text>
+                <line x1="${cx}" y1="${cy}" x2="${ax}" y2="${ay}" stroke="#58A6FF" stroke-width="4" marker-end="url(#arr1)"/>
+                <circle cx="${tx}" cy="${ty}" r="16" fill="#7EE787" style="cursor:grab" id="target1"/>
+                <text x="${tx}" y="${ty+32}" text-anchor="middle" fill="#8B949E" font-size="11">target</text>
+            </svg>
+            <p class="interactive-hint">Drag the target</p>
+        `;
+
+        document.getElementById('target1').onmousedown = (e) => { dragging = true; e.preventDefault(); };
+    }
+
+    container.onmousemove = (e) => {
+        if (!dragging) return;
+        const rect = container.querySelector('svg').getBoundingClientRect();
+        tx = Math.max(30, Math.min(W-30, e.clientX - rect.left));
+        ty = Math.max(30, Math.min(H-30, e.clientY - rect.top));
+        render();
+    };
+    document.onmouseup = () => dragging = false;
+    render();
+})();
+
+// ============================================
+// INTERACTIVE: TOWARD/AWAY
+// ============================================
+(function() {
+    const container = document.getElementById('toward-away');
+    if (!container) return;
+
+    const W = 550, H = 280;
+    const cx = W/2, cy = H/2;
+    let foodX = 140, foodY = 120;
+    let dangerX = 410, dangerY = 120;
+    let drag = null;
+
+    function render() {
+        const fdx = foodX - cx, fdy = foodY - cy;
+        const fdist = Math.sqrt(fdx*fdx + fdy*fdy);
+        const ddx = dangerX - cx, ddy = dangerY - cy;
+        const ddist = Math.sqrt(ddx*ddx + ddy*ddy);
+
+        const towardX = cx + (fdx/fdist) * 55;
+        const towardY = cy + (fdy/fdist) * 55;
+        const awayX = cx - (ddx/ddist) * 55;
+        const awayY = cy - (ddy/ddist) * 55;
+
+        container.innerHTML = `
+            <svg width="${W}" height="${H}">
+                <defs>
+                    <marker id="arrG" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#7EE787"/></marker>
+                    <marker id="arrR" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#F78166"/></marker>
+                </defs>
+                <circle cx="${foodX}" cy="${foodY}" r="28" fill="#22c55e" style="cursor:grab" class="drag" data-t="food"/>
+                <text x="${foodX}" y="${foodY+6}" text-anchor="middle" fill="#fff" font-size="18">🍎</text>
+                <text x="${foodX}" y="${foodY+48}" text-anchor="middle" fill="#7EE787" font-size="11">GOOD</text>
+
+                <circle cx="${dangerX}" cy="${dangerY}" r="28" fill="#dc2626" style="cursor:grab" class="drag" data-t="danger"/>
+                <text x="${dangerX}" y="${dangerY+6}" text-anchor="middle" fill="#fff" font-size="18">☠️</text>
+                <text x="${dangerX}" y="${dangerY+48}" text-anchor="middle" fill="#F78166" font-size="11">BAD</text>
+
+                <circle cx="${cx}" cy="${cy}" r="24" fill="#334155"/>
+                <text x="${cx}" y="${cy+5}" text-anchor="middle" fill="#fff" font-size="11">organism</text>
+
+                <line x1="${cx}" y1="${cy}" x2="${towardX}" y2="${towardY}" stroke="#7EE787" stroke-width="4" marker-end="url(#arrG)"/>
+                <line x1="${cx}" y1="${cy}" x2="${awayX}" y2="${awayY}" stroke="#F78166" stroke-width="4" marker-end="url(#arrR)"/>
+            </svg>
+            <p class="interactive-hint">Drag the food and danger</p>
+        `;
+
+        container.querySelectorAll('.drag').forEach(el => {
+            el.onmousedown = (e) => { drag = el.dataset.t; e.preventDefault(); };
+        });
+    }
+
+    container.onmousemove = (e) => {
+        if (!drag) return;
+        const rect = container.querySelector('svg').getBoundingClientRect();
+        const x = Math.max(40, Math.min(W-40, e.clientX - rect.left));
+        const y = Math.max(40, Math.min(H-40, e.clientY - rect.top));
+        if (drag === 'food') { foodX = x; foodY = y; }
+        else { dangerX = x; dangerY = y; }
+        render();
+    };
+    document.addEventListener('mouseup', () => drag = null);
+    render();
+})();
+
+// ============================================
+// INTERACTIVE: BODY DIRECTIONS
+// ============================================
+(function() {
+    const container = document.getElementById('body-directions');
+    if (!container) return;
+
+    const W = 450, H = 380;
+    const cx = W/2, cy = H/2;
+    let rot = 0;
+
+    function render() {
+        const rad = rot * Math.PI / 180;
+        const dirs = [
+            {n:'FORWARD', a:0, c:'#58A6FF', l:80},
+            {n:'BACK', a:180, c:'#64748b', l:65},
+            {n:'LEFT', a:90, c:'#a855f7', l:55},
+            {n:'RIGHT', a:-90, c:'#ec4899', l:55}
+        ];
+
+        let arrows = '';
+        dirs.forEach(d => {
+            const a = (d.a + rot) * Math.PI / 180;
+            const x2 = cx + Math.cos(a) * d.l;
+            const y2 = cy - Math.sin(a) * d.l;
+            const lx = cx + Math.cos(a) * (d.l + 22);
+            const ly = cy - Math.sin(a) * (d.l + 22);
+            arrows += `<line x1="${cx}" y1="${cy}" x2="${x2}" y2="${y2}" stroke="${d.c}" stroke-width="3"/>`;
+            arrows += `<text x="${lx}" y="${ly+4}" text-anchor="middle" fill="${d.c}" font-size="11" font-weight="bold">${d.n}</text>`;
+        });
+
+        // Up/Down fixed
+        arrows += `<line x1="${cx}" y1="${cy}" x2="${cx}" y2="${cy-75}" stroke="#7EE787" stroke-width="3"/>`;
+        arrows += `<text x="${cx}" y="${cy-88}" text-anchor="middle" fill="#7EE787" font-size="11" font-weight="bold">UP (fixed)</text>`;
+        arrows += `<line x1="${cx}" y1="${cy}" x2="${cx}" y2="${cy+75}" stroke="#F78166" stroke-width="3"/>`;
+        arrows += `<text x="${cx}" y="${cy+95}" text-anchor="middle" fill="#F78166" font-size="11" font-weight="bold">DOWN (fixed)</text>`;
+
+        // Figure triangle
+        const fs = 28;
+        const p1x = cx + Math.cos(rad) * fs;
+        const p1y = cy - Math.sin(rad) * fs;
+        const p2x = cx + Math.cos(rad + 2.4) * fs * 0.65;
+        const p2y = cy - Math.sin(rad + 2.4) * fs * 0.65;
+        const p3x = cx + Math.cos(rad - 2.4) * fs * 0.65;
+        const p3y = cy - Math.sin(rad - 2.4) * fs * 0.65;
+
+        container.innerHTML = `
+            <svg width="${W}" height="${H}">
+                ${arrows}
+                <polygon points="${p1x},${p1y} ${p2x},${p2y} ${p3x},${p3y}" fill="#334155" stroke="#58A6FF" stroke-width="2"/>
+                <circle cx="${cx}" cy="${cy}" r="8" fill="#58A6FF"/>
+            </svg>
+            <div class="controls">
+                <input type="range" id="bodyRot" min="0" max="360" value="${rot}">
+                <span style="color:var(--text-secondary);font-size:0.9rem">Rotate: ${rot}°</span>
+            </div>
+        `;
+
+        document.getElementById('bodyRot').oninput = (e) => { rot = +e.target.value; render(); };
+    }
+    render();
+})();
+
+// ============================================
+// INTERACTIVE: CIRCLE DIRECTIONS
+// ============================================
+(function() {
+    const container = document.getElementById('circle-directions');
+    if (!container) return;
+
+    const W = 420, H = 380;
+    const cx = W/2, cy = H/2 - 20;
+    const R = 110;
+    let angle = 45;
+    let dragging = false;
+
+    function render() {
+        const rad = angle * Math.PI / 180;
+        const px = cx + Math.cos(rad) * R;
+        const py = cy - Math.sin(rad) * R;
+        const ax = cx + Math.cos(rad) * (R + 30);
+        const ay = cy - Math.sin(rad) * (R + 30);
+
+        const cardinals = [{l:'E (0°)',a:0},{l:'N (90°)',a:90},{l:'W (180°)',a:180},{l:'S (270°)',a:270}];
+        let labels = '';
+        cardinals.forEach(c => {
+            const r = c.a * Math.PI / 180;
+            const lx = cx + Math.cos(r) * (R + 45);
+            const ly = cy - Math.sin(r) * (R + 45);
+            const active = Math.abs(angle - c.a) < 12 || Math.abs(angle - c.a - 360) < 12;
+            labels += `<text x="${lx}" y="${ly+4}" text-anchor="middle" fill="${active ? '#58A6FF' : '#64748b'}" font-size="11" font-weight="${active?'bold':'normal'}">${c.l}</text>`;
+        });
+
+        container.innerHTML = `
+            <svg width="${W}" height="${H}" style="cursor:pointer">
+                <defs><marker id="arrC" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#58A6FF"/></marker></defs>
+                <circle cx="${cx}" cy="${cy}" r="${R}" fill="rgba(88,166,255,0.08)" stroke="#64748b" stroke-width="2"/>
+                ${labels}
+                <circle cx="${cx}" cy="${cy}" r="5" fill="#334155"/>
+                <line x1="${cx}" y1="${cy}" x2="${ax}" y2="${ay}" stroke="#58A6FF" stroke-width="4" marker-end="url(#arrC)"/>
+                <circle cx="${px}" cy="${py}" r="10" fill="#58A6FF" style="cursor:grab" id="circleHandle"/>
+            </svg>
+            <div class="controls">
+                <input type="range" id="circleSlider" min="0" max="360" value="${angle}">
+                <span style="font-family:'JetBrains Mono';color:#58A6FF;font-size:1.2rem">θ = ${Math.round(angle)}°</span>
+            </div>
+        `;
+
+        document.getElementById('circleHandle').onmousedown = () => dragging = true;
+        document.getElementById('circleSlider').oninput = (e) => { angle = +e.target.value; render(); };
+    }
+
+    container.onmousemove = (e) => {
+        if (!dragging) return;
+        const svg = container.querySelector('svg');
+        const rect = svg.getBoundingClientRect();
+        const mx = e.clientX - rect.left - cx;
+        const my = -(e.clientY - rect.top - cy);
+        angle = (Math.atan2(my, mx) * 180 / Math.PI + 360) % 360;
+        render();
+    };
+    document.addEventListener('mouseup', () => dragging = false);
+    render();
+})();
+
+// ============================================
+// INTERACTIVE: SPHERE (3D)
+// ============================================
+(function() {
+    const container = document.getElementById('sphere-directions');
+    if (!container) return;
+
+    if (typeof THREE === 'undefined') {
+        container.innerHTML = '<p style="color:#64748b;text-align:center;padding:2rem;">3D requires Three.js</p>';
+        return;
+    }
+
+    const W = 450, H = 320;
+    container.innerHTML = `
+        <div id="sphereCanvas" style="width:${W}px;height:${H}px;margin:0 auto"></div>
+        <div class="controls">
+            <div><label style="color:#8B949E;font-size:0.85rem">Azimuth:</label> <input type="range" id="sTheta" min="0" max="360" value="45"> <span id="sThetaV" style="color:#58A6FF">45°</span></div>
+            <div><label style="color:#8B949E;font-size:0.85rem">Elevation:</label> <input type="range" id="sPhi" min="-90" max="90" value="30"> <span id="sPhiV" style="color:#7EE787">30°</span></div>
+        </div>
+        <p class="interactive-hint">Drag to rotate view</p>
+    `;
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(50, W/H, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(W, H);
+    document.getElementById('sphereCanvas').appendChild(renderer.domElement);
+
+    const sphereGeo = new THREE.SphereGeometry(1, 24, 18);
+    const sphereMat = new THREE.MeshBasicMaterial({ color: 0x58A6FF, wireframe: true, transparent: true, opacity: 0.25 });
+    scene.add(new THREE.Mesh(sphereGeo, sphereMat));
+
+    const arrow = new THREE.ArrowHelper(new THREE.Vector3(1,0,0), new THREE.Vector3(0,0,0), 1.4, 0x58A6FF, 0.2, 0.1);
+    scene.add(arrow);
+
+    const pointGeo = new THREE.SphereGeometry(0.08, 16, 16);
+    const point = new THREE.Mesh(pointGeo, new THREE.MeshBasicMaterial({ color: 0x58A6FF }));
+    scene.add(point);
+
+    camera.position.set(2.5, 1.5, 2.5);
+    camera.lookAt(0, 0, 0);
+
+    let isDrag = false, prevX = 0, prevY = 0, rotX = 0.4, rotY = 0.5;
+    renderer.domElement.onmousedown = (e) => { isDrag = true; prevX = e.clientX; prevY = e.clientY; };
+    document.onmousemove = (e) => {
+        if (!isDrag) return;
+        rotY += (e.clientX - prevX) * 0.01;
+        rotX += (e.clientY - prevY) * 0.01;
+        rotX = Math.max(-1.5, Math.min(1.5, rotX));
+        prevX = e.clientX; prevY = e.clientY;
+        updateCam();
+    };
+    document.addEventListener('mouseup', () => isDrag = false);
+
+    function updateCam() {
+        const r = 3.5;
+        camera.position.set(r*Math.cos(rotX)*Math.sin(rotY), r*Math.sin(rotX), r*Math.cos(rotX)*Math.cos(rotY));
+        camera.lookAt(0,0,0);
+    }
+
+    function updateArrow() {
+        const theta = +document.getElementById('sTheta').value * Math.PI / 180;
+        const phi = +document.getElementById('sPhi').value * Math.PI / 180;
+        const x = Math.cos(phi) * Math.cos(theta);
+        const y = Math.sin(phi);
+        const z = Math.cos(phi) * Math.sin(theta);
+        arrow.setDirection(new THREE.Vector3(x, y, z).normalize());
+        point.position.set(x, y, z);
+        document.getElementById('sThetaV').textContent = document.getElementById('sTheta').value + '°';
+        document.getElementById('sPhiV').textContent = document.getElementById('sPhi').value + '°';
+    }
+
+    document.getElementById('sTheta').oninput = updateArrow;
+    document.getElementById('sPhi').oninput = updateArrow;
+
+    function animate() {
+        requestAnimationFrame(animate);
+        renderer.render(scene, camera);
+    }
+    updateCam();
+    updateArrow();
+    animate();
+})();
+
+// ============================================
+// INTERACTIVE: COMPARING DIRECTIONS
+// ============================================
+(function() {
+    const container = document.getElementById('comparing-directions');
+    if (!container) return;
+
+    const W = 500, H = 320;
+    const cx = W/2, cy = 140;
+    const L = 85;
+    let angleA = 25, angleB = 70;
+    let drag = null;
+
+    function render() {
+        const radA = angleA * Math.PI / 180;
+        const radB = angleB * Math.PI / 180;
+        const ax = cx + Math.cos(radA) * L;
+        const ay = cy - Math.sin(radA) * L;
+        const bx = cx + Math.cos(radB) * L;
+        const by = cy - Math.sin(radB) * L;
+
+        let diff = Math.abs(angleA - angleB);
+        if (diff > 180) diff = 360 - diff;
+
+        let rel, bgc;
+        if (diff < 12) { rel = 'SAME — reinforce'; bgc = 'rgba(126,231,135,0.2)'; }
+        else if (diff > 168) { rel = 'OPPOSITE — cancel'; bgc = 'rgba(247,129,102,0.2)'; }
+        else if (diff > 78 && diff < 102) { rel = 'PERPENDICULAR — independent'; bgc = 'rgba(88,166,255,0.2)'; }
+        else { rel = `OBLIQUE (${Math.round(diff)}°)`; bgc = 'rgba(139,148,158,0.15)'; }
+
+        container.innerHTML = `
+            <svg width="${W}" height="${H}">
+                <defs>
+                    <marker id="arrA" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#58A6FF"/></marker>
+                    <marker id="arrB" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0,10 3.5,0 7" fill="#F78166"/></marker>
+                </defs>
+                <circle cx="${cx}" cy="${cy}" r="${L+20}" fill="none" stroke="#334155" stroke-width="1" stroke-dasharray="4"/>
+                <circle cx="${cx}" cy="${cy}" r="5" fill="#334155"/>
+                <line x1="${cx}" y1="${cy}" x2="${ax}" y2="${ay}" stroke="#58A6FF" stroke-width="5" marker-end="url(#arrA)"/>
+                <circle cx="${ax}" cy="${ay}" r="14" fill="rgba(88,166,255,0.2)" style="cursor:grab" class="h" data-w="a"/>
+                <text x="${ax+18}" y="${ay+5}" fill="#58A6FF" font-weight="bold">A</text>
+                <line x1="${cx}" y1="${cy}" x2="${bx}" y2="${by}" stroke="#F78166" stroke-width="5" marker-end="url(#arrB)"/>
+                <circle cx="${bx}" cy="${by}" r="14" fill="rgba(247,129,102,0.2)" style="cursor:grab" class="h" data-w="b"/>
+                <text x="${bx+18}" y="${by+5}" fill="#F78166" font-weight="bold">B</text>
+                <text x="${cx}" y="${cy+L+55}" text-anchor="middle" fill="#F59E0B" font-size="15" font-weight="bold">${Math.round(diff)}°</text>
+            </svg>
+            <div style="background:${bgc}; padding:0.75rem 1.5rem; border-radius:6px; margin-top:0.5rem; font-weight:500;">${rel}</div>
+            <div class="controls" style="margin-top:1rem">
+                <button class="btn" onclick="window.setAngles(0,0)">Same</button>
+                <button class="btn" onclick="window.setAngles(0,90)">Perpendicular</button>
+                <button class="btn" onclick="window.setAngles(0,180)">Opposite</button>
+            </div>
+        `;
+
+        container.querySelectorAll('.h').forEach(el => {
+            el.onmousedown = () => { drag = el.dataset.w; };
+        });
+    }
+
+    window.setAngles = (a, b) => { angleA = a; angleB = b; render(); };
+
+    container.onmousemove = (e) => {
+        if (!drag) return;
+        const svg = container.querySelector('svg');
+        const rect = svg.getBoundingClientRect();
+        const mx = e.clientX - rect.left - cx;
+        const my = -(e.clientY - rect.top - cy);
+        const a = (Math.atan2(my, mx) * 180 / Math.PI + 360) % 360;
+        if (drag === 'a') angleA = a; else angleB = a;
+        render();
+    };
+    document.addEventListener('mouseup', () => drag = null);
+    render();
+})();
+
+// ============================================
+// INTERACTIVE: MAGNITUDE
+// ============================================
+(function() {
+    const container = document.getElementById('magnitude-demo');
+    if (!container) return;
+
+    const W = 500, H = 200;
+    let mag = 0.6;
+
+    function render() {
+        const len = 70 * mag;
+        container.innerHTML = `
+            <svg width="${W}" height="${H}">
+                <text x="85" y="30" text-anchor="middle" fill="#64748b" font-size="11" font-weight="bold">DIRECTION ONLY</text>
+                <circle cx="85" cy="100" r="30" fill="none" stroke="#64748b"/>
+                <line x1="85" y1="100" x2="85" y2="70" stroke="#58A6FF" stroke-width="3"/>
+                <text x="85" y="150" text-anchor="middle" fill="#8B949E" font-size="10">"which way"</text>
+
+                <text x="250" y="30" text-anchor="middle" fill="#64748b" font-size="11" font-weight="bold">MAGNITUDE ONLY</text>
+                <rect x="238" y="60" width="24" height="70" fill="none" stroke="#64748b" rx="4"/>
+                <rect x="240" y="${130 - mag*65}" width="20" height="${mag*65}" fill="#F78166" rx="2"/>
+                <text x="250" y="50" text-anchor="middle" fill="#F78166" font-size="13">${Math.round(mag*100)}°</text>
+                <text x="250" y="150" text-anchor="middle" fill="#8B949E" font-size="10">"how much"</text>
+
+                <text x="415" y="30" text-anchor="middle" fill="#64748b" font-size="11" font-weight="bold">BOTH (VECTOR)</text>
+                <circle cx="380" cy="100" r="5" fill="#334155"/>
+                <line x1="380" y1="100" x2="${380+len}" y2="100" stroke="#58A6FF" stroke-width="${3+mag*3}"/>
+                <polygon points="${380+len},100 ${380+len-8},95 ${380+len-8},105" fill="#58A6FF"/>
+                <text x="415" y="150" text-anchor="middle" fill="#8B949E" font-size="10">"which way + how much"</text>
+            </svg>
+            <div class="controls">
+                <input type="range" id="magSlider" min="0.1" max="1" step="0.01" value="${mag}">
+                <span style="color:#8B949E">Magnitude: ${Math.round(mag*100)}%</span>
+            </div>
+        `;
+        document.getElementById('magSlider').oninput = (e) => { mag = +e.target.value; render(); };
+    }
+    render();
+})();
+
+// ============================================
+// INTERACTIVE: GRADIENT
+// ============================================
+(function() {
+    const container = document.getElementById('gradient-landscape');
+    if (!container) return;
+
+    const W = 480, H = 300;
+    const grid = 12;
+    let clickX = W/2, clickY = H/2;
+    let balls = [];
+
+    container.innerHTML = `
+        <canvas id="gradCanvas" width="${W}" height="${H}" style="cursor:crosshair;border-radius:6px"></canvas>
+        <div class="controls">
+            <button class="btn" id="dropBall">Drop Ball</button>
+            <button class="btn" id="clearBalls">Clear</button>
+        </div>
+        <p class="interactive-hint">Click to see gradient direction (steepest uphill)</p>
+    `;
+
+    const canvas = document.getElementById('gradCanvas');
+    const ctx = canvas.getContext('2d');
+
+    function height(x, y) {
+        const d1 = Math.sqrt((x - W*0.3)**2 + (y - H*0.35)**2);
+        const d2 = Math.sqrt((x - W*0.7)**2 + (y - H*0.6)**2);
+        return Math.exp(-d1*d1/10000) * 0.85 + Math.exp(-d2*d2/14000) * 0.65;
+    }
+
+    function gradient(x, y) {
+        const e = 2;
+        return { dx: (height(x+e,y) - height(x-e,y)) / (2*e), dy: (height(x,y+e) - height(x,y-e)) / (2*e) };
+    }
+
+    function hColor(h) {
+        const r = Math.floor(255 * Math.min(1, h * 2));
+        const g = Math.floor(255 * (h < 0.5 ? h * 2 : 2 - h * 2));
+        const b = Math.floor(255 * Math.max(0, 1 - h * 2));
+        return `rgb(${r},${g},${b})`;
+    }
+
+    function render() {
+        for (let x = 0; x < W; x += grid) {
+            for (let y = 0; y < H; y += grid) {
+                ctx.fillStyle = hColor(height(x + grid/2, y + grid/2));
+                ctx.globalAlpha = 0.85;
+                ctx.fillRect(x, y, grid, grid);
+            }
+        }
+        ctx.globalAlpha = 1;
+
+        const g = gradient(clickX, clickY);
+        const m = Math.sqrt(g.dx*g.dx + g.dy*g.dy);
+        if (m > 0.0001) {
+            const len = Math.min(45, m * 2000);
+            const gx = (g.dx/m) * len;
+            const gy = (g.dy/m) * len;
+            ctx.beginPath();
+            ctx.moveTo(clickX, clickY);
+            ctx.lineTo(clickX + gx, clickY + gy);
+            ctx.strokeStyle = '#fff';
+            ctx.lineWidth = 4;
+            ctx.stroke();
+            const a = Math.atan2(gy, gx);
+            ctx.beginPath();
+            ctx.moveTo(clickX + gx, clickY + gy);
+            ctx.lineTo(clickX + gx - 10*Math.cos(a-0.4), clickY + gy - 10*Math.sin(a-0.4));
+            ctx.lineTo(clickX + gx - 10*Math.cos(a+0.4), clickY + gy - 10*Math.sin(a+0.4));
+            ctx.closePath();
+            ctx.fillStyle = '#fff';
+            ctx.fill();
+        }
+
+        ctx.beginPath();
+        ctx.arc(clickX, clickY, 7, 0, Math.PI*2);
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+
+        balls.forEach(b => {
+            ctx.beginPath();
+            ctx.arc(b.x, b.y, 5, 0, Math.PI*2);
+            ctx.fillStyle = '#7EE787';
+            ctx.fill();
+        });
+    }
+
+    function updateBalls() {
+        balls.forEach(b => {
+            if (b.stopped) return;
+            const g = gradient(b.x, b.y);
+            b.vx = b.vx * 0.96 - g.dx * 400;
+            b.vy = b.vy * 0.96 - g.dy * 400;
+            b.x += b.vx * 0.02;
+            b.y += b.vy * 0.02;
+            b.x = Math.max(5, Math.min(W-5, b.x));
+            b.y = Math.max(5, Math.min(H-5, b.y));
+            if (Math.abs(b.vx) < 0.05 && Math.abs(b.vy) < 0.05) b.stopped = true;
+        });
+    }
+
+    canvas.onclick = (e) => {
+        const rect = canvas.getBoundingClientRect();
+        clickX = e.clientX - rect.left;
+        clickY = e.clientY - rect.top;
+    };
+
+    document.getElementById('dropBall').onclick = () => {
+        balls.push({ x: clickX, y: clickY, vx: 0, vy: 0, stopped: false });
+    };
+    document.getElementById('clearBalls').onclick = () => { balls = []; };
+
+    function loop() {
+        updateBalls();
+        render();
+        requestAnimationFrame(loop);
+    }
+    loop();
+})();
+
+// ============================================
+// INTERACTIVE: CAUSATION
+// ============================================
+(function() {
+    const container = document.getElementById('causation-flow');
+    if (!container) return;
+
+    const W = 520, H = 160;
+    const examples = {
+        physics: { nodes: ['Match struck', 'Heat', 'Paper ignites', 'Fire'], c: '#58A6FF' },
+        chem: { nodes: ['Nucleophile', 'Attack', 'TS', 'Product'], c: '#7EE787' }
+    };
+    let current = 'physics';
+    let phase = 0;
+
+    function render() {
+        const ex = examples[current];
+        const n = ex.nodes.length;
+        const sp = W / (n + 1);
+
+        let nodes = '';
+        ex.nodes.forEach((node, i) => {
+            const x = sp * (i + 1);
+            const active = i <= phase;
+            nodes += `<rect x="${x-48}" y="60" width="96" height="36" rx="5" fill="${active ? ex.c : '#334155'}" opacity="${active ? 0.9 : 0.4}"/>`;
+            nodes += `<text x="${x}" y="83" text-anchor="middle" fill="${active ? '#0D1117' : '#8B949E'}" font-size="11" font-weight="500">${node}</text>`;
+            if (i < n - 1) {
+                const nx = sp * (i + 2);
+                nodes += `<line x1="${x+50}" y1="78" x2="${nx-55}" y2="78" stroke="${ex.c}" stroke-width="2" opacity="${i < phase ? 1 : 0.2}" stroke-dasharray="${i < phase ? 'none' : '5'}"/>`;
+                nodes += `<polygon points="${nx-52},78 ${nx-60},74 ${nx-60},82" fill="${ex.c}" opacity="${i < phase ? 1 : 0.2}"/>`;
+            }
+        });
+
+        container.innerHTML = `
+            <svg width="${W}" height="${H}">
+                <line x1="30" y1="25" x2="${W-30}" y2="25" stroke="#64748b" stroke-width="1"/>
+                <polygon points="${W-30},25 ${W-38},21 ${W-38},29" fill="#64748b"/>
+                <text x="${W/2}" y="16" text-anchor="middle" fill="#64748b" font-size="10">time →</text>
+                ${nodes}
+            </svg>
+            <div class="controls">
+                <button class="btn ${current==='physics'?'active':''}" id="physBtn">Physical</button>
+                <button class="btn ${current==='chem'?'active':''}" id="chemBtn">Chemical</button>
+            </div>
+        `;
+
+        document.getElementById('physBtn').onclick = () => { current = 'physics'; phase = 0; render(); };
+        document.getElementById('chemBtn').onclick = () => { current = 'chem'; phase = 0; render(); };
+    }
+
+    setInterval(() => {
+        phase++;
+        if (phase >= examples[current].nodes.length) phase = 0;
+        render();
+    }, 1100);
+
+    render();
+})();
+
+// ============================================
+// INTERACTIVE: BRIDGE ANIMATION
+// ============================================
+(function() {
+    const container = document.getElementById('bridge-animation');
+    if (!container) return;
+
+    const W = 550, H = 220;
+    const rows = [
+        { p: '"It points somewhere"', t: 'Vector' },
+        { p: '"How aligned are they?"', t: 'Dot Product' },
+        { p: '"What\'s perpendicular?"', t: 'Cross Product' },
+        { p: '"Which way is steepest?"', t: 'Gradient' },
+        { p: '"Describe exactly"', t: 'Components' }
+    ];
+    let visible = 0;
+
+    function render() {
+        const rh = H / rows.length;
+        let content = '';
+        rows.forEach((r, i) => {
+            const y = 20 + i * rh;
+            const vis = i < visible;
+            content += `<text x="20" y="${y}" fill="${vis ? '#F78166' : '#64748b'}" font-style="italic" font-size="13" opacity="${vis ? 1 : 0.3}">${r.p}</text>`;
+            if (vis) {
+                content += `<line x1="210" y1="${y-4}" x2="${W-160}" y2="${y-4}" stroke="url(#bridgeGrad)" stroke-width="2"/>`;
+                content += `<polygon points="${W-155},${y-4} ${W-163},${y-8} ${W-163},${y}" fill="#58A6FF"/>`;
+            }
+            content += `<text x="${W-20}" y="${y}" text-anchor="end" fill="${vis ? '#58A6FF' : '#64748b'}" font-family="'JetBrains Mono',monospace" font-size="13" opacity="${vis ? 1 : 0.3}">${r.t}</text>`;
+        });
+
+        container.innerHTML = `
+            <svg width="${W}" height="${H}">
+                <defs>
+                    <linearGradient id="bridgeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#F78166"/>
+                        <stop offset="100%" stop-color="#58A6FF"/>
+                    </linearGradient>
+                </defs>
+                ${content}
+            </svg>
+        `;
+    }
+
+    const obs = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+            const int = setInterval(() => {
+                visible++;
+                render();
+                if (visible > rows.length) clearInterval(int);
+            }, 350);
+            obs.disconnect();
+        }
+    }, { threshold: 0.5 });
+
+    obs.observe(container);
+    render();
+})();
+</script>
+
+</body>
+</html>
