@@ -878,7 +878,7 @@ animateParticles();
             amoeba.vx *= 0.7;
             amoeba.vy *= 0.7;
         } else {
-            // Calculate attraction to nutrient - STRONGER SEEKING
+            // Calculate attraction to nutrient
             const ndx = nutrient.x - amoeba.x;
             const ndy = nutrient.y - amoeba.y;
             const ndist = Math.sqrt(ndx*ndx + ndy*ndy);
@@ -888,29 +888,32 @@ animateParticles();
             const tdy = toxin.y - amoeba.y;
             const tdist = Math.sqrt(tdx*tdx + tdy*tdy);
 
-            // AGGRESSIVE chemotaxis - always seeking, stronger force
-            const attractStrength = 0.08 + Math.min(0.15, 300 / (ndist + 50));
-            const repelStrength = Math.min(0.12, 200 / (tdist * tdist + 80));
+            // Chemotaxis forces - balanced seeking and fleeing
+            const attractStrength = 0.03 + Math.min(0.06, 150 / (ndist + 80));
+            // STRONG repulsion from toxin - ALWAYS active, stronger when closer
+            const repelStrength = 0.04 + Math.min(0.25, 400 / (tdist * tdist + 50));
 
-            // Apply forces - constant seeking
-            if (ndist > 10) {
+            // Apply attraction to nutrient
+            if (ndist > 15) {
                 amoeba.vx += (ndx / ndist) * attractStrength;
                 amoeba.vy += (ndy / ndist) * attractStrength;
             }
-            if (tdist < 200) {
+
+            // Apply repulsion from toxin - ALWAYS FLEE
+            if (tdist > 5) {
                 amoeba.vx -= (tdx / tdist) * repelStrength;
                 amoeba.vy -= (tdy / tdist) * repelStrength;
             }
 
-            // Less damping = faster movement
-            amoeba.vx *= 0.92;
-            amoeba.vy *= 0.92;
+            // Organic damping - slower, more deliberate
+            amoeba.vx *= 0.94;
+            amoeba.vy *= 0.94;
 
-            // Higher speed limit
+            // Moderate speed limit
             const speed = Math.sqrt(amoeba.vx*amoeba.vx + amoeba.vy*amoeba.vy);
-            if (speed > 3.5) {
-                amoeba.vx = (amoeba.vx / speed) * 3.5;
-                amoeba.vy = (amoeba.vy / speed) * 3.5;
+            if (speed > 1.8) {
+                amoeba.vx = (amoeba.vx / speed) * 1.8;
+                amoeba.vy = (amoeba.vy / speed) * 1.8;
             }
 
             // Move
@@ -1188,66 +1191,260 @@ animateParticles();
 })();
 
 // ============================================
-// INTERACTIVE: BODY DIRECTIONS
+// INTERACTIVE: BODY DIRECTIONS - ASYMMETRY CREATES DIRECTION
 // ============================================
 (function() {
     const container = document.getElementById('body-directions');
     if (!container) return;
 
-    const W = 450, H = 380;
-    const cx = W/2, cy = H/2;
+    const W = 580, H = 420;
+
+    container.innerHTML = `
+        <canvas id="body-canvas" width="${W}" height="${H}" style="border-radius:12px;"></canvas>
+        <div class="controls" style="margin-top:1rem;">
+            <input type="range" id="bodyRot" min="0" max="360" value="0" style="width:200px">
+            <span id="rotLabel" style="color:var(--text-secondary);font-size:0.9rem;margin-left:1rem">Rotate the body</span>
+        </div>
+        <p class="interactive-hint">A sphere has no direction. A body with a face DOES.</p>
+    `;
+
+    const canvas = document.getElementById('body-canvas');
+    const ctx = canvas.getContext('2d');
     let rot = 0;
+    let targetRot = 0;
 
-    function render() {
+    function draw() {
+        ctx.clearRect(0, 0, W, H);
+
+        // Background
+        ctx.fillStyle = '#0D1117';
+        ctx.fillRect(0, 0, W, H);
+
+        // Smooth rotation
+        rot += (targetRot - rot) * 0.1;
         const rad = rot * Math.PI / 180;
-        const dirs = [
-            {n:'FORWARD', a:0, c:'#58A6FF', l:80},
-            {n:'BACK', a:180, c:'#64748b', l:65},
-            {n:'LEFT', a:90, c:'#a855f7', l:55},
-            {n:'RIGHT', a:-90, c:'#ec4899', l:55}
-        ];
 
-        let arrows = '';
-        dirs.forEach(d => {
-            const a = (d.a + rot) * Math.PI / 180;
-            const x2 = cx + Math.cos(a) * d.l;
-            const y2 = cy - Math.sin(a) * d.l;
-            const lx = cx + Math.cos(a) * (d.l + 22);
-            const ly = cy - Math.sin(a) * (d.l + 22);
-            arrows += `<line x1="${cx}" y1="${cy}" x2="${x2}" y2="${y2}" stroke="${d.c}" stroke-width="3"/>`;
-            arrows += `<text x="${lx}" y="${ly+4}" text-anchor="middle" fill="${d.c}" font-size="11" font-weight="bold">${d.n}</text>`;
-        });
+        // ===== LEFT SIDE: SYMMETRIC SPHERE (NO DIRECTION) =====
+        const sx = 145, sy = 180;
 
-        // Up/Down fixed
-        arrows += `<line x1="${cx}" y1="${cy}" x2="${cx}" y2="${cy-75}" stroke="#7EE787" stroke-width="3"/>`;
-        arrows += `<text x="${cx}" y="${cy-88}" text-anchor="middle" fill="#7EE787" font-size="11" font-weight="bold">UP (fixed)</text>`;
-        arrows += `<line x1="${cx}" y1="${cy}" x2="${cx}" y2="${cy+75}" stroke="#F78166" stroke-width="3"/>`;
-        arrows += `<text x="${cx}" y="${cy+95}" text-anchor="middle" fill="#F78166" font-size="11" font-weight="bold">DOWN (fixed)</text>`;
+        // Label
+        ctx.fillStyle = '#64748b';
+        ctx.font = '14px Inter, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('SYMMETRIC', sx, 50);
+        ctx.fillStyle = '#8B949E';
+        ctx.font = '11px Inter, sans-serif';
+        ctx.fillText('(no front, no back)', sx, 68);
 
-        // Figure triangle
-        const fs = 28;
-        const p1x = cx + Math.cos(rad) * fs;
-        const p1y = cy - Math.sin(rad) * fs;
-        const p2x = cx + Math.cos(rad + 2.4) * fs * 0.65;
-        const p2y = cy - Math.sin(rad + 2.4) * fs * 0.65;
-        const p3x = cx + Math.cos(rad - 2.4) * fs * 0.65;
-        const p3y = cy - Math.sin(rad - 2.4) * fs * 0.65;
+        // Draw sphere
+        const sgrd = ctx.createRadialGradient(sx - 15, sy - 20, 0, sx, sy, 55);
+        sgrd.addColorStop(0, '#4a5568');
+        sgrd.addColorStop(1, '#1a202c');
+        ctx.fillStyle = sgrd;
+        ctx.beginPath();
+        ctx.arc(sx, sy, 55, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = '#64748b';
+        ctx.lineWidth = 2;
+        ctx.stroke();
 
-        container.innerHTML = `
-            <svg width="${W}" height="${H}">
-                ${arrows}
-                <polygon points="${p1x},${p1y} ${p2x},${p2y} ${p3x},${p3y}" fill="#334155" stroke="#58A6FF" stroke-width="2"/>
-                <circle cx="${cx}" cy="${cy}" r="8" fill="#58A6FF"/>
-            </svg>
-            <div class="controls">
-                <input type="range" id="bodyRot" min="0" max="360" value="${rot}">
-                <span style="color:var(--text-secondary);font-size:0.9rem">Rotate: ${rot}°</span>
-            </div>
-        `;
+        // Question marks around sphere - no inherent direction
+        ctx.fillStyle = 'rgba(100, 116, 139, 0.5)';
+        ctx.font = '16px Inter, sans-serif';
+        ctx.fillText('?', sx + 75, sy);
+        ctx.fillText('?', sx - 75, sy);
+        ctx.fillText('?', sx, sy - 75);
+        ctx.fillText('?', sx, sy + 85);
 
-        document.getElementById('bodyRot').oninput = (e) => { rot = +e.target.value; render(); };
+        // "Which way is forward?" text
+        ctx.fillStyle = '#F78166';
+        ctx.font = 'italic 12px Inter, sans-serif';
+        ctx.fillText('Which way is forward?', sx, sy + 120);
+        ctx.fillStyle = '#64748b';
+        ctx.font = '11px Inter, sans-serif';
+        ctx.fillText('(there is none)', sx, sy + 138);
+
+        // ===== RIGHT SIDE: ASYMMETRIC BODY (HAS DIRECTION) =====
+        const bx = 420, by = 180;
+
+        // Label
+        ctx.fillStyle = '#58A6FF';
+        ctx.font = '14px Inter, sans-serif';
+        ctx.fillText('ASYMMETRIC', bx, 50);
+        ctx.fillStyle = '#8B949E';
+        ctx.font = '11px Inter, sans-serif';
+        ctx.fillText('(front ≠ back)', bx, 68);
+
+        ctx.save();
+        ctx.translate(bx, by);
+        ctx.rotate(-rad);
+
+        // Body (oval, taller than wide)
+        const bgrd = ctx.createRadialGradient(0, -10, 0, 0, 0, 50);
+        bgrd.addColorStop(0, '#4a5568');
+        bgrd.addColorStop(1, '#1a202c');
+        ctx.fillStyle = bgrd;
+        ctx.beginPath();
+        ctx.ellipse(0, 0, 35, 50, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = '#58A6FF';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // FACE - this creates the FRONT (the asymmetry!)
+        // Eyes
+        ctx.fillStyle = '#fff';
+        ctx.beginPath();
+        ctx.ellipse(-12, -20, 6, 8, 0, 0, Math.PI * 2);
+        ctx.ellipse(12, -20, 6, 8, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Pupils - looking forward
+        ctx.fillStyle = '#1a202c';
+        ctx.beginPath();
+        ctx.arc(-12, -20, 3, 0, Math.PI * 2);
+        ctx.arc(12, -20, 3, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Nose
+        ctx.strokeStyle = '#8B949E';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(0, -12);
+        ctx.lineTo(0, -2);
+        ctx.stroke();
+
+        // Mouth
+        ctx.beginPath();
+        ctx.arc(0, 8, 10, 0.2, Math.PI - 0.2);
+        ctx.stroke();
+
+        // FORWARD arrow (from face)
+        ctx.strokeStyle = '#58A6FF';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(0, -55);
+        ctx.lineTo(0, -90);
+        ctx.stroke();
+        // Arrowhead
+        ctx.fillStyle = '#58A6FF';
+        ctx.beginPath();
+        ctx.moveTo(0, -95);
+        ctx.lineTo(-6, -85);
+        ctx.lineTo(6, -85);
+        ctx.closePath();
+        ctx.fill();
+
+        // FORWARD label
+        ctx.fillStyle = '#58A6FF';
+        ctx.font = 'bold 11px Inter, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('FORWARD', 0, -105);
+
+        // BACK arrow
+        ctx.strokeStyle = '#64748b';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(0, 55);
+        ctx.lineTo(0, 80);
+        ctx.stroke();
+        ctx.fillStyle = '#64748b';
+        ctx.beginPath();
+        ctx.moveTo(0, 85);
+        ctx.lineTo(-5, 77);
+        ctx.lineTo(5, 77);
+        ctx.closePath();
+        ctx.fill();
+        ctx.font = '10px Inter, sans-serif';
+        ctx.fillText('BACK', 0, 100);
+
+        // LEFT arrow
+        ctx.strokeStyle = '#a855f7';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(-40, 0);
+        ctx.lineTo(-65, 0);
+        ctx.stroke();
+        ctx.fillStyle = '#a855f7';
+        ctx.beginPath();
+        ctx.moveTo(-70, 0);
+        ctx.lineTo(-62, -5);
+        ctx.lineTo(-62, 5);
+        ctx.closePath();
+        ctx.fill();
+        ctx.font = '10px Inter, sans-serif';
+        ctx.fillText('LEFT', -82, 4);
+
+        // RIGHT arrow
+        ctx.strokeStyle = '#ec4899';
+        ctx.beginPath();
+        ctx.moveTo(40, 0);
+        ctx.lineTo(65, 0);
+        ctx.stroke();
+        ctx.fillStyle = '#ec4899';
+        ctx.beginPath();
+        ctx.moveTo(70, 0);
+        ctx.lineTo(62, -5);
+        ctx.lineTo(62, 5);
+        ctx.closePath();
+        ctx.fill();
+        ctx.fillText('RIGHT', 82, 4);
+
+        ctx.restore();
+
+        // UP arrow (fixed, doesn't rotate with body)
+        ctx.strokeStyle = '#7EE787';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(bx, by - 130);
+        ctx.lineTo(bx, by - 160);
+        ctx.stroke();
+        ctx.fillStyle = '#7EE787';
+        ctx.beginPath();
+        ctx.moveTo(bx, by - 165);
+        ctx.lineTo(bx - 5, by - 157);
+        ctx.lineTo(bx + 5, by - 157);
+        ctx.closePath();
+        ctx.fill();
+        ctx.font = '10px Inter, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('UP (gravity)', bx, by - 175);
+
+        // Key insight callout
+        ctx.fillStyle = '#7EE787';
+        ctx.font = 'bold 13px Inter, sans-serif';
+        ctx.fillText('The face creates FORWARD', bx, by + 130);
+        ctx.fillStyle = '#8B949E';
+        ctx.font = '12px Inter, sans-serif';
+        ctx.fillText('Asymmetry → Direction', bx, by + 150);
+
+        // Dividing line
+        ctx.strokeStyle = 'rgba(100, 116, 139, 0.3)';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([5, 5]);
+        ctx.beginPath();
+        ctx.moveTo(W/2, 40);
+        ctx.lineTo(W/2, H - 40);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Comparison text at bottom
+        ctx.fillStyle = '#64748b';
+        ctx.font = '11px Inter, sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText('No direction possible', 60, H - 25);
+        ctx.textAlign = 'right';
+        ctx.fillText('Direction emerges from structure', W - 60, H - 25);
+
+        requestAnimationFrame(draw);
     }
-    render();
+
+    document.getElementById('bodyRot').oninput = (e) => {
+        targetRot = +e.target.value;
+        document.getElementById('rotLabel').textContent = `Rotation: ${Math.round(targetRot)}°`;
+    };
+
+    draw();
 })();
 
 // ============================================
