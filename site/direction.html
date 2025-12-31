@@ -2531,24 +2531,22 @@
             resize();
             window.addEventListener('resize', resize);
 
-            // Potential function: two peaks
-            function potential(x, y) {
+            // Height function: single smooth hill
+            function height(x, y) {
                 const w = canvas.width;
                 const h = canvas.height;
-                // Normalize coordinates
-                const nx = x / w;
-                const ny = y / h;
-                // Two peaks
-                const p1 = Math.exp(-((nx - 0.3) ** 2 + (ny - 0.35) ** 2) * 15);
-                const p2 = Math.exp(-((nx - 0.7) ** 2 + (ny - 0.6) ** 2) * 12) * 0.8;
-                return p1 + p2;
+                const cx = w * 0.5;
+                const cy = h * 0.45;
+                const dx = (x - cx) / (w * 0.35);
+                const dy = (y - cy) / (h * 0.4);
+                return Math.exp(-(dx * dx + dy * dy));
             }
 
             // Gradient (numerical)
             function gradient(x, y) {
-                const dx = 2;
-                const gx = (potential(x + dx, y) - potential(x - dx, y)) / (2 * dx);
-                const gy = (potential(x, y + dx) - potential(x, y - dx)) / (2 * dx);
+                const delta = 2;
+                const gx = (height(x + delta, y) - height(x - delta, y)) / (2 * delta);
+                const gy = (height(x, y + delta) - height(x, y - delta)) / (2 * delta);
                 return { x: gx, y: gy };
             }
 
@@ -2565,128 +2563,220 @@
                 };
             });
 
+            // Color palette for elevation bands (low to high)
+            const colors = [
+                [25, 45, 80],      // Deep blue (lowest)
+                [40, 80, 120],     // Ocean blue
+                [60, 130, 160],    // Light blue
+                [80, 170, 140],    // Teal
+                [120, 200, 120],   // Green
+                [180, 210, 100],   // Yellow-green
+                [230, 200, 80],    // Yellow
+                [250, 160, 60],    // Orange
+                [255, 100, 80],    // Coral
+                [255, 80, 100]     // Pink-red (peak)
+            ];
+
+            function getColor(val) {
+                const idx = Math.min(colors.length - 1, Math.floor(val * colors.length));
+                const nextIdx = Math.min(colors.length - 1, idx + 1);
+                const t = (val * colors.length) - idx;
+                const c1 = colors[idx];
+                const c2 = colors[nextIdx];
+                return [
+                    Math.floor(c1[0] + (c2[0] - c1[0]) * t),
+                    Math.floor(c1[1] + (c2[1] - c1[1]) * t),
+                    Math.floor(c1[2] + (c2[2] - c1[2]) * t)
+                ];
+            }
+
             function draw() {
                 const w = canvas.width;
                 const h = canvas.height;
 
-                // Draw heightmap - BRIGHTER COLORS
+                // Draw terrain with color bands
                 const imageData = ctx.createImageData(w, h);
-                for (let y = 0; y < h; y++) {
-                    for (let x = 0; x < w; x++) {
-                        const val = potential(x, y);
-                        const i = (y * w + x) * 4;
-                        // Color: deep blue (low) to bright orange/red (high)
-                        imageData.data[i] = Math.floor(val * 230 + 25);
-                        imageData.data[i + 1] = Math.floor(val * 120 + 30);
-                        imageData.data[i + 2] = Math.floor((1 - val) * 200 + 40);
+                for (let py = 0; py < h; py++) {
+                    for (let px = 0; px < w; px++) {
+                        const val = height(px, py);
+                        const color = getColor(val);
+                        const i = (py * w + px) * 4;
+                        imageData.data[i] = color[0];
+                        imageData.data[i + 1] = color[1];
+                        imageData.data[i + 2] = color[2];
                         imageData.data[i + 3] = 255;
                     }
                 }
                 ctx.putImageData(imageData, 0, 0);
 
-                // Draw contour lines - BRIGHTER
-                ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
-                ctx.lineWidth = 1;
-                for (let level = 0.1; level < 1; level += 0.12) {
+                // Draw contour lines
+                ctx.lineWidth = 1.5;
+                for (let level = 0.1; level <= 0.95; level += 0.1) {
+                    ctx.strokeStyle = level > 0.5 ? 'rgba(0, 0, 0, 0.3)' : 'rgba(255, 255, 255, 0.4)';
                     ctx.beginPath();
-                    for (let x = 0; x < w; x += 4) {
-                        for (let y = 0; y < h; y += 4) {
-                            const val = potential(x, y);
-                            if (Math.abs(val - level) < 0.025) {
-                                ctx.moveTo(x, y);
-                                ctx.lineTo(x + 2, y + 2);
+
+                    // March around finding contour points
+                    for (let px = 0; px < w; px += 3) {
+                        for (let py = 0; py < h; py += 3) {
+                            const v = height(px, py);
+                            if (Math.abs(v - level) < 0.015) {
+                                ctx.moveTo(px, py);
+                                ctx.lineTo(px + 1.5, py + 1.5);
                             }
                         }
                     }
                     ctx.stroke();
                 }
 
-                // Draw gradient arrows - BRIGHTER
-                const arrowSpacing = 55;
-                for (let x = arrowSpacing; x < w; x += arrowSpacing) {
-                    for (let y = arrowSpacing; y < h; y += arrowSpacing) {
-                        const g = gradient(x, y);
+                // Draw gradient arrows (pointing UPHILL)
+                ctx.lineWidth = 2.5;
+                const spacing = 50;
+                for (let gx = spacing; gx < w - spacing/2; gx += spacing) {
+                    for (let gy = spacing; gy < h - spacing/2; gy += spacing) {
+                        const g = gradient(gx, gy);
                         const mag = Math.sqrt(g.x * g.x + g.y * g.y);
-                        if (mag < 0.0001) continue;
+                        if (mag < 0.001) continue;
 
-                        const arrowLen = Math.min(30, mag * 600);
+                        const len = Math.min(25, mag * 800);
                         const nx = g.x / mag;
                         const ny = g.y / mag;
 
-                        ctx.strokeStyle = `rgba(80, 255, 140, ${Math.min(0.95, mag * 12)})`;
-                        ctx.lineWidth = 2;
+                        // Arrow color based on height
+                        const hVal = height(gx, gy);
+                        if (hVal > 0.85) continue; // Skip peak center
+
+                        ctx.strokeStyle = 'rgba(255, 255, 255, 0.9)';
+                        ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+
+                        // Arrow shaft
                         ctx.beginPath();
-                        ctx.moveTo(x, y);
-                        ctx.lineTo(x + nx * arrowLen, y + ny * arrowLen);
+                        ctx.moveTo(gx, gy);
+                        ctx.lineTo(gx + nx * len, gy + ny * len);
                         ctx.stroke();
 
                         // Arrowhead
                         const angle = Math.atan2(ny, nx);
                         ctx.beginPath();
-                        ctx.moveTo(x + nx * arrowLen, y + ny * arrowLen);
-                        ctx.lineTo(x + nx * arrowLen - 7 * Math.cos(angle - 0.5), y + ny * arrowLen - 7 * Math.sin(angle - 0.5));
-                        ctx.moveTo(x + nx * arrowLen, y + ny * arrowLen);
-                        ctx.lineTo(x + nx * arrowLen - 7 * Math.cos(angle + 0.5), y + ny * arrowLen - 7 * Math.sin(angle + 0.5));
-                        ctx.stroke();
+                        ctx.moveTo(gx + nx * len, gy + ny * len);
+                        ctx.lineTo(gx + nx * len - 8 * Math.cos(angle - 0.4), gy + ny * len - 8 * Math.sin(angle - 0.4));
+                        ctx.lineTo(gx + nx * len - 8 * Math.cos(angle + 0.4), gy + ny * len - 8 * Math.sin(angle + 0.4));
+                        ctx.closePath();
+                        ctx.fill();
                     }
                 }
+
+                // Draw peak marker
+                const peakX = w * 0.5;
+                const peakY = h * 0.45;
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+                ctx.beginPath();
+                ctx.arc(peakX, peakY, 6, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.font = 'bold 12px "JetBrains Mono", monospace';
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+                ctx.textAlign = 'center';
+                ctx.fillText('PEAK', peakX, peakY - 12);
 
                 // Update and draw ball
                 if (ball) {
                     const g = gradient(ball.x, ball.y);
-                    ball.vx -= g.x * 150;
-                    ball.vy -= g.y * 150;
-                    ball.vx *= 0.95;
-                    ball.vy *= 0.95;
+                    // Ball rolls DOWNHILL (opposite to gradient)
+                    ball.vx -= g.x * 200;
+                    ball.vy -= g.y * 200;
+                    ball.vx *= 0.96;
+                    ball.vy *= 0.96;
 
                     ball.x += ball.vx * 0.016;
                     ball.y += ball.vy * 0.016;
 
-                    ball.x = Math.max(10, Math.min(w - 10, ball.x));
-                    ball.y = Math.max(10, Math.min(h - 10, ball.y));
+                    ball.x = Math.max(15, Math.min(w - 15, ball.x));
+                    ball.y = Math.max(15, Math.min(h - 15, ball.y));
 
-                    // Draw ball - BRIGHTER
-                    ctx.fillStyle = 'rgba(255, 200, 80, 0.95)';
+                    // Ball shadow
+                    ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
                     ctx.beginPath();
-                    ctx.arc(ball.x, ball.y, 12, 0, Math.PI * 2);
+                    ctx.ellipse(ball.x + 3, ball.y + 3, 14, 10, 0, 0, Math.PI * 2);
                     ctx.fill();
-                    ctx.strokeStyle = 'rgba(255, 255, 255, 0.8)';
-                    ctx.lineWidth = 3;
+
+                    // Ball
+                    const ballGrad = ctx.createRadialGradient(ball.x - 4, ball.y - 4, 0, ball.x, ball.y, 14);
+                    ballGrad.addColorStop(0, '#FFFFFF');
+                    ballGrad.addColorStop(0.3, '#FFE066');
+                    ballGrad.addColorStop(1, '#FF9933');
+                    ctx.fillStyle = ballGrad;
+                    ctx.beginPath();
+                    ctx.arc(ball.x, ball.y, 14, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.strokeStyle = 'rgba(200, 100, 0, 0.8)';
+                    ctx.lineWidth = 2;
                     ctx.stroke();
 
-                    // Show gradient at ball position - BRIGHTER
+                    // Gradient arrow at ball (uphill direction)
                     const bg = gradient(ball.x, ball.y);
                     const bmag = Math.sqrt(bg.x * bg.x + bg.y * bg.y);
-                    if (bmag > 0.0001) {
-                        const blen = 50;
-                        ctx.strokeStyle = 'rgba(80, 255, 140, 0.95)';
+                    if (bmag > 0.001) {
+                        const arrowLen = 45;
+                        const nx = bg.x / bmag;
+                        const ny = bg.y / bmag;
+
+                        ctx.strokeStyle = 'rgba(50, 255, 120, 0.95)';
                         ctx.lineWidth = 4;
                         ctx.beginPath();
                         ctx.moveTo(ball.x, ball.y);
-                        ctx.lineTo(ball.x + (bg.x / bmag) * blen, ball.y + (bg.y / bmag) * blen);
+                        ctx.lineTo(ball.x + nx * arrowLen, ball.y + ny * arrowLen);
                         ctx.stroke();
 
-                        // Label
-                        ctx.font = 'bold 12px "JetBrains Mono", monospace';
-                        ctx.fillStyle = 'rgba(80, 255, 140, 0.95)';
+                        // Arrowhead
+                        const angle = Math.atan2(ny, nx);
+                        ctx.fillStyle = 'rgba(50, 255, 120, 0.95)';
+                        ctx.beginPath();
+                        ctx.moveTo(ball.x + nx * arrowLen, ball.y + ny * arrowLen);
+                        ctx.lineTo(ball.x + nx * arrowLen - 12 * Math.cos(angle - 0.4), ball.y + ny * arrowLen - 12 * Math.sin(angle - 0.4));
+                        ctx.lineTo(ball.x + nx * arrowLen - 12 * Math.cos(angle + 0.4), ball.y + ny * arrowLen - 12 * Math.sin(angle + 0.4));
+                        ctx.closePath();
+                        ctx.fill();
+
+                        ctx.font = 'bold 13px "JetBrains Mono", monospace';
+                        ctx.fillStyle = 'rgba(50, 255, 120, 0.95)';
                         ctx.textAlign = 'center';
-                        ctx.fillText('∇f (uphill)', ball.x + (bg.x / bmag) * blen, ball.y + (bg.y / bmag) * blen - 12);
+                        ctx.fillText('∇f', ball.x + nx * arrowLen + 15, ball.y + ny * arrowLen);
                     }
                 }
 
-                // Legend - BRIGHTER
-                ctx.font = 'bold 13px "JetBrains Mono", monospace';
-                ctx.textAlign = 'left';
-                ctx.fillStyle = 'rgba(255, 180, 100, 0.95)';
-                ctx.fillText('HIGH ↑', 15, 28);
-                ctx.fillStyle = 'rgba(80, 120, 220, 0.9)';
-                ctx.fillText('LOW ↓', 15, h - 18);
+                // Legend
+                const legendX = 15;
+                const legendY = 25;
+                const legendH = 100;
+                const legendW = 18;
 
+                // Draw color bar
+                for (let i = 0; i < legendH; i++) {
+                    const val = 1 - (i / legendH);
+                    const color = getColor(val);
+                    ctx.fillStyle = `rgb(${color[0]}, ${color[1]}, ${color[2]})`;
+                    ctx.fillRect(legendX, legendY + i, legendW, 1);
+                }
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
+                ctx.lineWidth = 1;
+                ctx.strokeRect(legendX, legendY, legendW, legendH);
+
+                ctx.font = 'bold 11px "JetBrains Mono", monospace';
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+                ctx.textAlign = 'left';
+                ctx.fillText('HIGH', legendX + legendW + 5, legendY + 10);
+                ctx.fillText('LOW', legendX + legendW + 5, legendY + legendH - 2);
+
+                // Instructions
                 if (!ball) {
                     ctx.font = 'bold 14px "JetBrains Mono", monospace';
-                    ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
                     ctx.textAlign = 'center';
-                    ctx.fillText('⬤ click to drop a ball', w / 2, h - 20);
+                    ctx.fillText('click anywhere to drop a ball', w / 2, h - 18);
+                } else {
+                    ctx.font = 'bold 12px "JetBrains Mono", monospace';
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('ball rolls downhill · green arrow = gradient (uphill)', w / 2, h - 15);
                 }
 
                 requestAnimationFrame(draw);
