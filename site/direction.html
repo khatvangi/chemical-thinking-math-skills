@@ -746,7 +746,7 @@ animateParticles();
     function render() {
         const dx = tx - cx, dy = ty - cy;
         const dist = Math.sqrt(dx*dx + dy*dy);
-        const len = Math.min(dist * 0.7, 100);
+        const len = Math.max(30, Math.min(dist * 0.85, 180));
         const ax = cx + (dx/dist) * len;
         const ay = cy + (dy/dist) * len;
 
