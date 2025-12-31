@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Long? | Lecture 04 | Chemical Thinking</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0D1117;
+            --bg-secondary: #161B22;
+            --bg-tertiary: #1c2128;
+            --bg-card: #21262d;
+            --text-primary: #E6EDF3;
+            --text-secondary: #8B949E;
+            --text-muted: #6e7681;
+            --accent-blue: #58A6FF;
+            --accent-coral: #F78166;
+            --accent-green: #7EE787;
+            --accent-purple: #a855f7;
+            --accent-yellow: #d29922;
+            --accent-red: #f85149;
+            --border-subtle: rgba(255,255,255,0.08);
+            --font-heading: 'Fraunces', Georgia, serif;
+            --font-body: 'Inter', -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 17px;
+        }
+
+        .nav-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(13, 17, 23, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-subtle);
+            z-index: 100;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .nav-brand a {
+            color: var(--accent-blue);
+            text-decoration: none;
+        }
+
+        .nav-section {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--accent-purple);
+        }
+
+        .content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 6rem 2rem 4rem;
+        }
+
+        .section-header {
+            margin-bottom: 3rem;
+        }
+
+        .section-number {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--accent-coral);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .section-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        /* Opening visual */
+        .opening-visual {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 3rem 0;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .bonds-canvas {
+            width: 100%;
+            height: 300px;
+            display: block;
+        }
+
+        .visual-caption {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+        }
+
+        /* Causal chain */
+        .causal-chain {
+            margin: 3rem 0;
+        }
+
+        .causal-title {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--accent-green);
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .chain-container {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .chain-step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .chain-step:hover { background: var(--bg-tertiary); }
+        .chain-step.active { background: var(--bg-tertiary); }
+
+        .chain-marker {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--bg-tertiary);
+            border: 2px solid var(--accent-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .chain-step.active .chain-marker {
+            background: var(--accent-green);
+            color: var(--bg-primary);
+        }
+
+        .chain-connector {
+            width: 2px;
+            height: 20px;
+            background: var(--border-subtle);
+            margin-left: 11px;
+            margin-bottom: 0.5rem;
+        }
+
+        .chain-text { flex: 1; }
+        .chain-main { font-weight: 500; margin-bottom: 0.25rem; }
+        .chain-because {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .chain-detail {
+            display: none;
+            margin-top: 0.75rem;
+            padding: 1rem;
+            background: var(--bg-card);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .chain-step.active .chain-detail { display: block; }
+
+        /* Interactive section */
+        .interactive-section {
+            margin: 3rem 0;
+        }
+
+        .interactive-title {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--accent-blue);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .interactive-title::before {
+            content: ">";
+            color: var(--accent-coral);
+        }
+
+        .interactive-box {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .magnitude-canvas {
+            width: 100%;
+            height: 350px;
+            display: block;
+            margin-bottom: 1.5rem;
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .slider-label {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            min-width: 80px;
+        }
+
+        .slider {
+            flex: 1;
+            -webkit-appearance: none;
+            height: 6px;
+            background: var(--bg-tertiary);
+            border-radius: 3px;
+            outline: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            background: var(--accent-blue);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .slider-value {
+            font-family: var(--font-mono);
+            font-size: 1rem;
+            color: var(--accent-blue);
+            min-width: 60px;
+            text-align: right;
+        }
+
+        .formula-display {
+            background: var(--bg-tertiary);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .formula-main {
+            font-family: var(--font-mono);
+            font-size: 1.3rem;
+            color: var(--accent-green);
+            margin-bottom: 0.75rem;
+        }
+
+        .formula-result {
+            font-family: var(--font-mono);
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+        }
+
+        /* Bridge section */
+        .bridge-section {
+            margin: 3rem 0;
+        }
+
+        .bridge-title {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--accent-yellow);
+            margin-bottom: 1rem;
+        }
+
+        .bridge-container {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .bridge-grid {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .bridge-side {
+            text-align: center;
+        }
+
+        .bridge-canvas {
+            width: 100%;
+            height: 150px;
+            display: block;
+            margin-bottom: 1rem;
+        }
+
+        .bridge-label {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .bridge-equals {
+            font-size: 2rem;
+            color: var(--accent-green);
+        }
+
+        .bridge-formula {
+            font-family: var(--font-mono);
+            font-size: 1.2rem;
+            color: var(--accent-blue);
+            background: var(--bg-tertiary);
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        /* Examples */
+        .examples-section {
+            margin: 3rem 0;
+        }
+
+        .examples-title {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--accent-coral);
+            margin-bottom: 1.5rem;
+        }
+
+        .bond-table {
+            width: 100%;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .bond-table th, .bond-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .bond-table th {
+            background: var(--bg-tertiary);
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .bond-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .bond-table tr {
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .bond-table tr:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .bond-table tr.active {
+            background: var(--bg-tertiary);
+        }
+
+        .bond-symbol {
+            font-family: var(--font-mono);
+            font-size: 1.1rem;
+        }
+
+        .bond-visual {
+            display: inline-block;
+            min-width: 80px;
+        }
+
+        .energy-bar {
+            height: 8px;
+            background: var(--accent-coral);
+            border-radius: 4px;
+            transition: width 0.3s;
+        }
+
+        .example-detail-box {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            border: 1px solid var(--border-subtle);
+            display: none;
+        }
+
+        .example-detail-box.active {
+            display: block;
+        }
+
+        .example-detail-canvas {
+            width: 100%;
+            height: 180px;
+            margin-bottom: 1rem;
+        }
+
+        /* Practice */
+        .practice-section {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(126, 231, 135, 0.1), rgba(88, 166, 255, 0.1));
+            border-radius: 16px;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .practice-title {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .practice-problem {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .problem-number {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--accent-green);
+            margin-bottom: 0.5rem;
+        }
+
+        .problem-text {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .problem-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .problem-input:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+        }
+
+        .problem-hint {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-style: italic;
+            margin-bottom: 0.5rem;
+        }
+
+        .problem-check {
+            background: var(--accent-green);
+            color: var(--bg-primary);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+
+        .problem-feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .problem-feedback.correct {
+            display: block;
+            background: rgba(126, 231, 135, 0.1);
+            border: 1px solid var(--accent-green);
+            color: var(--accent-green);
+        }
+
+        .problem-feedback.incorrect {
+            display: block;
+            background: rgba(248, 81, 73, 0.1);
+            border: 1px solid var(--accent-red);
+            color: var(--accent-red);
+        }
+
+        /* Navigation */
+        .nav-footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            padding: 0.75rem 1.25rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .nav-link.next { color: var(--accent-blue); }
+
+        .page-footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border-subtle);
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .section-title { font-size: 2rem; }
+            .bridge-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            .bridge-equals {
+                transform: rotate(90deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav-header">
+        <div class="nav-brand">
+            <a href="/primitives/direction.html">DIRECTION</a> / Lecture 04
+        </div>
+        <div class="nav-section">Section 2 of 7</div>
+    </nav>
+
+    <main class="content">
+        <header class="section-header">
+            <div class="section-number">Lecture 04 · Section 2</div>
+            <h1 class="section-title">How Long?</h1>
+            <p class="section-subtitle">Bonds have length. More sharing means shorter distance.</p>
+        </header>
+
+        <!-- Opening: Bond length comparison -->
+        <section class="opening-visual">
+            <canvas id="bonds-canvas" class="bonds-canvas"></canvas>
+            <p class="visual-caption">More electrons shared → shorter bond. Why?</p>
+        </section>
+
+        <!-- Causal chain -->
+        <section class="causal-chain">
+            <h2 class="causal-title">Why does more sharing mean shorter?</h2>
+            <div class="chain-container">
+                <div class="chain-step active" data-step="1">
+                    <div class="chain-marker">1</div>
+                    <div class="chain-text">
+                        <div class="chain-main">Triple bond is shorter than single bond</div>
+                        <div class="chain-because">C≡C (1.20 Å) vs C−C (1.54 Å)</div>
+                        <div class="chain-detail">
+                            The carbon-carbon triple bond in ethyne (C₂H₂) is only 1.20 Å, while the single bond in ethane (C₂H₆) is 1.54 Å. That's 22% shorter for sharing 6 electrons instead of 2.
+                        </div>
+                    </div>
+                </div>
+                <div class="chain-connector"></div>
+
+                <div class="chain-step" data-step="2">
+                    <div class="chain-marker">2</div>
+                    <div class="chain-text">
+                        <div class="chain-main">More electrons between the nuclei</div>
+                        <div class="chain-because">2 electrons (single) → 4 (double) → 6 (triple)</div>
+                        <div class="chain-detail">
+                            A single bond shares one electron pair (2 electrons). A double bond shares two pairs (4 electrons). A triple bond shares three pairs (6 electrons). More electrons means more negative charge between the positive nuclei.
+                        </div>
+                    </div>
+                </div>
+                <div class="chain-connector"></div>
+
+                <div class="chain-step" data-step="3">
+                    <div class="chain-marker">3</div>
+                    <div class="chain-text">
+                        <div class="chain-main">More negative charge attracts both nuclei</div>
+                        <div class="chain-because">Coulomb's law: opposite charges attract</div>
+                        <div class="chain-detail">
+                            Both carbon nuclei are positive (+6 each). The shared electrons are negative. More electrons between them creates a stronger "glue" pulling both nuclei inward. F = kq₁q₂/r² — more charge = more force.
+                        </div>
+                    </div>
+                </div>
+                <div class="chain-connector"></div>
+
+                <div class="chain-step" data-step="4">
+                    <div class="chain-marker">4</div>
+                    <div class="chain-text">
+                        <div class="chain-main">Nuclei pulled closer together</div>
+                        <div class="chain-because">equilibrium at shorter distance</div>
+                        <div class="chain-detail">
+                            The bond length is where attraction and repulsion balance. More shared electrons means stronger attraction, so equilibrium occurs at a shorter distance. It also takes more energy to break this bond.
+                        </div>
+                    </div>
+                </div>
+                <div class="chain-connector"></div>
+
+                <div class="chain-step" data-step="5">
+                    <div class="chain-marker">∴</div>
+                    <div class="chain-text">
+                        <div class="chain-main">Shorter bond = stronger bond = higher energy</div>
+                        <div class="chain-because">more sharing → more attraction → shorter + stronger</div>
+                        <div class="chain-detail">
+                            Bond energy follows the same pattern: C−C (347 kJ/mol), C=C (614 kJ/mol), C≡C (839 kJ/mol). The arrow's <strong>length</strong> tells you how far apart the atoms are — this is the <strong>magnitude</strong> of the vector.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive: Magnitude calculator -->
+        <section class="interactive-section">
+            <h2 class="interactive-title">Explore: Vector magnitude from components</h2>
+            <div class="interactive-box">
+                <canvas id="magnitude-canvas" class="magnitude-canvas"></canvas>
+
+                <div class="slider-container">
+                    <span class="slider-label">x component</span>
+                    <input type="range" class="slider" id="x-slider" min="-2" max="2" step="0.1" value="1.2">
+                    <span class="slider-value" id="x-value">1.2</span>
+                </div>
+
+                <div class="slider-container">
+                    <span class="slider-label">y component</span>
+                    <input type="range" class="slider" id="y-slider" min="-2" max="2" step="0.1" value="0.8">
+                    <span class="slider-value" id="y-value">0.8</span>
+                </div>
+
+                <div class="slider-container">
+                    <span class="slider-label">z component</span>
+                    <input type="range" class="slider" id="z-slider" min="-2" max="2" step="0.1" value="0.6">
+                    <span class="slider-value" id="z-value">0.6</span>
+                </div>
+
+                <div class="formula-display">
+                    <div class="formula-main" id="formula-calc">|v| = √(1.2² + 0.8² + 0.6²)</div>
+                    <div class="formula-result" id="formula-result">= √(1.44 + 0.64 + 0.36) = √2.44 = <strong>1.56 Å</strong></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bridge: Arrow length ↔ Formula -->
+        <section class="bridge-section">
+            <h2 class="bridge-title">Same measurement, two languages</h2>
+            <div class="bridge-container">
+                <div class="bridge-grid">
+                    <div class="bridge-side">
+                        <canvas id="arrow-length-canvas" class="bridge-canvas"></canvas>
+                        <div class="bridge-label">Visual: Length of the arrow</div>
+                    </div>
+                    <div class="bridge-equals">=</div>
+                    <div class="bridge-side">
+                        <div class="bridge-formula">
+                            |v⃗| = √(vₓ² + vᵧ² + vᵤ²)
+                        </div>
+                        <div class="bridge-label" style="margin-top: 1rem;">Numerical: Pythagorean theorem in 3D</div>
+                    </div>
+                </div>
+                <p style="text-align: center; margin-top: 1.5rem; color: var(--text-secondary);">
+                    The arrow's length IS the magnitude. The formula just calculates it from components.
+                </p>
+            </div>
+        </section>
+
+        <!-- Examples: Real bond data -->
+        <section class="examples-section">
+            <h2 class="examples-title">Bond lengths in real molecules</h2>
+            <table class="bond-table">
+                <thead>
+                    <tr>
+                        <th>Bond</th>
+                        <th>Type</th>
+                        <th>Length (Å)</th>
+                        <th>Energy (kJ/mol)</th>
+                        <th>Strength</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="active" data-bond="cc-single">
+                        <td class="bond-symbol">C − C</td>
+                        <td>Single</td>
+                        <td>1.54</td>
+                        <td>347</td>
+                        <td class="bond-visual"><div class="energy-bar" style="width: 40%"></div></td>
+                    </tr>
+                    <tr data-bond="cc-double">
+                        <td class="bond-symbol">C = C</td>
+                        <td>Double</td>
+                        <td>1.34</td>
+                        <td>614</td>
+                        <td class="bond-visual"><div class="energy-bar" style="width: 70%"></div></td>
+                    </tr>
+                    <tr data-bond="cc-triple">
+                        <td class="bond-symbol">C ≡ C</td>
+                        <td>Triple</td>
+                        <td>1.20</td>
+                        <td>839</td>
+                        <td class="bond-visual"><div class="energy-bar" style="width: 95%"></div></td>
+                    </tr>
+                    <tr data-bond="co-single">
+                        <td class="bond-symbol">C − O</td>
+                        <td>Single</td>
+                        <td>1.43</td>
+                        <td>358</td>
+                        <td class="bond-visual"><div class="energy-bar" style="width: 42%"></div></td>
+                    </tr>
+                    <tr data-bond="co-double">
+                        <td class="bond-symbol">C = O</td>
+                        <td>Double</td>
+                        <td>1.23</td>
+                        <td>799</td>
+                        <td class="bond-visual"><div class="energy-bar" style="width: 90%"></div></td>
+                    </tr>
+                    <tr data-bond="nn-triple">
+                        <td class="bond-symbol">N ≡ N</td>
+                        <td>Triple</td>
+                        <td>1.10</td>
+                        <td>945</td>
+                        <td class="bond-visual"><div class="energy-bar" style="width: 100%"></div></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="example-detail-box active" id="detail-cc-single">
+                <canvas id="canvas-cc-single" class="example-detail-canvas"></canvas>
+                <p><strong>Ethane (C₂H₆):</strong> Single C-C bond shares 2 electrons. The longest and weakest carbon-carbon bond. Used as fuel — easy to break.</p>
+            </div>
+            <div class="example-detail-box" id="detail-cc-double">
+                <canvas id="canvas-cc-double" class="example-detail-canvas"></canvas>
+                <p><strong>Ethene (C₂H₄):</strong> Double C=C bond shares 4 electrons. Shorter and stronger. The basis of polymer chemistry — break the π bond, keep the σ.</p>
+            </div>
+            <div class="example-detail-box" id="detail-cc-triple">
+                <canvas id="canvas-cc-triple" class="example-detail-canvas"></canvas>
+                <p><strong>Ethyne (C₂H₂):</strong> Triple C≡C bond shares 6 electrons. Shortest carbon-carbon bond. Very strong — acetylene torches burn at 3300°C.</p>
+            </div>
+            <div class="example-detail-box" id="detail-co-single">
+                <canvas id="canvas-co-single" class="example-detail-canvas"></canvas>
+                <p><strong>Methanol (CH₃OH):</strong> Single C-O bond. Found in alcohols, ethers. Moderate strength.</p>
+            </div>
+            <div class="example-detail-box" id="detail-co-double">
+                <canvas id="canvas-co-double" class="example-detail-canvas"></canvas>
+                <p><strong>Formaldehyde (CH₂O):</strong> Double C=O bond (carbonyl). Much shorter and stronger. Key to aldehydes, ketones, carboxylic acids.</p>
+            </div>
+            <div class="example-detail-box" id="detail-nn-triple">
+                <canvas id="canvas-nn-triple" class="example-detail-canvas"></canvas>
+                <p><strong>Nitrogen gas (N₂):</strong> Triple N≡N bond. The strongest common bond. That's why N₂ is so unreactive — it takes enormous energy to break.</p>
+            </div>
+        </section>
+
+        <!-- Practice -->
+        <section class="practice-section">
+            <h2 class="practice-title">Your Turn</h2>
+
+            <div class="practice-problem">
+                <div class="problem-number">Problem 1</div>
+                <div class="problem-text">
+                    A bond vector has components [1.2, 0.8, 0.6] Å. Calculate its magnitude (bond length).
+                </div>
+                <p class="problem-hint">Use |v| = √(x² + y² + z²)</p>
+                <input type="text" class="problem-input" id="p1-answer" placeholder="Enter magnitude in Å (e.g., 1.54)">
+                <button class="problem-check" onclick="checkP1()">Check</button>
+                <div class="problem-feedback" id="p1-feedback"></div>
+            </div>
+
+            <div class="practice-problem">
+                <div class="problem-number">Problem 2</div>
+                <div class="problem-text">
+                    Which is shorter: N≡N or O=O? Build the causal chain.
+                </div>
+                <p class="problem-hint">Hint: N₂ is 1.10 Å, O₂ is 1.21 Å. Why the difference?</p>
+                <textarea class="problem-input" id="p2-answer" rows="3" placeholder="N≡N is shorter because..."></textarea>
+                <button class="problem-check" onclick="checkP2()">Check</button>
+                <div class="problem-feedback" id="p2-feedback"></div>
+            </div>
+
+            <div class="practice-problem">
+                <div class="problem-number">Problem 3</div>
+                <div class="problem-text">
+                    A bond points at 45° in the xy-plane and has length 1.5 Å. What are its x and y components?
+                </div>
+                <p class="problem-hint">At 45°, x and y are equal. Use: component = length × cos(angle)</p>
+                <input type="text" class="problem-input" id="p3-answer" placeholder="x = ?, y = ? (e.g., x = 1.06, y = 1.06)">
+                <button class="problem-check" onclick="checkP3()">Check</button>
+                <div class="problem-feedback" id="p3-feedback"></div>
+            </div>
+        </section>
+
+        <nav class="nav-footer">
+            <a href="sec1-what-points.html" class="nav-link">← What Points?</a>
+            <a href="sec3-unit-vectors.html" class="nav-link next">Next: Just Direction →</a>
+        </nav>
+    </main>
+
+    <footer class="page-footer">
+        <p>Chemical Thinking: The Grammar of Reality</p>
+        <p>Lecture 04: DIRECTION Tools · Section 2</p>
+    </footer>
+
+    <script>
+        // ========================================
+        // OPENING: BOND COMPARISON
+        // ========================================
+        (function() {
+            const canvas = document.getElementById('bonds-canvas');
+            const ctx = canvas.getContext('2d');
+
+            function resize() {
+                const rect = canvas.parentElement.getBoundingClientRect();
+                canvas.width = rect.width;
+                canvas.height = 300;
+            }
+            resize();
+            window.addEventListener('resize', () => { resize(); draw(); });
+
+            let time = 0;
+
+            function draw() {
+                const w = canvas.width;
+                const h = canvas.height;
+                ctx.clearRect(0, 0, w, h);
+
+                const bonds = [
+                    { label: 'C − C', length: 1.54, electrons: 2, y: 80 },
+                    { label: 'C = C', length: 1.34, electrons: 4, y: 150 },
+                    { label: 'C ≡ C', length: 1.20, electrons: 6, y: 220 }
+                ];
+
+                const scale = 100; // pixels per Å
+                const baseX = w / 2;
+
+                bonds.forEach((bond, i) => {
+                    const bondPixels = bond.length * scale;
+                    const x1 = baseX - bondPixels / 2;
+                    const x2 = baseX + bondPixels / 2;
+                    const y = bond.y;
+
+                    // Draw electron cloud (pulsing)
+                    const pulse = 1 + 0.1 * Math.sin(time * 2 + i);
+                    const cloudWidth = bondPixels * 0.8 * pulse;
+                    const cloudHeight = 20 + bond.electrons * 3;
+
+                    const gradient = ctx.createRadialGradient(baseX, y, 0, baseX, y, cloudWidth);
+                    gradient.addColorStop(0, `rgba(88, 166, 255, ${0.2 + bond.electrons * 0.05})`);
+                    gradient.addColorStop(1, 'rgba(88, 166, 255, 0)');
+                    ctx.fillStyle = gradient;
+                    ctx.beginPath();
+                    ctx.ellipse(baseX, y, cloudWidth, cloudHeight, 0, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // Draw bond lines
+                    const lineCount = bond.electrons / 2;
+                    const lineSpacing = 6;
+                    const totalHeight = (lineCount - 1) * lineSpacing;
+
+                    ctx.strokeStyle = '#6e7681';
+                    ctx.lineWidth = 4;
+                    ctx.lineCap = 'round';
+
+                    for (let j = 0; j < lineCount; j++) {
+                        const ly = y - totalHeight / 2 + j * lineSpacing;
+                        ctx.beginPath();
+                        ctx.moveTo(x1, ly);
+                        ctx.lineTo(x2, ly);
+                        ctx.stroke();
+                    }
+
+                    // Draw atoms
+                    ctx.fillStyle = '#6b7280';
+                    ctx.beginPath();
+                    ctx.arc(x1, y, 20, 0, Math.PI * 2);
+                    ctx.arc(x2, y, 20, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    ctx.fillStyle = '#fff';
+                    ctx.font = 'bold 14px "JetBrains Mono", monospace';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText('C', x1, y);
+                    ctx.fillText('C', x2, y);
+
+                    // Label
+                    ctx.fillStyle = '#8b949e';
+                    ctx.font = '14px "JetBrains Mono", monospace';
+                    ctx.textAlign = 'left';
+                    ctx.fillText(bond.label, 30, y);
+
+                    // Length
+                    ctx.textAlign = 'right';
+                    ctx.fillStyle = '#7ee787';
+                    ctx.fillText(`${bond.length} Å`, w - 30, y);
+
+                    // Length indicator line
+                    ctx.strokeStyle = 'rgba(126, 231, 135, 0.5)';
+                    ctx.lineWidth = 1;
+                    ctx.setLineDash([4, 4]);
+                    ctx.beginPath();
+                    ctx.moveTo(x1, y + 30);
+                    ctx.lineTo(x2, y + 30);
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+
+                    // Tick marks
+                    ctx.beginPath();
+                    ctx.moveTo(x1, y + 25);
+                    ctx.lineTo(x1, y + 35);
+                    ctx.moveTo(x2, y + 25);
+                    ctx.lineTo(x2, y + 35);
+                    ctx.stroke();
+                });
+
+                time += 0.016;
+                requestAnimationFrame(draw);
+            }
+
+            draw();
+        })();
+
+        // ========================================
+        // CAUSAL CHAIN
+        // ========================================
+        document.querySelectorAll('.chain-step').forEach(step => {
+            step.addEventListener('click', () => {
+                document.querySelectorAll('.chain-step').forEach(s => s.classList.remove('active'));
+                step.classList.add('active');
+            });
+        });
+
+        // ========================================
+        // MAGNITUDE CALCULATOR
+        // ========================================
+        (function() {
+            const canvas = document.getElementById('magnitude-canvas');
+            const ctx = canvas.getContext('2d');
+
+            function resize() {
+                const rect = canvas.parentElement.getBoundingClientRect();
+                canvas.width = rect.width - 40;
+                canvas.height = 350;
+            }
+            resize();
+            window.addEventListener('resize', () => { resize(); draw(); });
+
+            const xSlider = document.getElementById('x-slider');
+            const ySlider = document.getElementById('y-slider');
+            const zSlider = document.getElementById('z-slider');
+            const xValue = document.getElementById('x-value');
+            const yValue = document.getElementById('y-value');
+            const zValue = document.getElementById('z-value');
+            const formulaCalc = document.getElementById('formula-calc');
+            const formulaResult = document.getElementById('formula-result');
+
+            function draw() {
+                const w = canvas.width;
+                const h = canvas.height;
+                ctx.clearRect(0, 0, w, h);
+
+                const x = parseFloat(xSlider.value);
+                const y = parseFloat(ySlider.value);
+                const z = parseFloat(zSlider.value);
+
+                xValue.textContent = x.toFixed(1);
+                yValue.textContent = y.toFixed(1);
+                zValue.textContent = z.toFixed(1);
+
+                const mag = Math.sqrt(x*x + y*y + z*z);
+
+                // Update formula display
+                formulaCalc.textContent = `|v| = √(${x.toFixed(1)}² + ${y.toFixed(1)}² + ${z.toFixed(1)}²)`;
+                const xSq = (x*x).toFixed(2);
+                const ySq = (y*y).toFixed(2);
+                const zSq = (z*z).toFixed(2);
+                const sum = (x*x + y*y + z*z).toFixed(2);
+                formulaResult.innerHTML = `= √(${xSq} + ${ySq} + ${zSq}) = √${sum} = <strong>${mag.toFixed(2)} Å</strong>`;
+
+                // 3D isometric view
+                const cx = w / 2;
+                const cy = h / 2 + 30;
+                const scale = 80;
+
+                // Isometric projection angles
+                const isoAngle = Math.PI / 6;
+
+                function toIso(px, py, pz) {
+                    const ix = (px - pz) * Math.cos(isoAngle) * scale;
+                    const iy = -py * scale + (px + pz) * Math.sin(isoAngle) * scale * 0.5;
+                    return [cx + ix, cy + iy];
+                }
+
+                // Draw axes
+                const axisLen = 2.5;
+                const [ox, oy] = toIso(0, 0, 0);
+                const [ax, ay] = toIso(axisLen, 0, 0);
+                const [bx, by] = toIso(0, axisLen, 0);
+                const [cx2, cy2] = toIso(0, 0, axisLen);
+
+                ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+                ctx.lineWidth = 1;
+
+                // X axis
+                ctx.beginPath();
+                ctx.moveTo(ox, oy);
+                ctx.lineTo(ax, ay);
+                ctx.stroke();
+
+                // Y axis
+                ctx.beginPath();
+                ctx.moveTo(ox, oy);
+                ctx.lineTo(bx, by);
+                ctx.stroke();
+
+                // Z axis
+                ctx.beginPath();
+                ctx.moveTo(ox, oy);
+                ctx.lineTo(cx2, cy2);
+                ctx.stroke();
+
+                // Axis labels
+                ctx.fillStyle = '#8b949e';
+                ctx.font = '12px "JetBrains Mono", monospace';
+                ctx.textAlign = 'center';
+                ctx.fillText('x', ax + 10, ay);
+                ctx.fillText('y', bx, by - 10);
+                ctx.fillText('z', cx2 - 15, cy2);
+
+                // Draw component projections (dashed)
+                const [vx, vy] = toIso(x, y, z);
+                const [px1, py1] = toIso(x, 0, 0);
+                const [px2, py2] = toIso(x, 0, z);
+                const [px3, py3] = toIso(0, 0, z);
+                const [px4, py4] = toIso(x, y, 0);
+
+                ctx.strokeStyle = 'rgba(88, 166, 255, 0.3)';
+                ctx.setLineDash([4, 4]);
+                ctx.lineWidth = 1;
+
+                // X component
+                ctx.beginPath();
+                ctx.moveTo(ox, oy);
+                ctx.lineTo(px1, py1);
+                ctx.stroke();
+
+                // Z component
+                ctx.beginPath();
+                ctx.moveTo(px1, py1);
+                ctx.lineTo(px2, py2);
+                ctx.stroke();
+
+                // Y component
+                ctx.beginPath();
+                ctx.moveTo(px2, py2);
+                ctx.lineTo(vx, vy);
+                ctx.stroke();
+
+                ctx.setLineDash([]);
+
+                // Draw main vector
+                ctx.strokeStyle = '#7ee787';
+                ctx.lineWidth = 4;
+                ctx.lineCap = 'round';
+                ctx.beginPath();
+                ctx.moveTo(ox, oy);
+                ctx.lineTo(vx, vy);
+                ctx.stroke();
+
+                // Arrowhead
+                const angle = Math.atan2(vy - oy, vx - ox);
+                ctx.fillStyle = '#7ee787';
+                ctx.beginPath();
+                ctx.moveTo(vx, vy);
+                ctx.lineTo(vx - 15 * Math.cos(angle - 0.4), vy - 15 * Math.sin(angle - 0.4));
+                ctx.lineTo(vx - 15 * Math.cos(angle + 0.4), vy - 15 * Math.sin(angle + 0.4));
+                ctx.closePath();
+                ctx.fill();
+
+                // Draw endpoint
+                ctx.fillStyle = '#fff';
+                ctx.beginPath();
+                ctx.arc(vx, vy, 6, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Draw origin
+                ctx.fillStyle = '#6e7681';
+                ctx.beginPath();
+                ctx.arc(ox, oy, 4, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Magnitude label
+                const midX = (ox + vx) / 2;
+                const midY = (oy + vy) / 2;
+                ctx.fillStyle = '#7ee787';
+                ctx.font = 'bold 14px "JetBrains Mono", monospace';
+                ctx.fillText(`|v| = ${mag.toFixed(2)}`, midX + 20, midY - 10);
+            }
+
+            xSlider.addEventListener('input', draw);
+            ySlider.addEventListener('input', draw);
+            zSlider.addEventListener('input', draw);
+
+            draw();
+        })();
+
+        // ========================================
+        // BRIDGE: ARROW LENGTH
+        // ========================================
+        (function() {
+            const canvas = document.getElementById('arrow-length-canvas');
+            const ctx = canvas.getContext('2d');
+
+            canvas.width = 300;
+            canvas.height = 150;
+
+            let time = 0;
+
+            function draw() {
+                ctx.clearRect(0, 0, 300, 150);
+
+                const cx = 50;
+                const cy = 100;
+                const length = 180;
+                const angle = -Math.PI / 6;
+
+                const ex = cx + length * Math.cos(angle);
+                const ey = cy + length * Math.sin(angle);
+
+                // Arrow
+                ctx.strokeStyle = '#7ee787';
+                ctx.lineWidth = 4;
+                ctx.lineCap = 'round';
+                ctx.beginPath();
+                ctx.moveTo(cx, cy);
+                ctx.lineTo(ex, ey);
+                ctx.stroke();
+
+                // Arrowhead
+                const headAngle = Math.atan2(ey - cy, ex - cx);
+                ctx.fillStyle = '#7ee787';
+                ctx.beginPath();
+                ctx.moveTo(ex, ey);
+                ctx.lineTo(ex - 15 * Math.cos(headAngle - 0.4), ey - 15 * Math.sin(headAngle - 0.4));
+                ctx.lineTo(ex - 15 * Math.cos(headAngle + 0.4), ey - 15 * Math.sin(headAngle + 0.4));
+                ctx.closePath();
+                ctx.fill();
+
+                // Length measurement
+                const pulse = 1 + 0.1 * Math.sin(time * 3);
+                ctx.strokeStyle = `rgba(126, 231, 135, ${0.5 * pulse})`;
+                ctx.lineWidth = 2;
+                ctx.setLineDash([6, 4]);
+
+                // Perpendicular offset for measurement line
+                const perpX = Math.sin(angle) * 20;
+                const perpY = -Math.cos(angle) * 20;
+
+                ctx.beginPath();
+                ctx.moveTo(cx + perpX, cy + perpY);
+                ctx.lineTo(ex + perpX, ey + perpY);
+                ctx.stroke();
+
+                // End ticks
+                ctx.setLineDash([]);
+                ctx.beginPath();
+                ctx.moveTo(cx + perpX * 0.5, cy + perpY * 0.5);
+                ctx.lineTo(cx + perpX * 1.5, cy + perpY * 1.5);
+                ctx.moveTo(ex + perpX * 0.5, ey + perpY * 0.5);
+                ctx.lineTo(ex + perpX * 1.5, ey + perpY * 1.5);
+                ctx.stroke();
+
+                // Label
+                ctx.fillStyle = '#7ee787';
+                ctx.font = 'bold 14px "JetBrains Mono", monospace';
+                ctx.textAlign = 'center';
+                const labelX = (cx + ex) / 2 + perpX * 2;
+                const labelY = (cy + ey) / 2 + perpY * 2;
+                ctx.fillText('|v⃗|', labelX, labelY);
+
+                time += 0.016;
+                requestAnimationFrame(draw);
+            }
+
+            draw();
+        })();
+
+        // ========================================
+        // EXAMPLES TABLE
+        // ========================================
+        document.querySelectorAll('.bond-table tr[data-bond]').forEach(row => {
+            row.addEventListener('click', () => {
+                document.querySelectorAll('.bond-table tr').forEach(r => r.classList.remove('active'));
+                document.querySelectorAll('.example-detail-box').forEach(d => d.classList.remove('active'));
+
+                row.classList.add('active');
+                const bondId = row.dataset.bond;
+                document.getElementById('detail-' + bondId).classList.add('active');
+
+                drawBondDetail(bondId);
+            });
+        });
+
+        function drawBondDetail(bondId) {
+            const canvas = document.getElementById('canvas-' + bondId);
+            if (!canvas) return;
+
+            const ctx = canvas.getContext('2d');
+            canvas.width = canvas.parentElement.clientWidth - 30;
+            canvas.height = 180;
+
+            const data = {
+                'cc-single': { lines: 1, length: 1.54, color: '#6b7280' },
+                'cc-double': { lines: 2, length: 1.34, color: '#6b7280' },
+                'cc-triple': { lines: 3, length: 1.20, color: '#6b7280' },
+                'co-single': { lines: 1, length: 1.43, color: '#ef4444', atoms: ['C', 'O'] },
+                'co-double': { lines: 2, length: 1.23, color: '#ef4444', atoms: ['C', 'O'] },
+                'nn-triple': { lines: 3, length: 1.10, color: '#3b82f6', atoms: ['N', 'N'] }
+            };
+
+            const d = data[bondId];
+            if (!d) return;
+
+            const w = canvas.width;
+            const h = canvas.height;
+            const cx = w / 2;
+            const cy = h / 2;
+
+            const scale = 120;
+            const bondPixels = d.length * scale;
+
+            const x1 = cx - bondPixels / 2;
+            const x2 = cx + bondPixels / 2;
+
+            ctx.clearRect(0, 0, w, h);
+
+            // Electron cloud
+            const gradient = ctx.createRadialGradient(cx, cy, 0, cx, cy, bondPixels * 0.6);
+            gradient.addColorStop(0, `rgba(88, 166, 255, ${0.15 + d.lines * 0.05})`);
+            gradient.addColorStop(1, 'rgba(88, 166, 255, 0)');
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.ellipse(cx, cy, bondPixels * 0.6, 30 + d.lines * 8, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Bond lines
+            const lineSpacing = 8;
+            const totalHeight = (d.lines - 1) * lineSpacing;
+
+            ctx.strokeStyle = '#6e7681';
+            ctx.lineWidth = 5;
+            ctx.lineCap = 'round';
+
+            for (let i = 0; i < d.lines; i++) {
+                const ly = cy - totalHeight / 2 + i * lineSpacing;
+                ctx.beginPath();
+                ctx.moveTo(x1, ly);
+                ctx.lineTo(x2, ly);
+                ctx.stroke();
+            }
+
+            // Atoms
+            const atoms = d.atoms || ['C', 'C'];
+            const colors = bondId.includes('co') ? ['#6b7280', '#ef4444'] :
+                          bondId.includes('nn') ? ['#3b82f6', '#3b82f6'] : ['#6b7280', '#6b7280'];
+
+            ctx.fillStyle = colors[0];
+            ctx.beginPath();
+            ctx.arc(x1, cy, 22, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.fillStyle = colors[1];
+            ctx.beginPath();
+            ctx.arc(x2, cy, 22, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.fillStyle = '#fff';
+            ctx.font = 'bold 16px "JetBrains Mono", monospace';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(atoms[0], x1, cy);
+            ctx.fillText(atoms[1], x2, cy);
+
+            // Length indicator
+            ctx.strokeStyle = 'rgba(126, 231, 135, 0.6)';
+            ctx.lineWidth = 1;
+            ctx.setLineDash([4, 4]);
+            ctx.beginPath();
+            ctx.moveTo(x1, cy + 40);
+            ctx.lineTo(x2, cy + 40);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            ctx.beginPath();
+            ctx.moveTo(x1, cy + 35);
+            ctx.lineTo(x1, cy + 45);
+            ctx.moveTo(x2, cy + 35);
+            ctx.lineTo(x2, cy + 45);
+            ctx.stroke();
+
+            ctx.fillStyle = '#7ee787';
+            ctx.font = '14px "JetBrains Mono", monospace';
+            ctx.fillText(`${d.length} Å`, cx, cy + 55);
+        }
+
+        // Draw initial example
+        setTimeout(() => drawBondDetail('cc-single'), 100);
+
+        // ========================================
+        // PRACTICE PROBLEMS
+        // ========================================
+        function checkP1() {
+            const answer = document.getElementById('p1-answer').value.trim();
+            const feedback = document.getElementById('p1-feedback');
+
+            const num = parseFloat(answer);
+            const correct = Math.sqrt(1.2*1.2 + 0.8*0.8 + 0.6*0.6); // ≈ 1.56
+
+            if (Math.abs(num - correct) < 0.05) {
+                feedback.className = 'problem-feedback correct';
+                feedback.innerHTML = `<strong>Correct!</strong> |v| = √(1.44 + 0.64 + 0.36) = √2.44 ≈ 1.56 Å. This is a typical C-C single bond length.`;
+            } else if (Math.abs(num - correct) < 0.15) {
+                feedback.className = 'problem-feedback correct';
+                feedback.innerHTML = `<strong>Close enough!</strong> The exact answer is √2.44 ≈ 1.56 Å. You got ${num.toFixed(2)}.`;
+            } else {
+                feedback.className = 'problem-feedback incorrect';
+                feedback.innerHTML = `<strong>Try again.</strong> Remember: |v| = √(x² + y² + z²) = √(1.2² + 0.8² + 0.6²)`;
+            }
+        }
+
+        function checkP2() {
+            const answer = document.getElementById('p2-answer').value.toLowerCase();
+            const feedback = document.getElementById('p2-feedback');
+
+            const keywords = ['triple', 'three', '6', 'six', 'electron', 'double', 'two', '4', 'four', 'more'];
+            const hasGoodReasoning = keywords.filter(k => answer.includes(k)).length >= 2;
+
+            if (answer.length < 20) {
+                feedback.className = 'problem-feedback incorrect';
+                feedback.innerHTML = 'Please write a more complete explanation.';
+            } else if (hasGoodReasoning) {
+                feedback.className = 'problem-feedback correct';
+                feedback.innerHTML = `<strong>Good reasoning!</strong> N≡N is a triple bond (6 electrons shared), while O=O is a double bond (4 electrons). More electrons between nuclei → stronger attraction → shorter bond. N₂ (1.10 Å) is shorter than O₂ (1.21 Å).`;
+            } else {
+                feedback.className = 'problem-feedback incorrect';
+                feedback.innerHTML = `<strong>Think about bond order.</strong> How many electron pairs does each molecule share? How does that affect bond length?`;
+            }
+        }
+
+        function checkP3() {
+            const answer = document.getElementById('p3-answer').value.toLowerCase();
+            const feedback = document.getElementById('p3-feedback');
+
+            // At 45°, both components are 1.5 × cos(45°) = 1.5 × 0.707 ≈ 1.06
+            const correct = 1.5 * Math.cos(Math.PI/4);
+
+            const hasX = answer.includes('1.06') || answer.includes('1.05') || answer.includes('1.07');
+            const hasY = (answer.match(/1\.0[567]/g) || []).length >= 2 || answer.includes('equal');
+
+            if (hasX && (hasY || answer.includes('same') || answer.includes('equal'))) {
+                feedback.className = 'problem-feedback correct';
+                feedback.innerHTML = `<strong>Correct!</strong> At 45°, x = y = 1.5 × cos(45°) = 1.5 × 0.707 ≈ 1.06 Å each. You can verify: √(1.06² + 1.06²) ≈ 1.5 Å ✓`;
+            } else if (hasX || answer.includes('0.707') || answer.includes('cos')) {
+                feedback.className = 'problem-feedback correct';
+                feedback.innerHTML = `<strong>On the right track!</strong> x = y ≈ 1.06 Å. At 45°, both components are equal: 1.5 × cos(45°) = 1.5 × 0.707 ≈ 1.06`;
+            } else {
+                feedback.className = 'problem-feedback incorrect';
+                feedback.innerHTML = `<strong>Hint:</strong> For a 45° angle, x and y components are equal. Use x = |v| × cos(θ) = 1.5 × cos(45°)`;
+            }
+        }
+    </script>
+</body>
+</html>
