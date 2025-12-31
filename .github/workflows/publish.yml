@@ -31,7 +31,8 @@ jobs:
 
       - name: Copy standalone pages and CNAME
         run: |
-          cp site/direction.html site/_site/direction.html
+          mkdir -p site/_site/primitives
+          cp site/primitives/direction.html site/_site/primitives/direction.html
           cp site/CNAME site/_site/CNAME
 
       - name: Upload artifact

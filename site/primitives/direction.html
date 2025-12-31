@@ -411,6 +411,58 @@
             text-decoration: underline;
         }
 
+        /* ========== NEXT STEP CTA ========== */
+        .next-step-cta {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
+            border-top: 1px solid var(--border-subtle);
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .cta-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .cta-label {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--accent-purple);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+        }
+
+        .cta-content h2 {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .cta-content p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: var(--accent-blue);
+            color: var(--bg-primary);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.2s ease;
+        }
+
+        .cta-button:hover {
+            background: #79b8ff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(88, 166, 255, 0.3);
+        }
+
         /* ========== FOOTER ========== */
         .page-footer {
             text-align: center;
@@ -1200,6 +1252,18 @@
         </div>
 
     </main>
+
+    <!-- NEXT STEP CTA -->
+    <section class="next-step-cta">
+        <div class="cta-content">
+            <p class="cta-label">Ready to formalize?</p>
+            <h2>Learn the Mathematical Tools</h2>
+            <p>Now that you understand what direction <em>is</em>, learn the vector notation and operations chemists use to work with it.</p>
+            <a href="/lectures/04-direction.html" class="cta-button">
+                Continue to Vectors →
+            </a>
+        </div>
+    </section>
 
     <!-- FOOTER -->
     <footer class="page-footer">
@@ -3577,4 +3641,3 @@
 
 </body>
 </html>
-# Trigger rebuild Wed Dec 31 11:49:35 AM CST 2025

@@ -13,6 +13,7 @@ site/_site/
 site/.quarto/
 *.html
 !site/**/*.qmd
+!site/primitives/*.html
 
 # IDE
 .vscode/
