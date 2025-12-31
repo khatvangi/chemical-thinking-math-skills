@@ -2016,105 +2016,113 @@
                 ctx.arc(7, -40, 4, 0, Math.PI * 2);
                 ctx.fill();
 
-                // Forward arrow (body-relative)
-                const arrowLen = 80;
-                drawArrow(0, -50, 0, -50 - arrowLen, 'rgba(126, 231, 135, 0.9)', '', {x: 0, y: 0});
-                ctx.fillStyle = 'rgba(126, 231, 135, 0.9)';
+                // Forward arrow - BRIGHT GREEN
+                const arrowLen = 90;
+                drawArrow(0, -55, 0, -55 - arrowLen, 'rgba(80, 255, 140, 0.95)', '', {x: 0, y: 0});
+                ctx.fillStyle = 'rgba(80, 255, 140, 0.95)';
+                ctx.font = 'bold 14px "JetBrains Mono", monospace';
                 ctx.save();
-                ctx.translate(0, -50 - arrowLen - 15);
-                ctx.rotate(-bodyAngle); // Counter-rotate for readable text
+                ctx.translate(0, -55 - arrowLen - 18);
+                ctx.rotate(-bodyAngle);
                 ctx.fillText('FORWARD', 0, 0);
                 ctx.restore();
 
                 // Backward arrow
-                drawArrow(0, 50, 0, 50 + arrowLen * 0.7, 'rgba(126, 231, 135, 0.5)', '', {x: 0, y: 0});
-                ctx.fillStyle = 'rgba(126, 231, 135, 0.5)';
+                drawArrow(0, 55, 0, 55 + arrowLen * 0.6, 'rgba(80, 255, 140, 0.65)', '', {x: 0, y: 0});
+                ctx.fillStyle = 'rgba(80, 255, 140, 0.65)';
                 ctx.save();
-                ctx.translate(0, 50 + arrowLen * 0.7 + 15);
+                ctx.translate(0, 55 + arrowLen * 0.6 + 18);
                 ctx.rotate(-bodyAngle);
                 ctx.fillText('BACK', 0, 0);
                 ctx.restore();
 
-                // Left arrow
-                drawArrow(-40, 0, -40 - arrowLen * 0.6, 0, 'rgba(88, 166, 255, 0.7)', '', {x: 0, y: 0});
-                ctx.fillStyle = 'rgba(88, 166, 255, 0.7)';
+                // Left arrow - BRIGHT CYAN
+                drawArrow(-45, 0, -45 - arrowLen * 0.6, 0, 'rgba(80, 200, 255, 0.95)', '', {x: 0, y: 0});
+                ctx.fillStyle = 'rgba(80, 200, 255, 0.95)';
                 ctx.save();
-                ctx.translate(-40 - arrowLen * 0.6 - 20, 0);
+                ctx.translate(-45 - arrowLen * 0.6 - 28, 0);
                 ctx.rotate(-bodyAngle);
-                ctx.fillText('LEFT', 0, 4);
+                ctx.fillText('LEFT', 0, 5);
                 ctx.restore();
 
                 // Right arrow
-                drawArrow(40, 0, 40 + arrowLen * 0.6, 0, 'rgba(88, 166, 255, 0.7)', '', {x: 0, y: 0});
-                ctx.fillStyle = 'rgba(88, 166, 255, 0.7)';
+                drawArrow(45, 0, 45 + arrowLen * 0.6, 0, 'rgba(80, 200, 255, 0.95)', '', {x: 0, y: 0});
+                ctx.fillStyle = 'rgba(80, 200, 255, 0.95)';
                 ctx.save();
-                ctx.translate(40 + arrowLen * 0.6 + 20, 0);
+                ctx.translate(45 + arrowLen * 0.6 + 28, 0);
                 ctx.rotate(-bodyAngle);
-                ctx.fillText('RIGHT', 0, 4);
+                ctx.fillText('RIGHT', 0, 5);
                 ctx.restore();
 
                 ctx.restore();
 
-                // Up/Down arrows - FIXED, don't rotate with body
-                // These are drawn outside the rotation transform
-                const upDownX = w - 80;
-                ctx.strokeStyle = 'rgba(247, 129, 102, 0.8)';
-                ctx.lineWidth = 3;
+                // Up/Down arrows - BRIGHT ORANGE
+                const upDownX = w - 85;
+                ctx.strokeStyle = 'rgba(255, 160, 100, 0.95)';
+                ctx.lineWidth = 4;
 
                 // Up arrow
                 ctx.beginPath();
                 ctx.moveTo(upDownX, centerY);
-                ctx.lineTo(upDownX, centerY - 80);
+                ctx.lineTo(upDownX, centerY - 90);
                 ctx.stroke();
                 ctx.beginPath();
-                ctx.moveTo(upDownX, centerY - 80);
-                ctx.lineTo(upDownX - 10, centerY - 68);
-                ctx.moveTo(upDownX, centerY - 80);
-                ctx.lineTo(upDownX + 10, centerY - 68);
+                ctx.moveTo(upDownX, centerY - 90);
+                ctx.lineTo(upDownX - 12, centerY - 75);
+                ctx.moveTo(upDownX, centerY - 90);
+                ctx.lineTo(upDownX + 12, centerY - 75);
                 ctx.stroke();
-                ctx.fillStyle = 'rgba(247, 129, 102, 0.8)';
-                ctx.font = '11px "JetBrains Mono", monospace';
+                ctx.fillStyle = 'rgba(255, 180, 130, 0.95)';
+                ctx.font = 'bold 13px "JetBrains Mono", monospace';
                 ctx.textAlign = 'center';
-                ctx.fillText('UP', upDownX, centerY - 90);
-                ctx.fillText('(gravity)', upDownX, centerY - 105);
+                ctx.fillText('UP', upDownX, centerY - 100);
+                ctx.font = '11px "JetBrains Mono", monospace';
+                ctx.fillText('(gravity)', upDownX, centerY - 115);
 
                 // Down arrow
+                ctx.strokeStyle = 'rgba(255, 160, 100, 0.95)';
                 ctx.beginPath();
                 ctx.moveTo(upDownX, centerY);
-                ctx.lineTo(upDownX, centerY + 80);
+                ctx.lineTo(upDownX, centerY + 90);
                 ctx.stroke();
                 ctx.beginPath();
-                ctx.moveTo(upDownX, centerY + 80);
-                ctx.lineTo(upDownX - 10, centerY + 68);
-                ctx.moveTo(upDownX, centerY + 80);
-                ctx.lineTo(upDownX + 10, centerY + 68);
+                ctx.moveTo(upDownX, centerY + 90);
+                ctx.lineTo(upDownX - 12, centerY + 75);
+                ctx.moveTo(upDownX, centerY + 90);
+                ctx.lineTo(upDownX + 12, centerY + 75);
                 ctx.stroke();
-                ctx.fillText('DOWN', upDownX, centerY + 100);
+                ctx.font = 'bold 13px "JetBrains Mono", monospace';
+                ctx.fillText('DOWN', upDownX, centerY + 108);
 
-                // Earth symbol
-                ctx.fillStyle = 'rgba(247, 129, 102, 0.3)';
+                // Earth symbol - brighter
+                ctx.fillStyle = 'rgba(255, 160, 100, 0.5)';
                 ctx.beginPath();
-                ctx.arc(upDownX, centerY + 130, 20, 0, Math.PI * 2);
+                ctx.arc(upDownX, centerY + 140, 24, 0, Math.PI * 2);
                 ctx.fill();
-                ctx.fillStyle = 'rgba(247, 129, 102, 0.6)';
-                ctx.font = '14px serif';
-                ctx.fillText('⊕', upDownX, centerY + 135);
+                ctx.fillStyle = 'rgba(255, 200, 160, 0.9)';
+                ctx.font = '20px serif';
+                ctx.fillText('⊕', upDownX, centerY + 147);
 
-                // Annotations
-                ctx.font = '12px "JetBrains Mono", monospace';
+                // Annotations - BRIGHTER
+                ctx.font = 'bold 13px "JetBrains Mono", monospace';
                 ctx.textAlign = 'left';
-                ctx.fillStyle = 'rgba(126, 231, 135, 0.6)';
-                ctx.fillText('BODY-RELATIVE', 30, 30);
-                ctx.fillText('(rotates with you)', 30, 48);
-                ctx.fillStyle = 'rgba(247, 129, 102, 0.6)';
+                ctx.fillStyle = 'rgba(80, 255, 140, 0.95)';
+                ctx.fillText('BODY-RELATIVE', 25, 28);
+                ctx.font = '11px "JetBrains Mono", monospace';
+                ctx.fillStyle = 'rgba(80, 255, 140, 0.7)';
+                ctx.fillText('(rotates with you)', 25, 46);
+                ctx.font = 'bold 13px "JetBrains Mono", monospace';
+                ctx.fillStyle = 'rgba(255, 180, 130, 0.95)';
                 ctx.textAlign = 'right';
-                ctx.fillText('GRAVITY-FIXED', w - 30, 30);
-                ctx.fillText('(always the same)', w - 30, 48);
+                ctx.fillText('GRAVITY-FIXED', w - 25, 28);
+                ctx.font = '11px "JetBrains Mono", monospace';
+                ctx.fillStyle = 'rgba(255, 180, 130, 0.7)';
+                ctx.fillText('(always the same)', w - 25, 46);
 
                 // Center point
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
                 ctx.beginPath();
-                ctx.arc(centerX, centerY, 4, 0, Math.PI * 2);
+                ctx.arc(centerX, centerY, 5, 0, Math.PI * 2);
                 ctx.fill();
 
                 requestAnimationFrame(draw);
@@ -2168,69 +2176,69 @@
                 const w = canvas.width;
                 const h = canvas.height;
 
-                ctx.fillStyle = '#0D1117';
+                ctx.fillStyle = '#080a0e';
                 ctx.fillRect(0, 0, w, h);
 
                 const centerX = w / 2;
                 const centerY = h / 2;
-                const radius = 120;
+                const radius = 125;
 
-                // Draw circle
-                ctx.strokeStyle = 'rgba(88, 166, 255, 0.4)';
-                ctx.lineWidth = 2;
+                // Draw circle - BRIGHTER
+                ctx.strokeStyle = 'rgba(100, 180, 255, 0.6)';
+                ctx.lineWidth = 3;
                 ctx.beginPath();
                 ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
                 ctx.stroke();
 
                 // Draw tick marks and labels
                 const directions = [
-                    { angle: 0, label: '0°', sublabel: 'E' },
-                    { angle: Math.PI / 2, label: '90°', sublabel: 'N' },
-                    { angle: Math.PI, label: '180°', sublabel: 'W' },
-                    { angle: 3 * Math.PI / 2, label: '270°', sublabel: 'S' }
+                    { angle: 0, label: '0°' },
+                    { angle: Math.PI / 2, label: '90°' },
+                    { angle: Math.PI, label: '180°' },
+                    { angle: 3 * Math.PI / 2, label: '270°' }
                 ];
 
-                ctx.font = '11px "JetBrains Mono", monospace';
+                ctx.font = 'bold 12px "JetBrains Mono", monospace';
                 directions.forEach(d => {
-                    const x1 = centerX + Math.cos(d.angle) * (radius - 10);
-                    const y1 = centerY - Math.sin(d.angle) * (radius - 10);
-                    const x2 = centerX + Math.cos(d.angle) * (radius + 10);
-                    const y2 = centerY - Math.sin(d.angle) * (radius + 10);
+                    const x1 = centerX + Math.cos(d.angle) * (radius - 12);
+                    const y1 = centerY - Math.sin(d.angle) * (radius - 12);
+                    const x2 = centerX + Math.cos(d.angle) * (radius + 12);
+                    const y2 = centerY - Math.sin(d.angle) * (radius + 12);
 
-                    ctx.strokeStyle = 'rgba(88, 166, 255, 0.3)';
-                    ctx.lineWidth = 1;
+                    ctx.strokeStyle = 'rgba(100, 180, 255, 0.5)';
+                    ctx.lineWidth = 2;
                     ctx.beginPath();
                     ctx.moveTo(x1, y1);
                     ctx.lineTo(x2, y2);
                     ctx.stroke();
 
-                    const labelX = centerX + Math.cos(d.angle) * (radius + 30);
-                    const labelY = centerY - Math.sin(d.angle) * (radius + 30);
-                    ctx.fillStyle = 'rgba(88, 166, 255, 0.6)';
+                    const labelX = centerX + Math.cos(d.angle) * (radius + 32);
+                    const labelY = centerY - Math.sin(d.angle) * (radius + 32);
+                    ctx.fillStyle = 'rgba(120, 200, 255, 0.9)';
                     ctx.textAlign = 'center';
-                    ctx.fillText(d.label, labelX, labelY + 4);
+                    ctx.fillText(d.label, labelX, labelY + 5);
                 });
 
-                // Draw arc showing angle
-                ctx.strokeStyle = 'rgba(126, 231, 135, 0.3)';
-                ctx.lineWidth = 20;
+                // Draw arc showing angle - BRIGHTER GREEN
+                ctx.strokeStyle = 'rgba(80, 255, 140, 0.5)';
+                ctx.lineWidth = 25;
                 ctx.beginPath();
-                ctx.arc(centerX, centerY, 40, 0, -angle, angle < 0);
+                ctx.arc(centerX, centerY, 45, 0, -angle, angle < 0);
                 ctx.stroke();
 
-                // Draw direction arrow
+                // Draw direction arrow - BRIGHT ORANGE
                 const arrowX = centerX + Math.cos(angle) * radius;
                 const arrowY = centerY - Math.sin(angle) * radius;
 
-                ctx.strokeStyle = 'rgba(247, 129, 102, 0.9)';
-                ctx.lineWidth = 3;
+                ctx.strokeStyle = 'rgba(255, 160, 100, 0.95)';
+                ctx.lineWidth = 4;
                 ctx.beginPath();
                 ctx.moveTo(centerX, centerY);
                 ctx.lineTo(arrowX, arrowY);
                 ctx.stroke();
 
                 // Arrowhead
-                const headLen = 15;
+                const headLen = 18;
                 ctx.beginPath();
                 ctx.moveTo(arrowX, arrowY);
                 ctx.lineTo(arrowX - headLen * Math.cos(angle - 0.4), arrowY + headLen * Math.sin(angle - 0.4));
@@ -2238,34 +2246,37 @@
                 ctx.lineTo(arrowX - headLen * Math.cos(angle + 0.4), arrowY + headLen * Math.sin(angle + 0.4));
                 ctx.stroke();
 
-                // Draw point on circle
-                ctx.fillStyle = '#F78166';
+                // Draw point on circle - BRIGHT
+                ctx.fillStyle = '#FF9060';
                 ctx.beginPath();
-                ctx.arc(arrowX, arrowY, 8, 0, Math.PI * 2);
+                ctx.arc(arrowX, arrowY, 10, 0, Math.PI * 2);
                 ctx.fill();
+                ctx.strokeStyle = 'rgba(255, 200, 160, 0.8)';
+                ctx.lineWidth = 2;
+                ctx.stroke();
 
                 // Center point
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
                 ctx.beginPath();
-                ctx.arc(centerX, centerY, 4, 0, Math.PI * 2);
+                ctx.arc(centerX, centerY, 5, 0, Math.PI * 2);
                 ctx.fill();
 
-                // Angle display
+                // Angle display - BRIGHTER
                 let degrees = (angle * 180 / Math.PI);
                 if (degrees < 0) degrees += 360;
                 degrees = degrees.toFixed(1);
 
-                ctx.font = 'bold 24px "JetBrains Mono", monospace';
-                ctx.fillStyle = 'rgba(126, 231, 135, 0.9)';
+                ctx.font = 'bold 28px "JetBrains Mono", monospace';
+                ctx.fillStyle = 'rgba(80, 255, 140, 0.95)';
                 ctx.textAlign = 'center';
-                ctx.fillText(`θ = ${degrees}°`, centerX, centerY + radius + 60);
+                ctx.fillText(`θ = ${degrees}°`, centerX, centerY + radius + 55);
 
-                // Coordinates
+                // Coordinates - BRIGHTER
                 const cosVal = Math.cos(angle).toFixed(3);
                 const sinVal = Math.sin(angle).toFixed(3);
-                ctx.font = '12px "JetBrains Mono", monospace';
-                ctx.fillStyle = 'rgba(139, 148, 158, 0.7)';
-                ctx.fillText(`(cos θ, sin θ) = (${cosVal}, ${sinVal})`, centerX, centerY + radius + 85);
+                ctx.font = 'bold 13px "JetBrains Mono", monospace';
+                ctx.fillStyle = 'rgba(180, 200, 220, 0.9)';
+                ctx.fillText(`(cos θ, sin θ) = (${cosVal}, ${sinVal})`, centerX, centerY + radius + 80);
 
                 requestAnimationFrame(draw);
             }
