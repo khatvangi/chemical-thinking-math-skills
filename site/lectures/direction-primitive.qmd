@@ -96,10 +96,6 @@ input[type="range"] {
 }
 </style>
 
-<div class="content-wrapper">
-
-<section class="prose-section" id="opening">
-
 ## Point at something.
 
 I'm serious. Right now, wherever you are, point at something. The door. The window. Your coffee cup. Something behind you that you can't even see.
@@ -114,17 +110,18 @@ No numbers involved. No angles measured. No coordinate system consulted. Your ar
 
 This is not trivial. This is not "just pointing." This is the cognitive foundation underneath everything we're going to build in this course. You've been doing DIRECTION since the first week of your life. An infant reaches — not randomly, not spasmodically, but *toward*. Toward the face. Toward the breast. Toward the bright thing that moves. That reach has structure: there's a FROM (the baby's body) and a TO (the thing it wants). That structure is direction. The infant doesn't know the word, can't define the concept, has no idea what a vector is. But the infant *does* direction, fluently, every waking moment.
 
-<div class="pull-quote">
+::: {.callout-note}
+## The Question
 If you already understand direction — if your body has understood it since before you could speak — what exactly do you need mathematics for?
-</div>
+:::
 
 Hold that question. It's the right question. We'll come back to it. But first, let's go deeper into what you already know.
 
-</section>
+
 
 ---
 
-<section class="prose-section" id="first-distinction">
+
 
 ## The First Distinction
 
@@ -142,11 +139,11 @@ This binary — toward/away — is where it all starts. Everything else is elabo
 
 **Approach or flee. That's the foundation.**
 
-</section>
+
 
 ---
 
-<section class="prose-section" id="body">
+
 
 ## Direction in the Body
 
@@ -164,15 +161,14 @@ Once you have forward and backward, you get left and right for free — they're 
 
 Here's what's strange: we usually think mathematics is something we impose on the body, some abstract system we learn and then apply to physical situations. But direction runs the other way. **The body generates the mathematics.** Left and right aren't concepts you learned in school that you then apply to your body — they're consequences of having a bilateral body that moves through space. Up and down aren't abstractions — they're what happens when a creature lives in a gravitational field.
 
-<div class="insight-box">
+::: {.callout-important}
+## Key Insight
 You are the origin of your coordinate system. You always have been.
-</div>
-
-</section>
+:::
 
 ---
 
-<section class="prose-section" id="stillness">
+
 
 ## Direction Without Movement
 
@@ -186,11 +182,11 @@ This matters because when we get to chemistry, we'll be talking about the *direc
 
 **Direction is about orientation, not motion. A thing can point without going.**
 
-</section>
+
 
 ---
 
-<section class="prose-section" id="circle">
+
 
 ## The Circle of Directions
 
@@ -210,11 +206,11 @@ The circle is the space of all directions in two dimensions. Every point on the 
 
 This isn't a metaphor. It's not "directions are *like* a circle." Directions, in 2D, literally *are* a circle. The set of all possible directions you could point, from a single location in a plane, is precisely the set of points on a circle centered at that location. **The circle is direction space.**
 
-</section>
+
 
 ---
 
-<section class="prose-section" id="sphere">
+
 
 ## The Sphere of Directions
 
@@ -232,11 +228,11 @@ Two angles now: the **azimuth** (which compass direction on the horizon) and the
 
 This is what an owl does when it swivels its head. It's sampling the sphere of directions, selecting one to focus its attention on. The owl doesn't know spherical coordinates, but the owl's head is parameterized by them anyway.
 
-</section>
+
 
 ---
 
-<section class="prose-section" id="relation">
+
 
 ## Direction as Relation
 
@@ -250,11 +246,11 @@ This is why the vector, when we get to it, has two parts: a tail and a head. A s
 
 **Every direction has an origin. Every arrow has a tail.**
 
-</section>
+
 
 ---
 
-<section class="prose-section" id="comparing">
+
 
 ## When Directions Meet
 
@@ -274,11 +270,11 @@ This raises a natural question: **how do you measure how much one direction has 
 
 If you've had physics or calculus, you might recognize that this question leads to the dot product. But we're not there yet. For now, just notice that the question is sensible. Directions can be compared. They can be more or less aligned. Whatever tool lets us compute with direction will have to handle this comparison somehow.
 
-</section>
+
 
 ---
 
-<section class="prose-section" id="magnitude">
+
 
 ## Magnitude Enters
 
@@ -300,11 +296,11 @@ But here's what's crucial: you can have direction without magnitude, and you can
 
 The vector is specifically for quantities that have both. It's the tool for things that *point* with *intensity*.
 
-</section>
+
 
 ---
 
-<section class="prose-section" id="gradient">
+
 
 ## Gradients: Direction From Landscape
 
@@ -328,11 +324,11 @@ The word "down" here means "opposite to the gradient direction."
 
 **The gradient is direction extracted from a landscape. Wherever something varies, there's a gradient pointing the way of steepest increase.**
 
-</section>
+
 
 ---
 
-<section class="prose-section" id="causation">
+
 
 ## Direction in Causation
 
@@ -350,11 +346,11 @@ Every mechanism in chemistry is a sequence of these arrows. The nucleophile atta
 
 When you draw a reaction mechanism, you draw arrows. Those arrows aren't just notation — they're the causal structure of the transformation.
 
-</section>
+
 
 ---
 
-<section class="prose-section" id="formalize">
+
 
 ## Why Formalize?
 
@@ -374,11 +370,11 @@ You can sense that the hill is steeper this way than that way. But can you calcu
 
 The vector is notation for direction. The dot product is notation for comparing directions. The gradient is notation for direction of steepest change. None of these are new ideas. They're tools for working rigorously with ideas you've had your whole life.
 
-</section>
+
 
 ---
 
-<section class="prose-section" id="bridge">
+
 
 ## The Bridge
 
@@ -394,22 +390,15 @@ The vector is notation for direction. The dot product is notation for comparing 
 
 Each of these tools exists to capture something you already understand. The mathematics isn't replacing your intuition — it's making your intuition precise enough to compute with.
 
-</section>
+
 
 ---
 
-<section class="closing-section" id="closing">
+::: {.callout-tip}
+## Remember
+You knew DIRECTION before you knew chemistry, before you knew mathematics, before you knew words.
 
-<div class="closing-box">
-<p class="closing-quote">You knew DIRECTION before you knew chemistry, before you knew mathematics, before you knew words.</p>
-<p class="closing-statement">We're just giving names to what you already see.</p>
-</div>
+**We're just giving names to what you already see.**
+:::
 
-<a href="04-direction.qmd" class="next-button">
-  <span>Next: Vectors in Chemistry</span>
-  <span class="next-arrow">→</span>
-</a>
-
-</section>
-
-</div>
+[**Next: Vectors in Chemistry →**](04-direction.qmd)
