@@ -16,6 +16,7 @@ site/.quarto/
 !site/primitives/*.html
 !site/lectures/03-collection/*.html
 !site/lectures/04-direction/*.html
+!site/lectures/05-arrangement/*.html
 
 # IDE
 .vscode/

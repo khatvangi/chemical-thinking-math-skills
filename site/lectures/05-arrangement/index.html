@@ -1,0 +1,1653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARRANGEMENT | Order Matters</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0D1117;
+            --bg-secondary: #161B22;
+            --bg-tertiary: #21262D;
+            --text-primary: #E6EDF3;
+            --text-secondary: #8B949E;
+            --text-muted: #6E7681;
+            --accent-purple: #A371F7;
+            --accent-purple-dim: #6E40C9;
+            --accent-blue: #58A6FF;
+            --accent-green: #7EE787;
+            --accent-yellow: #F2CC60;
+            --accent-red: #F85149;
+            --accent-cyan: #79C0FF;
+            --accent-orange: #FFA657;
+            --border-color: #30363D;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 17px;
+        }
+
+        .header {
+            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+            padding: 4rem 2rem 6rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-purple);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-family: 'Fraunces', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .part {
+            padding: 4rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .part:last-child { border-bottom: none; }
+
+        .part-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .part-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--accent-purple);
+            letter-spacing: 0.1em;
+        }
+
+        h2 {
+            font-family: 'Fraunces', serif;
+            font-size: 2rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        h3 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--accent-purple);
+            margin: 2.5rem 0 1rem;
+        }
+
+        h4 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        p {
+            margin-bottom: 1.2rem;
+            color: var(--text-secondary);
+        }
+
+        strong { color: var(--text-primary); font-weight: 600; }
+        em { color: var(--accent-purple); font-style: italic; }
+
+        .hook {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin: 3rem 0;
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .hook-molecules {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .hook-molecule {
+            text-align: center;
+        }
+
+        .hook-molecule canvas {
+            margin-bottom: 0.5rem;
+        }
+
+        .hook-molecule-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+        }
+
+        .hook-molecule-label.deadly { color: var(--accent-red); }
+        .hook-molecule-label.safe { color: var(--accent-green); }
+
+        .def-popup {
+            position: relative;
+            color: var(--accent-blue);
+            cursor: help;
+            border-bottom: 1px dashed var(--accent-blue);
+        }
+
+        .def-popup .def-tooltip {
+            position: absolute;
+            bottom: calc(100% + 10px);
+            left: 50%;
+            transform: translateX(-50%);
+            width: 320px;
+            padding: 1rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s, visibility 0.2s;
+            z-index: 100;
+            text-align: left;
+            line-height: 1.5;
+        }
+
+        .def-popup:hover .def-tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .visual-container {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2.5rem 0;
+            border: 1px solid var(--border-color);
+        }
+
+        .visual-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-purple);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        canvas {
+            display: block;
+            margin: 0 auto;
+            border-radius: 8px;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+            justify-content: center;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .control-group label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        input[type="range"] {
+            width: 140px;
+            accent-color: var(--accent-purple);
+        }
+
+        .value-display {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--accent-purple);
+        }
+
+        button {
+            padding: 0.75rem 1.5rem;
+            background: var(--accent-purple-dim);
+            border: 1px solid var(--accent-purple);
+            color: var(--text-primary);
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        button:hover {
+            background: var(--accent-purple);
+            color: var(--bg-primary);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn-group button {
+            padding: 0.5rem 1rem;
+        }
+
+        .btn-group button.active {
+            background: var(--accent-purple);
+            color: var(--bg-primary);
+        }
+
+        .result-display {
+            text-align: center;
+            padding: 1rem;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            margin-top: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .result-value {
+            font-size: 1.5rem;
+            color: var(--accent-purple);
+        }
+
+        .result-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        .caption {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-align: center;
+            margin-top: 1rem;
+            font-style: italic;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            color: var(--accent-purple);
+            font-weight: 500;
+            background: var(--bg-tertiary);
+        }
+
+        td { color: var(--text-secondary); }
+
+        .formula-box {
+            background: var(--bg-tertiary);
+            border-left: 3px solid var(--accent-purple);
+            padding: 1.25rem 1.5rem;
+            margin: 1.5rem 0;
+            font-family: 'JetBrains Mono', monospace;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .formula-box .formula {
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .formula-box .explanation {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .definition-block {
+            background: var(--bg-secondary);
+            border: 1px solid var(--accent-purple);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2.5rem 0;
+        }
+
+        .definition-block h3 {
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .definition-item {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .definition-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .definition-term {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-cyan);
+            font-weight: 500;
+        }
+
+        .definition-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-top: 0.25rem;
+        }
+
+        .mirror-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .mirror-divider {
+            width: 4px;
+            height: 200px;
+            background: linear-gradient(180deg, transparent, var(--accent-purple), transparent);
+            border-radius: 2px;
+        }
+
+        .molecule-label {
+            text-align: center;
+            margin-top: 0.5rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .molecule-label.r-config { color: var(--accent-blue); }
+        .molecule-label.s-config { color: var(--accent-orange); }
+
+        .crystal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .crystal-card {
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .crystal-card:hover {
+            border-color: var(--accent-purple);
+        }
+
+        .crystal-card.active {
+            border-color: var(--accent-purple);
+            background: rgba(163, 113, 247, 0.1);
+        }
+
+        .crystal-card canvas {
+            margin-bottom: 0.5rem;
+        }
+
+        .crystal-name {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .matrix-display {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin: 1.5rem 0;
+            font-family: 'JetBrains Mono', monospace;
+            flex-wrap: wrap;
+        }
+
+        .matrix {
+            display: inline-flex;
+            flex-direction: column;
+            padding: 0.5rem;
+            border-left: 2px solid var(--accent-purple);
+            border-right: 2px solid var(--accent-purple);
+        }
+
+        .matrix-row {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .matrix-row span {
+            min-width: 40px;
+            text-align: center;
+            color: var(--text-primary);
+        }
+
+        .matrix-equals {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+        }
+
+        .symmetry-ops {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 1.5rem 0;
+        }
+
+        .sym-btn {
+            padding: 0.5rem 1rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+
+        .sym-btn:hover {
+            border-color: var(--accent-purple);
+            color: var(--text-primary);
+        }
+
+        .sym-btn.active {
+            background: var(--accent-purple);
+            color: var(--bg-primary);
+            border-color: var(--accent-purple);
+        }
+
+        .endnotes {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .endnotes h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .endnote {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+            padding-left: 2rem;
+            text-indent: -2rem;
+        }
+
+        .endnote-ref {
+            color: var(--accent-blue);
+            font-weight: 500;
+        }
+
+        .nav-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent-purple);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--accent-purple);
+            border-radius: 8px;
+            margin: 1rem 0;
+            transition: all 0.2s ease;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+        }
+
+        .nav-link:hover {
+            background: var(--accent-purple);
+            color: var(--bg-primary);
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 3rem 0;
+        }
+
+        ul, ol {
+            color: var(--text-secondary);
+            margin-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        li { margin-bottom: 0.5rem; }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2.5rem; }
+            h2 { font-size: 1.6rem; }
+            .container { padding: 0 1rem; }
+            .visual-container { padding: 1rem; }
+            .hook { padding: 1.5rem; }
+            .mirror-container { flex-direction: column; }
+            .mirror-divider { width: 200px; height: 4px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-label">Lecture 05 — Primitive</div>
+        <h1>ARRANGEMENT</h1>
+        <p class="subtitle">The recognition that spatial organization determines identity. Same atoms, different arrangement — different molecule.</p>
+    </header>
+
+    <main class="container">
+        <!-- The Hook: Thalidomide -->
+        <div class="hook">
+            <p style="color: var(--text-secondary); margin-bottom: 1rem;">The same atoms. The same bonds. Different arrangement.</p>
+            <div class="hook-molecules">
+                <div class="hook-molecule">
+                    <canvas id="hookR" width="150" height="150"></canvas>
+                    <div class="hook-molecule-label safe">(R)-Thalidomide</div>
+                    <div style="color: var(--text-muted); font-size: 0.85rem;">Sedative</div>
+                </div>
+                <div class="hook-molecule">
+                    <canvas id="hookS" width="150" height="150"></canvas>
+                    <div class="hook-molecule-label deadly">(S)-Thalidomide</div>
+                    <div style="color: var(--text-muted); font-size: 0.85rem;">Teratogenic</div>
+                </div>
+            </div>
+            <p style="color: var(--text-secondary); margin: 0;">Mirror images that cannot be superimposed. One heals. One harms.</p>
+        </div>
+
+        <!-- Part I: The Primitive -->
+        <section class="part">
+            <div class="part-header">
+                <div class="part-number">PART I</div>
+                <h2>Order Matters</h2>
+            </div>
+
+            <h3>1.1 Beyond Counting</h3>
+            <p>COLLECTION established that we can count discrete entities. But counting alone does not capture everything. Consider:</p>
+
+            <ul>
+                <li><strong>ABC</strong> and <strong>CBA</strong> have the same letters (same collection)</li>
+                <li>But they are different words (different arrangement)</li>
+            </ul>
+
+            <p>The letters {A, B, C} form a collection of size 3. The sequences ABC, ACB, BAC, BCA, CAB, CBA are the 3! = 6 arrangements of that collection. Same elements, different orders.</p>
+
+            <p>ARRANGEMENT is the cognitive recognition that <em>order matters</em> — that spatial organization is part of identity.</p>
+
+            <h3>1.2 Arrangement in Chemistry</h3>
+            <p>Nowhere is arrangement more consequential than in chemistry. Consider two molecules with formula C₂H₆O:</p>
+
+            <table>
+                <tr><th>Molecule</th><th>Structure</th><th>Boiling Point</th><th>Properties</th></tr>
+                <tr><td>Ethanol</td><td>CH₃-CH₂-OH</td><td>78°C</td><td>Drinkable alcohol</td></tr>
+                <tr><td>Dimethyl ether</td><td>CH₃-O-CH₃</td><td>-24°C</td><td>Flammable gas</td></tr>
+            </table>
+
+            <p>Same atoms, different connectivity. These are <span class="def-popup" data-definition="Constitutional isomers: Molecules with the same molecular formula but different atom connectivity. The atoms are bonded in different sequences."><span class="def-tooltip"></span>constitutional isomers</span>.</p>
+
+            <p>But arrangement runs deeper. Even with identical connectivity, spatial arrangement can differ:</p>
+
+            <table>
+                <tr><th>Type</th><th>What differs</th><th>Example</th></tr>
+                <tr><td>Constitutional</td><td>Connectivity</td><td>Ethanol vs. dimethyl ether</td></tr>
+                <tr><td>Conformational</td><td>Rotation about bonds</td><td>Chair vs. boat cyclohexane</td></tr>
+                <tr><td>Configurational</td><td>3D arrangement (fixed)</td><td>R vs. S enantiomers</td></tr>
+            </table>
+
+            <h3>1.3 The Cognitive Basis</h3>
+            <p>Humans are exquisitely sensitive to arrangement. We recognize faces not by listing features but by their spatial configuration. The same eyes, nose, and mouth in different arrangements yield different identities.</p>
+
+            <p>This sensitivity extends to objects. Infants distinguish objects by shape and spatial configuration before they can count.[^1] Arrangement perception is cognitively primitive.</p>
+        </section>
+
+        <!-- Part II: Stereochemistry -->
+        <section class="part">
+            <div class="part-header">
+                <div class="part-number">PART II</div>
+                <h2>Stereochemistry — Arrangement in 3D</h2>
+            </div>
+
+            <h3>2.1 Chirality</h3>
+            <p>Your left hand and right hand have the same parts in the same connectivity. Yet they are not superimposable. They are <span class="def-popup" data-definition="Chirality: The property of non-superimposability on one's mirror image. From Greek cheir (hand). A chiral object has a distinct mirror image."><span class="def-tooltip"></span>chiral</span> — mirror images that cannot be made identical.</p>
+
+            <p>A carbon atom with four different groups is a <span class="def-popup" data-definition="Stereocenter (chiral center): An atom bearing groups such that interchanging any two groups produces a stereoisomer. Most commonly a carbon with four different substituents."><span class="def-tooltip"></span>stereocenter</span>. It can exist in two mirror-image forms called <span class="def-popup" data-definition="Enantiomers: Stereoisomers that are non-superimposable mirror images. They have identical physical properties except for the direction they rotate plane-polarized light."><span class="def-tooltip"></span>enantiomers</span>.</p>
+
+            <!-- R/S Interactive -->
+            <div class="visual-container">
+                <div class="visual-title">Enantiomers — Mirror Images</div>
+                <div class="mirror-container">
+                    <div>
+                        <canvas id="rEnantiomer" width="200" height="200"></canvas>
+                        <div class="molecule-label r-config">(R)-configuration</div>
+                    </div>
+                    <div class="mirror-divider"></div>
+                    <div>
+                        <canvas id="sEnantiomer" width="200" height="200"></canvas>
+                        <div class="molecule-label s-config">(S)-configuration</div>
+                    </div>
+                </div>
+                <div class="controls">
+                    <div class="control-group">
+                        <label>Rotate</label>
+                        <input type="range" id="chiralRotate" min="0" max="360" value="0">
+                        <span class="value-display" id="chiralRotateVal">0°</span>
+                    </div>
+                </div>
+                <div class="result-display">
+                    <div class="result-label">Try to superimpose them by rotation — you cannot.</div>
+                </div>
+                <p class="caption">Non-superimposable mirror images. The basis of chirality.</p>
+            </div>
+
+            <div class="formula-box">
+                <div class="formula">R/S Nomenclature (Cahn-Ingold-Prelog)</div>
+                <div class="explanation">
+                    1. Rank substituents by atomic number (highest = 1)<br>
+                    2. Orient lowest priority group away from you<br>
+                    3. Trace 1→2→3: clockwise = R, counterclockwise = S
+                </div>
+            </div>
+
+            <h3>2.2 Geometric Isomers</h3>
+            <p>Double bonds prevent rotation. Groups can be on the same side (<span class="def-popup" data-definition="Cis (Z): Geometric isomer where similar groups are on the same side of a double bond or ring."><span class="def-tooltip"></span>cis/Z</span>) or opposite sides (<span class="def-popup" data-definition="Trans (E): Geometric isomer where similar groups are on opposite sides of a double bond or ring."><span class="def-tooltip"></span>trans/E</span>).</p>
+
+            <!-- E/Z Interactive -->
+            <div class="visual-container">
+                <div class="visual-title">Geometric Isomers — E/Z</div>
+                <canvas id="ezCanvas" width="700" height="250"></canvas>
+                <div class="btn-group">
+                    <button class="ez-btn active" data-config="Z">(Z)-cis</button>
+                    <button class="ez-btn" data-config="E">(E)-trans</button>
+                </div>
+                <div class="result-display">
+                    <div class="result-value" id="ezLabel">Z-isomer (cis)</div>
+                    <div class="result-label" id="ezDesc">Similar groups on the same side</div>
+                </div>
+                <p class="caption">Restricted rotation around double bonds creates distinct isomers.</p>
+            </div>
+
+            <h4>Example: Vision</h4>
+            <p>Your ability to see depends on geometric isomerism. Retinal in your eye exists as the 11-<em>cis</em> isomer. When light hits it, it isomerizes to <em>all-trans</em>. This shape change triggers a neural signal — you perceive light.[^2]</p>
+
+            <h3>2.3 Conformations</h3>
+            <p>Single bonds allow rotation. Different rotational positions are <span class="def-popup" data-definition="Conformers: Stereoisomers that interconvert by rotation about single bonds. Not isolable at room temperature due to rapid interconversion."><span class="def-tooltip"></span>conformers</span>.</p>
+
+            <!-- Conformer Interactive -->
+            <div class="visual-container">
+                <div class="visual-title">Conformational Isomers — Ethane</div>
+                <canvas id="conformerCanvas" width="700" height="280"></canvas>
+                <div class="controls">
+                    <div class="control-group">
+                        <label>Dihedral Angle</label>
+                        <input type="range" id="dihedralAngle" min="0" max="360" value="60">
+                        <span class="value-display" id="dihedralVal">60° (staggered)</span>
+                    </div>
+                </div>
+                <div class="result-display">
+                    <div class="result-value" id="conformerEnergy">0 kJ/mol</div>
+                    <div class="result-label" id="conformerType">Staggered — minimum energy</div>
+                </div>
+                <p class="caption">Staggered (60°, 180°, 300°) is lower energy than eclipsed (0°, 120°, 240°).</p>
+            </div>
+        </section>
+
+        <!-- Part III: Crystal Structures -->
+        <section class="part">
+            <div class="part-header">
+                <div class="part-number">PART III</div>
+                <h2>Crystal Structures — Arrangement in Bulk</h2>
+            </div>
+
+            <h3>3.1 Unit Cells</h3>
+            <p>Crystals are atoms arranged in repeating patterns. The smallest repeating unit is the <span class="def-popup" data-definition="Unit cell: The smallest repeating unit of a crystal lattice. The entire crystal is built by stacking unit cells in three dimensions."><span class="def-tooltip"></span>unit cell</span>.</p>
+
+            <p>Different arrangements of atoms produce different crystal systems:</p>
+
+            <!-- Crystal Structure Selector -->
+            <div class="visual-container">
+                <div class="visual-title">Crystal Systems</div>
+                <canvas id="crystalCanvas" width="700" height="350"></canvas>
+                <div class="crystal-grid">
+                    <div class="crystal-card active" data-crystal="cubic">
+                        <div class="crystal-name">Simple Cubic</div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted);">Po</div>
+                    </div>
+                    <div class="crystal-card" data-crystal="bcc">
+                        <div class="crystal-name">Body-Centered</div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted);">Fe, W, Na</div>
+                    </div>
+                    <div class="crystal-card" data-crystal="fcc">
+                        <div class="crystal-name">Face-Centered</div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted);">Cu, Au, Al</div>
+                    </div>
+                    <div class="crystal-card" data-crystal="hcp">
+                        <div class="crystal-name">Hexagonal Close</div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted);">Mg, Zn, Ti</div>
+                    </div>
+                </div>
+                <div class="result-display">
+                    <div class="result-value" id="crystalPacking">52% packing</div>
+                    <div class="result-label" id="crystalCoord">Coordination number: 6</div>
+                </div>
+            </div>
+
+            <table>
+                <tr><th>Structure</th><th>Atoms/Cell</th><th>Coordination</th><th>Packing</th></tr>
+                <tr><td>Simple Cubic</td><td>1</td><td>6</td><td>52%</td></tr>
+                <tr><td>BCC</td><td>2</td><td>8</td><td>68%</td></tr>
+                <tr><td>FCC</td><td>4</td><td>12</td><td>74%</td></tr>
+                <tr><td>HCP</td><td>2</td><td>12</td><td>74%</td></tr>
+            </table>
+
+            <p>The 74% packing of FCC and HCP represents the densest possible packing of equal spheres — proven by Kepler's conjecture (1611), finally confirmed in 2017.[^3]</p>
+        </section>
+
+        <!-- Part IV: Matrices -->
+        <section class="part">
+            <div class="part-header">
+                <div class="part-number">PART IV</div>
+                <h2>Matrices — Arrangement as Numbers</h2>
+            </div>
+
+            <h3>4.1 What Is a Matrix?</h3>
+            <p>A <span class="def-popup" data-definition="Matrix: A rectangular array of numbers arranged in rows and columns. Used to represent linear transformations, systems of equations, and data."><span class="def-tooltip"></span>matrix</span> is a rectangular array of numbers. The arrangement of numbers matters — swapping rows or columns produces a different matrix.</p>
+
+            <div class="matrix-display">
+                <div class="matrix">
+                    <div class="matrix-row"><span>1</span><span>2</span></div>
+                    <div class="matrix-row"><span>3</span><span>4</span></div>
+                </div>
+                <span class="matrix-equals">≠</span>
+                <div class="matrix">
+                    <div class="matrix-row"><span>3</span><span>4</span></div>
+                    <div class="matrix-row"><span>1</span><span>2</span></div>
+                </div>
+            </div>
+
+            <p>Same numbers, different arrangement — different matrix.</p>
+
+            <h3>4.2 Matrices as Transformations</h3>
+            <p>Matrices encode spatial transformations: rotations, reflections, scaling. Multiplying a point by a matrix moves it.</p>
+
+            <!-- Matrix Transformation Interactive -->
+            <div class="visual-container">
+                <div class="visual-title">Matrix Transformations</div>
+                <canvas id="matrixCanvas" width="700" height="350"></canvas>
+                <div class="btn-group">
+                    <button class="matrix-btn active" data-transform="identity">Identity</button>
+                    <button class="matrix-btn" data-transform="rotate90">Rotate 90°</button>
+                    <button class="matrix-btn" data-transform="reflect">Reflect</button>
+                    <button class="matrix-btn" data-transform="scale">Scale 2×</button>
+                    <button class="matrix-btn" data-transform="shear">Shear</button>
+                </div>
+                <div class="matrix-display" id="transformMatrix">
+                    <div class="matrix">
+                        <div class="matrix-row"><span>1</span><span>0</span></div>
+                        <div class="matrix-row"><span>0</span><span>1</span></div>
+                    </div>
+                </div>
+                <p class="caption">Each matrix encodes a specific spatial transformation.</p>
+            </div>
+
+            <h3>4.3 Why Matrices in Chemistry?</h3>
+            <p>Symmetry operations on molecules are matrices. The rotation that converts one orientation to another is encoded in a rotation matrix. Group theory — the mathematics of symmetry — is built on matrix algebra.</p>
+        </section>
+
+        <!-- Part V: Symmetry -->
+        <section class="part">
+            <div class="part-header">
+                <div class="part-number">PART V</div>
+                <h2>Symmetry Operations</h2>
+            </div>
+
+            <h3>5.1 The Symmetry Operations</h3>
+            <p>A <span class="def-popup" data-definition="Symmetry operation: A movement of an object that leaves it indistinguishable from its original position. Includes rotations, reflections, inversions, and improper rotations."><span class="def-tooltip"></span>symmetry operation</span> is a transformation that leaves an object looking the same. Chemistry recognizes five types:</p>
+
+            <table>
+                <tr><th>Symbol</th><th>Operation</th><th>Description</th></tr>
+                <tr><td>E</td><td>Identity</td><td>Do nothing</td></tr>
+                <tr><td>Cₙ</td><td>Rotation</td><td>Rotate 360°/n about an axis</td></tr>
+                <tr><td>σ</td><td>Reflection</td><td>Reflect through a plane</td></tr>
+                <tr><td>i</td><td>Inversion</td><td>Invert through center point</td></tr>
+                <tr><td>Sₙ</td><td>Improper rotation</td><td>Rotate then reflect</td></tr>
+            </table>
+
+            <!-- Symmetry Operations Interactive -->
+            <div class="visual-container">
+                <div class="visual-title">Symmetry Operations on H₂O</div>
+                <canvas id="symmetryCanvas" width="700" height="300"></canvas>
+                <div class="symmetry-ops">
+                    <button class="sym-btn active" data-op="E">E (identity)</button>
+                    <button class="sym-btn" data-op="C2">C₂ (180° rotation)</button>
+                    <button class="sym-btn" data-op="sv">σᵥ (vertical mirror)</button>
+                    <button class="sym-btn" data-op="sv2">σᵥ' (perpendicular mirror)</button>
+                </div>
+                <div class="result-display">
+                    <div class="result-value" id="symOpName">Identity (E)</div>
+                    <div class="result-label" id="symOpDesc">Leave the molecule unchanged</div>
+                </div>
+                <p class="caption">Water belongs to point group C₂ᵥ with 4 symmetry operations.</p>
+            </div>
+
+            <h3>5.2 Point Groups</h3>
+            <p>The collection of all symmetry operations for a molecule forms a <span class="def-popup" data-definition="Point group: The set of all symmetry operations that leave at least one point fixed. Classifies molecules by their symmetry."><span class="def-tooltip"></span>point group</span>. Molecules in the same point group share symmetry properties.</p>
+
+            <table>
+                <tr><th>Point Group</th><th>Example</th><th>Operations</th></tr>
+                <tr><td>C₁</td><td>CHFClBr</td><td>E only (no symmetry)</td></tr>
+                <tr><td>Cs</td><td>HOCl</td><td>E, σ</td></tr>
+                <tr><td>C₂ᵥ</td><td>H₂O</td><td>E, C₂, σᵥ, σᵥ'</td></tr>
+                <tr><td>C₃ᵥ</td><td>NH₃</td><td>E, 2C₃, 3σᵥ</td></tr>
+                <tr><td>D∞ₕ</td><td>CO₂</td><td>Linear, centrosymmetric</td></tr>
+                <tr><td>Tᵈ</td><td>CH₄</td><td>Tetrahedral</td></tr>
+                <tr><td>Oₕ</td><td>SF₆</td><td>Octahedral</td></tr>
+            </table>
+
+            <p>A chiral molecule has no symmetry operations that convert it to its mirror image. It belongs to a point group containing only proper rotations (Cₙ, Dₙ).[^4]</p>
+        </section>
+
+        <!-- Part VI: Formal Definitions -->
+        <section class="part">
+            <div class="part-header">
+                <div class="part-number">PART VI</div>
+                <h2>Formal Definitions</h2>
+            </div>
+
+            <div class="definition-block">
+                <h3>Core Concepts</h3>
+
+                <div class="definition-item">
+                    <div class="definition-term">Stereoisomers</div>
+                    <div class="definition-desc">Molecules with same connectivity but different spatial arrangement.</div>
+                </div>
+
+                <div class="definition-item">
+                    <div class="definition-term">Enantiomers</div>
+                    <div class="definition-desc">Non-superimposable mirror images. Opposite R/S configuration.</div>
+                </div>
+
+                <div class="definition-item">
+                    <div class="definition-term">Diastereomers</div>
+                    <div class="definition-desc">Stereoisomers that are not mirror images. Different physical properties.</div>
+                </div>
+
+                <div class="definition-item">
+                    <div class="definition-term">Chirality</div>
+                    <div class="definition-desc">Non-superimposability on mirror image. No σ, i, or Sₙ operations.</div>
+                </div>
+
+                <div class="definition-item">
+                    <div class="definition-term">Geometric isomers</div>
+                    <div class="definition-desc">E/Z or cis/trans isomers. Differ in arrangement about double bond or ring.</div>
+                </div>
+
+                <div class="definition-item">
+                    <div class="definition-term">Conformers</div>
+                    <div class="definition-desc">Isomers interconverting by bond rotation. Not isolable at room temperature.</div>
+                </div>
+
+                <div class="definition-item">
+                    <div class="definition-term">Matrix</div>
+                    <div class="definition-desc">Rectangular array of numbers. Encodes linear transformations.</div>
+                </div>
+
+                <div class="definition-item">
+                    <div class="definition-term">Unit cell</div>
+                    <div class="definition-desc">Smallest repeating unit of a crystal lattice.</div>
+                </div>
+
+                <div class="definition-item">
+                    <div class="definition-term">Point group</div>
+                    <div class="definition-desc">Set of symmetry operations leaving at least one point fixed.</div>
+                </div>
+
+                <div class="definition-item">
+                    <div class="definition-term">Symmetry operation</div>
+                    <div class="definition-desc">Transformation leaving object indistinguishable: E, Cₙ, σ, i, Sₙ.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Part VII: Forward -->
+        <section class="part">
+            <div class="part-header">
+                <div class="part-number">PART VII</div>
+                <h2>Forward</h2>
+            </div>
+
+            <h3>What ARRANGEMENT Establishes</h3>
+            <p>ARRANGEMENT is the recognition that spatial organization is part of identity. Same atoms in different arrangements yield different molecules with different properties.</p>
+
+            <p>Formalization yields:</p>
+            <ul>
+                <li><strong>Stereochemistry</strong>: R/S, E/Z, conformational analysis</li>
+                <li><strong>Crystallography</strong>: unit cells, packing, lattices</li>
+                <li><strong>Matrices</strong>: numerical encoding of transformations</li>
+                <li><strong>Symmetry</strong>: point groups, operations, selection rules</li>
+            </ul>
+
+            <h3>The Connection to SAMENESS</h3>
+            <p>ARRANGEMENT and SAMENESS are intimately linked. A symmetry operation is precisely an arrangement that leaves something the <em>same</em>. The two primitives are dual perspectives on structure.</p>
+
+            <div class="formula-box">
+                <div class="formula">COLLECTION → "How many atoms?"</div>
+                <div class="explanation">ARRANGEMENT → "In what order?"<br>SAMENESS → "What stays unchanged?"</div>
+            </div>
+
+            <p>Together, COLLECTION, ARRANGEMENT, and DIRECTION form the foundation for molecular structure. We can count atoms, describe their arrangement, and specify the directions of bonds.</p>
+        </section>
+
+        <!-- Endnotes -->
+        <section class="endnotes">
+            <h3>Endnotes</h3>
+            <div class="endnote"><span class="endnote-ref">[1]</span> Kellman, P.J., & Spelke, E.S. (1983), "Perception of partly occluded objects in infancy," <em>Cognitive Psychology</em> 15:483-524.</div>
+            <div class="endnote"><span class="endnote-ref">[2]</span> Wald, G. (1968), "The molecular basis of visual excitation," <em>Nature</em> 219:800-807. Nobel Prize lecture.</div>
+            <div class="endnote"><span class="endnote-ref">[3]</span> Hales, T. et al. (2017), "A formal proof of the Kepler conjecture," <em>Forum of Mathematics, Pi</em> 5:e2.</div>
+            <div class="endnote"><span class="endnote-ref">[4]</span> Cotton, F.A. (1990), <em>Chemical Applications of Group Theory</em>, 3rd ed., Wiley.</div>
+        </section>
+
+        <!-- Navigation -->
+        <div class="nav-buttons">
+            <a href="../04-direction/sec1-what-points.html" class="nav-link">← Lecture 04: DIRECTION</a>
+            <a href="../index.html" class="nav-link">Back to Lectures →</a>
+        </div>
+    </main>
+
+    <script>
+        // === Populate Definition Tooltips ===
+        document.querySelectorAll('.def-popup').forEach(el => {
+            const tooltip = el.querySelector('.def-tooltip');
+            if (tooltip && el.dataset.definition) {
+                tooltip.textContent = el.dataset.definition;
+            }
+        });
+
+        // === Hook Molecules (simplified thalidomide representation) ===
+        function drawThalidomide(canvasId, isR) {
+            const canvas = document.getElementById(canvasId);
+            const ctx = canvas.getContext('2d');
+
+            ctx.fillStyle = '#161B22';
+            ctx.fillRect(0, 0, 150, 150);
+
+            const cx = 75, cy = 75;
+
+            // Central chiral carbon
+            ctx.beginPath();
+            ctx.arc(cx, cy, 12, 0, Math.PI * 2);
+            ctx.fillStyle = '#6E7681';
+            ctx.fill();
+
+            // Four substituents with different positions for R vs S
+            const groups = isR ? [
+                { angle: -60, color: '#F85149', label: 'N', len: 35 },
+                { angle: 60, color: '#58A6FF', label: 'C', len: 35 },
+                { angle: 180, color: '#7EE787', label: 'H', len: 30 },
+                { angle: -120, color: '#F2CC60', label: 'O', len: 35 }
+            ] : [
+                { angle: -60, color: '#58A6FF', label: 'C', len: 35 },
+                { angle: 60, color: '#F85149', label: 'N', len: 35 },
+                { angle: 180, color: '#7EE787', label: 'H', len: 30 },
+                { angle: -120, color: '#F2CC60', label: 'O', len: 35 }
+            ];
+
+            groups.forEach(g => {
+                const rad = g.angle * Math.PI / 180;
+                const gx = cx + g.len * Math.cos(rad);
+                const gy = cy + g.len * Math.sin(rad);
+
+                // Bond
+                ctx.beginPath();
+                ctx.moveTo(cx, cy);
+                ctx.lineTo(gx, gy);
+                ctx.strokeStyle = '#6E7681';
+                ctx.lineWidth = 3;
+                ctx.stroke();
+
+                // Atom
+                ctx.beginPath();
+                ctx.arc(gx, gy, 12, 0, Math.PI * 2);
+                ctx.fillStyle = g.color;
+                ctx.fill();
+
+                ctx.fillStyle = '#E6EDF3';
+                ctx.font = '10px Inter';
+                ctx.textAlign = 'center';
+                ctx.fillText(g.label, gx, gy + 4);
+            });
+
+            // Asterisk for chiral center
+            ctx.fillStyle = '#A371F7';
+            ctx.font = '14px Inter';
+            ctx.fillText('*', cx, cy + 4);
+        }
+
+        drawThalidomide('hookR', true);
+        drawThalidomide('hookS', false);
+
+        // === Enantiomer Visualization ===
+        const rCanvas = document.getElementById('rEnantiomer');
+        const sCanvas = document.getElementById('sEnantiomer');
+        const chiralRotate = document.getElementById('chiralRotate');
+
+        function drawEnantiomer(canvas, isR, rotation) {
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#161B22';
+            ctx.fillRect(0, 0, 200, 200);
+
+            const cx = 100, cy = 100;
+            const rad = rotation * Math.PI / 180;
+
+            // Tetrahedral geometry
+            const groups = [
+                { name: 'A', color: '#F85149', baseAngle: 0 },
+                { name: 'B', color: '#58A6FF', baseAngle: 120 },
+                { name: 'C', color: '#7EE787', baseAngle: 240 },
+                { name: 'D', color: '#F2CC60', baseAngle: 'up' }
+            ];
+
+            // For S, we swap two groups
+            if (!isR) {
+                [groups[0], groups[1]] = [groups[1], groups[0]];
+            }
+
+            // Draw three in plane
+            for (let i = 0; i < 3; i++) {
+                const g = groups[i];
+                const angle = (g.baseAngle + rotation) * Math.PI / 180;
+                const gx = cx + 50 * Math.cos(angle);
+                const gy = cy + 50 * Math.sin(angle) * 0.5 + 20; // Perspective
+
+                ctx.beginPath();
+                ctx.moveTo(cx, cy);
+                ctx.lineTo(gx, gy);
+                ctx.strokeStyle = '#6E7681';
+                ctx.lineWidth = 3;
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.arc(gx, gy, 18, 0, Math.PI * 2);
+                ctx.fillStyle = g.color;
+                ctx.fill();
+
+                ctx.fillStyle = '#E6EDF3';
+                ctx.font = '14px JetBrains Mono';
+                ctx.textAlign = 'center';
+                ctx.fillText(g.name, gx, gy + 5);
+            }
+
+            // Fourth group (up, toward viewer)
+            const dg = groups[3];
+            ctx.beginPath();
+            ctx.moveTo(cx, cy);
+            ctx.lineTo(cx, cy - 50);
+            ctx.strokeStyle = '#6E7681';
+            ctx.lineWidth = 5; // Wedge
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.arc(cx, cy - 55, 18, 0, Math.PI * 2);
+            ctx.fillStyle = dg.color;
+            ctx.fill();
+
+            ctx.fillStyle = '#E6EDF3';
+            ctx.font = '14px JetBrains Mono';
+            ctx.fillText(dg.name, cx, cy - 50);
+
+            // Central carbon
+            ctx.beginPath();
+            ctx.arc(cx, cy, 15, 0, Math.PI * 2);
+            ctx.fillStyle = '#6E7681';
+            ctx.fill();
+            ctx.fillStyle = '#A371F7';
+            ctx.font = '12px JetBrains Mono';
+            ctx.fillText('C*', cx, cy + 4);
+        }
+
+        function updateChiral() {
+            const rot = parseFloat(chiralRotate.value);
+            document.getElementById('chiralRotateVal').textContent = rot + '°';
+            drawEnantiomer(rCanvas, true, rot);
+            drawEnantiomer(sCanvas, false, rot);
+        }
+
+        chiralRotate.addEventListener('input', updateChiral);
+        updateChiral();
+
+        // === E/Z Isomers ===
+        const ezCanvas = document.getElementById('ezCanvas');
+        const ezCtx = ezCanvas.getContext('2d');
+        let currentEZ = 'Z';
+
+        function drawEZ() {
+            ezCtx.fillStyle = '#161B22';
+            ezCtx.fillRect(0, 0, 700, 250);
+
+            const cx = 350, cy = 125;
+
+            // Double bond
+            ezCtx.strokeStyle = '#6E7681';
+            ezCtx.lineWidth = 6;
+            ezCtx.beginPath();
+            ezCtx.moveTo(cx - 40, cy - 3);
+            ezCtx.lineTo(cx + 40, cy - 3);
+            ezCtx.moveTo(cx - 40, cy + 3);
+            ezCtx.lineTo(cx + 40, cy + 3);
+            ezCtx.stroke();
+
+            // Carbons
+            ezCtx.beginPath();
+            ezCtx.arc(cx - 40, cy, 15, 0, Math.PI * 2);
+            ezCtx.arc(cx + 40, cy, 15, 0, Math.PI * 2);
+            ezCtx.fillStyle = '#6E7681';
+            ezCtx.fill();
+
+            // Substituents based on config
+            const leftUp = currentEZ === 'Z' ? { color: '#F85149', label: 'Cl' } : { color: '#58A6FF', label: 'H' };
+            const leftDown = currentEZ === 'Z' ? { color: '#58A6FF', label: 'H' } : { color: '#F85149', label: 'Cl' };
+            const rightUp = { color: '#F85149', label: 'Cl' };
+            const rightDown = { color: '#58A6FF', label: 'H' };
+
+            // Draw substituents
+            const subs = [
+                { x: cx - 80, y: cy - 50, ...leftUp },
+                { x: cx - 80, y: cy + 50, ...leftDown },
+                { x: cx + 80, y: cy - 50, ...rightUp },
+                { x: cx + 80, y: cy + 50, ...rightDown }
+            ];
+
+            subs.forEach((s, i) => {
+                const bondX = i < 2 ? cx - 40 : cx + 40;
+                ezCtx.beginPath();
+                ezCtx.moveTo(bondX, cy);
+                ezCtx.lineTo(s.x, s.y);
+                ezCtx.strokeStyle = '#6E7681';
+                ezCtx.lineWidth = 3;
+                ezCtx.stroke();
+
+                ezCtx.beginPath();
+                ezCtx.arc(s.x, s.y, 18, 0, Math.PI * 2);
+                ezCtx.fillStyle = s.color;
+                ezCtx.fill();
+
+                ezCtx.fillStyle = '#E6EDF3';
+                ezCtx.font = '12px JetBrains Mono';
+                ezCtx.textAlign = 'center';
+                ezCtx.fillText(s.label, s.x, s.y + 4);
+            });
+
+            // Update labels
+            document.getElementById('ezLabel').textContent = currentEZ === 'Z' ? 'Z-isomer (cis)' : 'E-isomer (trans)';
+            document.getElementById('ezDesc').textContent = currentEZ === 'Z' ?
+                'Similar groups on the same side' : 'Similar groups on opposite sides';
+        }
+
+        document.querySelectorAll('.ez-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.ez-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentEZ = btn.dataset.config;
+                drawEZ();
+            });
+        });
+
+        drawEZ();
+
+        // === Conformer (Newman Projection) ===
+        const conformerCanvas = document.getElementById('conformerCanvas');
+        const conformerCtx = conformerCanvas.getContext('2d');
+        const dihedralSlider = document.getElementById('dihedralAngle');
+
+        function drawConformer() {
+            const dihedral = parseFloat(dihedralSlider.value);
+
+            conformerCtx.fillStyle = '#161B22';
+            conformerCtx.fillRect(0, 0, 700, 280);
+
+            const cx = 350, cy = 140;
+            const innerR = 30, outerR = 70;
+
+            // Back carbon circle
+            conformerCtx.beginPath();
+            conformerCtx.arc(cx, cy, innerR, 0, Math.PI * 2);
+            conformerCtx.strokeStyle = '#6E7681';
+            conformerCtx.lineWidth = 3;
+            conformerCtx.stroke();
+
+            // Front carbon (center dot)
+            conformerCtx.beginPath();
+            conformerCtx.arc(cx, cy, 8, 0, Math.PI * 2);
+            conformerCtx.fillStyle = '#6E7681';
+            conformerCtx.fill();
+
+            // Front hydrogens (fixed at 60°, 180°, 300°)
+            const frontAngles = [90, 210, 330];
+            frontAngles.forEach(a => {
+                const rad = a * Math.PI / 180;
+                const hx = cx + outerR * Math.cos(rad);
+                const hy = cy - outerR * Math.sin(rad);
+
+                conformerCtx.beginPath();
+                conformerCtx.moveTo(cx, cy);
+                conformerCtx.lineTo(hx, hy);
+                conformerCtx.strokeStyle = '#58A6FF';
+                conformerCtx.lineWidth = 3;
+                conformerCtx.stroke();
+
+                conformerCtx.beginPath();
+                conformerCtx.arc(hx, hy, 12, 0, Math.PI * 2);
+                conformerCtx.fillStyle = '#58A6FF';
+                conformerCtx.fill();
+                conformerCtx.fillStyle = '#E6EDF3';
+                conformerCtx.font = '10px Inter';
+                conformerCtx.textAlign = 'center';
+                conformerCtx.fillText('H', hx, hy + 4);
+            });
+
+            // Back hydrogens (rotate with dihedral)
+            const backAngles = [90 + dihedral, 210 + dihedral, 330 + dihedral];
+            backAngles.forEach(a => {
+                const rad = a * Math.PI / 180;
+                const hx = cx + innerR * Math.cos(rad);
+                const hy = cy - innerR * Math.sin(rad);
+                const hxOuter = cx + outerR * Math.cos(rad);
+                const hyOuter = cy - outerR * Math.sin(rad);
+
+                conformerCtx.beginPath();
+                conformerCtx.moveTo(hx, hy);
+                conformerCtx.lineTo(hxOuter, hyOuter);
+                conformerCtx.strokeStyle = '#7EE787';
+                conformerCtx.lineWidth = 3;
+                conformerCtx.stroke();
+
+                conformerCtx.beginPath();
+                conformerCtx.arc(hxOuter, hyOuter, 12, 0, Math.PI * 2);
+                conformerCtx.fillStyle = '#7EE787';
+                conformerCtx.fill();
+                conformerCtx.fillStyle = '#161B22';
+                conformerCtx.font = '10px Inter';
+                conformerCtx.fillText('H', hxOuter, hyOuter + 4);
+            });
+
+            // Energy calculation (simplified)
+            const normalizedAngle = ((dihedral % 60) + 60) % 60;
+            const isEclipsed = normalizedAngle < 10 || normalizedAngle > 50;
+            const energy = isEclipsed ? 12 : 0;
+
+            // Labels
+            let conformerType = '';
+            const mod60 = dihedral % 60;
+            if (mod60 < 10 || mod60 > 50) {
+                conformerType = 'Eclipsed — maximum energy';
+            } else {
+                conformerType = 'Staggered — minimum energy';
+            }
+
+            document.getElementById('dihedralVal').textContent = dihedral + '° (' + (isEclipsed ? 'eclipsed' : 'staggered') + ')';
+            document.getElementById('conformerEnergy').textContent = energy + ' kJ/mol';
+            document.getElementById('conformerType').textContent = conformerType;
+        }
+
+        dihedralSlider.addEventListener('input', drawConformer);
+        drawConformer();
+
+        // === Crystal Structures ===
+        const crystalCanvas = document.getElementById('crystalCanvas');
+        const crystalCtx = crystalCanvas.getContext('2d');
+        let currentCrystal = 'cubic';
+
+        const crystalData = {
+            cubic: { packing: 52, coord: 6, atoms: [[0,0], [1,0], [0,1], [1,1]] },
+            bcc: { packing: 68, coord: 8, atoms: [[0,0], [1,0], [0,1], [1,1], [0.5, 0.5]] },
+            fcc: { packing: 74, coord: 12, atoms: [[0,0], [1,0], [0,1], [1,1], [0.5,0], [0,0.5], [1,0.5], [0.5,1]] },
+            hcp: { packing: 74, coord: 12, atoms: 'hex' }
+        };
+
+        function drawCrystal() {
+            crystalCtx.fillStyle = '#161B22';
+            crystalCtx.fillRect(0, 0, 700, 350);
+
+            const data = crystalData[currentCrystal];
+            const cx = 350, cy = 175;
+            const cellSize = 100;
+
+            if (currentCrystal === 'hcp') {
+                // Hexagonal close packed
+                const rows = 3, cols = 4;
+                const dx = cellSize * 0.866;
+                const dy = cellSize * 0.75;
+
+                for (let row = 0; row < rows; row++) {
+                    for (let col = 0; col < cols; col++) {
+                        const offset = row % 2 === 0 ? 0 : dx / 2;
+                        const x = cx - (cols * dx / 2) + col * dx + offset;
+                        const y = cy - (rows * dy / 2) + row * dy;
+
+                        crystalCtx.beginPath();
+                        crystalCtx.arc(x, y, 20, 0, Math.PI * 2);
+                        crystalCtx.fillStyle = row % 2 === 0 ? '#A371F7' : '#58A6FF';
+                        crystalCtx.fill();
+                        crystalCtx.strokeStyle = '#6E7681';
+                        crystalCtx.lineWidth = 1;
+                        crystalCtx.stroke();
+                    }
+                }
+            } else {
+                // Cubic structures
+                const startX = cx - cellSize;
+                const startY = cy - cellSize;
+
+                // Draw unit cell outline
+                crystalCtx.strokeStyle = '#6E7681';
+                crystalCtx.lineWidth = 2;
+                crystalCtx.strokeRect(startX, startY, cellSize * 2, cellSize * 2);
+
+                // Draw atoms
+                data.atoms.forEach((pos, i) => {
+                    const x = startX + pos[0] * cellSize * 2;
+                    const y = startY + pos[1] * cellSize * 2;
+                    const isCorner = pos[0] === 0 || pos[0] === 1;
+                    const isFace = !isCorner && (pos[0] === 0.5 || pos[1] === 0.5);
+
+                    crystalCtx.beginPath();
+                    crystalCtx.arc(x, y, currentCrystal === 'fcc' ? 18 : 22, 0, Math.PI * 2);
+                    crystalCtx.fillStyle = pos[0] === 0.5 && pos[1] === 0.5 ? '#F2CC60' :
+                                          isFace ? '#58A6FF' : '#A371F7';
+                    crystalCtx.fill();
+                    crystalCtx.strokeStyle = '#6E7681';
+                    crystalCtx.lineWidth = 1;
+                    crystalCtx.stroke();
+                });
+            }
+
+            document.getElementById('crystalPacking').textContent = data.packing + '% packing';
+            document.getElementById('crystalCoord').textContent = 'Coordination number: ' + data.coord;
+        }
+
+        document.querySelectorAll('.crystal-card').forEach(card => {
+            card.addEventListener('click', () => {
+                document.querySelectorAll('.crystal-card').forEach(c => c.classList.remove('active'));
+                card.classList.add('active');
+                currentCrystal = card.dataset.crystal;
+                drawCrystal();
+            });
+        });
+
+        drawCrystal();
+
+        // === Matrix Transformations ===
+        const matrixCanvas = document.getElementById('matrixCanvas');
+        const matrixCtx = matrixCanvas.getContext('2d');
+        let currentTransform = 'identity';
+
+        const transforms = {
+            identity: { matrix: [[1, 0], [0, 1]], name: 'Identity' },
+            rotate90: { matrix: [[0, -1], [1, 0]], name: 'Rotate 90°' },
+            reflect: { matrix: [[-1, 0], [0, 1]], name: 'Reflect (y-axis)' },
+            scale: { matrix: [[2, 0], [0, 2]], name: 'Scale 2×' },
+            shear: { matrix: [[1, 0.5], [0, 1]], name: 'Shear' }
+        };
+
+        function drawMatrix() {
+            matrixCtx.fillStyle = '#161B22';
+            matrixCtx.fillRect(0, 0, 700, 350);
+
+            const cx = 350, cy = 175;
+            const scale = 40;
+
+            // Grid
+            matrixCtx.strokeStyle = 'rgba(255,255,255,0.1)';
+            matrixCtx.lineWidth = 1;
+            for (let i = -4; i <= 4; i++) {
+                matrixCtx.beginPath();
+                matrixCtx.moveTo(cx + i * scale, cy - 4 * scale);
+                matrixCtx.lineTo(cx + i * scale, cy + 4 * scale);
+                matrixCtx.stroke();
+                matrixCtx.beginPath();
+                matrixCtx.moveTo(cx - 4 * scale, cy + i * scale);
+                matrixCtx.lineTo(cx + 4 * scale, cy + i * scale);
+                matrixCtx.stroke();
+            }
+
+            // Axes
+            matrixCtx.strokeStyle = 'rgba(255,255,255,0.3)';
+            matrixCtx.lineWidth = 2;
+            matrixCtx.beginPath();
+            matrixCtx.moveTo(cx - 4 * scale, cy);
+            matrixCtx.lineTo(cx + 4 * scale, cy);
+            matrixCtx.moveTo(cx, cy - 4 * scale);
+            matrixCtx.lineTo(cx, cy + 4 * scale);
+            matrixCtx.stroke();
+
+            // Original shape (square)
+            const originalPoints = [[1, 1], [1, -1], [-1, -1], [-1, 1]];
+
+            // Draw original (faded)
+            matrixCtx.beginPath();
+            originalPoints.forEach((p, i) => {
+                const x = cx + p[0] * scale;
+                const y = cy - p[1] * scale;
+                if (i === 0) matrixCtx.moveTo(x, y);
+                else matrixCtx.lineTo(x, y);
+            });
+            matrixCtx.closePath();
+            matrixCtx.strokeStyle = 'rgba(163, 113, 247, 0.3)';
+            matrixCtx.lineWidth = 2;
+            matrixCtx.stroke();
+
+            // Apply transformation
+            const t = transforms[currentTransform].matrix;
+            const transformedPoints = originalPoints.map(p => [
+                t[0][0] * p[0] + t[0][1] * p[1],
+                t[1][0] * p[0] + t[1][1] * p[1]
+            ]);
+
+            // Draw transformed
+            matrixCtx.beginPath();
+            transformedPoints.forEach((p, i) => {
+                const x = cx + p[0] * scale;
+                const y = cy - p[1] * scale;
+                if (i === 0) matrixCtx.moveTo(x, y);
+                else matrixCtx.lineTo(x, y);
+            });
+            matrixCtx.closePath();
+            matrixCtx.strokeStyle = '#A371F7';
+            matrixCtx.lineWidth = 3;
+            matrixCtx.stroke();
+            matrixCtx.fillStyle = 'rgba(163, 113, 247, 0.2)';
+            matrixCtx.fill();
+
+            // Update matrix display
+            const m = t;
+            document.getElementById('transformMatrix').innerHTML = `
+                <div class="matrix">
+                    <div class="matrix-row"><span>${m[0][0]}</span><span>${m[0][1]}</span></div>
+                    <div class="matrix-row"><span>${m[1][0]}</span><span>${m[1][1]}</span></div>
+                </div>
+            `;
+        }
+
+        document.querySelectorAll('.matrix-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.matrix-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentTransform = btn.dataset.transform;
+                drawMatrix();
+            });
+        });
+
+        drawMatrix();
+
+        // === Symmetry Operations ===
+        const symmetryCanvas = document.getElementById('symmetryCanvas');
+        const symCtx = symmetryCanvas.getContext('2d');
+        let currentSymOp = 'E';
+
+        const symOps = {
+            'E': { name: 'Identity (E)', desc: 'Leave the molecule unchanged' },
+            'C2': { name: 'C₂ (180° rotation)', desc: 'Rotate 180° about the C₂ axis' },
+            'sv': { name: 'σᵥ (vertical mirror)', desc: 'Reflect through the molecular plane' },
+            'sv2': { name: "σᵥ' (perpendicular mirror)", desc: 'Reflect through perpendicular plane' }
+        };
+
+        function drawSymmetry() {
+            symCtx.fillStyle = '#161B22';
+            symCtx.fillRect(0, 0, 700, 300);
+
+            const cx = 350, cy = 150;
+
+            // Draw water molecule
+            const bondAngle = 104.5 * Math.PI / 180;
+            const halfAngle = bondAngle / 2;
+            const bondLen = 60;
+
+            // Oxygen
+            symCtx.beginPath();
+            symCtx.arc(cx, cy, 25, 0, Math.PI * 2);
+            symCtx.fillStyle = '#F85149';
+            symCtx.fill();
+            symCtx.fillStyle = '#E6EDF3';
+            symCtx.font = '16px Inter';
+            symCtx.textAlign = 'center';
+            symCtx.fillText('O', cx, cy + 5);
+
+            // Hydrogens
+            const h1x = cx - bondLen * Math.sin(halfAngle);
+            const h1y = cy - bondLen * Math.cos(halfAngle);
+            const h2x = cx + bondLen * Math.sin(halfAngle);
+            const h2y = cy - bondLen * Math.cos(halfAngle);
+
+            // Bonds
+            symCtx.strokeStyle = '#6E7681';
+            symCtx.lineWidth = 4;
+            symCtx.beginPath();
+            symCtx.moveTo(cx, cy);
+            symCtx.lineTo(h1x, h1y);
+            symCtx.moveTo(cx, cy);
+            symCtx.lineTo(h2x, h2y);
+            symCtx.stroke();
+
+            // Hydrogen atoms
+            symCtx.beginPath();
+            symCtx.arc(h1x, h1y, 15, 0, Math.PI * 2);
+            symCtx.arc(h2x, h2y, 15, 0, Math.PI * 2);
+            symCtx.fillStyle = '#E6EDF3';
+            symCtx.fill();
+            symCtx.fillStyle = '#161B22';
+            symCtx.font = '12px Inter';
+            symCtx.fillText('H', h1x, h1y + 4);
+            symCtx.fillText('H', h2x, h2y + 4);
+
+            // Draw symmetry elements based on operation
+            symCtx.setLineDash([5, 5]);
+            symCtx.lineWidth = 2;
+
+            if (currentSymOp === 'C2') {
+                // C2 axis (vertical through O)
+                symCtx.strokeStyle = '#A371F7';
+                symCtx.beginPath();
+                symCtx.moveTo(cx, cy - 100);
+                symCtx.lineTo(cx, cy + 80);
+                symCtx.stroke();
+
+                // Rotation arrow
+                symCtx.setLineDash([]);
+                symCtx.beginPath();
+                symCtx.arc(cx, cy + 60, 20, 0, Math.PI);
+                symCtx.stroke();
+            } else if (currentSymOp === 'sv') {
+                // Vertical mirror (in molecular plane)
+                symCtx.strokeStyle = '#58A6FF';
+                symCtx.beginPath();
+                symCtx.moveTo(cx - 80, cy - 80);
+                symCtx.lineTo(cx + 80, cy + 80);
+                symCtx.stroke();
+            } else if (currentSymOp === 'sv2') {
+                // Perpendicular mirror
+                symCtx.strokeStyle = '#7EE787';
+                symCtx.beginPath();
+                symCtx.moveTo(cx, cy - 100);
+                symCtx.lineTo(cx, cy + 80);
+                symCtx.stroke();
+            }
+
+            symCtx.setLineDash([]);
+
+            document.getElementById('symOpName').textContent = symOps[currentSymOp].name;
+            document.getElementById('symOpDesc').textContent = symOps[currentSymOp].desc;
+        }
+
+        document.querySelectorAll('.sym-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.sym-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentSymOp = btn.dataset.op;
+                drawSymmetry();
+            });
+        });
+
+        drawSymmetry();
+    </script>
+</body>
+</html>
