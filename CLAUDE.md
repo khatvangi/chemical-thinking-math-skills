@@ -4,8 +4,8 @@
 
 A mathematics course for chemistry undergraduates inverting traditional pedagogy: **Reality → Recognition → Tool** (not Tool → Application).
 
-**Live Site:** https://thebeakers.com
-**API:** https://unawaked-unlunar-alyvia.ngrok-free.dev (when running, will move to api.thebeakers.com)
+**Live Site:** https://course.thebeakers.com
+**API:** https://api.thebeakers.com (Cloudflare Tunnel)
 
 **Model:** MIT 18.S191 "Computational Thinking"
 **Tech Stack:** Quarto + JavaScript (site), FastAPI + Ollama (backend), SQLite (student data)
@@ -58,7 +58,7 @@ The mathematical machinery that captures the primitive:
 
 **Architecture Decision:** Standalone HTML bypassing Quarto for full visual control. Workflow modified to copy to `_site/` on deploy.
 
-**Live URL:** https://thebeakers.com/direction.html
+**Live URL:** https://course.thebeakers.com/direction.html
 
 **Core Insight: Asymmetry is the Genesis of Direction**
 
@@ -220,11 +220,12 @@ cd site && quarto preview          # Site on :4321
 **Site:** GitHub Pages (automatic via Actions)
 - Push to main → builds Quarto → copies standalone HTML + CNAME → deploys to Pages
 - Workflow copies `site/direction.html` and `site/CNAME` to `site/_site/` before upload
-- Live at: https://thebeakers.com (custom domain via Cloudflare)
+- Live at: https://course.thebeakers.com (custom domain via Cloudflare)
 
-**API:** ngrok tunnel (manual start)
-- Run `./start-server.sh` on nitrogen server
-- Current URL: https://unawaked-unlunar-alyvia.ngrok-free.dev
+**API:** Cloudflare Tunnel (permanent)
+- Run `cloudflared tunnel run chem-api` to start tunnel
+- URL: https://api.thebeakers.com
+- Config: ~/.cloudflared/config.yml
 - Update lecture files if URL changes
 
 **Database:** SQLite at `app/backend/chemical_thinking.db`
