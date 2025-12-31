@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breaking Apart | Lecture 04 | Chemical Thinking</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0D1117;
+            --bg-secondary: #161B22;
+            --bg-tertiary: #1c2128;
+            --bg-card: #21262d;
+            --text-primary: #E6EDF3;
+            --text-secondary: #8B949E;
+            --text-muted: #6e7681;
+            --accent-blue: #58A6FF;
+            --accent-coral: #F78166;
+            --accent-green: #7EE787;
+            --accent-purple: #a855f7;
+            --accent-yellow: #d29922;
+            --accent-red: #f85149;
+            --border-subtle: rgba(255,255,255,0.08);
+            --font-heading: 'Fraunces', Georgia, serif;
+            --font-body: 'Inter', -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 17px;
+        }
+
+        .nav-header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            background: rgba(13, 17, 23, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-subtle);
+            z-index: 100;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand { font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-secondary); }
+        .nav-brand a { color: var(--accent-blue); text-decoration: none; }
+        .nav-section { font-family: var(--font-mono); font-size: 0.85rem; color: var(--accent-purple); }
+
+        .content { max-width: 900px; margin: 0 auto; padding: 6rem 2rem 4rem; }
+
+        .section-header { margin-bottom: 3rem; }
+        .section-number { font-family: var(--font-mono); font-size: 0.85rem; color: var(--accent-coral); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem; }
+        .section-title { font-family: var(--font-heading); font-size: 3rem; font-weight: 500; margin-bottom: 1rem; line-height: 1.2; }
+        .section-subtitle { font-size: 1.25rem; color: var(--text-secondary); font-style: italic; }
+
+        .opening-visual {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 3rem 0;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .shadow-canvas { width: 100%; height: 400px; display: block; }
+        .visual-caption { text-align: center; margin-top: 1.5rem; font-size: 1.1rem; color: var(--text-primary); }
+
+        .insight-box {
+            background: linear-gradient(135deg, rgba(247, 129, 102, 0.1), rgba(88, 166, 255, 0.1));
+            border: 1px solid var(--accent-coral);
+            border-radius: 12px;
+            padding: 1.5rem 2rem;
+            margin: 2rem 0;
+        }
+
+        .insight-label {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--accent-coral);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+        }
+
+        .insight-text { font-size: 1.1rem; line-height: 1.6; }
+
+        .interactive-section { margin: 3rem 0; }
+
+        .interactive-title {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--accent-blue);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .interactive-title::before { content: ">"; color: var(--accent-coral); }
+
+        .interactive-box {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .component-canvas { width: 100%; height: 400px; display: block; margin-bottom: 1.5rem; }
+
+        .control-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .control-label {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            min-width: 80px;
+        }
+
+        .slider {
+            flex: 1;
+            min-width: 150px;
+            -webkit-appearance: none;
+            height: 6px;
+            background: var(--bg-tertiary);
+            border-radius: 3px;
+            outline: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px; height: 18px;
+            background: var(--accent-blue);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .value-display {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            min-width: 60px;
+            text-align: right;
+        }
+
+        .component-display {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .component-card {
+            background: var(--bg-tertiary);
+            border-radius: 12px;
+            padding: 1.25rem;
+            text-align: center;
+        }
+
+        .component-label {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .component-value {
+            font-family: var(--font-mono);
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .component-x .component-value { color: var(--accent-coral); }
+        .component-y .component-value { color: var(--accent-green); }
+        .component-z .component-value { color: var(--accent-blue); }
+
+        .component-formula {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        /* Trig section */
+        .trig-section { margin: 3rem 0; }
+
+        .trig-title {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--accent-green);
+            margin-bottom: 1rem;
+        }
+
+        .trig-box {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .trig-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .trig-canvas { width: 100%; height: 300px; display: block; }
+
+        .trig-formulas {
+            font-family: var(--font-mono);
+        }
+
+        .formula-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+        }
+
+        .formula-name {
+            min-width: 40px;
+            font-weight: 600;
+        }
+
+        .formula-name.x { color: var(--accent-coral); }
+        .formula-name.y { color: var(--accent-green); }
+
+        .formula-eq { color: var(--text-secondary); flex: 1; }
+        .formula-val { color: var(--accent-purple); min-width: 60px; text-align: right; }
+
+        /* Examples */
+        .examples-section { margin: 3rem 0; }
+
+        .examples-title {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--accent-coral);
+            margin-bottom: 1.5rem;
+        }
+
+        .example-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .example-card {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-subtle);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .example-card:hover {
+            border-color: var(--accent-blue);
+            transform: translateY(-2px);
+        }
+
+        .example-card.active {
+            border-color: var(--accent-purple);
+            background: var(--bg-tertiary);
+        }
+
+        .example-title {
+            font-family: var(--font-mono);
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        .example-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .example-detail {
+            margin-top: 1.5rem;
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--border-subtle);
+            display: none;
+        }
+
+        .example-detail.active { display: block; }
+
+        .example-canvas { width: 100%; height: 250px; display: block; margin-bottom: 1rem; }
+
+        /* Practice */
+        .practice-section {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(247, 129, 102, 0.1), rgba(126, 231, 135, 0.1));
+            border-radius: 16px;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .practice-title { font-family: var(--font-heading); font-size: 1.5rem; margin-bottom: 1.5rem; }
+
+        .practice-problem {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .problem-number { font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent-coral); margin-bottom: 0.5rem; }
+        .problem-text { margin-bottom: 1rem; line-height: 1.6; }
+
+        .problem-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .problem-input:focus { outline: none; border-color: var(--accent-blue); }
+
+        .problem-hint { font-size: 0.85rem; color: var(--text-muted); font-style: italic; margin-bottom: 0.5rem; }
+
+        .problem-check {
+            background: var(--accent-coral);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+
+        .problem-feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .problem-feedback.correct {
+            display: block;
+            background: rgba(126, 231, 135, 0.1);
+            border: 1px solid var(--accent-green);
+            color: var(--accent-green);
+        }
+
+        .problem-feedback.incorrect {
+            display: block;
+            background: rgba(248, 81, 73, 0.1);
+            border: 1px solid var(--accent-red);
+            color: var(--accent-red);
+        }
+
+        /* Navigation */
+        .nav-footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            padding: 0.75rem 1.25rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover { background: var(--bg-tertiary); color: var(--text-primary); }
+        .nav-link.next { color: var(--accent-blue); }
+
+        .page-footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border-subtle);
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .section-title { font-size: 2rem; }
+            .component-display { grid-template-columns: 1fr; }
+            .trig-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav-header">
+        <div class="nav-brand"><a href="/primitives/direction.html">DIRECTION</a> / Lecture 04</div>
+        <div class="nav-section">Section 4 of 7</div>
+    </nav>
+
+    <main class="content">
+        <header class="section-header">
+            <div class="section-number">Lecture 04 · Section 4</div>
+            <h1 class="section-title">Breaking Apart</h1>
+            <p class="section-subtitle">A vector's shadow on each axis tells you "how much" in that direction.</p>
+        </header>
+
+        <!-- Opening: Shadow metaphor -->
+        <section class="opening-visual">
+            <canvas id="shadow-canvas" class="shadow-canvas"></canvas>
+            <p class="visual-caption">The shadow on the wall. The shadow on the floor. That's what components are.</p>
+        </section>
+
+        <div class="insight-box">
+            <div class="insight-label">Key Insight</div>
+            <p class="insight-text">
+                A molecule rotates in space, but we often need to analyze forces along specific axes.
+                <strong>Components</strong> break a vector into "how much x" + "how much y" + "how much z."
+                It's like asking: how far east? how far north? how high?
+            </p>
+        </div>
+
+        <!-- Interactive: 3D component viewer -->
+        <section class="interactive-section">
+            <h2 class="interactive-title">Explore: Rotate the vector, watch the components</h2>
+            <div class="interactive-box">
+                <canvas id="component-canvas" class="component-canvas"></canvas>
+
+                <div class="control-row">
+                    <span class="control-label">Angle θ</span>
+                    <input type="range" class="slider" id="angle-slider" min="0" max="360" step="1" value="45">
+                    <span class="value-display" id="angle-value" style="color: var(--accent-purple);">45°</span>
+                </div>
+
+                <div class="control-row">
+                    <span class="control-label">Magnitude</span>
+                    <input type="range" class="slider" id="mag-slider" min="0.5" max="3" step="0.1" value="2">
+                    <span class="value-display" id="mag-value" style="color: var(--accent-green);">2.0</span>
+                </div>
+
+                <div class="component-display">
+                    <div class="component-card component-x">
+                        <div class="component-label">x component (vₓ)</div>
+                        <div class="component-value" id="comp-x">1.41</div>
+                        <div class="component-formula">|v| × cos(θ)</div>
+                    </div>
+                    <div class="component-card component-y">
+                        <div class="component-label">y component (vᵧ)</div>
+                        <div class="component-value" id="comp-y">1.41</div>
+                        <div class="component-formula">|v| × sin(θ)</div>
+                    </div>
+                    <div class="component-card component-z">
+                        <div class="component-label">Magnitude check</div>
+                        <div class="component-value" id="mag-check">2.00</div>
+                        <div class="component-formula">√(vₓ² + vᵧ²)</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Trigonometry connection -->
+        <section class="trig-section">
+            <h2 class="trig-title">The right triangle inside every vector</h2>
+            <div class="trig-box">
+                <div class="trig-grid">
+                    <canvas id="trig-canvas" class="trig-canvas"></canvas>
+
+                    <div class="trig-formulas">
+                        <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                            Every vector forms a right triangle with the axes.
+                            Trigonometry gives us the components:
+                        </p>
+
+                        <div class="formula-row">
+                            <span class="formula-name x">vₓ</span>
+                            <span class="formula-eq">= |v| × cos(θ) =</span>
+                            <span class="formula-val" id="trig-x">1.41</span>
+                        </div>
+
+                        <div class="formula-row">
+                            <span class="formula-name y">vᵧ</span>
+                            <span class="formula-eq">= |v| × sin(θ) =</span>
+                            <span class="formula-val" id="trig-y">1.41</span>
+                        </div>
+
+                        <p style="color: var(--text-muted); margin-top: 1rem; font-size: 0.9rem;">
+                            And we can reverse it: given components, find angle:<br>
+                            <code style="color: var(--accent-purple);">θ = arctan(vᵧ / vₓ)</code>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Examples -->
+        <section class="examples-section">
+            <h2 class="examples-title">Chemistry examples: When components matter</h2>
+
+            <div class="example-cards">
+                <div class="example-card active" data-example="dipole">
+                    <div class="example-title">Molecular Dipole</div>
+                    <div class="example-desc">Water's net dipole comes from adding the x and y components of each O-H bond dipole.</div>
+                </div>
+                <div class="example-card" data-example="force">
+                    <div class="example-title">Bond Forces</div>
+                    <div class="example-desc">When a molecule vibrates, forces along the bond vs. perpendicular to it behave differently.</div>
+                </div>
+                <div class="example-card" data-example="field">
+                    <div class="example-title">Electric Field</div>
+                    <div class="example-desc">An external field affects a dipole differently depending on their relative orientations.</div>
+                </div>
+            </div>
+
+            <div class="example-detail active" id="ex-dipole">
+                <canvas id="dipole-canvas" class="example-canvas"></canvas>
+                <p style="color: var(--text-secondary); line-height: 1.7;">
+                    Each O-H bond has a dipole moment pointing toward oxygen. To find the <em>net</em> molecular dipole,
+                    we add the x-components and y-components separately. The x-components cancel (equal and opposite).
+                    The y-components add up — that's why water has a net dipole pointing between the hydrogens.
+                </p>
+            </div>
+
+            <div class="example-detail" id="ex-force">
+                <canvas id="force-canvas" class="example-canvas"></canvas>
+                <p style="color: var(--text-secondary); line-height: 1.7;">
+                    When a diatomic molecule like HCl vibrates, the force on each atom can be decomposed into:
+                    the component along the bond (stretching) and perpendicular to it (bending).
+                    Different vibrational modes correspond to different component patterns.
+                </p>
+            </div>
+
+            <div class="example-detail" id="ex-field">
+                <canvas id="field-canvas" class="example-canvas"></canvas>
+                <p style="color: var(--text-secondary); line-height: 1.7;">
+                    A dipole μ⃗ in an external field E⃗ experiences energy U = -μ⃗·E⃗.
+                    This depends on the component of μ⃗ along E⃗. When aligned (parallel), energy is minimized.
+                    When perpendicular, no interaction. When anti-parallel, maximum energy.
+                </p>
+            </div>
+        </section>
+
+        <!-- Practice -->
+        <section class="practice-section">
+            <h2 class="practice-title">Your Turn</h2>
+
+            <div class="practice-problem">
+                <div class="problem-number">Problem 1</div>
+                <div class="problem-text">
+                    A bond points at 30° from the x-axis and has length 1.5 Å. What are its x and y components?
+                </div>
+                <p class="problem-hint">Hint: vₓ = |v| cos(θ), vᵧ = |v| sin(θ). cos(30°) ≈ 0.866, sin(30°) = 0.5</p>
+                <input type="text" class="problem-input" id="p1-answer" placeholder="vₓ = ?, vᵧ = ?">
+                <button class="problem-check" onclick="checkP1()">Check</button>
+                <div class="problem-feedback" id="p1-feedback"></div>
+            </div>
+
+            <div class="practice-problem">
+                <div class="problem-number">Problem 2</div>
+                <div class="problem-text">
+                    The sp² hybrid orbitals in ethene point at 0°, 120°, and 240° from the x-axis.
+                    If each has magnitude 1, what are the x-components of all three?
+                </div>
+                <p class="problem-hint">Hint: Use cos(0°) = 1, cos(120°) = -0.5, cos(240°) = -0.5</p>
+                <input type="text" class="problem-input" id="p2-answer" placeholder="x₁ = ?, x₂ = ?, x₃ = ?">
+                <button class="problem-check" onclick="checkP2()">Check</button>
+                <div class="problem-feedback" id="p2-feedback"></div>
+            </div>
+
+            <div class="practice-problem">
+                <div class="problem-number">Problem 3</div>
+                <div class="problem-text">
+                    A vector has components [3, 4]. What angle does it make with the x-axis?
+                </div>
+                <p class="problem-hint">Hint: θ = arctan(vᵧ/vₓ) = arctan(4/3)</p>
+                <input type="text" class="problem-input" id="p3-answer" placeholder="θ = ?°">
+                <button class="problem-check" onclick="checkP3()">Check</button>
+                <div class="problem-feedback" id="p3-feedback"></div>
+            </div>
+        </section>
+
+        <nav class="nav-footer">
+            <a href="sec3-unit-vectors.html" class="nav-link">← Just Direction</a>
+            <a href="sec5-dot-product.html" class="nav-link next">Next: How Aligned? →</a>
+        </nav>
+    </main>
+
+    <footer class="page-footer">
+        <p>Chemical Thinking: The Grammar of Reality</p>
+        <p>Lecture 04: DIRECTION Tools · Section 4</p>
+    </footer>
+
+    <script>
+        // ========================================
+        // SHADOW VISUALIZATION
+        // ========================================
+        (function() {
+            const canvas = document.getElementById('shadow-canvas');
+            const ctx = canvas.getContext('2d');
+
+            function resize() {
+                const rect = canvas.parentElement.getBoundingClientRect();
+                canvas.width = rect.width;
+                canvas.height = 400;
+            }
+            resize();
+            window.addEventListener('resize', () => { resize(); draw(); });
+
+            let time = 0;
+
+            function draw() {
+                const w = canvas.width;
+                const h = canvas.height;
+                ctx.clearRect(0, 0, w, h);
+
+                // 3D isometric room
+                const floorY = h - 80;
+                const wallX = 100;
+                const cornerX = w / 2 - 50;
+                const cornerY = floorY - 150;
+
+                // Floor
+                ctx.fillStyle = 'rgba(88, 166, 255, 0.1)';
+                ctx.beginPath();
+                ctx.moveTo(cornerX, cornerY);
+                ctx.lineTo(w - 50, floorY - 50);
+                ctx.lineTo(w - 50, floorY);
+                ctx.lineTo(cornerX, floorY);
+                ctx.closePath();
+                ctx.fill();
+
+                // Back wall
+                ctx.fillStyle = 'rgba(126, 231, 135, 0.1)';
+                ctx.beginPath();
+                ctx.moveTo(wallX, floorY);
+                ctx.lineTo(cornerX, cornerY);
+                ctx.lineTo(cornerX, cornerY - 150);
+                ctx.lineTo(wallX, floorY - 150);
+                ctx.closePath();
+                ctx.fill();
+
+                // Side wall
+                ctx.fillStyle = 'rgba(247, 129, 102, 0.1)';
+                ctx.beginPath();
+                ctx.moveTo(cornerX, cornerY);
+                ctx.lineTo(w - 50, floorY - 50);
+                ctx.lineTo(w - 50, floorY - 200);
+                ctx.lineTo(cornerX, cornerY - 150);
+                ctx.closePath();
+                ctx.fill();
+
+                // Vector origin
+                const ox = cornerX + 100;
+                const oy = cornerY - 50;
+
+                // Animated vector
+                const angle = time * 0.5;
+                const mag = 120;
+                const vx = mag * Math.cos(angle) * 0.7;
+                const vy = -mag * 0.5;
+                const vz = mag * Math.sin(angle) * 0.5;
+
+                // End point
+                const ex = ox + vx + vz * 0.5;
+                const ey = oy + vy - vz * 0.3;
+
+                // Shadow on floor (x-z plane, at y=0)
+                const shadowFloorX = ox + vx + vz * 0.5;
+                const shadowFloorY = cornerY + (vx * 0.3) + vz * 0.2;
+
+                ctx.strokeStyle = 'rgba(88, 166, 255, 0.5)';
+                ctx.lineWidth = 3;
+                ctx.setLineDash([5, 5]);
+                ctx.beginPath();
+                ctx.moveTo(ox, cornerY);
+                ctx.lineTo(shadowFloorX, shadowFloorY);
+                ctx.stroke();
+
+                // Shadow on back wall (x-y plane, at z=0)
+                const shadowWallX = wallX + (ox - cornerX) * 0.5 + vx * 0.3;
+                const shadowWallY = oy + vy;
+
+                ctx.strokeStyle = 'rgba(126, 231, 135, 0.5)';
+                ctx.beginPath();
+                ctx.moveTo(wallX + (ox - cornerX) * 0.5, oy);
+                ctx.lineTo(shadowWallX, shadowWallY);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Vertical drop line
+                ctx.strokeStyle = 'rgba(168, 85, 247, 0.3)';
+                ctx.lineWidth = 1;
+                ctx.setLineDash([3, 3]);
+                ctx.beginPath();
+                ctx.moveTo(ex, ey);
+                ctx.lineTo(shadowFloorX, shadowFloorY);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Main vector
+                ctx.strokeStyle = '#a855f7';
+                ctx.lineWidth = 4;
+                ctx.lineCap = 'round';
+                ctx.beginPath();
+                ctx.moveTo(ox, oy);
+                ctx.lineTo(ex, ey);
+                ctx.stroke();
+
+                // Arrowhead
+                const arrowAngle = Math.atan2(ey - oy, ex - ox);
+                ctx.fillStyle = '#a855f7';
+                ctx.beginPath();
+                ctx.moveTo(ex, ey);
+                ctx.lineTo(ex - 15 * Math.cos(arrowAngle - 0.4), ey - 15 * Math.sin(arrowAngle - 0.4));
+                ctx.lineTo(ex - 15 * Math.cos(arrowAngle + 0.4), ey - 15 * Math.sin(arrowAngle + 0.4));
+                ctx.closePath();
+                ctx.fill();
+
+                // Labels
+                ctx.font = '14px "JetBrains Mono", monospace';
+                ctx.textAlign = 'center';
+
+                ctx.fillStyle = 'rgba(88, 166, 255, 0.8)';
+                ctx.fillText('floor shadow (x-z)', (ox + shadowFloorX) / 2, shadowFloorY + 20);
+
+                ctx.fillStyle = 'rgba(126, 231, 135, 0.8)';
+                ctx.fillText('wall shadow', shadowWallX - 30, (oy + shadowWallY) / 2);
+
+                ctx.fillStyle = '#a855f7';
+                ctx.fillText('v⃗', ex + 15, ey - 10);
+
+                time += 0.02;
+                requestAnimationFrame(draw);
+            }
+
+            draw();
+        })();
+
+        // ========================================
+        // COMPONENT VIEWER
+        // ========================================
+        (function() {
+            const canvas = document.getElementById('component-canvas');
+            const ctx = canvas.getContext('2d');
+
+            const angleSlider = document.getElementById('angle-slider');
+            const magSlider = document.getElementById('mag-slider');
+            const angleValue = document.getElementById('angle-value');
+            const magValue = document.getElementById('mag-value');
+            const compX = document.getElementById('comp-x');
+            const compY = document.getElementById('comp-y');
+            const magCheck = document.getElementById('mag-check');
+            const trigX = document.getElementById('trig-x');
+            const trigY = document.getElementById('trig-y');
+
+            function resize() {
+                const rect = canvas.parentElement.getBoundingClientRect();
+                canvas.width = rect.width - 40;
+                canvas.height = 400;
+            }
+            resize();
+            window.addEventListener('resize', () => { resize(); draw(); });
+
+            function draw() {
+                const w = canvas.width;
+                const h = canvas.height;
+                ctx.clearRect(0, 0, w, h);
+
+                const angle = parseFloat(angleSlider.value) * Math.PI / 180;
+                const mag = parseFloat(magSlider.value);
+
+                angleValue.textContent = angleSlider.value + '°';
+                magValue.textContent = mag.toFixed(1);
+
+                const vx = mag * Math.cos(angle);
+                const vy = mag * Math.sin(angle);
+
+                compX.textContent = vx.toFixed(2);
+                compY.textContent = vy.toFixed(2);
+                magCheck.textContent = Math.sqrt(vx*vx + vy*vy).toFixed(2);
+                trigX.textContent = vx.toFixed(2);
+                trigY.textContent = vy.toFixed(2);
+
+                const cx = w / 2;
+                const cy = h / 2;
+                const scale = 80;
+
+                // Grid
+                ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+                ctx.lineWidth = 1;
+                for (let i = -4; i <= 4; i++) {
+                    ctx.beginPath();
+                    ctx.moveTo(cx + i * scale, 0);
+                    ctx.lineTo(cx + i * scale, h);
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.moveTo(0, cy + i * scale);
+                    ctx.lineTo(w, cy + i * scale);
+                    ctx.stroke();
+                }
+
+                // Axes
+                ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(0, cy);
+                ctx.lineTo(w, cy);
+                ctx.moveTo(cx, 0);
+                ctx.lineTo(cx, h);
+                ctx.stroke();
+
+                const endX = cx + vx * scale;
+                const endY = cy - vy * scale;
+
+                // Component projections
+                // X component (on x-axis)
+                ctx.strokeStyle = 'rgba(247, 129, 102, 0.5)';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(cx, cy);
+                ctx.lineTo(endX, cy);
+                ctx.stroke();
+
+                // Drop line to x-axis
+                ctx.strokeStyle = 'rgba(247, 129, 102, 0.3)';
+                ctx.setLineDash([4, 4]);
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(endX, endY);
+                ctx.lineTo(endX, cy);
+                ctx.stroke();
+
+                // Y component (on y-axis)
+                ctx.strokeStyle = 'rgba(126, 231, 135, 0.5)';
+                ctx.lineWidth = 3;
+                ctx.setLineDash([]);
+                ctx.beginPath();
+                ctx.moveTo(cx, cy);
+                ctx.lineTo(cx, endY);
+                ctx.stroke();
+
+                // Drop line to y-axis
+                ctx.strokeStyle = 'rgba(126, 231, 135, 0.3)';
+                ctx.setLineDash([4, 4]);
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(endX, endY);
+                ctx.lineTo(cx, endY);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Main vector
+                ctx.strokeStyle = '#a855f7';
+                ctx.lineWidth = 4;
+                ctx.lineCap = 'round';
+                ctx.beginPath();
+                ctx.moveTo(cx, cy);
+                ctx.lineTo(endX, endY);
+                ctx.stroke();
+
+                // Arrowhead
+                const arrowAngle = Math.atan2(cy - endY, endX - cx);
+                ctx.fillStyle = '#a855f7';
+                ctx.beginPath();
+                ctx.moveTo(endX, endY);
+                ctx.lineTo(endX - 15 * Math.cos(arrowAngle - 0.4), endY + 15 * Math.sin(arrowAngle - 0.4));
+                ctx.lineTo(endX - 15 * Math.cos(arrowAngle + 0.4), endY + 15 * Math.sin(arrowAngle + 0.4));
+                ctx.closePath();
+                ctx.fill();
+
+                // Angle arc
+                ctx.strokeStyle = 'rgba(168, 85, 247, 0.5)';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(cx, cy, 40, 0, -angle, angle > 0);
+                ctx.stroke();
+
+                // Labels
+                ctx.font = '14px "JetBrains Mono", monospace';
+                ctx.textAlign = 'center';
+
+                ctx.fillStyle = '#F78166';
+                ctx.fillText(`vₓ = ${vx.toFixed(2)}`, (cx + endX) / 2, cy + 25);
+
+                ctx.fillStyle = '#7EE787';
+                ctx.fillText(`vᵧ = ${vy.toFixed(2)}`, cx - 50, (cy + endY) / 2);
+
+                ctx.fillStyle = '#a855f7';
+                ctx.fillText('θ', cx + 55, cy - 10);
+
+                ctx.fillStyle = '#8b949e';
+                ctx.fillText('x', w - 20, cy + 20);
+                ctx.fillText('y', cx + 15, 20);
+            }
+
+            angleSlider.addEventListener('input', draw);
+            magSlider.addEventListener('input', draw);
+
+            draw();
+        })();
+
+        // ========================================
+        // TRIG CANVAS
+        // ========================================
+        (function() {
+            const canvas = document.getElementById('trig-canvas');
+            const ctx = canvas.getContext('2d');
+
+            canvas.width = 350;
+            canvas.height = 300;
+
+            let time = 0;
+
+            function draw() {
+                ctx.clearRect(0, 0, 350, 300);
+
+                const cx = 80;
+                const cy = 220;
+                const mag = 180;
+                const angle = Math.PI / 4 + Math.sin(time) * 0.2;
+
+                const vx = mag * Math.cos(angle);
+                const vy = mag * Math.sin(angle);
+
+                const endX = cx + vx;
+                const endY = cy - vy;
+
+                // Right triangle fill
+                ctx.fillStyle = 'rgba(168, 85, 247, 0.1)';
+                ctx.beginPath();
+                ctx.moveTo(cx, cy);
+                ctx.lineTo(endX, cy);
+                ctx.lineTo(endX, endY);
+                ctx.closePath();
+                ctx.fill();
+
+                // X component (adjacent)
+                ctx.strokeStyle = '#F78166';
+                ctx.lineWidth = 4;
+                ctx.beginPath();
+                ctx.moveTo(cx, cy);
+                ctx.lineTo(endX, cy);
+                ctx.stroke();
+
+                // Y component (opposite)
+                ctx.strokeStyle = '#7EE787';
+                ctx.beginPath();
+                ctx.moveTo(endX, cy);
+                ctx.lineTo(endX, endY);
+                ctx.stroke();
+
+                // Hypotenuse (vector)
+                ctx.strokeStyle = '#a855f7';
+                ctx.beginPath();
+                ctx.moveTo(cx, cy);
+                ctx.lineTo(endX, endY);
+                ctx.stroke();
+
+                // Right angle marker
+                ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(endX - 15, cy);
+                ctx.lineTo(endX - 15, cy - 15);
+                ctx.lineTo(endX, cy - 15);
+                ctx.stroke();
+
+                // Angle arc
+                ctx.strokeStyle = '#a855f7';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(cx, cy, 35, 0, -angle, true);
+                ctx.stroke();
+
+                // Labels
+                ctx.font = 'bold 14px "JetBrains Mono", monospace';
+                ctx.textAlign = 'center';
+
+                ctx.fillStyle = '#F78166';
+                ctx.fillText('adjacent = |v|cos(θ)', (cx + endX) / 2, cy + 30);
+
+                ctx.fillStyle = '#7EE787';
+                ctx.save();
+                ctx.translate(endX + 30, (cy + endY) / 2);
+                ctx.rotate(-Math.PI / 2);
+                ctx.fillText('opposite = |v|sin(θ)', 0, 0);
+                ctx.restore();
+
+                ctx.fillStyle = '#a855f7';
+                ctx.fillText('|v|', (cx + endX) / 2 - 30, (cy + endY) / 2 - 10);
+                ctx.fillText('θ', cx + 50, cy - 10);
+
+                time += 0.015;
+                requestAnimationFrame(draw);
+            }
+
+            draw();
+        })();
+
+        // ========================================
+        // EXAMPLES
+        // ========================================
+        document.querySelectorAll('.example-card').forEach(card => {
+            card.addEventListener('click', () => {
+                document.querySelectorAll('.example-card').forEach(c => c.classList.remove('active'));
+                document.querySelectorAll('.example-detail').forEach(d => d.classList.remove('active'));
+
+                card.classList.add('active');
+                const example = card.dataset.example;
+                document.getElementById('ex-' + example).classList.add('active');
+
+                drawExample(example);
+            });
+        });
+
+        function drawExample(example) {
+            const canvas = document.getElementById(example + '-canvas');
+            if (!canvas) return;
+
+            const ctx = canvas.getContext('2d');
+            canvas.width = canvas.parentElement.clientWidth - 30;
+            canvas.height = 250;
+
+            const w = canvas.width;
+            const h = canvas.height;
+            const cx = w / 2;
+            const cy = h / 2;
+
+            ctx.clearRect(0, 0, w, h);
+
+            if (example === 'dipole') {
+                // Water molecule with dipole components
+                const oX = cx, oY = cy + 20;
+                const bondLen = 80;
+                const angle = 52.25 * Math.PI / 180; // half of 104.5°
+
+                const h1X = oX - bondLen * Math.sin(angle);
+                const h1Y = oY - bondLen * Math.cos(angle);
+                const h2X = oX + bondLen * Math.sin(angle);
+                const h2Y = oY - bondLen * Math.cos(angle);
+
+                // Bonds
+                ctx.strokeStyle = '#6e7681';
+                ctx.lineWidth = 6;
+                ctx.beginPath();
+                ctx.moveTo(oX, oY);
+                ctx.lineTo(h1X, h1Y);
+                ctx.moveTo(oX, oY);
+                ctx.lineTo(h2X, h2Y);
+                ctx.stroke();
+
+                // Dipole arrows (midpoint of each bond)
+                const mid1X = (oX + h1X) / 2;
+                const mid1Y = (oY + h1Y) / 2;
+                const mid2X = (oX + h2X) / 2;
+                const mid2Y = (oY + h2Y) / 2;
+
+                // Dipole 1 components
+                const d1x = (oX - h1X) * 0.5;
+                const d1y = (oY - h1Y) * 0.5;
+
+                // X component (red, dashed)
+                ctx.strokeStyle = 'rgba(247, 129, 102, 0.6)';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([4, 4]);
+                ctx.beginPath();
+                ctx.moveTo(mid1X, mid1Y);
+                ctx.lineTo(mid1X + d1x, mid1Y);
+                ctx.stroke();
+
+                // Y component (green)
+                ctx.strokeStyle = 'rgba(126, 231, 135, 0.6)';
+                ctx.beginPath();
+                ctx.moveTo(mid1X, mid1Y);
+                ctx.lineTo(mid1X, mid1Y + d1y);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Dipole 2 components (opposite x)
+                const d2x = (oX - h2X) * 0.5;
+                const d2y = (oY - h2Y) * 0.5;
+
+                ctx.strokeStyle = 'rgba(247, 129, 102, 0.6)';
+                ctx.setLineDash([4, 4]);
+                ctx.beginPath();
+                ctx.moveTo(mid2X, mid2Y);
+                ctx.lineTo(mid2X + d2x, mid2Y);
+                ctx.stroke();
+
+                ctx.strokeStyle = 'rgba(126, 231, 135, 0.6)';
+                ctx.beginPath();
+                ctx.moveTo(mid2X, mid2Y);
+                ctx.lineTo(mid2X, mid2Y + d2y);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Net dipole (y components add, x cancel)
+                ctx.strokeStyle = '#a855f7';
+                ctx.lineWidth = 4;
+                ctx.beginPath();
+                ctx.moveTo(oX, oY);
+                ctx.lineTo(oX, oY + 60);
+                ctx.stroke();
+
+                // Arrowhead
+                ctx.fillStyle = '#a855f7';
+                ctx.beginPath();
+                ctx.moveTo(oX, oY + 60);
+                ctx.lineTo(oX - 8, oY + 48);
+                ctx.lineTo(oX + 8, oY + 48);
+                ctx.closePath();
+                ctx.fill();
+
+                // Atoms
+                ctx.fillStyle = '#ef4444';
+                ctx.beginPath();
+                ctx.arc(oX, oY, 20, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = '#3b82f6';
+                ctx.beginPath();
+                ctx.arc(h1X, h1Y, 14, 0, Math.PI * 2);
+                ctx.arc(h2X, h2Y, 14, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = '#fff';
+                ctx.font = 'bold 14px "JetBrains Mono", monospace';
+                ctx.textAlign = 'center';
+                ctx.fillText('O', oX, oY + 5);
+                ctx.font = 'bold 11px "JetBrains Mono", monospace';
+                ctx.fillText('H', h1X, h1Y + 4);
+                ctx.fillText('H', h2X, h2Y + 4);
+
+                // Labels
+                ctx.font = '12px "JetBrains Mono", monospace';
+                ctx.fillStyle = '#F78166';
+                ctx.fillText('x: cancel', cx, h - 30);
+                ctx.fillStyle = '#7EE787';
+                ctx.fillText('y: add up', cx, h - 12);
+
+            } else if (example === 'force') {
+                // HCl with force decomposition
+                const hX = cx - 80, clX = cx + 80;
+                const y = cy;
+
+                // Bond
+                ctx.strokeStyle = '#6e7681';
+                ctx.lineWidth = 6;
+                ctx.beginPath();
+                ctx.moveTo(hX, y);
+                ctx.lineTo(clX, y);
+                ctx.stroke();
+
+                // Force vector (at an angle)
+                const forceAngle = -Math.PI / 4;
+                const forceMag = 70;
+                const fEndX = clX + forceMag * Math.cos(forceAngle);
+                const fEndY = y + forceMag * Math.sin(forceAngle);
+
+                // Force components
+                ctx.strokeStyle = '#F78166';
+                ctx.lineWidth = 3;
+                ctx.setLineDash([4, 4]);
+                ctx.beginPath();
+                ctx.moveTo(clX, y);
+                ctx.lineTo(fEndX, y);
+                ctx.stroke();
+
+                ctx.strokeStyle = '#7EE787';
+                ctx.beginPath();
+                ctx.moveTo(fEndX, y);
+                ctx.lineTo(fEndX, fEndY);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Main force
+                ctx.strokeStyle = '#a855f7';
+                ctx.lineWidth = 4;
+                ctx.beginPath();
+                ctx.moveTo(clX, y);
+                ctx.lineTo(fEndX, fEndY);
+                ctx.stroke();
+
+                const angle = Math.atan2(fEndY - y, fEndX - clX);
+                ctx.fillStyle = '#a855f7';
+                ctx.beginPath();
+                ctx.moveTo(fEndX, fEndY);
+                ctx.lineTo(fEndX - 12 * Math.cos(angle - 0.4), fEndY - 12 * Math.sin(angle - 0.4));
+                ctx.lineTo(fEndX - 12 * Math.cos(angle + 0.4), fEndY - 12 * Math.sin(angle + 0.4));
+                ctx.closePath();
+                ctx.fill();
+
+                // Atoms
+                ctx.fillStyle = '#3b82f6';
+                ctx.beginPath();
+                ctx.arc(hX, y, 18, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = '#22c55e';
+                ctx.beginPath();
+                ctx.arc(clX, y, 25, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = '#fff';
+                ctx.font = 'bold 12px "JetBrains Mono", monospace';
+                ctx.textAlign = 'center';
+                ctx.fillText('H', hX, y + 4);
+                ctx.fillText('Cl', clX, y + 4);
+
+                // Labels
+                ctx.font = '12px "JetBrains Mono", monospace';
+                ctx.fillStyle = '#F78166';
+                ctx.fillText('stretching', fEndX + 20, y + 5);
+                ctx.fillStyle = '#7EE787';
+                ctx.fillText('bending', fEndX + 20, fEndY - 10);
+
+            } else if (example === 'field') {
+                // Dipole in external field
+                // Field arrows (horizontal)
+                ctx.strokeStyle = 'rgba(88, 166, 255, 0.4)';
+                ctx.lineWidth = 2;
+                for (let i = 0; i < 5; i++) {
+                    const y = 40 + i * 45;
+                    ctx.beginPath();
+                    ctx.moveTo(50, y);
+                    ctx.lineTo(w - 50, y);
+                    ctx.stroke();
+
+                    ctx.fillStyle = 'rgba(88, 166, 255, 0.4)';
+                    ctx.beginPath();
+                    ctx.moveTo(w - 50, y);
+                    ctx.lineTo(w - 60, y - 5);
+                    ctx.lineTo(w - 60, y + 5);
+                    ctx.closePath();
+                    ctx.fill();
+                }
+
+                ctx.fillStyle = '#58A6FF';
+                ctx.font = '14px "JetBrains Mono", monospace';
+                ctx.textAlign = 'left';
+                ctx.fillText('E⃗ field', 60, 30);
+
+                // Dipole at angle
+                const dipoleAngle = Math.PI / 6;
+                const dipoleLen = 60;
+
+                const dStartX = cx - dipoleLen * Math.cos(dipoleAngle);
+                const dStartY = cy + dipoleLen * Math.sin(dipoleAngle);
+                const dEndX = cx + dipoleLen * Math.cos(dipoleAngle);
+                const dEndY = cy - dipoleLen * Math.sin(dipoleAngle);
+
+                // Component along field (x)
+                ctx.strokeStyle = 'rgba(247, 129, 102, 0.6)';
+                ctx.lineWidth = 3;
+                ctx.setLineDash([4, 4]);
+                ctx.beginPath();
+                ctx.moveTo(cx, cy);
+                ctx.lineTo(dEndX, cy);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Dipole arrow
+                ctx.strokeStyle = '#a855f7';
+                ctx.lineWidth = 5;
+                ctx.beginPath();
+                ctx.moveTo(dStartX, dStartY);
+                ctx.lineTo(dEndX, dEndY);
+                ctx.stroke();
+
+                const angle = Math.atan2(dEndY - dStartY, dEndX - dStartX);
+                ctx.fillStyle = '#a855f7';
+                ctx.beginPath();
+                ctx.moveTo(dEndX, dEndY);
+                ctx.lineTo(dEndX - 15 * Math.cos(angle - 0.4), dEndY - 15 * Math.sin(angle - 0.4));
+                ctx.lineTo(dEndX - 15 * Math.cos(angle + 0.4), dEndY - 15 * Math.sin(angle + 0.4));
+                ctx.closePath();
+                ctx.fill();
+
+                // Charges
+                ctx.fillStyle = '#ef4444';
+                ctx.beginPath();
+                ctx.arc(dStartX, dStartY, 12, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = '#fff';
+                ctx.font = 'bold 16px "JetBrains Mono", monospace';
+                ctx.textAlign = 'center';
+                ctx.fillText('−', dStartX, dStartY + 5);
+
+                ctx.fillStyle = '#3b82f6';
+                ctx.beginPath();
+                ctx.arc(dEndX, dEndY, 12, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = '#fff';
+                ctx.fillText('+', dEndX, dEndY + 5);
+
+                // Label
+                ctx.fillStyle = '#a855f7';
+                ctx.font = '14px "JetBrains Mono", monospace';
+                ctx.fillText('μ⃗', cx + 10, cy - 40);
+
+                ctx.fillStyle = '#F78166';
+                ctx.font = '12px "JetBrains Mono", monospace';
+                ctx.fillText('μₓ (interacts with E)', cx, h - 20);
+            }
+        }
+
+        setTimeout(() => drawExample('dipole'), 100);
+
+        // ========================================
+        // PRACTICE
+        // ========================================
+        function checkP1() {
+            const answer = document.getElementById('p1-answer').value.toLowerCase();
+            const feedback = document.getElementById('p1-feedback');
+
+            // vx = 1.5 * cos(30) = 1.5 * 0.866 = 1.30
+            // vy = 1.5 * sin(30) = 1.5 * 0.5 = 0.75
+            const hasVx = answer.includes('1.3') || answer.includes('1.29') || answer.includes('1.30');
+            const hasVy = answer.includes('0.75') || answer.includes('0.7');
+
+            if (hasVx && hasVy) {
+                feedback.className = 'problem-feedback correct';
+                feedback.innerHTML = '<strong>Correct!</strong> vₓ = 1.5 × cos(30°) = 1.5 × 0.866 ≈ 1.30 Å. vᵧ = 1.5 × sin(30°) = 1.5 × 0.5 = 0.75 Å.';
+            } else if (hasVx || hasVy) {
+                feedback.className = 'problem-feedback incorrect';
+                feedback.innerHTML = '<strong>Partial.</strong> Check both components. vₓ = |v|cos(θ), vᵧ = |v|sin(θ).';
+            } else {
+                feedback.className = 'problem-feedback incorrect';
+                feedback.innerHTML = '<strong>Try again.</strong> Use vₓ = 1.5 × cos(30°) and vᵧ = 1.5 × sin(30°).';
+            }
+        }
+
+        function checkP2() {
+            const answer = document.getElementById('p2-answer').value;
+            const feedback = document.getElementById('p2-feedback');
+
+            // x1 = cos(0) = 1, x2 = cos(120) = -0.5, x3 = cos(240) = -0.5
+            const has1 = answer.includes('1');
+            const hasMinus05 = answer.includes('-0.5') || answer.includes('-.5');
+
+            if (has1 && hasMinus05) {
+                feedback.className = 'problem-feedback correct';
+                feedback.innerHTML = '<strong>Correct!</strong> x₁ = cos(0°) = 1, x₂ = cos(120°) = -0.5, x₃ = cos(240°) = -0.5. Notice: 1 + (-0.5) + (-0.5) = 0. The x-components sum to zero — perfect trigonal planar symmetry!';
+            } else {
+                feedback.className = 'problem-feedback incorrect';
+                feedback.innerHTML = '<strong>Try again.</strong> x = |v| × cos(θ). With |v| = 1: x₁ = cos(0°), x₂ = cos(120°), x₃ = cos(240°).';
+            }
+        }
+
+        function checkP3() {
+            const answer = document.getElementById('p3-answer').value;
+            const feedback = document.getElementById('p3-feedback');
+
+            // arctan(4/3) ≈ 53.13°
+            const hasAngle = answer.includes('53') || answer.includes('53.1');
+
+            if (hasAngle) {
+                feedback.className = 'problem-feedback correct';
+                feedback.innerHTML = '<strong>Correct!</strong> θ = arctan(4/3) ≈ 53.1°. This is the famous 3-4-5 right triangle angle. You can verify: tan(53.1°) ≈ 1.33 ≈ 4/3.';
+            } else {
+                feedback.className = 'problem-feedback incorrect';
+                feedback.innerHTML = '<strong>Try again.</strong> θ = arctan(vᵧ/vₓ) = arctan(4/3). Use a calculator or remember arctan(4/3) ≈ 53°.';
+            }
+        }
+    </script>
+</body>
+</html>
