@@ -17,6 +17,11 @@ document.addEventListener('DOMContentLoaded', function() {
     initBridgeAnimation();
 });
 
+// Helper to style containers consistently
+function styleContainer(container) {
+    container.style.cssText = 'background:#f8f9fa; border:1px solid #dee2e6; border-radius:8px; padding:1rem; margin:1.5rem 0; text-align:center;';
+}
+
 // ============================================
 // PARTICLE CANVAS (Hero Background)
 // ============================================
@@ -196,23 +201,18 @@ function initPointingArm() {
     let targetY = height * 0.35;
     let isDragging = false;
 
+    styleContainer(container);
+
     container.innerHTML = `
-        <svg width="${width}" height="${height}" style="cursor: crosshair;">
+        <svg width="${width}" height="${height}" style="cursor: crosshair; display:block; margin:0 auto; background:#fff; border-radius:4px;">
             <defs>
                 <marker id="arm-arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-                    <polygon points="0 0, 10 3.5, 0 7" fill="#58A6FF"/>
+                    <polygon points="0 0, 10 3.5, 0 7" fill="#3b82f6"/>
                 </marker>
-                <filter id="glow">
-                    <feGaussianBlur stdDeviation="3" result="blur"/>
-                    <feMerge>
-                        <feMergeNode in="blur"/>
-                        <feMergeNode in="SourceGraphic"/>
-                    </feMerge>
-                </filter>
             </defs>
             <g id="pointing-arm-group"></g>
         </svg>
-        <div class="interactive-instruction">Drag the target anywhere</div>
+        <p style="margin-top:0.75rem; font-size:0.9rem; color:#666;">Drag the green target anywhere</p>
     `;
 
     const svg = container.querySelector('svg');
@@ -229,21 +229,21 @@ function initPointingArm() {
 
         group.innerHTML = `
             <!-- You (origin) -->
-            <circle cx="${centerX}" cy="${centerY}" r="20" fill="#1e293b" filter="url(#glow)"/>
-            <text x="${centerX}" y="${centerY + 5}" text-anchor="middle" fill="#E6EDF3" font-size="12" font-weight="500">you</text>
+            <circle cx="${centerX}" cy="${centerY}" r="20" fill="#334155"/>
+            <text x="${centerX}" y="${centerY + 5}" text-anchor="middle" fill="#fff" font-size="12" font-weight="500">you</text>
 
             <!-- Arm pointing -->
             <line x1="${centerX}" y1="${centerY}" x2="${armX}" y2="${armY}"
-                  stroke="#58A6FF" stroke-width="4" stroke-linecap="round"
+                  stroke="#3b82f6" stroke-width="4" stroke-linecap="round"
                   marker-end="url(#arm-arrow)"/>
 
             <!-- Target -->
-            <circle cx="${targetX}" cy="${targetY}" r="15" fill="#7EE787" style="cursor: grab;" class="target"/>
-            <text x="${targetX}" y="${targetY + 30}" text-anchor="middle" fill="#8B949E" font-size="11">target</text>
+            <circle cx="${targetX}" cy="${targetY}" r="15" fill="#22c55e" style="cursor: grab;" class="target"/>
+            <text x="${targetX}" y="${targetY + 30}" text-anchor="middle" fill="#666" font-size="11">target</text>
 
             <!-- Dashed line to target -->
             <line x1="${armX + 15}" y1="${armY}" x2="${targetX - 18}" y2="${targetY}"
-                  stroke="#58A6FF" stroke-width="1" stroke-dasharray="4" opacity="0.4"/>
+                  stroke="#3b82f6" stroke-width="1" stroke-dasharray="4" opacity="0.4"/>
         `;
 
         // Add drag handlers
