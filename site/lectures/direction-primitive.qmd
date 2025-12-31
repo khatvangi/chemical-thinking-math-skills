@@ -3,28 +3,98 @@ title: "DIRECTION"
 subtitle: "The first primitive. Before vectors, before coordinates, before chemistry."
 format:
   html:
-    toc: false
-    page-layout: full
-    css: ../styles/direction-primitive.css
-    include-in-header:
-      - text: |
-          <link rel="preconnect" href="https://fonts.googleapis.com">
-          <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-          <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    toc: true
+    toc-depth: 2
     include-after-body:
       - text: |
           <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
           <script src="../js/direction-primitive.js"></script>
 ---
 
-<div class="hero-section" id="hero">
-  <canvas id="particle-canvas"></canvas>
-  <div class="hero-content">
-    <h1 class="hero-title">DIRECTION</h1>
-    <p class="hero-subtitle">The first primitive. Before vectors, before coordinates, before chemistry.</p>
-    <div class="scroll-indicator">↓</div>
-  </div>
-</div>
+<style>
+.interactive-container {
+    background: #161B22;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    min-height: 300px;
+}
+.interactive-container svg {
+    display: block;
+    margin: 0 auto;
+}
+.interactive-instruction {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #8B949E;
+    margin-top: 0.75rem;
+}
+.interactive-label {
+    text-align: center;
+    font-size: 0.95rem;
+    margin-top: 0.75rem;
+}
+.pull-quote {
+    font-style: italic;
+    font-size: 1.25rem;
+    color: #F78166;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    border-left: 3px solid #F78166;
+    background: rgba(247, 129, 102, 0.1);
+}
+.insight-box {
+    background: rgba(88, 166, 255, 0.1);
+    border: 1px solid #58A6FF;
+    border-radius: 8px;
+    padding: 1.25rem;
+    margin: 2rem 0;
+    text-align: center;
+    font-weight: 500;
+}
+.preset-buttons {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 1rem;
+}
+.preset-button, .interactive-button {
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    color: #E6EDF3;
+    cursor: pointer;
+}
+.preset-button:hover, .interactive-button:hover {
+    background: #58A6FF;
+    border-color: #58A6FF;
+}
+.interactive-button.active {
+    background: #58A6FF;
+}
+.relationship-bar {
+    width: 100%;
+    height: 8px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 1rem 0;
+}
+.relationship-fill {
+    height: 100%;
+    border-radius: 4px;
+}
+.relationship-label {
+    text-align: center;
+    padding: 0.5rem;
+    border-radius: 4px;
+}
+input[type="range"] {
+    width: 200px;
+}
+</style>
 
 <div class="content-wrapper">
 
@@ -34,20 +104,13 @@ format:
 
 I'm serious. Right now, wherever you are, point at something. The door. The window. Your coffee cup. Something behind you that you can't even see.
 
-<div class="interactive-panel">
-<div class="interactive-left">
-
 Done?
 
 You just did DIRECTION.
 
 No numbers involved. No angles measured. No coordinate system consulted. Your arm extended *toward* a thing, and you knew — without any mathematics whatsoever — exactly what you were doing.
 
-</div>
-<div class="interactive-right">
 <div id="pointing-arm" class="interactive-container"></div>
-</div>
-</div>
 
 This is not trivial. This is not "just pointing." This is the cognitive foundation underneath everything we're going to build in this course. You've been doing DIRECTION since the first week of your life. An infant reaches — not randomly, not spasmodically, but *toward*. Toward the face. Toward the breast. Toward the bright thing that moves. That reach has structure: there's a FROM (the baby's body) and a TO (the thing it wants). That structure is direction. The infant doesn't know the word, can't define the concept, has no idea what a vector is. But the infant *does* direction, fluently, every waking moment.
 
@@ -350,6 +413,3 @@ Each of these tools exists to capture something you already understand. The math
 </section>
 
 </div>
-
-<div class="scroll-progress" id="scroll-progress"></div>
-<div class="section-nav" id="section-nav"></div>

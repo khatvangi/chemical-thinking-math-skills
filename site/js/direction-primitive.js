@@ -4,9 +4,7 @@
  */
 
 document.addEventListener('DOMContentLoaded', function() {
-    initParticleCanvas();
-    initScrollEffects();
-    initSectionNav();
+    // Initialize all interactives
     initPointingArm();
     initTowardAway();
     initBodyDirections();
