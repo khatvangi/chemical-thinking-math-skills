@@ -29,6 +29,10 @@ jobs:
           cd site
           quarto render
 
+      - name: Copy standalone pages
+        run: |
+          cp site/direction.html site/_site/direction.html
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
