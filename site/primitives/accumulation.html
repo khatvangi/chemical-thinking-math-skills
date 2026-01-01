@@ -1,0 +1,1712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACCUMULATION — Chemical Thinking</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a24;
+            --text-primary: #e8e6e3;
+            --text-secondary: #a8a5a0;
+            --text-muted: #6b6965;
+            --accent-purple: #8B5CF6;
+            --accent-blue: #3B82F6;
+            --accent-orange: #F97316;
+            --accent-green: #22C55E;
+            --accent-red: #EF4444;
+            --accent-gray: #6B7280;
+            --border-subtle: #2a2a35;
+            --max-width: 720px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 18px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            padding: 0 1.5rem;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            padding: 4rem 0 3rem;
+            border-bottom: 1px solid var(--border-subtle);
+            margin-bottom: 3rem;
+        }
+
+        .primitive-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            color: var(--accent-purple);
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-family: 'Fraunces', serif;
+            font-size: 3.5rem;
+            font-weight: 500;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+            font-optical-sizing: auto;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+        /* Typography */
+        h2 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.75rem;
+            font-weight: 500;
+            margin: 3rem 0 1.5rem;
+            color: var(--text-primary);
+        }
+
+        h3 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 2rem 0 1rem;
+            color: var(--text-primary);
+        }
+
+        p {
+            margin-bottom: 1.25rem;
+            color: var(--text-secondary);
+        }
+
+        strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        em {
+            font-style: italic;
+            color: var(--text-primary);
+        }
+
+        /* Parts */
+        .part {
+            margin: 5rem 0;
+            padding-top: 2rem;
+        }
+
+        .part-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .part-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-purple);
+            letter-spacing: 0.1em;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .part-title {
+            font-family: 'Fraunces', serif;
+            font-size: 2rem;
+            font-weight: 500;
+        }
+
+        /* Definition popups */
+        .def-popup {
+            position: relative;
+            cursor: help;
+            border-bottom: 1px dotted var(--accent-purple);
+            color: var(--text-primary);
+        }
+
+        .def-tooltip {
+            position: absolute;
+            bottom: calc(100% + 12px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-subtle);
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            width: 280px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s ease;
+            z-index: 100;
+            line-height: 1.5;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        }
+
+        .def-popup:hover .def-tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin: 1rem 0 1.5rem 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Math blocks */
+        .math-block {
+            background: var(--bg-secondary);
+            border-left: 3px solid var(--accent-purple);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            overflow-x: auto;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        th {
+            color: var(--text-primary);
+            font-weight: 600;
+            background: var(--bg-secondary);
+        }
+
+        td {
+            color: var(--text-secondary);
+        }
+
+        /* Visualizations */
+        .visual-container {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .visual-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent-purple);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .visual-canvas {
+            background: var(--bg-primary);
+            border-radius: 8px;
+            width: 100%;
+            display: block;
+        }
+
+        .visual-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .control-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .control-value {
+            font-size: 0.85rem;
+            color: var(--accent-purple);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 4px;
+            -webkit-appearance: none;
+            background: var(--bg-tertiary);
+            border-radius: 2px;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            background: var(--accent-purple);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .visual-caption {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-align: center;
+            margin-top: 1rem;
+            font-style: italic;
+        }
+
+        .visual-legend {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+        }
+
+        /* Button controls */
+        .btn-group {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 6px;
+            color: var(--text-secondary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn:hover {
+            background: var(--accent-purple);
+            color: white;
+            border-color: var(--accent-purple);
+        }
+
+        .btn.active {
+            background: var(--accent-purple);
+            color: white;
+            border-color: var(--accent-purple);
+        }
+
+        /* Prologue */
+        .prologue {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            border-left: 3px solid var(--accent-purple);
+            padding-left: 1.5rem;
+            margin: 2rem 0 3rem;
+        }
+
+        /* Endnotes */
+        .endnotes {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .endnotes h2 {
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .endnote {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .endnote-num {
+            position: absolute;
+            left: 0;
+            color: var(--accent-purple);
+        }
+
+        sup a {
+            color: var(--accent-purple);
+            text-decoration: none;
+            font-size: 0.75em;
+        }
+
+        /* Navigation */
+        .nav-footer {
+            margin-top: 4rem;
+            padding: 2rem 0;
+            border-top: 1px solid var(--border-subtle);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .nav-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-purple);
+        }
+
+        /* Formal definition box */
+        .formal-def {
+            background: var(--bg-secondary);
+            border: 1px solid var(--accent-purple);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .formal-def-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent-purple);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        /* Code inline */
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85em;
+            background: var(--bg-tertiary);
+            padding: 0.15em 0.4em;
+            border-radius: 4px;
+            color: var(--accent-purple);
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            html { font-size: 16px; }
+            h1 { font-size: 2.5rem; }
+            .part-title { font-size: 1.5rem; }
+            .visual-controls { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="primitive-label">Primitive 8 of 9</div>
+            <h1>ACCUMULATION</h1>
+            <p class="subtitle">The cognitive act of gathering—the whole from the parts.</p>
+        </header>
+
+        <div class="prologue">
+            <p>RATE asks how fast. ACCUMULATION asks how much in total.</p>
+            <p>The bucket fills drop by drop. The distance grows step by step. The energy transfers quantum by quantum. The yield accumulates molecule by molecule. Each increment is small; the total is what matters.</p>
+            <p><span class="def-popup" data-definition="Accumulation: The gathering of increments into a total. Accumulation answers: if we add up all the small pieces, what is the whole?">ACCUMULATION<span class="def-tooltip"></span></span> is the inverse of RATE. Where RATE breaks a total into instantaneous pieces (differentiation), ACCUMULATION reassembles pieces into a total (integration).</p>
+            <p>ACCUMULATION answers: <em>What is the sum of all the parts?</em></p>
+        </div>
+
+        <!-- Part I -->
+        <section class="part" id="part-1">
+            <div class="part-header">
+                <span class="part-number">Part I</span>
+                <h2 class="part-title">The Cognitive Basis of ACCUMULATION</h2>
+            </div>
+
+            <h3>1.1 Perception of Totality</h3>
+            <p>Humans perceive totals directly.</p>
+            <p><strong>Subitizing</strong>: For small numbers (1-4), we perceive quantity instantly without counting. We see "three apples," not "one apple and one apple and one apple."</p>
+            <p><strong>Estimation</strong>: For larger quantities, we perceive approximate magnitude—"about a hundred," "thousands"—without enumeration.</p>
+            <p><strong>Accumulation over time</strong>: We sense that effort accumulates (fatigue), that resources deplete (hunger), that experience builds (learning). The perception that small increments sum to significant totals is ecologically fundamental.</p>
+
+            <h3>1.2 Accumulation Requires Parts and Whole</h3>
+            <p>ACCUMULATION involves:</p>
+            <p><strong>A. A domain</strong>: The range over which we accumulate. Time interval. Spatial region. Set of objects.</p>
+            <p><strong>B. Increments</strong>: The small pieces being gathered. Rate × dt. Density × dx. Value of each element.</p>
+            <p><strong>C. A total</strong>: The result of gathering all increments. The whole.</p>
+            <p>The cognitive act is: <em>given the pieces and how they're distributed, what is the aggregate?</em></p>
+
+            <h3>1.3 Discrete vs. Continuous</h3>
+            <p><strong>Discrete accumulation</strong>: Summation. Add distinct items.</p>
+            <div class="math-block">
+                $$\text{Total} = \sum_{i=1}^{n} a_i = a_1 + a_2 + \cdots + a_n$$
+            </div>
+            <p><strong>Continuous accumulation</strong>: Integration. Add infinitely many infinitesimal pieces.</p>
+            <div class="math-block">
+                $$\text{Total} = \int_a^b f(x) \, dx$$
+            </div>
+            <p>The integral is the limit of sums as the pieces become infinitesimally small and infinitely numerous.</p>
+        </section>
+
+        <!-- Part II -->
+        <section class="part" id="part-2">
+            <div class="part-header">
+                <span class="part-number">Part II</span>
+                <h2 class="part-title">Summation</h2>
+            </div>
+
+            <h3>2.1 Sigma Notation</h3>
+            <p>The sum of terms a₁, a₂, ..., aₙ:</p>
+            <div class="math-block">
+                $$\sum_{i=1}^{n} a_i = a_1 + a_2 + \cdots + a_n$$
+            </div>
+            <ul>
+                <li><strong>i</strong>: index of summation</li>
+                <li><strong>1</strong>: lower limit</li>
+                <li><strong>n</strong>: upper limit</li>
+                <li><strong>aᵢ</strong>: general term</li>
+            </ul>
+
+            <h3>2.2 Common Sums</h3>
+            <p><strong>Arithmetic series</strong> (constant difference):</p>
+            <div class="math-block">
+                $$\sum_{i=1}^{n} i = 1 + 2 + \cdots + n = \frac{n(n+1)}{2}$$
+            </div>
+            <p><strong>Geometric series</strong> (constant ratio):</p>
+            <div class="math-block">
+                $$\sum_{i=0}^{n-1} r^i = \frac{1 - r^n}{1 - r} \quad (r \neq 1)$$
+            </div>
+            <p>For |r| < 1, as n → ∞: $\sum_{i=0}^{\infty} r^i = \frac{1}{1-r}$</p>
+
+            <h3>2.3 Properties of Sums</h3>
+            <table>
+                <tr><th>Property</th><th>Formula</th></tr>
+                <tr><td>Constant factor</td><td>Σ(caᵢ) = cΣaᵢ</td></tr>
+                <tr><td>Sum of sums</td><td>Σ(aᵢ + bᵢ) = Σaᵢ + Σbᵢ</td></tr>
+                <tr><td>Splitting range</td><td>Σᵢ₌₁ⁿ = Σᵢ₌₁ᵐ + Σᵢ₌ₘ₊₁ⁿ</td></tr>
+            </table>
+        </section>
+
+        <!-- Part III -->
+        <section class="part" id="part-3">
+            <div class="part-header">
+                <span class="part-number">Part III</span>
+                <h2 class="part-title">The Integral</h2>
+            </div>
+
+            <h3>3.1 The Problem</h3>
+            <p>How much total "stuff" lies under a curve?</p>
+            <p>If f(x) gives the rate (or density) at each point x, the total over interval [a,b] is the area under the curve.</p>
+            <p>For constant f = c: Total = c × (b - a). Easy.</p>
+            <p>For varying f(x): The rate changes. We cannot simply multiply.</p>
+
+            <h3>3.2 Riemann Sums</h3>
+            <p>Approximate the area by rectangles. Partition [a,b] into n subintervals of width Δx = (b-a)/n. In each subinterval, approximate f by a constant. Sum the rectangle areas:</p>
+            <div class="math-block">
+                $$S_n = \sum_{i=1}^{n} f(x_i) \Delta x$$
+            </div>
+            <p>As n → ∞ (Δx → 0), the approximation improves.</p>
+
+            <!-- RIEMANN SUMS INTERACTIVE -->
+            <div class="visual-container" id="riemann-container">
+                <div class="visual-title">Interactive: Riemann Sums</div>
+                <canvas id="riemannCanvas" class="visual-canvas" width="680" height="300"></canvas>
+                <div class="visual-controls">
+                    <div class="control-group">
+                        <span class="control-label">Number of Rectangles</span>
+                        <input type="range" id="riemannN" min="2" max="50" step="1" value="6">
+                        <span class="control-value" id="riemannNValue">n = 6</span>
+                    </div>
+                    <div class="control-group">
+                        <span class="control-label">Approximate Area</span>
+                        <span class="control-value" id="riemannAreaValue">≈ 0.00</span>
+                    </div>
+                    <div class="control-group">
+                        <span class="control-label">Exact Integral</span>
+                        <span class="control-value" id="riemannExactValue">= 0.00</span>
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <button class="btn active" id="riemannLeft">Left</button>
+                    <button class="btn" id="riemannMid">Midpoint</button>
+                    <button class="btn" id="riemannRight">Right</button>
+                </div>
+                <p class="visual-caption">The integral is the limit of Riemann sums as rectangles become infinitely thin.</p>
+            </div>
+
+            <h3>3.3 The Definite Integral</h3>
+            <p>The <span class="def-popup" data-definition="Definite integral: The limit of Riemann sums as the partition becomes infinitely fine. ∫ₐᵇ f(x)dx represents the signed area under f(x) from a to b.">definite integral<span class="def-tooltip"></span></span> is the limit:</p>
+            <div class="math-block">
+                $$\int_a^b f(x) \, dx = \lim_{n \to \infty} \sum_{i=1}^{n} f(x_i) \Delta x$$
+            </div>
+
+            <h3>3.4 Geometric Interpretation</h3>
+            <p>The definite integral equals the <strong>signed area</strong> between f(x) and the x-axis:</p>
+            <ul>
+                <li>Where f(x) > 0: positive contribution</li>
+                <li>Where f(x) < 0: negative contribution</li>
+            </ul>
+            <p>Net area = (area above axis) - (area below axis)</p>
+        </section>
+
+        <!-- Part IV -->
+        <section class="part" id="part-4">
+            <div class="part-header">
+                <span class="part-number">Part IV</span>
+                <h2 class="part-title">The Fundamental Theorem of Calculus</h2>
+            </div>
+
+            <h3>4.1 The Connection</h3>
+            <p>The <span class="def-popup" data-definition="Fundamental Theorem of Calculus: Links differentiation and integration as inverse operations. Part 1: d/dx ∫ₐˣ f(t)dt = f(x). Part 2: ∫ₐᵇ f(x)dx = F(b) - F(a) where F' = f.">Fundamental Theorem of Calculus<span class="def-tooltip"></span></span> connects RATE and ACCUMULATION:</p>
+
+            <p><strong>Part 1</strong>: Differentiation undoes integration.</p>
+            <p>If $F(x) = \int_a^x f(t) \, dt$, then $F'(x) = f(x)$.</p>
+            <p>The rate of accumulation equals the integrand.</p>
+
+            <p><strong>Part 2</strong>: Integration undoes differentiation.</p>
+            <p>If F'(x) = f(x), then $\int_a^b f(x) \, dx = F(b) - F(a)$.</p>
+            <p>The total accumulation equals the net change in the antiderivative.</p>
+
+            <!-- FTC DEMONSTRATION -->
+            <div class="visual-container" id="ftc-container">
+                <div class="visual-title">Interactive: Fundamental Theorem of Calculus</div>
+                <canvas id="ftcCanvas" class="visual-canvas" width="680" height="320"></canvas>
+                <div class="visual-controls">
+                    <div class="control-group">
+                        <span class="control-label">Upper Limit x</span>
+                        <input type="range" id="ftcX" min="0" max="3.14" step="0.05" value="2">
+                        <span class="control-value" id="ftcXValue">x = 2.00</span>
+                    </div>
+                    <div class="control-group">
+                        <span class="control-label">Area A(x) = ∫₀ˣ f(t)dt</span>
+                        <span class="control-value" id="ftcAreaValue">= 0.00</span>
+                    </div>
+                    <div class="control-group">
+                        <span class="control-label">dA/dx = f(x)</span>
+                        <span class="control-value" id="ftcDerivValue">= 0.00</span>
+                    </div>
+                </div>
+                <p class="visual-caption">The rate of area accumulation equals the function value. This is the heart of calculus.</p>
+            </div>
+
+            <h3>4.2 Antiderivatives</h3>
+            <p>An <span class="def-popup" data-definition="Antiderivative: A function F whose derivative is f. That is, F'(x) = f(x). Also called the indefinite integral. Antiderivatives are unique up to an additive constant.">antiderivative<span class="def-tooltip"></span></span> of f(x) is a function F(x) such that F'(x) = f(x).</p>
+            <p>Antiderivatives are not unique: if F is an antiderivative, so is F + C for any constant C.</p>
+
+            <!-- ANTIDERIVATIVE FAMILIES -->
+            <div class="visual-container" id="antideriv-container">
+                <div class="visual-title">Interactive: Antiderivative Families</div>
+                <canvas id="antiderivCanvas" class="visual-canvas" width="680" height="320"></canvas>
+                <div class="visual-controls">
+                    <div class="control-group">
+                        <span class="control-label">Constant C</span>
+                        <input type="range" id="antiderivC" min="-3" max="3" step="0.25" value="0">
+                        <span class="control-value" id="antiderivCValue">C = 0</span>
+                    </div>
+                </div>
+                <div class="visual-legend">
+                    <div class="legend-item"><div class="legend-color" style="background: #F97316;"></div> f(x) = 2x</div>
+                    <div class="legend-item"><div class="legend-color" style="background: #3B82F6;"></div> F(x) = x² + C</div>
+                </div>
+                <p class="visual-caption">All antiderivatives differ by a constant. All have the same derivative (same slope at each x).</p>
+            </div>
+
+            <h3>4.3 Basic Antiderivatives</h3>
+            <table>
+                <tr><th>f(x)</th><th>∫f(x)dx</th></tr>
+                <tr><td>xⁿ (n ≠ -1)</td><td>xⁿ⁺¹/(n+1) + C</td></tr>
+                <tr><td>1/x</td><td>ln|x| + C</td></tr>
+                <tr><td>eˣ</td><td>eˣ + C</td></tr>
+                <tr><td>sin(x)</td><td>-cos(x) + C</td></tr>
+                <tr><td>cos(x)</td><td>sin(x) + C</td></tr>
+            </table>
+
+            <h3>4.4 Evaluating Definite Integrals</h3>
+            <p>Using FTC Part 2:</p>
+            <div class="math-block">
+                $$\int_a^b f(x) \, dx = [F(x)]_a^b = F(b) - F(a)$$
+            </div>
+            <p><strong>Example</strong>: $\int_0^2 x^2 \, dx = \left[\frac{x^3}{3}\right]_0^2 = \frac{8}{3} - 0 = \frac{8}{3}$</p>
+        </section>
+
+        <!-- Part V -->
+        <section class="part" id="part-5">
+            <div class="part-header">
+                <span class="part-number">Part V</span>
+                <h2 class="part-title">Integration Techniques</h2>
+            </div>
+
+            <h3>5.1 Substitution (u-substitution)</h3>
+            <p>For integrals of the form ∫f(g(x))g'(x)dx:</p>
+            <p>Let u = g(x), then du = g'(x)dx.</p>
+            <div class="math-block">
+                $$\int f(g(x))g'(x) \, dx = \int f(u) \, du$$
+            </div>
+            <p><strong>Example</strong>: $\int 2x e^{x^2} dx$. Let u = x², du = 2x dx.</p>
+            <p>$\int e^u \, du = e^u + C = e^{x^2} + C$</p>
+
+            <h3>5.2 Integration by Parts</h3>
+            <p>For integrals of products:</p>
+            <div class="math-block">
+                $$\int u \, dv = uv - \int v \, du$$
+            </div>
+            <p><strong>Example</strong>: $\int x e^x dx$. Let u = x, dv = eˣdx. Then du = dx, v = eˣ.</p>
+            <p>$\int x e^x dx = xe^x - \int e^x dx = xe^x - e^x + C = e^x(x-1) + C$</p>
+
+            <h3>5.3 Partial Fractions</h3>
+            <p>For rational functions P(x)/Q(x) where degree(P) < degree(Q):</p>
+            <p>Factor Q(x) and decompose into simpler fractions.</p>
+        </section>
+
+        <!-- Part VI -->
+        <section class="part" id="part-6">
+            <div class="part-header">
+                <span class="part-number">Part VI</span>
+                <h2 class="part-title">Applications of Integration</h2>
+            </div>
+
+            <h3>6.1 Area Under a Curve</h3>
+            <div class="math-block">$$A = \int_a^b f(x) \, dx$$</div>
+            <p>For area between two curves: $A = \int_a^b [f(x) - g(x)] \, dx$ where f(x) ≥ g(x) on [a,b].</p>
+
+            <h3>6.2 Average Value</h3>
+            <p>The <span class="def-popup" data-definition="Average value: The mean value of a function over an interval. f_avg = (1/(b-a)) ∫ₐᵇ f(x)dx. The height of a rectangle with the same area as the region under the curve.">average value<span class="def-tooltip"></span></span> of f(x) on [a,b]:</p>
+            <div class="math-block">
+                $$f_{avg} = \frac{1}{b-a} \int_a^b f(x) \, dx$$
+            </div>
+
+            <h3>6.3 Work</h3>
+            <p>Work done by a variable force F(x) over displacement from a to b:</p>
+            <div class="math-block">$$W = \int_a^b F(x) \, dx$$</div>
+
+            <!-- WORK INTEGRAL -->
+            <div class="visual-container" id="work-container">
+                <div class="visual-title">Interactive: Work as Integral of Force</div>
+                <canvas id="workCanvas" class="visual-canvas" width="680" height="300"></canvas>
+                <div class="visual-controls">
+                    <div class="control-group">
+                        <span class="control-label">Upper Limit b</span>
+                        <input type="range" id="workB" min="0.5" max="4" step="0.1" value="2">
+                        <span class="control-value" id="workBValue">b = 2.0 m</span>
+                    </div>
+                    <div class="control-group">
+                        <span class="control-label">Work W = ∫F dx</span>
+                        <span class="control-value" id="workWValue">= 0.00 J</span>
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <button class="btn active" id="workSpring">Spring (F = kx)</button>
+                    <button class="btn" id="workGravity">Gravity (F = mg)</button>
+                    <button class="btn" id="workVariable">Variable Force</button>
+                </div>
+                <p class="visual-caption">Work is the integral of force over displacement. The area under F(x) equals total work done.</p>
+            </div>
+
+            <h3>6.4 Heat and Enthalpy</h3>
+            <p>Heat required to raise temperature from T₁ to T₂:</p>
+            <div class="math-block">$$q = \int_{T_1}^{T_2} C_p(T) \, dT$$</div>
+            <p>If Cₚ is constant: q = Cₚ(T₂ - T₁). If Cₚ varies with T: the integral is required.</p>
+        </section>
+
+        <!-- Part VII -->
+        <section class="part" id="part-7">
+            <div class="part-header">
+                <span class="part-number">Part VII</span>
+                <h2 class="part-title">ACCUMULATION in Chemical Systems</h2>
+            </div>
+
+            <h3>7.1 Reaction Yield</h3>
+            <p>Total moles of product formed from t = 0 to t = τ:</p>
+            <div class="math-block">$$n_P = \int_0^\tau r(t) \, dt$$</div>
+            <p>where r(t) is the rate of production (mol/s).</p>
+
+            <h3>7.2 Pressure-Volume Work</h3>
+            <p>Work done by expanding gas:</p>
+            <div class="math-block">$$w = -\int_{V_1}^{V_2} P_{ext} \, dV$$</div>
+
+            <!-- PV WORK -->
+            <div class="visual-container" id="pv-container">
+                <div class="visual-title">Interactive: PV Work</div>
+                <canvas id="pvCanvas" class="visual-canvas" width="680" height="320"></canvas>
+                <div class="visual-legend">
+                    <div class="legend-item"><div class="legend-color" style="background: #3B82F6;"></div> Isothermal</div>
+                    <div class="legend-item"><div class="legend-color" style="background: #22C55E;"></div> Isobaric</div>
+                    <div class="legend-item"><div class="legend-color" style="background: #F97316;"></div> Adiabatic</div>
+                </div>
+                <div class="visual-controls">
+                    <div class="control-group">
+                        <span class="control-label">Final Volume V₂/V₁</span>
+                        <input type="range" id="pvV2" min="1.5" max="4" step="0.1" value="2.5">
+                        <span class="control-value" id="pvV2Value">2.5</span>
+                    </div>
+                </div>
+                <div class="btn-group">
+                    <button class="btn active" id="pvIsotherm">Isothermal</button>
+                    <button class="btn" id="pvIsobar">Isobaric</button>
+                    <button class="btn" id="pvAdiabat">Adiabatic</button>
+                </div>
+                <p class="visual-caption">Work depends on the path. Different thermodynamic processes give different areas under the P-V curve.</p>
+            </div>
+
+            <h3>7.3 State Functions vs. Path Functions</h3>
+            <p>State functions are path-independent. Their changes are differences, not integrals over paths:</p>
+            <div class="math-block">$$\Delta U = U_2 - U_1$$</div>
+            <p>But path-dependent quantities (heat, work) require integration along the specific path taken.</p>
+
+            <h3>7.4 Normalization</h3>
+            <p>Probability distributions must integrate to 1:</p>
+            <div class="math-block">$$\int_{-\infty}^{\infty} P(x) \, dx = 1$$</div>
+
+            <!-- NORMALIZATION -->
+            <div class="visual-container" id="norm-container">
+                <div class="visual-title">Interactive: Normalization</div>
+                <canvas id="normCanvas" class="visual-canvas" width="680" height="280"></canvas>
+                <div class="visual-controls">
+                    <div class="control-group">
+                        <span class="control-label">Amplitude A</span>
+                        <input type="range" id="normA" min="0.2" max="2" step="0.05" value="1">
+                        <span class="control-value" id="normAValue">A = 1.00</span>
+                    </div>
+                    <div class="control-group">
+                        <span class="control-label">Width σ</span>
+                        <input type="range" id="normSigma" min="0.3" max="1.5" step="0.05" value="0.7">
+                        <span class="control-value" id="normSigmaValue">σ = 0.70</span>
+                    </div>
+                    <div class="control-group">
+                        <span class="control-label">∫P(x)dx</span>
+                        <span class="control-value" id="normIntValue">= 1.00</span>
+                    </div>
+                </div>
+                <p class="visual-caption">Probability distributions must integrate to 1. Adjust parameters to see the normalization constraint.</p>
+            </div>
+
+            <h3>7.5 Expectation Values</h3>
+            <p>The average (expectation) value of quantity A:</p>
+            <div class="math-block">$$\langle A \rangle = \int_{-\infty}^{\infty} A(x) P(x) \, dx$$</div>
+        </section>
+
+        <!-- Part VIII -->
+        <section class="part" id="part-8">
+            <div class="part-header">
+                <span class="part-number">Part VIII</span>
+                <h2 class="part-title">Multiple Integrals</h2>
+            </div>
+
+            <h3>8.1 Double Integrals</h3>
+            <p>For functions of two variables:</p>
+            <div class="math-block">$$\iint_R f(x,y) \, dA = \int_a^b \int_{c(x)}^{d(x)} f(x,y) \, dy \, dx$$</div>
+            <p>Interpretation: Volume under the surface z = f(x,y) over region R.</p>
+
+            <h3>8.2 Triple Integrals</h3>
+            <p>For functions of three variables:</p>
+            <div class="math-block">$$\iiint_V f(x,y,z) \, dV$$</div>
+            <p>Interpretation: Accumulated "density" f over volume V.</p>
+
+            <h3>8.3 Change of Variables</h3>
+            <p>In multiple integrals, changing coordinates requires the <span class="def-popup" data-definition="Jacobian: The determinant of the matrix of partial derivatives when changing variables in multiple integrals. It accounts for how area or volume elements transform under the coordinate change.">Jacobian<span class="def-tooltip"></span></span>:</p>
+            <p><strong>Polar coordinates</strong>: x = r cos θ, y = r sin θ → dx dy = r dr dθ</p>
+            <p><strong>Spherical coordinates</strong>: dx dy dz = r² sin φ dr dφ dθ</p>
+        </section>
+
+        <!-- Part IX -->
+        <section class="part" id="part-9">
+            <div class="part-header">
+                <span class="part-number">Part IX</span>
+                <h2 class="part-title">ACCUMULATION and Other Primitives</h2>
+            </div>
+
+            <h3>9.1 ACCUMULATION and RATE</h3>
+            <p>ACCUMULATION is the inverse of RATE.</p>
+            <p>RATE: d/dt (how fast at this instant)<br>
+            ACCUMULATION: ∫dt (total over time)</p>
+            <p>The Fundamental Theorem of Calculus formalizes this inverse relationship.</p>
+
+            <h3>9.2 ACCUMULATION and CHANGE</h3>
+            <p>CHANGE gives infinitesimal increments. ACCUMULATION gathers them into finite totals.</p>
+            <p>The differential df = f'(x)dx represents CHANGE.<br>
+            The integral ∫f'(x)dx = f(x) + C represents ACCUMULATION.</p>
+
+            <h3>9.3 ACCUMULATION and SPREAD</h3>
+            <p>Probability distributions (SPREAD) are normalized by ACCUMULATION:</p>
+            <div class="math-block">$$\int P(x) \, dx = 1$$</div>
+            <p>Cumulative distribution functions accumulate probability:</p>
+            <div class="math-block">$$F(x) = P(X \leq x) = \int_{-\infty}^{x} p(t) \, dt$$</div>
+        </section>
+
+        <!-- Part X: Summary -->
+        <section class="part" id="part-10">
+            <div class="part-header">
+                <span class="part-number">Part X</span>
+                <h2 class="part-title">Summary</h2>
+            </div>
+
+            <h3>10.1 What ACCUMULATION Is</h3>
+            <p>ACCUMULATION is gathering—the assembly of parts into a whole.</p>
+            <p>The perception is primary. We sense totals directly: the full bucket, the long journey, the accumulated fatigue. Small increments sum to large effects.</p>
+            <p>The formalization is secondary: summation for discrete quantities, integration for continuous ones. The Fundamental Theorem connects ACCUMULATION to RATE as inverse operations.</p>
+
+            <div class="formal-def">
+                <div class="formal-def-title">Key Concepts</div>
+                <p><strong>Summation</strong>: Σaᵢ. Discrete accumulation.</p>
+                <p><strong>Definite integral</strong>: ∫ₐᵇ f(x)dx. Continuous accumulation. Limit of Riemann sums.</p>
+                <p><strong>Antiderivative</strong>: F such that F' = f. Indefinite integral.</p>
+                <p><strong>Fundamental Theorem</strong>: ∫ₐᵇ f dx = F(b) - F(a). Links integration and differentiation.</p>
+                <p><strong>Multiple integrals</strong>: Accumulation over regions in 2D, 3D.</p>
+            </div>
+
+            <h3>10.2 Forward</h3>
+            <p>ACCUMULATION completes the calculus pair with RATE. The final primitive, SPREAD, addresses distribution—how quantities are allocated across possibilities.</p>
+        </section>
+
+        <!-- Endnotes -->
+        <section class="endnotes">
+            <h2>Endnotes</h2>
+            <div class="endnote">
+                <span class="endnote-num">[1]</span>
+                Subitizing and numerosity perception are discussed in Dehaene, S. (2011). <em>The Number Sense: How the Mind Creates Mathematics</em> (Revised ed.). Oxford University Press.
+            </div>
+            <div class="endnote">
+                <span class="endnote-num">[2]</span>
+                The historical development of integration is traced in Boyer, C.B. (1959). <em>The History of the Calculus and Its Conceptual Development</em>. Dover.
+            </div>
+            <div class="endnote">
+                <span class="endnote-num">[3]</span>
+                Thermodynamic applications of integration are covered in Atkins, P. & de Paula, J. (2014). <em>Atkins' Physical Chemistry</em> (10th ed.). Oxford University Press.
+            </div>
+            <div class="endnote">
+                <span class="endnote-num">[4]</span>
+                Multiple integrals in quantum chemistry appear in Levine, I.N. (2014). <em>Quantum Chemistry</em> (7th ed.). Pearson.
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <nav class="nav-footer">
+            <a href="rate.html" class="nav-link">← RATE</a>
+            <a href="../index.html" class="nav-link">Home</a>
+            <a href="spread.html" class="nav-link">SPREAD →</a>
+        </nav>
+    </div>
+
+    <script>
+        // Initialize KaTeX
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},
+                    {left: "$", right: "$", display: false}
+                ]
+            });
+
+            // Populate tooltips
+            document.querySelectorAll('.def-popup').forEach(el => {
+                const tooltip = el.querySelector('.def-tooltip');
+                if (tooltip) tooltip.textContent = el.dataset.definition;
+            });
+
+            initRiemann();
+            initFTC();
+            initAntideriv();
+            initWork();
+            initPV();
+            initNormalization();
+        });
+
+        // ==========================================
+        // 1. RIEMANN SUMS
+        // ==========================================
+        function initRiemann() {
+            const canvas = document.getElementById('riemannCanvas');
+            const ctx = canvas.getContext('2d');
+            const nSlider = document.getElementById('riemannN');
+            const nValue = document.getElementById('riemannNValue');
+            const areaValue = document.getElementById('riemannAreaValue');
+            const exactValue = document.getElementById('riemannExactValue');
+            const leftBtn = document.getElementById('riemannLeft');
+            const midBtn = document.getElementById('riemannMid');
+            const rightBtn = document.getElementById('riemannRight');
+
+            let method = 'left';
+
+            // Function: f(x) = sin(x) + 1 on [0, π]
+            const a = 0, b = Math.PI;
+            const f = x => Math.sin(x) + 1;
+            const exact = 2 + Math.PI; // ∫₀^π (sin x + 1) dx = 2 + π
+
+            function draw() {
+                const n = parseInt(nSlider.value);
+                nValue.textContent = 'n = ' + n;
+                exactValue.textContent = '= ' + exact.toFixed(4);
+
+                ctx.fillStyle = '#0a0a0f';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                const padding = 50;
+                const w = canvas.width - 2 * padding;
+                const h = canvas.height - 2 * padding;
+                const yMax = 2.5;
+
+                // Axes
+                ctx.strokeStyle = '#2a2a35';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(padding, padding);
+                ctx.lineTo(padding, canvas.height - padding);
+                ctx.lineTo(canvas.width - padding, canvas.height - padding);
+                ctx.stroke();
+
+                // Riemann rectangles
+                const dx = (b - a) / n;
+                let sum = 0;
+
+                ctx.fillStyle = 'rgba(249, 115, 22, 0.4)';
+                ctx.strokeStyle = '#F97316';
+                ctx.lineWidth = 1;
+
+                for (let i = 0; i < n; i++) {
+                    const x0 = a + i * dx;
+                    const x1 = a + (i + 1) * dx;
+                    let sampleX;
+
+                    if (method === 'left') sampleX = x0;
+                    else if (method === 'right') sampleX = x1;
+                    else sampleX = (x0 + x1) / 2;
+
+                    const y = f(sampleX);
+                    sum += y * dx;
+
+                    const px0 = padding + (x0 / b) * w;
+                    const px1 = padding + (x1 / b) * w;
+                    const py = canvas.height - padding - (y / yMax) * h;
+                    const pyBase = canvas.height - padding;
+
+                    ctx.fillRect(px0, py, px1 - px0, pyBase - py);
+                    ctx.strokeRect(px0, py, px1 - px0, pyBase - py);
+                }
+
+                areaValue.textContent = '≈ ' + sum.toFixed(4);
+
+                // Function curve
+                ctx.strokeStyle = '#8B5CF6';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                for (let i = 0; i <= 200; i++) {
+                    const x = (i / 200) * b;
+                    const y = f(x);
+                    const px = padding + (x / b) * w;
+                    const py = canvas.height - padding - (y / yMax) * h;
+                    if (i === 0) ctx.moveTo(px, py);
+                    else ctx.lineTo(px, py);
+                }
+                ctx.stroke();
+
+                // Labels
+                ctx.fillStyle = '#6b6965';
+                ctx.font = '12px JetBrains Mono';
+                ctx.textAlign = 'center';
+                ctx.fillText('x', canvas.width / 2, canvas.height - 10);
+                ctx.fillText('0', padding, canvas.height - padding + 18);
+                ctx.fillText('π', canvas.width - padding, canvas.height - padding + 18);
+                ctx.save();
+                ctx.translate(15, canvas.height / 2);
+                ctx.rotate(-Math.PI / 2);
+                ctx.fillText('f(x) = sin(x) + 1', 0, 0);
+                ctx.restore();
+            }
+
+            function setMethod(m) {
+                method = m;
+                [leftBtn, midBtn, rightBtn].forEach(b => b.classList.remove('active'));
+                if (m === 'left') leftBtn.classList.add('active');
+                else if (m === 'mid') midBtn.classList.add('active');
+                else rightBtn.classList.add('active');
+                draw();
+            }
+
+            nSlider.addEventListener('input', draw);
+            leftBtn.addEventListener('click', () => setMethod('left'));
+            midBtn.addEventListener('click', () => setMethod('mid'));
+            rightBtn.addEventListener('click', () => setMethod('right'));
+            draw();
+        }
+
+        // ==========================================
+        // 2. FTC DEMONSTRATION
+        // ==========================================
+        function initFTC() {
+            const canvas = document.getElementById('ftcCanvas');
+            const ctx = canvas.getContext('2d');
+            const xSlider = document.getElementById('ftcX');
+            const xValue = document.getElementById('ftcXValue');
+            const areaValue = document.getElementById('ftcAreaValue');
+            const derivValue = document.getElementById('ftcDerivValue');
+
+            // f(t) = t² on [0, x]
+            const f = t => t * t;
+            const F = t => t * t * t / 3; // Antiderivative
+
+            function draw() {
+                const x = parseFloat(xSlider.value);
+                xValue.textContent = 'x = ' + x.toFixed(2);
+
+                const area = F(x) - F(0);
+                const deriv = f(x);
+                areaValue.textContent = '= ' + area.toFixed(3);
+                derivValue.textContent = '= ' + deriv.toFixed(3);
+
+                ctx.fillStyle = '#0a0a0f';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                const padding = 50;
+                const w = canvas.width - 2 * padding;
+                const h = canvas.height - 2 * padding;
+                const xMax = 3.5;
+                const yMax = 12;
+
+                // Axes
+                ctx.strokeStyle = '#2a2a35';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(padding, padding);
+                ctx.lineTo(padding, canvas.height - padding);
+                ctx.lineTo(canvas.width - padding, canvas.height - padding);
+                ctx.stroke();
+
+                // Shaded area
+                ctx.fillStyle = 'rgba(139, 92, 246, 0.3)';
+                ctx.beginPath();
+                ctx.moveTo(padding, canvas.height - padding);
+                for (let i = 0; i <= 100; i++) {
+                    const t = (i / 100) * x;
+                    const y = f(t);
+                    const px = padding + (t / xMax) * w;
+                    const py = canvas.height - padding - (y / yMax) * h;
+                    ctx.lineTo(px, py);
+                }
+                ctx.lineTo(padding + (x / xMax) * w, canvas.height - padding);
+                ctx.closePath();
+                ctx.fill();
+
+                // Function curve
+                ctx.strokeStyle = '#8B5CF6';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                for (let i = 0; i <= 200; i++) {
+                    const t = (i / 200) * xMax;
+                    const y = f(t);
+                    const px = padding + (t / xMax) * w;
+                    const py = canvas.height - padding - (y / yMax) * h;
+                    if (i === 0) ctx.moveTo(px, py);
+                    else ctx.lineTo(px, py);
+                }
+                ctx.stroke();
+
+                // Vertical line at x
+                const px = padding + (x / xMax) * w;
+                const py = canvas.height - padding - (f(x) / yMax) * h;
+
+                ctx.setLineDash([5, 5]);
+                ctx.strokeStyle = '#F97316';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(px, canvas.height - padding);
+                ctx.lineTo(px, py);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Point on curve
+                ctx.fillStyle = '#F97316';
+                ctx.beginPath();
+                ctx.arc(px, py, 6, 0, Math.PI * 2);
+                ctx.fill();
+
+                // f(x) label
+                ctx.fillStyle = '#e8e6e3';
+                ctx.font = '11px JetBrains Mono';
+                ctx.textAlign = 'left';
+                ctx.fillText('f(x) = ' + deriv.toFixed(2), px + 10, py - 8);
+
+                // Labels
+                ctx.fillStyle = '#6b6965';
+                ctx.font = '12px JetBrains Mono';
+                ctx.textAlign = 'center';
+                ctx.fillText('t', canvas.width / 2, canvas.height - 10);
+                ctx.save();
+                ctx.translate(15, canvas.height / 2);
+                ctx.rotate(-Math.PI / 2);
+                ctx.fillText('f(t) = t²', 0, 0);
+                ctx.restore();
+            }
+
+            xSlider.addEventListener('input', draw);
+            draw();
+        }
+
+        // ==========================================
+        // 3. ANTIDERIVATIVE FAMILIES
+        // ==========================================
+        function initAntideriv() {
+            const canvas = document.getElementById('antiderivCanvas');
+            const ctx = canvas.getContext('2d');
+            const cSlider = document.getElementById('antiderivC');
+            const cValue = document.getElementById('antiderivCValue');
+
+            // f(x) = 2x, F(x) = x² + C
+            const f = x => 2 * x;
+            const F = (x, C) => x * x + C;
+
+            function draw() {
+                const C = parseFloat(cSlider.value);
+                cValue.textContent = 'C = ' + C.toFixed(2);
+
+                ctx.fillStyle = '#0a0a0f';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                const padding = 50;
+                const w = canvas.width - 2 * padding;
+                const h = canvas.height - 2 * padding;
+                const xMin = -3, xMax = 3;
+                const yMin = -4, yMax = 12;
+
+                // Axes
+                ctx.strokeStyle = '#2a2a35';
+                ctx.lineWidth = 1;
+
+                // Y-axis
+                const y0 = canvas.height - padding - (-yMin / (yMax - yMin)) * h;
+                ctx.beginPath();
+                ctx.moveTo(padding, padding);
+                ctx.lineTo(padding, canvas.height - padding);
+                ctx.stroke();
+
+                // X-axis
+                const xAxisY = canvas.height - padding - (-yMin / (yMax - yMin)) * h;
+                ctx.beginPath();
+                ctx.moveTo(padding, xAxisY);
+                ctx.lineTo(canvas.width - padding, xAxisY);
+                ctx.stroke();
+
+                // Draw multiple antiderivatives (ghost curves)
+                for (let c = -3; c <= 3; c += 1) {
+                    if (Math.abs(c - C) < 0.1) continue;
+                    ctx.strokeStyle = 'rgba(59, 130, 246, 0.2)';
+                    ctx.lineWidth = 1.5;
+                    ctx.beginPath();
+                    for (let i = 0; i <= 200; i++) {
+                        const x = xMin + (i / 200) * (xMax - xMin);
+                        const y = F(x, c);
+                        if (y < yMin || y > yMax) continue;
+                        const px = padding + ((x - xMin) / (xMax - xMin)) * w;
+                        const py = canvas.height - padding - ((y - yMin) / (yMax - yMin)) * h;
+                        if (i === 0 || F(xMin + ((i-1) / 200) * (xMax - xMin), c) < yMin || F(xMin + ((i-1) / 200) * (xMax - xMin), c) > yMax) {
+                            ctx.moveTo(px, py);
+                        } else {
+                            ctx.lineTo(px, py);
+                        }
+                    }
+                    ctx.stroke();
+                }
+
+                // Selected antiderivative F(x) = x² + C
+                ctx.strokeStyle = '#3B82F6';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                for (let i = 0; i <= 200; i++) {
+                    const x = xMin + (i / 200) * (xMax - xMin);
+                    const y = F(x, C);
+                    if (y < yMin || y > yMax) continue;
+                    const px = padding + ((x - xMin) / (xMax - xMin)) * w;
+                    const py = canvas.height - padding - ((y - yMin) / (yMax - yMin)) * h;
+                    if (i === 0 || F(xMin + ((i-1) / 200) * (xMax - xMin), C) < yMin || F(xMin + ((i-1) / 200) * (xMax - xMin), C) > yMax) {
+                        ctx.moveTo(px, py);
+                    } else {
+                        ctx.lineTo(px, py);
+                    }
+                }
+                ctx.stroke();
+
+                // Derivative f(x) = 2x
+                ctx.strokeStyle = '#F97316';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                for (let i = 0; i <= 200; i++) {
+                    const x = xMin + (i / 200) * (xMax - xMin);
+                    const y = f(x);
+                    if (y < yMin || y > yMax) continue;
+                    const px = padding + ((x - xMin) / (xMax - xMin)) * w;
+                    const py = canvas.height - padding - ((y - yMin) / (yMax - yMin)) * h;
+                    if (i === 0) ctx.moveTo(px, py);
+                    else ctx.lineTo(px, py);
+                }
+                ctx.stroke();
+
+                // Labels
+                ctx.fillStyle = '#6b6965';
+                ctx.font = '12px JetBrains Mono';
+                ctx.textAlign = 'center';
+                ctx.fillText('x', canvas.width / 2, canvas.height - 10);
+
+                // Function labels
+                ctx.fillStyle = '#F97316';
+                ctx.font = '11px JetBrains Mono';
+                ctx.textAlign = 'left';
+                ctx.fillText("f(x) = 2x", canvas.width - padding - 80, xAxisY + 40);
+
+                ctx.fillStyle = '#3B82F6';
+                ctx.fillText("F(x) = x² + " + C.toFixed(1), canvas.width - padding - 100, padding + 30);
+            }
+
+            cSlider.addEventListener('input', draw);
+            draw();
+        }
+
+        // ==========================================
+        // 4. WORK INTEGRAL
+        // ==========================================
+        function initWork() {
+            const canvas = document.getElementById('workCanvas');
+            const ctx = canvas.getContext('2d');
+            const bSlider = document.getElementById('workB');
+            const bValue = document.getElementById('workBValue');
+            const wValue = document.getElementById('workWValue');
+            const springBtn = document.getElementById('workSpring');
+            const gravityBtn = document.getElementById('workGravity');
+            const variableBtn = document.getElementById('workVariable');
+
+            let forceType = 'spring';
+            const k = 2; // Spring constant
+            const mg = 3; // Weight
+
+            function getForce(x) {
+                if (forceType === 'spring') return k * x;
+                if (forceType === 'gravity') return mg;
+                return 2 + Math.sin(x * 2); // Variable
+            }
+
+            function getWork(b) {
+                if (forceType === 'spring') return 0.5 * k * b * b;
+                if (forceType === 'gravity') return mg * b;
+                // Numerical integration for variable force
+                let sum = 0;
+                const n = 100;
+                const dx = b / n;
+                for (let i = 0; i < n; i++) {
+                    sum += getForce(i * dx + dx/2) * dx;
+                }
+                return sum;
+            }
+
+            function draw() {
+                const b = parseFloat(bSlider.value);
+                bValue.textContent = 'b = ' + b.toFixed(1) + ' m';
+                wValue.textContent = '= ' + getWork(b).toFixed(2) + ' J';
+
+                ctx.fillStyle = '#0a0a0f';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                const padding = 50;
+                const w = canvas.width - 2 * padding;
+                const h = canvas.height - 2 * padding;
+                const xMax = 4.5;
+                const yMax = forceType === 'spring' ? 10 : 6;
+
+                // Axes
+                ctx.strokeStyle = '#2a2a35';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(padding, padding);
+                ctx.lineTo(padding, canvas.height - padding);
+                ctx.lineTo(canvas.width - padding, canvas.height - padding);
+                ctx.stroke();
+
+                // Shaded work area
+                ctx.fillStyle = 'rgba(34, 197, 94, 0.3)';
+                ctx.beginPath();
+                ctx.moveTo(padding, canvas.height - padding);
+                for (let i = 0; i <= 100; i++) {
+                    const x = (i / 100) * b;
+                    const y = getForce(x);
+                    const px = padding + (x / xMax) * w;
+                    const py = canvas.height - padding - (y / yMax) * h;
+                    ctx.lineTo(px, py);
+                }
+                ctx.lineTo(padding + (b / xMax) * w, canvas.height - padding);
+                ctx.closePath();
+                ctx.fill();
+
+                // Force curve
+                ctx.strokeStyle = '#22C55E';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                for (let i = 0; i <= 200; i++) {
+                    const x = (i / 200) * xMax;
+                    const y = getForce(x);
+                    const px = padding + (x / xMax) * w;
+                    const py = canvas.height - padding - (y / yMax) * h;
+                    if (i === 0) ctx.moveTo(px, py);
+                    else ctx.lineTo(px, py);
+                }
+                ctx.stroke();
+
+                // Upper limit marker
+                const px = padding + (b / xMax) * w;
+                ctx.setLineDash([5, 5]);
+                ctx.strokeStyle = '#6B7280';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(px, padding);
+                ctx.lineTo(px, canvas.height - padding);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Labels
+                ctx.fillStyle = '#6b6965';
+                ctx.font = '12px JetBrains Mono';
+                ctx.textAlign = 'center';
+                ctx.fillText('Displacement x (m)', canvas.width / 2, canvas.height - 10);
+                ctx.save();
+                ctx.translate(15, canvas.height / 2);
+                ctx.rotate(-Math.PI / 2);
+                ctx.fillText('Force F(x) (N)', 0, 0);
+                ctx.restore();
+
+                // Force type label
+                ctx.fillStyle = '#22C55E';
+                ctx.font = '11px JetBrains Mono';
+                let label = forceType === 'spring' ? 'F = kx' : (forceType === 'gravity' ? 'F = mg' : 'F = 2 + sin(2x)');
+                ctx.fillText(label, canvas.width - padding - 50, padding + 25);
+            }
+
+            function setForce(type) {
+                forceType = type;
+                [springBtn, gravityBtn, variableBtn].forEach(b => b.classList.remove('active'));
+                if (type === 'spring') springBtn.classList.add('active');
+                else if (type === 'gravity') gravityBtn.classList.add('active');
+                else variableBtn.classList.add('active');
+                draw();
+            }
+
+            bSlider.addEventListener('input', draw);
+            springBtn.addEventListener('click', () => setForce('spring'));
+            gravityBtn.addEventListener('click', () => setForce('gravity'));
+            variableBtn.addEventListener('click', () => setForce('variable'));
+            draw();
+        }
+
+        // ==========================================
+        // 5. PV WORK
+        // ==========================================
+        function initPV() {
+            const canvas = document.getElementById('pvCanvas');
+            const ctx = canvas.getContext('2d');
+            const v2Slider = document.getElementById('pvV2');
+            const v2Value = document.getElementById('pvV2Value');
+            const isothermBtn = document.getElementById('pvIsotherm');
+            const isobarBtn = document.getElementById('pvIsobar');
+            const adiabatBtn = document.getElementById('pvAdiabat');
+
+            let pathType = 'isotherm';
+            const nRT = 2; // Constant for isothermal
+            const gamma = 1.4; // For adiabatic
+
+            function draw() {
+                const V2ratio = parseFloat(v2Slider.value);
+                v2Value.textContent = V2ratio.toFixed(1);
+
+                ctx.fillStyle = '#0a0a0f';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                const padding = 50;
+                const w = canvas.width - 2 * padding;
+                const h = canvas.height - 2 * padding;
+                const VMax = 5;
+                const PMax = 3;
+                const V1 = 1;
+                const V2 = V1 * V2ratio;
+                const P1 = nRT / V1; // Starting pressure for isothermal
+
+                // Axes
+                ctx.strokeStyle = '#2a2a35';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(padding, padding);
+                ctx.lineTo(padding, canvas.height - padding);
+                ctx.lineTo(canvas.width - padding, canvas.height - padding);
+                ctx.stroke();
+
+                // Draw paths
+                const paths = [
+                    { type: 'isotherm', color: '#3B82F6', P: V => nRT / V },
+                    { type: 'isobar', color: '#22C55E', P: V => P1 },
+                    { type: 'adiabat', color: '#F97316', P: V => P1 * Math.pow(V1/V, gamma) }
+                ];
+
+                paths.forEach(path => {
+                    const isActive = path.type === pathType;
+
+                    // Shaded area for active path
+                    if (isActive) {
+                        ctx.fillStyle = path.color.replace(')', ', 0.3)').replace('rgb', 'rgba');
+                        ctx.beginPath();
+                        ctx.moveTo(padding + (V1 / VMax) * w, canvas.height - padding);
+
+                        for (let i = 0; i <= 100; i++) {
+                            const V = V1 + (i / 100) * (V2 - V1);
+                            const P = path.P(V);
+                            const px = padding + (V / VMax) * w;
+                            const py = canvas.height - padding - (P / PMax) * h;
+                            ctx.lineTo(px, py);
+                        }
+                        ctx.lineTo(padding + (V2 / VMax) * w, canvas.height - padding);
+                        ctx.closePath();
+                        ctx.fill();
+                    }
+
+                    // Path curve
+                    ctx.strokeStyle = isActive ? path.color : 'rgba(128,128,128,0.3)';
+                    ctx.lineWidth = isActive ? 3 : 1.5;
+                    ctx.beginPath();
+
+                    for (let i = 0; i <= 100; i++) {
+                        const V = 0.5 + (i / 100) * (VMax - 0.5);
+                        const P = path.P(V);
+                        if (P > PMax || P < 0) continue;
+                        const px = padding + (V / VMax) * w;
+                        const py = canvas.height - padding - (P / PMax) * h;
+                        if (i === 0 || path.P(0.5 + ((i-1) / 100) * (VMax - 0.5)) > PMax) {
+                            ctx.moveTo(px, py);
+                        } else {
+                            ctx.lineTo(px, py);
+                        }
+                    }
+                    ctx.stroke();
+                });
+
+                // Calculate and display work
+                let work;
+                if (pathType === 'isotherm') {
+                    work = nRT * Math.log(V2 / V1);
+                } else if (pathType === 'isobar') {
+                    work = P1 * (V2 - V1);
+                } else {
+                    work = (P1 * V1 / (gamma - 1)) * (1 - Math.pow(V1/V2, gamma - 1));
+                }
+
+                ctx.fillStyle = '#e8e6e3';
+                ctx.font = '12px JetBrains Mono';
+                ctx.textAlign = 'left';
+                ctx.fillText('W = -∫PdV = ' + (-work).toFixed(3), padding + 10, padding + 25);
+
+                // Start and end points
+                const pxV1 = padding + (V1 / VMax) * w;
+                const pxV2 = padding + (V2 / VMax) * w;
+                const pyP1 = canvas.height - padding - (P1 / PMax) * h;
+
+                ctx.fillStyle = '#8B5CF6';
+                ctx.beginPath();
+                ctx.arc(pxV1, pyP1, 6, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Labels
+                ctx.fillStyle = '#6b6965';
+                ctx.font = '12px JetBrains Mono';
+                ctx.textAlign = 'center';
+                ctx.fillText('Volume V', canvas.width / 2, canvas.height - 10);
+                ctx.save();
+                ctx.translate(15, canvas.height / 2);
+                ctx.rotate(-Math.PI / 2);
+                ctx.fillText('Pressure P', 0, 0);
+                ctx.restore();
+
+                // V1, V2 markers
+                ctx.fillText('V₁', pxV1, canvas.height - padding + 18);
+                ctx.fillText('V₂', pxV2, canvas.height - padding + 18);
+            }
+
+            function setPath(type) {
+                pathType = type;
+                [isothermBtn, isobarBtn, adiabatBtn].forEach(b => b.classList.remove('active'));
+                if (type === 'isotherm') isothermBtn.classList.add('active');
+                else if (type === 'isobar') isobarBtn.classList.add('active');
+                else adiabatBtn.classList.add('active');
+                draw();
+            }
+
+            v2Slider.addEventListener('input', draw);
+            isothermBtn.addEventListener('click', () => setPath('isotherm'));
+            isobarBtn.addEventListener('click', () => setPath('isobar'));
+            adiabatBtn.addEventListener('click', () => setPath('adiabat'));
+            draw();
+        }
+
+        // ==========================================
+        // 6. NORMALIZATION
+        // ==========================================
+        function initNormalization() {
+            const canvas = document.getElementById('normCanvas');
+            const ctx = canvas.getContext('2d');
+            const aSlider = document.getElementById('normA');
+            const sigmaSlider = document.getElementById('normSigma');
+            const aValue = document.getElementById('normAValue');
+            const sigmaValue = document.getElementById('normSigmaValue');
+            const intValue = document.getElementById('normIntValue');
+
+            function draw() {
+                const A = parseFloat(aSlider.value);
+                const sigma = parseFloat(sigmaSlider.value);
+
+                aValue.textContent = 'A = ' + A.toFixed(2);
+                sigmaValue.textContent = 'σ = ' + sigma.toFixed(2);
+
+                // Gaussian: P(x) = A * exp(-x²/(2σ²))
+                // Integral = A * σ * sqrt(2π)
+                const integral = A * sigma * Math.sqrt(2 * Math.PI);
+                intValue.textContent = '= ' + integral.toFixed(3);
+
+                // Normalized amplitude would be 1/(σ√(2π))
+                const normalizedA = 1 / (sigma * Math.sqrt(2 * Math.PI));
+
+                ctx.fillStyle = '#0a0a0f';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                const padding = 50;
+                const w = canvas.width - 2 * padding;
+                const h = canvas.height - 2 * padding;
+                const xMin = -4, xMax = 4;
+                const yMax = 1.5;
+
+                // Axes
+                ctx.strokeStyle = '#2a2a35';
+                ctx.lineWidth = 1;
+                const xAxisY = canvas.height - padding;
+                ctx.beginPath();
+                ctx.moveTo(padding, padding);
+                ctx.lineTo(padding, xAxisY);
+                ctx.lineTo(canvas.width - padding, xAxisY);
+                ctx.stroke();
+
+                // Shaded area
+                ctx.fillStyle = 'rgba(139, 92, 246, 0.3)';
+                ctx.beginPath();
+                ctx.moveTo(padding, xAxisY);
+                for (let i = 0; i <= 200; i++) {
+                    const x = xMin + (i / 200) * (xMax - xMin);
+                    const y = A * Math.exp(-x * x / (2 * sigma * sigma));
+                    const px = padding + ((x - xMin) / (xMax - xMin)) * w;
+                    const py = xAxisY - (y / yMax) * h;
+                    ctx.lineTo(px, Math.max(py, padding));
+                }
+                ctx.lineTo(canvas.width - padding, xAxisY);
+                ctx.closePath();
+                ctx.fill();
+
+                // Gaussian curve
+                ctx.strokeStyle = '#8B5CF6';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                for (let i = 0; i <= 200; i++) {
+                    const x = xMin + (i / 200) * (xMax - xMin);
+                    const y = A * Math.exp(-x * x / (2 * sigma * sigma));
+                    const px = padding + ((x - xMin) / (xMax - xMin)) * w;
+                    const py = xAxisY - (y / yMax) * h;
+                    if (i === 0) ctx.moveTo(px, py);
+                    else ctx.lineTo(px, py);
+                }
+                ctx.stroke();
+
+                // Normalized curve (ghost)
+                ctx.strokeStyle = 'rgba(34, 197, 94, 0.5)';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([5, 5]);
+                ctx.beginPath();
+                for (let i = 0; i <= 200; i++) {
+                    const x = xMin + (i / 200) * (xMax - xMin);
+                    const y = normalizedA * Math.exp(-x * x / (2 * sigma * sigma));
+                    const px = padding + ((x - xMin) / (xMax - xMin)) * w;
+                    const py = xAxisY - (y / yMax) * h;
+                    if (i === 0) ctx.moveTo(px, py);
+                    else ctx.lineTo(px, py);
+                }
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Status indicator
+                const isNormalized = Math.abs(integral - 1) < 0.05;
+                ctx.fillStyle = isNormalized ? '#22C55E' : '#EF4444';
+                ctx.font = '12px JetBrains Mono';
+                ctx.textAlign = 'right';
+                ctx.fillText(isNormalized ? '✓ Normalized' : '✗ Not normalized', canvas.width - padding, padding + 20);
+
+                // Labels
+                ctx.fillStyle = '#6b6965';
+                ctx.font = '12px JetBrains Mono';
+                ctx.textAlign = 'center';
+                ctx.fillText('x', canvas.width / 2, canvas.height - 10);
+                ctx.save();
+                ctx.translate(15, canvas.height / 2);
+                ctx.rotate(-Math.PI / 2);
+                ctx.fillText('P(x)', 0, 0);
+                ctx.restore();
+
+                // Legend
+                ctx.fillStyle = '#22C55E';
+                ctx.font = '10px JetBrains Mono';
+                ctx.textAlign = 'left';
+                ctx.fillText('— Normalized (∫=1)', padding + 10, padding + 20);
+            }
+
+            aSlider.addEventListener('input', draw);
+            sigmaSlider.addEventListener('input', draw);
+            draw();
+        }
+    </script>
+</body>
+</html>
