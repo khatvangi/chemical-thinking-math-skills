@@ -1,0 +1,1291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 17: Adding It All Up | Chemical Thinking</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a24;
+            --bg-card: #16161f;
+            --text-primary: #e8e6e3;
+            --text-secondary: #a0a0a0;
+            --text-muted: #6b6b6b;
+            --accent-red: #ef4444;
+            --accent-orange: #f59e0b;
+            --accent-blue: #4a9eff;
+            --accent-purple: #8b5cf6;
+            --accent-green: #10b981;
+            --accent-cyan: #06b6d4;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 17px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Navigation */
+        .lecture-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--bg-tertiary);
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover { color: var(--accent-purple); }
+
+        .primitive-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(139, 92, 246, 0.1));
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .primitive-link:hover {
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.2);
+        }
+
+        .primitive-badge {
+            background: #a855f7;
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .primitive-text {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 3rem 0;
+        }
+
+        .lecture-number {
+            font-family: 'JetBrains Mono', monospace;
+            color: #a855f7;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            letter-spacing: 0.1em;
+        }
+
+        h1 {
+            font-family: 'Fraunces', serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #a855f7, var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        /* Sections */
+        section {
+            margin-bottom: 4rem;
+        }
+
+        h2 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.8rem;
+            color: #a855f7;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--bg-tertiary);
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        strong { color: var(--text-primary); }
+
+        /* Hook Box */
+        .hook-box {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(74, 158, 255, 0.05));
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .hook-box p:last-child { margin-bottom: 0; }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--bg-tertiary);
+        }
+
+        th {
+            background: var(--bg-tertiary);
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        td { color: var(--text-secondary); }
+
+        tr:last-child td { border-bottom: none; }
+
+        /* Definition boxes */
+        .definition-box {
+            background: var(--bg-secondary);
+            border-left: 4px solid #a855f7;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .definition-box .term {
+            font-weight: 600;
+            color: #a855f7;
+        }
+
+        /* Formula box */
+        .formula-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--accent-blue);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+
+        .formula-box h4 {
+            color: var(--accent-blue);
+            margin-bottom: 1rem;
+        }
+
+        /* Key insight */
+        .key-insight {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(74, 158, 255, 0.1));
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .key-insight p {
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        /* Interactive visualizations */
+        .visualization {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .viz-title {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .canvas-container {
+            background: var(--bg-primary);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            border-radius: 4px;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .control-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .control-group label {
+            display: block;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            accent-color: #a855f7;
+        }
+
+        select {
+            width: 100%;
+            padding: 0.5rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--bg-card);
+            color: var(--text-primary);
+            border-radius: 4px;
+        }
+
+        .value-display {
+            font-family: 'JetBrains Mono', monospace;
+            color: #a855f7;
+            font-size: 0.9rem;
+        }
+
+        /* Info box */
+        .info-box {
+            background: var(--bg-card);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-row:last-child { margin-bottom: 0; }
+
+        .info-label { color: var(--text-muted); }
+        .info-value { color: var(--accent-green); }
+
+        /* Lists */
+        ul, ol {
+            margin: 1rem 0 1.5rem 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        li { margin-bottom: 0.5rem; }
+
+        /* Code */
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-tertiary);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--bg-tertiary);
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        footer a {
+            color: #a855f7;
+            text-decoration: none;
+        }
+
+        footer a:hover { text-decoration: underline; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .container { padding: 1rem; }
+            .controls { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="lecture-nav">
+            <a href="../all-lectures.html" class="nav-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                All Lectures
+            </a>
+            <a href="../../primitives/accumulation.html" class="primitive-link">
+                <span class="primitive-badge">ACCUMULATION</span>
+                <span class="primitive-text">Explore the Primitive</span>
+            </a>
+        </nav>
+
+        <header>
+            <div class="lecture-number">LECTURE 17</div>
+            <h1>Adding It All Up</h1>
+            <p class="subtitle">The integral — from rates back to amounts</p>
+        </header>
+
+        <!-- THE HOOK -->
+        <section>
+            <div class="hook-box">
+                <p>You know the reaction rate at every instant:</p>
+                <p style="text-align: center; font-size: 1.2rem;">$$\text{Rate}(t) = k[A]_0 e^{-kt}$$</p>
+                <p><strong>Question:</strong> How much product formed between t = 0 and t = 10 seconds?</p>
+                <p>The rate tells you <em>how fast</em> — but you want <strong>how much</strong>.</p>
+                <p>You need to <strong>add up</strong> all the infinitesimal amounts formed at each instant.</p>
+                <p style="text-align: center; font-size: 1.3rem; color: var(--text-primary); margin-top: 1rem;"><strong>That's the integral.</strong></p>
+            </div>
+        </section>
+
+        <!-- RECOGNITION -->
+        <section>
+            <h2>Recognition: ACCUMULATION</h2>
+
+            <div class="key-insight">
+                <p><strong>The derivative takes amounts → rates.<br>
+                The integral takes rates → amounts.<br>
+                They are inverse operations.</strong></p>
+            </div>
+
+            <table>
+                <tr>
+                    <th>Derivative</th>
+                    <th>Integral</th>
+                </tr>
+                <tr>
+                    <td>Position → Velocity</td>
+                    <td>Velocity → Position</td>
+                </tr>
+                <tr>
+                    <td>Concentration → Rate</td>
+                    <td>Rate → Concentration change</td>
+                </tr>
+                <tr>
+                    <td>Energy → Force</td>
+                    <td>Force → Work</td>
+                </tr>
+                <tr>
+                    <td>Charge → Current</td>
+                    <td>Current → Charge</td>
+                </tr>
+            </table>
+
+            <h3>When to Use Integrals</h3>
+            <table>
+                <tr>
+                    <th>Situation</th>
+                    <th>Integral gives you</th>
+                </tr>
+                <tr>
+                    <td>"How much total?"</td>
+                    <td>∫ rate dt</td>
+                </tr>
+                <tr>
+                    <td>"Area under this curve?"</td>
+                    <td>∫ f(x) dx</td>
+                </tr>
+                <tr>
+                    <td>"Work done by varying force"</td>
+                    <td>∫ F dx</td>
+                </tr>
+                <tr>
+                    <td>"Total probability"</td>
+                    <td>∫ P(x) dx</td>
+                </tr>
+                <tr>
+                    <td>"Average value"</td>
+                    <td>(1/(b-a)) ∫ f(x) dx</td>
+                </tr>
+            </table>
+        </section>
+
+        <!-- RIEMANN SUMS -->
+        <section>
+            <h2>The Idea: Riemann Sums</h2>
+
+            <p>How do you find the area under $y = f(x)$ from $x = a$ to $x = b$?</p>
+            <p><strong>Strategy:</strong> Approximate with rectangles, then take the limit as rectangles become infinitely thin.</p>
+
+            <div class="visualization">
+                <div class="viz-title">Interactive: Riemann Sums</div>
+                <div class="canvas-container">
+                    <canvas id="riemannCanvas" width="800" height="400"></canvas>
+                </div>
+                <div class="controls">
+                    <div class="control-group">
+                        <label>Number of rectangles: <span class="value-display" id="nRectsValue">8</span></label>
+                        <input type="range" id="nRects" min="2" max="64" value="8">
+                    </div>
+                    <div class="control-group">
+                        <label>Sum type:</label>
+                        <select id="sumType">
+                            <option value="left">Left Riemann Sum</option>
+                            <option value="right">Right Riemann Sum</option>
+                            <option value="midpoint">Midpoint Sum</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="info-box">
+                    <div class="info-row">
+                        <span class="info-label">Riemann sum:</span>
+                        <span class="info-value" id="riemannSum">2.625</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Exact integral (8/3):</span>
+                        <span class="info-value">2.6667</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Error:</span>
+                        <span class="info-value" id="riemannError">0.0417</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="definition-box">
+                <p><span class="term">The Definite Integral:</span> As n → ∞ (rectangles become infinitely thin):</p>
+                <p style="text-align: center;">$$\lim_{n \to \infty} \sum_{i=1}^{n} f(x_i^*) \Delta x = \int_a^b f(x) \, dx$$</p>
+            </div>
+        </section>
+
+        <!-- FUNDAMENTAL THEOREM -->
+        <section>
+            <h2>The Fundamental Theorem of Calculus</h2>
+
+            <div class="formula-box">
+                <h4>FTC Part 1</h4>
+                <p>If $f$ is continuous on $[a,b]$ and $F$ is any antiderivative of $f$, then:</p>
+                <p style="font-size: 1.3rem;">$$\int_a^b f(x) \, dx = F(b) - F(a)$$</p>
+            </div>
+
+            <div class="key-insight">
+                <p><strong>Integration and differentiation are inverse operations.</strong></p>
+            </div>
+
+            <p>To evaluate a definite integral:</p>
+            <ol>
+                <li>Find an antiderivative $F(x)$</li>
+                <li>Evaluate at endpoints: $F(b) - F(a)$</li>
+            </ol>
+            <p>No need for Riemann sums!</p>
+
+            <div class="formula-box">
+                <h4>FTC Part 2</h4>
+                <p>$$\frac{d}{dx}\left[\int_a^x f(t) \, dt\right] = f(x)$$</p>
+                <p style="color: var(--text-secondary);">The derivative of the "area so far" function is the original function.</p>
+            </div>
+        </section>
+
+        <!-- BASIC ANTIDERIVATIVES -->
+        <section>
+            <h2>Basic Antiderivatives</h2>
+
+            <table>
+                <tr>
+                    <th>f(x)</th>
+                    <th>∫f(x)dx</th>
+                    <th>Notes</th>
+                </tr>
+                <tr>
+                    <td>$x^n$ (n ≠ -1)</td>
+                    <td>$\frac{x^{n+1}}{n+1} + C$</td>
+                    <td>Power rule</td>
+                </tr>
+                <tr>
+                    <td>$x^{-1} = 1/x$</td>
+                    <td>$\ln|x| + C$</td>
+                    <td>Special case</td>
+                </tr>
+                <tr>
+                    <td>$e^x$</td>
+                    <td>$e^x + C$</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>$a^x$</td>
+                    <td>$\frac{a^x}{\ln a} + C$</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>$\sin x$</td>
+                    <td>$-\cos x + C$</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>$\cos x$</td>
+                    <td>$\sin x + C$</td>
+                    <td></td>
+                </tr>
+            </table>
+        </section>
+
+        <!-- CHEMISTRY: WORK -->
+        <section>
+            <h2>Chemistry Application: Work</h2>
+
+            <p>For reversible expansion of a gas:</p>
+            <p style="text-align: center; font-size: 1.2rem;">$$W = -\int_{V_1}^{V_2} P \, dV$$</p>
+
+            <div class="visualization">
+                <div class="viz-title">Interactive: Work Done by Gas (Isothermal Expansion)</div>
+                <div class="canvas-container">
+                    <canvas id="workCanvas" width="800" height="400"></canvas>
+                </div>
+                <div class="controls">
+                    <div class="control-group">
+                        <label>Initial volume V₁ (L): <span class="value-display" id="v1Value">10</span></label>
+                        <input type="range" id="v1Slider" min="5" max="15" value="10">
+                    </div>
+                    <div class="control-group">
+                        <label>Final volume V₂ (L): <span class="value-display" id="v2Value">25</span></label>
+                        <input type="range" id="v2Slider" min="20" max="50" value="25">
+                    </div>
+                </div>
+                <div class="info-box">
+                    <div class="info-row">
+                        <span class="info-label">Temperature:</span>
+                        <span class="info-value">300 K</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Moles:</span>
+                        <span class="info-value">1 mol</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Work done BY gas:</span>
+                        <span class="info-value" id="workValue">2285 J</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="formula-box">
+                <h4>Isothermal Expansion of Ideal Gas</h4>
+                <p>$P = nRT/V$ (constant T):</p>
+                <p>$$W = -\int_{V_1}^{V_2} \frac{nRT}{V} \, dV = -nRT \ln\frac{V_2}{V_1}$$</p>
+            </div>
+        </section>
+
+        <!-- CHEMISTRY: KINETICS -->
+        <section>
+            <h2>Chemistry Application: Product Formation</h2>
+
+            <p>For a first-order reaction A → B with rate $= k[A]_0 e^{-kt}$:</p>
+
+            <div class="visualization">
+                <div class="viz-title">Interactive: Accumulating Product from Rate</div>
+                <div class="canvas-container">
+                    <canvas id="kineticsCanvas" width="800" height="500"></canvas>
+                </div>
+                <div class="controls">
+                    <div class="control-group">
+                        <label>Rate constant k (s⁻¹): <span class="value-display" id="kValue">0.10</span></label>
+                        <input type="range" id="kSlider" min="0.05" max="0.5" step="0.05" value="0.1">
+                    </div>
+                    <div class="control-group">
+                        <label>Time t (s): <span class="value-display" id="tValue">20</span></label>
+                        <input type="range" id="tSlider" min="0" max="50" value="20">
+                    </div>
+                </div>
+                <div class="info-box">
+                    <div class="info-row">
+                        <span class="info-label">Initial [A]₀:</span>
+                        <span class="info-value">1.00 M</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Product formed [B]:</span>
+                        <span class="info-value" id="productValue">0.865 M</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">% conversion:</span>
+                        <span class="info-value" id="conversionValue">86.5%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="formula-box">
+                <h4>Total Product Formed</h4>
+                <p>$$\Delta[B] = \int_0^t k[A]_0 e^{-kt} \, dt = [A]_0(1 - e^{-kt})$$</p>
+                <p style="color: var(--text-secondary);">As t → ∞, all A converts to B: Δ[B] = [A]₀</p>
+            </div>
+        </section>
+
+        <!-- THE GAUSSIAN INTEGRAL -->
+        <section>
+            <h2>The Gaussian Integral</h2>
+
+            <div class="key-insight">
+                <p><strong>The most important integral in science:</strong></p>
+                <p style="font-size: 1.3rem;">$$\int_{-\infty}^{\infty} e^{-x^2} \, dx = \sqrt{\pi}$$</p>
+            </div>
+
+            <div class="visualization">
+                <div class="viz-title">Interactive: Gaussian Function</div>
+                <div class="canvas-container">
+                    <canvas id="gaussCanvas" width="800" height="350"></canvas>
+                </div>
+                <div class="controls">
+                    <div class="control-group">
+                        <label>Parameter a in e^(-ax²): <span class="value-display" id="aValue">1.0</span></label>
+                        <input type="range" id="aSlider" min="0.5" max="5" step="0.5" value="1">
+                    </div>
+                </div>
+                <div class="info-box">
+                    <div class="info-row">
+                        <span class="info-label">∫ e^(-ax²) dx =</span>
+                        <span class="info-value" id="gaussResult">√(π/1) = 1.772</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="formula-box">
+                <h4>Generalization</h4>
+                <p>$$\int_{-\infty}^{\infty} e^{-ax^2} \, dx = \sqrt{\frac{\pi}{a}}$$</p>
+            </div>
+
+            <p>This integral appears everywhere:</p>
+            <ul>
+                <li>Maxwell-Boltzmann distribution</li>
+                <li>Quantum harmonic oscillator</li>
+                <li>Error function (erf)</li>
+                <li>Normalization of Gaussian probability distributions</li>
+            </ul>
+        </section>
+
+        <!-- SUBSTITUTION -->
+        <section>
+            <h2>Computing Integrals: Substitution</h2>
+
+            <div class="definition-box">
+                <p><span class="term">u-Substitution:</span> If the integrand has form $f(g(x))g'(x)$, let $u = g(x)$:</p>
+                <p style="text-align: center;">$$\int f(g(x)) g'(x) \, dx = \int f(u) \, du$$</p>
+            </div>
+
+            <h3>Example</h3>
+            <p>Evaluate $\int 2x \cos(x^2) \, dx$</p>
+            <p>Let $u = x^2$, then $du = 2x\, dx$.</p>
+            <p>$$\int 2x \cos(x^2) \, dx = \int \cos(u) \, du = \sin(u) + C = \sin(x^2) + C$$</p>
+            <p><strong>Check:</strong> $\frac{d}{dx}[\sin(x^2)] = \cos(x^2) \cdot 2x$ ✓</p>
+        </section>
+
+        <!-- IMPROPER INTEGRALS -->
+        <section>
+            <h2>Improper Integrals</h2>
+
+            <p>When limits are infinite:</p>
+            <p style="text-align: center;">$$\int_a^{\infty} f(x) \, dx = \lim_{b \to \infty} \int_a^b f(x) \, dx$$</p>
+
+            <h3>The p-Test</h3>
+            <div class="formula-box">
+                <p>$$\int_1^{\infty} \frac{1}{x^p} \, dx \begin{cases} \text{converges} & \text{if } p > 1 \\ \text{diverges} & \text{if } p \leq 1 \end{cases}$$</p>
+            </div>
+
+            <table>
+                <tr>
+                    <th>Integral</th>
+                    <th>Result</th>
+                </tr>
+                <tr>
+                    <td>$\int_1^{\infty} \frac{1}{x^2} dx$</td>
+                    <td>= 1 (converges)</td>
+                </tr>
+                <tr>
+                    <td>$\int_1^{\infty} \frac{1}{x} dx$</td>
+                    <td>= ∞ (diverges)</td>
+                </tr>
+                <tr>
+                    <td>$\int_0^{\infty} e^{-2x} dx$</td>
+                    <td>= 1/2 (converges)</td>
+                </tr>
+            </table>
+        </section>
+
+        <!-- SUMMARY -->
+        <section>
+            <h2>Summary: Integral Toolkit</h2>
+
+            <table>
+                <tr>
+                    <th>Concept</th>
+                    <th>Formula</th>
+                </tr>
+                <tr>
+                    <td>FTC</td>
+                    <td>$\int_a^b f(x)dx = F(b) - F(a)$</td>
+                </tr>
+                <tr>
+                    <td>Power rule</td>
+                    <td>$\int x^n dx = \frac{x^{n+1}}{n+1} + C$</td>
+                </tr>
+                <tr>
+                    <td>Substitution</td>
+                    <td>$\int f(g(x))g'(x)dx = \int f(u)du$</td>
+                </tr>
+                <tr>
+                    <td>Average value</td>
+                    <td>$\langle f \rangle = \frac{1}{b-a}\int_a^b f(x)dx$</td>
+                </tr>
+                <tr>
+                    <td>Gaussian</td>
+                    <td>$\int e^{-ax^2}dx = \sqrt{\pi/a}$</td>
+                </tr>
+            </table>
+
+            <h3>Chemistry Applications</h3>
+            <table>
+                <tr>
+                    <th>Application</th>
+                    <th>Integral</th>
+                </tr>
+                <tr>
+                    <td>Work (PV)</td>
+                    <td>$W = -\int P\,dV$</td>
+                </tr>
+                <tr>
+                    <td>Heat</td>
+                    <td>$q = \int C_P \, dT$</td>
+                </tr>
+                <tr>
+                    <td>Product formed</td>
+                    <td>$\Delta[B] = \int \text{rate}\, dt$</td>
+                </tr>
+                <tr>
+                    <td>Normalization</td>
+                    <td>$\int P(x)\,dx = 1$</td>
+                </tr>
+                <tr>
+                    <td>Expectation</td>
+                    <td>$\langle x \rangle = \int x P(x)\,dx$</td>
+                </tr>
+            </table>
+        </section>
+
+        <footer>
+            <p>Chemical Thinking: The Grammar of Reality</p>
+            <p><a href="../16-taylor-lagrange/">← Lecture 16: Approximations</a> · <a href="../18-integration-techniques/">Lecture 18: Integration Techniques →</a></p>
+        </footer>
+    </div>
+
+    <script>
+        // Initialize KaTeX
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},
+                    {left: "$", right: "$", display: false}
+                ]
+            });
+
+            initRiemannViz();
+            initWorkViz();
+            initKineticsViz();
+            initGaussViz();
+        });
+
+        // ===== RIEMANN SUMS VISUALIZATION =====
+        function initRiemannViz() {
+            const canvas = document.getElementById('riemannCanvas');
+            const ctx = canvas.getContext('2d');
+            const nRectsSlider = document.getElementById('nRects');
+            const sumTypeSelect = document.getElementById('sumType');
+
+            function f(x) { return x * x; }
+            const a = 0, b = 2;
+            const exactIntegral = 8/3;
+
+            function draw() {
+                const n = parseInt(nRectsSlider.value);
+                const sumType = sumTypeSelect.value;
+                document.getElementById('nRectsValue').textContent = n;
+
+                const width = canvas.width;
+                const height = canvas.height;
+                const padding = 50;
+
+                ctx.clearRect(0, 0, width, height);
+
+                // Coordinate transform
+                const xScale = (width - 2*padding) / 2.5;
+                const yScale = (height - 2*padding) / 5;
+                const toCanvasX = x => padding + x * xScale;
+                const toCanvasY = y => height - padding - y * yScale;
+
+                // Draw axes
+                ctx.strokeStyle = '#6b6b6b';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(padding, height - padding);
+                ctx.lineTo(width - padding, height - padding);
+                ctx.moveTo(padding, height - padding);
+                ctx.lineTo(padding, padding);
+                ctx.stroke();
+
+                // Draw rectangles
+                const dx = (b - a) / n;
+                let riemannSum = 0;
+
+                ctx.fillStyle = 'rgba(168, 85, 247, 0.3)';
+                ctx.strokeStyle = 'rgba(168, 85, 247, 0.8)';
+                ctx.lineWidth = 1;
+
+                for (let i = 0; i < n; i++) {
+                    const xLeft = a + i * dx;
+                    const xRight = xLeft + dx;
+                    let sampleX;
+
+                    if (sumType === 'left') sampleX = xLeft;
+                    else if (sumType === 'right') sampleX = xRight;
+                    else sampleX = (xLeft + xRight) / 2;
+
+                    const h = f(sampleX);
+                    riemannSum += h * dx;
+
+                    ctx.fillRect(toCanvasX(xLeft), toCanvasY(h),
+                                dx * xScale, h * yScale);
+                    ctx.strokeRect(toCanvasX(xLeft), toCanvasY(h),
+                                  dx * xScale, h * yScale);
+                }
+
+                // Draw function curve
+                ctx.strokeStyle = '#4a9eff';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                for (let x = 0; x <= 2.5; x += 0.01) {
+                    const cx = toCanvasX(x);
+                    const cy = toCanvasY(f(x));
+                    if (x === 0) ctx.moveTo(cx, cy);
+                    else ctx.lineTo(cx, cy);
+                }
+                ctx.stroke();
+
+                // Labels
+                ctx.fillStyle = '#e8e6e3';
+                ctx.font = '14px Inter';
+                ctx.textAlign = 'center';
+                ctx.fillText('0', toCanvasX(0), height - padding + 20);
+                ctx.fillText('1', toCanvasX(1), height - padding + 20);
+                ctx.fillText('2', toCanvasX(2), height - padding + 20);
+                ctx.fillText('x', width - padding + 20, height - padding);
+
+                ctx.textAlign = 'right';
+                ctx.fillText('f(x) = x²', width - padding, padding + 20);
+
+                // Update display
+                document.getElementById('riemannSum').textContent = riemannSum.toFixed(6);
+                document.getElementById('riemannError').textContent =
+                    Math.abs(riemannSum - exactIntegral).toFixed(6);
+            }
+
+            nRectsSlider.addEventListener('input', draw);
+            sumTypeSelect.addEventListener('change', draw);
+            draw();
+        }
+
+        // ===== WORK VISUALIZATION =====
+        function initWorkViz() {
+            const canvas = document.getElementById('workCanvas');
+            const ctx = canvas.getContext('2d');
+            const v1Slider = document.getElementById('v1Slider');
+            const v2Slider = document.getElementById('v2Slider');
+
+            const n = 1, R = 8.314, T = 300;
+
+            function P(V) { return n * R * T / V; }
+
+            function draw() {
+                const V1 = parseInt(v1Slider.value);
+                const V2 = parseInt(v2Slider.value);
+                document.getElementById('v1Value').textContent = V1;
+                document.getElementById('v2Value').textContent = V2;
+
+                const work = -n * R * T * Math.log(V2 / V1);
+                document.getElementById('workValue').textContent =
+                    Math.abs(work).toFixed(0) + ' J';
+
+                const width = canvas.width;
+                const height = canvas.height;
+                const padding = 60;
+
+                ctx.clearRect(0, 0, width, height);
+
+                const Vmin = 3, Vmax = 55;
+                const Pmax = P(Vmin) * 1.1;
+
+                const xScale = (width - 2*padding) / (Vmax - Vmin);
+                const yScale = (height - 2*padding) / Pmax;
+                const toCanvasX = v => padding + (v - Vmin) * xScale;
+                const toCanvasY = p => height - padding - p * yScale;
+
+                // Axes
+                ctx.strokeStyle = '#6b6b6b';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(padding, height - padding);
+                ctx.lineTo(width - padding, height - padding);
+                ctx.moveTo(padding, height - padding);
+                ctx.lineTo(padding, padding);
+                ctx.stroke();
+
+                // Shaded area (work)
+                ctx.fillStyle = 'rgba(16, 185, 129, 0.3)';
+                ctx.beginPath();
+                ctx.moveTo(toCanvasX(V1), height - padding);
+                for (let v = V1; v <= V2; v += 0.5) {
+                    ctx.lineTo(toCanvasX(v), toCanvasY(P(v)));
+                }
+                ctx.lineTo(toCanvasX(V2), height - padding);
+                ctx.closePath();
+                ctx.fill();
+
+                // P-V curve
+                ctx.strokeStyle = '#4a9eff';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                for (let v = Vmin; v <= Vmax; v += 0.5) {
+                    const cx = toCanvasX(v);
+                    const cy = toCanvasY(P(v));
+                    if (v === Vmin) ctx.moveTo(cx, cy);
+                    else ctx.lineTo(cx, cy);
+                }
+                ctx.stroke();
+
+                // Vertical limits
+                ctx.strokeStyle = '#ef4444';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([5, 5]);
+                ctx.beginPath();
+                ctx.moveTo(toCanvasX(V1), height - padding);
+                ctx.lineTo(toCanvasX(V1), toCanvasY(P(V1)));
+                ctx.moveTo(toCanvasX(V2), height - padding);
+                ctx.lineTo(toCanvasX(V2), toCanvasY(P(V2)));
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Labels
+                ctx.fillStyle = '#e8e6e3';
+                ctx.font = '14px Inter';
+                ctx.textAlign = 'center';
+                ctx.fillText('V₁', toCanvasX(V1), height - padding + 25);
+                ctx.fillText('V₂', toCanvasX(V2), height - padding + 25);
+                ctx.fillText('Volume (L)', width/2, height - 15);
+
+                ctx.save();
+                ctx.translate(20, height/2);
+                ctx.rotate(-Math.PI/2);
+                ctx.fillText('Pressure (kPa)', 0, 0);
+                ctx.restore();
+
+                ctx.textAlign = 'right';
+                ctx.fillText('P = nRT/V', width - padding, padding + 20);
+            }
+
+            v1Slider.addEventListener('input', draw);
+            v2Slider.addEventListener('input', draw);
+            draw();
+        }
+
+        // ===== KINETICS VISUALIZATION =====
+        function initKineticsViz() {
+            const canvas = document.getElementById('kineticsCanvas');
+            const ctx = canvas.getContext('2d');
+            const kSlider = document.getElementById('kSlider');
+            const tSlider = document.getElementById('tSlider');
+
+            const A0 = 1;
+
+            function rate(t, k) { return k * A0 * Math.exp(-k * t); }
+            function product(t, k) { return A0 * (1 - Math.exp(-k * t)); }
+
+            function draw() {
+                const k = parseFloat(kSlider.value);
+                const t = parseInt(tSlider.value);
+                document.getElementById('kValue').textContent = k.toFixed(2);
+                document.getElementById('tValue').textContent = t;
+
+                const B = product(t, k);
+                document.getElementById('productValue').textContent = B.toFixed(3) + ' M';
+                document.getElementById('conversionValue').textContent = (B * 100).toFixed(1) + '%';
+
+                const width = canvas.width;
+                const height = canvas.height;
+                const padding = 50;
+                const midY = height / 2;
+
+                ctx.clearRect(0, 0, width, height);
+
+                const tMax = 55;
+                const xScale = (width - 2*padding) / tMax;
+
+                // TOP PLOT: Rate vs time
+                const rateMax = k * A0 * 1.2;
+                const yScaleTop = (midY - padding - 20) / rateMax;
+                const toCanvasYTop = r => midY - 20 - r * yScaleTop;
+                const toCanvasX = tt => padding + tt * xScale;
+
+                // Rate shaded area
+                ctx.fillStyle = 'rgba(16, 185, 129, 0.3)';
+                ctx.beginPath();
+                ctx.moveTo(toCanvasX(0), toCanvasYTop(0));
+                for (let tt = 0; tt <= t; tt += 0.5) {
+                    ctx.lineTo(toCanvasX(tt), toCanvasYTop(rate(tt, k)));
+                }
+                ctx.lineTo(toCanvasX(t), toCanvasYTop(0));
+                ctx.closePath();
+                ctx.fill();
+
+                // Rate curve
+                ctx.strokeStyle = '#4a9eff';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                for (let tt = 0; tt <= tMax; tt += 0.5) {
+                    const cx = toCanvasX(tt);
+                    const cy = toCanvasYTop(rate(tt, k));
+                    if (tt === 0) ctx.moveTo(cx, cy);
+                    else ctx.lineTo(cx, cy);
+                }
+                ctx.stroke();
+
+                // Current time line
+                ctx.strokeStyle = '#ef4444';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([5, 5]);
+                ctx.beginPath();
+                ctx.moveTo(toCanvasX(t), toCanvasYTop(0));
+                ctx.lineTo(toCanvasX(t), toCanvasYTop(rate(t, k)));
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Top axes
+                ctx.strokeStyle = '#6b6b6b';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(padding, toCanvasYTop(0));
+                ctx.lineTo(width - padding, toCanvasYTop(0));
+                ctx.moveTo(padding, toCanvasYTop(0));
+                ctx.lineTo(padding, padding);
+                ctx.stroke();
+
+                // Top labels
+                ctx.fillStyle = '#e8e6e3';
+                ctx.font = '12px Inter';
+                ctx.textAlign = 'left';
+                ctx.fillText('Rate = k[A]₀e^(-kt)', padding + 10, padding + 15);
+                ctx.fillText('Rate (M/s)', padding, padding - 5);
+                ctx.fillStyle = '#10b981';
+                ctx.fillText('Shaded area = ∫Rate dt = [B]', padding + 10, padding + 35);
+
+                // BOTTOM PLOT: Product vs time
+                const yScaleBottom = (height - midY - padding - 20) / (A0 * 1.1);
+                const toCanvasYBottom = p => height - padding - p * yScaleBottom;
+
+                // Product curve
+                ctx.strokeStyle = '#10b981';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                for (let tt = 0; tt <= tMax; tt += 0.5) {
+                    const cx = toCanvasX(tt);
+                    const cy = toCanvasYBottom(product(tt, k));
+                    if (tt === 0) ctx.moveTo(cx, cy);
+                    else ctx.lineTo(cx, cy);
+                }
+                ctx.stroke();
+
+                // Asymptote
+                ctx.strokeStyle = '#6b6b6b';
+                ctx.lineWidth = 1;
+                ctx.setLineDash([5, 5]);
+                ctx.beginPath();
+                ctx.moveTo(padding, toCanvasYBottom(A0));
+                ctx.lineTo(width - padding, toCanvasYBottom(A0));
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Current point
+                ctx.fillStyle = '#ef4444';
+                ctx.beginPath();
+                ctx.arc(toCanvasX(t), toCanvasYBottom(B), 8, 0, 2 * Math.PI);
+                ctx.fill();
+
+                // Bottom axes
+                ctx.strokeStyle = '#6b6b6b';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(padding, toCanvasYBottom(0));
+                ctx.lineTo(width - padding, toCanvasYBottom(0));
+                ctx.moveTo(padding, toCanvasYBottom(0));
+                ctx.lineTo(padding, midY + 10);
+                ctx.stroke();
+
+                // Bottom labels
+                ctx.fillStyle = '#e8e6e3';
+                ctx.font = '12px Inter';
+                ctx.textAlign = 'left';
+                ctx.fillText('[B] = [A]₀(1 - e^(-kt))', padding + 10, midY + 25);
+                ctx.fillText('[B] (M)', padding, midY + 10);
+                ctx.textAlign = 'center';
+                ctx.fillText('Time (s)', width/2, height - 10);
+
+                ctx.fillStyle = '#6b6b6b';
+                ctx.textAlign = 'right';
+                ctx.fillText('[A]₀ = 1 M', width - padding - 10, toCanvasYBottom(A0) - 5);
+            }
+
+            kSlider.addEventListener('input', draw);
+            tSlider.addEventListener('input', draw);
+            draw();
+        }
+
+        // ===== GAUSSIAN VISUALIZATION =====
+        function initGaussViz() {
+            const canvas = document.getElementById('gaussCanvas');
+            const ctx = canvas.getContext('2d');
+            const aSlider = document.getElementById('aSlider');
+
+            function draw() {
+                const a = parseFloat(aSlider.value);
+                document.getElementById('aValue').textContent = a.toFixed(1);
+
+                const integral = Math.sqrt(Math.PI / a);
+                document.getElementById('gaussResult').textContent =
+                    `√(π/${a}) = ${integral.toFixed(3)}`;
+
+                const width = canvas.width;
+                const height = canvas.height;
+                const padding = 50;
+
+                ctx.clearRect(0, 0, width, height);
+
+                const xMin = -4, xMax = 4;
+                const xScale = (width - 2*padding) / (xMax - xMin);
+                const yScale = (height - 2*padding) / 1.2;
+                const toCanvasX = x => padding + (x - xMin) * xScale;
+                const toCanvasY = y => height - padding - y * yScale;
+
+                // Shaded area
+                ctx.fillStyle = 'rgba(168, 85, 247, 0.3)';
+                ctx.beginPath();
+                ctx.moveTo(toCanvasX(xMin), toCanvasY(0));
+                for (let x = xMin; x <= xMax; x += 0.05) {
+                    ctx.lineTo(toCanvasX(x), toCanvasY(Math.exp(-a * x * x)));
+                }
+                ctx.lineTo(toCanvasX(xMax), toCanvasY(0));
+                ctx.closePath();
+                ctx.fill();
+
+                // Gaussian curve
+                ctx.strokeStyle = '#a855f7';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                for (let x = xMin; x <= xMax; x += 0.05) {
+                    const cx = toCanvasX(x);
+                    const cy = toCanvasY(Math.exp(-a * x * x));
+                    if (x === xMin) ctx.moveTo(cx, cy);
+                    else ctx.lineTo(cx, cy);
+                }
+                ctx.stroke();
+
+                // Axes
+                ctx.strokeStyle = '#6b6b6b';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(padding, toCanvasY(0));
+                ctx.lineTo(width - padding, toCanvasY(0));
+                ctx.moveTo(toCanvasX(0), height - padding);
+                ctx.lineTo(toCanvasX(0), padding);
+                ctx.stroke();
+
+                // Standard deviation markers
+                const sigma = 1 / Math.sqrt(2 * a);
+                ctx.strokeStyle = '#ef4444';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([5, 5]);
+                ctx.beginPath();
+                ctx.moveTo(toCanvasX(-sigma), toCanvasY(0));
+                ctx.lineTo(toCanvasX(-sigma), toCanvasY(Math.exp(-a * sigma * sigma)));
+                ctx.moveTo(toCanvasX(sigma), toCanvasY(0));
+                ctx.lineTo(toCanvasX(sigma), toCanvasY(Math.exp(-a * sigma * sigma)));
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Labels
+                ctx.fillStyle = '#e8e6e3';
+                ctx.font = '14px Inter';
+                ctx.textAlign = 'center';
+                ctx.fillText('0', toCanvasX(0), height - padding + 20);
+                ctx.fillText('x', width - padding + 15, toCanvasY(0));
+
+                ctx.fillStyle = '#ef4444';
+                ctx.font = '12px Inter';
+                ctx.fillText(`-σ = ${(-sigma).toFixed(2)}`, toCanvasX(-sigma), height - padding + 35);
+                ctx.fillText(`+σ = ${sigma.toFixed(2)}`, toCanvasX(sigma), height - padding + 35);
+
+                ctx.fillStyle = '#a855f7';
+                ctx.font = '16px Inter';
+                ctx.textAlign = 'left';
+                ctx.fillText(`e^(-${a}x²)`, toCanvasX(0.5), toCanvasY(0.9));
+            }
+
+            aSlider.addEventListener('input', draw);
+            draw();
+        }
+    </script>
+</body>
+</html>
