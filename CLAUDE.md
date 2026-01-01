@@ -121,14 +121,17 @@ SAMENESS and DIRECTION are dual/twin primitives:
 ## Course Structure (24 Lectures, 3 Modules)
 
 ```
-MODULE 1: STRUCTURE (Lectures 1-8)
+MODULE 1: STRUCTURE (Lectures 1-8) ✅ COMPLETE
 "What is a molecule?"
-├── DIRECTION (complete)
-│   ├── direction-concept.qmd (cognitive primitive)
-│   └── 04-direction.qmd (vectors, dot product)
-├── COLLECTION (planned)
-├── ARRANGEMENT (planned)
-└── PROXIMITY (planned)
+
+Lecture 1: Orientation — Seeing (introduction)
+Lecture 2: Existence — What Kinds of Numbers? (number types)
+Lecture 3: Counting Things → COLLECTION primitive
+Lecture 4: Bonds Point → DIRECTION primitive
+Lecture 5: Angles & Projections → DIRECTION primitive (dot product)
+Lecture 6: Coordinates & Basis → DIRECTION primitive (basis vectors)
+Lecture 7: Grids of Numbers → ARRANGEMENT primitive (matrices)
+Lecture 8: Transformations → ARRANGEMENT primitive (linear maps)
 
 MODULE 2: CHANGE (Lectures 9-18)
 "How do things transform?"
@@ -138,6 +141,28 @@ MODULE 3: PROBABILITY (Lectures 19-24)
 "What happens with many particles?"
 - Probability, distributions, eigenvalues
 ```
+
+### Module 1 Lecture Details
+
+| Lecture | Title | Primitive | Key Topics | Visualizations |
+|---------|-------|-----------|------------|----------------|
+| 1 | Orientation | — | Perception before formalism | 5 phenomena demos |
+| 2 | Existence | — | Number types (ℕ, ℤ, ℚ, ℝ, ℂ) | Number line, complex plane |
+| 3 | Counting Things | COLLECTION | Factorial, permutations, combinations | Molecular arrangements |
+| 4 | Bonds Point | DIRECTION | Vectors, magnitude, components | Water molecule 3D |
+| 5 | Angles & Projections | DIRECTION | Dot product, orthogonality | Bond angle calculator |
+| 6 | Coordinates & Basis | DIRECTION | Basis vectors, Gram-Schmidt | Coordinate rotation |
+| 7 | Grids of Numbers | ARRANGEMENT | Matrix types, multiplication, inverse | Hückel matrix builder |
+| 8 | Transformations | ARRANGEMENT | Linear maps, determinant, kernel | Symmetry operations |
+
+### Lecture → Primitive Mapping
+
+| Lectures | Primitive | Primitive Page |
+|----------|-----------|----------------|
+| 1-2 | (Introductory) | — |
+| 3 | COLLECTION | `primitives/collection.html` |
+| 4-6 | DIRECTION | `primitives/direction.html` |
+| 7-8 | ARRANGEMENT | `primitives/arrangement.html` |
 
 ---
 
@@ -159,14 +184,41 @@ chem-math-course/
 │
 ├── site/                        # Quarto website
 │   ├── _quarto.yml              # Site configuration
-│   ├── index.qmd                # Homepage
-│   ├── getting-started.qmd      # Student guide
-│   ├── progress.qmd             # Progress dashboard
-│   ├── styles.css               # Custom styling
-│   ├── direction.html           # DIRECTION standalone page (bypasses Quarto)
+│   ├── index.qmd                # Homepage (Quarto)
+│   ├── landing.html             # Beautiful standalone landing page
+│   ├── protein-raga.html        # Protein music visualization
+│   ├── CNAME                    # Custom domain config
 │   │
-│   ├── lectures/
-│   │   └── 04-direction.qmd       # Vectors in chemistry (tool page)
+│   ├── primitives/              # Primitive concept pages
+│   │   ├── collection.html
+│   │   ├── direction.html       # Complete with 12 visualizations
+│   │   ├── arrangement.html
+│   │   ├── sameness.html
+│   │   ├── proximity.html
+│   │   ├── change.html
+│   │   ├── rate.html
+│   │   ├── accumulation.html
+│   │   └── spread.html
+│   │
+│   ├── lectures/                # All standalone HTML lectures
+│   │   ├── all-lectures.html    # Lecture index/directory
+│   │   ├── 01-orientation/
+│   │   │   └── index.html       # Lecture 1: Perception
+│   │   ├── 02-existence/
+│   │   │   └── index.html       # Lecture 2: Number types
+│   │   ├── 03-collection/
+│   │   │   └── index.html       # Lecture 3: Counting
+│   │   ├── 04-direction/
+│   │   │   ├── index.html       # Lecture 4: Vectors intro
+│   │   │   └── sec*.html        # Section pages
+│   │   ├── 05-arrangement/
+│   │   │   └── index.html       # Lecture 5: Dot product
+│   │   ├── 06-coordinates/
+│   │   │   └── index.html       # Lecture 6: Basis vectors
+│   │   ├── 07-matrices/
+│   │   │   └── index.html       # Lecture 7: Matrix algebra
+│   │   └── 08-transformations/
+│   │       └── index.html       # Lecture 8: Linear maps
 │   │
 │   ├── practice/
 │   │   └── index.qmd            # Practice mode hub
@@ -228,7 +280,11 @@ cd site && quarto preview          # Site on localhost:4321
 
 **Site:** GitHub Pages (automatic via Actions)
 - Push to main → builds Quarto → copies standalone HTML + CNAME → deploys to Pages
-- Workflow copies `site/direction.html` and `site/CNAME` to `site/_site/` before upload
+- Workflow copies all standalone pages to `site/_site/`:
+  - `landing.html`, `protein-raga.html`
+  - All `primitives/*.html` files
+  - All `lectures/*/index.html` files
+  - `lectures/all-lectures.html`
 - Live at: https://course.thebeakers.com (custom domain via Cloudflare)
 
 **API:** Cloudflare Tunnel (permanent)
@@ -304,6 +360,40 @@ document.querySelectorAll('.part').forEach(p => observer.observe(p));
 - Don't over-explain — trust the visualization
 - Don't use "math anxiety" language — treat students as capable
 
+### Lecture Navigation Pattern
+Each lecture has a navigation bar at the top:
+```html
+<nav class="lecture-nav">
+    <a href="../all-lectures.html" class="nav-link">← All Lectures</a>
+    <a href="../../primitives/direction.html" class="primitive-link">
+        <span class="primitive-badge">DIRECTION</span>
+        <span class="primitive-text">Explore the Primitive →</span>
+    </a>
+</nav>
+```
+
+CSS for navigation (add to each lecture):
+```css
+.lecture-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--bg-tertiary);
+}
+.primitive-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    background: linear-gradient(135deg, rgba(74, 158, 255, 0.1), rgba(139, 92, 246, 0.1));
+    border: 1px solid rgba(74, 158, 255, 0.3);
+    transition: all 0.3s;
+}
+```
+
 ---
 
 ## Quality Checklist
@@ -333,18 +423,26 @@ When developing a primitive:
 - [x] API backend (FastAPI + Ollama)
 - [x] Student database (SQLite)
 - [x] Practice widget (IXL-style)
-- [x] **DIRECTION concept page** (standalone HTML, rigorous academic text)
-- [x] **DIRECTION tool** (vectors lecture)
-- [x] **DIRECTION visualizations** (12 interactive canvas animations)
 - [x] Cloudflare Tunnel setup (api.thebeakers.com → localhost:8000)
 - [x] Custom domain configuration (course.thebeakers.com)
-
-### In Progress
-- [ ] Other Module 1 primitives (COLLECTION, ARRANGEMENT, PROXIMITY)
+- [x] **Landing page** (beautiful dark-themed standalone HTML)
+- [x] **Lectures index** (all-lectures.html with status badges)
+- [x] **MODULE 1: All 8 lectures complete** (standalone HTML with interactive visualizations)
+  - Lecture 1: Orientation (5 phenomena demos)
+  - Lecture 2: Existence (number line, complex plane)
+  - Lecture 3: Counting Things (factorial, combinations)
+  - Lecture 4: Bonds Point (3D water molecule)
+  - Lecture 5: Angles & Projections (dot product, bond angles)
+  - Lecture 6: Coordinates & Basis (Gram-Schmidt, rotation)
+  - Lecture 7: Grids of Numbers (matrix operations, Hückel)
+  - Lecture 8: Transformations (determinant, symmetry ops)
+- [x] **Primitive concept pages** (9 pages in primitives/)
+- [x] **DIRECTION visualizations** (12 interactive canvas animations)
+- [x] **Navigation system** (all lectures link to primitives and index)
 
 ### Planned
-- [ ] Module 2: CHANGE primitives
-- [ ] Module 3: PROBABILITY primitives
+- [ ] Module 2: CHANGE primitives (Lectures 9-18)
+- [ ] Module 3: PROBABILITY primitives (Lectures 19-24)
 - [ ] Manim videos for complex concepts
 - [ ] thebeakers.com science blog (Aeon-style)
 
