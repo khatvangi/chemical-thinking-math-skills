@@ -15,6 +15,7 @@ site/.quarto/
 !site/**/*.qmd
 !site/primitives/*.html
 !site/lectures/01-orientation/*.html
+!site/lectures/02-existence/*.html
 !site/lectures/03-collection/*.html
 !site/lectures/04-direction/*.html
 !site/lectures/05-arrangement/*.html

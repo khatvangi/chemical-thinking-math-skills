@@ -1,0 +1,1822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 2: Existence — Chemical Thinking</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a24;
+            --text-primary: #e8e6e3;
+            --text-secondary: #a8a5a0;
+            --text-muted: #6b6965;
+            --accent-purple: #8B5CF6;
+            --accent-blue: #3B82F6;
+            --accent-orange: #F97316;
+            --accent-green: #22C55E;
+            --accent-red: #EF4444;
+            --accent-cyan: #06B6D4;
+            --accent-yellow: #EAB308;
+            --border-subtle: #2a2a35;
+            --max-width: 800px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 18px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            padding: 0 1.5rem;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            padding: 4rem 0 3rem;
+            border-bottom: 1px solid var(--border-subtle);
+            margin-bottom: 3rem;
+        }
+
+        .lecture-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-family: 'Fraunces', serif;
+            font-size: 3rem;
+            font-weight: 500;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+            font-style: italic;
+        }
+
+        /* Sections */
+        section {
+            margin-bottom: 4rem;
+        }
+
+        h2 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.75rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            color: var(--accent-cyan);
+        }
+
+        h3 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.35rem;
+            font-weight: 500;
+            margin: 2rem 0 1rem;
+            color: var(--text-primary);
+        }
+
+        p {
+            margin-bottom: 1.25rem;
+            color: var(--text-secondary);
+        }
+
+        strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* Math */
+        .math {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-purple);
+            background: var(--bg-tertiary);
+            padding: 0.15em 0.4em;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        .math-block {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-purple);
+            background: var(--bg-tertiary);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            text-align: center;
+            font-size: 1.1rem;
+            overflow-x: auto;
+        }
+
+        /* The Hook Questions */
+        .hook-question {
+            background: var(--bg-secondary);
+            border-left: 3px solid var(--accent-orange);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .hook-question h4 {
+            color: var(--accent-orange);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .hook-question .question {
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .hook-question .answer {
+            color: var(--accent-green);
+            font-weight: 500;
+        }
+
+        .hook-question .analysis {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Number system boxes */
+        .number-system {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .number-system h4 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.25rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .number-system .symbol {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-purple);
+            font-size: 1.5rem;
+            float: right;
+            margin-top: -2rem;
+        }
+
+        .closure-table {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .closure-item {
+            text-align: center;
+            padding: 0.5rem;
+            background: var(--bg-tertiary);
+            border-radius: 6px;
+            font-size: 0.85rem;
+        }
+
+        .closure-item.yes {
+            color: var(--accent-green);
+        }
+
+        .closure-item.no {
+            color: var(--accent-red);
+        }
+
+        /* Visual containers */
+        .visual-container {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .visual-container h4 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-cyan);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        canvas {
+            display: block;
+            margin: 0 auto;
+            border-radius: 8px;
+            background: var(--bg-primary);
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+            justify-content: center;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .control-group label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        input[type="range"] {
+            width: 120px;
+            accent-color: var(--accent-cyan);
+        }
+
+        .value-display {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-cyan);
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .info-display {
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-label {
+            color: var(--text-muted);
+        }
+
+        .info-value {
+            color: var(--text-primary);
+        }
+
+        /* Proof box */
+        .proof-box {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--accent-purple);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .proof-box h4 {
+            color: var(--accent-purple);
+            font-family: 'Fraunces', serif;
+            margin-bottom: 1rem;
+        }
+
+        .proof-box p {
+            margin-bottom: 0.75rem;
+        }
+
+        .qed {
+            text-align: right;
+            color: var(--accent-purple);
+            font-weight: 600;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        th {
+            color: var(--text-muted);
+            font-weight: 500;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        td {
+            color: var(--text-secondary);
+        }
+
+        td:first-child {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* Chemistry connection */
+        .chemistry-box {
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(139, 92, 246, 0.1));
+            border: 1px solid var(--accent-cyan);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .chemistry-box h3 {
+            color: var(--accent-cyan);
+            margin-top: 0;
+        }
+
+        /* Euler's identity highlight */
+        .euler-identity {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(59, 130, 246, 0.2));
+            border: 2px solid var(--accent-purple);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .euler-identity .formula {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2rem;
+            color: var(--accent-purple);
+            margin-bottom: 0.5rem;
+        }
+
+        .euler-identity .caption {
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        /* Summary hierarchy */
+        .hierarchy {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.1rem;
+        }
+
+        .hierarchy-item {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
+
+        .hierarchy-arrow {
+            color: var(--text-muted);
+        }
+
+        /* Exercises */
+        .exercise {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .exercise h4 {
+            color: var(--accent-orange);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Navigation */
+        .nav-footer {
+            display: flex;
+            justify-content: space-between;
+            padding: 2rem 0;
+            border-top: 1px solid var(--border-subtle);
+            margin-top: 4rem;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-cyan);
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            h1 { font-size: 2rem; }
+            .controls { flex-direction: column; align-items: center; }
+            canvas { max-width: 100%; height: auto; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="lecture-label">Lecture 02</div>
+            <h1>Existence</h1>
+            <p class="subtitle">What Kinds of Numbers?</p>
+        </header>
+
+        <!-- THE HOOK -->
+        <section id="hook">
+            <h2>The Hook</h2>
+            <p>Before we count, before we measure, before we compute: <strong>what exists?</strong></p>
+            <p>Three questions. Try to answer each.</p>
+
+            <div class="hook-question">
+                <h4>Question 1</h4>
+                <p class="question">How many electrons in a helium atom?</p>
+                <p class="answer">Answer: 2</p>
+                <p class="analysis">What kind of number is 2? It counts discrete objects. It's a <strong>positive integer</strong>.</p>
+            </div>
+
+            <div class="hook-question">
+                <h4>Question 2</h4>
+                <p class="question">What is the bond length of H₂?</p>
+                <p class="answer">Answer: 0.74 Å</p>
+                <p class="analysis">What kind of number is 0.74? It measures a continuous quantity. It falls between integers. It's a <strong>rational number</strong> (74/100).</p>
+            </div>
+
+            <div class="hook-question">
+                <h4>Question 3</h4>
+                <p class="question">What is the diagonal of a square with side length 1?</p>
+                <p class="answer">Answer: √2 ≈ 1.41421356...</p>
+                <p class="analysis">What kind of number is √2? It's not a ratio of integers. The decimal never terminates, never repeats. It's <strong>irrational</strong>.</p>
+            </div>
+
+            <div class="hook-question">
+                <h4>Question 4</h4>
+                <p class="question">What are the solutions to x² + 1 = 0?</p>
+                <p class="answer">Answer: ...</p>
+                <p class="analysis">There is no real number whose square is -1. Every real number squared is non-negative. Do we stop here? Or do we expand what "number" means?</p>
+            </div>
+        </section>
+
+        <!-- RECOGNITION -->
+        <section id="recognition">
+            <h2>Recognition</h2>
+            <p>Different questions demand different number systems.</p>
+            <p>The integers suffice for counting atoms. They fail for measuring lengths.</p>
+            <p>The rationals suffice for most measurements. They fail for √2.</p>
+            <p>The reals suffice for geometry. They fail for x² + 1 = 0.</p>
+            <p><strong>Each limitation drives an expansion. Each expansion reveals structure that was always there.</strong></p>
+        </section>
+
+        <!-- THE NUMBER SYSTEMS -->
+        <section id="number-systems">
+            <h2>The Tool: Number Systems</h2>
+            <p>We build from the ground up.</p>
+
+            <div class="number-system">
+                <span class="symbol">ℕ</span>
+                <h4>The Natural Numbers</h4>
+                <div class="math-block">ℕ = {1, 2, 3, 4, 5, ...}</div>
+                <p><strong>What they're for:</strong> Counting discrete objects.</p>
+                <div class="closure-table">
+                    <div class="closure-item yes">+ ✓</div>
+                    <div class="closure-item yes">× ✓</div>
+                    <div class="closure-item no">- ✗</div>
+                    <div class="closure-item no">÷ ✗</div>
+                </div>
+                <p style="margin-top: 1rem; font-size: 0.9rem;"><strong>The problem:</strong> 3 - 5 = ? Subtraction sometimes has no answer in ℕ.</p>
+            </div>
+
+            <div class="number-system">
+                <span class="symbol">ℤ</span>
+                <h4>The Integers</h4>
+                <div class="math-block">ℤ = {..., -3, -2, -1, 0, 1, 2, 3, ...}</div>
+                <p><strong>What they add:</strong> Zero and negative numbers.</p>
+                <p><strong>Why we need them:</strong> Charges (proton +1, electron -1), oxidation states (Fe²⁺, Fe³⁺, Fe⁰).</p>
+                <div class="closure-table">
+                    <div class="closure-item yes">+ ✓</div>
+                    <div class="closure-item yes">× ✓</div>
+                    <div class="closure-item yes">- ✓</div>
+                    <div class="closure-item no">÷ ✗</div>
+                </div>
+                <p style="margin-top: 1rem; font-size: 0.9rem;"><strong>The problem:</strong> 3 ÷ 5 = ? Division sometimes has no answer in ℤ.</p>
+            </div>
+
+            <div class="number-system">
+                <span class="symbol">ℚ</span>
+                <h4>The Rational Numbers</h4>
+                <div class="math-block">ℚ = { p/q : p ∈ ℤ, q ∈ ℤ, q ≠ 0 }</div>
+                <p><strong>What they add:</strong> Fractions — ratios of integers.</p>
+                <p><strong>Why we need them:</strong> Measurement (0.74 Å), concentrations (0.1 M), stoichiometry (half a mole).</p>
+                <p><strong>Representation:</strong> Every rational has a decimal that terminates or repeats: 1/4 = 0.25, 1/3 = 0.333..., 1/7 = 0.142857...</p>
+                <div class="closure-table">
+                    <div class="closure-item yes">+ ✓</div>
+                    <div class="closure-item yes">× ✓</div>
+                    <div class="closure-item yes">- ✓</div>
+                    <div class="closure-item yes">÷ ✓</div>
+                </div>
+                <p style="margin-top: 1rem; font-size: 0.9rem;"><strong>The problem:</strong> The rationals have gaps.</p>
+            </div>
+
+            <!-- Proof of sqrt(2) irrational -->
+            <div class="proof-box">
+                <h4>Theorem (Pythagoreans, ~500 BCE): √2 is not rational.</h4>
+                <p><strong>Proof:</strong> Suppose √2 = p/q where p, q are integers with no common factor.</p>
+                <p>Then 2 = p²/q², so p² = 2q².</p>
+                <p>This means p² is even, so p is even. Write p = 2k.</p>
+                <p>Then 4k² = 2q², so q² = 2k², so q² is even, so q is even.</p>
+                <p>But then p and q share factor 2, contradicting our assumption.</p>
+                <p class="qed">Therefore √2 cannot be written as p/q. ∎</p>
+            </div>
+
+            <div class="number-system">
+                <span class="symbol">ℝ</span>
+                <h4>The Real Numbers</h4>
+                <p><strong>Irrational numbers</strong> fill the gaps: √2, √3, π = 3.14159..., e = 2.71828...</p>
+                <p><strong>The real numbers ℝ</strong> comprise all rationals and irrationals together.</p>
+                <p><strong>Geometric picture:</strong> The real line. Every point corresponds to exactly one real number. No gaps.</p>
+                <p style="margin-top: 1rem; font-size: 0.9rem;"><strong>The problem:</strong> What is √(-1)?</p>
+            </div>
+        </section>
+
+        <!-- REAL NUMBER LINE VISUAL -->
+        <section id="real-line-visual">
+            <div class="visual-container">
+                <h4>The Real Number Line</h4>
+                <canvas id="realLineCanvas" width="760" height="200"></canvas>
+                <div class="controls">
+                    <div class="control-group">
+                        <label>Zoom</label>
+                        <input type="range" id="zoomSlider" min="1" max="50" value="1" step="0.5">
+                        <span class="value-display" id="zoomValue">1×</span>
+                    </div>
+                    <div class="control-group">
+                        <label>Center</label>
+                        <input type="range" id="centerSlider" min="-5" max="5" value="0" step="0.1">
+                        <span class="value-display" id="centerValue">0</span>
+                    </div>
+                </div>
+                <p style="text-align: center; margin-top: 1rem; font-size: 0.85rem; color: var(--text-muted);">Zoom in anywhere. Rationals (green) and irrationals (red) are densely packed at every scale.</p>
+            </div>
+        </section>
+
+        <!-- COMPLEX NUMBERS -->
+        <section id="complex-numbers">
+            <h2>The Complex Numbers ℂ</h2>
+
+            <h3>The Algebraic Necessity</h3>
+            <p>Consider the equation <span class="math">x² + 1 = 0</span>. This has no solution in ℝ. For any real x, x² ≥ 0, so x² + 1 ≥ 1 > 0.</p>
+            <p>We have two choices:</p>
+            <ol style="color: var(--text-secondary); margin-left: 1.5rem; margin-bottom: 1rem;">
+                <li>Accept that some polynomial equations have no solutions.</li>
+                <li>Expand our number system.</li>
+            </ol>
+            <p>Mathematicians chose option 2 — and discovered that the expansion reveals deep structure.</p>
+
+            <h3>Defining the Complex Numbers</h3>
+            <p>We introduce a new number, denoted <strong>i</strong>, defined by the property:</p>
+            <div class="math-block">i² = -1</div>
+            <p>This is not "imaginary" in the sense of "fake." The term is a historical accident. <strong>The number i is exactly as real as -1 or √2.</strong> All numbers are abstract entities.</p>
+
+            <p><strong>Definition:</strong> A <strong>complex number</strong> is an expression of the form:</p>
+            <div class="math-block">z = a + bi</div>
+            <p>where a, b ∈ ℝ. <strong>a</strong> is the <strong>real part</strong> (Re(z) = a), <strong>b</strong> is the <strong>imaginary part</strong> (Im(z) = b).</p>
+
+            <h3>Arithmetic of Complex Numbers</h3>
+            <table>
+                <tr>
+                    <th>Operation</th>
+                    <th>Formula</th>
+                    <th>Example</th>
+                </tr>
+                <tr>
+                    <td>Addition</td>
+                    <td>(a+bi) + (c+di) = (a+c) + (b+d)i</td>
+                    <td>(3+2i) + (1-5i) = 4-3i</td>
+                </tr>
+                <tr>
+                    <td>Multiplication</td>
+                    <td>(a+bi)(c+di) = (ac-bd) + (ad+bc)i</td>
+                    <td>(3+2i)(1-5i) = 13-13i</td>
+                </tr>
+                <tr>
+                    <td>Conjugate</td>
+                    <td>z̄ = a - bi</td>
+                    <td>(3+2i)̄ = 3-2i</td>
+                </tr>
+                <tr>
+                    <td>Modulus</td>
+                    <td>|z| = √(a² + b²)</td>
+                    <td>|3+4i| = 5</td>
+                </tr>
+            </table>
+
+            <p><strong>Key property:</strong> <span class="math">z · z̄ = a² + b² = |z|²</span>. The product of a complex number with its conjugate is always a non-negative real.</p>
+        </section>
+
+        <!-- COMPLEX PLANE VISUAL -->
+        <section id="complex-plane-visual">
+            <div class="visual-container">
+                <h4>The Complex Plane</h4>
+                <canvas id="complexPlaneCanvas" width="500" height="500"></canvas>
+                <div class="controls">
+                    <div class="control-group">
+                        <label>Real part a</label>
+                        <input type="range" id="realPartSlider" min="-4" max="4" value="3" step="0.1">
+                        <span class="value-display" id="realPartValue">3</span>
+                    </div>
+                    <div class="control-group">
+                        <label>Imaginary part b</label>
+                        <input type="range" id="imagPartSlider" min="-4" max="4" value="2" step="0.1">
+                        <span class="value-display" id="imagPartValue">2</span>
+                    </div>
+                </div>
+                <div class="info-display" id="complexInfo">
+                    <div class="info-row">
+                        <span class="info-label">z =</span>
+                        <span class="info-value" id="zValue">3 + 2i</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">z̄ =</span>
+                        <span class="info-value" id="zConjValue">3 - 2i</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">|z| =</span>
+                        <span class="info-value" id="zModValue">3.606</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">arg(z) =</span>
+                        <span class="info-value" id="zArgValue">33.7°</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- POWERS OF i -->
+        <section id="powers-of-i">
+            <h3>Powers of i</h3>
+            <p>The powers of i cycle with period 4:</p>
+            <table>
+                <tr><th>Power</th><th>Value</th><th>Pattern</th></tr>
+                <tr><td>i⁰</td><td>1</td><td>n mod 4 = 0</td></tr>
+                <tr><td>i¹</td><td>i</td><td>n mod 4 = 1</td></tr>
+                <tr><td>i²</td><td>-1</td><td>n mod 4 = 2</td></tr>
+                <tr><td>i³</td><td>-i</td><td>n mod 4 = 3</td></tr>
+                <tr><td>i⁴</td><td>1</td><td>Cycle repeats</td></tr>
+            </table>
+
+            <div class="visual-container">
+                <h4>Powers of i on the Unit Circle</h4>
+                <canvas id="powersCanvas" width="400" height="400"></canvas>
+                <div class="controls">
+                    <div class="control-group">
+                        <label>Power n</label>
+                        <input type="range" id="powerSlider" min="0" max="20" value="0" step="1">
+                        <span class="value-display" id="powerValue">i⁰ = 1</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- POLAR FORM AND EULER -->
+        <section id="euler">
+            <h3>Polar Form and Euler's Formula</h3>
+            <p>Any nonzero complex number can be written:</p>
+            <div class="math-block">z = r(cos θ + i sin θ) = re^(iθ)</div>
+            <p>where r = |z| and θ = arg(z).</p>
+
+            <p>This uses <strong>Euler's formula</strong>:</p>
+            <div class="euler-identity">
+                <div class="formula">e^(iθ) = cos θ + i sin θ</div>
+                <p class="caption">The most beautiful equation in mathematics</p>
+            </div>
+
+            <p>Setting θ = π gives:</p>
+            <div class="euler-identity">
+                <div class="formula">e^(iπ) + 1 = 0</div>
+                <p class="caption">Euler's identity — connecting e, i, π, 1, and 0</p>
+            </div>
+
+            <div class="visual-container">
+                <h4>Euler's Formula: e^(iθ) Traces the Unit Circle</h4>
+                <canvas id="eulerCanvas" width="500" height="500"></canvas>
+                <div class="controls">
+                    <div class="control-group">
+                        <label>θ (radians)</label>
+                        <input type="range" id="thetaSlider" min="0" max="6.283" value="0" step="0.05">
+                        <span class="value-display" id="thetaValue">0°</span>
+                    </div>
+                </div>
+                <div class="info-display">
+                    <div class="info-row">
+                        <span class="info-label">e^(iθ) =</span>
+                        <span class="info-value" id="eulerValue">1 + 0i</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">cos θ =</span>
+                        <span class="info-value" id="cosValue">1</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">sin θ =</span>
+                        <span class="info-value" id="sinValue">0</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ROOTS OF UNITY -->
+        <section id="roots-of-unity">
+            <h3>Roots of Unity</h3>
+            <p>The nth roots of 1 are the solutions to <span class="math">zⁿ = 1</span>.</p>
+            <p>They are <span class="math">e^(2πik/n)</span> for k = 0, 1, 2, ..., n-1. They form a regular n-gon on the unit circle.</p>
+
+            <div class="visual-container">
+                <h4>The nth Roots of Unity</h4>
+                <canvas id="rootsCanvas" width="500" height="500"></canvas>
+                <div class="controls">
+                    <div class="control-group">
+                        <label>n</label>
+                        <input type="range" id="nRootsSlider" min="2" max="12" value="6" step="1">
+                        <span class="value-display" id="nRootsValue">6 roots</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MULTIPLICATION AS ROTATION -->
+        <section id="multiplication">
+            <h3>Multiplication: Scaling and Rotating</h3>
+            <p>When you multiply by a complex number z = re^(iθ):</p>
+            <ul style="color: var(--text-secondary); margin-left: 1.5rem;">
+                <li><strong>Scale</strong> by |z| = r</li>
+                <li><strong>Rotate</strong> by arg(z) = θ</li>
+            </ul>
+
+            <div class="visual-container">
+                <h4>Multiplication Transforms Shapes</h4>
+                <canvas id="multiplyCanvas" width="500" height="500"></canvas>
+                <div class="controls">
+                    <div class="control-group">
+                        <label>Scale |z|</label>
+                        <input type="range" id="scaleSlider" min="0.5" max="2" value="1.5" step="0.1">
+                        <span class="value-display" id="scaleValue">1.5</span>
+                    </div>
+                    <div class="control-group">
+                        <label>Rotate θ</label>
+                        <input type="range" id="rotateSlider" min="0" max="6.283" value="0.785" step="0.05">
+                        <span class="value-display" id="rotateValue">45°</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FUNDAMENTAL THEOREM -->
+        <section id="fundamental-theorem">
+            <h3>The Fundamental Theorem of Algebra</h3>
+            <p><strong>Theorem:</strong> Every polynomial equation of degree n ≥ 1 with complex coefficients has exactly n roots in ℂ (counting multiplicity).</p>
+            <p>This is why we stop at ℂ:</p>
+            <ul style="color: var(--text-secondary); margin-left: 1.5rem;">
+                <li>ℕ: Subtraction fails</li>
+                <li>ℤ: Division fails</li>
+                <li>ℚ: Square roots fail (√2)</li>
+                <li>ℝ: Some polynomials have no roots (x² + 1)</li>
+                <li><strong>ℂ: Every polynomial has roots.</strong> Algebraically complete.</li>
+            </ul>
+            <p>The complex numbers are the <strong>algebraic closure</strong> of the reals. There is no need to go further.</p>
+        </section>
+
+        <!-- CHEMISTRY CONNECTION -->
+        <section id="chemistry">
+            <div class="chemistry-box">
+                <h3>Why Chemistry Needs Complex Numbers</h3>
+
+                <h4 style="color: var(--text-primary); margin-top: 1.5rem;">Quantum Mechanics</h4>
+                <p>The wavefunction ψ(x, t) is complex-valued:</p>
+                <div class="math-block">ψ(x, t) = A e^(i(kx - ωt))</div>
+                <p>The Schrödinger equation has i built into its structure:</p>
+                <div class="math-block">iℏ ∂ψ/∂t = Ĥψ</div>
+                <p><strong>You cannot do quantum mechanics with real numbers alone.</strong></p>
+
+                <h4 style="color: var(--text-primary); margin-top: 1.5rem;">Oscillations and Waves</h4>
+                <p>Complex exponentials simplify calculations. Compare:</p>
+                <div class="math-block">d/dt e^(iωt) = iω e^(iωt) &nbsp;&nbsp;vs.&nbsp;&nbsp; d/dt cos(ωt) = -ω sin(ωt)</div>
+
+                <h4 style="color: var(--text-primary); margin-top: 1.5rem;">Spectroscopy</h4>
+                <p>Fourier transforms produce complex results. The magnitude gives amplitude; the phase gives timing.</p>
+
+                <h4 style="color: var(--text-primary); margin-top: 1.5rem;">Molecular Orbitals</h4>
+                <p>Spherical harmonics Y_l^m are complex. The real orbitals p_x, p_y are linear combinations of complex ones.</p>
+            </div>
+
+            <div class="visual-container">
+                <h4>Complex Wavefunction: ψ = e^(i(kx - ωt))</h4>
+                <canvas id="wavefunctionCanvas" width="760" height="350"></canvas>
+                <div class="controls">
+                    <div class="control-group">
+                        <label>Wave vector k</label>
+                        <input type="range" id="kSlider" min="1" max="5" value="2" step="0.5">
+                        <span class="value-display" id="kValue">2</span>
+                    </div>
+                    <div class="control-group">
+                        <label>Time t</label>
+                        <input type="range" id="tSlider" min="0" max="4" value="0" step="0.1">
+                        <span class="value-display" id="tValue">0</span>
+                    </div>
+                    <button id="animateBtn" style="padding: 0.5rem 1rem; background: var(--accent-cyan); border: none; border-radius: 6px; color: var(--bg-primary); cursor: pointer; font-weight: 500;">Animate</button>
+                </div>
+                <p style="text-align: center; margin-top: 1rem; font-size: 0.85rem; color: var(--text-muted);">The phase oscillates, but |ψ|² = 1 everywhere (uniform probability).</p>
+            </div>
+        </section>
+
+        <!-- SUMMARY -->
+        <section id="summary">
+            <h2>Summary</h2>
+
+            <h3>The Hierarchy</h3>
+            <div class="hierarchy">
+                <span class="hierarchy-item">ℕ</span>
+                <span class="hierarchy-arrow">⊂</span>
+                <span class="hierarchy-item">ℤ</span>
+                <span class="hierarchy-arrow">⊂</span>
+                <span class="hierarchy-item">ℚ</span>
+                <span class="hierarchy-arrow">⊂</span>
+                <span class="hierarchy-item">ℝ</span>
+                <span class="hierarchy-arrow">⊂</span>
+                <span class="hierarchy-item" style="border-color: var(--accent-purple);">ℂ</span>
+            </div>
+
+            <table>
+                <tr>
+                    <th>System</th>
+                    <th>Symbol</th>
+                    <th>Contains</th>
+                    <th>Closed under</th>
+                </tr>
+                <tr>
+                    <td>Natural</td>
+                    <td>ℕ</td>
+                    <td>1, 2, 3, ...</td>
+                    <td>+, ×</td>
+                </tr>
+                <tr>
+                    <td>Integer</td>
+                    <td>ℤ</td>
+                    <td>..., -1, 0, 1, ...</td>
+                    <td>+, -, ×</td>
+                </tr>
+                <tr>
+                    <td>Rational</td>
+                    <td>ℚ</td>
+                    <td>p/q (q ≠ 0)</td>
+                    <td>+, -, ×, ÷</td>
+                </tr>
+                <tr>
+                    <td>Real</td>
+                    <td>ℝ</td>
+                    <td>All limits of rationals</td>
+                    <td>+, -, ×, ÷, √(≥0)</td>
+                </tr>
+                <tr>
+                    <td>Complex</td>
+                    <td>ℂ</td>
+                    <td>a + bi</td>
+                    <td>All algebra, all √</td>
+                </tr>
+            </table>
+
+            <table>
+                <tr>
+                    <th>Operation</th>
+                    <th>Formula</th>
+                </tr>
+                <tr>
+                    <td>Addition</td>
+                    <td>(a+bi) + (c+di) = (a+c) + (b+d)i</td>
+                </tr>
+                <tr>
+                    <td>Multiplication</td>
+                    <td>(a+bi)(c+di) = (ac-bd) + (ad+bc)i</td>
+                </tr>
+                <tr>
+                    <td>Conjugate</td>
+                    <td>a+bi → a-bi</td>
+                </tr>
+                <tr>
+                    <td>Modulus</td>
+                    <td>|a+bi| = √(a² + b²)</td>
+                </tr>
+                <tr>
+                    <td>Polar form</td>
+                    <td>z = r(cos θ + i sin θ) = re^(iθ)</td>
+                </tr>
+                <tr>
+                    <td>Euler</td>
+                    <td>e^(iθ) = cos θ + i sin θ</td>
+                </tr>
+            </table>
+        </section>
+
+        <!-- EXERCISES -->
+        <section id="exercises">
+            <h2>Exercises</h2>
+
+            <div class="exercise">
+                <h4>Exercise 1: Arithmetic</h4>
+                <p>Compute, expressing answers in the form a + bi:</p>
+                <p>(a) (2 + 3i) + (4 - i) &nbsp;&nbsp; (b) (2 + 3i)(4 - i) &nbsp;&nbsp; (c) (2 + 3i)/(4 - i) &nbsp;&nbsp; (d) i³ &nbsp;&nbsp; (e) i¹⁰⁰</p>
+            </div>
+
+            <div class="exercise">
+                <h4>Exercise 2: Conjugates and Moduli</h4>
+                <p>For z = 3 - 4i:</p>
+                <p>(a) Find z̄ &nbsp;&nbsp; (b) Find |z| &nbsp;&nbsp; (c) Verify that z · z̄ = |z|² &nbsp;&nbsp; (d) Find z + z̄ and z - z̄</p>
+            </div>
+
+            <div class="exercise">
+                <h4>Exercise 3: Polar and Exponential Form</h4>
+                <p>(a) Convert z = 1 + i to polar form &nbsp;&nbsp; (b) Convert z = 2e^(iπ/3) to Cartesian form &nbsp;&nbsp; (c) What is e^(2πi)?</p>
+            </div>
+
+            <div class="exercise">
+                <h4>Exercise 4: Roots</h4>
+                <p>(a) Find both square roots of i &nbsp;&nbsp; (b) Find all cube roots of 1 &nbsp;&nbsp; (c) Find all fourth roots of -1</p>
+            </div>
+
+            <div class="exercise">
+                <h4>Exercise 5: Chemistry Applications</h4>
+                <p>(a) For ψ = e^(ikx), show that |ψ|² = 1 everywhere.</p>
+                <p>(b) For ψ = A e^(i(kx - ωt)), find ψ* and |ψ|².</p>
+                <p>(c) In NMR, signals are S(t) = S₀ e^(iωt) e^(-t/T₂). What is |S(t)|²?</p>
+            </div>
+
+            <div class="exercise">
+                <h4>Exercise 6: Irrationality</h4>
+                <p>Prove that √3 is irrational. (Follow the structure of the √2 proof.)</p>
+            </div>
+        </section>
+
+        <!-- NAVIGATION -->
+        <nav class="nav-footer">
+            <a href="../01-orientation/" class="nav-link">← Lecture 1: Orientation</a>
+            <a href="../03-counting/" class="nav-link">Lecture 3: Counting Things →</a>
+        </nav>
+    </div>
+
+    <script>
+        // ============================================
+        // REAL NUMBER LINE VISUALIZATION
+        // ============================================
+        (function() {
+            const canvas = document.getElementById('realLineCanvas');
+            const ctx = canvas.getContext('2d');
+            const zoomSlider = document.getElementById('zoomSlider');
+            const centerSlider = document.getElementById('centerSlider');
+            const zoomValue = document.getElementById('zoomValue');
+            const centerValue = document.getElementById('centerValue');
+
+            const sqrt2 = Math.sqrt(2);
+            const sqrt3 = Math.sqrt(3);
+            const pi = Math.PI;
+            const e = Math.E;
+
+            function draw() {
+                const zoom = parseFloat(zoomSlider.value);
+                const center = parseFloat(centerSlider.value);
+                const halfWidth = 5 / zoom;
+                const xMin = center - halfWidth;
+                const xMax = center + halfWidth;
+
+                ctx.fillStyle = '#0a0a0f';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                const w = canvas.width;
+                const h = canvas.height;
+                const midY = h / 2;
+
+                function toScreenX(x) {
+                    return ((x - xMin) / (xMax - xMin)) * w;
+                }
+
+                // Draw the number line
+                ctx.strokeStyle = '#e8e6e3';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(0, midY);
+                ctx.lineTo(w, midY);
+                ctx.stroke();
+
+                // Draw tick marks and labels for integers
+                ctx.fillStyle = '#3B82F6';
+                ctx.font = '12px JetBrains Mono';
+                ctx.textAlign = 'center';
+
+                for (let n = Math.ceil(xMin); n <= Math.floor(xMax); n++) {
+                    const sx = toScreenX(n);
+                    ctx.beginPath();
+                    ctx.arc(sx, midY, 6, 0, 2 * Math.PI);
+                    ctx.fill();
+                    ctx.fillStyle = '#e8e6e3';
+                    ctx.fillText(n.toString(), sx, midY + 25);
+                    ctx.fillStyle = '#3B82F6';
+                }
+
+                // Draw rationals when zoomed in
+                if (zoom > 2) {
+                    ctx.fillStyle = '#22C55E';
+                    const maxDenom = Math.min(20, Math.floor(zoom * 2));
+                    for (let d = 2; d <= maxDenom; d++) {
+                        for (let n = Math.floor(xMin * d); n <= Math.ceil(xMax * d); n++) {
+                            const r = n / d;
+                            if (r > xMin && r < xMax && !Number.isInteger(r)) {
+                                // Check if already represented by smaller denominator
+                                let dominated = false;
+                                for (let d2 = 2; d2 < d; d2++) {
+                                    if (n % (d/d2) === 0 && d % d2 === 0) {
+                                        dominated = true;
+                                        break;
+                                    }
+                                }
+                                if (!dominated) {
+                                    const sx = toScreenX(r);
+                                    ctx.beginPath();
+                                    ctx.arc(sx, midY, 3, 0, 2 * Math.PI);
+                                    ctx.fill();
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // Draw special irrationals
+                const irrationals = [
+                    { val: sqrt2, name: '√2' },
+                    { val: -sqrt2, name: '-√2' },
+                    { val: sqrt3, name: '√3' },
+                    { val: -sqrt3, name: '-√3' },
+                    { val: pi, name: 'π' },
+                    { val: -pi, name: '-π' },
+                    { val: e, name: 'e' },
+                ];
+
+                ctx.fillStyle = '#EF4444';
+                irrationals.forEach(ir => {
+                    if (ir.val > xMin && ir.val < xMax) {
+                        const sx = toScreenX(ir.val);
+                        ctx.beginPath();
+                        ctx.moveTo(sx, midY - 8);
+                        ctx.lineTo(sx + 6, midY);
+                        ctx.lineTo(sx, midY + 8);
+                        ctx.lineTo(sx - 6, midY);
+                        ctx.closePath();
+                        ctx.fill();
+                        ctx.fillStyle = '#EF4444';
+                        ctx.font = '11px JetBrains Mono';
+                        ctx.fillText(ir.name, sx, midY - 15);
+                    }
+                });
+
+                // Legend
+                ctx.font = '11px JetBrains Mono';
+                ctx.textAlign = 'left';
+                ctx.fillStyle = '#3B82F6';
+                ctx.fillText('● Integers ℤ', 20, 25);
+                ctx.fillStyle = '#22C55E';
+                ctx.fillText('● Rationals ℚ', 120, 25);
+                ctx.fillStyle = '#EF4444';
+                ctx.fillText('◆ Irrationals', 230, 25);
+
+                zoomValue.textContent = zoom + '×';
+                centerValue.textContent = center.toFixed(1);
+            }
+
+            zoomSlider.addEventListener('input', draw);
+            centerSlider.addEventListener('input', draw);
+            draw();
+        })();
+
+        // ============================================
+        // COMPLEX PLANE VISUALIZATION
+        // ============================================
+        (function() {
+            const canvas = document.getElementById('complexPlaneCanvas');
+            const ctx = canvas.getContext('2d');
+            const realSlider = document.getElementById('realPartSlider');
+            const imagSlider = document.getElementById('imagPartSlider');
+            const realValue = document.getElementById('realPartValue');
+            const imagValue = document.getElementById('imagPartValue');
+
+            function draw() {
+                const a = parseFloat(realSlider.value);
+                const b = parseFloat(imagSlider.value);
+
+                ctx.fillStyle = '#0a0a0f';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                const w = canvas.width;
+                const h = canvas.height;
+                const cx = w / 2;
+                const cy = h / 2;
+                const scale = 50; // pixels per unit
+
+                function toScreen(re, im) {
+                    return [cx + re * scale, cy - im * scale];
+                }
+
+                // Grid
+                ctx.strokeStyle = '#2a2a35';
+                ctx.lineWidth = 1;
+                for (let i = -4; i <= 4; i++) {
+                    const [x1, y1] = toScreen(i, -5);
+                    const [x2, y2] = toScreen(i, 5);
+                    ctx.beginPath();
+                    ctx.moveTo(x1, y1);
+                    ctx.lineTo(x2, y2);
+                    ctx.stroke();
+
+                    const [x3, y3] = toScreen(-5, i);
+                    const [x4, y4] = toScreen(5, i);
+                    ctx.beginPath();
+                    ctx.moveTo(x3, y3);
+                    ctx.lineTo(x4, y4);
+                    ctx.stroke();
+                }
+
+                // Axes
+                ctx.strokeStyle = '#6b6965';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(0, cy);
+                ctx.lineTo(w, cy);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(cx, 0);
+                ctx.lineTo(cx, h);
+                ctx.stroke();
+
+                // Labels
+                ctx.fillStyle = '#6b6965';
+                ctx.font = '12px JetBrains Mono';
+                ctx.textAlign = 'center';
+                ctx.fillText('Re', w - 20, cy - 10);
+                ctx.fillText('Im', cx + 15, 20);
+
+                // z point
+                const [zx, zy] = toScreen(a, b);
+
+                // Line from origin to z
+                ctx.strokeStyle = '#3B82F6';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(cx, cy);
+                ctx.lineTo(zx, zy);
+                ctx.stroke();
+
+                // z point
+                ctx.fillStyle = '#3B82F6';
+                ctx.beginPath();
+                ctx.arc(zx, zy, 8, 0, 2 * Math.PI);
+                ctx.fill();
+
+                // z conjugate
+                const [zcx, zcy] = toScreen(a, -b);
+                ctx.strokeStyle = '#EF4444';
+                ctx.setLineDash([5, 5]);
+                ctx.beginPath();
+                ctx.moveTo(cx, cy);
+                ctx.lineTo(zcx, zcy);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                ctx.fillStyle = '#EF4444';
+                ctx.beginPath();
+                ctx.arc(zcx, zcy, 8, 0, 2 * Math.PI);
+                ctx.fill();
+
+                // Angle arc
+                const mod = Math.sqrt(a*a + b*b);
+                const arg = Math.atan2(b, a);
+                if (mod > 0.1) {
+                    ctx.strokeStyle = '#22C55E';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    const arcR = Math.min(30, mod * scale / 2);
+                    ctx.arc(cx, cy, arcR, -arg, 0, arg > 0);
+                    ctx.stroke();
+                }
+
+                // Modulus label
+                if (mod > 0.5) {
+                    ctx.fillStyle = '#3B82F6';
+                    ctx.font = '11px JetBrains Mono';
+                    ctx.textAlign = 'left';
+                    const midX = (cx + zx) / 2;
+                    const midY = (cy + zy) / 2;
+                    ctx.fillText('|z|=' + mod.toFixed(2), midX + 10, midY);
+                }
+
+                // Labels for points
+                ctx.font = '12px JetBrains Mono';
+                ctx.fillStyle = '#3B82F6';
+                ctx.textAlign = 'left';
+                ctx.fillText('z', zx + 12, zy - 5);
+                ctx.fillStyle = '#EF4444';
+                ctx.fillText('z̄', zcx + 12, zcy + 15);
+
+                // Update display
+                realValue.textContent = a.toFixed(1);
+                imagValue.textContent = b.toFixed(1);
+
+                const bSign = b >= 0 ? '+' : '-';
+                document.getElementById('zValue').textContent = `${a.toFixed(1)} ${bSign} ${Math.abs(b).toFixed(1)}i`;
+                document.getElementById('zConjValue').textContent = `${a.toFixed(1)} ${b >= 0 ? '-' : '+'} ${Math.abs(b).toFixed(1)}i`;
+                document.getElementById('zModValue').textContent = mod.toFixed(3);
+                document.getElementById('zArgValue').textContent = (arg * 180 / Math.PI).toFixed(1) + '°';
+            }
+
+            realSlider.addEventListener('input', draw);
+            imagSlider.addEventListener('input', draw);
+            draw();
+        })();
+
+        // ============================================
+        // POWERS OF i VISUALIZATION
+        // ============================================
+        (function() {
+            const canvas = document.getElementById('powersCanvas');
+            const ctx = canvas.getContext('2d');
+            const slider = document.getElementById('powerSlider');
+            const display = document.getElementById('powerValue');
+
+            const powers = [
+                { re: 1, im: 0, label: '1' },
+                { re: 0, im: 1, label: 'i' },
+                { re: -1, im: 0, label: '-1' },
+                { re: 0, im: -1, label: '-i' }
+            ];
+
+            function draw() {
+                const n = parseInt(slider.value);
+                const idx = n % 4;
+                const current = powers[idx];
+
+                ctx.fillStyle = '#0a0a0f';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                const cx = canvas.width / 2;
+                const cy = canvas.height / 2;
+                const r = 120;
+
+                // Unit circle
+                ctx.strokeStyle = '#2a2a35';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.arc(cx, cy, r, 0, 2 * Math.PI);
+                ctx.stroke();
+
+                // Axes
+                ctx.strokeStyle = '#6b6965';
+                ctx.beginPath();
+                ctx.moveTo(cx - 150, cy);
+                ctx.lineTo(cx + 150, cy);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(cx, cy - 150);
+                ctx.lineTo(cx, cy + 150);
+                ctx.stroke();
+
+                // Draw all four positions
+                ctx.font = '14px JetBrains Mono';
+                const labels = ['1', 'i', '-1', '-i'];
+                const positions = [
+                    [cx + r, cy],
+                    [cx, cy - r],
+                    [cx - r, cy],
+                    [cx, cy + r]
+                ];
+                const labelOffsets = [[20, 5], [5, -15], [-30, 5], [5, 25]];
+
+                for (let i = 0; i < 4; i++) {
+                    ctx.fillStyle = i === idx ? '#8B5CF6' : '#6b6965';
+                    ctx.beginPath();
+                    ctx.arc(positions[i][0], positions[i][1], i === idx ? 12 : 8, 0, 2 * Math.PI);
+                    ctx.fill();
+                    ctx.textAlign = 'center';
+                    ctx.fillText(labels[i], positions[i][0] + labelOffsets[i][0], positions[i][1] + labelOffsets[i][1]);
+                }
+
+                // Rotation arrow if n > 0
+                if (n > 0) {
+                    const prevIdx = (n - 1) % 4;
+                    const startAngle = -prevIdx * Math.PI / 2;
+                    const endAngle = -idx * Math.PI / 2;
+
+                    ctx.strokeStyle = '#8B5CF6';
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.arc(cx, cy, r * 0.6, startAngle, endAngle, true);
+                    ctx.stroke();
+
+                    // Arrowhead
+                    const ax = cx + r * 0.6 * Math.cos(endAngle);
+                    const ay = cy + r * 0.6 * Math.sin(endAngle);
+                    ctx.fillStyle = '#8B5CF6';
+                    ctx.beginPath();
+                    ctx.moveTo(ax, ay);
+                    ctx.lineTo(ax + 10 * Math.cos(endAngle - 2.5), ay + 10 * Math.sin(endAngle - 2.5));
+                    ctx.lineTo(ax + 10 * Math.cos(endAngle + 0.5), ay + 10 * Math.sin(endAngle + 0.5));
+                    ctx.closePath();
+                    ctx.fill();
+                }
+
+                display.textContent = `i^${n} = ${current.label}`;
+            }
+
+            slider.addEventListener('input', draw);
+            draw();
+        })();
+
+        // ============================================
+        // EULER'S FORMULA VISUALIZATION
+        // ============================================
+        (function() {
+            const canvas = document.getElementById('eulerCanvas');
+            const ctx = canvas.getContext('2d');
+            const slider = document.getElementById('thetaSlider');
+            const thetaValue = document.getElementById('thetaValue');
+
+            function draw() {
+                const theta = parseFloat(slider.value);
+
+                ctx.fillStyle = '#0a0a0f';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                const cx = canvas.width / 2;
+                const cy = canvas.height / 2;
+                const r = 150;
+
+                // Unit circle
+                ctx.strokeStyle = '#6b6965';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(cx, cy, r, 0, 2 * Math.PI);
+                ctx.stroke();
+
+                // Axes
+                ctx.strokeStyle = '#2a2a35';
+                ctx.beginPath();
+                ctx.moveTo(cx - 200, cy);
+                ctx.lineTo(cx + 200, cy);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(cx, cy - 200);
+                ctx.lineTo(cx, cy + 200);
+                ctx.stroke();
+
+                // Labels
+                ctx.fillStyle = '#6b6965';
+                ctx.font = '12px JetBrains Mono';
+                ctx.textAlign = 'center';
+                ctx.fillText('Re', cx + 180, cy - 10);
+                ctx.fillText('Im', cx + 15, cy - 180);
+
+                // Path traced so far
+                ctx.strokeStyle = '#8B5CF6';
+                ctx.lineWidth = 4;
+                ctx.globalAlpha = 0.5;
+                ctx.beginPath();
+                ctx.arc(cx, cy, r, 0, -theta, true);
+                ctx.stroke();
+                ctx.globalAlpha = 1;
+
+                // Current point
+                const x = Math.cos(theta);
+                const y = Math.sin(theta);
+                const px = cx + x * r;
+                const py = cy - y * r;
+
+                // Line from origin
+                ctx.strokeStyle = '#06B6D4';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(cx, cy);
+                ctx.lineTo(px, py);
+                ctx.stroke();
+
+                // Projections (cos and sin)
+                ctx.setLineDash([5, 5]);
+                ctx.strokeStyle = '#F97316';
+                ctx.beginPath();
+                ctx.moveTo(px, py);
+                ctx.lineTo(px, cy);
+                ctx.stroke();
+                ctx.strokeStyle = '#22C55E';
+                ctx.beginPath();
+                ctx.moveTo(px, cy);
+                ctx.lineTo(cx, cy);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Angle arc
+                ctx.strokeStyle = '#EF4444';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(cx, cy, 40, 0, -theta, true);
+                ctx.stroke();
+
+                // Point
+                ctx.fillStyle = '#06B6D4';
+                ctx.beginPath();
+                ctx.arc(px, py, 10, 0, 2 * Math.PI);
+                ctx.fill();
+
+                // Labels
+                ctx.font = '12px JetBrains Mono';
+                ctx.fillStyle = '#F97316';
+                ctx.textAlign = 'center';
+                ctx.fillText('cos θ', (cx + px) / 2, cy + 20);
+                ctx.fillStyle = '#22C55E';
+                ctx.save();
+                ctx.translate(px + 20, (cy + py) / 2);
+                ctx.rotate(-Math.PI / 2);
+                ctx.fillText('sin θ', 0, 0);
+                ctx.restore();
+
+                ctx.fillStyle = '#EF4444';
+                ctx.fillText('θ', cx + 55, cy - 10);
+
+                // Update displays
+                thetaValue.textContent = (theta * 180 / Math.PI).toFixed(1) + '°';
+                document.getElementById('eulerValue').textContent = `${x.toFixed(3)} + ${y.toFixed(3)}i`;
+                document.getElementById('cosValue').textContent = x.toFixed(4);
+                document.getElementById('sinValue').textContent = y.toFixed(4);
+            }
+
+            slider.addEventListener('input', draw);
+            draw();
+        })();
+
+        // ============================================
+        // ROOTS OF UNITY VISUALIZATION
+        // ============================================
+        (function() {
+            const canvas = document.getElementById('rootsCanvas');
+            const ctx = canvas.getContext('2d');
+            const slider = document.getElementById('nRootsSlider');
+            const display = document.getElementById('nRootsValue');
+
+            function draw() {
+                const n = parseInt(slider.value);
+
+                ctx.fillStyle = '#0a0a0f';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                const cx = canvas.width / 2;
+                const cy = canvas.height / 2;
+                const r = 150;
+
+                // Unit circle
+                ctx.strokeStyle = '#6b6965';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.arc(cx, cy, r, 0, 2 * Math.PI);
+                ctx.stroke();
+
+                // Axes
+                ctx.strokeStyle = '#2a2a35';
+                ctx.beginPath();
+                ctx.moveTo(cx - 200, cy);
+                ctx.lineTo(cx + 200, cy);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(cx, cy - 200);
+                ctx.lineTo(cx, cy + 200);
+                ctx.stroke();
+
+                // Calculate roots
+                const roots = [];
+                for (let k = 0; k < n; k++) {
+                    const angle = 2 * Math.PI * k / n;
+                    roots.push({
+                        x: cx + r * Math.cos(angle),
+                        y: cy - r * Math.sin(angle),
+                        re: Math.cos(angle),
+                        im: Math.sin(angle)
+                    });
+                }
+
+                // Draw polygon
+                ctx.strokeStyle = '#3B82F6';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(roots[0].x, roots[0].y);
+                for (let i = 1; i < n; i++) {
+                    ctx.lineTo(roots[i].x, roots[i].y);
+                }
+                ctx.closePath();
+                ctx.stroke();
+
+                // Draw roots
+                ctx.fillStyle = '#3B82F6';
+                ctx.font = '11px JetBrains Mono';
+                roots.forEach((root, k) => {
+                    ctx.beginPath();
+                    ctx.arc(root.x, root.y, 8, 0, 2 * Math.PI);
+                    ctx.fill();
+
+                    // Label
+                    const labelR = r + 25;
+                    const angle = 2 * Math.PI * k / n;
+                    const lx = cx + labelR * Math.cos(angle);
+                    const ly = cy - labelR * Math.sin(angle);
+                    ctx.textAlign = 'center';
+                    ctx.fillText(`ω${k}`, lx, ly + 4);
+                });
+
+                display.textContent = `${n} roots`;
+            }
+
+            slider.addEventListener('input', draw);
+            draw();
+        })();
+
+        // ============================================
+        // MULTIPLICATION VISUALIZATION
+        // ============================================
+        (function() {
+            const canvas = document.getElementById('multiplyCanvas');
+            const ctx = canvas.getContext('2d');
+            const scaleSlider = document.getElementById('scaleSlider');
+            const rotateSlider = document.getElementById('rotateSlider');
+            const scaleValue = document.getElementById('scaleValue');
+            const rotateValue = document.getElementById('rotateValue');
+
+            // Original triangle vertices
+            const original = [
+                { re: 1, im: 0 },
+                { re: 0.5, im: 0.5 },
+                { re: 0.5, im: -0.5 }
+            ];
+
+            function draw() {
+                const s = parseFloat(scaleSlider.value);
+                const theta = parseFloat(rotateSlider.value);
+
+                ctx.fillStyle = '#0a0a0f';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                const cx = canvas.width / 2;
+                const cy = canvas.height / 2;
+                const scale = 80;
+
+                function toScreen(re, im) {
+                    return [cx + re * scale, cy - im * scale];
+                }
+
+                // Grid
+                ctx.strokeStyle = '#2a2a35';
+                ctx.lineWidth = 1;
+                for (let i = -3; i <= 3; i++) {
+                    ctx.beginPath();
+                    ctx.moveTo(...toScreen(i, -3));
+                    ctx.lineTo(...toScreen(i, 3));
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.moveTo(...toScreen(-3, i));
+                    ctx.lineTo(...toScreen(3, i));
+                    ctx.stroke();
+                }
+
+                // Axes
+                ctx.strokeStyle = '#6b6965';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(0, cy);
+                ctx.lineTo(canvas.width, cy);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(cx, 0);
+                ctx.lineTo(cx, canvas.height);
+                ctx.stroke();
+
+                // Original triangle
+                ctx.fillStyle = 'rgba(59, 130, 246, 0.3)';
+                ctx.strokeStyle = '#3B82F6';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(...toScreen(original[0].re, original[0].im));
+                for (let i = 1; i < original.length; i++) {
+                    ctx.lineTo(...toScreen(original[i].re, original[i].im));
+                }
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
+
+                // Transformed triangle (multiply by s * e^(i*theta))
+                const cosT = Math.cos(theta);
+                const sinT = Math.sin(theta);
+                const transformed = original.map(p => ({
+                    re: s * (p.re * cosT - p.im * sinT),
+                    im: s * (p.re * sinT + p.im * cosT)
+                }));
+
+                ctx.fillStyle = 'rgba(239, 68, 68, 0.3)';
+                ctx.strokeStyle = '#EF4444';
+                ctx.beginPath();
+                ctx.moveTo(...toScreen(transformed[0].re, transformed[0].im));
+                for (let i = 1; i < transformed.length; i++) {
+                    ctx.lineTo(...toScreen(transformed[i].re, transformed[i].im));
+                }
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
+
+                // Draw z (the multiplier)
+                const zRe = s * Math.cos(theta);
+                const zIm = s * Math.sin(theta);
+                ctx.fillStyle = '#22C55E';
+                ctx.beginPath();
+                ctx.arc(...toScreen(zRe, zIm), 10, 0, 2 * Math.PI);
+                ctx.fill();
+
+                // Labels
+                ctx.font = '12px JetBrains Mono';
+                ctx.textAlign = 'left';
+                ctx.fillStyle = '#3B82F6';
+                ctx.fillText('Original', 20, 30);
+                ctx.fillStyle = '#EF4444';
+                ctx.fillText('Transformed', 20, 50);
+                ctx.fillStyle = '#22C55E';
+                const [zx, zy] = toScreen(zRe, zIm);
+                ctx.fillText(`z = ${zRe.toFixed(2)} + ${zIm.toFixed(2)}i`, zx + 15, zy);
+
+                scaleValue.textContent = s.toFixed(1);
+                rotateValue.textContent = (theta * 180 / Math.PI).toFixed(0) + '°';
+            }
+
+            scaleSlider.addEventListener('input', draw);
+            rotateSlider.addEventListener('input', draw);
+            draw();
+        })();
+
+        // ============================================
+        // WAVEFUNCTION VISUALIZATION
+        // ============================================
+        (function() {
+            const canvas = document.getElementById('wavefunctionCanvas');
+            const ctx = canvas.getContext('2d');
+            const kSlider = document.getElementById('kSlider');
+            const tSlider = document.getElementById('tSlider');
+            const kValue = document.getElementById('kValue');
+            const tValue = document.getElementById('tValue');
+            const animateBtn = document.getElementById('animateBtn');
+
+            let animating = false;
+            let animationId = null;
+
+            function draw() {
+                const k = parseFloat(kSlider.value);
+                const t = parseFloat(tSlider.value);
+                const omega = 1;
+
+                ctx.fillStyle = '#0a0a0f';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                const w = canvas.width;
+                const h = canvas.height;
+                const rowH = h / 3;
+                const margin = 40;
+                const plotW = w - 2 * margin;
+
+                // Helper to draw a wave
+                function drawWave(yOffset, values, color, label) {
+                    const amp = (rowH - 40) / 2;
+                    const midY = yOffset + rowH / 2;
+
+                    // Axis
+                    ctx.strokeStyle = '#2a2a35';
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.moveTo(margin, midY);
+                    ctx.lineTo(w - margin, midY);
+                    ctx.stroke();
+
+                    // Zero line markers
+                    ctx.fillStyle = '#6b6965';
+                    ctx.font = '10px JetBrains Mono';
+                    ctx.textAlign = 'right';
+                    ctx.fillText('1', margin - 5, midY - amp + 4);
+                    ctx.fillText('0', margin - 5, midY + 4);
+                    ctx.fillText('-1', margin - 5, midY + amp + 4);
+
+                    // Wave
+                    ctx.strokeStyle = color;
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    for (let i = 0; i < values.length; i++) {
+                        const x = margin + (i / values.length) * plotW;
+                        const y = midY - values[i] * amp;
+                        if (i === 0) ctx.moveTo(x, y);
+                        else ctx.lineTo(x, y);
+                    }
+                    ctx.stroke();
+
+                    // Label
+                    ctx.fillStyle = color;
+                    ctx.font = '12px JetBrains Mono';
+                    ctx.textAlign = 'left';
+                    ctx.fillText(label, margin, yOffset + 20);
+                }
+
+                // Generate wave data
+                const numPoints = 200;
+                const xMin = -2 * Math.PI;
+                const xMax = 2 * Math.PI;
+                const reValues = [];
+                const imValues = [];
+                const probValues = [];
+
+                for (let i = 0; i < numPoints; i++) {
+                    const x = xMin + (i / numPoints) * (xMax - xMin);
+                    const phase = k * x - omega * t;
+                    reValues.push(Math.cos(phase));
+                    imValues.push(Math.sin(phase));
+                    probValues.push(1); // |e^(iθ)|² = 1
+                }
+
+                drawWave(0, reValues, '#3B82F6', 'Re(ψ) = cos(kx - ωt)');
+                drawWave(rowH, imValues, '#EF4444', 'Im(ψ) = sin(kx - ωt)');
+                drawWave(2 * rowH, probValues, '#8B5CF6', '|ψ|² = 1 (uniform)');
+
+                kValue.textContent = k.toFixed(1);
+                tValue.textContent = t.toFixed(1);
+            }
+
+            function animate() {
+                if (!animating) return;
+                let t = parseFloat(tSlider.value);
+                t += 0.05;
+                if (t > 4) t = 0;
+                tSlider.value = t;
+                draw();
+                animationId = requestAnimationFrame(animate);
+            }
+
+            animateBtn.addEventListener('click', () => {
+                animating = !animating;
+                if (animating) {
+                    animateBtn.textContent = 'Stop';
+                    animateBtn.style.background = '#EF4444';
+                    animate();
+                } else {
+                    animateBtn.textContent = 'Animate';
+                    animateBtn.style.background = '#06B6D4';
+                    if (animationId) cancelAnimationFrame(animationId);
+                }
+            });
+
+            kSlider.addEventListener('input', draw);
+            tSlider.addEventListener('input', draw);
+            draw();
+        })();
+    </script>
+</body>
+</html>
