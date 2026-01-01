@@ -452,10 +452,34 @@
             .controls { flex-direction: column; align-items: center; }
             canvas { max-width: 100%; height: auto; }
         }
+
+        /* Lecture Navigation */
+        .lecture-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0 1.5rem;
+            margin-bottom: 0;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-blue);
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <nav class="lecture-nav">
+            <a href="../all-lectures.html" class="nav-link">← All Lectures</a>
+        </nav>
+
         <header>
             <div class="lecture-label">Lecture 02</div>
             <h1>Existence</h1>

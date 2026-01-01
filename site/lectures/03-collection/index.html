@@ -466,10 +466,69 @@
                 max-width: 100%;
             }
         }
+
+        /* Lecture Navigation */
+        .lecture-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0 1.5rem;
+            margin-bottom: 0;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-blue);
+        }
+
+        .primitive-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(212, 165, 116, 0.1), rgba(157, 140, 217, 0.1));
+            border: 1px solid rgba(212, 165, 116, 0.3);
+            transition: all 0.3s;
+        }
+
+        .primitive-link:hover {
+            background: linear-gradient(135deg, rgba(212, 165, 116, 0.2), rgba(157, 140, 217, 0.2));
+            border-color: var(--accent-gold);
+            transform: translateX(3px);
+        }
+
+        .primitive-badge {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            color: var(--accent-gold);
+            text-transform: uppercase;
+        }
+
+        .primitive-text {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <nav class="lecture-nav">
+            <a href="../all-lectures.html" class="nav-link">← All Lectures</a>
+            <a href="../../primitives/collection.html" class="primitive-link">
+                <span class="primitive-badge">COLLECTION</span>
+                <span class="primitive-text">Explore the Primitive →</span>
+            </a>
+        </nav>
+
         <header>
             <div class="lecture-number">LECTURE 03</div>
             <h1>Counting Things</h1>

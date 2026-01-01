@@ -290,9 +290,69 @@
             margin-top: 1rem;
             text-align: center;
         }
+
+        /* Lecture Navigation */
+        .lecture-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--bg-tertiary);
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-blue);
+        }
+
+        .primitive-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(239, 68, 68, 0.1));
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            transition: all 0.3s;
+        }
+
+        .primitive-link:hover {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(239, 68, 68, 0.2));
+            border-color: var(--accent-orange);
+            transform: translateX(3px);
+        }
+
+        .primitive-badge {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            color: var(--accent-orange);
+            text-transform: uppercase;
+        }
+
+        .primitive-text {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
     </style>
 </head>
 <body>
+    <nav class="lecture-nav">
+        <a href="../all-lectures.html" class="nav-link">← All Lectures</a>
+        <a href="../../primitives/arrangement.html" class="primitive-link">
+            <span class="primitive-badge">ARRANGEMENT</span>
+            <span class="primitive-text">Explore the Primitive →</span>
+        </a>
+    </nav>
+
     <h1>Lecture 7: Grids of Numbers</h1>
     <p class="subtitle">Matrices: organized collections of numbers that encode structure and transformation.</p>
 

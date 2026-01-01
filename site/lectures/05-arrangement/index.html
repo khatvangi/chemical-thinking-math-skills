@@ -52,6 +52,56 @@
       margin-bottom: 0.5rem;
     }
 
+    .lecture-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.5rem;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      margin-bottom: 3rem;
+    }
+
+    .nav-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+
+    .nav-link:hover { color: var(--accent-cyan); }
+
+    .primitive-link {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      background: linear-gradient(135deg, rgba(129, 178, 154, 0.1), rgba(129, 178, 154, 0.05));
+      border: 1px solid var(--accent-green);
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+
+    .primitive-link:hover {
+      background: linear-gradient(135deg, rgba(129, 178, 154, 0.2), rgba(129, 178, 154, 0.1));
+      transform: translateX(3px);
+    }
+
+    .primitive-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--accent-green);
+      letter-spacing: 0.05em;
+    }
+
+    .primitive-text {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
     h1 {
       font-family: 'Fraunces', serif;
       font-size: 2.8rem;
@@ -389,6 +439,14 @@
       <h1>Angles and Projections</h1>
       <p class="subtitle">The dot product: measuring alignment between directions.</p>
     </header>
+
+    <nav class="lecture-nav">
+      <a href="../all-lectures.html" class="nav-link">← All Lectures</a>
+      <a href="../../primitives/direction.html" class="primitive-link">
+        <span class="primitive-badge">DIRECTION</span>
+        <span class="primitive-text">Explore the Primitive →</span>
+      </a>
+    </nav>
 
     <section>
       <h2>The Hook</h2>
