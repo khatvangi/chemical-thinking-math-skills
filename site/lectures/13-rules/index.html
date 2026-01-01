@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 13: Rules of Change | Chemical Thinking</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a24;
+            --text-primary: #e8e6e3;
+            --text-secondary: #a0a0a0;
+            --accent-blue: #4a9eff;
+            --accent-purple: #8b5cf6;
+            --accent-green: #10b981;
+            --accent-orange: #f59e0b;
+            --accent-red: #ef4444;
+            --accent-cyan: #06b6d4;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            padding: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--accent-red), var(--accent-orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            font-style: italic;
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            color: var(--accent-red);
+            margin: 3rem 0 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--bg-tertiary);
+        }
+
+        h3 {
+            font-size: 1.35rem;
+            color: var(--accent-purple);
+            margin: 2rem 0 1rem;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            color: var(--accent-green);
+            margin: 1.5rem 0 0.75rem;
+        }
+
+        p { margin-bottom: 1rem; }
+
+        .lecture-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--bg-tertiary);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .nav-link {
+            color: var(--accent-red);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--accent-red);
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover {
+            background: var(--accent-red);
+            color: var(--bg-primary);
+        }
+
+        .primitive-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(245, 158, 11, 0.1));
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .primitive-link:hover {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(245, 158, 11, 0.2));
+            border-color: var(--accent-red);
+        }
+
+        .primitive-badge {
+            background: var(--accent-red);
+            color: var(--bg-primary);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .primitive-text {
+            color: var(--accent-red);
+            font-size: 0.9rem;
+        }
+
+        .hook-box {
+            background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
+            border-left: 4px solid var(--accent-red);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .definition-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--accent-red);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+        }
+
+        .definition-box strong { color: var(--accent-red); }
+
+        .rule-box {
+            background: var(--bg-secondary);
+            border: 2px solid var(--accent-purple);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+        }
+
+        .rule-box h4 { color: var(--accent-purple); margin-top: 0; }
+
+        .visual-container {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .visual-container h4 { margin-top: 0; margin-bottom: 1rem; }
+
+        canvas {
+            display: block;
+            margin: 0 auto;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .control-group label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        input[type="range"] {
+            width: 120px;
+            accent-color: var(--accent-red);
+        }
+
+        select, button {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--accent-red);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        button:hover {
+            background: var(--accent-red);
+            color: var(--bg-primary);
+        }
+
+        button.active {
+            background: var(--accent-red);
+            color: var(--bg-primary);
+        }
+
+        .value-display {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-red);
+            min-width: 50px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+
+        th, td {
+            border: 1px solid var(--bg-tertiary);
+            padding: 0.75rem;
+            text-align: left;
+        }
+
+        th {
+            background: var(--bg-secondary);
+            color: var(--accent-red);
+        }
+
+        tr:nth-child(even) { background: var(--bg-secondary); }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-tertiary);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .stat-box {
+            background: var(--bg-tertiary);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .stat-value {
+            font-size: 1.25rem;
+            color: var(--accent-red);
+            font-family: 'JetBrains Mono', monospace;
+            margin-top: 0.25rem;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        li { margin-bottom: 0.5rem; color: var(--text-primary); }
+
+        .exercise-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--accent-purple);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .exercise-box h4 {
+            color: var(--accent-purple);
+            margin-top: 0;
+        }
+
+        .solution {
+            background: var(--bg-tertiary);
+            border-radius: 6px;
+            padding: 1rem;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .solution.show { display: block; }
+
+        .solution-toggle {
+            background: var(--accent-purple);
+            color: var(--bg-primary);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        .next-section {
+            background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 3rem 0;
+            text-align: center;
+        }
+
+        .next-section h3 {
+            color: var(--accent-red);
+            margin-bottom: 1rem;
+        }
+
+        .footnote {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--bg-tertiary);
+            padding-top: 1rem;
+            margin-top: 2rem;
+        }
+
+        .mnemonic {
+            background: var(--bg-tertiary);
+            border-left: 3px solid var(--accent-orange);
+            padding: 1rem;
+            margin: 1rem 0;
+            font-style: italic;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 1rem; }
+            h1 { font-size: 1.75rem; }
+            h2 { font-size: 1.4rem; }
+            canvas { max-width: 100%; height: auto; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="lecture-nav">
+        <a href="../all-lectures.html" class="nav-link">← All Lectures</a>
+        <a href="../../primitives/change.html" class="primitive-link">
+            <span class="primitive-badge">CHANGE</span>
+            <span class="primitive-text">Explore the Primitive →</span>
+        </a>
+    </nav>
+
+    <h1>Lecture 13: Rules of Change</h1>
+    <p class="subtitle">Differentiation rules — computing derivatives efficiently</p>
+
+    <!-- Hook -->
+    <div class="hook-box">
+        <p><strong>The Problem:</strong> The rate of an enzyme-catalyzed reaction:</p>
+        <p style="text-align: center; font-size: 1.2rem;">$$v = \frac{V_{max}[S]}{K_m + [S]}$$</p>
+        <p>You need dv/d[S] — how sensitive is the rate to substrate concentration?</p>
+        <p>Using the limit definition would take a page of algebra. <strong>There's a better way.</strong></p>
+    </div>
+
+    <!-- Section 1: The Strategy -->
+    <h2>1. The Strategy</h2>
+
+    <p>Every complicated function is built from simple functions via:</p>
+    <ul>
+        <li><strong>Addition:</strong> f + g</li>
+        <li><strong>Multiplication:</strong> f · g</li>
+        <li><strong>Division:</strong> f / g</li>
+        <li><strong>Composition:</strong> f(g(x))</li>
+    </ul>
+
+    <p>If we know derivatives of simple functions + rules for combining them → we can differentiate <em>anything</em>.</p>
+
+    <table>
+        <tr>
+            <th>Function Structure</th>
+            <th>Rule to Use</th>
+        </tr>
+        <tr>
+            <td>f(x) + g(x)</td>
+            <td>Sum rule</td>
+        </tr>
+        <tr>
+            <td>c · f(x)</td>
+            <td>Constant multiple</td>
+        </tr>
+        <tr>
+            <td>f(x) · g(x)</td>
+            <td>Product rule</td>
+        </tr>
+        <tr>
+            <td>f(x) / g(x)</td>
+            <td>Quotient rule</td>
+        </tr>
+        <tr>
+            <td>f(g(x))</td>
+            <td>Chain rule</td>
+        </tr>
+    </table>
+
+    <!-- Section 2: Basic Derivatives -->
+    <h2>2. Basic Derivatives</h2>
+
+    <p>These you must know cold:</p>
+
+    <table>
+        <tr>
+            <th>f(x)</th>
+            <th>f'(x)</th>
+            <th>Why</th>
+        </tr>
+        <tr>
+            <td>c</td>
+            <td>0</td>
+            <td>Constants don't change</td>
+        </tr>
+        <tr>
+            <td>xⁿ</td>
+            <td>nxⁿ⁻¹</td>
+            <td>Power rule</td>
+        </tr>
+        <tr>
+            <td>eˣ</td>
+            <td>eˣ</td>
+            <td>Definition of e</td>
+        </tr>
+        <tr>
+            <td>ln x</td>
+            <td>1/x</td>
+            <td>Inverse of eˣ</td>
+        </tr>
+        <tr>
+            <td>sin x</td>
+            <td>cos x</td>
+            <td>From definition</td>
+        </tr>
+        <tr>
+            <td>cos x</td>
+            <td>-sin x</td>
+            <td>From definition</td>
+        </tr>
+    </table>
+
+    <!-- Section 3: Power Rule -->
+    <h2>3. The Power Rule</h2>
+
+    <div class="rule-box">
+        <h4>Power Rule</h4>
+        <p style="text-align: center; font-size: 1.3rem;">$$\frac{d}{dx}[x^n] = nx^{n-1}$$</p>
+        <p>Valid for <strong>any real n</strong> (positive, negative, fractional).</p>
+    </div>
+
+    <!-- Power Rule Visualizer -->
+    <div class="visual-container">
+        <h4>Interactive: Power Rule</h4>
+        <canvas id="powerCanvas" width="700" height="350"></canvas>
+        <div class="controls">
+            <div class="control-group">
+                <label>Exponent n:</label>
+                <input type="range" id="powerN" min="-2" max="4" step="0.5" value="2">
+                <span class="value-display" id="powerNVal">2.0</span>
+            </div>
+        </div>
+        <div class="stat-grid">
+            <div class="stat-box">
+                <div class="stat-label">Function</div>
+                <div class="stat-value" id="powerFunc">x²</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Derivative</div>
+                <div class="stat-value" id="powerDeriv">2x</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 4: Linearity Rules -->
+    <h2>4. Linearity Rules</h2>
+
+    <div class="rule-box">
+        <h4>Constant Multiple Rule</h4>
+        <p style="text-align: center; font-size: 1.2rem;">$$\frac{d}{dx}[cf(x)] = c\frac{df}{dx}$$</p>
+    </div>
+
+    <div class="rule-box">
+        <h4>Sum Rule</h4>
+        <p style="text-align: center; font-size: 1.2rem;">$$\frac{d}{dx}[f(x) + g(x)] = \frac{df}{dx} + \frac{dg}{dx}$$</p>
+    </div>
+
+    <p><strong>Combined:</strong> Differentiation is a <em>linear operator</em>:</p>
+    <p style="text-align: center; font-size: 1.2rem;">$$\frac{d}{dx}[af(x) + bg(x)] = af'(x) + bg'(x)$$</p>
+
+    <h4>Example</h4>
+    <p>$$\frac{d}{dx}[3x^4 - 5x^2 + 2x - 7] = 12x^3 - 10x + 2$$</p>
+
+    <!-- Section 5: Product Rule -->
+    <h2>5. The Product Rule</h2>
+
+    <div class="rule-box">
+        <h4>Product Rule</h4>
+        <p style="text-align: center; font-size: 1.2rem;">$$\frac{d}{dx}[f(x)g(x)] = f'(x)g(x) + f(x)g'(x)$$</p>
+    </div>
+
+    <div class="mnemonic">
+        <strong>Mnemonic:</strong> "First times derivative of second, plus second times derivative of first."
+    </div>
+
+    <!-- Product Rule Visualizer -->
+    <div class="visual-container">
+        <h4>Interactive: Product Rule — x²eˣ</h4>
+        <canvas id="productCanvas" width="700" height="350"></canvas>
+        <div class="controls">
+            <div class="control-group">
+                <label>x position:</label>
+                <input type="range" id="productX" min="-2" max="2" step="0.1" value="1">
+                <span class="value-display" id="productXVal">1.0</span>
+            </div>
+        </div>
+        <div class="stat-grid">
+            <div class="stat-box">
+                <div class="stat-label">f = x²</div>
+                <div class="stat-value" id="prodF">1.00</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">g = eˣ</div>
+                <div class="stat-value" id="prodG">2.72</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">f'g + fg'</div>
+                <div class="stat-value" id="prodResult">8.15</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 6: Quotient Rule -->
+    <h2>6. The Quotient Rule</h2>
+
+    <div class="rule-box">
+        <h4>Quotient Rule</h4>
+        <p style="text-align: center; font-size: 1.2rem;">$$\frac{d}{dx}\left[\frac{f(x)}{g(x)}\right] = \frac{f'(x)g(x) - f(x)g'(x)}{[g(x)]^2}$$</p>
+    </div>
+
+    <div class="mnemonic">
+        <strong>Mnemonic:</strong> "Low d-high minus high d-low, over low squared."
+    </div>
+
+    <h4>Example: Michaelis-Menten Sensitivity</h4>
+    <p>$$v = \frac{V_{max}[S]}{K_m + [S]}$$</p>
+    <p>$$\frac{dv}{d[S]} = \frac{V_{max}(K_m + [S]) - V_{max}[S] \cdot 1}{(K_m + [S])^2} = \frac{V_{max}K_m}{(K_m + [S])^2}$$</p>
+
+    <!-- Section 7: Chain Rule -->
+    <h2>7. The Chain Rule</h2>
+
+    <div class="rule-box">
+        <h4>Chain Rule — The Big One</h4>
+        <p style="text-align: center; font-size: 1.2rem;">$$\frac{d}{dx}[f(g(x))] = f'(g(x)) \cdot g'(x)$$</p>
+        <p>In Leibniz notation: If y = f(u) and u = g(x):</p>
+        <p style="text-align: center; font-size: 1.2rem;">$$\frac{dy}{dx} = \frac{dy}{du} \cdot \frac{du}{dx}$$</p>
+    </div>
+
+    <p><strong>Intuition:</strong> Rates multiply through the chain. If u changes at rate du/dx and y changes at rate dy/du, then y changes at rate (dy/du)(du/dx).</p>
+
+    <!-- Chain Rule Visualizer -->
+    <div class="visual-container">
+        <h4>Interactive: Chain Rule — e^(x²)</h4>
+        <canvas id="chainCanvas" width="700" height="350"></canvas>
+        <div class="controls">
+            <div class="control-group">
+                <label>x position:</label>
+                <input type="range" id="chainX" min="-1.5" max="1.5" step="0.1" value="1">
+                <span class="value-display" id="chainXVal">1.0</span>
+            </div>
+        </div>
+        <div class="stat-grid">
+            <div class="stat-box">
+                <div class="stat-label">Inner: g(x) = x²</div>
+                <div class="stat-value" id="chainInner">1.00</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Inner deriv: 2x</div>
+                <div class="stat-value" id="chainInnerD">2.00</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Chain: f'(g)·g'</div>
+                <div class="stat-value" id="chainResult">5.44</div>
+            </div>
+        </div>
+    </div>
+
+    <h4>More Chain Rule Examples</h4>
+    <table>
+        <tr>
+            <th>f(x)</th>
+            <th>Outer</th>
+            <th>Inner</th>
+            <th>f'(x)</th>
+        </tr>
+        <tr>
+            <td>(x² + 1)¹⁰</td>
+            <td>u¹⁰</td>
+            <td>x² + 1</td>
+            <td>10(x² + 1)⁹ · 2x</td>
+        </tr>
+        <tr>
+            <td>sin(3x + 1)</td>
+            <td>sin u</td>
+            <td>3x + 1</td>
+            <td>cos(3x + 1) · 3</td>
+        </tr>
+        <tr>
+            <td>ln(x² + 1)</td>
+            <td>ln u</td>
+            <td>x² + 1</td>
+            <td>2x/(x² + 1)</td>
+        </tr>
+        <tr>
+            <td>√(1 - x²)</td>
+            <td>u^(1/2)</td>
+            <td>1 - x²</td>
+            <td>-x/√(1 - x²)</td>
+        </tr>
+    </table>
+
+    <!-- Section 8: Chemistry - Arrhenius -->
+    <h2>8. Chemistry: Arrhenius Equation</h2>
+
+    <p>Rate constant temperature dependence:</p>
+    <p style="text-align: center; font-size: 1.2rem;">$$k = Ae^{-E_a/RT}$$</p>
+
+    <p>Using the chain rule:</p>
+    <p style="text-align: center; font-size: 1.2rem;">$$\frac{dk}{dT} = A \cdot e^{-E_a/RT} \cdot \frac{E_a}{RT^2} = \frac{kE_a}{RT^2}$$</p>
+
+    <!-- Arrhenius Visualizer -->
+    <div class="visual-container">
+        <h4>Interactive: Arrhenius Temperature Dependence</h4>
+        <canvas id="arrheniusCanvas" width="700" height="350"></canvas>
+        <div class="controls">
+            <div class="control-group">
+                <label>E<sub>a</sub> (kJ/mol):</label>
+                <input type="range" id="arrEa" min="20" max="100" step="5" value="50">
+                <span class="value-display" id="arrEaVal">50</span>
+            </div>
+            <div class="control-group">
+                <label>Temperature (K):</label>
+                <input type="range" id="arrT" min="250" max="400" step="10" value="300">
+                <span class="value-display" id="arrTVal">300</span>
+            </div>
+        </div>
+        <div class="stat-grid">
+            <div class="stat-box">
+                <div class="stat-label">k(T)</div>
+                <div class="stat-value" id="arrK">—</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">dk/dT</div>
+                <div class="stat-value" id="arrDkdT">—</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">% change per K</div>
+                <div class="stat-value" id="arrPct">—</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 9: Chemistry - Michaelis-Menten -->
+    <h2>9. Chemistry: Michaelis-Menten Sensitivity</h2>
+
+    <!-- MM Visualizer -->
+    <div class="visual-container">
+        <h4>Interactive: Rate Sensitivity to Substrate</h4>
+        <canvas id="mmCanvas" width="700" height="350"></canvas>
+        <div class="controls">
+            <div class="control-group">
+                <label>K<sub>m</sub> (μM):</label>
+                <input type="range" id="mmKm" min="5" max="50" step="5" value="20">
+                <span class="value-display" id="mmKmVal">20</span>
+            </div>
+            <div class="control-group">
+                <label>[S] (μM):</label>
+                <input type="range" id="mmS" min="0" max="100" step="5" value="20">
+                <span class="value-display" id="mmSVal">20</span>
+            </div>
+        </div>
+        <div class="stat-grid">
+            <div class="stat-box">
+                <div class="stat-label">v</div>
+                <div class="stat-value" id="mmV">—</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">dv/d[S]</div>
+                <div class="stat-value" id="mmDvdS">—</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">At [S]=Km</div>
+                <div class="stat-value" id="mmAtKm">—</div>
+            </div>
+        </div>
+    </div>
+
+    <p><strong>Key insight:</strong> As [S] → ∞, dv/d[S] → 0. The enzyme becomes <em>saturated</em>.</p>
+
+    <!-- Section 10: Summary -->
+    <h2>10. Summary: All Rules</h2>
+
+    <table>
+        <tr>
+            <th>Rule</th>
+            <th>Formula</th>
+        </tr>
+        <tr>
+            <td>Constant</td>
+            <td>(c)' = 0</td>
+        </tr>
+        <tr>
+            <td>Power</td>
+            <td>(xⁿ)' = nxⁿ⁻¹</td>
+        </tr>
+        <tr>
+            <td>Constant multiple</td>
+            <td>(cf)' = cf'</td>
+        </tr>
+        <tr>
+            <td>Sum</td>
+            <td>(f + g)' = f' + g'</td>
+        </tr>
+        <tr>
+            <td>Product</td>
+            <td>(fg)' = f'g + fg'</td>
+        </tr>
+        <tr>
+            <td>Quotient</td>
+            <td>(f/g)' = (f'g - fg')/g²</td>
+        </tr>
+        <tr>
+            <td>Chain</td>
+            <td>[f(g)]' = f'(g) · g'</td>
+        </tr>
+    </table>
+
+    <!-- Section 11: Exercises -->
+    <h2>11. Exercises</h2>
+
+    <div class="exercise-box">
+        <h4>Exercise 1: Basic Rules</h4>
+        <p>Differentiate:</p>
+        <ol>
+            <li>f(x) = 5x⁴ - 3x² + 2x - 7</li>
+            <li>f(x) = √x + 1/x²</li>
+            <li>f(x) = (x² - 1)(x³ + 2)</li>
+        </ol>
+        <button class="solution-toggle" onclick="toggleSolution('sol1')">Show Solution</button>
+        <div class="solution" id="sol1">
+            <ol>
+                <li>f'(x) = <strong>20x³ - 6x + 2</strong></li>
+                <li>f(x) = x^(1/2) + x^(-2), f'(x) = <strong>1/(2√x) - 2/x³</strong></li>
+                <li>Product rule: f'(x) = 2x(x³+2) + (x²-1)(3x²) = <strong>5x⁴ - 3x² + 4x</strong></li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="exercise-box">
+        <h4>Exercise 2: Chain Rule</h4>
+        <p>Differentiate:</p>
+        <ol>
+            <li>f(x) = (3x + 1)⁵</li>
+            <li>f(x) = e^(-x²)</li>
+            <li>f(x) = ln(sin x)</li>
+            <li>f(x) = sin²(x)</li>
+        </ol>
+        <button class="solution-toggle" onclick="toggleSolution('sol2')">Show Solution</button>
+        <div class="solution" id="sol2">
+            <ol>
+                <li>f'(x) = 5(3x+1)⁴ · 3 = <strong>15(3x+1)⁴</strong></li>
+                <li>f'(x) = e^(-x²) · (-2x) = <strong>-2xe^(-x²)</strong></li>
+                <li>f'(x) = (1/sin x) · cos x = <strong>cot x</strong></li>
+                <li>f'(x) = 2sin(x) · cos(x) = <strong>sin(2x)</strong></li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="exercise-box">
+        <h4>Exercise 3: Combined Rules</h4>
+        <p>Differentiate:</p>
+        <ol>
+            <li>f(x) = x²e^(3x)</li>
+            <li>f(x) = x/√(1 + x²)</li>
+        </ol>
+        <button class="solution-toggle" onclick="toggleSolution('sol3')">Show Solution</button>
+        <div class="solution" id="sol3">
+            <ol>
+                <li>Product + chain: f'(x) = 2x·e^(3x) + x²·3e^(3x) = <strong>xe^(3x)(2 + 3x)</strong></li>
+                <li>Quotient + chain: f'(x) = <strong>1/(1+x²)^(3/2)</strong></li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="exercise-box">
+        <h4>Exercise 4: Michaelis-Menten</h4>
+        <p>For v = V<sub>max</sub>[S]/(K<sub>m</sub> + [S]):</p>
+        <ol>
+            <li>Find dv/d[S]</li>
+            <li>Evaluate at [S] = K<sub>m</sub></li>
+            <li>What happens as [S] → ∞?</li>
+        </ol>
+        <button class="solution-toggle" onclick="toggleSolution('sol4')">Show Solution</button>
+        <div class="solution" id="sol4">
+            <ol>
+                <li>dv/d[S] = <strong>V<sub>max</sub>K<sub>m</sub>/(K<sub>m</sub> + [S])²</strong></li>
+                <li>At [S] = K<sub>m</sub>: dv/d[S] = <strong>V<sub>max</sub>/(4K<sub>m</sub>)</strong></li>
+                <li>As [S] → ∞: dv/d[S] → <strong>0</strong> (saturation)</li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- Next Section -->
+    <div class="next-section">
+        <h3>Coming Up: Lecture 14</h3>
+        <p>Finding Extrema — Where are the maxima and minima?</p>
+        <p style="color: var(--text-secondary); font-size: 0.9rem;">The first and second derivative tests. Optimization in chemistry.</p>
+    </div>
+
+    <!-- Footer -->
+    <div class="footnote">
+        <p>References: McQuarrie, <em>Mathematics for Physical Chemistry</em>; Stewart, <em>Calculus</em></p>
+    </div>
+
+    <script>
+        // Initialize KaTeX
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false}
+                ]
+            });
+        });
+
+        // Solution toggle
+        function toggleSolution(id) {
+            const sol = document.getElementById(id);
+            sol.classList.toggle('show');
+        }
+
+        // === Power Rule Visualizer ===
+        const powerCanvas = document.getElementById('powerCanvas');
+        const powerCtx = powerCanvas.getContext('2d');
+        const powerNSlider = document.getElementById('powerN');
+
+        function drawPower() {
+            const n = parseFloat(powerNSlider.value);
+            document.getElementById('powerNVal').textContent = n.toFixed(1);
+            document.getElementById('powerFunc').textContent = n === 1 ? 'x' : `x^${n}`;
+            document.getElementById('powerDeriv').textContent = n === 0 ? '0' : n === 1 ? '1' : `${n}x^${n-1}`;
+
+            powerCtx.fillStyle = '#1a1a24';
+            powerCtx.fillRect(0, 0, 700, 350);
+
+            const cx = 175, cy = 200, scale = 50;
+
+            // Left panel: f(x)
+            powerCtx.strokeStyle = '#6b7280';
+            powerCtx.lineWidth = 1;
+            powerCtx.beginPath();
+            powerCtx.moveTo(20, cy);
+            powerCtx.lineTo(330, cy);
+            powerCtx.moveTo(cx, 20);
+            powerCtx.lineTo(cx, 330);
+            powerCtx.stroke();
+
+            // Draw x^n
+            powerCtx.strokeStyle = '#4a9eff';
+            powerCtx.lineWidth = 3;
+            powerCtx.beginPath();
+            let started = false;
+            for (let px = 20; px <= 330; px++) {
+                const x = (px - cx) / scale;
+                if (x <= 0 && n !== Math.floor(n)) continue;
+                const y = Math.pow(Math.abs(x), n) * (x < 0 && n % 2 !== 0 ? -1 : 1);
+                const py = cy - y * scale;
+                if (py < 20 || py > 330 || !isFinite(y)) { started = false; continue; }
+                if (!started) { powerCtx.moveTo(px, py); started = true; }
+                else { powerCtx.lineTo(px, py); }
+            }
+            powerCtx.stroke();
+
+            powerCtx.fillStyle = '#a0a0a0';
+            powerCtx.font = '14px monospace';
+            powerCtx.fillText(`f(x) = x^${n}`, 100, 30);
+
+            // Right panel: f'(x)
+            const cx2 = 525;
+
+            powerCtx.strokeStyle = '#6b7280';
+            powerCtx.lineWidth = 1;
+            powerCtx.beginPath();
+            powerCtx.moveTo(370, cy);
+            powerCtx.lineTo(680, cy);
+            powerCtx.moveTo(cx2, 20);
+            powerCtx.lineTo(cx2, 330);
+            powerCtx.stroke();
+
+            // Draw nx^(n-1)
+            powerCtx.strokeStyle = '#10b981';
+            powerCtx.lineWidth = 3;
+            powerCtx.beginPath();
+            started = false;
+            for (let px = 370; px <= 680; px++) {
+                const x = (px - cx2) / scale;
+                if (x <= 0 && (n-1) !== Math.floor(n-1)) continue;
+                const y = n * Math.pow(Math.abs(x), n-1) * (x < 0 && (n-1) % 2 !== 0 ? -1 : 1);
+                const py = cy - y * scale;
+                if (py < 20 || py > 330 || !isFinite(y) || Math.abs(y) > 5) { started = false; continue; }
+                if (!started) { powerCtx.moveTo(px, py); started = true; }
+                else { powerCtx.lineTo(px, py); }
+            }
+            powerCtx.stroke();
+
+            powerCtx.fillStyle = '#a0a0a0';
+            powerCtx.fillText(`f'(x) = ${n}x^${n-1}`, 450, 30);
+        }
+
+        powerNSlider.addEventListener('input', drawPower);
+        drawPower();
+
+        // === Product Rule Visualizer ===
+        const productCanvas = document.getElementById('productCanvas');
+        const productCtx = productCanvas.getContext('2d');
+        const productXSlider = document.getElementById('productX');
+
+        function drawProduct() {
+            const x = parseFloat(productXSlider.value);
+            document.getElementById('productXVal').textContent = x.toFixed(1);
+
+            const f = x * x;
+            const g = Math.exp(x);
+            const fp = 2 * x;
+            const gp = Math.exp(x);
+            const result = fp * g + f * gp;
+
+            document.getElementById('prodF').textContent = f.toFixed(2);
+            document.getElementById('prodG').textContent = g.toFixed(2);
+            document.getElementById('prodResult').textContent = result.toFixed(2);
+
+            productCtx.fillStyle = '#1a1a24';
+            productCtx.fillRect(0, 0, 700, 350);
+
+            const cx = 350, cy = 250, scale = 30;
+
+            // Axes
+            productCtx.strokeStyle = '#6b7280';
+            productCtx.lineWidth = 1;
+            productCtx.beginPath();
+            productCtx.moveTo(50, cy);
+            productCtx.lineTo(650, cy);
+            productCtx.moveTo(cx, 20);
+            productCtx.lineTo(cx, 330);
+            productCtx.stroke();
+
+            // Draw x²eˣ
+            productCtx.strokeStyle = '#4a9eff';
+            productCtx.lineWidth = 3;
+            productCtx.beginPath();
+            for (let px = 50; px <= 650; px++) {
+                const xv = (px - cx) / scale;
+                const yv = xv * xv * Math.exp(xv);
+                const py = cy - yv * scale / 3;
+                if (py < 20 || py > 330) continue;
+                if (px === 50) productCtx.moveTo(px, py);
+                else productCtx.lineTo(px, py);
+            }
+            productCtx.stroke();
+
+            // Draw derivative
+            productCtx.strokeStyle = '#10b981';
+            productCtx.lineWidth = 2;
+            productCtx.beginPath();
+            for (let px = 50; px <= 650; px++) {
+                const xv = (px - cx) / scale;
+                const yv = Math.exp(xv) * (2 * xv + xv * xv);
+                const py = cy - yv * scale / 3;
+                if (py < 20 || py > 330) continue;
+                if (px === 50) productCtx.moveTo(px, py);
+                else productCtx.lineTo(px, py);
+            }
+            productCtx.stroke();
+
+            // Mark current point
+            const px = cx + x * scale;
+            const py = cy - (x * x * Math.exp(x)) * scale / 3;
+
+            productCtx.beginPath();
+            productCtx.arc(px, py, 6, 0, Math.PI * 2);
+            productCtx.fillStyle = '#ef4444';
+            productCtx.fill();
+
+            // Tangent
+            const slope = result;
+            productCtx.strokeStyle = '#ef4444';
+            productCtx.lineWidth = 2;
+            productCtx.setLineDash([5, 5]);
+            productCtx.beginPath();
+            productCtx.moveTo(px - 30, py + slope * 30 / 3);
+            productCtx.lineTo(px + 30, py - slope * 30 / 3);
+            productCtx.stroke();
+            productCtx.setLineDash([]);
+
+            // Legend
+            productCtx.fillStyle = '#4a9eff';
+            productCtx.font = '12px monospace';
+            productCtx.fillText('x²eˣ', 600, 30);
+            productCtx.fillStyle = '#10b981';
+            productCtx.fillText("(x²eˣ)'", 600, 50);
+        }
+
+        productXSlider.addEventListener('input', drawProduct);
+        drawProduct();
+
+        // === Chain Rule Visualizer ===
+        const chainCanvas = document.getElementById('chainCanvas');
+        const chainCtx = chainCanvas.getContext('2d');
+        const chainXSlider = document.getElementById('chainX');
+
+        function drawChain() {
+            const x = parseFloat(chainXSlider.value);
+            document.getElementById('chainXVal').textContent = x.toFixed(1);
+
+            const inner = x * x;
+            const innerD = 2 * x;
+            const result = Math.exp(inner) * innerD;
+
+            document.getElementById('chainInner').textContent = inner.toFixed(2);
+            document.getElementById('chainInnerD').textContent = innerD.toFixed(2);
+            document.getElementById('chainResult').textContent = result.toFixed(2);
+
+            chainCtx.fillStyle = '#1a1a24';
+            chainCtx.fillRect(0, 0, 700, 350);
+
+            const cx = 350, cy = 280, scale = 100;
+
+            // Axes
+            chainCtx.strokeStyle = '#6b7280';
+            chainCtx.lineWidth = 1;
+            chainCtx.beginPath();
+            chainCtx.moveTo(50, cy);
+            chainCtx.lineTo(650, cy);
+            chainCtx.moveTo(cx, 20);
+            chainCtx.lineTo(cx, 330);
+            chainCtx.stroke();
+
+            // Draw e^(x²)
+            chainCtx.strokeStyle = '#4a9eff';
+            chainCtx.lineWidth = 3;
+            chainCtx.beginPath();
+            for (let px = 50; px <= 650; px++) {
+                const xv = (px - cx) / scale;
+                const yv = Math.exp(xv * xv);
+                const py = cy - yv * 30;
+                if (py < 20 || py > 330) continue;
+                if (px === 50) chainCtx.moveTo(px, py);
+                else chainCtx.lineTo(px, py);
+            }
+            chainCtx.stroke();
+
+            // Mark current point
+            const px = cx + x * scale;
+            const py = cy - Math.exp(x * x) * 30;
+
+            chainCtx.beginPath();
+            chainCtx.arc(px, py, 6, 0, Math.PI * 2);
+            chainCtx.fillStyle = '#ef4444';
+            chainCtx.fill();
+
+            // Tangent
+            chainCtx.strokeStyle = '#ef4444';
+            chainCtx.lineWidth = 2;
+            chainCtx.setLineDash([5, 5]);
+            chainCtx.beginPath();
+            chainCtx.moveTo(px - 20, py + result * 20 * 30 / scale);
+            chainCtx.lineTo(px + 20, py - result * 20 * 30 / scale);
+            chainCtx.stroke();
+            chainCtx.setLineDash([]);
+
+            // Labels
+            chainCtx.fillStyle = '#4a9eff';
+            chainCtx.font = '14px monospace';
+            chainCtx.fillText('e^(x²)', 600, 30);
+        }
+
+        chainXSlider.addEventListener('input', drawChain);
+        drawChain();
+
+        // === Arrhenius Visualizer ===
+        const arrCanvas = document.getElementById('arrheniusCanvas');
+        const arrCtx = arrCanvas.getContext('2d');
+        const arrEaSlider = document.getElementById('arrEa');
+        const arrTSlider = document.getElementById('arrT');
+
+        function drawArrhenius() {
+            const Ea = parseFloat(arrEaSlider.value);
+            const T = parseFloat(arrTSlider.value);
+            document.getElementById('arrEaVal').textContent = Ea;
+            document.getElementById('arrTVal').textContent = T;
+
+            const R = 8.314e-3; // kJ/(mol·K)
+            const A = 1e13;
+
+            const k = A * Math.exp(-Ea / (R * T));
+            const dkdT = k * Ea / (R * T * T);
+            const pct = dkdT / k * 100;
+
+            document.getElementById('arrK').textContent = k.toExponential(2);
+            document.getElementById('arrDkdT').textContent = dkdT.toExponential(2);
+            document.getElementById('arrPct').textContent = pct.toFixed(1) + '%';
+
+            arrCtx.fillStyle = '#1a1a24';
+            arrCtx.fillRect(0, 0, 700, 350);
+
+            const ox = 80, oy = 300, scaleX = 3.5, scaleY = 25;
+
+            // Axes
+            arrCtx.strokeStyle = '#6b7280';
+            arrCtx.lineWidth = 1;
+            arrCtx.beginPath();
+            arrCtx.moveTo(ox, 30);
+            arrCtx.lineTo(ox, oy);
+            arrCtx.lineTo(650, oy);
+            arrCtx.stroke();
+
+            // Draw k(T) curve
+            arrCtx.strokeStyle = '#4a9eff';
+            arrCtx.lineWidth = 3;
+            arrCtx.beginPath();
+
+            const kMax = A * Math.exp(-Ea / (R * 400));
+            const kScale = 250 / kMax;
+
+            for (let Tv = 250; Tv <= 400; Tv += 2) {
+                const kv = A * Math.exp(-Ea / (R * Tv));
+                const px = ox + (Tv - 250) * scaleX;
+                const py = oy - kv * kScale;
+                if (Tv === 250) arrCtx.moveTo(px, py);
+                else arrCtx.lineTo(px, py);
+            }
+            arrCtx.stroke();
+
+            // Mark current point
+            const px = ox + (T - 250) * scaleX;
+            const py = oy - k * kScale;
+
+            arrCtx.beginPath();
+            arrCtx.arc(px, py, 6, 0, Math.PI * 2);
+            arrCtx.fillStyle = '#ef4444';
+            arrCtx.fill();
+
+            // Labels
+            arrCtx.fillStyle = '#a0a0a0';
+            arrCtx.font = '12px monospace';
+            arrCtx.fillText('T (K)', 350, oy + 25);
+            arrCtx.fillText('k (s⁻¹)', ox - 40, 40);
+            arrCtx.fillText('250', ox, oy + 15);
+            arrCtx.fillText('400', ox + 150 * scaleX, oy + 15);
+        }
+
+        arrEaSlider.addEventListener('input', drawArrhenius);
+        arrTSlider.addEventListener('input', drawArrhenius);
+        drawArrhenius();
+
+        // === Michaelis-Menten Visualizer ===
+        const mmCanvas = document.getElementById('mmCanvas');
+        const mmCtx = mmCanvas.getContext('2d');
+        const mmKmSlider = document.getElementById('mmKm');
+        const mmSSlider = document.getElementById('mmS');
+
+        function drawMM() {
+            const Km = parseFloat(mmKmSlider.value);
+            const S = parseFloat(mmSSlider.value);
+            document.getElementById('mmKmVal').textContent = Km;
+            document.getElementById('mmSVal').textContent = S;
+
+            const Vmax = 100;
+            const v = Vmax * S / (Km + S);
+            const dvdS = Vmax * Km / Math.pow(Km + S, 2);
+            const atKm = Vmax / (4 * Km);
+
+            document.getElementById('mmV').textContent = v.toFixed(1);
+            document.getElementById('mmDvdS').textContent = dvdS.toFixed(3);
+            document.getElementById('mmAtKm').textContent = atKm.toFixed(3);
+
+            mmCtx.fillStyle = '#1a1a24';
+            mmCtx.fillRect(0, 0, 700, 350);
+
+            const ox = 80, oy = 300, scaleX = 5, scaleY = 2.5;
+
+            // Axes
+            mmCtx.strokeStyle = '#6b7280';
+            mmCtx.lineWidth = 1;
+            mmCtx.beginPath();
+            mmCtx.moveTo(ox, 30);
+            mmCtx.lineTo(ox, oy);
+            mmCtx.lineTo(650, oy);
+            mmCtx.stroke();
+
+            // Vmax line
+            mmCtx.strokeStyle = '#6b7280';
+            mmCtx.setLineDash([5, 5]);
+            mmCtx.beginPath();
+            mmCtx.moveTo(ox, oy - Vmax * scaleY);
+            mmCtx.lineTo(650, oy - Vmax * scaleY);
+            mmCtx.stroke();
+            mmCtx.setLineDash([]);
+
+            // Draw v([S])
+            mmCtx.strokeStyle = '#ef4444';
+            mmCtx.lineWidth = 3;
+            mmCtx.beginPath();
+            for (let Sv = 0; Sv <= 100; Sv += 1) {
+                const vv = Vmax * Sv / (Km + Sv);
+                const px = ox + Sv * scaleX;
+                const py = oy - vv * scaleY;
+                if (Sv === 0) mmCtx.moveTo(px, py);
+                else mmCtx.lineTo(px, py);
+            }
+            mmCtx.stroke();
+
+            // Draw dv/d[S]
+            mmCtx.strokeStyle = '#8b5cf6';
+            mmCtx.lineWidth = 2;
+            mmCtx.beginPath();
+            for (let Sv = 1; Sv <= 100; Sv += 1) {
+                const dv = Vmax * Km / Math.pow(Km + Sv, 2);
+                const px = ox + Sv * scaleX;
+                const py = oy - dv * 100; // scale differently
+                if (Sv === 1) mmCtx.moveTo(px, py);
+                else mmCtx.lineTo(px, py);
+            }
+            mmCtx.stroke();
+
+            // Mark current point
+            const px = ox + S * scaleX;
+            const py = oy - v * scaleY;
+
+            mmCtx.beginPath();
+            mmCtx.arc(px, py, 6, 0, Math.PI * 2);
+            mmCtx.fillStyle = '#10b981';
+            mmCtx.fill();
+
+            // Mark Km
+            mmCtx.strokeStyle = '#f59e0b';
+            mmCtx.setLineDash([3, 3]);
+            mmCtx.beginPath();
+            mmCtx.moveTo(ox + Km * scaleX, oy);
+            mmCtx.lineTo(ox + Km * scaleX, oy - 50 * scaleY);
+            mmCtx.stroke();
+            mmCtx.setLineDash([]);
+
+            // Labels
+            mmCtx.fillStyle = '#a0a0a0';
+            mmCtx.font = '12px monospace';
+            mmCtx.fillText('[S] (μM)', 350, oy + 25);
+            mmCtx.fillText('v', ox - 15, 40);
+            mmCtx.fillStyle = '#6b7280';
+            mmCtx.fillText('Vmax', 600, oy - Vmax * scaleY + 15);
+            mmCtx.fillStyle = '#ef4444';
+            mmCtx.fillText('v([S])', 600, 50);
+            mmCtx.fillStyle = '#8b5cf6';
+            mmCtx.fillText('dv/d[S]', 600, 70);
+        }
+
+        mmKmSlider.addEventListener('input', drawMM);
+        mmSSlider.addEventListener('input', drawMM);
+        drawMM();
+    </script>
+</body>
+</html>

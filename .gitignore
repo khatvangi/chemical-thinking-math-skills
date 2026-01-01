@@ -26,6 +26,7 @@ site/.quarto/
 !site/lectures/10-eigenvalues/*.html
 !site/lectures/11-functions-limits/*.html
 !site/lectures/12-derivative/*.html
+!site/lectures/13-rules/*.html
 !site/lectures/all-lectures.html
 !site/protein-raga.html
 !site/landing.html
