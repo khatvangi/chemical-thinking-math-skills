@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>प्रोटीन-राग | Protein Rāga</title>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #08080c;
+    }
+    .devanagari { font-family: 'Noto Sans Devanagari', sans-serif; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useMemo, useCallback, useRef } = React;
+
+    /*
+      प्रोटीन-राग: PROTEIN RĀGA
+
+      An artistic sonification of protein sequences using Indian classical music.
+
+      Sanskrit grammatical concepts serve as an evocative vocabulary for protein
+      organization; rāga provides the musical framework. The parallels are structural
+      analogies — both are constrained generative systems — not encoding claims.
+
+      नाद ब्रह्म — Sound is Brahman
+    */
+
+    // ═══════════════════════════════════════════════════════════════════
+    // RĀGA DEFINITIONS
+    // ═══════════════════════════════════════════════════════════════════
+
+    const RAGAS = {
+      yaman: {
+        name: 'Yaman',
+        devanagari: 'यमन',
+        time: 'Evening (first prahar of night)',
+        rasa: 'Śṛṅgāra, Bhakti',
+        description: 'Serene and devotional, with tīvra Ma creating upward yearning',
+        vadi: 'G',
+        samvadi: 'N',
+        aroha: ['S', 'R', 'G', 'm', 'P', 'D', 'N', 'S+'],
+        avaroha: ['S+', 'N', 'D', 'P', 'm', 'G', 'R', 'S'],
+        pakad: [['N-', 'R', 'G', 'R', 'S'], ['G', 'm', 'D', 'N', 'S+'], ['R', 'G', 'm', 'P'], ['N', 'D', 'P', 'm', 'G']],
+        alpieces: [['S', 'R', 'G'], ['G', 'm', 'P'], ['N', 'D', 'P']],
+        color: '#c9a227',
+      },
+      bhairav: {
+        name: 'Bhairav',
+        devanagari: 'भैरव',
+        time: 'Dawn (brahma muhūrta)',
+        rasa: 'Śānta, Vīra',
+        description: 'Grave and majestic, komal Re and Dha create tension with śuddha Ga',
+        vadi: 'd',
+        samvadi: 'r',
+        aroha: ['S', 'r', 'G', 'M', 'P', 'd', 'N', 'S+'],
+        avaroha: ['S+', 'N', 'd', 'P', 'M', 'G', 'r', 'S'],
+        pakad: [['G', 'M', 'r', 'S'], ['r', 'G', 'M', 'P'], ['d', 'P', 'M', 'G']],
+        alpieces: [['S', 'r', 'G'], ['M', 'P', 'd'], ['G', 'M', 'r']],
+        color: '#a65d57',
+      },
+      darbari: {
+        name: 'Darbārī Kānaḍā',
+        devanagari: 'दरबारी कानडा',
+        time: 'Midnight (third prahar)',
+        rasa: 'Gambhīra, Karuṇa',
+        description: 'Deep and meditative, with characteristic andolan on komal Ga and Dha',
+        vadi: 'r',
+        samvadi: 'P',
+        aroha: ['S', 'r', 'g', 'M', 'P', 'd', 'n', 'S+'],
+        avaroha: ['S+', 'n', 'd', 'P', 'M', 'g', 'M', 'r', 'S'],
+        pakad: [['g', 'M', 'r', 'S'], ['M', 'P', 'd', 'n', 'd', 'P'], ['r', 'g', 'M', 'P']],
+        alpieces: [['S', 'r', 'g'], ['g', 'M', 'r'], ['M', 'P', 'd']],
+        color: '#6b5b7a',
+      },
+      marwa: {
+        name: 'Mārwā',
+        devanagari: 'मारवा',
+        time: 'Dusk (sandhyā)',
+        rasa: 'Karuṇa, Viraha',
+        description: 'Restless longing — Pa is absent, creating unresolved tension',
+        vadi: 'D',
+        samvadi: 'r',
+        aroha: ['S', 'r', 'G', 'm', 'D', 'N', 'S+'],
+        avaroha: ['S+', 'N', 'D', 'm', 'G', 'r', 'S'],
+        pakad: [['D', 'N', 'r', 'S'], ['r', 'G', 'm', 'D'], ['N', 'D', 'm', 'G', 'r']],
+        alpieces: [['S', 'r', 'G'], ['G', 'm', 'D'], ['D', 'N', 'r']],
+        color: '#b07845',
+      },
+      bihag: {
+        name: 'Bihāg',
+        devanagari: 'बिहाग',
+        time: 'Late night (second prahar)',
+        rasa: 'Śṛṅgāra, Mādhurya',
+        description: 'Romantic and sweet, Ga-Ma-Ga oscillation is its signature',
+        vadi: 'G',
+        samvadi: 'N',
+        aroha: ['S', 'G', 'M', 'P', 'N', 'S+'],
+        avaroha: ['S+', 'N', 'D', 'P', 'M', 'G', 'R', 'S'],
+        pakad: [['G', 'M', 'G', 'R', 'S'], ['S', 'G', 'M', 'P'], ['N', 'S+', 'N', 'D', 'P']],
+        alpieces: [['S', 'G', 'M'], ['G', 'M', 'G'], ['P', 'N', 'S+']],
+        color: '#4a7c6f',
+      },
+      bhairavi: {
+        name: 'Bhairavī',
+        devanagari: 'भैरवी',
+        time: 'Morning (concluding rāga)',
+        rasa: 'Karuṇa, Bhakti',
+        description: 'All komal svaras — complete, devotional, traditionally sung at conclusion',
+        vadi: 'M',
+        samvadi: 'S',
+        aroha: ['S', 'r', 'g', 'M', 'P', 'd', 'n', 'S+'],
+        avaroha: ['S+', 'n', 'd', 'P', 'M', 'g', 'r', 'S'],
+        pakad: [['g', 'M', 'P', 'g', 'M', 'r', 'S'], ['S', 'r', 'g', 'M', 'P'], ['d', 'n', 'd', 'P']],
+        alpieces: [['S', 'r', 'g'], ['g', 'M', 'P'], ['P', 'd', 'n']],
+        color: '#5a7fa8',
+      },
+    };
+
+    const SVARA_SEMITONES = {
+      'S-': -12, 'N-': -1, 'n-': -2,
+      'S': 0, 'r': 1, 'R': 2, 'g': 3, 'G': 4, 'M': 5, 'm': 6,
+      'P': 7, 'd': 8, 'D': 9, 'n': 10, 'N': 11, 'S+': 12, 'R+': 14,
+    };
+
+    // ═══════════════════════════════════════════════════════════════════
+    // SIGNATURES — Conserved motifs as musical mantras
+    // ═══════════════════════════════════════════════════════════════════
+
+    const SIGNATURES = {
+      'HIGH': {
+        pattern: /H[IVLM][GA]H/g,
+        sanskrit: 'हिंसा-घ्न',
+        transliteration: 'hiṃsā-ghna',
+        meaning: 'Error-destroyer',
+        function: 'Editing domain (Class I aaRS)',
+        raga: 'bhairav',
+        mukhda: ['G', 'M', 'r', 'S', 'r', 'G', 'M'],
+        color: '#a65d57',
+      },
+      'KMSKS': {
+        pattern: /K[MIL]SKS/g,
+        sanskrit: 'कर्म-शक्ति',
+        transliteration: 'karma-śakti',
+        meaning: 'Power of action',
+        function: 'ATP binding loop (Class I aaRS)',
+        raga: 'yaman',
+        mukhda: ['G', 'm', 'P', 'D', 'N', 'S+', 'N', 'D'],
+        color: '#c9a227',
+      },
+      'GxGxxG': {
+        pattern: /G.G..G/g,
+        sanskrit: 'ग्रहण',
+        transliteration: 'grahaṇa',
+        meaning: 'Grasping',
+        function: 'Rossmann fold (nucleotide binding)',
+        raga: 'bihag',
+        mukhda: ['G', 'M', 'G', 'R', 'S', 'G', 'M', 'P'],
+        color: '#4a7c6f',
+      },
+      'RGD': {
+        pattern: /RGD/g,
+        sanskrit: 'रज्जु',
+        transliteration: 'rajju',
+        meaning: 'Rope, cord',
+        function: 'Cell adhesion (integrins)',
+        raga: 'darbari',
+        mukhda: ['r', 'g', 'M', 'P', 'd', 'P', 'g', 'M', 'r'],
+        color: '#6b5b7a',
+      },
+      'CxxC': {
+        pattern: /C..C/g,
+        sanskrit: 'चक्र',
+        transliteration: 'cakra',
+        meaning: 'Wheel, cycle',
+        function: 'Metal coordination (zinc fingers)',
+        raga: 'marwa',
+        mukhda: ['D', 'N', 'r', 'S', 'N-', 'D', 'm', 'G'],
+        color: '#b07845',
+      },
+      'Walker_A': {
+        pattern: /G..G[KT]G/g,
+        sanskrit: 'गति-कर',
+        transliteration: 'gati-kara',
+        meaning: 'Movement-maker',
+        function: 'P-loop (ATP/GTP hydrolysis)',
+        raga: 'yaman',
+        mukhda: ['N-', 'R', 'G', 'm', 'P', 'D', 'N', 'S+'],
+        color: '#7a6b8a',
+      },
+      'DxD': {
+        pattern: /D.D/g,
+        sanskrit: 'द्वि-दण्ड',
+        transliteration: 'dvi-daṇḍa',
+        meaning: 'Double staff',
+        function: 'Catalytic metal binding',
+        raga: 'darbari',
+        mukhda: ['d', 'P', 'M', 'g', 'M', 'r', 'S'],
+        color: '#5a7fa8',
+      },
+      'NPxY': {
+        pattern: /NP.Y/g,
+        sanskrit: 'निवेश',
+        transliteration: 'niveśa',
+        meaning: 'Entry, insertion',
+        function: 'Endocytosis signal',
+        raga: 'bhairavi',
+        mukhda: ['g', 'M', 'P', 'g', 'M', 'r', 'S'],
+        color: '#5a7fa8',
+      },
+    };
+
+    // ═══════════════════════════════════════════════════════════════════
+    // PROTEIN DATABASE
+    // ═══════════════════════════════════════════════════════════════════
+
+    const PROTEIN_DB = {
+      'P16658': { name: 'Prolyl-tRNA synthetase', organism: 'E. coli', family: 'Class II aaRS', sequence: 'MKLFEELGYKPIVVKKNWTGSTVQEAARKKYGEDIILRGTVNPTKKDLIKRWFTVEGNKCAPCGTDALKTKDYLALNSADFQKFGDLHIGHFPMTLYQELKKAIIKRFPEFIGMPIEEFALPECLRGTTGVYTREVPAKEYCTLDDVLAELQATIDELIDILGRNDFDIRKEWYRAVVEKAHQNGFVTQGNQLVPKGTVLPHGTMQDVTRAIVNHPEKGFHVEIEQGAGGVITRSHYSFTTDQQASMVDLIDSHYINPQVKMKKYFEKMKEVGITPQAELWI' },
+      'P00957': { name: 'Alanyl-tRNA synthetase', organism: 'E. coli', family: 'Class II aaRS', sequence: 'MSKSTAEIRQAFLDFFHSKGHQVVASSSLVPHNDPTLLFTNAGMNQFKDVFLGLDKRNYSRATTSQRCVRAGGKHNDLENVGYTARHHTFFEMLGNFSFGDYFKHDAVTIELANKFKELGHTQTLDTLLTQTRNGKLNGVDYDTFNRLSQSLLELTDQSFNLEKVGVPMQVRVEADPKTLQEQLAQYHQVAVEQGRPADAVMTFNYHDFAPNLVKAIKLPELDQHWFKYLETLPASLGQQLTLNRTLEKLEQFLQDKNVKEIGFEGQMFDVHTGKPHPFKPEFV' },
+      'P00533': { name: 'Epidermal growth factor receptor', organism: 'Human', family: 'Receptor tyrosine kinase', sequence: 'MRPSGTAGAALLALLAALCPASRALEEKKVCQGTSNKLTQLGTFEDHFLSLQRMFNNCEVVLGNLEITYVQRNYDLSFLKTIQEVAGYVLIALNTVERIPLENLQIIRGNMYYENSYALAVLSNYDANKTGLKELPMRNLQEILHGAVRFSNNPALCNVESIQWRDIVSSDFLSNMSMDFQNHLGSCQKCDPSCPNGSCWGAGEENCQKLTKIICAQQCSGRCRGKSPSDCCHNQCAAGCTGPRESDCLVCRKFRDEATCKDTCPPLMLYNPTTYQMDVNPEGKYSFGATCVKKCPRNYVVTDHGSCVRACGADSYEMEEDGVRKCKKCEGPCRKVCNGIGIGEFKDSLSINATNIKHFKNCTSISGDLHILPVAFRGDSFTHTPPLDPQELDILKTVKEITGFLLIQAWPENRTDLHAFENLEIIRGRTKQHGQFSLAVVSLNITSLGLRSLKEISDGDVIISGNKNLCYANTINWKKLFGTSGQKTKIISNRGENSCKATGQVCHALCSPEGCWGPEPRDCVSCRNVSRGRECVDKCNLLEGEPREFVENSECIQCHPECLPQAMNITCTGRGPDNCIQCAHYIDGPHCVKTCPAGVMGENNTLVWKYADAGHVCHLCHPNCTYGCTGPGLEGCPTNGPKIPS' },
+      'P04637': { name: 'Cellular tumor antigen p53', organism: 'Human', family: 'Tumor suppressor', sequence: 'MEEPQSDPSVEPPLSQETFSDLWKLLPENNVLSPLPSQAMDDLMLSPDDIEQWFTEDPGPDEAPRMPEAAPPVAPAPAAPTPAAPAPAPSWPLSSSVPSQKTYQGSYGFRLGFLHSGTAKSVTCTYSPALNKMFCQLAKTCPVQLWVDSTPPPGTRVRAMAIYKQSQHMTEVVRRCPHHERCSDSDGLAPPQHLIRVEGNLRVEYLDDRNTFRHSVVVPYEPPEVGSDCTTIHYNYMCNSSCMGGMNRRPILTIITLEDSSGNLLGRNSFEVRVCACPGRDRRTEEENLRKKGEPHHELPPGSTKRALPNNTSSSPQPKKKPLDGEYFTLQIRGRERFEMFRELNEALELKDAQAGKEPGGSRAHSSHLKSKKGQSTSRHKKLMFKTEGPDSD' },
+      'P01112': { name: 'GTPase HRas', organism: 'Human', family: 'Small GTPase', sequence: 'MTEYKLVVVGAGGVGKSALTIQLIQNHFVDEYDPTIEDSYRKQVVIDGETCLLDILDTAGQEEYSAMRDQYMRTGEGFLCVFAINNTKSFEDIHQYREQIKRVKDSDDVPMVLVGNKCDLAARTVESRQAQDLARSYGIPYIETSAKTRQGVEDAFYTLVREIRQHKLRKLNPPDESGPGCMSCKCVLS' },
+      'P00698': { name: 'Lysozyme C', organism: 'Chicken', family: 'Glycoside hydrolase', sequence: 'MRSLLILVLCFLPLAALGKVFGRCELAAAMKRHGLDNYRGYSLGNWVCAAKFESNFNTQATNRNTDGSTDYGILQINSRWWCNDGRTPGSRNLCNIPCSALLSSDITASVNCAKKIVSDGNGMNAWVAWRNRCKGTDVQAWIRGCRL' },
+      'P04406': { name: 'Glyceraldehyde-3-phosphate dehydrogenase', organism: 'Human', family: 'Oxidoreductase', sequence: 'MGKVKVGVNGFGRIGRLVTRAAFNSGKVDIVAINDPFIDLNYMVYMFQYDSTHGKFHGTVKAENGKLVINGNPITIFQERDPSKIKWGDAGAEYVVESTGVFTTMEKAGAHLQGGAKRVIISAPSADAPMFVMGVNHEKYDNSLKIISNASCTTNCLAPLAKVIHDNFGIIVGTAVMDVGRTHIMTQINIGKSVVTWPLNAIYSRLYGTSQFAVRVTLEKPATVSVVLQINGKTVTLKNLCPFYV' },
+      'P06733': { name: 'Alpha-enolase', organism: 'Human', family: 'Lyase', sequence: 'MSILKIHAREIFDSRGNPTVEVDLFTSKGLFRAAVPSGASTGIYEALELRDNDKTRYMGKGVSKAVEHINKTIAPALVSKKLNVTEQEKIDKLMIEMDGTENKSKFGANAILGVSLAVCKAGAVEKGVPLYRHIADLAGNSEVILPVPAFNVINGGSHAGNKLAMQEFMILPVGAANFREAMRIGAEVYHNLKNVIKEKYGKDATNVGDEGGFAPNILENKEGLELLKTAIGKAGYTDKVVIGMDVAASEFFRSGKYDLDFKSPDDPSRYISPDQLADLYKSFIKDYPVVSIEDPFDQDDWGAWQKFTASAGIQVVGDDLTVTNPKRIAKAVNEKSCNCLLLKVNQIGSVTESLQACKLAQANGWGVMVSHRSGETEDTFIADLVVGLCTGQIKTGAPCRSERLAKYNQLLRIEEELGSKAKFAGRNFRNPLAK' },
+      'P00441': { name: 'Superoxide dismutase', organism: 'Human', family: 'Oxidoreductase', sequence: 'MATKAVCVLKGDGPVQGIINFEQKESNGPVKVWGSIKGLTEGLHGFHVHEFGDNTAGCTSAGPHFNPLSRKHGGPKDEERHVGDLGNVTADKDGVADVSIEDSVISLSGDHCIIGRTLVVHEKADDLGKGGNEESTKTGNAGSRLACGVIGIAQ' },
+      'P68871': { name: 'Hemoglobin subunit beta', organism: 'Human', family: 'Globin', sequence: 'MVHLTPEEKSAVTALWGKVNVDEVGGEALGRLLVVYPWTQRFFESFGDLSTPDAVMGNPKVKAHGKKVLGAFSDGLAHLDNLKGTFATLSELHCDKLHVDPENFRLLGNVLVCVLAHHFGKEFTPPVQAAYQKVVAGVANALAHKYH' },
+      'P69905': { name: 'Hemoglobin subunit alpha', organism: 'Human', family: 'Globin', sequence: 'MVLSPADKTNVKAAWGKVGAHAGEYGAEALERMFLSFPTTKTYFPHFDLSHGSAQVKGHGKKVADALTNAVAHVDDMPNALSALSDLHAHKLRVDPVNFKLLSHCLLVTLAAHLPAEFTPAVHASLDKFLASVSTVLTSKYR' },
+      'P02144': { name: 'Myoglobin', organism: 'Human', family: 'Globin', sequence: 'MGLSDGEWQLVLNVWGKVEADIPGHGQEVLIRLFKGHPETLEKFDKFKHLKSEDEMKASEDLKKHGATVLTALGGILKKKGHHEAEIKPLAQSHATKHKIPVKYLEFISECIIQVLQSKHPGDFGADAQGAMNKALELFRKDMASNYKELGFQG' },
+      'P01308': { name: 'Insulin', organism: 'Human', family: 'Peptide hormone', sequence: 'MALWMRLLPLLALLALWGPDPAAAFVNQHLCGSHLVEALYLVCGERGFFYTPKTRREAEDLQVGQVELGGGPGAGSLQPLALEGSLQKRGIVEQCCTSICSLYQLENYCN' },
+      'P07900': { name: 'Heat shock protein 90-alpha', organism: 'Human', family: 'Chaperone', sequence: 'MPEETQTQDQPMEEEEVETFAFQAEIAQLMSLIINTFYSNKEIFLRELISNSSDALDKIRYESLTDPSKLDSGKELHINLIPNKQDRTLTIVDTGIGMTKADLINNLGTIAKSGTKAFMEALQAGADISMIGQFGVGFYSAYLVAEKVTVITKHNDDEQYAWESSAGGSFTVRTDTGEPMGRGTKVILHLKEDQTEYLEERRIKEIVKKHSQFIGYPITLFVEKERDKEVSDDEAEEKEDKEEEKEKEEKESEDKPEIEDVGSDEEEEKKDGDKKKKKKIKEKYIDQEELNKTKPIWTRNPDDITNEEYGEFYKSLTNDWEDHLAVKHFSVEGQLEFRALLFVPRRAPFDLFENRKKKNNIKLYVRRVFIMDNCEELIPEYLNFIRGVVDSEDLPLNISREMLQQSKILKVIRKNLVKKCLELFTELAEDKENYKKFYEQFSKNIKLGIHEDSQNRKKLSELLRYYTSASGDEMVSLKDYCTRMKENQKHIYYITGETKDQVANSAFVERLRKHGLEVIYMIEPIDEYCVQQLKEFEGKTLVSVTKEGLELPEDEEEKKKQEEKKTKFENLCKIMKDILEKKVEKVVVSNRLVTSPCCIVTSTYGWTANMERIMKAQALRDNSTMGYMAAKKHLEINPDHSIIETLRQKAEADKNDKSVKDLVILLYETALLSSGFSLEDPQTHSNRIYRMIKLGLGIDEDEVAAEEPNAAVPDEIPPLEGDEDASRMEEVD' },
+      'P0A7Y4': { name: 'Thioredoxin', organism: 'E. coli', family: 'Oxidoreductase', sequence: 'MSDKIIHLTDDSFDTDVLKADGAILVDFWAEWCGPCKMIAPILDEIADEYQGKLTVAKLNIDQNPGTAPKYGIRGIPTLLLFKNGEVAATKVGALSKGQLKEFLDANLA' },
+      'P10599': { name: 'Thioredoxin', organism: 'Human', family: 'Oxidoreductase', sequence: 'MVKQIESKTAFQEALDAAGDKLVVVDFSATWCGPCKMIKPFFHSLSEKYSNVIFLEVDVDDCQDVASECEVKCMPTFQFFKKGQKVGEFSGANKEKLEATINELV' },
+      'P02751': { name: 'Fibronectin', organism: 'Human', family: 'ECM glycoprotein', sequence: 'MLRGPGPGLLLLAVQCLGTAVPSTGASKSKRQAQQMVQPQSPVAVSQSKPGCYDNGKHYQINQQWERTYLGNALVCTCYGGSRGFNCESKPEAEETCFDKYTGNTYRVGDTYERPKDSMIWDCTCIGAGRGRISCTIANRCHEGGQSYKIGDTWRRPHETGGYMLECVCLGNGKGEWTCKPIAEKCFDHAAGTSYVVGETWEKPYQGWMMVDCTCLGEGSGRITCTSRNRCNDQDTRTSYRIGDTWSKKDNRGNLLQCICTGNGRGEWKCERHTSVQTTSSGSGPFTDVRAAVYQPQPHPQPPPYGHCVTDSGVVYSVGMQWLKTQGNKQMLCTCLGNGVSCQETAVTQTYGGNSNGEPCVLPFTYNGRTFYSCTTEGRQDGHLWCSTTSNYEQDQKYSFCTDHTVLVQTRGGNSNGALCHFPFLYNNHNYTDCTSEGRRDNMKWCGTTQNYDADQKFGFCPMAAHEEICTTNEGVMYRIGDQWDKQHDMGHMMRCTCVGNGRGEWTCIAYSQLRDQCIVDDITYNVNDTFHKRHEEGHMLNCTCFGQGRGRWKCDPVDQCQDSETGTFYQIGDSWEKYVHGVRYQCYCYGRGIGEWHCQPLQTYPSSSGPVEVFITETPSQPNSHPIQWNAPQPSHISKYILRWRPKNSVGRWKEATIPGHLNSYTIKGLKPGVVYEGQLISIQQYGHQEVTRFDFTTTSTSTPVTSNTVTGETTPFSPLVATSESVTEITASSFVVSWVSASDTVSGFRVEYELSEEGDEPQYLDLPSTATSVNIPDLLPGRKYIVNVYQISEDGEQSLILSTSQTTAPDAPPDPTVDQVDDTSIVVRWSRPQAPITGYRIVYSPSVEGSSTELNLPETANSVTLSDLQPGVQYNITIYAVEENQESTPVVIQQETTGTPRSDTVPSPRDLQFVEVTDVKVTIMWTPPESAVTGYRVDVIPVNLPGEHGQRLPISRNTFAEVTGLSPGVTYYFKVFAVSHGRESKPLTAQQTTKLDAPTNLQFVNETDSTVLVRWTPPRAQITGYRLTVGLTRRGQPRQYNVGPSVSKPSTLFIKVDVTDMDVTYDLGDSSQWETYPESDHQPGTFEFSNQWSGGDPNSWDNFEFEKAGVTTPPTKTSEVNVTVWDGSTEFEYELSEEGDGQRPHPFPSNPQSWATYMIGYSRQLVAAGVGIEYTEVNEEGAEPQYLDAPRATDVDITIPRFIILPGRQVYNVYQISEDGEQSVLTVPETTGTPTQSVTIQKTATSNKDAPPAPPPETLREVTVEMSNLQTDMQRVTKFDLQPGVTLRVHAPMDSQASDISLDLLDGVPVQVSTATISQPEDSAPNAPILSQTSFSKQPAVPPTHKTTVITDVGPDSVTVAAPLTINLQSGTAAYNVMVRCDGLVEGVTCERVTKTVTVKVIEGYTWTVNNKKTLQLTPNVVDTPNTFRAHGKSVTLRLVHAPMDSAFGGDSIQDLALAETRPAERGGPQGSRRFY' },
+    };
+
+    // ═══════════════════════════════════════════════════════════════════
+    // AUDIO ENGINE
+    // ═══════════════════════════════════════════════════════════════════
+
+    class RagaSynth {
+      constructor() {
+        this.ctx = null;
+        this.master = null;
+        this.reverb = null;
+        this.compressor = null;
+        this.nodes = [];
+        this.droneOscs = [];
+        this.droneOn = false;
+        this.root = 60;
+      }
+
+      async init() {
+        if (this.ctx) return;
+        this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+
+        this.compressor = this.ctx.createDynamicsCompressor();
+        this.compressor.threshold.value = -24;
+        this.compressor.knee.value = 30;
+        this.compressor.ratio.value = 12;
+        this.compressor.attack.value = 0.003;
+        this.compressor.release.value = 0.25;
+        this.compressor.connect(this.ctx.destination);
+
+        this.master = this.ctx.createGain();
+        this.master.gain.value = 0.6;
+        this.master.connect(this.compressor);
+
+        this.reverb = this.ctx.createGain();
+        this.reverb.gain.value = 0.15;
+        const delay = this.ctx.createDelay();
+        delay.delayTime.value = 0.08;
+        this.reverb.connect(delay);
+        delay.connect(this.master);
+
+        if (this.ctx.state === 'suspended') {
+          await this.ctx.resume();
+        }
+      }
+
+      cleanup() {
+        this.nodes.forEach(n => {
+          try { n.stop(); } catch {}
+          try { n.disconnect(); } catch {}
+        });
+        this.nodes = [];
+      }
+
+      freq(midi) {
+        return 440 * Math.pow(2, (midi - 69) / 12);
+      }
+
+      svaraMidi(svara) {
+        const st = SVARA_SEMITONES[svara] ?? 0;
+        return this.root + st;
+      }
+
+      note(midi, start, duration, opts = {}) {
+        const { gamaka = 'plain', fromMidi = null, vol = 0.14 } = opts;
+        const f = this.freq(midi);
+        const end = start + duration;
+
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        osc.type = 'sine';
+
+        if (gamaka === 'andolan' && duration >= 0.6) {
+          osc.frequency.setValueAtTime(f, start);
+          osc.frequency.linearRampToValueAtTime(f * 1.012, start + duration * 0.3);
+          osc.frequency.linearRampToValueAtTime(f * 0.992, start + duration * 0.6);
+          osc.frequency.linearRampToValueAtTime(f, end - 0.05);
+        } else if (gamaka === 'meend' && fromMidi) {
+          const ff = this.freq(fromMidi);
+          osc.frequency.setValueAtTime(ff, start);
+          osc.frequency.exponentialRampToValueAtTime(f, start + Math.min(duration * 0.3, 0.25));
+        } else if (gamaka === 'kan') {
+          osc.frequency.setValueAtTime(this.freq(midi - 2), start);
+          osc.frequency.exponentialRampToValueAtTime(f, start + 0.05);
+        } else {
+          osc.frequency.setValueAtTime(f, start);
+        }
+
+        gain.gain.setValueAtTime(0, start);
+        gain.gain.linearRampToValueAtTime(vol, start + 0.04);
+        gain.gain.setValueAtTime(vol, end - 0.1);
+        gain.gain.exponentialRampToValueAtTime(0.001, end);
+
+        const osc2 = this.ctx.createOscillator();
+        const gain2 = this.ctx.createGain();
+        osc2.type = 'sine';
+        osc2.frequency.value = f * 2;
+        gain2.gain.setValueAtTime(0, start);
+        gain2.gain.linearRampToValueAtTime(vol * 0.03, start + 0.04);
+        gain2.gain.exponentialRampToValueAtTime(0.001, start + duration * 0.4);
+
+        osc.connect(gain);
+        osc2.connect(gain2);
+        gain.connect(this.master);
+        gain.connect(this.reverb);
+        gain2.connect(this.master);
+
+        osc.start(start);
+        osc.stop(end + 0.02);
+        osc2.start(start);
+        osc2.stop(end + 0.02);
+
+        this.nodes.push(osc, osc2);
+        return end;
+      }
+
+      phrase(svaras, start, baseDur, style = 'alap') {
+        let t = start;
+        let prev = null;
+
+        svaras.forEach((sv, i) => {
+          const midi = this.svaraMidi(sv);
+          const first = i === 0, last = i === svaras.length - 1;
+          let dur = baseDur;
+          let gam = 'plain';
+          let v = 0.14;
+
+          if (style === 'alap') {
+            dur = Math.max(0.85, baseDur * (1.0 + Math.random() * 0.35));
+            if (!first && Math.random() < 0.18 && dur >= 0.85) gam = 'andolan';
+            if (prev && Math.abs(midi - prev) > 3) gam = 'meend';
+            if (first) { gam = 'kan'; v = 0.15; }
+            if (last) { dur *= 1.3; gam = dur >= 0.9 ? 'andolan' : 'plain'; }
+          } else if (style === 'jor') {
+            dur = baseDur * 0.65;
+            if (first) gam = 'kan';
+          } else if (style === 'jhala') {
+            dur = baseDur * 0.4;
+            v = 0.15;
+          } else if (style === 'mukhda') {
+            dur = baseDur * 0.7;
+            if (first) { gam = 'kan'; v = 0.16; }
+            if (last && dur >= 0.6) { dur *= 1.25; gam = 'andolan'; }
+            if (prev && Math.abs(midi - prev) >= 4) gam = 'meend';
+          }
+
+          this.note(midi, t, dur, { gamaka: gam, fromMidi: prev, vol: v });
+          t += dur;
+          prev = midi;
+        });
+
+        return t;
+      }
+
+      startDrone() {
+        if (this.droneOn) return;
+        const sa = this.freq(this.root);
+        const now = this.ctx.currentTime;
+
+        this.droneOscs = [];
+        [1, 1.5, 2, 0.5].forEach(r => {
+          const o = this.ctx.createOscillator();
+          const g = this.ctx.createGain();
+          o.type = 'sine';
+          o.frequency.value = sa * r;
+          g.gain.value = 0.03;
+          o.connect(g);
+          g.connect(this.master);
+          o.start(now);
+          this.droneOscs.push({ o, g });
+        });
+        this.droneOn = true;
+      }
+
+      stopDrone() {
+        if (!this.droneOn) return;
+        const now = this.ctx.currentTime;
+        this.droneOscs?.forEach(d => {
+          d.g.gain.linearRampToValueAtTime(0, now + 0.3);
+          d.o.stop(now + 0.4);
+        });
+        this.droneOscs = [];
+        this.droneOn = false;
+      }
+
+      stop() {
+        this.cleanup();
+        this.stopDrone();
+      }
+    }
+
+    const synth = new RagaSynth();
+
+    // ═══════════════════════════════════════════════════════════════════
+    // ANALYSIS FUNCTIONS
+    // ═══════════════════════════════════════════════════════════════════
+
+    function analyzeSequence(seq) {
+      const sigs = [];
+      for (const [name, sig] of Object.entries(SIGNATURES)) {
+        const re = new RegExp(sig.pattern.source, 'g');
+        let m;
+        while ((m = re.exec(seq)) !== null) {
+          sigs.push({ name, ...sig, matched: m[0], position: m.index });
+        }
+      }
+      sigs.sort((a, b) => a.position - b.position);
+      return sigs;
+    }
+
+    function selectRaga(sigs, seq) {
+      const votes = {};
+      sigs.forEach(s => {
+        votes[s.raga] = (votes[s.raga] || 0) + 1;
+      });
+
+      const hydro = (seq.match(/[AVLIMFW]/g) || []).length / seq.length;
+      const charged = (seq.match(/[KRDEH]/g) || []).length / seq.length;
+      const polar = (seq.match(/[STNQ]/g) || []).length / seq.length;
+
+      if (hydro > 0.4) votes.bhairav = (votes.bhairav || 0) + 2;
+      if (charged > 0.25) votes.marwa = (votes.marwa || 0) + 2;
+      if (polar > 0.25) votes.yaman = (votes.yaman || 0) + 1;
+
+      let best = 'yaman', bestV = 0;
+      for (const [r, v] of Object.entries(votes)) {
+        if (v > bestV) { best = r; bestV = v; }
+      }
+
+      return RAGAS[best] || RAGAS.yaman;
+    }
+
+    function compose(raga, sigs) {
+      const sections = [
+        { name: 'Ālāp', devanagari: 'आलाप', style: 'alap', baseDuration: 0.95, phrases: [] },
+        { name: 'Jor', devanagari: 'जोड़', style: 'jor', baseDuration: 0.55, phrases: [] },
+        { name: 'Jhālā', devanagari: 'झाला', style: 'jhala', baseDuration: 0.32, phrases: [] },
+        { name: 'Śānti', devanagari: 'शान्ति', style: 'alap', baseDuration: 1.1, phrases: [] },
+      ];
+
+      sections[0].phrases = [
+        ...raga.alpieces,
+        raga.pakad[0] || raga.aroha.slice(0, 4),
+        raga.alpieces[1] || raga.aroha.slice(2, 5),
+      ];
+      if (sigs.length > 0) {
+        sections[0].phrases.push(sigs[0].mukhda);
+      }
+
+      sections[1].phrases = [
+        raga.aroha,
+        raga.pakad[1] || raga.avaroha.slice(0, 5),
+        raga.aroha.slice(2),
+        raga.avaroha,
+      ];
+      sigs.slice(0, 2).forEach(s => sections[1].phrases.push(s.mukhda));
+
+      sections[2].phrases = [
+        raga.aroha,
+        raga.aroha,
+        raga.pakad[2] || raga.pakad[0],
+        raga.avaroha,
+        raga.avaroha,
+      ];
+      sigs.forEach(s => sections[2].phrases.push(s.mukhda));
+
+      sections[3].phrases = [
+        raga.avaroha.slice(-4),
+        ['P', 'M', 'G', 'R', 'S'],
+        ['S'],
+      ];
+
+      return { raga, sections };
+    }
+
+    // ═══════════════════════════════════════════════════════════════════
+    // VISUALIZATION
+    // ═══════════════════════════════════════════════════════════════════
+
+    const MelodyVisualizer = ({ composition, currentSection, currentPhrase, isPlaying }) => {
+      const canvasRef = useRef(null);
+      const animRef = useRef(null);
+      const offsetRef = useRef(0);
+
+      const allNotes = useMemo(() => {
+        if (!composition) return [];
+        const notes = [];
+        composition.sections.forEach((sec, si) => {
+          sec.phrases.forEach((phrase, pi) => {
+            phrase.forEach((sv, ni) => {
+              const st = SVARA_SEMITONES[sv] ?? 0;
+              notes.push({ svara: sv, semitone: st, section: si, phrase: pi, note: ni });
+            });
+          });
+        });
+        return notes;
+      }, [composition]);
+
+      const currentNoteIndex = useMemo(() => {
+        if (!composition || currentSection < 0) return -1;
+        let idx = 0;
+        for (let si = 0; si < currentSection; si++) {
+          composition.sections[si].phrases.forEach(p => idx += p.length);
+        }
+        if (currentPhrase >= 0) {
+          for (let pi = 0; pi < currentPhrase && pi < composition.sections[currentSection].phrases.length; pi++) {
+            idx += composition.sections[currentSection].phrases[pi].length;
+          }
+        }
+        return idx;
+      }, [composition, currentSection, currentPhrase]);
+
+      useEffect(() => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+
+        const ctx = canvas.getContext('2d');
+        const W = canvas.width;
+        const H = canvas.height;
+
+        const ragaColor = composition?.raga?.color || '#b8956e';
+
+        const draw = () => {
+          ctx.fillStyle = '#0c0c10';
+          ctx.fillRect(0, 0, W, H);
+
+          if (allNotes.length === 0) {
+            ctx.fillStyle = '#333';
+            ctx.font = '14px system-ui';
+            ctx.fillText('Load a protein to see melody', W/2 - 100, H/2);
+            animRef.current = requestAnimationFrame(draw);
+            return;
+          }
+
+          ctx.strokeStyle = '#1a1a22';
+          ctx.lineWidth = 1;
+          for (let i = 0; i <= 12; i++) {
+            const y = 25 + (H - 50) * (1 - i / 12);
+            ctx.beginPath();
+            ctx.moveTo(35, y);
+            ctx.lineTo(W - 10, y);
+            ctx.stroke();
+          }
+
+          ctx.fillStyle = '#2a2a35';
+          ctx.font = '10px monospace';
+          ['S', 'r', 'R', 'g', 'G', 'M', 'm', 'P', 'd', 'D', 'n', 'N', 'S+'].forEach((sv, i) => {
+            const y = 25 + (H - 50) * (1 - i / 12);
+            ctx.fillText(sv, 8, y + 3);
+          });
+
+          const visibleCount = Math.min(allNotes.length, 50);
+          const halfVisible = Math.floor(visibleCount / 2);
+          let visStart = Math.max(0, currentNoteIndex - halfVisible);
+          let visEnd = Math.min(allNotes.length, visStart + visibleCount);
+          if (visEnd === allNotes.length) {
+            visStart = Math.max(0, visEnd - visibleCount);
+          }
+
+          const noteWidth = (W - 45) / visibleCount;
+
+          ctx.beginPath();
+          ctx.strokeStyle = ragaColor + '80';
+          ctx.lineWidth = 2;
+
+          for (let i = visStart; i < visEnd; i++) {
+            const n = allNotes[i];
+            const x = 40 + (i - visStart) * noteWidth + noteWidth / 2;
+            const y = 25 + (H - 50) * (1 - (n.semitone + 1) / 14);
+
+            if (i === visStart) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+          }
+          ctx.stroke();
+
+          for (let i = visStart; i < visEnd; i++) {
+            const n = allNotes[i];
+            const x = 40 + (i - visStart) * noteWidth + noteWidth / 2;
+            const y = 25 + (H - 50) * (1 - (n.semitone + 1) / 14);
+
+            const isCurrent = i === currentNoteIndex;
+            const isPast = i < currentNoteIndex;
+            const distFromCurrent = Math.abs(i - currentNoteIndex);
+
+            if (isCurrent && isPlaying) {
+              ctx.beginPath();
+              const grad = ctx.createRadialGradient(x, y, 0, x, y, 25);
+              grad.addColorStop(0, ragaColor + '88');
+              grad.addColorStop(1, 'transparent');
+              ctx.fillStyle = grad;
+              ctx.arc(x, y, 25, 0, Math.PI * 2);
+              ctx.fill();
+            }
+
+            ctx.beginPath();
+            const radius = isCurrent ? 7 : (isPast ? 3 : 4);
+            const alpha = Math.max(0.2, 1 - distFromCurrent * 0.03);
+
+            if (isCurrent) {
+              ctx.fillStyle = '#f0f0f0';
+            } else if (isPast) {
+              ctx.fillStyle = `rgba(80, 80, 100, ${alpha})`;
+            } else {
+              ctx.fillStyle = ragaColor + Math.floor(alpha * 200).toString(16).padStart(2, '0');
+            }
+
+            ctx.arc(x, y, radius, 0, Math.PI * 2);
+            ctx.fill();
+
+            if (isCurrent) {
+              ctx.fillStyle = '#e0e0e0';
+              ctx.font = 'bold 12px system-ui';
+              ctx.fillText(n.svara, x - 5, y - 12);
+            }
+          }
+
+          if (composition && currentSection >= 0 && currentSection < composition.sections.length) {
+            const sec = composition.sections[currentSection];
+            ctx.fillStyle = ragaColor + 'bb';
+            ctx.font = '500 14px system-ui';
+            ctx.fillText(sec.devanagari, W - 50, 20);
+          }
+
+          if (isPlaying) {
+            const offset = offsetRef.current;
+            ctx.beginPath();
+            ctx.strokeStyle = ragaColor + '25';
+            ctx.lineWidth = 1;
+            for (let x = 0; x < W; x++) {
+              const wave = Math.sin((x + offset) * 0.04) * 6 + Math.sin((x + offset) * 0.02) * 3;
+              const y = H - 12 + wave;
+              if (x === 0) ctx.moveTo(x, y);
+              else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+            offsetRef.current += 1.2;
+          }
+
+          animRef.current = requestAnimationFrame(draw);
+        };
+
+        draw();
+
+        return () => {
+          if (animRef.current) cancelAnimationFrame(animRef.current);
+        };
+      }, [allNotes, composition, currentNoteIndex, currentSection, isPlaying]);
+
+      return (
+        <canvas
+          ref={canvasRef}
+          width={700}
+          height={160}
+          style={{ width: '100%', borderRadius: '12px', background: '#0c0c10' }}
+        />
+      );
+    };
+
+    // ═══════════════════════════════════════════════════════════════════
+    // UI COMPONENTS
+    // ═══════════════════════════════════════════════════════════════════
+
+    const RagaCard = ({ raga }) => (
+      <div
+        className="rounded-xl p-5 border"
+        style={{
+          background: `linear-gradient(135deg, ${raga.color}15, ${raga.color}08)`,
+          borderColor: raga.color + '30',
+        }}
+      >
+        <div className="flex items-center gap-4">
+          <div
+            className="w-14 h-14 rounded-full flex items-center justify-center text-xl font-bold devanagari"
+            style={{ background: raga.color + '30', color: raga.color }}
+          >
+            {raga.devanagari.charAt(0)}
+          </div>
+          <div className="flex-1">
+            <h3 className="text-lg font-medium" style={{ color: raga.color }}>
+              {raga.name} <span className="text-gray-500 font-normal devanagari">({raga.devanagari})</span>
+            </h3>
+            <p className="text-gray-500 text-sm">{raga.time}</p>
+            <p className="text-gray-600 text-xs mt-1">{raga.description}</p>
+            <p className="text-gray-600 text-xs mt-1">
+              Vadi: <span style={{ color: raga.color }}>{raga.vadi}</span> ·
+              Samvadi: <span style={{ color: raga.color }}>{raga.samvadi}</span> ·
+              Rasa: {raga.rasa}
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+
+    const SignatureCard = ({ sig, isPlaying, onPlay }) => (
+      <div
+        className="rounded-lg p-3 border cursor-pointer transition-all hover:scale-[1.02]"
+        style={{
+          background: isPlaying ? sig.color + '30' : '#12121a',
+          borderColor: sig.color + '40',
+        }}
+        onClick={onPlay}
+      >
+        <div className="flex items-center justify-between">
+          <span className="font-mono text-sm" style={{ color: sig.color }}>{sig.matched || sig.name}</span>
+          <span className="text-xs text-gray-600">pos {(sig.position || 0) + 1}</span>
+        </div>
+        <div className="text-sm mt-1 devanagari" style={{ color: sig.color + 'cc' }}>{sig.sanskrit}</div>
+        <div className="text-xs text-gray-500 italic">{sig.transliteration} — {sig.meaning}</div>
+        <div className="text-xs text-gray-600 mt-1">{sig.function}</div>
+      </div>
+    );
+
+    const ProteinInfo = ({ protein }) => (
+      <div className="bg-[#0e0e14] rounded-xl p-5 border border-gray-800/30">
+        <div className="flex items-start justify-between">
+          <div>
+            <h2 className="text-lg font-medium text-gray-200">{protein.name}</h2>
+            <p className="text-gray-500 text-sm">{protein.organism}</p>
+            {protein.family && <p className="text-gray-600 text-xs mt-1">{protein.family}</p>}
+          </div>
+          <div className="text-right">
+            <span className="text-gray-600 text-xs">{protein.id}</span>
+            <p className="text-gray-500 text-sm mt-1">{protein.sequence.length} residues</p>
+          </div>
+        </div>
+      </div>
+    );
+
+    // ═══════════════════════════════════════════════════════════════════
+    // MAIN APP
+    // ═══════════════════════════════════════════════════════════════════
+
+    function ProteinRagaApp() {
+      const [protein, setProtein] = useState(null);
+      const [analysis, setAnalysis] = useState(null);
+      const [isPlaying, setIsPlaying] = useState(false);
+      const [currentSection, setCurrentSection] = useState(-1);
+      const [currentPhrase, setCurrentPhrase] = useState(-1);
+      const [droneActive, setDroneActive] = useState(false);
+      const [playingSignature, setPlayingSignature] = useState(null);
+
+      const [proteinId, setProteinId] = useState('');
+      const [customSeq, setCustomSeq] = useState('');
+      const [inputMode, setInputMode] = useState('db');
+
+      const playbackRef = useRef([]);
+
+      const loadFromDb = useCallback((id) => {
+        const entry = PROTEIN_DB[id.toUpperCase()];
+        if (entry) {
+          setProtein({ id, ...entry });
+          const sigs = analyzeSequence(entry.sequence);
+          const raga = selectRaga(sigs, entry.sequence);
+          const comp = compose(raga, sigs);
+          setAnalysis({ signatures: sigs, composition: comp });
+        }
+      }, []);
+
+      const loadRandom = useCallback(() => {
+        const ids = Object.keys(PROTEIN_DB);
+        const id = ids[Math.floor(Math.random() * ids.length)];
+        setProteinId(id);
+        loadFromDb(id);
+      }, [loadFromDb]);
+
+      const loadCustom = useCallback(() => {
+        const seq = customSeq.toUpperCase().replace(/[^ACDEFGHIKLMNPQRSTVWY]/g, '');
+        if (seq.length < 10) return;
+
+        setProtein({ id: 'custom', name: 'Custom Sequence', organism: 'User input', sequence: seq });
+        const sigs = analyzeSequence(seq);
+        const raga = selectRaga(sigs, seq);
+        const comp = compose(raga, sigs);
+        setAnalysis({ signatures: sigs, composition: comp });
+      }, [customSeq]);
+
+      const handleFileUpload = (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          const text = ev.target?.result;
+          const lines = text.split('\n');
+          let seq = '';
+          let name = 'Uploaded';
+
+          lines.forEach(line => {
+            if (line.startsWith('>')) {
+              name = line.slice(1).trim().split(/\s+/)[0] || 'Uploaded';
+            } else {
+              seq += line.trim();
+            }
+          });
+
+          seq = seq.toUpperCase().replace(/[^ACDEFGHIKLMNPQRSTVWY]/g, '');
+          if (seq.length < 10) return;
+
+          setProtein({ id: 'upload', name, organism: 'Uploaded', sequence: seq });
+          const sigs = analyzeSequence(seq);
+          const raga = selectRaga(sigs, seq);
+          const comp = compose(raga, sigs);
+          setAnalysis({ signatures: sigs, composition: comp });
+        };
+        reader.readAsText(file);
+      };
+
+      const playComposition = useCallback(async () => {
+        if (!analysis?.composition) return;
+
+        await synth.init();
+        synth.cleanup();
+        setIsPlaying(true);
+
+        const { sections } = analysis.composition;
+        let t = synth.ctx.currentTime + 0.1;
+
+        sections.forEach((sec, si) => {
+          sec.phrases.forEach((phrase, pi) => {
+            const phraseStart = t;
+
+            const timeout = setTimeout(() => {
+              setCurrentSection(si);
+              setCurrentPhrase(pi);
+            }, (phraseStart - synth.ctx.currentTime) * 1000);
+            playbackRef.current.push(timeout);
+
+            t = synth.phrase(phrase, t, sec.baseDuration, sec.style);
+            t += 0.2;
+          });
+
+          t += 0.4;
+        });
+
+        const endTimeout = setTimeout(() => {
+          setIsPlaying(false);
+          setCurrentSection(-1);
+          setCurrentPhrase(-1);
+        }, (t - synth.ctx.currentTime) * 1000 + 500);
+        playbackRef.current.push(endTimeout);
+
+      }, [analysis]);
+
+      const stop = useCallback(() => {
+        synth.stop();
+        playbackRef.current.forEach(clearTimeout);
+        playbackRef.current = [];
+        setIsPlaying(false);
+        setCurrentSection(-1);
+        setCurrentPhrase(-1);
+      }, []);
+
+      const toggleDrone = useCallback(async () => {
+        await synth.init();
+        if (droneActive) {
+          synth.stopDrone();
+          setDroneActive(false);
+        } else {
+          synth.startDrone();
+          setDroneActive(true);
+        }
+      }, [droneActive]);
+
+      const playSignatureMukhda = useCallback(async (sig) => {
+        await synth.init();
+        synth.cleanup();
+        setPlayingSignature(sig.name);
+
+        const t = synth.ctx.currentTime + 0.05;
+        const endT = synth.phrase(sig.mukhda, t, 0.5, 'mukhda');
+
+        setTimeout(() => setPlayingSignature(null), (endT - t) * 1000 + 200);
+      }, []);
+
+      useEffect(() => {
+        return () => {
+          synth.stop();
+          playbackRef.current.forEach(clearTimeout);
+        };
+      }, []);
+
+      return (
+        <div className="min-h-screen bg-gradient-to-b from-[#08080c] to-[#0c0c12] text-gray-200">
+          {/* Header */}
+          <header className="border-b border-gray-800/30 px-6 py-5">
+            <div className="max-w-4xl mx-auto">
+              <h1 className="text-2xl font-light tracking-wide devanagari">
+                <span style={{ color: '#c9a227' }}>प्रोटीन</span>-राग
+              </h1>
+              <p className="text-gray-600 text-sm mt-1">
+                Proteins as raga · Motifs as mantra · Structure as sangita
+              </p>
+            </div>
+          </header>
+
+          <main className="max-w-4xl mx-auto px-6 py-8 space-y-6">
+            {/* Input Section */}
+            <div className="bg-[#0e0e14] rounded-xl p-5 border border-gray-800/30 space-y-4">
+              <div className="flex flex-wrap gap-3">
+                <button
+                  onClick={() => setInputMode('db')}
+                  className={`px-4 py-2 rounded-lg text-sm transition-all ${
+                    inputMode === 'db' ? 'bg-[#c9a227]/20 text-[#c9a227]' : 'bg-[#16161d] text-gray-500'
+                  }`}
+                >
+                  Protein ID
+                </button>
+                <button
+                  onClick={() => setInputMode('paste')}
+                  className={`px-4 py-2 rounded-lg text-sm transition-all ${
+                    inputMode === 'paste' ? 'bg-[#c9a227]/20 text-[#c9a227]' : 'bg-[#16161d] text-gray-500'
+                  }`}
+                >
+                  Paste Sequence
+                </button>
+                <button
+                  onClick={loadRandom}
+                  className="px-4 py-2 rounded-lg text-sm bg-[#16161d] text-gray-400 hover:bg-[#1c1c24] transition-all"
+                >
+                  Random
+                </button>
+                <label className="px-4 py-2 rounded-lg text-sm bg-[#16161d] text-gray-400 hover:bg-[#1c1c24] cursor-pointer transition-all">
+                  Upload FASTA
+                  <input type="file" accept=".fasta,.fa,.txt" onChange={handleFileUpload} className="hidden" />
+                </label>
+              </div>
+
+              {inputMode === 'db' && (
+                <div className="flex gap-3">
+                  <input
+                    type="text"
+                    value={proteinId}
+                    onChange={(e) => setProteinId(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && loadFromDb(proteinId)}
+                    placeholder="e.g. P00533, P04637, P16658..."
+                    className="flex-1 bg-[#16161d] border border-gray-700/50 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#c9a227]/50"
+                  />
+                  <button
+                    onClick={() => loadFromDb(proteinId)}
+                    className="px-6 py-3 rounded-lg text-sm bg-[#c9a227]/20 text-[#c9a227] hover:bg-[#c9a227]/30 transition-all"
+                  >
+                    Load
+                  </button>
+                </div>
+              )}
+
+              {inputMode === 'paste' && (
+                <div className="space-y-3">
+                  <textarea
+                    value={customSeq}
+                    onChange={(e) => setCustomSeq(e.target.value)}
+                    placeholder="Paste protein sequence (single-letter amino acid codes)..."
+                    className="w-full bg-[#16161d] border border-gray-700/50 rounded-lg px-4 py-3 text-sm font-mono focus:outline-none focus:border-[#c9a227]/50 resize-none"
+                    rows={3}
+                  />
+                  <button
+                    onClick={loadCustom}
+                    className="px-6 py-3 rounded-lg text-sm bg-[#c9a227]/20 text-[#c9a227] hover:bg-[#c9a227]/30 transition-all"
+                  >
+                    Analyze
+                  </button>
+                </div>
+              )}
+
+              <p className="text-gray-600 text-xs">
+                Built-in: P16658 (ProRS), P00533 (EGFR), P04637 (p53), P68871 (Hemoglobin), P01308 (Insulin), P00698 (Lysozyme)...
+              </p>
+            </div>
+
+            {/* Results */}
+            {protein && analysis && (
+              <>
+                <ProteinInfo protein={protein} />
+
+                <RagaCard raga={analysis.composition.raga} />
+
+                {/* Visualization */}
+                <div className="bg-[#0e0e14] rounded-xl p-4 border border-gray-800/30">
+                  <MelodyVisualizer
+                    composition={analysis.composition}
+                    currentSection={currentSection}
+                    currentPhrase={currentPhrase}
+                    isPlaying={isPlaying}
+                  />
+                </div>
+
+                {/* Signatures */}
+                {analysis.signatures.length > 0 && (
+                  <div className="space-y-3">
+                    <h3 className="text-gray-500 text-sm devanagari">
+                      मन्त्राः — Signature Motifs ({analysis.signatures.length})
+                    </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      {analysis.signatures.map((sig, i) => (
+                        <SignatureCard
+                          key={`${sig.name}-${i}`}
+                          sig={sig}
+                          isPlaying={playingSignature === sig.name}
+                          onPlay={() => playSignatureMukhda(sig)}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Playback Controls */}
+                <div className="bg-[#0e0e14] rounded-xl p-5 border border-gray-800/30 space-y-4">
+                  <div className="flex items-center justify-between flex-wrap gap-3">
+                    <h3 className="text-gray-500 text-sm devanagari">रचना — Composition</h3>
+                    <div className="flex gap-2">
+                      {analysis.composition.sections.map((sec, i) => (
+                        <span
+                          key={i}
+                          className="px-3 py-1 rounded-full text-sm transition-all devanagari"
+                          style={currentSection === i
+                            ? { background: analysis.composition.raga.color, color: '#0a0a0f' }
+                            : { background: '#16161d', color: '#555' }
+                          }
+                        >
+                          {sec.devanagari}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="flex gap-3">
+                    <button
+                      onClick={isPlaying ? stop : playComposition}
+                      className="flex-1 py-4 rounded-xl text-lg font-medium transition-all"
+                      style={isPlaying
+                        ? { background: '#8b3a3a', color: '#fff' }
+                        : { background: `linear-gradient(90deg, ${analysis.composition.raga.color}cc, ${analysis.composition.raga.color}88)`, color: '#0a0a0f' }
+                      }
+                    >
+                      {isPlaying ? 'Stop' : 'Play Raga'}
+                    </button>
+
+                    <button
+                      onClick={toggleDrone}
+                      className={`px-6 py-4 rounded-xl transition-all ${
+                        droneActive
+                          ? 'bg-[#4a7c6f] text-white'
+                          : 'bg-[#16161d] text-gray-400 hover:bg-[#1c1c24]'
+                      }`}
+                    >
+                      Tanpura
+                    </button>
+                  </div>
+                </div>
+              </>
+            )}
+
+            {!protein && (
+              <div className="text-center py-16 text-gray-600">
+                Load a protein to hear its raga
+              </div>
+            )}
+          </main>
+
+          {/* Footer */}
+          <footer className="border-t border-gray-800/20 mt-12 py-8 text-center space-y-3">
+            <p className="text-[#c9a227]/40 text-lg devanagari">नाद ब्रह्म</p>
+            <p className="text-gray-700 text-xs max-w-lg mx-auto px-6">
+              Sanskrit grammatical concepts serve as an evocative vocabulary for protein organization;
+              raga provides the musical framework. The parallels are structural analogies —
+              both are constrained generative systems — not encoding claims.
+            </p>
+            <p className="text-gray-600 text-xs mt-4">Happy New Year 2025!</p>
+          </footer>
+        </div>
+      );
+    }
+
+    // Mount the app
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<ProteinRagaApp />);
+  </script>
+</body>
+</html>

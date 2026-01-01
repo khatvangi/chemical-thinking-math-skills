@@ -51,6 +51,7 @@ jobs:
           cp -r site/lectures/03-collection/*.html site/_site/lectures/03-collection/ 2>/dev/null || true
           cp -r site/lectures/04-direction/*.html site/_site/lectures/04-direction/ 2>/dev/null || true
           cp -r site/lectures/05-arrangement/*.html site/_site/lectures/05-arrangement/ 2>/dev/null || true
+          cp site/protein-raga.html site/_site/protein-raga.html
           cp site/CNAME site/_site/CNAME
 
       - name: Upload artifact
