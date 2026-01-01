@@ -1,0 +1,1592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 4: Bonds Point | Chemical Thinking</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a24;
+            --text-primary: #e8e6e3;
+            --text-secondary: #a8a5a0;
+            --text-muted: #6b6966;
+            --accent-gold: #d4a574;
+            --accent-purple: #9d8cd9;
+            --accent-blue: #7db3dc;
+            --accent-green: #8bc49d;
+            --accent-red: #dc8b8b;
+            --accent-cyan: #7dcdd4;
+            --border-color: #2a2a35;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 17px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        header {
+            padding: 4rem 0 3rem;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 3rem;
+        }
+
+        .lecture-number {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-purple);
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+        }
+
+        h1 {
+            font-family: 'Fraunces', serif;
+            font-size: 2.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .primitive-tag {
+            display: inline-block;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            margin-top: 1.5rem;
+        }
+
+        section { margin-bottom: 4rem; }
+
+        h2 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--accent-gold);
+        }
+
+        h3 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin: 2rem 0 1rem;
+            color: var(--text-primary);
+        }
+
+        h4 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 1.5rem 0 0.75rem;
+            color: var(--accent-cyan);
+        }
+
+        p {
+            margin-bottom: 1.2rem;
+            color: var(--text-secondary);
+        }
+
+        strong { color: var(--text-primary); font-weight: 600; }
+        em { color: var(--accent-gold); font-style: italic; }
+
+        .hook-box {
+            background: var(--bg-secondary);
+            border-left: 3px solid var(--accent-purple);
+            padding: 1.5rem 2rem;
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .definition-box {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--accent-blue);
+            padding: 1.5rem 2rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+        }
+
+        .definition-box .label {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-blue);
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            padding: 0.8rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: var(--bg-secondary);
+            color: var(--accent-gold);
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+        }
+
+        td { color: var(--text-secondary); }
+        tr:hover td { background: var(--bg-secondary); }
+
+        ul, ol {
+            margin: 1rem 0 1.5rem 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        li { margin-bottom: 0.5rem; }
+
+        .visual-container {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .visual-title {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-purple);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        canvas {
+            display: block;
+            margin: 0 auto;
+            border-radius: 8px;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .controls.no-border {
+            border-top: none;
+            padding-top: 0;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .control-group label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        input[type="range"] {
+            width: 120px;
+            accent-color: var(--accent-gold);
+        }
+
+        select {
+            font-family: 'JetBrains Mono', monospace;
+            padding: 0.4rem 0.8rem;
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+
+        .value-display {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-gold);
+            font-size: 0.9rem;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        button {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--accent-purple);
+            color: var(--accent-purple);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            background: var(--accent-purple);
+            color: var(--bg-primary);
+        }
+
+        button.active {
+            background: var(--accent-purple);
+            color: var(--bg-primary);
+        }
+
+        .info-display {
+            background: var(--bg-tertiary);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .info-display .result {
+            color: var(--accent-gold);
+            font-size: 1.1rem;
+            margin-top: 0.5rem;
+        }
+
+        .molecule-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .info-card {
+            background: var(--bg-tertiary);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .info-card .label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 0.3rem;
+        }
+
+        .info-card .value {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-gold);
+            font-size: 1rem;
+        }
+
+        .exercise-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+        }
+
+        .exercise-box h4 {
+            color: var(--accent-purple);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            margin-top: 0;
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: space-between;
+            padding: 2rem 0;
+            border-top: 1px solid var(--border-color);
+            margin-top: 4rem;
+        }
+
+        .nav-links a {
+            color: var(--accent-purple);
+            text-decoration: none;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover { color: var(--accent-gold); }
+
+        .katex { font-size: 1.1em; }
+        .katex-display { margin: 1.5rem 0; overflow-x: auto; }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .container { padding: 0 1rem; }
+            .controls { flex-direction: column; align-items: center; }
+            canvas { max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="lecture-number">LECTURE 04</div>
+            <h1>Bonds Point</h1>
+            <p class="subtitle">The primitive of orientation. Where does it point?</p>
+            <div class="primitive-tag">DIRECTION</div>
+        </header>
+
+        <!-- The Hook -->
+        <section id="hook">
+            <h2>The Hook</h2>
+
+            <div class="visual-container">
+                <div class="visual-title">[ WATER MOLECULE — 3D VIEW ]</div>
+                <canvas id="water-canvas" width="600" height="350"></canvas>
+                <div class="controls">
+                    <div class="control-group">
+                        <label>Rotate X</label>
+                        <input type="range" id="water-rotX" min="-180" max="180" value="20">
+                    </div>
+                    <div class="control-group">
+                        <label>Rotate Y</label>
+                        <input type="range" id="water-rotY" min="-180" max="180" value="30">
+                    </div>
+                </div>
+                <p style="text-align: center; color: var(--text-muted); margin-top: 1rem; font-size: 0.9rem;">
+                    Each bond has a <strong>length</strong> and a <strong>direction</strong>.
+                </p>
+            </div>
+
+            <div class="hook-box">
+                <p>Look at the bonds. Each bond connects two atoms. Each bond has a <strong>length</strong>. But each bond also points <strong>somewhere</strong>.</p>
+                <p>The O-H bond on the left points in a different direction than the O-H bond on the right.</p>
+                <p style="margin-bottom: 0;"><strong>How do we describe "where a bond points"?</strong></p>
+            </div>
+
+            <p>A single number won't do.</p>
+            <p>"The bond points 0.96 Å" — meaningless. That's a length, not a direction.</p>
+            <p>"The bond points northeast" — better, but imprecise. And what about 3D?</p>
+            <p>We need a mathematical object that captures both <strong>magnitude</strong> (how long) and <strong>direction</strong> (which way).</p>
+            <p>That object is the <strong>vector</strong>.</p>
+        </section>
+
+        <!-- Recognition -->
+        <section id="recognition">
+            <h2>Recognition</h2>
+
+            <div class="definition-box">
+                <div class="label">THE PRIMITIVE</div>
+                <p><strong>DIRECTION:</strong> "It points."</p>
+                <p style="margin-bottom: 0;">Before we formalize: you already perceive direction. Which way is up? Point to the door. The wind blows from the west. Direction is a primitive perception. The vector is its mathematical formalization.</p>
+            </div>
+        </section>
+
+        <!-- The Vector: Geometric Definition -->
+        <section id="vector-definition">
+            <h2>The Vector: Geometric Definition</h2>
+
+            <h3>What a Vector Is</h3>
+
+            <div class="definition-box">
+                <div class="label">DEFINITION (GEOMETRIC)</div>
+                <p>A <strong>vector</strong> is a directed line segment — an arrow with a specific length and direction.</p>
+                <p style="margin-bottom: 0;">Two vectors are <strong>equal</strong> if they have the same length and the same direction, regardless of where they are located in space.</p>
+            </div>
+
+            <div class="visual-container">
+                <div class="visual-title">[ EQUAL VECTORS ]</div>
+                <canvas id="equal-vectors-canvas" width="600" height="250"></canvas>
+                <p style="text-align: center; color: var(--text-muted); margin-top: 1rem; font-size: 0.9rem;">
+                    These are all the same vector. Location doesn't matter — only length and direction.
+                </p>
+            </div>
+
+            <h4>Notation</h4>
+            <ul>
+                <li>Vectors: <strong>v</strong>, <strong>w</strong>, or $\vec{v}$, $\vec{w}$</li>
+                <li>We use bold: <strong>v</strong></li>
+                <li>The magnitude (length) of <strong>v</strong>: |<strong>v</strong>| or ‖<strong>v</strong>‖</li>
+            </ul>
+
+            <h4>The Zero Vector</h4>
+            <p>The <strong>zero vector</strong> <strong>0</strong> has magnitude zero. It has no direction (or equivalently, every direction). It is the only vector with |<strong>v</strong>| = 0.</p>
+
+            <h4>Scalars vs. Vectors</h4>
+            <p>A <strong>scalar</strong> is a single number (element of ℝ or ℂ). A <strong>vector</strong> is an object with magnitude and direction.</p>
+
+            <table>
+                <thead>
+                    <tr><th>Scalars</th><th>Vectors</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Temperature (300 K)</td><td>Velocity (5 m/s northward)</td></tr>
+                    <tr><td>Energy</td><td>Force</td></tr>
+                    <tr><td>Mass</td><td>Momentum</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Vector Operations -->
+        <section id="vector-operations">
+            <h2>Vector Operations</h2>
+
+            <h3>Scalar Multiplication</h3>
+
+            <div class="definition-box">
+                <div class="label">DEFINITION</div>
+                <p>For scalar $c \in \mathbb{R}$ and vector <strong>v</strong>:</p>
+                <ul style="margin-bottom: 0;">
+                    <li>If $c > 0$: $c\mathbf{v}$ points in the same direction as <strong>v</strong>, with magnitude $c|\mathbf{v}|$</li>
+                    <li>If $c < 0$: $c\mathbf{v}$ points opposite to <strong>v</strong>, with magnitude $|c||\mathbf{v}|$</li>
+                    <li>If $c = 0$: $c\mathbf{v} = \mathbf{0}$</li>
+                </ul>
+            </div>
+
+            <div class="visual-container">
+                <div class="visual-title">[ SCALAR MULTIPLICATION ]</div>
+                <canvas id="scalar-mult-canvas" width="600" height="300"></canvas>
+                <div class="controls">
+                    <div class="control-group">
+                        <label>Scalar c</label>
+                        <input type="range" id="scalar-c" min="-20" max="20" value="10">
+                        <span class="value-display" id="scalar-c-val">1.0</span>
+                    </div>
+                </div>
+                <div class="info-display">
+                    <span id="scalar-info">c<strong>v</strong>: same direction, scaled magnitude</span>
+                </div>
+            </div>
+
+            <h3>Vector Addition</h3>
+
+            <div class="definition-box">
+                <div class="label">DEFINITION (GEOMETRIC)</div>
+                <p>To add <strong>v</strong> + <strong>w</strong>:</p>
+                <ol style="margin-bottom: 0;">
+                    <li>Place the tail of <strong>w</strong> at the head of <strong>v</strong></li>
+                    <li>The sum is the vector from the tail of <strong>v</strong> to the head of <strong>w</strong></li>
+                </ol>
+                <p style="margin-top: 0.5rem; margin-bottom: 0;">This is the <strong>tip-to-tail</strong> or <strong>head-to-tail</strong> rule.</p>
+            </div>
+
+            <div class="visual-container">
+                <div class="visual-title">[ VECTOR ADDITION — TIP-TO-TAIL ]</div>
+                <canvas id="vector-add-canvas" width="600" height="350"></canvas>
+                <div class="controls">
+                    <div class="control-group">
+                        <label>v angle</label>
+                        <input type="range" id="add-v-angle" min="0" max="360" value="30">
+                    </div>
+                    <div class="control-group">
+                        <label>v length</label>
+                        <input type="range" id="add-v-len" min="20" max="120" value="80">
+                    </div>
+                    <div class="control-group">
+                        <label>w angle</label>
+                        <input type="range" id="add-w-angle" min="0" max="360" value="80">
+                    </div>
+                    <div class="control-group">
+                        <label>w length</label>
+                        <input type="range" id="add-w-len" min="20" max="120" value="60">
+                    </div>
+                </div>
+                <div class="info-display">
+                    <div><span style="color: var(--accent-blue);">●</span> <strong>v</strong> &nbsp;&nbsp; <span style="color: var(--accent-red);">●</span> <strong>w</strong> &nbsp;&nbsp; <span style="color: var(--accent-purple);">●</span> <strong>v</strong> + <strong>w</strong></div>
+                </div>
+            </div>
+
+            <h4>Properties of Vector Addition</h4>
+            <p>For vectors <strong>u</strong>, <strong>v</strong>, <strong>w</strong>:</p>
+            <ol>
+                <li><strong>v</strong> + <strong>w</strong> = <strong>w</strong> + <strong>v</strong> (commutative)</li>
+                <li>(<strong>u</strong> + <strong>v</strong>) + <strong>w</strong> = <strong>u</strong> + (<strong>v</strong> + <strong>w</strong>) (associative)</li>
+                <li><strong>v</strong> + <strong>0</strong> = <strong>v</strong> (identity)</li>
+                <li><strong>v</strong> + (-<strong>v</strong>) = <strong>0</strong> (inverse)</li>
+            </ol>
+            <p>These properties make the set of vectors a <strong>vector space</strong> over ℝ.</p>
+        </section>
+
+        <!-- Vectors in Coordinates -->
+        <section id="coordinates">
+            <h2>Vectors in Coordinates</h2>
+
+            <h3>The Coordinate Representation</h3>
+
+            <p>Fix a coordinate system with origin O and axes. In 3D: axes x, y, z, with unit vectors <strong>î</strong>, <strong>ĵ</strong>, <strong>k̂</strong>.</p>
+
+            <div class="definition-box">
+                <div class="label">DEFINITION</div>
+                <p>A vector <strong>v</strong> in 3D can be written:</p>
+                <p style="text-align: center;">$\mathbf{v} = v_x \mathbf{\hat{i}} + v_y \mathbf{\hat{j}} + v_z \mathbf{\hat{k}}$</p>
+                <p style="margin-bottom: 0;">where $v_x$, $v_y$, $v_z$ are the <strong>components</strong> of <strong>v</strong>.</p>
+            </div>
+
+            <div class="visual-container">
+                <div class="visual-title">[ VECTOR COMPONENTS IN 3D ]</div>
+                <canvas id="components-canvas" width="600" height="350"></canvas>
+                <div class="controls">
+                    <div class="control-group">
+                        <label>vₓ</label>
+                        <input type="range" id="comp-vx" min="-50" max="50" value="30">
+                        <span class="value-display" id="comp-vx-val">3.0</span>
+                    </div>
+                    <div class="control-group">
+                        <label>vᵧ</label>
+                        <input type="range" id="comp-vy" min="-50" max="50" value="20">
+                        <span class="value-display" id="comp-vy-val">2.0</span>
+                    </div>
+                    <div class="control-group">
+                        <label>vᵤ</label>
+                        <input type="range" id="comp-vz" min="-50" max="50" value="40">
+                        <span class="value-display" id="comp-vz-val">4.0</span>
+                    </div>
+                </div>
+                <div class="info-display">
+                    <strong>v</strong> = (<span id="comp-display">3.0, 2.0, 4.0</span>)
+                    <div class="result">|<strong>v</strong>| = <span id="comp-mag">5.39</span></div>
+                </div>
+            </div>
+
+            <h3>Component Arithmetic</h3>
+
+            <p><strong>Addition:</strong> Add component-wise.</p>
+            <p style="text-align: center;">$(v_x, v_y, v_z) + (w_x, w_y, w_z) = (v_x + w_x, v_y + w_y, v_z + w_z)$</p>
+
+            <p><strong>Scalar multiplication:</strong> Multiply each component.</p>
+            <p style="text-align: center;">$c(v_x, v_y, v_z) = (cv_x, cv_y, cv_z)$</p>
+
+            <h3>Magnitude from Components</h3>
+
+            <div class="definition-box">
+                <div class="label">THEOREM</div>
+                <p>The magnitude of <strong>v</strong> = $(v_x, v_y, v_z)$ is:</p>
+                <p style="text-align: center; font-size: 1.2rem; margin-bottom: 0;">$|\mathbf{v}| = \sqrt{v_x^2 + v_y^2 + v_z^2}$</p>
+            </div>
+
+            <h3>Unit Vectors</h3>
+
+            <p>A <strong>unit vector</strong> has magnitude 1. Given any nonzero vector <strong>v</strong>, the <strong>unit vector in the direction of v</strong> is:</p>
+            <p style="text-align: center;">$\mathbf{\hat{v}} = \frac{\mathbf{v}}{|\mathbf{v}|}$</p>
+            <p>This process is called <strong>normalization</strong>.</p>
+        </section>
+
+        <!-- Chemistry Connection: Bond Vectors -->
+        <section id="bond-vectors">
+            <h2>Chemistry Connection: Bond Vectors</h2>
+
+            <h3>Molecular Coordinates</h3>
+
+            <p>A molecule is specified by the positions of its atoms.</p>
+
+            <table>
+                <thead>
+                    <tr><th>Atom</th><th>x (Å)</th><th>y (Å)</th><th>z (Å)</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>O</td><td>0.000</td><td>0.000</td><td>0.000</td></tr>
+                    <tr><td>H₁</td><td>0.958</td><td>0.000</td><td>0.000</td></tr>
+                    <tr><td>H₂</td><td>-0.240</td><td>0.927</td><td>0.000</td></tr>
+                </tbody>
+            </table>
+
+            <h3>Computing Bond Vectors</h3>
+
+            <p>The <strong>bond vector</strong> from atom A to atom B is:</p>
+            <p style="text-align: center;">$\mathbf{b}_{AB} = \mathbf{r}_B - \mathbf{r}_A$</p>
+
+            <div class="visual-container">
+                <div class="visual-title">[ BOND VECTOR CALCULATOR ]</div>
+                <canvas id="bond-calc-canvas" width="600" height="300"></canvas>
+                <div class="controls no-border">
+                    <div class="control-group">
+                        <label>Molecule</label>
+                        <select id="molecule-select">
+                            <option value="h2o" selected>H₂O (Water)</option>
+                            <option value="ch4">CH₄ (Methane)</option>
+                            <option value="co2">CO₂ (Carbon Dioxide)</option>
+                            <option value="nh3">NH₃ (Ammonia)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="molecule-info" id="molecule-info"></div>
+            </div>
+
+            <h3>General Bond Length Formula</h3>
+
+            <p>For atoms at positions <strong>r</strong>_A and <strong>r</strong>_B:</p>
+            <p style="text-align: center;">$d_{AB} = |\mathbf{r}_B - \mathbf{r}_A| = \sqrt{(x_B - x_A)^2 + (y_B - y_A)^2 + (z_B - z_A)^2}$</p>
+            <p>This is the <strong>Euclidean distance</strong> between two points.</p>
+        </section>
+
+        <!-- The Dot Product (Preview) -->
+        <section id="dot-product">
+            <h2>The Dot Product (Preview)</h2>
+
+            <p>We can compute bond vectors and bond lengths. But what about the <strong>angle</strong> between two bonds?</p>
+            <p>This requires a new operation: the <strong>dot product</strong>.</p>
+
+            <div class="definition-box">
+                <div class="label">DEFINITION</div>
+                <p>The <strong>dot product</strong> of <strong>v</strong> and <strong>w</strong> is:</p>
+                <p style="text-align: center;">$\mathbf{v} \cdot \mathbf{w} = |\mathbf{v}||\mathbf{w}|\cos\theta$</p>
+                <p>where θ is the angle between the vectors.</p>
+                <p><strong>Equivalently (in components):</strong></p>
+                <p style="text-align: center; margin-bottom: 0;">$\mathbf{v} \cdot \mathbf{w} = v_x w_x + v_y w_y + v_z w_z$</p>
+            </div>
+
+            <p><strong>Finding the angle:</strong></p>
+            <p style="text-align: center;">$\theta = \arccos\left(\frac{\mathbf{v} \cdot \mathbf{w}}{|\mathbf{v}||\mathbf{w}|}\right)$</p>
+
+            <div class="visual-container">
+                <div class="visual-title">[ DOT PRODUCT — ANGLE BETWEEN VECTORS ]</div>
+                <canvas id="dot-product-canvas" width="600" height="300"></canvas>
+                <div class="controls">
+                    <div class="control-group">
+                        <label>Angle θ</label>
+                        <input type="range" id="dot-angle" min="0" max="180" value="60">
+                        <span class="value-display" id="dot-angle-val">60°</span>
+                    </div>
+                </div>
+                <div class="info-display">
+                    <div><strong>v</strong> · <strong>w</strong> = |<strong>v</strong>||<strong>w</strong>| cos(θ) = <span id="dot-value">0.50</span></div>
+                    <div class="result" id="dot-interpretation">Acute angle: vectors point in similar directions</div>
+                </div>
+            </div>
+
+            <h3>Water Bond Angle Calculation</h3>
+
+            <p><strong>b</strong>₁ = (0.958, 0, 0), <strong>b</strong>₂ = (-0.240, 0.927, 0)</p>
+            <p><strong>b</strong>₁ · <strong>b</strong>₂ = (0.958)(-0.240) + (0)(0.927) + (0)(0) = -0.230</p>
+            <p>|<strong>b</strong>₁| = 0.958, |<strong>b</strong>₂| = 0.958</p>
+            <p style="text-align: center;">$\cos\theta = \frac{-0.230}{0.958 \times 0.958} = -0.251$</p>
+            <p style="text-align: center;">$\theta = \arccos(-0.251) = 104.5°$</p>
+            <p>This is the famous H-O-H bond angle in water.</p>
+        </section>
+
+        <!-- Dipole Moments -->
+        <section id="dipole-moments">
+            <h2>Dipole Moments as Vectors</h2>
+
+            <p>A <strong>dipole moment</strong> is a vector quantity.</p>
+            <ul>
+                <li><strong>Bond dipole:</strong> Points from δ+ to δ-</li>
+                <li><strong>Molecular dipole:</strong> The vector sum of all bond dipoles</li>
+            </ul>
+            <p style="text-align: center;">$\boldsymbol{\mu}_{mol} = \sum_i \boldsymbol{\mu}_i$</p>
+
+            <div class="visual-container">
+                <div class="visual-title">[ DIPOLE ADDITION ]</div>
+                <canvas id="dipole-canvas" width="600" height="350"></canvas>
+                <div class="controls">
+                    <div class="control-group">
+                        <label>Molecule</label>
+                        <select id="dipole-molecule">
+                            <option value="co2">CO₂ (Linear, nonpolar)</option>
+                            <option value="h2o" selected>H₂O (Bent, polar)</option>
+                        </select>
+                    </div>
+                    <div class="control-group" id="angle-control">
+                        <label>Bond Angle</label>
+                        <input type="range" id="dipole-angle" min="60" max="180" value="105">
+                        <span class="value-display" id="dipole-angle-val">105°</span>
+                    </div>
+                </div>
+                <div class="info-display">
+                    <div id="dipole-result">Net dipole: μ = 1.84 D (polar)</div>
+                </div>
+            </div>
+
+            <p><strong>CO₂:</strong> Each C=O bond is polar, but they point in opposite directions. The vector sum is zero. CO₂ is nonpolar despite having polar bonds.</p>
+
+            <p><strong>H₂O:</strong> Two O-H bond dipoles at 104.5°. They don't cancel. The vector sum is nonzero. H₂O is polar.</p>
+        </section>
+
+        <!-- Summary -->
+        <section id="summary">
+            <h2>Summary</h2>
+
+            <h3>Key Operations</h3>
+
+            <table>
+                <thead>
+                    <tr><th>Operation</th><th>Geometric</th><th>Algebraic</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Addition</td><td>Tip-to-tail</td><td>Component-wise</td></tr>
+                    <tr><td>Scalar mult</td><td>Scale length, possibly reverse</td><td>Multiply each component</td></tr>
+                    <tr><td>Magnitude</td><td>Length of arrow</td><td>√(Σvᵢ²)</td></tr>
+                    <tr><td>Normalization</td><td>Scale to unit length</td><td><strong>v</strong>/|<strong>v</strong>|</td></tr>
+                </tbody>
+            </table>
+
+            <h3>Chemistry Applications</h3>
+
+            <table>
+                <thead>
+                    <tr><th>Concept</th><th>Vector Interpretation</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Bond</td><td>Displacement vector from atom A to atom B</td></tr>
+                    <tr><td>Bond length</td><td>Magnitude of bond vector</td></tr>
+                    <tr><td>Dipole moment</td><td>Vector from δ+ to δ-</td></tr>
+                    <tr><td>Molecular dipole</td><td>Vector sum of bond dipoles</td></tr>
+                    <tr><td>Force</td><td>Vector (magnitude and direction)</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Exercises -->
+        <section id="exercises">
+            <h2>Exercises</h2>
+
+            <div class="exercise-box">
+                <h4>Exercise 1: Basic Operations</h4>
+                <p>Let <strong>v</strong> = (3, -1, 2) and <strong>w</strong> = (1, 4, -1).</p>
+                <p>(a) Compute <strong>v</strong> + <strong>w</strong></p>
+                <p>(b) Compute <strong>v</strong> - <strong>w</strong></p>
+                <p>(c) Compute 3<strong>v</strong> - 2<strong>w</strong></p>
+                <p>(d) Compute |<strong>v</strong>| and |<strong>w</strong>|</p>
+                <p>(e) Find the unit vector in the direction of <strong>v</strong></p>
+            </div>
+
+            <div class="exercise-box">
+                <h4>Exercise 2: Bond Vectors</h4>
+                <p>Methane (CH₄) has C at the origin and H atoms at:</p>
+                <ul>
+                    <li>H₁: (1.0, 1.0, 1.0) Å</li>
+                    <li>H₂: (1.0, -1.0, -1.0) Å</li>
+                    <li>H₃: (-1.0, 1.0, -1.0) Å</li>
+                    <li>H₄: (-1.0, -1.0, 1.0) Å</li>
+                </ul>
+                <p>(a) Compute all four C-H bond lengths. Are they equal?</p>
+                <p>(b) Using the dot product, compute the angle between C-H₁ and C-H₂ bonds.</p>
+            </div>
+
+            <div class="exercise-box">
+                <h4>Exercise 3: Dipole Moments</h4>
+                <p>A water molecule has two O-H bond dipoles, each of magnitude 1.5 D, separated by the H-O-H angle of 104.5°.</p>
+                <p>(a) Set up a coordinate system and write the two bond dipole vectors.</p>
+                <p>(b) Compute the molecular dipole moment magnitude.</p>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <nav class="nav-links">
+            <a href="../03-collection/">← Lecture 3: Counting Things</a>
+            <a href="../05-arrangement/">Lecture 5: Angles and Projections →</a>
+        </nav>
+    </div>
+
+    <script>
+        // Initialize KaTeX
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false}
+                ],
+                throwOnError: false
+            });
+        });
+
+        // ===== WATER MOLECULE 3D =====
+        const waterCanvas = document.getElementById('water-canvas');
+        const waterCtx = waterCanvas.getContext('2d');
+        const waterRotX = document.getElementById('water-rotX');
+        const waterRotY = document.getElementById('water-rotY');
+
+        // Water molecule coordinates (O at origin)
+        const waterAtoms = [
+            { pos: [0, 0, 0], color: '#dc8b8b', label: 'O', radius: 20 },
+            { pos: [0.958, 0, 0], color: '#e8e6e3', label: 'H', radius: 12 },
+            { pos: [-0.240, 0.927, 0], color: '#e8e6e3', label: 'H', radius: 12 }
+        ];
+
+        function rotate3D(point, rx, ry) {
+            let [x, y, z] = point;
+            // Rotate around X
+            const cosX = Math.cos(rx), sinX = Math.sin(rx);
+            let y1 = y * cosX - z * sinX;
+            let z1 = y * sinX + z * cosX;
+            // Rotate around Y
+            const cosY = Math.cos(ry), sinY = Math.sin(ry);
+            let x1 = x * cosY + z1 * sinY;
+            let z2 = -x * sinY + z1 * cosY;
+            return [x1, y1, z2];
+        }
+
+        function project(point, scale, cx, cy) {
+            const [x, y, z] = point;
+            const fov = 300;
+            const zoom = fov / (fov + z * 50);
+            return {
+                x: cx + x * scale * zoom,
+                y: cy - y * scale * zoom,
+                z: z,
+                zoom: zoom
+            };
+        }
+
+        function drawWaterMolecule() {
+            const width = waterCanvas.width;
+            const height = waterCanvas.height;
+            const cx = width / 2;
+            const cy = height / 2;
+            const scale = 150;
+
+            waterCtx.fillStyle = '#12121a';
+            waterCtx.fillRect(0, 0, width, height);
+
+            const rx = parseInt(waterRotX.value) * Math.PI / 180;
+            const ry = parseInt(waterRotY.value) * Math.PI / 180;
+
+            // Transform atoms
+            const transformed = waterAtoms.map(atom => {
+                const rotated = rotate3D(atom.pos, rx, ry);
+                const projected = project(rotated, scale, cx, cy);
+                return { ...atom, projected, rotated };
+            });
+
+            // Sort by z for proper depth ordering
+            transformed.sort((a, b) => a.projected.z - b.projected.z);
+
+            // Draw bonds first
+            waterCtx.strokeStyle = '#6b6966';
+            waterCtx.lineWidth = 6;
+            for (let i = 1; i < transformed.length; i++) {
+                waterCtx.beginPath();
+                waterCtx.moveTo(transformed[0].projected.x, transformed[0].projected.y);
+                const hAtom = transformed.find(a => a.label === 'H' && a !== transformed[0]);
+                if (hAtom) {
+                    waterCtx.lineTo(hAtom.projected.x, hAtom.projected.y);
+                }
+                waterCtx.stroke();
+            }
+
+            // Draw O-H bonds
+            const oAtom = transformed.find(a => a.label === 'O');
+            transformed.filter(a => a.label === 'H').forEach(hAtom => {
+                waterCtx.beginPath();
+                waterCtx.moveTo(oAtom.projected.x, oAtom.projected.y);
+                waterCtx.lineTo(hAtom.projected.x, hAtom.projected.y);
+                waterCtx.strokeStyle = '#6b6966';
+                waterCtx.lineWidth = 8;
+                waterCtx.stroke();
+            });
+
+            // Draw atoms
+            transformed.forEach(atom => {
+                const p = atom.projected;
+                const r = atom.radius * p.zoom;
+
+                // Atom
+                waterCtx.beginPath();
+                waterCtx.arc(p.x, p.y, r, 0, Math.PI * 2);
+                waterCtx.fillStyle = atom.color;
+                waterCtx.fill();
+
+                // Label
+                waterCtx.fillStyle = '#0a0a0f';
+                waterCtx.font = `bold ${Math.round(r * 0.8)}px "JetBrains Mono"`;
+                waterCtx.textAlign = 'center';
+                waterCtx.textBaseline = 'middle';
+                waterCtx.fillText(atom.label, p.x, p.y);
+            });
+
+            // Draw bond angle arc
+            const o = oAtom.projected;
+            waterCtx.beginPath();
+            waterCtx.arc(o.x, o.y, 40, -0.1, 1.8);
+            waterCtx.strokeStyle = 'rgba(212, 165, 116, 0.5)';
+            waterCtx.lineWidth = 2;
+            waterCtx.stroke();
+
+            waterCtx.fillStyle = '#d4a574';
+            waterCtx.font = '14px "JetBrains Mono"';
+            waterCtx.textAlign = 'left';
+            waterCtx.fillText('104.5°', o.x + 45, o.y - 10);
+        }
+
+        waterRotX.addEventListener('input', drawWaterMolecule);
+        waterRotY.addEventListener('input', drawWaterMolecule);
+        drawWaterMolecule();
+
+        // ===== EQUAL VECTORS =====
+        const equalCanvas = document.getElementById('equal-vectors-canvas');
+        const equalCtx = equalCanvas.getContext('2d');
+
+        function drawEqualVectors() {
+            const width = equalCanvas.width;
+            const height = equalCanvas.height;
+
+            equalCtx.fillStyle = '#12121a';
+            equalCtx.fillRect(0, 0, width, height);
+
+            // Draw several equal vectors at different positions
+            const vectors = [
+                { x: 100, y: 150 },
+                { x: 250, y: 80 },
+                { x: 400, y: 180 },
+                { x: 180, y: 200 },
+                { x: 480, y: 100 }
+            ];
+
+            const vx = 80, vy = -40; // Same vector components
+
+            vectors.forEach((start, i) => {
+                drawArrow(equalCtx, start.x, start.y, start.x + vx, start.y + vy, '#9d8cd9', 3);
+            });
+
+            // Label
+            equalCtx.fillStyle = '#a8a5a0';
+            equalCtx.font = '12px "JetBrains Mono"';
+            equalCtx.textAlign = 'center';
+            equalCtx.fillText('All five arrows represent the same vector v', width / 2, height - 15);
+        }
+
+        function drawArrow(ctx, x1, y1, x2, y2, color, width) {
+            const headLen = 12;
+            const angle = Math.atan2(y2 - y1, x2 - x1);
+
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.strokeStyle = color;
+            ctx.lineWidth = width;
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(x2, y2);
+            ctx.lineTo(x2 - headLen * Math.cos(angle - Math.PI / 6), y2 - headLen * Math.sin(angle - Math.PI / 6));
+            ctx.lineTo(x2 - headLen * Math.cos(angle + Math.PI / 6), y2 - headLen * Math.sin(angle + Math.PI / 6));
+            ctx.closePath();
+            ctx.fillStyle = color;
+            ctx.fill();
+        }
+
+        drawEqualVectors();
+
+        // ===== SCALAR MULTIPLICATION =====
+        const scalarCanvas = document.getElementById('scalar-mult-canvas');
+        const scalarCtx = scalarCanvas.getContext('2d');
+        const scalarC = document.getElementById('scalar-c');
+        const scalarCVal = document.getElementById('scalar-c-val');
+        const scalarInfo = document.getElementById('scalar-info');
+
+        function drawScalarMult() {
+            const width = scalarCanvas.width;
+            const height = scalarCanvas.height;
+            const cx = width / 2;
+            const cy = height / 2;
+
+            scalarCtx.fillStyle = '#12121a';
+            scalarCtx.fillRect(0, 0, width, height);
+
+            const c = parseInt(scalarC.value) / 10;
+            scalarCVal.textContent = c.toFixed(1);
+
+            // Base vector
+            const vx = 60, vy = 0;
+
+            // Draw axis
+            scalarCtx.strokeStyle = '#2a2a35';
+            scalarCtx.lineWidth = 1;
+            scalarCtx.beginPath();
+            scalarCtx.moveTo(50, cy);
+            scalarCtx.lineTo(width - 50, cy);
+            scalarCtx.stroke();
+
+            // Origin dot
+            scalarCtx.beginPath();
+            scalarCtx.arc(cx, cy, 4, 0, Math.PI * 2);
+            scalarCtx.fillStyle = '#6b6966';
+            scalarCtx.fill();
+
+            // Original vector (dashed)
+            scalarCtx.setLineDash([5, 5]);
+            drawArrow(scalarCtx, cx, cy - 30, cx + vx, cy - 30, '#6b6966', 2);
+            scalarCtx.setLineDash([]);
+
+            scalarCtx.fillStyle = '#6b6966';
+            scalarCtx.font = '12px "JetBrains Mono"';
+            scalarCtx.textAlign = 'left';
+            scalarCtx.fillText('v', cx + vx + 10, cy - 30);
+
+            // Scaled vector
+            const scaledX = c * vx;
+            if (Math.abs(scaledX) > 5) {
+                drawArrow(scalarCtx, cx, cy + 30, cx + scaledX, cy + 30, '#d4a574', 3);
+            }
+
+            scalarCtx.fillStyle = '#d4a574';
+            scalarCtx.fillText('cv', cx + scaledX + (c >= 0 ? 10 : -25), cy + 30);
+
+            // Update info
+            if (c > 0) {
+                scalarInfo.textContent = `c = ${c.toFixed(1)} > 0: same direction, magnitude × ${c.toFixed(1)}`;
+            } else if (c < 0) {
+                scalarInfo.textContent = `c = ${c.toFixed(1)} < 0: opposite direction, magnitude × ${Math.abs(c).toFixed(1)}`;
+            } else {
+                scalarInfo.textContent = 'c = 0: zero vector';
+            }
+        }
+
+        scalarC.addEventListener('input', drawScalarMult);
+        drawScalarMult();
+
+        // ===== VECTOR ADDITION =====
+        const addCanvas = document.getElementById('vector-add-canvas');
+        const addCtx = addCanvas.getContext('2d');
+        const addVAngle = document.getElementById('add-v-angle');
+        const addVLen = document.getElementById('add-v-len');
+        const addWAngle = document.getElementById('add-w-angle');
+        const addWLen = document.getElementById('add-w-len');
+
+        function drawVectorAdd() {
+            const width = addCanvas.width;
+            const height = addCanvas.height;
+
+            addCtx.fillStyle = '#12121a';
+            addCtx.fillRect(0, 0, width, height);
+
+            const startX = 120, startY = 250;
+
+            const vAngle = parseInt(addVAngle.value) * Math.PI / 180;
+            const vLen = parseInt(addVLen.value);
+            const wAngle = parseInt(addWAngle.value) * Math.PI / 180;
+            const wLen = parseInt(addWLen.value);
+
+            const vx = vLen * Math.cos(vAngle);
+            const vy = -vLen * Math.sin(vAngle);
+            const wx = wLen * Math.cos(wAngle);
+            const wy = -wLen * Math.sin(wAngle);
+
+            // Draw v (blue)
+            drawArrow(addCtx, startX, startY, startX + vx, startY + vy, '#7db3dc', 3);
+            addCtx.fillStyle = '#7db3dc';
+            addCtx.font = 'bold 14px "JetBrains Mono"';
+            addCtx.fillText('v', startX + vx / 2 - 15, startY + vy / 2 - 10);
+
+            // Draw w from tip of v (red)
+            drawArrow(addCtx, startX + vx, startY + vy, startX + vx + wx, startY + vy + wy, '#dc8b8b', 3);
+            addCtx.fillStyle = '#dc8b8b';
+            addCtx.fillText('w', startX + vx + wx / 2 + 10, startY + vy + wy / 2 - 10);
+
+            // Draw sum v + w (purple)
+            drawArrow(addCtx, startX, startY, startX + vx + wx, startY + vy + wy, '#9d8cd9', 4);
+            addCtx.fillStyle = '#9d8cd9';
+            addCtx.fillText('v + w', startX + (vx + wx) / 2 - 30, startY + (vy + wy) / 2 + 20);
+
+            // Origin label
+            addCtx.fillStyle = '#6b6966';
+            addCtx.font = '11px "JetBrains Mono"';
+            addCtx.fillText('origin', startX - 25, startY + 20);
+        }
+
+        addVAngle.addEventListener('input', drawVectorAdd);
+        addVLen.addEventListener('input', drawVectorAdd);
+        addWAngle.addEventListener('input', drawVectorAdd);
+        addWLen.addEventListener('input', drawVectorAdd);
+        drawVectorAdd();
+
+        // ===== VECTOR COMPONENTS =====
+        const compCanvas = document.getElementById('components-canvas');
+        const compCtx = compCanvas.getContext('2d');
+        const compVx = document.getElementById('comp-vx');
+        const compVy = document.getElementById('comp-vy');
+        const compVz = document.getElementById('comp-vz');
+        const compVxVal = document.getElementById('comp-vx-val');
+        const compVyVal = document.getElementById('comp-vy-val');
+        const compVzVal = document.getElementById('comp-vz-val');
+        const compDisplay = document.getElementById('comp-display');
+        const compMag = document.getElementById('comp-mag');
+
+        function drawComponents() {
+            const width = compCanvas.width;
+            const height = compCanvas.height;
+            const cx = width / 2 - 50;
+            const cy = height / 2 + 30;
+
+            compCtx.fillStyle = '#12121a';
+            compCtx.fillRect(0, 0, width, height);
+
+            const vx = parseInt(compVx.value) / 10;
+            const vy = parseInt(compVy.value) / 10;
+            const vz = parseInt(compVz.value) / 10;
+
+            compVxVal.textContent = vx.toFixed(1);
+            compVyVal.textContent = vy.toFixed(1);
+            compVzVal.textContent = vz.toFixed(1);
+
+            const mag = Math.sqrt(vx * vx + vy * vy + vz * vz);
+            compDisplay.textContent = `${vx.toFixed(1)}, ${vy.toFixed(1)}, ${vz.toFixed(1)}`;
+            compMag.textContent = mag.toFixed(2);
+
+            const scale = 25;
+            const isoAngle = Math.PI / 6;
+
+            // Project 3D to 2D (isometric)
+            function iso(x, y, z) {
+                return {
+                    x: cx + (x - z) * Math.cos(isoAngle) * scale,
+                    y: cy - y * scale + (x + z) * Math.sin(isoAngle) * scale * 0.5
+                };
+            }
+
+            // Draw axes
+            const axisLen = 5;
+            const ox = iso(0, 0, 0);
+
+            // X axis
+            const xEnd = iso(axisLen, 0, 0);
+            compCtx.strokeStyle = '#dc8b8b';
+            compCtx.lineWidth = 2;
+            compCtx.beginPath();
+            compCtx.moveTo(ox.x, ox.y);
+            compCtx.lineTo(xEnd.x, xEnd.y);
+            compCtx.stroke();
+            compCtx.fillStyle = '#dc8b8b';
+            compCtx.font = '12px "JetBrains Mono"';
+            compCtx.fillText('x', xEnd.x + 10, xEnd.y);
+
+            // Y axis
+            const yEnd = iso(0, axisLen, 0);
+            compCtx.strokeStyle = '#8bc49d';
+            compCtx.beginPath();
+            compCtx.moveTo(ox.x, ox.y);
+            compCtx.lineTo(yEnd.x, yEnd.y);
+            compCtx.stroke();
+            compCtx.fillStyle = '#8bc49d';
+            compCtx.fillText('y', yEnd.x - 5, yEnd.y - 10);
+
+            // Z axis
+            const zEnd = iso(0, 0, axisLen);
+            compCtx.strokeStyle = '#7db3dc';
+            compCtx.beginPath();
+            compCtx.moveTo(ox.x, ox.y);
+            compCtx.lineTo(zEnd.x, zEnd.y);
+            compCtx.stroke();
+            compCtx.fillStyle = '#7db3dc';
+            compCtx.fillText('z', zEnd.x - 15, zEnd.y);
+
+            // Draw component projections (dashed)
+            const vEnd = iso(vx, vy, vz);
+            const vxProj = iso(vx, 0, 0);
+            const vxyProj = iso(vx, vy, 0);
+
+            compCtx.setLineDash([4, 4]);
+            compCtx.strokeStyle = '#6b6966';
+            compCtx.lineWidth = 1;
+
+            // x component
+            compCtx.beginPath();
+            compCtx.moveTo(ox.x, ox.y);
+            compCtx.lineTo(vxProj.x, vxProj.y);
+            compCtx.stroke();
+
+            // xy plane
+            compCtx.beginPath();
+            compCtx.moveTo(vxProj.x, vxProj.y);
+            compCtx.lineTo(vxyProj.x, vxyProj.y);
+            compCtx.stroke();
+
+            // to full vector
+            compCtx.beginPath();
+            compCtx.moveTo(vxyProj.x, vxyProj.y);
+            compCtx.lineTo(vEnd.x, vEnd.y);
+            compCtx.stroke();
+
+            compCtx.setLineDash([]);
+
+            // Draw vector
+            compCtx.strokeStyle = '#d4a574';
+            compCtx.lineWidth = 3;
+            compCtx.beginPath();
+            compCtx.moveTo(ox.x, ox.y);
+            compCtx.lineTo(vEnd.x, vEnd.y);
+            compCtx.stroke();
+
+            // Arrowhead
+            const angle = Math.atan2(vEnd.y - ox.y, vEnd.x - ox.x);
+            compCtx.beginPath();
+            compCtx.moveTo(vEnd.x, vEnd.y);
+            compCtx.lineTo(vEnd.x - 10 * Math.cos(angle - Math.PI / 6), vEnd.y - 10 * Math.sin(angle - Math.PI / 6));
+            compCtx.lineTo(vEnd.x - 10 * Math.cos(angle + Math.PI / 6), vEnd.y - 10 * Math.sin(angle + Math.PI / 6));
+            compCtx.closePath();
+            compCtx.fillStyle = '#d4a574';
+            compCtx.fill();
+
+            compCtx.fillStyle = '#d4a574';
+            compCtx.font = 'bold 14px "JetBrains Mono"';
+            compCtx.fillText('v', vEnd.x + 10, vEnd.y - 10);
+        }
+
+        compVx.addEventListener('input', drawComponents);
+        compVy.addEventListener('input', drawComponents);
+        compVz.addEventListener('input', drawComponents);
+        drawComponents();
+
+        // ===== BOND VECTOR CALCULATOR =====
+        const bondCanvas = document.getElementById('bond-calc-canvas');
+        const bondCtx = bondCanvas.getContext('2d');
+        const moleculeSelect = document.getElementById('molecule-select');
+        const moleculeInfo = document.getElementById('molecule-info');
+
+        const molecules = {
+            h2o: {
+                name: 'Water (H₂O)',
+                atoms: [
+                    { pos: [0, 0, 0], label: 'O', color: '#dc8b8b' },
+                    { pos: [0.958, 0, 0], label: 'H', color: '#e8e6e3' },
+                    { pos: [-0.240, 0.927, 0], label: 'H', color: '#e8e6e3' }
+                ],
+                bonds: [[0, 1], [0, 2]],
+                bondAngle: 104.5
+            },
+            ch4: {
+                name: 'Methane (CH₄)',
+                atoms: [
+                    { pos: [0, 0, 0], label: 'C', color: '#6b6966' },
+                    { pos: [0.577, 0.577, 0.577], label: 'H', color: '#e8e6e3' },
+                    { pos: [0.577, -0.577, -0.577], label: 'H', color: '#e8e6e3' },
+                    { pos: [-0.577, 0.577, -0.577], label: 'H', color: '#e8e6e3' },
+                    { pos: [-0.577, -0.577, 0.577], label: 'H', color: '#e8e6e3' }
+                ],
+                bonds: [[0, 1], [0, 2], [0, 3], [0, 4]],
+                bondAngle: 109.47
+            },
+            co2: {
+                name: 'Carbon Dioxide (CO₂)',
+                atoms: [
+                    { pos: [0, 0, 0], label: 'C', color: '#6b6966' },
+                    { pos: [1.16, 0, 0], label: 'O', color: '#dc8b8b' },
+                    { pos: [-1.16, 0, 0], label: 'O', color: '#dc8b8b' }
+                ],
+                bonds: [[0, 1], [0, 2]],
+                bondAngle: 180
+            },
+            nh3: {
+                name: 'Ammonia (NH₃)',
+                atoms: [
+                    { pos: [0, 0, 0], label: 'N', color: '#7db3dc' },
+                    { pos: [0.94, 0, -0.34], label: 'H', color: '#e8e6e3' },
+                    { pos: [-0.47, 0.81, -0.34], label: 'H', color: '#e8e6e3' },
+                    { pos: [-0.47, -0.81, -0.34], label: 'H', color: '#e8e6e3' }
+                ],
+                bonds: [[0, 1], [0, 2], [0, 3]],
+                bondAngle: 107
+            }
+        };
+
+        function drawMolecule() {
+            const width = bondCanvas.width;
+            const height = bondCanvas.height;
+            const cx = width / 2;
+            const cy = height / 2;
+
+            bondCtx.fillStyle = '#12121a';
+            bondCtx.fillRect(0, 0, width, height);
+
+            const mol = molecules[moleculeSelect.value];
+            const scale = 80;
+
+            // Simple 2D projection
+            mol.bonds.forEach(([i, j]) => {
+                const a1 = mol.atoms[i];
+                const a2 = mol.atoms[j];
+                bondCtx.beginPath();
+                bondCtx.moveTo(cx + a1.pos[0] * scale, cy - a1.pos[1] * scale);
+                bondCtx.lineTo(cx + a2.pos[0] * scale, cy - a2.pos[1] * scale);
+                bondCtx.strokeStyle = '#6b6966';
+                bondCtx.lineWidth = 6;
+                bondCtx.stroke();
+            });
+
+            mol.atoms.forEach(atom => {
+                const x = cx + atom.pos[0] * scale;
+                const y = cy - atom.pos[1] * scale;
+                const r = atom.label === 'H' ? 12 : 18;
+
+                bondCtx.beginPath();
+                bondCtx.arc(x, y, r, 0, Math.PI * 2);
+                bondCtx.fillStyle = atom.color;
+                bondCtx.fill();
+
+                bondCtx.fillStyle = '#0a0a0f';
+                bondCtx.font = `bold ${r * 0.8}px "JetBrains Mono"`;
+                bondCtx.textAlign = 'center';
+                bondCtx.textBaseline = 'middle';
+                bondCtx.fillText(atom.label, x, y);
+            });
+
+            // Update info
+            moleculeInfo.innerHTML = `
+                <div class="info-card">
+                    <div class="label">Bond Angle</div>
+                    <div class="value">${mol.bondAngle}°</div>
+                </div>
+                <div class="info-card">
+                    <div class="label">Bonds</div>
+                    <div class="value">${mol.bonds.length}</div>
+                </div>
+                <div class="info-card">
+                    <div class="label">Atoms</div>
+                    <div class="value">${mol.atoms.length}</div>
+                </div>
+            `;
+        }
+
+        moleculeSelect.addEventListener('change', drawMolecule);
+        drawMolecule();
+
+        // ===== DOT PRODUCT VISUALIZATION =====
+        const dotCanvas = document.getElementById('dot-product-canvas');
+        const dotCtx = dotCanvas.getContext('2d');
+        const dotAngle = document.getElementById('dot-angle');
+        const dotAngleVal = document.getElementById('dot-angle-val');
+        const dotValue = document.getElementById('dot-value');
+        const dotInterpretation = document.getElementById('dot-interpretation');
+
+        function drawDotProduct() {
+            const width = dotCanvas.width;
+            const height = dotCanvas.height;
+            const cx = 150;
+            const cy = height / 2;
+
+            dotCtx.fillStyle = '#12121a';
+            dotCtx.fillRect(0, 0, width, height);
+
+            const theta = parseInt(dotAngle.value);
+            dotAngleVal.textContent = theta + '°';
+
+            const len = 100;
+            const rad = theta * Math.PI / 180;
+
+            // Vector v (horizontal)
+            drawArrow(dotCtx, cx, cy, cx + len, cy, '#7db3dc', 3);
+            dotCtx.fillStyle = '#7db3dc';
+            dotCtx.font = 'bold 14px "JetBrains Mono"';
+            dotCtx.fillText('v', cx + len + 10, cy);
+
+            // Vector w (at angle)
+            const wx = len * Math.cos(rad);
+            const wy = -len * Math.sin(rad);
+            drawArrow(dotCtx, cx, cy, cx + wx, cy + wy, '#dc8b8b', 3);
+            dotCtx.fillStyle = '#dc8b8b';
+            dotCtx.fillText('w', cx + wx + 10, cy + wy - 10);
+
+            // Angle arc
+            dotCtx.beginPath();
+            dotCtx.arc(cx, cy, 30, -rad, 0);
+            dotCtx.strokeStyle = '#d4a574';
+            dotCtx.lineWidth = 2;
+            dotCtx.stroke();
+
+            dotCtx.fillStyle = '#d4a574';
+            dotCtx.font = '12px "JetBrains Mono"';
+            dotCtx.fillText('θ', cx + 35, cy - 10);
+
+            // Calculate dot product (assuming unit vectors)
+            const dotProd = Math.cos(rad);
+            dotValue.textContent = dotProd.toFixed(2);
+
+            if (theta < 90) {
+                dotInterpretation.textContent = 'Acute angle: vectors point in similar directions (positive)';
+            } else if (theta === 90) {
+                dotInterpretation.textContent = 'Right angle: vectors are perpendicular (zero)';
+            } else {
+                dotInterpretation.textContent = 'Obtuse angle: vectors point in opposite directions (negative)';
+            }
+
+            // Show projection
+            const projLen = len * Math.cos(rad);
+            if (Math.abs(projLen) > 5) {
+                dotCtx.setLineDash([4, 4]);
+                dotCtx.beginPath();
+                dotCtx.moveTo(cx + wx, cy + wy);
+                dotCtx.lineTo(cx + projLen, cy);
+                dotCtx.strokeStyle = '#6b6966';
+                dotCtx.lineWidth = 1;
+                dotCtx.stroke();
+                dotCtx.setLineDash([]);
+
+                // Projection
+                dotCtx.fillStyle = '#8bc49d';
+                dotCtx.fillRect(cx, cy - 3, projLen, 6);
+            }
+
+            dotCtx.fillStyle = '#6b6966';
+            dotCtx.font = '11px "JetBrains Mono"';
+            dotCtx.fillText('projection of w onto v', cx + 50, cy + 25);
+        }
+
+        dotAngle.addEventListener('input', drawDotProduct);
+        drawDotProduct();
+
+        // ===== DIPOLE VISUALIZATION =====
+        const dipoleCanvas = document.getElementById('dipole-canvas');
+        const dipoleCtx = dipoleCanvas.getContext('2d');
+        const dipoleMolecule = document.getElementById('dipole-molecule');
+        const dipoleAngleSlider = document.getElementById('dipole-angle');
+        const dipoleAngleVal = document.getElementById('dipole-angle-val');
+        const dipoleResult = document.getElementById('dipole-result');
+        const angleControl = document.getElementById('angle-control');
+
+        function drawDipole() {
+            const width = dipoleCanvas.width;
+            const height = dipoleCanvas.height;
+            const cx = width / 2;
+            const cy = height / 2;
+
+            dipoleCtx.fillStyle = '#12121a';
+            dipoleCtx.fillRect(0, 0, width, height);
+
+            const mol = dipoleMolecule.value;
+            const bondDipole = 60; // Length of dipole arrow
+
+            if (mol === 'co2') {
+                angleControl.style.display = 'none';
+
+                // Linear CO2
+                // O=C=O
+                dipoleCtx.beginPath();
+                dipoleCtx.arc(cx - 80, cy, 15, 0, Math.PI * 2);
+                dipoleCtx.fillStyle = '#dc8b8b';
+                dipoleCtx.fill();
+
+                dipoleCtx.beginPath();
+                dipoleCtx.arc(cx, cy, 12, 0, Math.PI * 2);
+                dipoleCtx.fillStyle = '#6b6966';
+                dipoleCtx.fill();
+
+                dipoleCtx.beginPath();
+                dipoleCtx.arc(cx + 80, cy, 15, 0, Math.PI * 2);
+                dipoleCtx.fillStyle = '#dc8b8b';
+                dipoleCtx.fill();
+
+                // Bonds
+                dipoleCtx.strokeStyle = '#6b6966';
+                dipoleCtx.lineWidth = 4;
+                dipoleCtx.beginPath();
+                dipoleCtx.moveTo(cx - 65, cy);
+                dipoleCtx.lineTo(cx - 12, cy);
+                dipoleCtx.moveTo(cx + 12, cy);
+                dipoleCtx.lineTo(cx + 65, cy);
+                dipoleCtx.stroke();
+
+                // Dipole arrows (pointing toward O, which is more electronegative)
+                drawArrow(dipoleCtx, cx - 20, cy - 40, cx - 70, cy - 40, '#9d8cd9', 3);
+                drawArrow(dipoleCtx, cx + 20, cy - 40, cx + 70, cy - 40, '#9d8cd9', 3);
+
+                // Labels
+                dipoleCtx.fillStyle = '#9d8cd9';
+                dipoleCtx.font = '12px "JetBrains Mono"';
+                dipoleCtx.fillText('μ₁', cx - 45, cy - 50);
+                dipoleCtx.fillText('μ₂', cx + 45, cy - 50);
+
+                // Net = 0
+                dipoleCtx.fillStyle = '#6b6966';
+                dipoleCtx.font = '14px "JetBrains Mono"';
+                dipoleCtx.textAlign = 'center';
+                dipoleCtx.fillText('μ₁ + μ₂ = 0 (cancel)', cx, cy + 60);
+
+                dipoleResult.textContent = 'Net dipole: μ = 0 (nonpolar)';
+
+            } else {
+                angleControl.style.display = 'flex';
+
+                const angle = parseInt(dipoleAngleSlider.value);
+                dipoleAngleVal.textContent = angle + '°';
+
+                const halfAngle = angle / 2 * Math.PI / 180;
+
+                // Draw O atom
+                dipoleCtx.beginPath();
+                dipoleCtx.arc(cx, cy, 18, 0, Math.PI * 2);
+                dipoleCtx.fillStyle = '#dc8b8b';
+                dipoleCtx.fill();
+
+                // H atoms
+                const h1x = cx + 60 * Math.sin(halfAngle);
+                const h1y = cy - 60 * Math.cos(halfAngle);
+                const h2x = cx - 60 * Math.sin(halfAngle);
+                const h2y = cy - 60 * Math.cos(halfAngle);
+
+                dipoleCtx.beginPath();
+                dipoleCtx.arc(h1x, h1y, 10, 0, Math.PI * 2);
+                dipoleCtx.fillStyle = '#e8e6e3';
+                dipoleCtx.fill();
+
+                dipoleCtx.beginPath();
+                dipoleCtx.arc(h2x, h2y, 10, 0, Math.PI * 2);
+                dipoleCtx.fillStyle = '#e8e6e3';
+                dipoleCtx.fill();
+
+                // Bonds
+                dipoleCtx.strokeStyle = '#6b6966';
+                dipoleCtx.lineWidth = 4;
+                dipoleCtx.beginPath();
+                dipoleCtx.moveTo(cx, cy);
+                dipoleCtx.lineTo(h1x, h1y);
+                dipoleCtx.moveTo(cx, cy);
+                dipoleCtx.lineTo(h2x, h2y);
+                dipoleCtx.stroke();
+
+                // Bond dipoles (pointing toward O)
+                const dipoleLen = 50;
+                const d1x = cx + dipoleLen * Math.sin(halfAngle);
+                const d1y = cy - dipoleLen * Math.cos(halfAngle);
+                const d2x = cx - dipoleLen * Math.sin(halfAngle);
+                const d2y = cy - dipoleLen * Math.cos(halfAngle);
+
+                drawArrow(dipoleCtx, h1x, h1y, cx + 5 * Math.sin(halfAngle), cy - 5 * Math.cos(halfAngle), '#9d8cd9', 2);
+                drawArrow(dipoleCtx, h2x, h2y, cx - 5 * Math.sin(halfAngle), cy - 5 * Math.cos(halfAngle), '#9d8cd9', 2);
+
+                // Net dipole
+                const netY = -2 * dipoleLen * Math.cos(halfAngle) * 0.5;
+                if (Math.abs(netY) > 5) {
+                    drawArrow(dipoleCtx, cx, cy, cx, cy + netY * 0.8, '#d4a574', 4);
+                    dipoleCtx.fillStyle = '#d4a574';
+                    dipoleCtx.font = 'bold 14px "JetBrains Mono"';
+                    dipoleCtx.textAlign = 'center';
+                    dipoleCtx.fillText('μ_net', cx + 30, cy + netY * 0.4);
+                }
+
+                // Calculate magnitude
+                const mag = Math.abs(2 * 1.5 * Math.cos(halfAngle));
+                dipoleResult.textContent = `Net dipole: μ = ${mag.toFixed(2)} D ${angle === 180 ? '(nonpolar)' : '(polar)'}`;
+            }
+        }
+
+        dipoleMolecule.addEventListener('change', drawDipole);
+        dipoleAngleSlider.addEventListener('input', drawDipole);
+        drawDipole();
+    </script>
+</body>
+</html>
