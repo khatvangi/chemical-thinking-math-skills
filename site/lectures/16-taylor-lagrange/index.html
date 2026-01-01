@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 16: Approximations and Constraints | Chemical Thinking</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a24;
+            --bg-card: #16161f;
+            --text-primary: #e8e6e3;
+            --text-secondary: #a0a0a0;
+            --text-muted: #6b6b6b;
+            --accent-red: #ef4444;
+            --accent-orange: #f59e0b;
+            --accent-blue: #4a9eff;
+            --accent-purple: #8b5cf6;
+            --accent-green: #10b981;
+            --accent-cyan: #06b6d4;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 17px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Navigation */
+        .lecture-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--bg-tertiary);
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover { color: var(--accent-red); }
+
+        .primitive-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(245, 158, 11, 0.1));
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .primitive-link:hover {
+            border-color: var(--accent-red);
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.2);
+        }
+
+        .primitive-badge {
+            background: var(--accent-red);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .primitive-text {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 3rem 0;
+        }
+
+        .lecture-number {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-red);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            letter-spacing: 0.1em;
+        }
+
+        h1 {
+            font-family: 'Fraunces', serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-red), var(--accent-orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        /* Part headers */
+        .part-header {
+            text-align: center;
+            margin: 4rem 0 2rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(139, 92, 246, 0.1));
+            border-radius: 12px;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .part-number {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-purple);
+            font-size: 0.9rem;
+            letter-spacing: 0.2em;
+        }
+
+        .part-title {
+            font-family: 'Fraunces', serif;
+            font-size: 2rem;
+            color: var(--text-primary);
+            margin-top: 0.5rem;
+        }
+
+        /* Sections */
+        section {
+            margin-bottom: 4rem;
+        }
+
+        h2 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.8rem;
+            color: var(--accent-red);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--bg-tertiary);
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        strong { color: var(--text-primary); }
+
+        /* Hook Box */
+        .hook-box {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(245, 158, 11, 0.05));
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .hook-box p:last-child { margin-bottom: 0; }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--bg-tertiary);
+        }
+
+        th {
+            background: var(--bg-tertiary);
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        td { color: var(--text-secondary); }
+
+        tr:last-child td { border-bottom: none; }
+
+        /* Definition boxes */
+        .definition-box {
+            background: var(--bg-secondary);
+            border-left: 4px solid var(--accent-red);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .definition-box .term {
+            font-weight: 600;
+            color: var(--accent-red);
+        }
+
+        /* Formula box */
+        .formula-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--accent-blue);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+
+        .formula-box h4 {
+            color: var(--accent-blue);
+            margin-bottom: 1rem;
+        }
+
+        /* Key insight */
+        .key-insight {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(139, 92, 246, 0.1));
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .key-insight p {
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        /* Example box */
+        .example-box {
+            background: var(--bg-card);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .example-box h4 {
+            color: var(--accent-orange);
+            margin-bottom: 1rem;
+        }
+
+        /* Interactive visualizations */
+        .visualization {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .viz-title {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .canvas-container {
+            background: var(--bg-primary);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            border-radius: 4px;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .control-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .control-group label {
+            display: block;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            accent-color: var(--accent-red);
+        }
+
+        select {
+            width: 100%;
+            padding: 0.5rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--bg-card);
+            color: var(--text-primary);
+            border-radius: 4px;
+        }
+
+        .value-display {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-red);
+            font-size: 0.9rem;
+        }
+
+        /* Info box */
+        .info-box {
+            background: var(--bg-card);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+        }
+
+        /* Series list */
+        .series-list {
+            list-style: none;
+            margin: 1rem 0;
+        }
+
+        .series-list li {
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            background: var(--bg-card);
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-blue);
+        }
+
+        .series-list li strong {
+            color: var(--accent-blue);
+        }
+
+        /* Checkbox styling */
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent-red);
+        }
+
+        /* Footer navigation */
+        .lecture-footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--bg-tertiary);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            background: var(--bg-secondary);
+            transition: all 0.3s;
+        }
+
+        .footer-link:hover {
+            background: var(--bg-tertiary);
+            color: var(--accent-red);
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .container { padding: 1rem; }
+            .controls { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="lecture-nav">
+            <a href="../all-lectures.html" class="nav-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                All Lectures
+            </a>
+            <a href="../../primitives/change.html" class="primitive-link">
+                <span class="primitive-badge">CHANGE</span>
+                <span class="primitive-text">Explore the Primitive</span>
+            </a>
+        </nav>
+
+        <header>
+            <div class="lecture-number">LECTURE 16</div>
+            <h1>Approximations & Constraints</h1>
+            <p class="subtitle">Taylor series for local approximation. Lagrange multipliers for constrained optimization.</p>
+        </header>
+
+        <!-- PART I: TAYLOR SERIES -->
+        <div class="part-header">
+            <div class="part-number">PART I</div>
+            <div class="part-title">Taylor Series</div>
+        </div>
+
+        <div class="hook-box">
+            <h3>The Hook</h3>
+            <p>The Morse potential for a diatomic:</p>
+            <p>$$V(r) = D_e\left(1 - e^{-\beta(r-r_e)}\right)^2$$</p>
+            <p>But in introductory chemistry, you learned: $V(r) \approx \frac{1}{2}k(r - r_e)^2$</p>
+            <p><strong>Why does the simple harmonic approximation work?</strong></p>
+            <p>Answer: Near the minimum, ANY smooth function looks like a parabola. Taylor series tells us exactly how good the approximation is.</p>
+        </div>
+
+        <section>
+            <h2>The Idea</h2>
+            <p>If f is smooth, we can approximate it near x = a using its derivatives at a:</p>
+            <div class="formula-box">
+                <h4>Taylor Series</h4>
+                <p>$$f(x) = f(a) + f'(a)(x-a) + \frac{f''(a)}{2!}(x-a)^2 + \frac{f'''(a)}{3!}(x-a)^3 + \cdots$$</p>
+            </div>
+            <p><strong>Each term captures more detail about how f behaves near a.</strong></p>
+        </section>
+
+        <section>
+            <h2>Important Taylor Series</h2>
+            <ul class="series-list">
+                <li><strong>e<sup>x</sup></strong> = 1 + x + x&sup2;/2! + x&sup3;/3! + ... (valid for all x)</li>
+                <li><strong>sin x</strong> = x &minus; x&sup3;/3! + x&sup5;/5! &minus; ... (valid for all x)</li>
+                <li><strong>cos x</strong> = 1 &minus; x&sup2;/2! + x&sup4;/4! &minus; ... (valid for all x)</li>
+                <li><strong>ln(1+x)</strong> = x &minus; x&sup2;/2 + x&sup3;/3 &minus; ... (valid for &minus;1 < x &le; 1)</li>
+                <li><strong>1/(1&minus;x)</strong> = 1 + x + x&sup2; + x&sup3; + ... (geometric series, |x| < 1)</li>
+                <li><strong>(1+x)<sup>p</sup></strong> = 1 + px + p(p&minus;1)x&sup2;/2! + ... (binomial, |x| < 1)</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Interactive: Taylor Polynomial Approximation</h2>
+            <div class="visualization">
+                <div class="viz-title">Watch the approximation improve with more terms</div>
+                <div class="canvas-container">
+                    <canvas id="taylorCanvas" width="800" height="400"></canvas>
+                </div>
+                <div class="controls">
+                    <div class="control-group">
+                        <label>Function:</label>
+                        <select id="taylorFunc">
+                            <option value="exp">f(x) = e^x</option>
+                            <option value="sin">f(x) = sin(x)</option>
+                            <option value="cos">f(x) = cos(x)</option>
+                            <option value="ln">f(x) = ln(1+x)</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label>Taylor polynomial degree: <span class="value-display" id="degreeValue">2</span></label>
+                        <input type="range" id="degreeSlider" min="0" max="10" value="2">
+                    </div>
+                </div>
+                <div class="info-box" id="taylorInfo">
+                    Higher degree = better approximation over larger range.
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Chemistry: Harmonic Approximation</h2>
+            <p>Near a minimum, ANY potential V(r) can be expanded:</p>
+            <p>$$V(r) = V(r_e) + \underbrace{V'(r_e)}_{=0}(r-r_e) + \frac{V''(r_e)}{2}(r-r_e)^2 + \frac{V'''(r_e)}{6}(r-r_e)^3 + \cdots$$</p>
+            <p>At a minimum, V'(r<sub>e</sub>) = 0, so:</p>
+            <div class="key-insight">
+                <p>$$V(r) \approx \frac{1}{2}k(r-r_e)^2 \quad \text{where } k = V''(r_e)$$</p>
+                <p><strong>This is why the harmonic oscillator approximation works near equilibrium!</strong></p>
+            </div>
+
+            <div class="visualization">
+                <div class="viz-title">Morse Potential vs Harmonic Approximation</div>
+                <div class="canvas-container">
+                    <canvas id="morseCanvas" width="800" height="400"></canvas>
+                </div>
+                <div class="controls">
+                    <div class="control-group checkbox-group">
+                        <input type="checkbox" id="showCubic">
+                        <label for="showCubic">Show anharmonic (cubic) correction</label>
+                    </div>
+                </div>
+                <div class="info-box" id="morseInfo">
+                    Harmonic (parabola) is excellent near equilibrium. Anharmonic correction captures asymmetry.
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Small Angle Approximations</h2>
+            <p>From Taylor series:</p>
+            <table>
+                <tr><th>Function</th><th>Approximation</th><th>Valid for</th></tr>
+                <tr><td>sin &theta;</td><td>&theta;</td><td>&theta; &lt; 15&deg; (~1% error)</td></tr>
+                <tr><td>cos &theta;</td><td>1 &minus; &theta;&sup2;/2</td><td>&theta; &lt; 30&deg;</td></tr>
+                <tr><td>tan &theta;</td><td>&theta;</td><td>&theta; &lt; 15&deg;</td></tr>
+            </table>
+
+            <div class="visualization">
+                <div class="viz-title">How Good is sin &theta; &asymp; &theta;?</div>
+                <div class="canvas-container">
+                    <canvas id="smallAngleCanvas" width="800" height="350"></canvas>
+                </div>
+                <div class="controls">
+                    <div class="control-group">
+                        <label>Maximum angle (degrees): <span class="value-display" id="angleValue">30</span></label>
+                        <input type="range" id="angleSlider" min="5" max="90" step="5" value="30">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PART II: LAGRANGE MULTIPLIERS -->
+        <div class="part-header">
+            <div class="part-number">PART II</div>
+            <div class="part-title">Lagrange Multipliers</div>
+        </div>
+
+        <div class="hook-box">
+            <h3>The Hook</h3>
+            <p>You want to maximize entropy:</p>
+            <p>$$S = -k_B \sum_i p_i \ln p_i$$</p>
+            <p>But there's a constraint &mdash; probabilities must sum to 1: $\sum_i p_i = 1$</p>
+            <p>You can't just set &part;S/&part;p<sub>i</sub> = 0. The constraint couples everything together.</p>
+            <p><strong>Lagrange multipliers handle optimization with constraints.</strong></p>
+        </div>
+
+        <section>
+            <h2>The Geometric Insight</h2>
+            <p>At a constrained extremum:</p>
+            <ul style="margin-left: 1.5rem; color: var(--text-secondary); margin-bottom: 1.5rem;">
+                <li>The gradient of f is <strong>perpendicular</strong> to the constraint curve</li>
+                <li>The gradient of g is <strong>also perpendicular</strong> to the constraint curve</li>
+                <li>Therefore: <strong>&nabla;f is parallel to &nabla;g</strong></li>
+            </ul>
+            <div class="key-insight">
+                <p>$$\nabla f = \lambda \nabla g$$</p>
+                <p>for some scalar &lambda; (the <strong>Lagrange multiplier</strong>)</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>The Method</h2>
+            <div class="definition-box">
+                <p><span class="term">Step 1:</span> Form the Lagrangian: $\mathcal{L}(x, y, \lambda) = f(x, y) - \lambda(g(x, y) - c)$</p>
+                <p><span class="term">Step 2:</span> Set all partials to zero: $\frac{\partial \mathcal{L}}{\partial x} = \frac{\partial \mathcal{L}}{\partial y} = \frac{\partial \mathcal{L}}{\partial \lambda} = 0$</p>
+                <p><span class="term">Step 3:</span> Solve the system of equations</p>
+                <p><span class="term">Step 4:</span> Evaluate f at each critical point to find max/min</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Interactive: Constrained Optimization</h2>
+            <div class="visualization">
+                <div class="viz-title">Maximize f(x,y) = xy subject to x + y = c</div>
+                <div class="canvas-container">
+                    <canvas id="lagrangeCanvas" width="800" height="500"></canvas>
+                </div>
+                <div class="controls">
+                    <div class="control-group">
+                        <label>Constraint constant c: <span class="value-display" id="constraintValue">10</span></label>
+                        <input type="range" id="constraintSlider" min="4" max="16" value="10">
+                    </div>
+                </div>
+                <div class="info-box" id="lagrangeInfo">
+                    At the optimum, &nabla;f and &nabla;g are parallel (both perpendicular to the constraint line).
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Interactive: Distance to Line</h2>
+            <div class="visualization">
+                <div class="viz-title">Minimize x&sup2; + y&sup2; subject to ax + by = c</div>
+                <div class="canvas-container">
+                    <canvas id="distanceCanvas" width="800" height="450"></canvas>
+                </div>
+                <div class="controls">
+                    <div class="control-group">
+                        <label>a: <span class="value-display" id="aValue">1</span></label>
+                        <input type="range" id="aSlider" min="0.5" max="3" step="0.5" value="1">
+                    </div>
+                    <div class="control-group">
+                        <label>b: <span class="value-display" id="bValue">2</span></label>
+                        <input type="range" id="bSlider" min="0.5" max="3" step="0.5" value="2">
+                    </div>
+                    <div class="control-group">
+                        <label>c: <span class="value-display" id="cValue">5</span></label>
+                        <input type="range" id="cSlider" min="2" max="10" value="5">
+                    </div>
+                </div>
+                <div class="info-box" id="distanceInfo">
+                    The closest point lies where the line from origin meets the constraint perpendicularly.
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Chemistry: The Boltzmann Distribution</h2>
+            <div class="example-box">
+                <h4>Deriving Boltzmann from Maximum Entropy</h4>
+                <p><strong>Maximize:</strong> S = &minus;k<sub>B</sub> &sum; p<sub>i</sub> ln p<sub>i</sub></p>
+                <p><strong>Subject to:</strong></p>
+                <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                    <li>&sum; p<sub>i</sub> = 1 (normalization)</li>
+                    <li>&sum; p<sub>i</sub> E<sub>i</sub> = U (fixed average energy)</li>
+                </ul>
+                <p style="margin-top: 1rem;"><strong>Result:</strong></p>
+                <p style="text-align: center; font-size: 1.2rem; color: var(--accent-green);">$$p_i = \frac{e^{-E_i/k_BT}}{Z}$$</p>
+                <p style="margin-bottom: 0;">The Boltzmann distribution <strong>maximizes entropy</strong> subject to fixed average energy!</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Meaning of &lambda;</h2>
+            <p>The Lagrange multiplier tells you the <strong>sensitivity</strong> of the optimum to the constraint:</p>
+            <p style="text-align: center;">$$\lambda = \frac{d f^*}{d c}$$</p>
+            <p>where f* is the optimal value.</p>
+            <p><strong>Example:</strong> In entropy maximization, &beta; = 1/T. The multiplier associated with the energy constraint is the inverse temperature!</p>
+        </section>
+
+        <section>
+            <h2>Summary</h2>
+            <h3>Taylor Series</h3>
+            <table>
+                <tr><th>Use</th><th>Formula</th></tr>
+                <tr><td>Approximate f(x) near a</td><td>f(a) + f'(a)(x&minus;a) + f''(a)(x&minus;a)&sup2;/2 + ...</td></tr>
+                <tr><td>Linearize</td><td>First-order term only</td></tr>
+                <tr><td>Harmonic approximation</td><td>Second-order at potential minimum</td></tr>
+                <tr><td>Small angles</td><td>sin &theta; &asymp; &theta;, cos &theta; &asymp; 1</td></tr>
+            </table>
+
+            <h3>Lagrange Multipliers</h3>
+            <table>
+                <tr><th>Step</th><th>Action</th></tr>
+                <tr><td>1</td><td>Form L = f &minus; &lambda;(g &minus; c)</td></tr>
+                <tr><td>2</td><td>Set &part;L/&part;x = &part;L/&part;y = &part;L/&part;&lambda; = 0</td></tr>
+                <tr><td>3</td><td>Solve the system</td></tr>
+                <tr><td>4</td><td>&lambda; = sensitivity of optimum to constraint</td></tr>
+            </table>
+        </section>
+
+        <nav class="lecture-footer">
+            <a href="../15-partial/" class="footer-link">&larr; Lecture 15: Partial Derivatives</a>
+            <a href="../all-lectures.html" class="footer-link">All Lectures</a>
+            <a href="../17-integral/" class="footer-link">Lecture 17: Integrals &rarr;</a>
+        </nav>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},
+                    {left: "$", right: "$", display: false}
+                ]
+            });
+        });
+
+        // Taylor Series Visualization
+        (function() {
+            const canvas = document.getElementById('taylorCanvas');
+            const ctx = canvas.getContext('2d');
+            const funcSelect = document.getElementById('taylorFunc');
+            const degreeSlider = document.getElementById('degreeSlider');
+            const degreeValue = document.getElementById('degreeValue');
+            const info = document.getElementById('taylorInfo');
+
+            function factorial(n) {
+                if (n <= 1) return 1;
+                let result = 1;
+                for (let i = 2; i <= n; i++) result *= i;
+                return result;
+            }
+
+            const funcs = {
+                exp: {
+                    f: x => Math.exp(x),
+                    T: (x, n) => {
+                        let sum = 0;
+                        for (let k = 0; k <= n; k++) sum += Math.pow(x, k) / factorial(k);
+                        return sum;
+                    },
+                    range: [-3, 3],
+                    yRange: [-1, 10],
+                    name: "e^x"
+                },
+                sin: {
+                    f: x => Math.sin(x),
+                    T: (x, n) => {
+                        let sum = 0;
+                        for (let k = 0; k <= Math.floor(n/2); k++) {
+                            sum += Math.pow(-1, k) * Math.pow(x, 2*k+1) / factorial(2*k+1);
+                        }
+                        return sum;
+                    },
+                    range: [-2*Math.PI, 2*Math.PI],
+                    yRange: [-2, 2],
+                    name: "sin(x)"
+                },
+                cos: {
+                    f: x => Math.cos(x),
+                    T: (x, n) => {
+                        let sum = 0;
+                        for (let k = 0; k <= Math.floor(n/2); k++) {
+                            sum += Math.pow(-1, k) * Math.pow(x, 2*k) / factorial(2*k);
+                        }
+                        return sum;
+                    },
+                    range: [-2*Math.PI, 2*Math.PI],
+                    yRange: [-2, 2],
+                    name: "cos(x)"
+                },
+                ln: {
+                    f: x => Math.log(1 + x),
+                    T: (x, n) => {
+                        let sum = 0;
+                        for (let k = 1; k <= n; k++) {
+                            sum += Math.pow(-1, k+1) * Math.pow(x, k) / k;
+                        }
+                        return sum;
+                    },
+                    range: [-0.9, 2],
+                    yRange: [-3, 2],
+                    name: "ln(1+x)"
+                }
+            };
+
+            function draw() {
+                const fn = funcs[funcSelect.value];
+                const degree = parseInt(degreeSlider.value);
+                degreeValue.textContent = degree;
+
+                const w = canvas.width, h = canvas.height;
+                ctx.fillStyle = '#0a0a0f';
+                ctx.fillRect(0, 0, w, h);
+
+                const [xMin, xMax] = fn.range;
+                const [yMin, yMax] = fn.yRange;
+                const margin = 50;
+
+                function toScreen(x, y) {
+                    return [
+                        margin + (x - xMin) / (xMax - xMin) * (w - 2*margin),
+                        h - margin - (y - yMin) / (yMax - yMin) * (h - 2*margin)
+                    ];
+                }
+
+                // Axes
+                ctx.strokeStyle = '#444';
+                ctx.lineWidth = 1;
+                const [ox, oy] = toScreen(0, 0);
+                if (ox > margin && ox < w - margin) {
+                    ctx.beginPath();
+                    ctx.moveTo(ox, margin);
+                    ctx.lineTo(ox, h - margin);
+                    ctx.stroke();
+                }
+                if (oy > margin && oy < h - margin) {
+                    ctx.beginPath();
+                    ctx.moveTo(margin, oy);
+                    ctx.lineTo(w - margin, oy);
+                    ctx.stroke();
+                }
+
+                // True function
+                ctx.strokeStyle = '#4a9eff';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                for (let i = 0; i <= 300; i++) {
+                    const x = xMin + (xMax - xMin) * i / 300;
+                    const y = fn.f(x);
+                    if (y < yMin - 1 || y > yMax + 1) continue;
+                    const [sx, sy] = toScreen(x, Math.max(yMin, Math.min(yMax, y)));
+                    if (i === 0) ctx.moveTo(sx, sy);
+                    else ctx.lineTo(sx, sy);
+                }
+                ctx.stroke();
+
+                // Taylor polynomial
+                ctx.strokeStyle = '#ef4444';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([5, 5]);
+                ctx.beginPath();
+                let started = false;
+                for (let i = 0; i <= 300; i++) {
+                    const x = xMin + (xMax - xMin) * i / 300;
+                    const y = fn.T(x, degree);
+                    if (y < yMin - 2 || y > yMax + 2) {
+                        started = false;
+                        continue;
+                    }
+                    const [sx, sy] = toScreen(x, Math.max(yMin, Math.min(yMax, y)));
+                    if (!started) {
+                        ctx.moveTo(sx, sy);
+                        started = true;
+                    } else {
+                        ctx.lineTo(sx, sy);
+                    }
+                }
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Mark expansion point
+                const [ex, ey] = toScreen(0, fn.f(0));
+                ctx.beginPath();
+                ctx.arc(ex, ey, 8, 0, Math.PI * 2);
+                ctx.fillStyle = '#10b981';
+                ctx.fill();
+
+                // Labels
+                ctx.fillStyle = '#a0a0a0';
+                ctx.font = '12px Inter';
+                ctx.fillText('x', w - margin + 10, oy + 5);
+
+                // Legend
+                ctx.fillStyle = '#4a9eff';
+                ctx.fillRect(w - 150, 20, 20, 3);
+                ctx.fillStyle = '#a0a0a0';
+                ctx.fillText(fn.name + ' (exact)', w - 120, 25);
+
+                ctx.strokeStyle = '#ef4444';
+                ctx.setLineDash([5, 5]);
+                ctx.beginPath();
+                ctx.moveTo(w - 150, 45);
+                ctx.lineTo(w - 130, 45);
+                ctx.stroke();
+                ctx.setLineDash([]);
+                ctx.fillText('T_' + degree + '(x)', w - 120, 50);
+
+                info.innerHTML = `<strong>${fn.name}</strong>: Taylor polynomial of degree ${degree} about x = 0`;
+            }
+
+            funcSelect.addEventListener('change', draw);
+            degreeSlider.addEventListener('input', draw);
+            draw();
+        })();
+
+        // Morse Potential Visualization
+        (function() {
+            const canvas = document.getElementById('morseCanvas');
+            const ctx = canvas.getContext('2d');
+            const showCubic = document.getElementById('showCubic');
+            const info = document.getElementById('morseInfo');
+
+            const De = 4, beta = 2, re = 1;
+
+            function V_morse(r) {
+                return De * Math.pow(1 - Math.exp(-beta * (r - re)), 2);
+            }
+
+            function V_harm(r) {
+                const k = 2 * De * beta * beta;
+                return 0.5 * k * Math.pow(r - re, 2);
+            }
+
+            function V_anharm(r) {
+                const k = 2 * De * beta * beta;
+                const V3 = -6 * De * beta * beta * beta;
+                return 0.5 * k * Math.pow(r - re, 2) + (V3 / 6) * Math.pow(r - re, 3);
+            }
+
+            function draw() {
+                const w = canvas.width, h = canvas.height;
+                ctx.fillStyle = '#0a0a0f';
+                ctx.fillRect(0, 0, w, h);
+
+                const rMin = 0.5, rMax = 2.5;
+                const yMin = -0.5, yMax = 6;
+                const margin = 50;
+
+                function toScreen(r, v) {
+                    return [
+                        margin + (r - rMin) / (rMax - rMin) * (w - 2*margin),
+                        h - margin - (v - yMin) / (yMax - yMin) * (h - 2*margin)
+                    ];
+                }
+
+                // Dissociation line
+                const [, dyLine] = toScreen(0, De);
+                ctx.strokeStyle = '#666';
+                ctx.setLineDash([5, 5]);
+                ctx.beginPath();
+                ctx.moveTo(margin, dyLine);
+                ctx.lineTo(w - margin, dyLine);
+                ctx.stroke();
+                ctx.setLineDash([]);
+                ctx.fillStyle = '#666';
+                ctx.font = '12px Inter';
+                ctx.fillText('Dissociation', w - 100, dyLine - 5);
+
+                // Morse (exact)
+                ctx.strokeStyle = '#4a9eff';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                for (let i = 0; i <= 200; i++) {
+                    const r = rMin + (rMax - rMin) * i / 200;
+                    const v = V_morse(r);
+                    if (v > yMax) continue;
+                    const [sx, sy] = toScreen(r, v);
+                    if (i === 0) ctx.moveTo(sx, sy);
+                    else ctx.lineTo(sx, sy);
+                }
+                ctx.stroke();
+
+                // Harmonic
+                ctx.strokeStyle = '#ef4444';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([5, 5]);
+                ctx.beginPath();
+                for (let i = 0; i <= 200; i++) {
+                    const r = rMin + (rMax - rMin) * i / 200;
+                    const v = V_harm(r);
+                    if (v > yMax) continue;
+                    const [sx, sy] = toScreen(r, v);
+                    if (i === 0) ctx.moveTo(sx, sy);
+                    else ctx.lineTo(sx, sy);
+                }
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Anharmonic
+                if (showCubic.checked) {
+                    ctx.strokeStyle = '#f59e0b';
+                    ctx.lineWidth = 2;
+                    ctx.setLineDash([3, 3]);
+                    ctx.beginPath();
+                    for (let i = 0; i <= 200; i++) {
+                        const r = rMin + (rMax - rMin) * i / 200;
+                        const v = V_anharm(r);
+                        if (v > yMax || v < yMin) continue;
+                        const [sx, sy] = toScreen(r, v);
+                        if (i === 0) ctx.moveTo(sx, sy);
+                        else ctx.lineTo(sx, sy);
+                    }
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+                }
+
+                // Equilibrium point
+                const [ex, ey] = toScreen(re, 0);
+                ctx.beginPath();
+                ctx.arc(ex, ey, 8, 0, Math.PI * 2);
+                ctx.fillStyle = '#10b981';
+                ctx.fill();
+
+                // Labels
+                ctx.fillStyle = '#a0a0a0';
+                ctx.font = '12px Inter';
+                ctx.fillText('r (Å)', w/2, h - 15);
+                ctx.fillText('V (eV)', 10, 30);
+
+                // Legend
+                let ly = 25;
+                ctx.fillStyle = '#4a9eff';
+                ctx.fillRect(20, ly, 20, 3);
+                ctx.fillStyle = '#a0a0a0';
+                ctx.fillText('Morse (exact)', 45, ly + 5);
+
+                ly += 20;
+                ctx.strokeStyle = '#ef4444';
+                ctx.setLineDash([5, 5]);
+                ctx.beginPath();
+                ctx.moveTo(20, ly);
+                ctx.lineTo(40, ly);
+                ctx.stroke();
+                ctx.setLineDash([]);
+                ctx.fillText('Harmonic', 45, ly + 5);
+
+                if (showCubic.checked) {
+                    ly += 20;
+                    ctx.strokeStyle = '#f59e0b';
+                    ctx.setLineDash([3, 3]);
+                    ctx.beginPath();
+                    ctx.moveTo(20, ly);
+                    ctx.lineTo(40, ly);
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+                    ctx.fillStyle = '#a0a0a0';
+                    ctx.fillText('Anharmonic', 45, ly + 5);
+                }
+
+                info.innerHTML = showCubic.checked ?
+                    'Anharmonic correction captures the asymmetry (easier to stretch than compress).' :
+                    'Harmonic (parabola) is excellent near equilibrium.';
+            }
+
+            showCubic.addEventListener('change', draw);
+            draw();
+        })();
+
+        // Small Angle Visualization
+        (function() {
+            const canvas = document.getElementById('smallAngleCanvas');
+            const ctx = canvas.getContext('2d');
+            const angleSlider = document.getElementById('angleSlider');
+            const angleValue = document.getElementById('angleValue');
+
+            function draw() {
+                const maxDeg = parseInt(angleSlider.value);
+                angleValue.textContent = maxDeg;
+
+                const w = canvas.width, h = canvas.height;
+                ctx.fillStyle = '#0a0a0f';
+                ctx.fillRect(0, 0, w, h);
+
+                const halfW = w / 2;
+                const margin = 50;
+
+                // Left panel: sin θ vs θ
+                ctx.strokeStyle = '#444';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(margin, h - margin);
+                ctx.lineTo(halfW - 20, h - margin);
+                ctx.moveTo(margin, h - margin);
+                ctx.lineTo(margin, margin);
+                ctx.stroke();
+
+                const maxRad = maxDeg * Math.PI / 180;
+
+                // sin θ
+                ctx.strokeStyle = '#4a9eff';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                for (let i = 0; i <= 100; i++) {
+                    const theta = maxRad * i / 100;
+                    const deg = theta * 180 / Math.PI;
+                    const px = margin + deg / maxDeg * (halfW - 70 - margin);
+                    const py = h - margin - Math.sin(theta) / maxRad * (h - 2*margin);
+                    if (i === 0) ctx.moveTo(px, py);
+                    else ctx.lineTo(px, py);
+                }
+                ctx.stroke();
+
+                // θ
+                ctx.strokeStyle = '#ef4444';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([5, 5]);
+                ctx.beginPath();
+                for (let i = 0; i <= 100; i++) {
+                    const theta = maxRad * i / 100;
+                    const deg = theta * 180 / Math.PI;
+                    const px = margin + deg / maxDeg * (halfW - 70 - margin);
+                    const py = h - margin - theta / maxRad * (h - 2*margin);
+                    if (i === 0) ctx.moveTo(px, py);
+                    else ctx.lineTo(px, py);
+                }
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                ctx.fillStyle = '#a0a0a0';
+                ctx.font = '12px Inter';
+                ctx.fillText('θ (deg)', halfW/2, h - 15);
+                ctx.fillText('sin θ vs θ', margin, 25);
+
+                // Right panel: relative error
+                ctx.strokeStyle = '#444';
+                ctx.beginPath();
+                ctx.moveTo(halfW + 20, h - margin);
+                ctx.lineTo(w - margin, h - margin);
+                ctx.moveTo(halfW + 20, h - margin);
+                ctx.lineTo(halfW + 20, margin);
+                ctx.stroke();
+
+                // Calculate max error for scaling
+                const maxError = Math.abs((Math.sin(maxRad) - maxRad) / Math.sin(maxRad)) * 100;
+                const yScale = Math.max(maxError, 5);
+
+                ctx.strokeStyle = '#8b5cf6';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                for (let i = 1; i <= 100; i++) {
+                    const theta = maxRad * i / 100;
+                    const deg = theta * 180 / Math.PI;
+                    const error = Math.abs((Math.sin(theta) - theta) / Math.sin(theta)) * 100;
+                    const px = halfW + 20 + deg / maxDeg * (w - margin - halfW - 20);
+                    const py = h - margin - error / yScale * (h - 2*margin);
+                    if (i === 1) ctx.moveTo(px, py);
+                    else ctx.lineTo(px, py);
+                }
+                ctx.stroke();
+
+                // 1% and 5% lines
+                ctx.setLineDash([3, 3]);
+                ctx.strokeStyle = '#10b981';
+                const y1 = h - margin - 1 / yScale * (h - 2*margin);
+                ctx.beginPath();
+                ctx.moveTo(halfW + 20, y1);
+                ctx.lineTo(w - margin, y1);
+                ctx.stroke();
+
+                ctx.strokeStyle = '#f59e0b';
+                const y5 = h - margin - 5 / yScale * (h - 2*margin);
+                ctx.beginPath();
+                ctx.moveTo(halfW + 20, y5);
+                ctx.lineTo(w - margin, y5);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                ctx.fillStyle = '#a0a0a0';
+                ctx.fillText('θ (deg)', (halfW + w) / 2, h - 15);
+                ctx.fillText('% Error', halfW + 30, 25);
+                ctx.fillStyle = '#10b981';
+                ctx.fillText('1%', w - margin + 5, y1 + 4);
+                ctx.fillStyle = '#f59e0b';
+                ctx.fillText('5%', w - margin + 5, y5 + 4);
+            }
+
+            angleSlider.addEventListener('input', draw);
+            draw();
+        })();
+
+        // Lagrange Multipliers Visualization
+        (function() {
+            const canvas = document.getElementById('lagrangeCanvas');
+            const ctx = canvas.getContext('2d');
+            const constraintSlider = document.getElementById('constraintSlider');
+            const constraintValue = document.getElementById('constraintValue');
+            const info = document.getElementById('lagrangeInfo');
+
+            function draw() {
+                const c = parseInt(constraintSlider.value);
+                constraintValue.textContent = c;
+
+                const w = canvas.width, h = canvas.height;
+                ctx.fillStyle = '#0a0a0f';
+                ctx.fillRect(0, 0, w, h);
+
+                const xMin = 0, xMax = c + 2;
+                const yMin = 0, yMax = c + 2;
+                const margin = 50;
+
+                function toScreen(x, y) {
+                    return [
+                        margin + (x - xMin) / (xMax - xMin) * (w - 2*margin),
+                        h - margin - (y - yMin) / (yMax - yMin) * (h - 2*margin)
+                    ];
+                }
+
+                // Contours of f = xy
+                const levels = [1, 2, 4, 6, 8, 12, 16, 20, 25];
+                for (const level of levels) {
+                    if (level > c*c/4 + 5) continue;
+                    ctx.strokeStyle = `rgba(74, 158, 255, ${0.3 + level/50})`;
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    for (let i = 0; i <= 100; i++) {
+                        const x = 0.1 + (xMax - 0.1) * i / 100;
+                        const y = level / x;
+                        if (y > yMax || y < 0.1) continue;
+                        const [sx, sy] = toScreen(x, y);
+                        if (i === 0) ctx.moveTo(sx, sy);
+                        else ctx.lineTo(sx, sy);
+                    }
+                    ctx.stroke();
+                }
+
+                // Constraint line: x + y = c
+                ctx.strokeStyle = '#ef4444';
+                ctx.lineWidth = 4;
+                ctx.beginPath();
+                const [sx1, sy1] = toScreen(0, c);
+                const [sx2, sy2] = toScreen(c, 0);
+                ctx.moveTo(sx1, sy1);
+                ctx.lineTo(sx2, sy2);
+                ctx.stroke();
+
+                // Optimal point: (c/2, c/2)
+                const xOpt = c/2, yOpt = c/2;
+                const [optX, optY] = toScreen(xOpt, yOpt);
+                ctx.beginPath();
+                ctx.arc(optX, optY, 12, 0, Math.PI * 2);
+                ctx.fillStyle = '#10b981';
+                ctx.fill();
+
+                // Gradient vectors at optimal point
+                // ∇f = (y, x) = (c/2, c/2)
+                // ∇g = (1, 1)
+                const scale = 15;
+                ctx.strokeStyle = '#4a9eff';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(optX, optY);
+                ctx.lineTo(optX + yOpt * scale / 2, optY - xOpt * scale / 2);
+                ctx.stroke();
+
+                ctx.strokeStyle = '#8b5cf6';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(optX, optY);
+                ctx.lineTo(optX + 1 * scale, optY - 1 * scale);
+                ctx.stroke();
+
+                // Axes
+                ctx.strokeStyle = '#444';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(margin, h - margin);
+                ctx.lineTo(w - margin, h - margin);
+                ctx.moveTo(margin, h - margin);
+                ctx.lineTo(margin, margin);
+                ctx.stroke();
+
+                ctx.fillStyle = '#a0a0a0';
+                ctx.font = '12px Inter';
+                ctx.fillText('x', w - margin + 10, h - margin + 5);
+                ctx.fillText('y', margin - 10, margin - 10);
+
+                // Labels
+                ctx.fillStyle = '#10b981';
+                ctx.font = '14px JetBrains Mono';
+                ctx.fillText(`Maximum: (${xOpt}, ${yOpt})`, optX + 15, optY - 15);
+                ctx.fillText(`f = ${xOpt * yOpt}`, optX + 15, optY + 5);
+
+                info.innerHTML = `<strong>Maximize</strong> f(x,y) = xy <strong>subject to</strong> x + y = ${c}<br>` +
+                    `<strong>Solution:</strong> x = y = ${c/2}, f<sub>max</sub> = ${c*c/4}<br>` +
+                    `<span style="color:#4a9eff">∇f</span> and <span style="color:#8b5cf6">∇g</span> are parallel at the optimum!`;
+            }
+
+            constraintSlider.addEventListener('input', draw);
+            draw();
+        })();
+
+        // Distance to Line Visualization
+        (function() {
+            const canvas = document.getElementById('distanceCanvas');
+            const ctx = canvas.getContext('2d');
+            const aSlider = document.getElementById('aSlider');
+            const bSlider = document.getElementById('bSlider');
+            const cSlider = document.getElementById('cSlider');
+            const aValue = document.getElementById('aValue');
+            const bValue = document.getElementById('bValue');
+            const cValue = document.getElementById('cValue');
+            const info = document.getElementById('distanceInfo');
+
+            function draw() {
+                const a = parseFloat(aSlider.value);
+                const b = parseFloat(bSlider.value);
+                const c = parseFloat(cSlider.value);
+                aValue.textContent = a;
+                bValue.textContent = b;
+                cValue.textContent = c;
+
+                // Solution: x = λa/2, y = λb/2, λ = 2c/(a² + b²)
+                const lambda = 2 * c / (a*a + b*b);
+                const xOpt = lambda * a / 2;
+                const yOpt = lambda * b / 2;
+                const dist = Math.sqrt(xOpt*xOpt + yOpt*yOpt);
+
+                const w = canvas.width, h = canvas.height;
+                ctx.fillStyle = '#0a0a0f';
+                ctx.fillRect(0, 0, w, h);
+
+                const xMax = Math.max(c/a, 6);
+                const yMax = Math.max(c/b, 6);
+                const margin = 50;
+
+                function toScreen(x, y) {
+                    return [
+                        margin + x / xMax * (w - 2*margin),
+                        h - margin - y / yMax * (h - 2*margin)
+                    ];
+                }
+
+                // Contours of f = x² + y²
+                const levels = [1, 2, 4, 6, 9, 12, 16, 20, 25];
+                for (const level of levels) {
+                    const r = Math.sqrt(level);
+                    if (r > Math.max(xMax, yMax)) continue;
+                    ctx.strokeStyle = `rgba(74, 158, 255, ${0.2 + level/50})`;
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    for (let i = 0; i <= 100; i++) {
+                        const theta = Math.PI / 2 * i / 100;
+                        const x = r * Math.cos(theta);
+                        const y = r * Math.sin(theta);
+                        const [sx, sy] = toScreen(x, y);
+                        if (i === 0) ctx.moveTo(sx, sy);
+                        else ctx.lineTo(sx, sy);
+                    }
+                    ctx.stroke();
+                }
+
+                // Constraint line: ax + by = c
+                ctx.strokeStyle = '#ef4444';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                const [lx1, ly1] = toScreen(0, c/b);
+                const [lx2, ly2] = toScreen(c/a, 0);
+                ctx.moveTo(lx1, Math.max(ly1, margin));
+                ctx.lineTo(lx2, Math.min(ly2, h - margin));
+                ctx.stroke();
+
+                // Optimal point
+                const [optX, optY] = toScreen(xOpt, yOpt);
+                ctx.beginPath();
+                ctx.arc(optX, optY, 10, 0, Math.PI * 2);
+                ctx.fillStyle = '#10b981';
+                ctx.fill();
+
+                // Line from origin to optimal
+                const [oX, oY] = toScreen(0, 0);
+                ctx.strokeStyle = '#10b981';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([5, 5]);
+                ctx.beginPath();
+                ctx.moveTo(oX, oY);
+                ctx.lineTo(optX, optY);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Origin
+                ctx.beginPath();
+                ctx.arc(oX, oY, 6, 0, Math.PI * 2);
+                ctx.fillStyle = '#fff';
+                ctx.fill();
+
+                // Axes
+                ctx.strokeStyle = '#444';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(margin, h - margin);
+                ctx.lineTo(w - margin, h - margin);
+                ctx.moveTo(margin, h - margin);
+                ctx.lineTo(margin, margin);
+                ctx.stroke();
+
+                ctx.fillStyle = '#a0a0a0';
+                ctx.font = '12px Inter';
+                ctx.fillText('x', w - margin + 10, h - margin + 5);
+                ctx.fillText('y', margin - 10, margin - 10);
+
+                info.innerHTML = `<strong>Minimize</strong> x² + y² <strong>subject to</strong> ${a}x + ${b}y = ${c}<br>` +
+                    `<strong>Solution:</strong> (${xOpt.toFixed(3)}, ${yOpt.toFixed(3)})<br>` +
+                    `<strong>Minimum distance:</strong> ${dist.toFixed(3)}`;
+            }
+
+            aSlider.addEventListener('input', draw);
+            bSlider.addEventListener('input', draw);
+            cSlider.addEventListener('input', draw);
+            draw();
+        })();
+    </script>
+</body>
+</html>

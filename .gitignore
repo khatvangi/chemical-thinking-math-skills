@@ -29,6 +29,7 @@ site/.quarto/
 !site/lectures/13-rules/*.html
 !site/lectures/14-extrema/*.html
 !site/lectures/15-partial/*.html
+!site/lectures/16-taylor-lagrange/*.html
 !site/lectures/all-lectures.html
 !site/protein-raga.html
 !site/landing.html
