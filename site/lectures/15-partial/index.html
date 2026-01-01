@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 15: Partial Derivatives | Chemical Thinking</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a24;
+            --bg-card: #16161f;
+            --text-primary: #e8e6e3;
+            --text-secondary: #a0a0a0;
+            --text-muted: #6b6b6b;
+            --accent-red: #ef4444;
+            --accent-orange: #f59e0b;
+            --accent-blue: #4a9eff;
+            --accent-purple: #8b5cf6;
+            --accent-green: #10b981;
+            --accent-cyan: #06b6d4;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 17px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Navigation */
+        .lecture-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--bg-tertiary);
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover { color: var(--accent-red); }
+
+        .primitive-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(245, 158, 11, 0.1));
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .primitive-link:hover {
+            border-color: var(--accent-red);
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.2);
+        }
+
+        .primitive-badge {
+            background: var(--accent-red);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .primitive-text {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 3rem 0;
+        }
+
+        .lecture-number {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-red);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            letter-spacing: 0.1em;
+        }
+
+        h1 {
+            font-family: 'Fraunces', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-red), var(--accent-orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        /* Sections */
+        section {
+            margin-bottom: 4rem;
+        }
+
+        h2 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.8rem;
+            color: var(--accent-red);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--bg-tertiary);
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        strong { color: var(--text-primary); }
+
+        /* Hook Box */
+        .hook-box {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(245, 158, 11, 0.05));
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .hook-box p:last-child { margin-bottom: 0; }
+
+        /* Key insight */
+        .key-insight {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(139, 92, 246, 0.1));
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .key-insight p {
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--bg-tertiary);
+        }
+
+        th {
+            background: var(--bg-tertiary);
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        td { color: var(--text-secondary); }
+
+        tr:last-child td { border-bottom: none; }
+
+        /* Definition boxes */
+        .definition-box {
+            background: var(--bg-secondary);
+            border-left: 4px solid var(--accent-red);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .definition-box .term {
+            font-weight: 600;
+            color: var(--accent-red);
+        }
+
+        /* Theorem boxes */
+        .theorem-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--accent-purple);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .theorem-box h4 {
+            color: var(--accent-purple);
+            margin-bottom: 1rem;
+        }
+
+        /* Example box */
+        .example-box {
+            background: var(--bg-card);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .example-box h4 {
+            color: var(--accent-orange);
+            margin-bottom: 1rem;
+        }
+
+        /* Interactive visualizations */
+        .visualization {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .viz-title {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .canvas-container {
+            background: var(--bg-primary);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            border-radius: 4px;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .control-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .control-group label {
+            display: block;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            accent-color: var(--accent-red);
+        }
+
+        select {
+            width: 100%;
+            padding: 0.5rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--bg-card);
+            color: var(--text-primary);
+            border-radius: 4px;
+        }
+
+        .value-display {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-red);
+            font-size: 0.9rem;
+        }
+
+        /* Info box */
+        .info-box {
+            background: var(--bg-card);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+        }
+
+        /* Notation table */
+        .notation-table td:first-child {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-blue);
+        }
+
+        /* Footer navigation */
+        .lecture-footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--bg-tertiary);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            background: var(--bg-secondary);
+            transition: all 0.3s;
+        }
+
+        .footer-link:hover {
+            background: var(--bg-tertiary);
+            color: var(--accent-red);
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .container { padding: 1rem; }
+            .controls { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="lecture-nav">
+            <a href="../all-lectures.html" class="nav-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                All Lectures
+            </a>
+            <a href="../../primitives/change.html" class="primitive-link">
+                <span class="primitive-badge">CHANGE</span>
+                <span class="primitive-text">Explore the Primitive</span>
+            </a>
+        </nav>
+
+        <header>
+            <div class="lecture-number">LECTURE 15</div>
+            <h1>Partial Derivatives</h1>
+            <p class="subtitle">Functions of several variables &mdash; it's simpler than you think.</p>
+        </header>
+
+        <div class="hook-box">
+            <h3>The Hook</h3>
+            <p>A molecule's energy depends on <strong>multiple coordinates</strong>:</p>
+            <p>$$V(r_1, r_2, \theta) = \text{function of bond lengths and angle}$$</p>
+            <p>For water: V depends on two O-H distances and the H-O-H angle.</p>
+            <p><strong>Question:</strong> How does V change if we stretch just one bond, holding everything else fixed?</p>
+            <p><strong>Answer:</strong> That's a partial derivative.</p>
+            <p>$$\frac{\partial V}{\partial r_1} = \text{rate of change of } V \text{ with respect to } r_1 \text{, holding } r_2 \text{ and } \theta \text{ constant}$$</p>
+        </div>
+
+        <div class="key-insight">
+            <p><strong>Partial differentiation = ordinary differentiation with some variables treated as constants.</strong><br>That's the whole idea. Everything else is notation.</p>
+        </div>
+
+        <section>
+            <h2>When to Use Partial Derivatives</h2>
+            <table>
+                <tr><th>Situation</th><th>What You Need</th></tr>
+                <tr><td>"How does Y change with X, holding Z fixed?"</td><td>&part;Y/&part;X</td></tr>
+                <tr><td>Energy depends on multiple coordinates</td><td>&part;V/&part;q<sub>i</sub></td></tr>
+                <tr><td>Thermodynamic state functions</td><td>(&part;G/&part;T)<sub>P</sub>, (&part;G/&part;P)<sub>T</sub></td></tr>
+                <tr><td>Finding equilibrium geometry</td><td>Set all &part;V/&part;q<sub>i</sub> = 0</td></tr>
+                <tr><td>Checking stability</td><td>Hessian matrix of second partials</td></tr>
+            </table>
+        </section>
+
+        <section>
+            <h2>How to Compute</h2>
+            <div class="definition-box">
+                <p><span class="term">To find &part;f/&part;x:</span></p>
+                <ol style="margin-left: 1.5rem; color: var(--text-secondary);">
+                    <li><strong>Treat all other variables as constants</strong></li>
+                    <li><strong>Differentiate with respect to x using ordinary rules</strong></li>
+                </ol>
+                <p style="margin-top: 1rem; margin-bottom: 0;">That's it.</p>
+            </div>
+
+            <div class="example-box">
+                <h4>Example: f(x, y) = x&sup2;y + 3xy&sup2; &minus; y&sup3;</h4>
+                <p><strong>&part;f/&part;x</strong> (treat y as constant):</p>
+                <p>$$\frac{\partial f}{\partial x} = 2xy + 3y^2 - 0 = 2xy + 3y^2$$</p>
+                <p>(The &minus;y&sup3; term has no x, so its derivative w.r.t. x is 0.)</p>
+                <p><strong>&part;f/&part;y</strong> (treat x as constant):</p>
+                <p>$$\frac{\partial f}{\partial y} = x^2 + 6xy - 3y^2$$</p>
+            </div>
+
+            <div class="example-box">
+                <h4>Example: f(x, y) = e<sup>xy</sup></h4>
+                <p>Using the chain rule with y as constant:</p>
+                <p>$$\frac{\partial f}{\partial x} = ye^{xy}, \quad \frac{\partial f}{\partial y} = xe^{xy}$$</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Notation</h2>
+            <table class="notation-table">
+                <tr><th>Notation</th><th>Meaning</th></tr>
+                <tr><td>&part;f/&part;x</td><td>Partial of f with respect to x</td></tr>
+                <tr><td>f<sub>x</sub></td><td>Same (subscript notation)</td></tr>
+                <tr><td>(&part;f/&part;x)<sub>y</sub></td><td>Explicitly showing y is held constant</td></tr>
+                <tr><td>f<sub>x</sub>(a, b)</td><td>Partial evaluated at point (a, b)</td></tr>
+            </table>
+            <p><strong>The subscript outside the parentheses shows what's held constant.</strong> This is essential in thermodynamics.</p>
+        </section>
+
+        <section>
+            <h2>Interactive: Surface and Partial Derivatives</h2>
+            <div class="visualization">
+                <div class="viz-title">Visualizing &part;f/&part;x and &part;f/&part;y as Slopes</div>
+                <div class="canvas-container">
+                    <canvas id="surfaceCanvas" width="800" height="450"></canvas>
+                </div>
+                <div class="controls">
+                    <div class="control-group">
+                        <label>Point x<sub>0</sub>: <span class="value-display" id="x0Value">1.0</span></label>
+                        <input type="range" id="x0Slider" min="-2" max="2" step="0.25" value="1">
+                    </div>
+                    <div class="control-group">
+                        <label>Point y<sub>0</sub>: <span class="value-display" id="y0Value">1.0</span></label>
+                        <input type="range" id="y0Slider" min="-2" max="2" step="0.25" value="1">
+                    </div>
+                </div>
+                <div class="info-box" id="surfaceInfo">
+                    f(x,y) = x&sup2; + y&sup2;
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>The Gradient</h2>
+            <div class="definition-box">
+                <p><span class="term">Gradient:</span> The vector of all partial derivatives:</p>
+                <p style="margin-bottom: 0;">$$\nabla f = \left( \frac{\partial f}{\partial x}, \frac{\partial f}{\partial y} \right)$$</p>
+            </div>
+            <p><strong>The gradient points in the direction of steepest ascent.</strong> Its magnitude is the rate of steepest ascent.</p>
+            <p>For potential energy: <strong>Force = &minus;&nabla;V</strong> (points downhill)</p>
+
+            <div class="visualization">
+                <div class="viz-title">Gradient Vectors on Contour Plot</div>
+                <div class="canvas-container">
+                    <canvas id="gradientCanvas" width="800" height="500"></canvas>
+                </div>
+                <div class="info-box">
+                    Gradient vectors (red) point perpendicular to contours, in the direction of steepest increase.
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Critical Points in Multiple Variables</h2>
+            <div class="definition-box">
+                <p><span class="term">Critical point:</span> Where &nabla;f = <strong>0</strong> (all partial derivatives are zero).</p>
+            </div>
+
+            <div class="theorem-box">
+                <h4>Second Derivative Test (2D)</h4>
+                <p>At a critical point (a, b), compute:</p>
+                <p>$$D = f_{xx} \cdot f_{yy} - (f_{xy})^2 = \det(\text{Hessian})$$</p>
+                <table style="margin-top: 1rem;">
+                    <tr><th>Condition</th><th>Type</th></tr>
+                    <tr><td>D > 0 and f<sub>xx</sub> > 0</td><td><strong>Local minimum</strong></td></tr>
+                    <tr><td>D > 0 and f<sub>xx</sub> < 0</td><td><strong>Local maximum</strong></td></tr>
+                    <tr><td>D < 0</td><td><strong>Saddle point</strong></td></tr>
+                    <tr><td>D = 0</td><td>Inconclusive</td></tr>
+                </table>
+            </div>
+
+            <div class="visualization">
+                <div class="viz-title">Types of Critical Points</div>
+                <div class="canvas-container">
+                    <canvas id="criticalCanvas" width="800" height="400"></canvas>
+                </div>
+                <div class="controls">
+                    <div class="control-group">
+                        <label>Surface type:</label>
+                        <select id="critSelect">
+                            <option value="min">f = x&sup2; + y&sup2; (Minimum)</option>
+                            <option value="max">f = &minus;x&sup2; &minus; y&sup2; (Maximum)</option>
+                            <option value="saddle">f = x&sup2; &minus; y&sup2; (Saddle)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="info-box" id="critInfo">
+                    Select a surface type to see the critical point classification.
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>The Hessian Matrix</h2>
+            <div class="definition-box">
+                <p><span class="term">Hessian:</span> The matrix of second partial derivatives:</p>
+                <p style="margin-bottom: 0;">$$\mathbf{H} = \begin{pmatrix} f_{xx} & f_{xy} \\ f_{yx} & f_{yy} \end{pmatrix}$$</p>
+            </div>
+            <p><strong>Eigenvalues of H determine the nature of critical points:</strong></p>
+            <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                <li>All eigenvalues > 0 &rarr; local minimum</li>
+                <li>All eigenvalues < 0 &rarr; local maximum</li>
+                <li>Mixed signs &rarr; saddle point</li>
+            </ul>
+
+            <div class="theorem-box">
+                <h4>Clairaut's Theorem</h4>
+                <p>If f<sub>xy</sub> and f<sub>yx</sub> are both continuous, then:</p>
+                <p style="margin-bottom: 0;">$$f_{xy} = f_{yx}$$</p>
+                <p style="margin-top: 0.5rem; margin-bottom: 0;">The order of differentiation doesn't matter.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Chemistry: Thermodynamic Partials</h2>
+            <div class="example-box">
+                <h4>Ideal Gas: PV = nRT</h4>
+                <p>P as a function of V and T: $P = \frac{nRT}{V}$</p>
+                <p>$$\left(\frac{\partial P}{\partial T}\right)_V = \frac{nR}{V}$$</p>
+                <p>(At constant volume, pressure increases linearly with temperature.)</p>
+                <p>$$\left(\frac{\partial P}{\partial V}\right)_T = -\frac{nRT}{V^2}$$</p>
+                <p style="margin-bottom: 0;">(At constant temperature, pressure decreases as volume increases.)</p>
+            </div>
+
+            <div class="theorem-box">
+                <h4>The Cyclic Rule</h4>
+                <p>For state functions:</p>
+                <p style="margin-bottom: 0;">$$\left(\frac{\partial P}{\partial T}\right)_V \left(\frac{\partial T}{\partial V}\right)_P \left(\frac{\partial V}{\partial P}\right)_T = -1$$</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Chemistry: Potential Energy Surfaces</h2>
+            <p>A molecule's equilibrium geometry minimizes V(q<sub>1</sub>, q<sub>2</sub>, ..., q<sub>n</sub>):</p>
+            <p><strong>Necessary condition:</strong> $\frac{\partial V}{\partial q_i} = 0$ for all i (all forces zero)</p>
+            <p><strong>Hessian eigenvalues</strong> give vibrational frequencies:</p>
+            <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                <li>All eigenvalues > 0 &rarr; stable minimum</li>
+                <li>One eigenvalue < 0 &rarr; transition state (saddle point)</li>
+            </ul>
+
+            <div class="visualization">
+                <div class="viz-title">2D Potential Energy Surface</div>
+                <div class="canvas-container">
+                    <canvas id="pesCanvas" width="800" height="450"></canvas>
+                </div>
+                <div class="info-box">
+                    Contours show V(r<sub>1</sub>, r<sub>2</sub>). At equilibrium (red dot), &nabla;V = 0. The green arrow shows the force direction at a displaced point.
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Total Differential</h2>
+            <div class="definition-box">
+                <p><span class="term">Total differential:</span> How f changes when x and y both change:</p>
+                <p style="margin-bottom: 0;">$$df = \frac{\partial f}{\partial x}dx + \frac{\partial f}{\partial y}dy$$</p>
+            </div>
+
+            <div class="example-box">
+                <h4>Error Propagation</h4>
+                <p>If f depends on measured quantities x and y with uncertainties &delta;x and &delta;y:</p>
+                <p>$$(\delta f)^2 \approx \left(\frac{\partial f}{\partial x}\right)^2(\delta x)^2 + \left(\frac{\partial f}{\partial y}\right)^2(\delta y)^2$$</p>
+                <p style="margin-bottom: 0;"><strong>Example:</strong> V = &pi;r&sup2;h with r = 2.0 &plusmn; 0.1 cm, h = 5.0 &plusmn; 0.2 cm gives V = 62.8 &plusmn; 6.8 cm&sup3;</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Summary</h2>
+            <table>
+                <tr><th>Concept</th><th>Key Formula</th></tr>
+                <tr><td>&part;f/&part;x</td><td>Differentiate treating other variables as constants</td></tr>
+                <tr><td>Gradient</td><td>&nabla;f = (&part;f/&part;x, &part;f/&part;y, ...)</td></tr>
+                <tr><td>Force from potential</td><td><strong>F</strong> = &minus;&nabla;V</td></tr>
+                <tr><td>Critical points</td><td>Where &nabla;f = <strong>0</strong></td></tr>
+                <tr><td>Hessian</td><td>H<sub>ij</sub> = &part;&sup2;f/&part;x<sub>i</sub>&part;x<sub>j</sub></td></tr>
+                <tr><td>Total differential</td><td>df = &sum; (&part;f/&part;x<sub>i</sub>)dx<sub>i</sub></td></tr>
+                <tr><td>Mixed partials</td><td>f<sub>xy</sub> = f<sub>yx</sub></td></tr>
+            </table>
+        </section>
+
+        <nav class="lecture-footer">
+            <a href="../14-extrema/" class="footer-link">&larr; Lecture 14: Finding Extrema</a>
+            <a href="../all-lectures.html" class="footer-link">All Lectures</a>
+            <a href="../16-kinetics/" class="footer-link">Lecture 16: Kinetics &rarr;</a>
+        </nav>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},
+                    {left: "$", right: "$", display: false}
+                ]
+            });
+        });
+
+        // Surface visualization with partial derivatives
+        (function() {
+            const canvas = document.getElementById('surfaceCanvas');
+            const ctx = canvas.getContext('2d');
+            const x0Slider = document.getElementById('x0Slider');
+            const y0Slider = document.getElementById('y0Slider');
+            const x0Value = document.getElementById('x0Value');
+            const y0Value = document.getElementById('y0Value');
+            const info = document.getElementById('surfaceInfo');
+
+            // f(x,y) = x² + y²
+            function f(x, y) { return x*x + y*y; }
+            function fx(x, y) { return 2*x; }
+            function fy(x, y) { return 2*y; }
+
+            function draw() {
+                const x0 = parseFloat(x0Slider.value);
+                const y0 = parseFloat(y0Slider.value);
+                x0Value.textContent = x0.toFixed(1);
+                y0Value.textContent = y0.toFixed(1);
+
+                const w = canvas.width, h = canvas.height;
+                ctx.fillStyle = '#0a0a0f';
+                ctx.fillRect(0, 0, w, h);
+
+                // Draw contour plot
+                const xMin = -2.5, xMax = 2.5, yMin = -2.5, yMax = 2.5;
+                const margin = 50;
+                const plotW = w - 2*margin;
+                const plotH = h - 2*margin;
+
+                function toScreen(x, y) {
+                    return [
+                        margin + (x - xMin) / (xMax - xMin) * plotW,
+                        h - margin - (y - yMin) / (yMax - yMin) * plotH
+                    ];
+                }
+
+                // Draw contours
+                const levels = [0.5, 1, 2, 3, 4, 5, 6, 7, 8];
+                ctx.lineWidth = 1;
+
+                for (const level of levels) {
+                    const r = Math.sqrt(level);
+                    if (r > 2.5) continue;
+
+                    const [cx, cy] = toScreen(0, 0);
+                    const rx = r / (xMax - xMin) * plotW;
+                    const ry = r / (yMax - yMin) * plotH;
+
+                    ctx.strokeStyle = `rgba(74, 158, 255, ${0.3 + level/20})`;
+                    ctx.beginPath();
+                    ctx.ellipse(cx, cy, rx, ry, 0, 0, 2*Math.PI);
+                    ctx.stroke();
+                }
+
+                // Axes
+                ctx.strokeStyle = '#444';
+                ctx.lineWidth = 1;
+                const [ox, oy] = toScreen(0, 0);
+                ctx.beginPath();
+                ctx.moveTo(margin, oy);
+                ctx.lineTo(w - margin, oy);
+                ctx.moveTo(ox, margin);
+                ctx.lineTo(ox, h - margin);
+                ctx.stroke();
+
+                // Labels
+                ctx.fillStyle = '#a0a0a0';
+                ctx.font = '12px Inter';
+                ctx.fillText('x', w - margin + 10, oy + 5);
+                ctx.fillText('y', ox - 5, margin - 10);
+
+                // Point
+                const [px, py] = toScreen(x0, y0);
+                ctx.beginPath();
+                ctx.arc(px, py, 10, 0, Math.PI * 2);
+                ctx.fillStyle = '#ef4444';
+                ctx.fill();
+
+                // Gradient vector
+                const gx = fx(x0, y0);
+                const gy = fy(x0, y0);
+                const scale = 30;
+                const gLen = Math.sqrt(gx*gx + gy*gy);
+
+                if (gLen > 0.01) {
+                    ctx.strokeStyle = '#10b981';
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.moveTo(px, py);
+                    ctx.lineTo(px + gx * scale, py - gy * scale);
+                    ctx.stroke();
+
+                    // Arrow head
+                    const angle = Math.atan2(-gy, gx);
+                    ctx.beginPath();
+                    ctx.moveTo(px + gx * scale, py - gy * scale);
+                    ctx.lineTo(px + gx * scale - 10 * Math.cos(angle - 0.3), py - gy * scale + 10 * Math.sin(angle - 0.3));
+                    ctx.moveTo(px + gx * scale, py - gy * scale);
+                    ctx.lineTo(px + gx * scale - 10 * Math.cos(angle + 0.3), py - gy * scale + 10 * Math.sin(angle + 0.3));
+                    ctx.stroke();
+                }
+
+                // Tangent lines in x and y directions
+                ctx.lineWidth = 2;
+
+                // x-direction tangent
+                ctx.strokeStyle = '#4a9eff';
+                ctx.setLineDash([5, 5]);
+                const [x1s, y1s] = toScreen(x0 - 0.8, y0);
+                const [x2s, y2s] = toScreen(x0 + 0.8, y0);
+                ctx.beginPath();
+                ctx.moveTo(x1s, y1s);
+                ctx.lineTo(x2s, y2s);
+                ctx.stroke();
+
+                // y-direction tangent
+                ctx.strokeStyle = '#f59e0b';
+                const [x3s, y3s] = toScreen(x0, y0 - 0.8);
+                const [x4s, y4s] = toScreen(x0, y0 + 0.8);
+                ctx.beginPath();
+                ctx.moveTo(x3s, y3s);
+                ctx.lineTo(x4s, y4s);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Info
+                const z0 = f(x0, y0);
+                info.innerHTML = `<strong>f(x,y) = x&sup2; + y&sup2;</strong> at (${x0.toFixed(1)}, ${y0.toFixed(1)})<br><br>` +
+                    `f = ${z0.toFixed(2)}<br>` +
+                    `<span style="color:#4a9eff">&part;f/&part;x = 2x = ${gx.toFixed(2)}</span> (slope in x-direction)<br>` +
+                    `<span style="color:#f59e0b">&part;f/&part;y = 2y = ${gy.toFixed(2)}</span> (slope in y-direction)<br>` +
+                    `<span style="color:#10b981">&nabla;f = (${gx.toFixed(2)}, ${gy.toFixed(2)})</span> (gradient)`;
+            }
+
+            x0Slider.addEventListener('input', draw);
+            y0Slider.addEventListener('input', draw);
+            draw();
+        })();
+
+        // Gradient field visualization
+        (function() {
+            const canvas = document.getElementById('gradientCanvas');
+            const ctx = canvas.getContext('2d');
+
+            function f(x, y) { return x*x + y*y; }
+            function fx(x, y) { return 2*x; }
+            function fy(x, y) { return 2*y; }
+
+            const w = canvas.width, h = canvas.height;
+            ctx.fillStyle = '#0a0a0f';
+            ctx.fillRect(0, 0, w, h);
+
+            const xMin = -2.5, xMax = 2.5, yMin = -2.5, yMax = 2.5;
+            const margin = 50;
+            const plotW = w - 2*margin;
+            const plotH = h - 2*margin;
+
+            function toScreen(x, y) {
+                return [
+                    margin + (x - xMin) / (xMax - xMin) * plotW,
+                    h - margin - (y - yMin) / (yMax - yMin) * plotH
+                ];
+            }
+
+            // Draw contours
+            const levels = [0.5, 1, 2, 3, 4, 5, 6];
+            ctx.lineWidth = 2;
+
+            for (const level of levels) {
+                const r = Math.sqrt(level);
+                if (r > 2.5) continue;
+
+                const [cx, cy] = toScreen(0, 0);
+                const rx = r / (xMax - xMin) * plotW;
+                const ry = r / (yMax - yMin) * plotH;
+
+                ctx.strokeStyle = `rgba(74, 158, 255, ${0.4 + level/15})`;
+                ctx.beginPath();
+                ctx.ellipse(cx, cy, rx, ry, 0, 0, 2*Math.PI);
+                ctx.stroke();
+            }
+
+            // Draw gradient vectors
+            for (let xi = -2; xi <= 2; xi += 0.6) {
+                for (let yi = -2; yi <= 2; yi += 0.6) {
+                    if (Math.abs(xi) < 0.2 && Math.abs(yi) < 0.2) continue;
+
+                    const gx = fx(xi, yi);
+                    const gy = fy(xi, yi);
+                    const gLen = Math.sqrt(gx*gx + gy*gy);
+
+                    if (gLen > 0.01) {
+                        const [px, py] = toScreen(xi, yi);
+                        const scale = 15 / gLen;
+
+                        ctx.strokeStyle = '#ef4444';
+                        ctx.lineWidth = 2;
+                        ctx.beginPath();
+                        ctx.moveTo(px, py);
+                        ctx.lineTo(px + gx * scale, py - gy * scale);
+                        ctx.stroke();
+
+                        // Arrow head
+                        const angle = Math.atan2(-gy, gx);
+                        ctx.beginPath();
+                        ctx.moveTo(px + gx * scale, py - gy * scale);
+                        ctx.lineTo(px + gx * scale - 6 * Math.cos(angle - 0.4), py - gy * scale + 6 * Math.sin(angle - 0.4));
+                        ctx.moveTo(px + gx * scale, py - gy * scale);
+                        ctx.lineTo(px + gx * scale - 6 * Math.cos(angle + 0.4), py - gy * scale + 6 * Math.sin(angle + 0.4));
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            // Mark origin
+            const [ox, oy] = toScreen(0, 0);
+            ctx.beginPath();
+            ctx.arc(ox, oy, 6, 0, Math.PI * 2);
+            ctx.fillStyle = '#10b981';
+            ctx.fill();
+
+            // Labels
+            ctx.fillStyle = '#a0a0a0';
+            ctx.font = '12px Inter';
+            ctx.fillText('x', w - margin + 10, oy + 5);
+            ctx.fillText('y', ox - 5, margin - 10);
+            ctx.fillText('Minimum', ox + 10, oy + 20);
+        })();
+
+        // Critical points visualization
+        (function() {
+            const canvas = document.getElementById('criticalCanvas');
+            const ctx = canvas.getContext('2d');
+            const select = document.getElementById('critSelect');
+            const info = document.getElementById('critInfo');
+
+            const surfaces = {
+                min: {
+                    f: (x, y) => x*x + y*y,
+                    name: "f = x² + y²",
+                    type: "Local Minimum",
+                    fxx: 2, fyy: 2, fxy: 0,
+                    D: 4
+                },
+                max: {
+                    f: (x, y) => -x*x - y*y,
+                    name: "f = -x² - y²",
+                    type: "Local Maximum",
+                    fxx: -2, fyy: -2, fxy: 0,
+                    D: 4
+                },
+                saddle: {
+                    f: (x, y) => x*x - y*y,
+                    name: "f = x² - y²",
+                    type: "Saddle Point",
+                    fxx: 2, fyy: -2, fxy: 0,
+                    D: -4
+                }
+            };
+
+            function draw() {
+                const surf = surfaces[select.value];
+                const w = canvas.width, h = canvas.height;
+
+                ctx.fillStyle = '#0a0a0f';
+                ctx.fillRect(0, 0, w, h);
+
+                const xMin = -2, xMax = 2, yMin = -2, yMax = 2;
+                const margin = 40;
+                const plotW = w - 2*margin;
+                const plotH = h - 2*margin;
+
+                function toScreen(x, y) {
+                    return [
+                        margin + (x - xMin) / (xMax - xMin) * plotW,
+                        h - margin - (y - yMin) / (yMax - yMin) * plotH
+                    ];
+                }
+
+                // Draw contours
+                const numContours = 15;
+                for (let i = -numContours; i <= numContours; i++) {
+                    const level = i * 0.3;
+
+                    ctx.strokeStyle = level === 0 ? '#fff' : (level > 0 ? `rgba(239, 68, 68, ${0.2 + Math.abs(i)/30})` : `rgba(74, 158, 255, ${0.2 + Math.abs(i)/30})`);
+                    ctx.lineWidth = level === 0 ? 2 : 1;
+                    ctx.beginPath();
+
+                    let started = false;
+                    for (let t = 0; t <= 360; t += 2) {
+                        const theta = t * Math.PI / 180;
+
+                        // Find r for this contour level
+                        // For min/max: x² + y² = level → r² = level
+                        // For saddle: x² - y² = level → r²cos2θ = level
+                        let r;
+                        if (select.value === 'saddle') {
+                            const cos2t = Math.cos(2 * theta);
+                            if (Math.abs(cos2t) < 0.01 || (level > 0 && cos2t < 0) || (level < 0 && cos2t > 0)) continue;
+                            r = Math.sqrt(Math.abs(level / cos2t));
+                        } else {
+                            if (level < 0 && select.value === 'min') continue;
+                            if (level > 0 && select.value === 'max') continue;
+                            r = Math.sqrt(Math.abs(level));
+                        }
+
+                        if (r > 2) continue;
+
+                        const x = r * Math.cos(theta);
+                        const y = r * Math.sin(theta);
+                        const [sx, sy] = toScreen(x, y);
+
+                        if (!started) {
+                            ctx.moveTo(sx, sy);
+                            started = true;
+                        } else {
+                            ctx.lineTo(sx, sy);
+                        }
+                    }
+                    if (select.value !== 'saddle') ctx.closePath();
+                    ctx.stroke();
+                }
+
+                // Mark critical point
+                const [ox, oy] = toScreen(0, 0);
+                ctx.beginPath();
+                ctx.arc(ox, oy, 8, 0, Math.PI * 2);
+                ctx.fillStyle = surf.D > 0 ? (surf.fxx > 0 ? '#10b981' : '#ef4444') : '#f59e0b';
+                ctx.fill();
+
+                // Info
+                info.innerHTML = `<strong>${surf.name}</strong><br><br>` +
+                    `f<sub>xx</sub> = ${surf.fxx}, f<sub>yy</sub> = ${surf.fyy}, f<sub>xy</sub> = ${surf.fxy}<br>` +
+                    `D = f<sub>xx</sub>&middot;f<sub>yy</sub> - (f<sub>xy</sub>)&sup2; = ${surf.D}<br><br>` +
+                    `<strong>Classification: ${surf.type}</strong>`;
+            }
+
+            select.addEventListener('change', draw);
+            draw();
+        })();
+
+        // PES visualization
+        (function() {
+            const canvas = document.getElementById('pesCanvas');
+            const ctx = canvas.getContext('2d');
+
+            const w = canvas.width, h = canvas.height;
+            ctx.fillStyle = '#0a0a0f';
+            ctx.fillRect(0, 0, w, h);
+
+            // Simplified 2D Morse potential
+            const De = 4, beta = 2, re = 1;
+            function V(r1, r2) {
+                return De * (Math.pow(1 - Math.exp(-beta*(r1-re)), 2) + Math.pow(1 - Math.exp(-beta*(r2-re)), 2));
+            }
+
+            const r1Min = 0.6, r1Max = 2, r2Min = 0.6, r2Max = 2;
+            const margin = 60;
+            const plotW = w - 2*margin;
+            const plotH = h - 2*margin;
+
+            function toScreen(r1, r2) {
+                return [
+                    margin + (r1 - r1Min) / (r1Max - r1Min) * plotW,
+                    h - margin - (r2 - r2Min) / (r2Max - r2Min) * plotH
+                ];
+            }
+
+            // Draw contours
+            const levels = [0.2, 0.5, 1, 1.5, 2, 3, 4, 5, 6, 7];
+            ctx.lineWidth = 1.5;
+
+            for (const level of levels) {
+                ctx.strokeStyle = `rgba(74, 158, 255, ${0.3 + level/15})`;
+                ctx.beginPath();
+
+                // Trace contour numerically
+                for (let r1 = r1Min; r1 <= r1Max; r1 += 0.02) {
+                    for (let r2 = r2Min; r2 <= r2Max; r2 += 0.02) {
+                        const v = V(r1, r2);
+                        if (Math.abs(v - level) < 0.15) {
+                            const [sx, sy] = toScreen(r1, r2);
+                            ctx.fillStyle = `rgba(74, 158, 255, ${0.2 + level/20})`;
+                            ctx.fillRect(sx-1, sy-1, 2, 2);
+                        }
+                    }
+                }
+            }
+
+            // Axes
+            ctx.strokeStyle = '#444';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(margin, h - margin);
+            ctx.lineTo(w - margin, h - margin);
+            ctx.moveTo(margin, h - margin);
+            ctx.lineTo(margin, margin);
+            ctx.stroke();
+
+            ctx.fillStyle = '#a0a0a0';
+            ctx.font = '14px Inter';
+            ctx.fillText('r₁ (Å)', w/2, h - 15);
+            ctx.save();
+            ctx.translate(20, h/2);
+            ctx.rotate(-Math.PI/2);
+            ctx.fillText('r₂ (Å)', 0, 0);
+            ctx.restore();
+
+            // Mark equilibrium
+            const [eqx, eqy] = toScreen(re, re);
+            ctx.beginPath();
+            ctx.arc(eqx, eqy, 10, 0, Math.PI * 2);
+            ctx.fillStyle = '#ef4444';
+            ctx.fill();
+
+            // Mark displaced point with force
+            const r1d = 1.3, r2d = 0.8;
+            const [dx, dy] = toScreen(r1d, r2d);
+            ctx.beginPath();
+            ctx.arc(dx, dy, 6, 0, Math.PI * 2);
+            ctx.fillStyle = '#4a9eff';
+            ctx.fill();
+
+            // Numerical gradient
+            const h_step = 0.01;
+            const gr1 = (V(r1d + h_step, r2d) - V(r1d - h_step, r2d)) / (2 * h_step);
+            const gr2 = (V(r1d, r2d + h_step) - V(r1d, r2d - h_step)) / (2 * h_step);
+
+            // Force = -gradient
+            const scale = 15;
+            ctx.strokeStyle = '#10b981';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(dx, dy);
+            ctx.lineTo(dx - gr1 * scale, dy + gr2 * scale);
+            ctx.stroke();
+
+            // Arrow head
+            const angle = Math.atan2(gr2, -gr1);
+            ctx.beginPath();
+            ctx.moveTo(dx - gr1 * scale, dy + gr2 * scale);
+            ctx.lineTo(dx - gr1 * scale - 8 * Math.cos(angle - 0.4), dy + gr2 * scale - 8 * Math.sin(angle - 0.4));
+            ctx.moveTo(dx - gr1 * scale, dy + gr2 * scale);
+            ctx.lineTo(dx - gr1 * scale - 8 * Math.cos(angle + 0.4), dy + gr2 * scale - 8 * Math.sin(angle + 0.4));
+            ctx.stroke();
+
+            // Labels
+            ctx.font = '12px JetBrains Mono';
+            ctx.fillStyle = '#ef4444';
+            ctx.fillText('Equilibrium', eqx + 12, eqy - 5);
+            ctx.fillStyle = '#10b981';
+            ctx.fillText('Force', dx - gr1 * scale + 5, dy + gr2 * scale + 15);
+        })();
+    </script>
+</body>
+</html>
