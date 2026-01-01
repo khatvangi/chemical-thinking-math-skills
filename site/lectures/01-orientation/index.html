@@ -1,0 +1,1433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 1: Orientation — Chemical Thinking</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a24;
+            --text-primary: #e8e6e3;
+            --text-secondary: #a8a5a0;
+            --text-muted: #6b6965;
+            --accent-purple: #8B5CF6;
+            --accent-blue: #3B82F6;
+            --accent-orange: #F97316;
+            --accent-green: #22C55E;
+            --accent-red: #EF4444;
+            --accent-cyan: #06B6D4;
+            --border-subtle: #2a2a35;
+            --max-width: 800px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 18px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            padding: 0 1.5rem;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            padding: 4rem 0 3rem;
+            border-bottom: 1px solid var(--border-subtle);
+            margin-bottom: 3rem;
+        }
+
+        .lecture-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            color: var(--accent-orange);
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-family: 'Fraunces', serif;
+            font-size: 3rem;
+            font-weight: 500;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+            font-style: italic;
+        }
+
+        h2 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.75rem;
+            font-weight: 500;
+            margin: 3rem 0 1.5rem;
+            color: var(--text-primary);
+        }
+
+        h3 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 2rem 0 1rem;
+            color: var(--text-primary);
+        }
+
+        p {
+            margin-bottom: 1.25rem;
+            color: var(--text-secondary);
+        }
+
+        strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        em {
+            font-style: italic;
+            color: var(--text-primary);
+        }
+
+        /* Sections */
+        .section {
+            margin: 4rem 0;
+            padding-top: 2rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .section-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-orange);
+            letter-spacing: 0.1em;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Hook intro */
+        .hook-intro {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin: 3rem 0;
+            padding: 2rem;
+            border: 1px dashed var(--border-subtle);
+            border-radius: 12px;
+        }
+
+        /* Visualizations */
+        .visual-container {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .visual-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent-orange);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .visual-canvas {
+            background: var(--bg-primary);
+            border-radius: 8px;
+            width: 100%;
+            display: block;
+        }
+
+        .visual-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .control-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .control-value {
+            font-size: 0.85rem;
+            color: var(--accent-orange);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 4px;
+            -webkit-appearance: none;
+            background: var(--bg-tertiary);
+            border-radius: 2px;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            background: var(--accent-orange);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .visual-prompt {
+            font-size: 1rem;
+            color: var(--text-primary);
+            text-align: center;
+            margin-top: 1rem;
+            font-style: italic;
+        }
+
+        .visual-info {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-align: center;
+            margin-top: 0.5rem;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        th {
+            color: var(--text-primary);
+            font-weight: 600;
+            background: var(--bg-secondary);
+        }
+
+        td {
+            color: var(--text-secondary);
+        }
+
+        /* Primitive highlight */
+        .primitive-name {
+            color: var(--accent-orange);
+            font-weight: 600;
+        }
+
+        /* Primitive Map */
+        .primitive-map {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .map-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .map-node {
+            background: var(--bg-tertiary);
+            border: 2px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .map-node:hover {
+            border-color: var(--accent-orange);
+            transform: translateY(-2px);
+        }
+
+        .map-node.active {
+            border-color: var(--accent-orange);
+            background: rgba(249, 115, 22, 0.1);
+        }
+
+        .node-name {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-orange);
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .node-perception {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .map-detail {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-subtle);
+            min-height: 100px;
+        }
+
+        .detail-title {
+            font-family: 'Fraunces', serif;
+            font-size: 1.25rem;
+            color: var(--accent-orange);
+            margin-bottom: 0.5rem;
+        }
+
+        .detail-tools, .detail-chem {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .detail-tools strong, .detail-chem strong {
+            color: var(--text-muted);
+        }
+
+        /* Course Map */
+        .course-modules {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .module-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+
+        .module-card h4 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .module-card.structure { border-top: 3px solid var(--accent-blue); }
+        .module-card.change { border-top: 3px solid var(--accent-green); }
+        .module-card.probability { border-top: 3px solid var(--accent-purple); }
+
+        .module-card .weeks {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .module-card p {
+            font-size: 0.9rem;
+            margin-bottom: 0;
+        }
+
+        /* Promise box */
+        .promise-box {
+            background: linear-gradient(135deg, var(--accent-orange) 0%, var(--accent-red) 100%);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .promise-box h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .promise-box ol {
+            color: rgba(255,255,255,0.9);
+            margin: 1rem 0 0 1.5rem;
+        }
+
+        .promise-box li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Exercises */
+        .exercise {
+            background: var(--bg-secondary);
+            border-left: 3px solid var(--accent-purple);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .exercise-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-purple);
+            margin-bottom: 1rem;
+        }
+
+        .exercise ol, .exercise ul {
+            margin: 0.5rem 0 0 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        /* Navigation */
+        .nav-footer {
+            margin-top: 4rem;
+            padding: 2rem 0;
+            border-top: 1px solid var(--border-subtle);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .nav-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-orange);
+        }
+
+        /* Responsive */
+        @media (max-width: 700px) {
+            html { font-size: 16px; }
+            h1 { font-size: 2.25rem; }
+            .course-modules { grid-template-columns: 1fr; }
+            .map-container { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 500px) {
+            .map-container { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="lecture-label">Lecture 1 of 24</div>
+            <h1>Orientation — Seeing</h1>
+            <p class="subtitle">Before math, before chemistry, there is perception.</p>
+        </header>
+
+        <!-- THE HOOK -->
+        <section class="section" id="hook">
+            <div class="section-header">
+                <span class="section-label">The Hook</span>
+                <h2>Five Phenomena</h2>
+            </div>
+
+            <div class="hook-intro">
+                No explanations. No equations. Just look.<br>
+                What do you notice?
+            </div>
+
+            <!-- PHENOMENON 1: WATER -->
+            <div class="visual-container" id="water-container">
+                <div class="visual-title">Phenomenon 1: Water Molecule</div>
+                <canvas id="waterCanvas" class="visual-canvas" width="760" height="350"></canvas>
+                <div class="visual-controls">
+                    <div class="control-group">
+                        <span class="control-label">Rotate Y</span>
+                        <input type="range" id="waterRotY" min="0" max="360" value="30">
+                    </div>
+                    <div class="control-group">
+                        <span class="control-label">Rotate X</span>
+                        <input type="range" id="waterRotX" min="-90" max="90" value="15">
+                    </div>
+                </div>
+                <p class="visual-info">Bond length: 0.96 Å | Bond angle: 104.5°</p>
+                <p class="visual-prompt">What do you notice about the bonds?</p>
+            </div>
+
+            <!-- PHENOMENON 2: DECAY -->
+            <div class="visual-container" id="decay-container">
+                <div class="visual-title">Phenomenon 2: Concentration Decay</div>
+                <canvas id="decayCanvas" class="visual-canvas" width="760" height="300"></canvas>
+                <div class="visual-controls">
+                    <div class="control-group">
+                        <span class="control-label">Rate constant k</span>
+                        <input type="range" id="decayK" min="0.1" max="2" step="0.1" value="0.5">
+                        <span class="control-value" id="decayKValue">k = 0.5 s⁻¹</span>
+                    </div>
+                    <div class="control-group">
+                        <span class="control-label">Half-life t₁/₂</span>
+                        <span class="control-value" id="decayHalfLife">= 1.39 s</span>
+                    </div>
+                </div>
+                <p class="visual-prompt">What is happening? How would you describe the change?</p>
+            </div>
+
+            <!-- PHENOMENON 3: LENNARD-JONES -->
+            <div class="visual-container" id="lj-container">
+                <div class="visual-title">Phenomenon 3: Lennard-Jones Potential</div>
+                <canvas id="ljCanvas" class="visual-canvas" width="760" height="320"></canvas>
+                <div class="visual-controls">
+                    <div class="control-group">
+                        <span class="control-label">Distance r/σ</span>
+                        <input type="range" id="ljR" min="0.95" max="3" step="0.01" value="1.5">
+                        <span class="control-value" id="ljRValue">r = 1.50 σ</span>
+                    </div>
+                    <div class="control-group">
+                        <span class="control-label">Potential V</span>
+                        <span class="control-value" id="ljVValue">= -0.55 ε</span>
+                    </div>
+                    <div class="control-group">
+                        <span class="control-label">Force</span>
+                        <span class="control-value" id="ljFValue">Attractive</span>
+                    </div>
+                </div>
+                <p class="visual-prompt">What happens as atoms get very close? Very far?</p>
+            </div>
+
+            <!-- PHENOMENON 4: MAXWELL-BOLTZMANN -->
+            <div class="visual-container" id="mb-container">
+                <div class="visual-title">Phenomenon 4: Maxwell-Boltzmann Distribution</div>
+                <canvas id="mbCanvas" class="visual-canvas" width="760" height="320"></canvas>
+                <div class="visual-controls">
+                    <div class="control-group">
+                        <span class="control-label">Temperature</span>
+                        <input type="range" id="mbT" min="100" max="800" step="50" value="300">
+                        <span class="control-value" id="mbTValue">T = 300 K</span>
+                    </div>
+                    <div class="control-group">
+                        <span class="control-label">Most probable</span>
+                        <span class="control-value" id="mbVp">vₚ = 422 m/s</span>
+                    </div>
+                    <div class="control-group">
+                        <span class="control-label">Mean</span>
+                        <span class="control-value" id="mbVavg">⟨v⟩ = 476 m/s</span>
+                    </div>
+                </div>
+                <p class="visual-prompt">Why isn't this symmetric? Why are there more slow molecules than fast ones?</p>
+            </div>
+
+            <!-- PHENOMENON 5: BENZENE -->
+            <div class="visual-container" id="benzene-container">
+                <div class="visual-title">Phenomenon 5: Benzene Symmetry</div>
+                <canvas id="benzeneCanvas" class="visual-canvas" width="760" height="350"></canvas>
+                <div class="visual-controls">
+                    <div class="control-group">
+                        <span class="control-label">Rotation angle</span>
+                        <input type="range" id="benzeneTheta" min="0" max="360" step="5" value="0">
+                        <span class="control-value" id="benzeneThetaValue">θ = 0°</span>
+                    </div>
+                    <div class="control-group">
+                        <span class="control-label">Looks identical?</span>
+                        <span class="control-value" id="benzeneIdentical">Yes (0° = 360°)</span>
+                    </div>
+                </div>
+                <p class="visual-prompt">At which angles does the molecule look identical?</p>
+            </div>
+        </section>
+
+        <!-- RECOGNITION -->
+        <section class="section" id="recognition">
+            <div class="section-header">
+                <span class="section-label">Recognition</span>
+                <h2>What Did You Notice?</h2>
+            </div>
+
+            <p>Write down, for each image, what struck you. Use any words.</p>
+            <p>Compare with your neighbor. What words did you use?</p>
+
+            <h3>Typical Responses</h3>
+            <table>
+                <tr><th>Phenomenon</th><th>Student Words</th></tr>
+                <tr><td>Water</td><td>"bent," "angled," "pointing," "V-shape"</td></tr>
+                <tr><td>Decay curve</td><td>"falling," "changing," "getting smaller," "dying"</td></tr>
+                <tr><td>Potential</td><td>"close," "far," "repelling," "attracting"</td></tr>
+                <tr><td>Speed distribution</td><td>"spread out," "some fast some slow," "range"</td></tr>
+                <tr><td>Benzene</td><td>"symmetric," "same," "repeating," "regular"</td></tr>
+            </table>
+
+            <h3>These Words Cluster Into Patterns</h3>
+            <table>
+                <tr><th>Your Words</th><th>The Pattern</th><th>We Call It</th></tr>
+                <tr><td>"pointing," "angled"</td><td>Orientation in space</td><td><span class="primitive-name">DIRECTION</span></td></tr>
+                <tr><td>"changing," "becoming"</td><td>Transformation over time</td><td><span class="primitive-name">CHANGE</span></td></tr>
+                <tr><td>"close," "far"</td><td>Spatial relationship</td><td><span class="primitive-name">PROXIMITY</span></td></tr>
+                <tr><td>"spread," "distributed"</td><td>Allocation across possibilities</td><td><span class="primitive-name">SPREAD</span></td></tr>
+                <tr><td>"same," "symmetric"</td><td>Invariance under transformation</td><td><span class="primitive-name">SAMENESS</span></td></tr>
+            </table>
+
+            <p style="text-align: center; font-size: 1.1rem; margin-top: 2rem;">
+                These are the <strong>primitives</strong>.<br>
+                They are not math concepts. They are not chemistry concepts.<br>
+                They are how your mind parses reality.
+            </p>
+        </section>
+
+        <!-- THE PRIMITIVES -->
+        <section class="section" id="primitives">
+            <div class="section-header">
+                <span class="section-label">The Framework</span>
+                <h2>The Nine Primitives</h2>
+            </div>
+
+            <p style="text-align: center; margin-bottom: 2rem;">Click any primitive to learn more.</p>
+
+            <div class="primitive-map">
+                <div class="map-container" id="primitiveMap">
+                    <div class="map-node" data-primitive="collection">
+                        <div class="node-name">COLLECTION</div>
+                        <div class="node-perception">"there are many"</div>
+                    </div>
+                    <div class="map-node" data-primitive="arrangement">
+                        <div class="node-name">ARRANGEMENT</div>
+                        <div class="node-perception">"order matters"</div>
+                    </div>
+                    <div class="map-node" data-primitive="direction">
+                        <div class="node-name">DIRECTION</div>
+                        <div class="node-perception">"it points"</div>
+                    </div>
+                    <div class="map-node" data-primitive="proximity">
+                        <div class="node-name">PROXIMITY</div>
+                        <div class="node-perception">"near vs. far"</div>
+                    </div>
+                    <div class="map-node" data-primitive="sameness">
+                        <div class="node-name">SAMENESS</div>
+                        <div class="node-perception">"unchanged"</div>
+                    </div>
+                    <div class="map-node" data-primitive="change">
+                        <div class="node-name">CHANGE</div>
+                        <div class="node-perception">"becoming"</div>
+                    </div>
+                    <div class="map-node" data-primitive="rate">
+                        <div class="node-name">RATE</div>
+                        <div class="node-perception">"how fast"</div>
+                    </div>
+                    <div class="map-node" data-primitive="accumulation">
+                        <div class="node-name">ACCUMULATION</div>
+                        <div class="node-perception">"all together"</div>
+                    </div>
+                    <div class="map-node" data-primitive="spread">
+                        <div class="node-name">SPREAD</div>
+                        <div class="node-perception">"distributed"</div>
+                    </div>
+                </div>
+                <div class="map-detail" id="mapDetail">
+                    <p style="color: var(--text-muted); text-align: center;">Click a primitive above to see its tools and chemistry applications.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- COURSE MAP -->
+        <section class="section" id="course">
+            <div class="section-header">
+                <span class="section-label">The Journey</span>
+                <h2>Course Map</h2>
+            </div>
+
+            <div class="course-modules">
+                <div class="module-card structure">
+                    <h4>Module 1: STRUCTURE</h4>
+                    <div class="weeks">Lectures 1-11</div>
+                    <p><em>"What is a molecule?"</em></p>
+                    <p>Primitives: COLLECTION, ARRANGEMENT, DIRECTION, SAMENESS</p>
+                    <p>Tools: Counting, vectors, matrices, eigenvalues</p>
+                </div>
+                <div class="module-card change">
+                    <h4>Module 2: CHANGE</h4>
+                    <div class="weeks">Lectures 12-20</div>
+                    <p><em>"How do things transform?"</em></p>
+                    <p>Primitives: PROXIMITY, CHANGE, RATE, ACCUMULATION</p>
+                    <p>Tools: Functions, limits, derivatives, integrals</p>
+                </div>
+                <div class="module-card probability">
+                    <h4>Module 3: PROBABILITY</h4>
+                    <div class="weeks">Lectures 21-24</div>
+                    <p><em>"What happens with many particles?"</em></p>
+                    <p>Primitives: SPREAD (and SAMENESS revisited)</p>
+                    <p>Tools: Probability, distributions, entropy</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- THE PROMISE -->
+        <section class="section" id="promise">
+            <div class="section-header">
+                <span class="section-label">The Promise</span>
+                <h2>What You Will Learn</h2>
+            </div>
+
+            <div class="promise-box">
+                <h3>By the end of this course:</h3>
+                <ol>
+                    <li><strong>You will see</strong> any chemical phenomenon and recognize which primitives are operating.</li>
+                    <li><strong>You will know</strong> which mathematical tools correspond to each primitive.</li>
+                    <li><strong>You will use</strong> those tools with understanding, not just procedure.</li>
+                    <li><strong>You will transfer</strong> this recognition to new contexts—in chemistry and beyond.</li>
+                </ol>
+            </div>
+
+            <p style="text-align: center; font-size: 1.2rem; margin-top: 2rem;">
+                You won't just learn math for chemistry.<br>
+                <strong>You'll learn to see.</strong>
+            </p>
+        </section>
+
+        <!-- EXERCISES -->
+        <section class="section" id="exercises">
+            <div class="section-header">
+                <span class="section-label">Practice</span>
+                <h2>Exercises</h2>
+            </div>
+
+            <div class="exercise">
+                <div class="exercise-title">Exercise 1: Identification</div>
+                <p>For each phenomenon, identify the primitive(s):</p>
+                <ol>
+                    <li>A titration curve showing pH vs. volume of titrant added</li>
+                    <li>The electron configuration of iron: [Ar] 3d⁶ 4s²</li>
+                    <li>The rate law: rate = k[A][B]</li>
+                    <li>The enthalpy change ΔH = ∫Cₚ dT</li>
+                    <li>The fact that all four C-H bonds in methane are equivalent</li>
+                </ol>
+            </div>
+
+            <div class="exercise">
+                <div class="exercise-title">Exercise 2: Your Own Examples</div>
+                <p>From your previous chemistry courses, find one example for each of the nine primitives.</p>
+            </div>
+
+            <div class="exercise">
+                <div class="exercise-title">Exercise 3: Multiple Primitives</div>
+                <p>Some phenomena involve multiple primitives. Identify all that apply:</p>
+                <ol>
+                    <li>A reaction coordinate diagram (energy vs. reaction progress)</li>
+                    <li>The Schrödinger equation: Ĥψ = Eψ</li>
+                    <li>A phase diagram (P-T plot showing solid/liquid/gas regions)</li>
+                    <li>NMR spectrum (intensity vs. chemical shift)</li>
+                </ol>
+            </div>
+
+            <div class="exercise">
+                <div class="exercise-title">Exercise 4: Prediction</div>
+                <p>Based on the primitive, predict what kind of math you'll need:</p>
+                <ol>
+                    <li>"How much total heat is absorbed when temperature rises from T₁ to T₂?"</li>
+                    <li>"At what angle do two bonds meet?"</li>
+                    <li>"What fraction of molecules have energy greater than E*?"</li>
+                    <li>"How does concentration change with time for a second-order reaction?"</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <nav class="nav-footer">
+            <a href="../../index.html" class="nav-link">← Home</a>
+            <a href="../../index.html" class="nav-link">Course Index</a>
+            <a href="../02-existence/index.html" class="nav-link">Lecture 2: Existence →</a>
+        </nav>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            initWater();
+            initDecay();
+            initLJ();
+            initMB();
+            initBenzene();
+            initPrimitiveMap();
+        });
+
+        // ==========================================
+        // 1. WATER MOLECULE
+        // ==========================================
+        function initWater() {
+            const canvas = document.getElementById('waterCanvas');
+            const ctx = canvas.getContext('2d');
+            const rotYSlider = document.getElementById('waterRotY');
+            const rotXSlider = document.getElementById('waterRotX');
+
+            // Water geometry
+            const bondLength = 0.96;
+            const bondAngle = 104.5 * Math.PI / 180;
+
+            function project(x, y, z, rotY, rotX) {
+                // Rotate around Y
+                const cosY = Math.cos(rotY);
+                const sinY = Math.sin(rotY);
+                let x1 = x * cosY - z * sinY;
+                let z1 = x * sinY + z * cosY;
+
+                // Rotate around X
+                const cosX = Math.cos(rotX);
+                const sinX = Math.sin(rotX);
+                let y1 = y * cosX - z1 * sinX;
+                let z2 = y * sinX + z1 * cosX;
+
+                // Scale and center
+                const scale = 150;
+                return {
+                    x: canvas.width / 2 + x1 * scale,
+                    y: canvas.height / 2 - y1 * scale,
+                    z: z2
+                };
+            }
+
+            function draw() {
+                const rotY = parseFloat(rotYSlider.value) * Math.PI / 180;
+                const rotX = parseFloat(rotXSlider.value) * Math.PI / 180;
+
+                ctx.fillStyle = '#0a0a0f';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                // Atom positions
+                const O = { x: 0, y: 0, z: 0 };
+                const H1 = { x: bondLength, y: 0, z: 0 };
+                const H2 = {
+                    x: bondLength * Math.cos(bondAngle),
+                    y: bondLength * Math.sin(bondAngle),
+                    z: 0
+                };
+
+                const pO = project(O.x, O.y, O.z, rotY, rotX);
+                const pH1 = project(H1.x, H1.y, H1.z, rotY, rotX);
+                const pH2 = project(H2.x, H2.y, H2.z, rotY, rotX);
+
+                // Sort by z for proper depth
+                const atoms = [
+                    { type: 'O', p: pO, size: 40, color: '#EF4444' },
+                    { type: 'H', p: pH1, size: 25, color: '#f5f5f5' },
+                    { type: 'H', p: pH2, size: 25, color: '#f5f5f5' }
+                ].sort((a, b) => a.p.z - b.p.z);
+
+                // Draw bonds
+                ctx.strokeStyle = '#6b6965';
+                ctx.lineWidth = 8;
+                ctx.lineCap = 'round';
+                ctx.beginPath();
+                ctx.moveTo(pO.x, pO.y);
+                ctx.lineTo(pH1.x, pH1.y);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(pO.x, pO.y);
+                ctx.lineTo(pH2.x, pH2.y);
+                ctx.stroke();
+
+                // Draw atoms
+                atoms.forEach(atom => {
+                    const gradient = ctx.createRadialGradient(
+                        atom.p.x - atom.size * 0.3, atom.p.y - atom.size * 0.3, 0,
+                        atom.p.x, atom.p.y, atom.size
+                    );
+                    gradient.addColorStop(0, atom.color);
+                    gradient.addColorStop(1, atom.type === 'O' ? '#991b1b' : '#a3a3a3');
+
+                    ctx.fillStyle = gradient;
+                    ctx.beginPath();
+                    ctx.arc(atom.p.x, atom.p.y, atom.size, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // Label
+                    ctx.fillStyle = atom.type === 'O' ? 'white' : '#333';
+                    ctx.font = 'bold 16px JetBrains Mono';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(atom.type, atom.p.x, atom.p.y);
+                });
+
+                // Angle arc
+                ctx.strokeStyle = '#F97316';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                const arcRadius = 50;
+                const startAngle = Math.atan2(pH1.y - pO.y, pH1.x - pO.x);
+                const endAngle = Math.atan2(pH2.y - pO.y, pH2.x - pO.x);
+                ctx.arc(pO.x, pO.y, arcRadius, startAngle, endAngle);
+                ctx.stroke();
+
+                // Angle label
+                ctx.fillStyle = '#F97316';
+                ctx.font = '14px JetBrains Mono';
+                const midAngle = (startAngle + endAngle) / 2;
+                ctx.fillText('104.5°', pO.x + arcRadius * 1.3 * Math.cos(midAngle), pO.y + arcRadius * 1.3 * Math.sin(midAngle));
+            }
+
+            rotYSlider.addEventListener('input', draw);
+            rotXSlider.addEventListener('input', draw);
+            draw();
+        }
+
+        // ==========================================
+        // 2. CONCENTRATION DECAY
+        // ==========================================
+        function initDecay() {
+            const canvas = document.getElementById('decayCanvas');
+            const ctx = canvas.getContext('2d');
+            const kSlider = document.getElementById('decayK');
+            const kValue = document.getElementById('decayKValue');
+            const halfLifeValue = document.getElementById('decayHalfLife');
+
+            function draw() {
+                const k = parseFloat(kSlider.value);
+                const t12 = Math.log(2) / k;
+
+                kValue.textContent = 'k = ' + k.toFixed(1) + ' s⁻¹';
+                halfLifeValue.textContent = '= ' + t12.toFixed(2) + ' s';
+
+                ctx.fillStyle = '#0a0a0f';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                const padding = 60;
+                const w = canvas.width - 2 * padding;
+                const h = canvas.height - 2 * padding;
+                const tMax = 10;
+
+                // Axes
+                ctx.strokeStyle = '#2a2a35';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(padding, padding);
+                ctx.lineTo(padding, canvas.height - padding);
+                ctx.lineTo(canvas.width - padding, canvas.height - padding);
+                ctx.stroke();
+
+                // Animated decay curve
+                ctx.strokeStyle = '#8B5CF6';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+
+                for (let i = 0; i <= 200; i++) {
+                    const t = (i / 200) * tMax;
+                    const A = Math.exp(-k * t);
+                    const px = padding + (t / tMax) * w;
+                    const py = canvas.height - padding - A * h;
+                    if (i === 0) ctx.moveTo(px, py);
+                    else ctx.lineTo(px, py);
+                }
+                ctx.stroke();
+
+                // Half-life markers
+                if (t12 < tMax) {
+                    const px = padding + (t12 / tMax) * w;
+                    ctx.setLineDash([5, 5]);
+                    ctx.strokeStyle = '#6b6965';
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.moveTo(px, canvas.height - padding);
+                    ctx.lineTo(px, canvas.height - padding - 0.5 * h);
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.moveTo(padding, canvas.height - padding - 0.5 * h);
+                    ctx.lineTo(px, canvas.height - padding - 0.5 * h);
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+
+                    ctx.fillStyle = '#6b6965';
+                    ctx.font = '11px JetBrains Mono';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('t₁/₂', px, canvas.height - padding + 18);
+                }
+
+                // Labels
+                ctx.fillStyle = '#6b6965';
+                ctx.font = '12px JetBrains Mono';
+                ctx.textAlign = 'center';
+                ctx.fillText('Time (s)', canvas.width / 2, canvas.height - 15);
+                ctx.save();
+                ctx.translate(20, canvas.height / 2);
+                ctx.rotate(-Math.PI / 2);
+                ctx.fillText('[A] / [A]₀', 0, 0);
+                ctx.restore();
+
+                // Axis values
+                ctx.fillText('0', padding, canvas.height - padding + 18);
+                ctx.fillText(tMax, canvas.width - padding, canvas.height - padding + 18);
+                ctx.textAlign = 'right';
+                ctx.fillText('1.0', padding - 8, padding + 5);
+                ctx.fillText('0.5', padding - 8, canvas.height - padding - 0.5 * h + 5);
+                ctx.fillText('0', padding - 8, canvas.height - padding + 5);
+            }
+
+            kSlider.addEventListener('input', draw);
+            draw();
+        }
+
+        // ==========================================
+        // 3. LENNARD-JONES POTENTIAL
+        // ==========================================
+        function initLJ() {
+            const canvas = document.getElementById('ljCanvas');
+            const ctx = canvas.getContext('2d');
+            const rSlider = document.getElementById('ljR');
+            const rValue = document.getElementById('ljRValue');
+            const vValue = document.getElementById('ljVValue');
+            const fValue = document.getElementById('ljFValue');
+
+            function V(r) {
+                return 4 * (Math.pow(1/r, 12) - Math.pow(1/r, 6));
+            }
+
+            function dVdr(r) {
+                return 4 * (-12 * Math.pow(1/r, 13) + 6 * Math.pow(1/r, 7));
+            }
+
+            function draw() {
+                const r = parseFloat(rSlider.value);
+                const v = V(r);
+                const f = -dVdr(r);
+
+                rValue.textContent = 'r = ' + r.toFixed(2) + ' σ';
+                vValue.textContent = '= ' + v.toFixed(2) + ' ε';
+                fValue.textContent = f > 0.01 ? 'Repulsive →' : (f < -0.01 ? '← Attractive' : 'Equilibrium');
+
+                ctx.fillStyle = '#0a0a0f';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                const padding = 60;
+                const w = canvas.width - 2 * padding;
+                const h = canvas.height - 2 * padding;
+                const rMin = 0.9, rMax = 3;
+                const vMin = -1.5, vMax = 2;
+
+                // Axes
+                const y0 = canvas.height - padding - ((-vMin) / (vMax - vMin)) * h;
+                ctx.strokeStyle = '#2a2a35';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(padding, padding);
+                ctx.lineTo(padding, canvas.height - padding);
+                ctx.lineTo(canvas.width - padding, canvas.height - padding);
+                ctx.stroke();
+
+                // Zero line
+                ctx.strokeStyle = '#3a3a45';
+                ctx.beginPath();
+                ctx.moveTo(padding, y0);
+                ctx.lineTo(canvas.width - padding, y0);
+                ctx.stroke();
+
+                // LJ curve
+                ctx.strokeStyle = '#22C55E';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                let started = false;
+                for (let i = 0; i <= 200; i++) {
+                    const rp = rMin + (i / 200) * (rMax - rMin);
+                    const vp = V(rp);
+                    if (vp > vMax || vp < vMin) continue;
+                    const px = padding + ((rp - rMin) / (rMax - rMin)) * w;
+                    const py = canvas.height - padding - ((vp - vMin) / (vMax - vMin)) * h;
+                    if (!started) { ctx.moveTo(px, py); started = true; }
+                    else ctx.lineTo(px, py);
+                }
+                ctx.stroke();
+
+                // Current point
+                const px = padding + ((r - rMin) / (rMax - rMin)) * w;
+                const py = canvas.height - padding - ((v - vMin) / (vMax - vMin)) * h;
+
+                ctx.fillStyle = '#EF4444';
+                ctx.beginPath();
+                ctx.arc(px, py, 10, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Force arrow
+                if (Math.abs(f) > 0.05) {
+                    const arrowLen = Math.min(Math.abs(f) * 30, 80) * Math.sign(f);
+                    ctx.strokeStyle = '#F97316';
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.moveTo(px, py);
+                    ctx.lineTo(px + arrowLen, py);
+                    ctx.stroke();
+
+                    // Arrow head
+                    ctx.fillStyle = '#F97316';
+                    ctx.beginPath();
+                    if (f > 0) {
+                        ctx.moveTo(px + arrowLen + 8, py);
+                        ctx.lineTo(px + arrowLen - 4, py - 6);
+                        ctx.lineTo(px + arrowLen - 4, py + 6);
+                    } else {
+                        ctx.moveTo(px + arrowLen - 8, py);
+                        ctx.lineTo(px + arrowLen + 4, py - 6);
+                        ctx.lineTo(px + arrowLen + 4, py + 6);
+                    }
+                    ctx.fill();
+                }
+
+                // Labels
+                ctx.fillStyle = '#6b6965';
+                ctx.font = '12px JetBrains Mono';
+                ctx.textAlign = 'center';
+                ctx.fillText('Distance r/σ', canvas.width / 2, canvas.height - 15);
+                ctx.save();
+                ctx.translate(20, canvas.height / 2);
+                ctx.rotate(-Math.PI / 2);
+                ctx.fillText('Potential V/ε', 0, 0);
+                ctx.restore();
+            }
+
+            rSlider.addEventListener('input', draw);
+            draw();
+        }
+
+        // ==========================================
+        // 4. MAXWELL-BOLTZMANN
+        // ==========================================
+        function initMB() {
+            const canvas = document.getElementById('mbCanvas');
+            const ctx = canvas.getContext('2d');
+            const tSlider = document.getElementById('mbT');
+            const tValue = document.getElementById('mbTValue');
+            const vpValue = document.getElementById('mbVp');
+            const vavgValue = document.getElementById('mbVavg');
+
+            const kB = 1.38e-23;
+            const m = 4.65e-26; // N2
+
+            function maxwell(v, T) {
+                const a = m / (2 * kB * T);
+                return 4 * Math.PI * Math.pow(a / Math.PI, 1.5) * v * v * Math.exp(-a * v * v);
+            }
+
+            function draw() {
+                const T = parseFloat(tSlider.value);
+
+                const vp = Math.sqrt(2 * kB * T / m);
+                const vavg = Math.sqrt(8 * kB * T / (Math.PI * m));
+                const vrms = Math.sqrt(3 * kB * T / m);
+
+                tValue.textContent = 'T = ' + T + ' K';
+                vpValue.textContent = 'vₚ = ' + Math.round(vp) + ' m/s';
+                vavgValue.textContent = '⟨v⟩ = ' + Math.round(vavg) + ' m/s';
+
+                ctx.fillStyle = '#0a0a0f';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                const padding = 60;
+                const w = canvas.width - 2 * padding;
+                const h = canvas.height - 2 * padding;
+                const vMax = 1800;
+
+                // Find max for scaling
+                let fMax = 0;
+                for (let v = 0; v <= vMax; v += 10) {
+                    fMax = Math.max(fMax, maxwell(v, T));
+                }
+
+                // Axes
+                ctx.strokeStyle = '#2a2a35';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(padding, padding);
+                ctx.lineTo(padding, canvas.height - padding);
+                ctx.lineTo(canvas.width - padding, canvas.height - padding);
+                ctx.stroke();
+
+                // Filled area
+                ctx.fillStyle = 'rgba(249, 115, 22, 0.3)';
+                ctx.beginPath();
+                ctx.moveTo(padding, canvas.height - padding);
+                for (let i = 0; i <= 200; i++) {
+                    const v = (i / 200) * vMax;
+                    const f = maxwell(v, T);
+                    const px = padding + (v / vMax) * w;
+                    const py = canvas.height - padding - (f / fMax) * h * 0.9;
+                    ctx.lineTo(px, py);
+                }
+                ctx.lineTo(canvas.width - padding, canvas.height - padding);
+                ctx.closePath();
+                ctx.fill();
+
+                // Curve
+                ctx.strokeStyle = '#F97316';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                for (let i = 0; i <= 200; i++) {
+                    const v = (i / 200) * vMax;
+                    const f = maxwell(v, T);
+                    const px = padding + (v / vMax) * w;
+                    const py = canvas.height - padding - (f / fMax) * h * 0.9;
+                    if (i === 0) ctx.moveTo(px, py);
+                    else ctx.lineTo(px, py);
+                }
+                ctx.stroke();
+
+                // Characteristic speed markers
+                const speeds = [
+                    { v: vp, color: '#22C55E', label: 'vₚ' },
+                    { v: vavg, color: '#3B82F6', label: '⟨v⟩' },
+                    { v: vrms, color: '#EF4444', label: 'vᵣₘₛ' }
+                ];
+
+                speeds.forEach(s => {
+                    if (s.v <= vMax) {
+                        const px = padding + (s.v / vMax) * w;
+                        ctx.setLineDash([5, 5]);
+                        ctx.strokeStyle = s.color;
+                        ctx.lineWidth = 2;
+                        ctx.beginPath();
+                        ctx.moveTo(px, canvas.height - padding);
+                        ctx.lineTo(px, padding + 30);
+                        ctx.stroke();
+                        ctx.setLineDash([]);
+
+                        ctx.fillStyle = s.color;
+                        ctx.font = '11px JetBrains Mono';
+                        ctx.textAlign = 'center';
+                        ctx.fillText(s.label, px, padding + 20);
+                    }
+                });
+
+                // Labels
+                ctx.fillStyle = '#6b6965';
+                ctx.font = '12px JetBrains Mono';
+                ctx.textAlign = 'center';
+                ctx.fillText('Speed v (m/s)', canvas.width / 2, canvas.height - 15);
+                ctx.save();
+                ctx.translate(20, canvas.height / 2);
+                ctx.rotate(-Math.PI / 2);
+                ctx.fillText('f(v)', 0, 0);
+                ctx.restore();
+            }
+
+            tSlider.addEventListener('input', draw);
+            draw();
+        }
+
+        // ==========================================
+        // 5. BENZENE SYMMETRY
+        // ==========================================
+        function initBenzene() {
+            const canvas = document.getElementById('benzeneCanvas');
+            const ctx = canvas.getContext('2d');
+            const thetaSlider = document.getElementById('benzeneTheta');
+            const thetaValue = document.getElementById('benzeneThetaValue');
+            const identicalValue = document.getElementById('benzeneIdentical');
+
+            function draw() {
+                const theta = parseFloat(thetaSlider.value);
+                const thetaRad = theta * Math.PI / 180;
+
+                thetaValue.textContent = 'θ = ' + theta + '°';
+
+                // Check if it's a symmetry angle
+                const isSymmetric = theta % 60 === 0;
+                identicalValue.textContent = isSymmetric ? 'Yes!' : 'No';
+                identicalValue.style.color = isSymmetric ? '#22C55E' : '#EF4444';
+
+                ctx.fillStyle = '#0a0a0f';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                const cx = canvas.width / 2;
+                const cy = canvas.height / 2;
+                const rC = 100; // Carbon ring radius
+                const rH = rC + 50; // Hydrogen radius
+
+                // Carbon positions
+                const carbons = [];
+                const hydrogens = [];
+                for (let i = 0; i < 6; i++) {
+                    const angle = (i * 60 + theta) * Math.PI / 180;
+                    carbons.push({
+                        x: cx + rC * Math.cos(angle),
+                        y: cy - rC * Math.sin(angle)
+                    });
+                    hydrogens.push({
+                        x: cx + rH * Math.cos(angle),
+                        y: cy - rH * Math.sin(angle)
+                    });
+                }
+
+                // Draw C-C bonds (hexagon)
+                ctx.strokeStyle = '#6b6965';
+                ctx.lineWidth = 6;
+                ctx.beginPath();
+                for (let i = 0; i < 6; i++) {
+                    const next = (i + 1) % 6;
+                    ctx.moveTo(carbons[i].x, carbons[i].y);
+                    ctx.lineTo(carbons[next].x, carbons[next].y);
+                }
+                ctx.stroke();
+
+                // Inner circle for aromaticity
+                ctx.strokeStyle = '#8B5CF6';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([5, 5]);
+                ctx.beginPath();
+                ctx.arc(cx, cy, rC * 0.6, 0, Math.PI * 2);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Draw C-H bonds
+                ctx.strokeStyle = '#4a4a55';
+                ctx.lineWidth = 4;
+                for (let i = 0; i < 6; i++) {
+                    ctx.beginPath();
+                    ctx.moveTo(carbons[i].x, carbons[i].y);
+                    ctx.lineTo(hydrogens[i].x, hydrogens[i].y);
+                    ctx.stroke();
+                }
+
+                // Draw atoms
+                // Carbons
+                for (let i = 0; i < 6; i++) {
+                    ctx.fillStyle = i === 0 ? '#EF4444' : '#333';
+                    ctx.beginPath();
+                    ctx.arc(carbons[i].x, carbons[i].y, 18, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    ctx.fillStyle = 'white';
+                    ctx.font = 'bold 12px JetBrains Mono';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText('C', carbons[i].x, carbons[i].y);
+                }
+
+                // Hydrogens
+                for (let i = 0; i < 6; i++) {
+                    ctx.fillStyle = '#e0e0e0';
+                    ctx.beginPath();
+                    ctx.arc(hydrogens[i].x, hydrogens[i].y, 12, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    ctx.fillStyle = '#333';
+                    ctx.font = 'bold 10px JetBrains Mono';
+                    ctx.fillText('H', hydrogens[i].x, hydrogens[i].y);
+                }
+
+                // Symmetry indicator
+                ctx.fillStyle = isSymmetric ? '#22C55E' : '#6b6965';
+                ctx.font = '14px JetBrains Mono';
+                ctx.textAlign = 'center';
+                ctx.fillText(isSymmetric ? '✓ 6-fold symmetry' : 'Rotate to 0°, 60°, 120°...', cx, canvas.height - 30);
+            }
+
+            thetaSlider.addEventListener('input', draw);
+            draw();
+        }
+
+        // ==========================================
+        // PRIMITIVE MAP
+        // ==========================================
+        function initPrimitiveMap() {
+            const nodes = document.querySelectorAll('.map-node');
+            const detail = document.getElementById('mapDetail');
+
+            const primitiveData = {
+                collection: {
+                    name: 'COLLECTION',
+                    tools: 'Sets, counting, factorial, combinations',
+                    chemistry: 'Moles, electron shells, counting isomers, microstates',
+                    link: '../../primitives/collection.html'
+                },
+                arrangement: {
+                    name: 'ARRANGEMENT',
+                    tools: 'Permutations, matrices, determinants',
+                    chemistry: 'Stereoisomers, electron configurations, crystal packing',
+                    link: '../../primitives/arrangement.html'
+                },
+                direction: {
+                    name: 'DIRECTION',
+                    tools: 'Vectors, dot product, cross product',
+                    chemistry: 'Bond angles, dipole moments, molecular geometry',
+                    link: '../../primitives/direction.html'
+                },
+                proximity: {
+                    name: 'PROXIMITY',
+                    tools: 'Functions, limits, continuity',
+                    chemistry: 'Potential energy surfaces, interaction range, asymptotic behavior',
+                    link: '../../primitives/proximity.html'
+                },
+                sameness: {
+                    name: 'SAMENESS',
+                    tools: 'Eigenvalues, symmetry groups, invariants',
+                    chemistry: 'Point groups, molecular orbitals, conservation laws',
+                    link: '../../primitives/sameness.html'
+                },
+                change: {
+                    name: 'CHANGE',
+                    tools: 'Derivatives, differentiation rules',
+                    chemistry: 'Reaction rates, instantaneous velocity, gradients',
+                    link: '../../primitives/change.html'
+                },
+                rate: {
+                    name: 'RATE',
+                    tools: 'Differential equations, rate laws',
+                    chemistry: 'Kinetics, half-life, Arrhenius equation, enzyme kinetics',
+                    link: '../../primitives/rate.html'
+                },
+                accumulation: {
+                    name: 'ACCUMULATION',
+                    tools: 'Integrals, antiderivatives, FTC',
+                    chemistry: 'Work, heat, yield, thermodynamic state functions',
+                    link: '../../primitives/accumulation.html'
+                },
+                spread: {
+                    name: 'SPREAD',
+                    tools: 'Probability, distributions, statistics',
+                    chemistry: 'Boltzmann distribution, entropy, orbital probability',
+                    link: '../../primitives/spread.html'
+                }
+            };
+
+            nodes.forEach(node => {
+                node.addEventListener('click', () => {
+                    // Remove active from all
+                    nodes.forEach(n => n.classList.remove('active'));
+                    node.classList.add('active');
+
+                    const primitive = node.dataset.primitive;
+                    const data = primitiveData[primitive];
+
+                    detail.innerHTML = `
+                        <div class="detail-title">${data.name}</div>
+                        <div class="detail-tools"><strong>Tools:</strong> ${data.tools}</div>
+                        <div class="detail-chem"><strong>Chemistry:</strong> ${data.chemistry}</div>
+                        <p style="margin-top: 1rem;"><a href="${data.link}" style="color: var(--accent-orange);">→ Explore this primitive</a></p>
+                    `;
+                });
+            });
+        }
+    </script>
+</body>
+</html>

@@ -32,6 +32,7 @@ jobs:
       - name: Copy standalone pages and CNAME
         run: |
           mkdir -p site/_site/primitives
+          mkdir -p site/_site/lectures/01-orientation
           mkdir -p site/_site/lectures/03-collection
           mkdir -p site/_site/lectures/04-direction
           mkdir -p site/_site/lectures/05-arrangement
@@ -44,6 +45,7 @@ jobs:
           cp site/primitives/rate.html site/_site/primitives/rate.html
           cp site/primitives/accumulation.html site/_site/primitives/accumulation.html
           cp site/primitives/spread.html site/_site/primitives/spread.html
+          cp -r site/lectures/01-orientation/*.html site/_site/lectures/01-orientation/ 2>/dev/null || true
           cp -r site/lectures/03-collection/*.html site/_site/lectures/03-collection/ 2>/dev/null || true
           cp -r site/lectures/04-direction/*.html site/_site/lectures/04-direction/ 2>/dev/null || true
           cp -r site/lectures/05-arrangement/*.html site/_site/lectures/05-arrangement/ 2>/dev/null || true
