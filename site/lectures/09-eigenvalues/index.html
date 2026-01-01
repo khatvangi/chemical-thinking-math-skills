@@ -1,0 +1,1581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 9: What Survives? | Chemical Thinking</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a24;
+            --text-primary: #e8e6e3;
+            --text-secondary: #a0a0a0;
+            --accent-blue: #4a9eff;
+            --accent-purple: #8b5cf6;
+            --accent-green: #10b981;
+            --accent-orange: #f59e0b;
+            --accent-red: #ef4444;
+            --accent-cyan: #06b6d4;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            padding: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            font-style: italic;
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            color: var(--accent-cyan);
+            margin: 3rem 0 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--bg-tertiary);
+        }
+
+        h3 {
+            font-size: 1.35rem;
+            color: var(--accent-purple);
+            margin: 2rem 0 1rem;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            color: var(--accent-green);
+            margin: 1.5rem 0 0.75rem;
+        }
+
+        p { margin-bottom: 1rem; }
+
+        .hook-box {
+            background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
+            border-left: 4px solid var(--accent-cyan);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .definition-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--accent-cyan);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+        }
+
+        .definition-box strong { color: var(--accent-cyan); }
+
+        .visual-container {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .visual-container h4 { margin-top: 0; margin-bottom: 1rem; }
+
+        canvas {
+            display: block;
+            margin: 0 auto;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .control-group label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        input[type="range"] {
+            width: 120px;
+            accent-color: var(--accent-cyan);
+        }
+
+        select, button {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--accent-cyan);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        button:hover {
+            background: var(--accent-cyan);
+            color: var(--bg-primary);
+        }
+
+        .value-display {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-cyan);
+            min-width: 50px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+
+        th, td {
+            border: 1px solid var(--bg-tertiary);
+            padding: 0.75rem;
+            text-align: left;
+        }
+
+        th {
+            background: var(--bg-secondary);
+            color: var(--accent-cyan);
+        }
+
+        tr:nth-child(even) { background: var(--bg-secondary); }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-tertiary);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .stat-box {
+            background: var(--bg-tertiary);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-green);
+        }
+
+        /* Lecture Navigation */
+        .lecture-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--bg-tertiary);
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-cyan);
+        }
+
+        .primitive-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(74, 158, 255, 0.1));
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            transition: all 0.3s;
+        }
+
+        .primitive-link:hover {
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(74, 158, 255, 0.2));
+            border-color: var(--accent-cyan);
+            transform: translateX(3px);
+        }
+
+        .primitive-badge {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+        }
+
+        .primitive-text {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .example-box {
+            background: var(--bg-secondary);
+            border-left: 3px solid var(--accent-green);
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .warning-box {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 3px solid var(--accent-red);
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .chemistry-box {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(6, 182, 212, 0.1));
+            border: 1px solid var(--accent-green);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+        }
+
+        .matrix-display {
+            font-family: 'JetBrains Mono', monospace;
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .exercise-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--accent-orange);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+        }
+
+        .exercise-box h4 { color: var(--accent-orange); margin-top: 0; }
+
+        details {
+            margin-top: 1rem;
+        }
+
+        summary {
+            cursor: pointer;
+            color: var(--accent-blue);
+            padding: 0.5rem;
+        }
+
+        summary:hover { color: var(--accent-cyan); }
+
+        .solution {
+            padding: 1rem;
+            background: var(--bg-tertiary);
+            border-radius: 0 0 8px 8px;
+            margin-top: 0.5rem;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        li { margin-bottom: 0.5rem; }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        @media (max-width: 600px) {
+            .two-column { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="lecture-nav">
+        <a href="../all-lectures.html" class="nav-link">← All Lectures</a>
+        <a href="../../primitives/sameness.html" class="primitive-link">
+            <span class="primitive-badge">SAMENESS</span>
+            <span class="primitive-text">Explore the Primitive →</span>
+        </a>
+    </nav>
+
+    <h1>Lecture 9: What Survives?</h1>
+    <p class="subtitle">Eigenvalues and eigenvectors — the directions that transformation preserves.</p>
+
+    <!-- THE HOOK -->
+    <h2>The Hook</h2>
+
+    <div class="hook-box">
+        <p>Apply this matrix to many vectors:</p>
+        <div class="matrix-display">
+            $$A = \begin{pmatrix} 2 & 1 \\ 1 & 2 \end{pmatrix}$$
+        </div>
+        <p>Most vectors change direction. But watch these two:</p>
+        <ul>
+            <li><strong>v</strong>₁ = (1, 1): A<strong>v</strong>₁ = (3, 3) = 3(1, 1) = 3<strong>v</strong>₁</li>
+            <li><strong>v</strong>₂ = (1, -1): A<strong>v</strong>₂ = (1, -1) = 1(1, -1) = 1<strong>v</strong>₂</li>
+        </ul>
+        <p>These vectors only get <strong>scaled</strong> — their direction survives!</p>
+        <p><strong>v</strong>₁ is scaled by 3. <strong>v</strong>₂ is scaled by 1 (unchanged).</p>
+        <p>These special directions are <strong>eigenvectors</strong>. The scale factors are <strong>eigenvalues</strong>.</p>
+    </div>
+
+    <div class="visual-container">
+        <h4>Eigenvector Visualizer</h4>
+        <canvas id="eigenvectorCanvas" width="650" height="400"></canvas>
+        <div class="controls">
+            <div class="control-group">
+                <label>a:</label>
+                <input type="range" id="matA" min="-3" max="3" step="0.5" value="2">
+                <span class="value-display" id="matAVal">2</span>
+            </div>
+            <div class="control-group">
+                <label>b:</label>
+                <input type="range" id="matB" min="-3" max="3" step="0.5" value="1">
+                <span class="value-display" id="matBVal">1</span>
+            </div>
+            <div class="control-group">
+                <label>c:</label>
+                <input type="range" id="matC" min="-3" max="3" step="0.5" value="1">
+                <span class="value-display" id="matCVal">1</span>
+            </div>
+            <div class="control-group">
+                <label>d:</label>
+                <input type="range" id="matD" min="-3" max="3" step="0.5" value="2">
+                <span class="value-display" id="matDVal">2</span>
+            </div>
+        </div>
+        <div class="stat-grid">
+            <div class="stat-box">
+                <div class="stat-label">Trace (a + d)</div>
+                <div class="stat-value" id="traceDisplay">4</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Det (ad - bc)</div>
+                <div class="stat-value" id="detDisplay">3</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">λ₁</div>
+                <div class="stat-value" id="lambda1Display">3</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">λ₂</div>
+                <div class="stat-value" id="lambda2Display">1</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- RECOGNITION -->
+    <h2>Recognition: The SAMENESS Primitive</h2>
+
+    <div class="definition-box">
+        <strong>SAMENESS:</strong> "What doesn't change?"
+        <p style="margin-top: 1rem;">Under a linear transformation, most directions rotate. But some directions are special — they only stretch or compress, never rotate.</p>
+        <p>Finding these invariant directions reveals the <strong>essential structure</strong> of the transformation.</p>
+    </div>
+
+    <h3>When to Use Eigenvalues/Eigenvectors</h3>
+
+    <table>
+        <thead>
+            <tr><th>Situation</th><th>Eigenanalysis gives you</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>"What directions does this matrix preserve?"</td><td>Eigenvectors</td></tr>
+            <tr><td>"By how much are they scaled?"</td><td>Eigenvalues</td></tr>
+            <tr><td>"Simplify this matrix?"</td><td>Diagonalization</td></tr>
+            <tr><td>"Solve coupled differential equations?"</td><td>Decouple via eigenvectors</td></tr>
+            <tr><td>"Find normal modes of vibration?"</td><td>Eigenvectors of Hessian</td></tr>
+            <tr><td>"Find molecular orbitals?"</td><td>Eigenvectors of Hamiltonian</td></tr>
+            <tr><td>"Long-term behavior of iterated process?"</td><td>Dominant eigenvalue</td></tr>
+            <tr><td>"Is this matrix stable?"</td><td>Check if all |λ| < 1</td></tr>
+            <tr><td>"Principal components?"</td><td>Eigenvectors of covariance</td></tr>
+        </tbody>
+    </table>
+
+    <!-- DEFINITION -->
+    <h2>Definition</h2>
+
+    <h3>Eigenvector and Eigenvalue</h3>
+
+    <div class="definition-box">
+        <strong>Definition:</strong> Let A be an n × n matrix. A nonzero vector <strong>v</strong> is an <strong>eigenvector</strong> of A if:
+        $$A\mathbf{v} = \lambda \mathbf{v}$$
+        for some scalar λ. The scalar λ is the <strong>eigenvalue</strong> corresponding to <strong>v</strong>.
+    </div>
+
+    <p><strong>Interpretation:</strong></p>
+    <ul>
+        <li>A<strong>v</strong> is parallel to <strong>v</strong> (same or opposite direction)</li>
+        <li>λ > 1: eigenvector is stretched</li>
+        <li>0 < λ < 1: eigenvector is compressed</li>
+        <li>λ < 0: eigenvector is flipped and scaled</li>
+        <li>λ = 1: eigenvector is unchanged</li>
+        <li>λ = 0: eigenvector is sent to zero (in the kernel)</li>
+    </ul>
+
+    <p><strong>Terminology:</strong></p>
+    <ul>
+        <li>"eigen" = German for "own" or "characteristic"</li>
+        <li>Eigenvalue also called: characteristic value, proper value, latent root</li>
+        <li>The set of all eigenvalues is the <strong>spectrum</strong> of A</li>
+    </ul>
+
+    <h3>The Eigenspace</h3>
+
+    <div class="definition-box">
+        <strong>Definition:</strong> For eigenvalue λ, the <strong>eigenspace</strong> E<sub>λ</sub> is:
+        $$E_\lambda = \{\mathbf{v} : A\mathbf{v} = \lambda\mathbf{v}\} = \ker(A - \lambda I)$$
+        <p style="margin-top: 1rem;">This is a subspace containing all eigenvectors for λ (plus the zero vector).</p>
+    </div>
+
+    <!-- FINDING EIGENVALUES -->
+    <h2>Finding Eigenvalues</h2>
+
+    <h3>The Characteristic Equation</h3>
+
+    <p><strong>Key insight:</strong> A<strong>v</strong> = λ<strong>v</strong> can be rewritten:</p>
+
+    <div class="matrix-display">
+        $$A\mathbf{v} - \lambda\mathbf{v} = \mathbf{0}$$
+        $$(A - \lambda I)\mathbf{v} = \mathbf{0}$$
+    </div>
+
+    <p>For a nonzero solution <strong>v</strong> to exist, (A - λI) must be singular:</p>
+
+    <div class="matrix-display">
+        $$\det(A - \lambda I) = 0$$
+    </div>
+
+    <p>This is the <strong>characteristic equation</strong>.</p>
+
+    <h3>The Characteristic Polynomial</h3>
+
+    <div class="definition-box">
+        <strong>Definition:</strong> The <strong>characteristic polynomial</strong> of A is:
+        $$p(\lambda) = \det(A - \lambda I)$$
+        <p style="margin-top: 1rem;">The eigenvalues are the roots of p(λ) = 0.</p>
+    </div>
+
+    <h3>2×2 Case</h3>
+
+    <p>For $A = \begin{pmatrix} a & b \\ c & d \end{pmatrix}$:</p>
+
+    <div class="matrix-display">
+        $$A - \lambda I = \begin{pmatrix} a - \lambda & b \\ c & d - \lambda \end{pmatrix}$$
+    </div>
+
+    <div class="matrix-display">
+        $$p(\lambda) = (a - \lambda)(d - \lambda) - bc = \lambda^2 - (a+d)\lambda + (ad - bc)$$
+    </div>
+
+    <div class="definition-box">
+        <strong>Key formula:</strong>
+        $$p(\lambda) = \lambda^2 - \text{tr}(A)\lambda + \det(A)$$
+        <p style="margin-top: 1rem;"><strong>The eigenvalues satisfy:</strong></p>
+        <ul>
+            <li>Sum: λ₁ + λ₂ = tr(A)</li>
+            <li>Product: λ₁ · λ₂ = det(A)</li>
+        </ul>
+    </div>
+
+    <p><strong>Quadratic formula:</strong></p>
+    <div class="matrix-display">
+        $$\lambda = \frac{\text{tr}(A) \pm \sqrt{\text{tr}(A)^2 - 4\det(A)}}{2}$$
+    </div>
+
+    <div class="example-box">
+        <strong>Example:</strong> $A = \begin{pmatrix} 2 & 1 \\ 1 & 2 \end{pmatrix}$
+        <p>tr(A) = 4, det(A) = 4 - 1 = 3</p>
+        <div class="matrix-display">
+            $$\lambda = \frac{4 \pm \sqrt{16 - 12}}{2} = \frac{4 \pm 2}{2}$$
+        </div>
+        <p><strong>λ₁ = 3, λ₂ = 1</strong></p>
+        <p>Check: 3 + 1 = 4 = tr(A) ✓, 3 × 1 = 3 = det(A) ✓</p>
+    </div>
+
+    <h3>Special Cases</h3>
+
+    <p><strong>Triangular matrices:</strong> Eigenvalues are the diagonal entries.</p>
+    <div class="matrix-display">
+        $$\begin{pmatrix} a & * & * \\ 0 & b & * \\ 0 & 0 & c \end{pmatrix} \Rightarrow \lambda_1 = a, \lambda_2 = b, \lambda_3 = c$$
+    </div>
+
+    <!-- FINDING EIGENVECTORS -->
+    <h2>Finding Eigenvectors</h2>
+
+    <p>Once you have eigenvalue λ, find eigenvectors by solving:</p>
+    <div class="matrix-display">
+        $$(A - \lambda I)\mathbf{v} = \mathbf{0}$$
+    </div>
+    <p>This is a homogeneous system — find the null space of (A - λI).</p>
+
+    <div class="example-box">
+        <strong>Example continued:</strong> A = [2 1; 1 2], λ₁ = 3
+        <div class="matrix-display">
+            $$A - 3I = \begin{pmatrix} -1 & 1 \\ 1 & -1 \end{pmatrix}$$
+        </div>
+        <p>Solve: -v₁ + v₂ = 0, so v₁ = v₂.</p>
+        <p>Eigenvector: <strong>v</strong>₁ = (1, 1) (or any scalar multiple)</p>
+        <hr style="margin: 1rem 0; border-color: var(--bg-tertiary);">
+        <p>For λ₂ = 1:</p>
+        <div class="matrix-display">
+            $$A - I = \begin{pmatrix} 1 & 1 \\ 1 & 1 \end{pmatrix}$$
+        </div>
+        <p>Solve: v₁ + v₂ = 0, so v₂ = -v₁.</p>
+        <p>Eigenvector: <strong>v</strong>₂ = (1, -1)</p>
+    </div>
+
+    <div class="visual-container">
+        <h4>Step-by-Step Eigenvalue Calculator</h4>
+        <canvas id="stepCanvas" width="650" height="300"></canvas>
+        <div id="stepOutput" style="font-family: 'JetBrains Mono', monospace; margin-top: 1rem; padding: 1rem; background: var(--bg-tertiary); border-radius: 8px; line-height: 1.8;"></div>
+    </div>
+
+    <!-- PROPERTIES -->
+    <h2>Properties of Eigenvalues</h2>
+
+    <h3>Algebraic and Geometric Multiplicity</h3>
+
+    <ul>
+        <li><strong>Algebraic multiplicity:</strong> The multiplicity of λ as a root of the characteristic polynomial.</li>
+        <li><strong>Geometric multiplicity:</strong> dim(E<sub>λ</sub>) = dimension of the eigenspace.</li>
+        <li>Always: geometric ≤ algebraic.</li>
+    </ul>
+
+    <h3>Key Properties</h3>
+
+    <ol>
+        <li>A matrix and its transpose have the same eigenvalues.</li>
+        <li>Similar matrices have the same eigenvalues: if B = P⁻¹AP, then B and A have the same spectrum.</li>
+        <li>tr(A) = sum of eigenvalues (counting multiplicity).</li>
+        <li>det(A) = product of eigenvalues.</li>
+        <li>A is invertible ⟺ all eigenvalues are nonzero.</li>
+        <li>Eigenvalues of A⁻¹ are 1/λᵢ (with same eigenvectors).</li>
+        <li>Eigenvalues of Aᵏ are λᵢᵏ (with same eigenvectors).</li>
+    </ol>
+
+    <h3>Special Matrix Types</h3>
+
+    <div class="chemistry-box">
+        <p><strong>Symmetric matrices (A = Aᵀ):</strong></p>
+        <ul>
+            <li>All eigenvalues are real</li>
+            <li>Eigenvectors for distinct eigenvalues are orthogonal</li>
+            <li>Always diagonalizable</li>
+        </ul>
+        <p style="margin-top: 1rem;"><strong>Physical matrices (Hamiltonians, Hessians, covariance matrices) are typically symmetric — the spectral theorem guarantees nice behavior.</strong></p>
+    </div>
+
+    <div class="two-column">
+        <div>
+            <p><strong>Orthogonal matrices (AᵀA = I):</strong></p>
+            <ul>
+                <li>All eigenvalues have |λ| = 1</li>
+                <li>Eigenvalues are ±1 or come in complex conjugate pairs on unit circle</li>
+            </ul>
+        </div>
+        <div>
+            <p><strong>Positive definite matrices:</strong></p>
+            <ul>
+                <li>All eigenvalues are positive</li>
+                <li><strong>v</strong>ᵀA<strong>v</strong> > 0 for all nonzero <strong>v</strong></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- COMPLEX EIGENVALUES -->
+    <h2>Complex Eigenvalues</h2>
+
+    <h3>When They Occur</h3>
+
+    <p>Real matrices can have complex eigenvalues. This happens when:</p>
+    <div class="matrix-display">
+        $$\text{tr}(A)^2 - 4\det(A) < 0$$
+    </div>
+    <p>The eigenvalues are complex conjugates: λ = α ± βi.</p>
+
+    <div class="example-box">
+        <strong>Example: Rotation by θ ≠ 0°, 180°</strong>
+        <div class="matrix-display">
+            $$R(\theta) = \begin{pmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{pmatrix}$$
+        </div>
+        <p>tr(R) = 2cos θ, det(R) = 1</p>
+        <div class="matrix-display">
+            $$\lambda = \frac{2\cos\theta \pm \sqrt{4\cos^2\theta - 4}}{2} = \cos\theta \pm i\sin\theta = e^{\pm i\theta}$$
+        </div>
+        <p>The eigenvalues are complex! (No real direction is preserved by a rotation.)</p>
+    </div>
+
+    <div class="visual-container">
+        <h4>Complex Eigenvalues: Rotation</h4>
+        <canvas id="rotationCanvas" width="650" height="350"></canvas>
+        <div class="controls">
+            <div class="control-group">
+                <label>Rotation angle:</label>
+                <input type="range" id="rotAngle" min="0" max="180" step="5" value="60">
+                <span class="value-display" id="rotAngleVal">60°</span>
+            </div>
+        </div>
+        <div class="stat-grid">
+            <div class="stat-box">
+                <div class="stat-label">λ₁</div>
+                <div class="stat-value" id="rotLambda1">e^(i60°)</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">λ₂</div>
+                <div class="stat-value" id="rotLambda2">e^(-i60°)</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">|λ|</div>
+                <div class="stat-value">1</div>
+            </div>
+        </div>
+    </div>
+
+    <h3>Interpretation</h3>
+
+    <p>Complex eigenvalues indicate <strong>rotation</strong> within a plane.</p>
+    <ul>
+        <li>|λ| = 1: pure rotation (no scaling)</li>
+        <li>|λ| > 1: spiral outward</li>
+        <li>|λ| < 1: spiral inward</li>
+    </ul>
+
+    <!-- DIAGONALIZATION -->
+    <h2>Diagonalization</h2>
+
+    <h3>The Goal</h3>
+
+    <p><strong>Diagonalization</strong> means finding P such that:</p>
+    <div class="matrix-display">
+        $$P^{-1}AP = D = \begin{pmatrix} \lambda_1 & 0 & \cdots & 0 \\ 0 & \lambda_2 & \cdots & 0 \\ \vdots & \vdots & \ddots & \vdots \\ 0 & 0 & \cdots & \lambda_n \end{pmatrix}$$
+    </div>
+
+    <h3>The Method</h3>
+
+    <p>If A has n linearly independent eigenvectors <strong>v</strong>₁, ..., <strong>v</strong>ₙ:</p>
+    <ol>
+        <li>Form P with eigenvectors as columns: P = [<strong>v</strong>₁ | <strong>v</strong>₂ | ... | <strong>v</strong>ₙ]</li>
+        <li>Then P⁻¹AP = D where D has eigenvalues on diagonal</li>
+    </ol>
+
+    <div class="definition-box">
+        <strong>Why it works:</strong>
+        <div class="matrix-display">
+            $$AP = A[\mathbf{v}_1 | \cdots | \mathbf{v}_n] = [A\mathbf{v}_1 | \cdots | A\mathbf{v}_n] = [\lambda_1\mathbf{v}_1 | \cdots | \lambda_n\mathbf{v}_n]$$
+        </div>
+        <div class="matrix-display">
+            $$= [\mathbf{v}_1 | \cdots | \mathbf{v}_n] \begin{pmatrix} \lambda_1 & & \\ & \ddots & \\ & & \lambda_n \end{pmatrix} = PD$$
+        </div>
+        <p>Therefore: AP = PD ⟹ P⁻¹AP = D</p>
+    </div>
+
+    <h3>When Diagonalization Fails</h3>
+
+    <p>A matrix is <strong>not diagonalizable</strong> if it doesn't have n linearly independent eigenvectors.</p>
+    <p>This happens when geometric multiplicity < algebraic multiplicity for some eigenvalue.</p>
+
+    <div class="warning-box">
+        <strong>Example of non-diagonalizable matrix:</strong>
+        <div class="matrix-display">
+            $$A = \begin{pmatrix} 1 & 1 \\ 0 & 1 \end{pmatrix}$$
+        </div>
+        <p>Characteristic polynomial: (1-λ)² = 0, so λ = 1 (algebraic multiplicity 2).</p>
+        <p>Eigenspace: A - I = [0 1; 0 0]. Null space is span{(1, 0)}. Geometric multiplicity = 1.</p>
+        <p>Only one independent eigenvector — not diagonalizable.</p>
+    </div>
+
+    <h3>Why Diagonalization Matters</h3>
+
+    <p>In the eigenvector basis, the transformation is <strong>just scaling along axes</strong>:</p>
+    <div class="matrix-display">
+        $$D = P^{-1}AP \Rightarrow A = PDP^{-1}$$
+    </div>
+
+    <div class="definition-box">
+        <p><strong>Powers:</strong> $A^k = PD^kP^{-1}$ (and Dᵏ is trivial — just raise diagonal entries to kth power)</p>
+        <p><strong>Exponentials:</strong> $e^{At} = Pe^{Dt}P^{-1}$ (useful for differential equations)</p>
+    </div>
+
+    <!-- CHEMISTRY CONNECTIONS -->
+    <h2>Chemistry Connection: Molecular Orbitals</h2>
+
+    <div class="chemistry-box">
+        <h3>The Secular Equation</h3>
+        <p>In Hückel theory, molecular orbital energies are eigenvalues of the Hamiltonian matrix:</p>
+        <div class="matrix-display">
+            $$\mathbf{H}\mathbf{c} = E\mathbf{c}$$
+        </div>
+        <p>where:</p>
+        <ul>
+            <li><strong>H</strong> is the Hückel matrix</li>
+            <li><strong>c</strong> is the vector of MO coefficients</li>
+            <li>E is the orbital energy (eigenvalue)</li>
+        </ul>
+    </div>
+
+    <div class="visual-container">
+        <h4>Hückel Molecular Orbital Calculator</h4>
+        <canvas id="huckelCanvas" width="650" height="400"></canvas>
+        <div class="controls">
+            <div class="control-group">
+                <label>Molecule:</label>
+                <select id="huckelMol">
+                    <option value="ethylene">Ethylene (2 C)</option>
+                    <option value="allyl">Allyl (3 C)</option>
+                    <option value="butadiene">Butadiene (4 C)</option>
+                    <option value="cyclobutadiene">Cyclobutadiene (4 C, ring)</option>
+                    <option value="benzene">Benzene (6 C)</option>
+                </select>
+            </div>
+        </div>
+        <div id="huckelOutput" style="margin-top: 1rem;"></div>
+    </div>
+
+    <div class="example-box">
+        <strong>Example: Ethylene</strong>
+        <div class="matrix-display">
+            $$\mathbf{H} = \begin{pmatrix} \alpha & \beta \\ \beta & \alpha \end{pmatrix}$$
+        </div>
+        <p>Setting x = (α - E)/β:</p>
+        <div class="matrix-display">
+            $$\det\begin{pmatrix} \alpha - E & \beta \\ \beta & \alpha - E \end{pmatrix} = (\alpha - E)^2 - \beta^2 = 0$$
+        </div>
+        <p>(α - E) = ±β</p>
+        <p><strong>E₁ = α + β</strong> (bonding), <strong>E₂ = α - β</strong> (antibonding)</p>
+        <p>Since β < 0, E₁ < E₂.</p>
+        <hr style="margin: 1rem 0; border-color: var(--bg-tertiary);">
+        <p><strong>Eigenvectors (MO coefficients):</strong></p>
+        <ul>
+            <li>For E₁ = α + β: <strong>c</strong>₁ = (1, 1)/√2 (bonding: in-phase)</li>
+            <li>For E₂ = α - β: <strong>c</strong>₂ = (1, -1)/√2 (antibonding: out-of-phase)</li>
+        </ul>
+    </div>
+
+    <h2>Chemistry Connection: Normal Modes</h2>
+
+    <div class="chemistry-box">
+        <h3>Vibrational Analysis</h3>
+        <p>The Hessian matrix of second derivatives:</p>
+        <div class="matrix-display">
+            $$H_{ij} = \frac{\partial^2 V}{\partial q_i \partial q_j}$$
+        </div>
+        <p>Eigenvalue problem: <strong>H</strong><strong>q</strong> = ω²<strong>q</strong></p>
+        <ul>
+            <li>Eigenvalues ω² give vibrational frequencies</li>
+            <li>Eigenvectors give normal mode displacement patterns</li>
+            <li>Each mode oscillates independently</li>
+        </ul>
+    </div>
+
+    <h2>Chemistry Connection: Quantum Mechanics</h2>
+
+    <div class="chemistry-box">
+        <h3>The Eigenvalue Problem</h3>
+        <p>The time-independent Schrödinger equation:</p>
+        <div class="matrix-display">
+            $$\hat{H}\psi = E\psi$$
+        </div>
+        <p>This IS an eigenvalue problem:</p>
+        <ul>
+            <li>Operator Ĥ (Hamiltonian) → "matrix" (infinite-dimensional)</li>
+            <li>ψ (wavefunction) → eigenvector</li>
+            <li>E (energy) → eigenvalue</li>
+        </ul>
+        <p><strong>Allowed energies are eigenvalues. Stationary states are eigenvectors.</strong></p>
+    </div>
+
+    <!-- SUMMARY -->
+    <h2>Summary: Eigenvalue Toolkit</h2>
+
+    <table>
+        <thead>
+            <tr><th>Step</th><th>Method</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>1. Find eigenvalues</td><td>Solve det(A - λI) = 0</td></tr>
+            <tr><td>2. For each λ, find eigenvectors</td><td>Solve (A - λI)<strong>v</strong> = <strong>0</strong></td></tr>
+            <tr><td>3. Check</td><td>Verify A<strong>v</strong> = λ<strong>v</strong></td></tr>
+        </tbody>
+    </table>
+
+    <h3>Quick Reference</h3>
+
+    <table>
+        <thead>
+            <tr><th>Property</th><th>Formula</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>Characteristic polynomial</td><td>p(λ) = det(A - λI)</td></tr>
+            <tr><td>Sum of eigenvalues</td><td>tr(A)</td></tr>
+            <tr><td>Product of eigenvalues</td><td>det(A)</td></tr>
+            <tr><td>Eigenvalues of Aᵏ</td><td>λᵢᵏ</td></tr>
+            <tr><td>Eigenvalues of A⁻¹</td><td>1/λᵢ</td></tr>
+            <tr><td>Symmetric ⟹</td><td>Real eigenvalues, orthogonal eigenvectors</td></tr>
+        </tbody>
+    </table>
+
+    <!-- EXERCISES -->
+    <h2>Exercises</h2>
+
+    <div class="exercise-box">
+        <h4>Exercise 1: 2×2 Eigenvalues</h4>
+        <p>Find the eigenvalues and eigenvectors of:</p>
+        <p>(a) $\begin{pmatrix} 4 & 2 \\ 1 & 3 \end{pmatrix}$</p>
+        <p>(b) $\begin{pmatrix} 0 & -1 \\ 1 & 0 \end{pmatrix}$</p>
+        <p>(c) $\begin{pmatrix} 3 & 1 \\ 0 & 3 \end{pmatrix}$</p>
+
+        <details>
+            <summary>Show Solution</summary>
+            <div class="solution">
+                <p><strong>(a)</strong> tr = 7, det = 12 - 2 = 10. λ = (7 ± √(49-40))/2 = (7 ± 3)/2. <strong>λ₁ = 5, λ₂ = 2.</strong></p>
+                <p>For λ = 5: (A - 5I)<strong>v</strong> = [-1 2; 1 -2]<strong>v</strong> = 0 → <strong>v</strong> = (2, 1)</p>
+                <p>For λ = 2: (A - 2I)<strong>v</strong> = [2 2; 1 1]<strong>v</strong> = 0 → <strong>v</strong> = (1, -1)</p>
+                <hr style="margin: 1rem 0; border-color: var(--bg-tertiary);">
+                <p><strong>(b)</strong> tr = 0, det = 1. λ = (0 ± √(-4))/2 = ±i. <strong>Complex eigenvalues λ = ±i.</strong></p>
+                <p>This is rotation by 90° — no real eigenvectors.</p>
+                <hr style="margin: 1rem 0; border-color: var(--bg-tertiary);">
+                <p><strong>(c)</strong> tr = 6, det = 9. λ = (6 ± √(36-36))/2 = 3. <strong>λ = 3 (double root).</strong></p>
+                <p>For λ = 3: (A - 3I)<strong>v</strong> = [0 1; 0 0]<strong>v</strong> = 0 → <strong>v</strong> = (1, 0) only.</p>
+                <p>Only one eigenvector — not diagonalizable.</p>
+            </div>
+        </details>
+    </div>
+
+    <div class="exercise-box">
+        <h4>Exercise 2: Verification</h4>
+        <p>For $A = \begin{pmatrix} 1 & 2 \\ 2 & 1 \end{pmatrix}$:</p>
+        <p>(a) Find eigenvalues using tr and det.</p>
+        <p>(b) Find eigenvectors.</p>
+        <p>(c) Verify that eigenvectors are orthogonal (why should they be?).</p>
+        <p>(d) Construct P and verify P⁻¹AP = D.</p>
+
+        <details>
+            <summary>Show Solution</summary>
+            <div class="solution">
+                <p><strong>(a)</strong> tr = 2, det = 1 - 4 = -3. λ = (2 ± √(4+12))/2 = (2 ± 4)/2. <strong>λ₁ = 3, λ₂ = -1.</strong></p>
+                <p><strong>(b)</strong> For λ = 3: [-2 2; 2 -2]<strong>v</strong> = 0 → <strong>v</strong>₁ = (1, 1)</p>
+                <p>For λ = -1: [2 2; 2 2]<strong>v</strong> = 0 → <strong>v</strong>₂ = (1, -1)</p>
+                <p><strong>(c)</strong> <strong>v</strong>₁ · <strong>v</strong>₂ = 1 - 1 = 0 ✓ Orthogonal because A is symmetric.</p>
+                <p><strong>(d)</strong> P = [1 1; 1 -1], P⁻¹ = [1/2 1/2; 1/2 -1/2]</p>
+                <p>P⁻¹AP = [3 0; 0 -1] = D ✓</p>
+            </div>
+        </details>
+    </div>
+
+    <div class="exercise-box">
+        <h4>Exercise 3: Properties</h4>
+        <p>For a matrix with eigenvalues 2, 3, 5:</p>
+        <p>(a) What is the trace?</p>
+        <p>(b) What is the determinant?</p>
+        <p>(c) What are the eigenvalues of A²?</p>
+        <p>(d) What are the eigenvalues of A⁻¹?</p>
+
+        <details>
+            <summary>Show Solution</summary>
+            <div class="solution">
+                <p>(a) tr = 2 + 3 + 5 = <strong>10</strong></p>
+                <p>(b) det = 2 × 3 × 5 = <strong>30</strong></p>
+                <p>(c) Eigenvalues of A²: <strong>4, 9, 25</strong> (square each)</p>
+                <p>(d) Eigenvalues of A⁻¹: <strong>1/2, 1/3, 1/5</strong></p>
+            </div>
+        </details>
+    </div>
+
+    <div class="exercise-box">
+        <h4>Exercise 4: Complex Eigenvalues</h4>
+        <p>Find the eigenvalues of the rotation matrix:</p>
+        <div class="matrix-display">
+            $$R(60°) = \begin{pmatrix} 1/2 & -\sqrt{3}/2 \\ \sqrt{3}/2 & 1/2 \end{pmatrix}$$
+        </div>
+        <p>Express them in the form e^(iθ). What does this tell you geometrically?</p>
+
+        <details>
+            <summary>Show Solution</summary>
+            <div class="solution">
+                <p>tr = 1, det = 1/4 + 3/4 = 1.</p>
+                <p>λ = (1 ± √(1-4))/2 = (1 ± √(-3))/2 = 1/2 ± i√3/2</p>
+                <p>In polar form: λ = cos(60°) ± i sin(60°) = <strong>e^(±iπ/3)</strong></p>
+                <p>Geometrically: rotation by 60° has eigenvalues on unit circle at angles ±60°.</p>
+            </div>
+        </details>
+    </div>
+
+    <div class="exercise-box">
+        <h4>Exercise 5: Hückel Theory</h4>
+        <p>For the allyl system (3 carbons in a row), the Hückel matrix is:</p>
+        <div class="matrix-display">
+            $$\mathbf{H} = \begin{pmatrix} \alpha & \beta & 0 \\ \beta & \alpha & \beta \\ 0 & \beta & \alpha \end{pmatrix}$$
+        </div>
+        <p>(a) Setting α = 0 and β = -1, find the eigenvalues.</p>
+        <p>(b) Find the eigenvectors (MO coefficients).</p>
+        <p>(c) Which MO is bonding? Nonbonding? Antibonding?</p>
+
+        <details>
+            <summary>Show Solution</summary>
+            <div class="solution">
+                <p><strong>(a)</strong> With α = 0, β = -1: H = [0 -1 0; -1 0 -1; 0 -1 0]</p>
+                <p>Characteristic polynomial: -λ³ + 2λ = -λ(λ² - 2) = 0</p>
+                <p><strong>Eigenvalues: λ = 0, √2, -√2</strong></p>
+                <p>(Energies: E = α + √2|β|, α, α - √2|β|)</p>
+                <hr style="margin: 1rem 0; border-color: var(--bg-tertiary);">
+                <p><strong>(b)</strong> For λ = √2: <strong>c</strong> ∝ (1, √2, 1) (bonding)</p>
+                <p>For λ = 0: <strong>c</strong> ∝ (1, 0, -1) (nonbonding — node at center)</p>
+                <p>For λ = -√2: <strong>c</strong> ∝ (1, -√2, 1) (antibonding)</p>
+                <hr style="margin: 1rem 0; border-color: var(--bg-tertiary);">
+                <p><strong>(c)</strong> Bonding: E = α + √2|β| (lowest energy).</p>
+                <p>Nonbonding: E = α.</p>
+                <p>Antibonding: E = α - √2|β| (highest energy).</p>
+            </div>
+        </details>
+    </div>
+
+    <!-- NEXT LECTURE -->
+    <h2>Next</h2>
+
+    <p><strong>Lecture 10: Symmetry</strong></p>
+    <p>The eigenvectors of symmetric matrices are orthogonal. Molecular symmetry operations form groups. The mathematics of invariance.</p>
+
+    <div style="text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--bg-tertiary); color: var(--text-secondary); font-size: 0.9rem;">
+        <p>Chemical Thinking: The Grammar of Reality</p>
+        <p>Lecture 9 — What Survives?</p>
+    </div>
+
+    <script>
+        // Render KaTeX
+        document.addEventListener('DOMContentLoaded', function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false}
+                ]
+            });
+        });
+
+        // ====================
+        // Eigenvector Visualizer
+        // ====================
+        const eigCanvas = document.getElementById('eigenvectorCanvas');
+        const eigCtx = eigCanvas.getContext('2d');
+
+        const matA = document.getElementById('matA');
+        const matB = document.getElementById('matB');
+        const matC = document.getElementById('matC');
+        const matD = document.getElementById('matD');
+
+        function computeEigenvalues(a, b, c, d) {
+            const trace = a + d;
+            const det = a * d - b * c;
+            const disc = trace * trace - 4 * det;
+
+            if (disc >= 0) {
+                return {
+                    real: true,
+                    lambda1: (trace + Math.sqrt(disc)) / 2,
+                    lambda2: (trace - Math.sqrt(disc)) / 2,
+                    trace: trace,
+                    det: det
+                };
+            } else {
+                return {
+                    real: false,
+                    realPart: trace / 2,
+                    imagPart: Math.sqrt(-disc) / 2,
+                    trace: trace,
+                    det: det
+                };
+            }
+        }
+
+        function computeEigenvector(a, b, c, d, lambda) {
+            // Solve (A - λI)v = 0
+            // Use the first row: (a-λ)v1 + b*v2 = 0
+            // So v2 = -(a-λ)/b * v1 if b ≠ 0
+            if (Math.abs(b) > 1e-10) {
+                return [1, -(a - lambda) / b];
+            } else if (Math.abs(c) > 1e-10) {
+                return [-(d - lambda) / c, 1];
+            } else {
+                // Diagonal case
+                if (Math.abs(a - lambda) < 1e-10) return [1, 0];
+                return [0, 1];
+            }
+        }
+
+        function drawEigenvectorVisualization() {
+            const a = parseFloat(matA.value);
+            const b = parseFloat(matB.value);
+            const c = parseFloat(matC.value);
+            const d = parseFloat(matD.value);
+
+            document.getElementById('matAVal').textContent = a;
+            document.getElementById('matBVal').textContent = b;
+            document.getElementById('matCVal').textContent = c;
+            document.getElementById('matDVal').textContent = d;
+
+            const eig = computeEigenvalues(a, b, c, d);
+
+            document.getElementById('traceDisplay').textContent = eig.trace.toFixed(2);
+            document.getElementById('detDisplay').textContent = eig.det.toFixed(2);
+
+            eigCtx.fillStyle = '#1a1a24';
+            eigCtx.fillRect(0, 0, eigCanvas.width, eigCanvas.height);
+
+            const cx = eigCanvas.width / 2;
+            const cy = eigCanvas.height / 2;
+            const scale = 50;
+
+            // Draw grid
+            eigCtx.strokeStyle = '#333';
+            eigCtx.lineWidth = 1;
+            for (let x = -6; x <= 6; x++) {
+                eigCtx.beginPath();
+                eigCtx.moveTo(cx + x * scale, 0);
+                eigCtx.lineTo(cx + x * scale, eigCanvas.height);
+                eigCtx.stroke();
+            }
+            for (let y = -4; y <= 4; y++) {
+                eigCtx.beginPath();
+                eigCtx.moveTo(0, cy + y * scale);
+                eigCtx.lineTo(eigCanvas.width, cy + y * scale);
+                eigCtx.stroke();
+            }
+
+            // Draw axes
+            eigCtx.strokeStyle = '#666';
+            eigCtx.lineWidth = 2;
+            eigCtx.beginPath();
+            eigCtx.moveTo(0, cy);
+            eigCtx.lineTo(eigCanvas.width, cy);
+            eigCtx.moveTo(cx, 0);
+            eigCtx.lineTo(cx, eigCanvas.height);
+            eigCtx.stroke();
+
+            // Draw many vectors and their transformations
+            const numVectors = 24;
+            for (let i = 0; i < numVectors; i++) {
+                const theta = (2 * Math.PI * i) / numVectors;
+                const v = [Math.cos(theta), Math.sin(theta)];
+                const Av = [a * v[0] + b * v[1], c * v[0] + d * v[1]];
+
+                // Original vector (faint blue)
+                eigCtx.strokeStyle = 'rgba(74, 158, 255, 0.3)';
+                eigCtx.lineWidth = 1;
+                drawArrow(eigCtx, cx, cy, cx + v[0] * scale * 1.5, cy - v[1] * scale * 1.5);
+
+                // Transformed vector (faint red)
+                eigCtx.strokeStyle = 'rgba(239, 68, 68, 0.4)';
+                drawArrow(eigCtx, cx, cy, cx + Av[0] * scale * 1.5, cy - Av[1] * scale * 1.5);
+            }
+
+            if (eig.real) {
+                document.getElementById('lambda1Display').textContent = eig.lambda1.toFixed(3);
+                document.getElementById('lambda2Display').textContent = eig.lambda2.toFixed(3);
+
+                // Draw eigenvectors
+                const v1 = computeEigenvector(a, b, c, d, eig.lambda1);
+                const v2 = computeEigenvector(a, b, c, d, eig.lambda2);
+
+                // Normalize
+                const n1 = Math.sqrt(v1[0]*v1[0] + v1[1]*v1[1]);
+                const n2 = Math.sqrt(v2[0]*v2[0] + v2[1]*v2[1]);
+                v1[0] /= n1; v1[1] /= n1;
+                v2[0] /= n2; v2[1] /= n2;
+
+                // Draw eigenvector lines (dashed)
+                eigCtx.setLineDash([5, 5]);
+                eigCtx.strokeStyle = '#8b5cf6';
+                eigCtx.lineWidth = 2;
+                eigCtx.beginPath();
+                eigCtx.moveTo(cx - v1[0] * scale * 4, cy + v1[1] * scale * 4);
+                eigCtx.lineTo(cx + v1[0] * scale * 4, cy - v1[1] * scale * 4);
+                eigCtx.stroke();
+
+                eigCtx.strokeStyle = '#10b981';
+                eigCtx.beginPath();
+                eigCtx.moveTo(cx - v2[0] * scale * 4, cy + v2[1] * scale * 4);
+                eigCtx.lineTo(cx + v2[0] * scale * 4, cy - v2[1] * scale * 4);
+                eigCtx.stroke();
+                eigCtx.setLineDash([]);
+
+                // Draw eigenvectors (bold)
+                eigCtx.strokeStyle = '#8b5cf6';
+                eigCtx.lineWidth = 3;
+                drawArrow(eigCtx, cx, cy, cx + v1[0] * scale * 2, cy - v1[1] * scale * 2);
+
+                // Draw transformed eigenvector
+                const Av1 = [a * v1[0] + b * v1[1], c * v1[0] + d * v1[1]];
+                eigCtx.strokeStyle = 'rgba(139, 92, 246, 0.6)';
+                eigCtx.setLineDash([3, 3]);
+                drawArrow(eigCtx, cx, cy, cx + Av1[0] * scale * 2, cy - Av1[1] * scale * 2);
+                eigCtx.setLineDash([]);
+
+                eigCtx.strokeStyle = '#10b981';
+                eigCtx.lineWidth = 3;
+                drawArrow(eigCtx, cx, cy, cx + v2[0] * scale * 2, cy - v2[1] * scale * 2);
+
+                const Av2 = [a * v2[0] + b * v2[1], c * v2[0] + d * v2[1]];
+                eigCtx.strokeStyle = 'rgba(16, 185, 129, 0.6)';
+                eigCtx.setLineDash([3, 3]);
+                drawArrow(eigCtx, cx, cy, cx + Av2[0] * scale * 2, cy - Av2[1] * scale * 2);
+                eigCtx.setLineDash([]);
+
+                // Labels
+                eigCtx.fillStyle = '#8b5cf6';
+                eigCtx.font = '14px JetBrains Mono, monospace';
+                eigCtx.fillText(`v₁: λ=${eig.lambda1.toFixed(2)}`, cx + v1[0] * scale * 2.5, cy - v1[1] * scale * 2.5);
+
+                eigCtx.fillStyle = '#10b981';
+                eigCtx.fillText(`v₂: λ=${eig.lambda2.toFixed(2)}`, cx + v2[0] * scale * 2.5, cy - v2[1] * scale * 2.5);
+            } else {
+                document.getElementById('lambda1Display').textContent = `${eig.realPart.toFixed(2)}+${eig.imagPart.toFixed(2)}i`;
+                document.getElementById('lambda2Display').textContent = `${eig.realPart.toFixed(2)}-${eig.imagPart.toFixed(2)}i`;
+
+                // Complex eigenvalues message
+                eigCtx.fillStyle = '#f59e0b';
+                eigCtx.font = '16px Inter, sans-serif';
+                eigCtx.textAlign = 'center';
+                eigCtx.fillText('Complex eigenvalues — includes rotation!', cx, 30);
+                eigCtx.fillText('No real direction is preserved.', cx, 55);
+                eigCtx.textAlign = 'left';
+            }
+        }
+
+        function drawArrow(ctx, x1, y1, x2, y2) {
+            const headLen = 8;
+            const angle = Math.atan2(y1 - y2, x2 - x1);
+
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(x2, y2);
+            ctx.lineTo(x2 - headLen * Math.cos(angle - Math.PI/6), y2 + headLen * Math.sin(angle - Math.PI/6));
+            ctx.moveTo(x2, y2);
+            ctx.lineTo(x2 - headLen * Math.cos(angle + Math.PI/6), y2 + headLen * Math.sin(angle + Math.PI/6));
+            ctx.stroke();
+        }
+
+        // Event listeners
+        [matA, matB, matC, matD].forEach(el => {
+            el.addEventListener('input', drawEigenvectorVisualization);
+        });
+
+        drawEigenvectorVisualization();
+
+        // ====================
+        // Step-by-step display
+        // ====================
+        function updateStepOutput() {
+            const a = parseFloat(matA.value);
+            const b = parseFloat(matB.value);
+            const c = parseFloat(matC.value);
+            const d = parseFloat(matD.value);
+
+            const trace = a + d;
+            const det = a * d - b * c;
+            const disc = trace * trace - 4 * det;
+
+            let html = `<strong>Matrix:</strong> A = [[${a}, ${b}], [${c}, ${d}]]<br>`;
+            html += `<strong>Trace:</strong> ${a} + ${d} = ${trace}<br>`;
+            html += `<strong>Det:</strong> (${a})(${d}) - (${b})(${c}) = ${det}<br>`;
+            html += `<strong>Characteristic equation:</strong> λ² - ${trace}λ + ${det} = 0<br>`;
+            html += `<strong>Discriminant:</strong> ${trace}² - 4(${det}) = ${disc.toFixed(3)}<br>`;
+
+            if (disc >= 0) {
+                const l1 = (trace + Math.sqrt(disc)) / 2;
+                const l2 = (trace - Math.sqrt(disc)) / 2;
+                html += `<strong>Eigenvalues:</strong> λ = (${trace} ± √${disc.toFixed(2)})/2<br>`;
+                html += `<span style="color: #8b5cf6;">λ₁ = ${l1.toFixed(3)}</span>, <span style="color: #10b981;">λ₂ = ${l2.toFixed(3)}</span><br>`;
+                html += `<strong>Check:</strong> λ₁ + λ₂ = ${(l1+l2).toFixed(3)} = tr(A) ✓, λ₁ × λ₂ = ${(l1*l2).toFixed(3)} = det(A) ✓`;
+            } else {
+                const re = trace / 2;
+                const im = Math.sqrt(-disc) / 2;
+                html += `<span style="color: #f59e0b;"><strong>Complex eigenvalues:</strong> λ = ${re.toFixed(3)} ± ${im.toFixed(3)}i</span><br>`;
+                html += `<strong>Magnitude:</strong> |λ| = ${Math.sqrt(re*re + im*im).toFixed(3)}`;
+            }
+
+            document.getElementById('stepOutput').innerHTML = html;
+        }
+
+        [matA, matB, matC, matD].forEach(el => {
+            el.addEventListener('input', updateStepOutput);
+        });
+        updateStepOutput();
+
+        // ====================
+        // Rotation Canvas
+        // ====================
+        const rotCanvas = document.getElementById('rotationCanvas');
+        const rotCtx = rotCanvas.getContext('2d');
+        const rotAngle = document.getElementById('rotAngle');
+
+        function drawRotationVisualization() {
+            const angle = parseFloat(rotAngle.value);
+            document.getElementById('rotAngleVal').textContent = angle + '°';
+
+            const theta = angle * Math.PI / 180;
+
+            document.getElementById('rotLambda1').textContent = angle === 0 ? '1' : angle === 180 ? '-1' : `e^(i${angle}°)`;
+            document.getElementById('rotLambda2').textContent = angle === 0 ? '1' : angle === 180 ? '-1' : `e^(-i${angle}°)`;
+
+            rotCtx.fillStyle = '#1a1a24';
+            rotCtx.fillRect(0, 0, rotCanvas.width, rotCanvas.height);
+
+            // Left side: vectors before/after rotation
+            const leftCx = 175;
+            const cy = rotCanvas.height / 2;
+            const scale = 80;
+
+            // Draw unit circle
+            rotCtx.strokeStyle = '#333';
+            rotCtx.lineWidth = 1;
+            rotCtx.beginPath();
+            rotCtx.arc(leftCx, cy, scale, 0, 2 * Math.PI);
+            rotCtx.stroke();
+
+            // Draw axes
+            rotCtx.strokeStyle = '#666';
+            rotCtx.beginPath();
+            rotCtx.moveTo(leftCx - scale * 1.5, cy);
+            rotCtx.lineTo(leftCx + scale * 1.5, cy);
+            rotCtx.moveTo(leftCx, cy - scale * 1.5);
+            rotCtx.lineTo(leftCx, cy + scale * 1.5);
+            rotCtx.stroke();
+
+            // Draw original vector
+            rotCtx.strokeStyle = '#4a9eff';
+            rotCtx.lineWidth = 2;
+            drawArrow(rotCtx, leftCx, cy, leftCx + scale, cy);
+
+            // Draw rotated vector
+            rotCtx.strokeStyle = '#ef4444';
+            drawArrow(rotCtx, leftCx, cy, leftCx + scale * Math.cos(theta), cy - scale * Math.sin(theta));
+
+            // Draw angle arc
+            if (angle > 0 && angle < 180) {
+                rotCtx.strokeStyle = '#10b981';
+                rotCtx.lineWidth = 2;
+                rotCtx.beginPath();
+                rotCtx.arc(leftCx, cy, scale * 0.4, 0, -theta, true);
+                rotCtx.stroke();
+            }
+
+            rotCtx.fillStyle = '#e8e6e3';
+            rotCtx.font = '14px Inter, sans-serif';
+            rotCtx.fillText('Vector rotation', leftCx - 45, 30);
+
+            // Right side: eigenvalues in complex plane
+            const rightCx = 475;
+
+            // Draw unit circle
+            rotCtx.strokeStyle = '#333';
+            rotCtx.lineWidth = 1;
+            rotCtx.setLineDash([5, 5]);
+            rotCtx.beginPath();
+            rotCtx.arc(rightCx, cy, scale, 0, 2 * Math.PI);
+            rotCtx.stroke();
+            rotCtx.setLineDash([]);
+
+            // Draw axes
+            rotCtx.strokeStyle = '#666';
+            rotCtx.beginPath();
+            rotCtx.moveTo(rightCx - scale * 1.5, cy);
+            rotCtx.lineTo(rightCx + scale * 1.5, cy);
+            rotCtx.moveTo(rightCx, cy - scale * 1.5);
+            rotCtx.lineTo(rightCx, cy + scale * 1.5);
+            rotCtx.stroke();
+
+            // Draw eigenvalues
+            const re = Math.cos(theta);
+            const im = Math.sin(theta);
+
+            // λ₁ = e^(iθ)
+            rotCtx.fillStyle = '#8b5cf6';
+            rotCtx.beginPath();
+            rotCtx.arc(rightCx + re * scale, cy - im * scale, 8, 0, 2 * Math.PI);
+            rotCtx.fill();
+
+            // λ₂ = e^(-iθ)
+            rotCtx.fillStyle = '#10b981';
+            rotCtx.beginPath();
+            rotCtx.arc(rightCx + re * scale, cy + im * scale, 8, 0, 2 * Math.PI);
+            rotCtx.fill();
+
+            // Draw angle arcs
+            if (angle > 0 && angle < 180) {
+                rotCtx.strokeStyle = '#8b5cf6';
+                rotCtx.lineWidth = 2;
+                rotCtx.beginPath();
+                rotCtx.arc(rightCx, cy, scale * 0.5, 0, -theta, true);
+                rotCtx.stroke();
+
+                rotCtx.strokeStyle = '#10b981';
+                rotCtx.beginPath();
+                rotCtx.arc(rightCx, cy, scale * 0.6, 0, theta, false);
+                rotCtx.stroke();
+            }
+
+            rotCtx.fillStyle = '#e8e6e3';
+            rotCtx.fillText('Eigenvalues in complex plane', rightCx - 85, 30);
+            rotCtx.fillStyle = '#a0a0a0';
+            rotCtx.fillText('Real', rightCx + scale * 1.2, cy + 15);
+            rotCtx.fillText('Imag', rightCx + 10, cy - scale * 1.2);
+        }
+
+        rotAngle.addEventListener('input', drawRotationVisualization);
+        drawRotationVisualization();
+
+        // ====================
+        // Hückel MO Calculator
+        // ====================
+        const huckelCanvas = document.getElementById('huckelCanvas');
+        const huckelCtx = huckelCanvas.getContext('2d');
+        const huckelMol = document.getElementById('huckelMol');
+
+        function getHuckelMatrix(mol) {
+            switch(mol) {
+                case 'ethylene':
+                    return [[0, -1], [-1, 0]];
+                case 'allyl':
+                    return [[0, -1, 0], [-1, 0, -1], [0, -1, 0]];
+                case 'butadiene':
+                    return [[0, -1, 0, 0], [-1, 0, -1, 0], [0, -1, 0, -1], [0, 0, -1, 0]];
+                case 'cyclobutadiene':
+                    return [[0, -1, 0, -1], [-1, 0, -1, 0], [0, -1, 0, -1], [-1, 0, -1, 0]];
+                case 'benzene':
+                    return [
+                        [0, -1, 0, 0, 0, -1],
+                        [-1, 0, -1, 0, 0, 0],
+                        [0, -1, 0, -1, 0, 0],
+                        [0, 0, -1, 0, -1, 0],
+                        [0, 0, 0, -1, 0, -1],
+                        [-1, 0, 0, 0, -1, 0]
+                    ];
+            }
+        }
+
+        function getNumElectrons(mol) {
+            switch(mol) {
+                case 'ethylene': return 2;
+                case 'allyl': return 3;
+                case 'butadiene': return 4;
+                case 'cyclobutadiene': return 4;
+                case 'benzene': return 6;
+            }
+        }
+
+        // Simple eigenvalue computation for small matrices (power iteration won't work well here)
+        // For 2x2, use formula. For larger, use characteristic polynomial approximation.
+        function computeHuckelEigenvalues(mol) {
+            switch(mol) {
+                case 'ethylene':
+                    return [-1, 1]; // E = α + β (bonding), α - β (antibonding), with β = -1
+                case 'allyl':
+                    return [-Math.SQRT2, 0, Math.SQRT2];
+                case 'butadiene':
+                    const phi = (1 + Math.sqrt(5)) / 2; // golden ratio
+                    return [-phi, -1/phi, 1/phi, phi];
+                case 'cyclobutadiene':
+                    return [-2, 0, 0, 2];
+                case 'benzene':
+                    return [-2, -1, -1, 1, 1, 2];
+            }
+        }
+
+        function drawHuckelVisualization() {
+            const mol = huckelMol.value;
+            const eigenvalues = computeHuckelEigenvalues(mol);
+            const nElectrons = getNumElectrons(mol);
+
+            huckelCtx.fillStyle = '#1a1a24';
+            huckelCtx.fillRect(0, 0, huckelCanvas.width, huckelCanvas.height);
+
+            // Draw energy level diagram
+            const cx = huckelCanvas.width / 2;
+            const minE = Math.min(...eigenvalues) - 0.5;
+            const maxE = Math.max(...eigenvalues) + 0.5;
+            const scale = (huckelCanvas.height - 100) / (maxE - minE);
+
+            // Draw α reference line
+            huckelCtx.strokeStyle = '#666';
+            huckelCtx.setLineDash([5, 5]);
+            huckelCtx.lineWidth = 1;
+            const alphaY = 50 + (maxE - 0) * scale;
+            huckelCtx.beginPath();
+            huckelCtx.moveTo(100, alphaY);
+            huckelCtx.lineTo(huckelCanvas.width - 100, alphaY);
+            huckelCtx.stroke();
+            huckelCtx.setLineDash([]);
+
+            huckelCtx.fillStyle = '#a0a0a0';
+            huckelCtx.font = '12px Inter, sans-serif';
+            huckelCtx.fillText('α (nonbonding)', huckelCanvas.width - 95, alphaY + 4);
+
+            // Group degenerate levels
+            const levels = [];
+            const tol = 0.01;
+            for (const e of eigenvalues) {
+                const existing = levels.find(l => Math.abs(l.energy - e) < tol);
+                if (existing) {
+                    existing.degeneracy++;
+                } else {
+                    levels.push({energy: e, degeneracy: 1});
+                }
+            }
+            levels.sort((a, b) => a.energy - b.energy);
+
+            // Fill electrons
+            let electronsPlaced = 0;
+            for (const level of levels) {
+                const y = 50 + (maxE - level.energy) * scale;
+                const levelWidth = 60;
+
+                // Draw level lines
+                huckelCtx.strokeStyle = '#4a9eff';
+                huckelCtx.lineWidth = 3;
+
+                if (level.degeneracy === 1) {
+                    huckelCtx.beginPath();
+                    huckelCtx.moveTo(cx - levelWidth, y);
+                    huckelCtx.lineTo(cx + levelWidth, y);
+                    huckelCtx.stroke();
+
+                    // Add electrons
+                    if (electronsPlaced < nElectrons) {
+                        huckelCtx.fillStyle = '#8b5cf6';
+                        huckelCtx.font = '18px serif';
+                        huckelCtx.fillText('↑', cx - 10, y - 5);
+                        electronsPlaced++;
+                        if (electronsPlaced < nElectrons) {
+                            huckelCtx.fillText('↓', cx + 5, y - 5);
+                            electronsPlaced++;
+                        }
+                    }
+                } else {
+                    const gap = 40;
+                    for (let d = 0; d < level.degeneracy; d++) {
+                        const offset = (d - (level.degeneracy - 1) / 2) * gap;
+                        huckelCtx.beginPath();
+                        huckelCtx.moveTo(cx + offset - 25, y);
+                        huckelCtx.lineTo(cx + offset + 25, y);
+                        huckelCtx.stroke();
+
+                        if (electronsPlaced < nElectrons) {
+                            huckelCtx.fillStyle = '#8b5cf6';
+                            huckelCtx.font = '18px serif';
+                            huckelCtx.fillText('↑', cx + offset - 7, y - 5);
+                            electronsPlaced++;
+                            if (electronsPlaced < nElectrons) {
+                                huckelCtx.fillText('↓', cx + offset + 8, y - 5);
+                                electronsPlaced++;
+                            }
+                        }
+                    }
+                }
+
+                // Energy label
+                huckelCtx.fillStyle = '#e8e6e3';
+                huckelCtx.font = '12px JetBrains Mono, monospace';
+                const label = level.energy === 0 ? 'α' :
+                             level.energy > 0 ? `α - ${Math.abs(level.energy).toFixed(2)}|β|` :
+                             `α + ${Math.abs(level.energy).toFixed(2)}|β|`;
+                huckelCtx.textAlign = 'left';
+                huckelCtx.fillText(label, cx + 80 + (level.degeneracy > 1 ? 20 : 0), y + 4);
+            }
+
+            // Title
+            huckelCtx.fillStyle = '#e8e6e3';
+            huckelCtx.font = '16px Inter, sans-serif';
+            huckelCtx.textAlign = 'center';
+            huckelCtx.fillText(`${mol.charAt(0).toUpperCase() + mol.slice(1)} — π Orbital Energies`, cx, 25);
+
+            // Output info
+            const bondingLevels = levels.filter(l => l.energy < -0.01);
+            const nonbondingLevels = levels.filter(l => Math.abs(l.energy) < 0.01);
+            const antibondingLevels = levels.filter(l => l.energy > 0.01);
+
+            let totalEnergy = 0;
+            let electrons = 0;
+            for (const level of levels) {
+                const maxInLevel = level.degeneracy * 2;
+                const inThisLevel = Math.min(nElectrons - electrons, maxInLevel);
+                totalEnergy += inThisLevel * level.energy;
+                electrons += inThisLevel;
+                if (electrons >= nElectrons) break;
+            }
+
+            document.getElementById('huckelOutput').innerHTML = `
+                <div class="stat-grid">
+                    <div class="stat-box">
+                        <div class="stat-label">Bonding MOs</div>
+                        <div class="stat-value" style="color: #10b981;">${bondingLevels.reduce((s, l) => s + l.degeneracy, 0)}</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Nonbonding</div>
+                        <div class="stat-value" style="color: #f59e0b;">${nonbondingLevels.reduce((s, l) => s + l.degeneracy, 0)}</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Antibonding</div>
+                        <div class="stat-value" style="color: #ef4444;">${antibondingLevels.reduce((s, l) => s + l.degeneracy, 0)}</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Total π Energy</div>
+                        <div class="stat-value">α + ${Math.abs(totalEnergy).toFixed(2)}|β|</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        huckelMol.addEventListener('change', drawHuckelVisualization);
+        drawHuckelVisualization();
+    </script>
+</body>
+</html>
