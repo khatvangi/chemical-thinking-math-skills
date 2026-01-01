@@ -14,7 +14,7 @@ end
 
 # ╔═╡ a1000009-0001-0001-0001-000000000002
 md"""
-# Lecture 9: What Survives?
+# Lecture 10: What Survives?
 
 *Eigenvalues and eigenvectors — the directions that transformation preserves.*
 
@@ -580,7 +580,7 @@ md"""
 # ╔═╡ a1000009-0001-0001-0001-000000000033
 md"""
 ---
-## Next: Lecture 10
+## Next: Lecture 11
 
 **Symmetry**
 

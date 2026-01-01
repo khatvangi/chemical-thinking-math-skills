@@ -22,7 +22,8 @@ site/.quarto/
 !site/lectures/06-coordinates/*.html
 !site/lectures/07-matrices/*.html
 !site/lectures/08-transformations/*.html
-!site/lectures/09-eigenvalues/*.html
+!site/lectures/09-invariance/*.html
+!site/lectures/10-eigenvalues/*.html
 !site/lectures/all-lectures.html
 !site/protein-raga.html
 !site/landing.html
