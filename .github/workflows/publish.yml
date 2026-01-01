@@ -38,6 +38,7 @@ jobs:
           cp site/primitives/collection.html site/_site/primitives/collection.html
           cp site/primitives/direction.html site/_site/primitives/direction.html
           cp site/primitives/arrangement.html site/_site/primitives/arrangement.html
+          cp site/primitives/sameness.html site/_site/primitives/sameness.html
           cp -r site/lectures/03-collection/*.html site/_site/lectures/03-collection/ 2>/dev/null || true
           cp -r site/lectures/04-direction/*.html site/_site/lectures/04-direction/ 2>/dev/null || true
           cp -r site/lectures/05-arrangement/*.html site/_site/lectures/05-arrangement/ 2>/dev/null || true

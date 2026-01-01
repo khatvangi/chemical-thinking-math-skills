@@ -1,0 +1,1738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAMENESS | The Primitive of Invariance</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0D1117;
+            --bg-secondary: #161B22;
+            --bg-tertiary: #21262D;
+            --text-primary: #E6EDF3;
+            --text-secondary: #8B949E;
+            --text-muted: #6E7681;
+            --accent-blue: #3B82F6;
+            --accent-purple: #8B5CF6;
+            --accent-green: #22C55E;
+            --accent-orange: #F97316;
+            --accent-red: #EF4444;
+            --accent-cyan: #06B6D4;
+            --border-color: #30363D;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.8;
+            font-size: 18px;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+            padding: 5rem 2rem 6rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--accent-purple);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-family: 'Fraunces', serif;
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.4rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+            font-style: italic;
+        }
+
+        /* Main content */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Prologue */
+        .prologue {
+            padding: 4rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .prologue-title {
+            font-family: 'Fraunces', serif;
+            font-size: 1.8rem;
+            color: var(--accent-purple);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        /* Parts */
+        .part {
+            padding: 4rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .part:last-child { border-bottom: none; }
+
+        .part-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .part-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--accent-purple);
+            letter-spacing: 0.1em;
+        }
+
+        h2 {
+            font-family: 'Fraunces', serif;
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        h3 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--accent-purple);
+            margin: 3rem 0 1.5rem;
+        }
+
+        h4 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        p {
+            margin-bottom: 1.4rem;
+            color: var(--text-secondary);
+        }
+
+        strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        em {
+            color: var(--accent-purple);
+            font-style: italic;
+        }
+
+        /* Definition popups */
+        .def-popup {
+            position: relative;
+            color: var(--accent-blue);
+            cursor: help;
+            border-bottom: 1px dashed var(--accent-blue);
+        }
+
+        .def-popup .def-tooltip {
+            position: absolute;
+            bottom: calc(100% + 10px);
+            left: 50%;
+            transform: translateX(-50%);
+            width: 360px;
+            padding: 1rem 1.25rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s, visibility 0.2s;
+            z-index: 100;
+            text-align: left;
+            line-height: 1.5;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .def-popup:hover .def-tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Visual containers */
+        .visual-container {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2.5rem 0;
+            border: 1px solid var(--border-color);
+        }
+
+        .visual-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-purple);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        canvas {
+            display: block;
+            margin: 0 auto;
+            border-radius: 8px;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            justify-content: center;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        button {
+            padding: 0.6rem 1.2rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+
+        button:hover {
+            background: var(--accent-purple);
+            border-color: var(--accent-purple);
+        }
+
+        button.active {
+            background: var(--accent-purple);
+            border-color: var(--accent-purple);
+        }
+
+        select {
+            padding: 0.6rem 1rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+
+        .caption {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-align: center;
+            margin-top: 1.5rem;
+            font-style: italic;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            color: var(--accent-purple);
+            font-weight: 500;
+            background: var(--bg-tertiary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+        }
+
+        td {
+            color: var(--text-secondary);
+        }
+
+        /* Definition box */
+        .definition-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--accent-purple);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2.5rem 0;
+        }
+
+        .definition-box h3 {
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .definition-item {
+            margin-bottom: 1.25rem;
+            padding-bottom: 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .definition-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .definition-term {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-blue);
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .definition-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Bridge table */
+        .bridge-table {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2.5rem 0;
+            border: 1px solid var(--border-color);
+        }
+
+        .bridge-table h3 {
+            margin-top: 0;
+            text-align: center;
+        }
+
+        /* Endnotes */
+        .endnotes {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .endnotes h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .endnote {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            padding-left: 2.5rem;
+            text-indent: -2.5rem;
+        }
+
+        .endnote-ref {
+            color: var(--accent-purple);
+            font-weight: 500;
+        }
+
+        /* Lists */
+        ul, ol {
+            color: var(--text-secondary);
+            margin: 1rem 0 1.5rem 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Slider */
+        .slider-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .slider-group label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        input[type="range"] {
+            width: 200px;
+            accent-color: var(--accent-purple);
+        }
+
+        .value-display {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-purple);
+        }
+
+        /* Energy levels */
+        .energy-levels {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .energy-level {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.5rem 1rem;
+            background: var(--bg-tertiary);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .energy-level:hover, .energy-level.active {
+            background: var(--accent-purple);
+        }
+
+        .energy-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            min-width: 80px;
+        }
+
+        .energy-bar {
+            flex: 1;
+            height: 8px;
+            background: var(--accent-blue);
+            border-radius: 4px;
+        }
+
+        .orbital-display {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        /* Navigation */
+        .nav-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent-purple);
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border: 1px solid var(--accent-purple);
+            border-radius: 8px;
+            margin: 1rem 0;
+            transition: all 0.2s ease;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+        }
+
+        .nav-link:hover {
+            background: var(--accent-purple);
+            color: var(--bg-primary);
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 4rem 0 2rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            h1 { font-size: 2.8rem; }
+            h2 { font-size: 1.8rem; }
+            .container { padding: 0 1rem; }
+            .visual-container { padding: 1rem; }
+            .def-popup .def-tooltip { width: 280px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-label">Primitive IV</div>
+        <h1>SAMENESS</h1>
+        <p class="subtitle">The primitive of invariance. The sister of DIRECTION.</p>
+    </header>
+
+    <main class="container">
+        <!-- Prologue -->
+        <section class="prologue">
+            <h2 class="prologue-title">Two Sisters</h2>
+
+            <p>SAMENESS and DIRECTION emerge from the same source.</p>
+
+            <p><span class="def-popup" data-definition="Symmetry: Invariance under transformation. A system possesses symmetry with respect to operation T if applying T leaves the system unchanged. The set of all such operations forms the symmetry group."><span class="def-tooltip"></span>Symmetry</span> is what remains unchanged when something else changes. Rotate a sphere—it looks identical. Translate through empty space—indistinguishable from before. Permute the vertices of an equilateral triangle—the triangle persists. The persistence of identity through transformation: this is SAMENESS.</p>
+
+            <p><span class="def-popup" data-definition="Asymmetry: The failure of invariance under some transformation. A system exhibits asymmetry when applying operation T produces a distinguishable result. Asymmetry creates distinction where symmetry creates equivalence."><span class="def-tooltip"></span>Asymmetry</span> is where invariance fails. Rotate a cone about a transverse axis—you can detect the change. The failure of SAMENESS under transformation creates distinction. Distinction in space is orientation. Orientation is DIRECTION.</p>
+
+            <p>The primitives define each other. Where SAMENESS holds, DIRECTION cannot emerge. Where DIRECTION exists, SAMENESS has broken.</p>
+        </section>
+
+        <!-- Part I: Cognitive Basis -->
+        <section class="part">
+            <div class="part-header">
+                <div class="part-number">PART I</div>
+                <h2>The Cognitive Basis of SAMENESS</h2>
+            </div>
+
+            <h3>1.1 Recognition of Invariance</h3>
+            <p>Before any formalism, humans perceive sameness.</p>
+
+            <p>An infant recognizes its mother's face across variations in lighting, angle, expression, and distance. The face changes continuously, yet something persists. That persistent something—the invariant structure—is what the infant tracks.</p>
+
+            <p>This is SAMENESS: the detection of what does not change when other things do.</p>
+
+            <p>The cognitive act is substrate-independent. It operates on:</p>
+
+            <ul>
+                <li>Visual forms (shape constancy despite rotation, scaling, translation)</li>
+                <li>Auditory patterns (melody recognition despite transposition to different keys)</li>
+                <li>Conceptual categories (recognizing "chair" across wildly different physical instances)</li>
+                <li>Social identities (recognizing a person across decades of physical change)</li>
+            </ul>
+
+            <p>The infant does not compute invariants. The infant perceives them directly. The mathematical formalization comes later—eigenvalues, symmetry groups, conservation laws—but the perception is primary.</p>
+
+            <h3>1.2 Developmental Sequence</h3>
+
+            <p><strong>Object permanence (6-8 months)</strong>: The understanding that objects continue to exist when occluded. The object is the same object before and after occlusion. SAMENESS across time.</p>
+
+            <p><strong>Shape constancy (early infancy)</strong>: A plate viewed from above is circular; from the side, elliptical. The infant perceives the same plate, not two different shapes. SAMENESS across viewpoint transformation.</p>
+
+            <p><strong>Conservation (Piaget, ~7 years)</strong>: Pour water from a tall thin glass to a short wide glass. The volume is conserved. SAMENESS of quantity across change of container shape.</p>
+
+            <p><strong>Identity permanence (continuous)</strong>: Understanding that a person remains the same person despite changes in appearance, location, mood, age. SAMENESS of identity across biographical time.</p>
+
+            <p>The developmental trajectory reveals increasing abstraction: from persistence of objects, to persistence of properties, to persistence of quantities, to persistence of identity. The primitive deepens rather than changes.</p>
+
+            <h3>1.3 What SAMENESS Detects</h3>
+            <p>SAMENESS answers the question: <em>What survives?</em></p>
+
+            <p>When a system undergoes transformation—rotation, translation, scaling, permutation, temporal evolution—SAMENESS identifies what remains unchanged.</p>
+
+            <table>
+                <tr><th>Transformation</th><th>What Changes</th><th>What Stays (SAMENESS)</th></tr>
+                <tr><td>Rotation</td><td>Position, orientation</td><td>Distance from center, shape</td></tr>
+                <tr><td>Translation</td><td>Position</td><td>Shape, orientation, internal structure</td></tr>
+                <tr><td>Scaling</td><td>Size</td><td>Proportions, angles</td></tr>
+                <tr><td>Time evolution</td><td>Configuration</td><td>Conserved quantities (energy, momentum)</td></tr>
+                <tr><td>Permutation</td><td>Order of elements</td><td>Cardinality, set membership</td></tr>
+                <tr><td>Chemical reaction</td><td>Molecular identity</td><td>Atom counts, total mass, charge</td></tr>
+            </table>
+
+            <p>The invariant depends on the transformation. SAMENESS is always SAMENESS <em>with respect to</em> some operation.</p>
+        </section>
+
+        <!-- Part II: Structure of Invariance -->
+        <section class="part">
+            <div class="part-header">
+                <div class="part-number">PART II</div>
+                <h2>The Structure of Invariance</h2>
+            </div>
+
+            <h3>2.1 Transformation and Invariant</h3>
+            <p>Every instance of SAMENESS involves three elements:</p>
+
+            <p><strong>A. A state space</strong><br>
+            The set of possible configurations. Physical space. Phase space. The space of molecular conformations. The space of possible arrangements.</p>
+
+            <p><strong>B. A transformation (or family of transformations)</strong><br>
+            An operation that maps states to states. Rotation. Translation. Permutation. Time evolution. The transformation defines what "change" means in this context.</p>
+
+            <p><strong>C. An invariant</strong><br>
+            A property, quantity, or structure that has the same value before and after the transformation. The invariant is what SAMENESS detects.</p>
+
+            <p>Formally: if T is a transformation and f is a function on the state space, then f is an <span class="def-popup" data-definition="Invariant: A property f is invariant under transformation T if f(T(x)) = f(x) for all states x in the domain. Invariance means the transformation does not affect the measured property."><span class="def-tooltip"></span>invariant</span> under T if f(T(x)) = f(x) for all states x.</p>
+
+            <h3>2.2 Taxonomy of Invariances</h3>
+
+            <p><strong>Geometric invariants</strong>: Properties unchanged by spatial transformations.</p>
+            <ul>
+                <li>Under rotation: distance from center, angles, shape</li>
+                <li>Under translation: shape, size, orientation</li>
+                <li>Under scaling: angles, proportions</li>
+                <li>Under reflection: distances, angles (but not handedness)</li>
+            </ul>
+
+            <p><strong>Topological invariants</strong>: Properties unchanged by continuous deformation (stretching, bending, but not tearing or gluing).</p>
+            <ul>
+                <li>Number of holes (genus)</li>
+                <li>Connectedness</li>
+                <li>Euler characteristic</li>
+            </ul>
+
+            <p><strong>Physical invariants (conservation laws)</strong>: Quantities unchanged by temporal evolution in closed systems.</p>
+            <ul>
+                <li>Energy (time-translation symmetry)</li>
+                <li>Momentum (space-translation symmetry)</li>
+                <li>Angular momentum (rotational symmetry)</li>
+                <li>Charge (gauge symmetry)</li>
+            </ul>
+
+            <p><strong>Algebraic invariants</strong>: Properties unchanged by algebraic operations.</p>
+            <ul>
+                <li>Determinant (under elementary row operations of certain types)</li>
+                <li>Trace (under similarity transformation)</li>
+                <li>Eigenvalues (under similarity transformation)</li>
+                <li>Rank (under elementary row/column operations)</li>
+            </ul>
+
+            <h3>2.3 The Hierarchy of Invariance</h3>
+            <p>Some invariants are stronger than others.</p>
+
+            <p>Rotating a triangle preserves its shape, area, angles, and side lengths. Scaling preserves shape and angles but not area or side lengths. Continuous deformation preserves topology but not shape.</p>
+
+            <p>The more transformations an invariant survives, the more fundamental it is.</p>
+
+            <table>
+                <tr><th>Invariant</th><th>Survives Rotation</th><th>Survives Scaling</th><th>Survives Deformation</th></tr>
+                <tr><td>Side lengths</td><td style="color: var(--accent-green);">Yes</td><td style="color: var(--accent-red);">No</td><td style="color: var(--accent-red);">No</td></tr>
+                <tr><td>Angles</td><td style="color: var(--accent-green);">Yes</td><td style="color: var(--accent-green);">Yes</td><td style="color: var(--accent-red);">No</td></tr>
+                <tr><td>Number of vertices</td><td style="color: var(--accent-green);">Yes</td><td style="color: var(--accent-green);">Yes</td><td style="color: var(--accent-green);">Yes</td></tr>
+                <tr><td>Euler characteristic</td><td style="color: var(--accent-green);">Yes</td><td style="color: var(--accent-green);">Yes</td><td style="color: var(--accent-green);">Yes</td></tr>
+            </table>
+
+            <p>Topological invariants sit at the top of the hierarchy: they survive the widest class of transformations.</p>
+        </section>
+
+        <!-- Part III: Symmetry -->
+        <section class="part">
+            <div class="part-header">
+                <div class="part-number">PART III</div>
+                <h2>Symmetry as SAMENESS Under Transformation</h2>
+            </div>
+
+            <h3>3.1 Symmetry Defined</h3>
+            <p>A system possesses <span class="def-popup" data-definition="Symmetry: A transformation under which a system is invariant. The system 'has' a symmetry if applying the transformation leaves the system indistinguishable from before."><span class="def-tooltip"></span>symmetry</span> with respect to transformation T if T leaves the system unchanged.</p>
+
+            <p>The equilateral triangle has three-fold rotational symmetry: rotations by 120° and 240° map the triangle to itself. It also has three reflection symmetries: reflections across each altitude.</p>
+
+            <p>The sphere has continuous rotational symmetry: any rotation about any axis through the center leaves it unchanged. This is the maximal rotational symmetry in three dimensions.</p>
+
+            <p>A general scalene triangle has no symmetry: no non-identity transformation maps it to itself.</p>
+
+            <!-- Symmetry Operations Interactive -->
+            <div class="visual-container">
+                <div class="visual-title">Symmetry Operations</div>
+                <canvas id="symmetryCanvas" width="600" height="350"></canvas>
+                <div class="controls">
+                    <select id="moleculeSelect">
+                        <option value="h2o">H₂O (C₂ᵥ)</option>
+                        <option value="nh3">NH₃ (C₃ᵥ)</option>
+                        <option value="ch4">CH₄ (Tᵈ)</option>
+                        <option value="benzene">C₆H₆ (D₆ₕ)</option>
+                        <option value="sf6">SF₆ (Oₕ)</option>
+                    </select>
+                </div>
+                <div class="btn-group" style="margin-top: 1rem;">
+                    <button class="sym-btn" data-op="E">E (identity)</button>
+                    <button class="sym-btn" data-op="Cn">Cₙ (rotate)</button>
+                    <button class="sym-btn" data-op="sigma">σ (reflect)</button>
+                    <button class="sym-btn" data-op="i">i (invert)</button>
+                </div>
+                <p class="caption">Symmetry operations leave the molecule indistinguishable from before.</p>
+            </div>
+
+            <h3>3.2 Symmetry Groups</h3>
+            <p>The symmetries of a system form a <span class="def-popup" data-definition="Group: A set G with a binary operation satisfying: (1) closure—combining two elements gives another element in G; (2) associativity; (3) identity—there exists an element e such that e·g = g·e = g for all g; (4) inverses—every element g has an inverse g⁻¹ such that g·g⁻¹ = e."><span class="def-tooltip"></span>group</span>.</p>
+
+            <p>For the equilateral triangle:</p>
+            <ul>
+                <li>Six elements: identity, two rotations (120°, 240°), three reflections</li>
+                <li>Closure: any composition of these symmetries gives another symmetry</li>
+                <li>Identity: doing nothing is a symmetry</li>
+                <li>Inverses: every symmetry can be undone</li>
+            </ul>
+
+            <p>This group is called D₃ (dihedral group of order 6) or S₃ (symmetric group on 3 elements, since the symmetries permute the vertices).</p>
+
+            <h3>3.3 Point Groups in Chemistry</h3>
+            <p>Molecules have characteristic symmetries. The symmetries of a molecule about its center of mass form its <span class="def-popup" data-definition="Point group: The set of all symmetry operations (rotations, reflections, inversions, improper rotations) that leave at least one point of the molecule fixed. Point groups classify molecular symmetry."><span class="def-tooltip"></span>point group</span>.</p>
+
+            <table>
+                <tr><th>Molecule</th><th>Point Group</th><th>Symmetry Elements</th></tr>
+                <tr><td>H₂O</td><td>C₂ᵥ</td><td>C₂ axis, two σᵥ planes</td></tr>
+                <tr><td>NH₃</td><td>C₃ᵥ</td><td>C₃ axis, three σᵥ planes</td></tr>
+                <tr><td>CH₄</td><td>Tᵈ</td><td>Tetrahedral: C₃ axes, C₂ axes, S₄ axes, σᵈ planes</td></tr>
+                <tr><td>SF₆</td><td>Oₕ</td><td>Octahedral: full cubic symmetry</td></tr>
+                <tr><td>C₆H₆</td><td>D₆ₕ</td><td>Six-fold axis, horizontal plane, six C₂ axes</td></tr>
+                <tr><td>CO₂</td><td>D∞ₕ</td><td>Linear with inversion center</td></tr>
+                <tr><td>HCN</td><td>C∞ᵥ</td><td>Linear without inversion center</td></tr>
+            </table>
+
+            <h3>3.4 SAMENESS and DIRECTION Revisited</h3>
+            <p>Here the duality becomes concrete.</p>
+
+            <p>A molecule with high symmetry has many equivalent directions. In SF₆ (octahedral), the six S-F bond directions are related by symmetry operations—no bond is distinguishable from any other by symmetry alone.</p>
+
+            <p>A molecule with low symmetry has distinguishable directions. In HCN (linear, C∞ᵥ), the H-end and N-end are not related by any symmetry operation—they are distinguishable. The molecule has a direction (dipole moment).</p>
+
+            <p><strong>Where SAMENESS is maximal (high symmetry), DIRECTION is minimal (no preferred orientation).</strong></p>
+
+            <p><strong>Where SAMENESS is minimal (low symmetry), DIRECTION can emerge (distinguishable orientations).</strong></p>
+        </section>
+
+        <!-- Part IV: Conservation Laws -->
+        <section class="part">
+            <div class="part-header">
+                <div class="part-number">PART IV</div>
+                <h2>Conservation Laws as Temporal SAMENESS</h2>
+            </div>
+
+            <h3>4.1 Conservation as Invariance Under Time Evolution</h3>
+            <p>The system evolves. Particles move. Reactions proceed. Energy flows.</p>
+
+            <p>Yet certain quantities remain constant. These are the <span class="def-popup" data-definition="Conserved quantity: A property of a system that remains unchanged as the system evolves in time. Conservation laws constrain possible dynamics: trajectories must stay on surfaces of constant conserved quantities."><span class="def-tooltip"></span>conserved quantities</span>—invariants under temporal transformation.</p>
+
+            <p>In a closed system:</p>
+            <ul>
+                <li>Total energy is conserved (first law of thermodynamics)</li>
+                <li>Total momentum is conserved (in absence of external forces)</li>
+                <li>Total angular momentum is conserved (in absence of external torques)</li>
+                <li>Total charge is conserved</li>
+            </ul>
+
+            <p>Conservation laws are SAMENESS applied to dynamics.</p>
+
+            <!-- Conservation Demonstration -->
+            <div class="visual-container">
+                <div class="visual-title">Conservation Demonstration</div>
+                <canvas id="conservationCanvas" width="600" height="300"></canvas>
+                <div class="controls">
+                    <button id="conserveReset">Reset</button>
+                    <button id="conserveToggle">Pause</button>
+                </div>
+                <p class="caption">The total is conserved. SAMENESS persists through change.</p>
+            </div>
+
+            <h3>4.2 Noether's Theorem</h3>
+            <p><span class="def-popup" data-definition="Noether's theorem: For every continuous symmetry of a physical system's action, there exists a corresponding conserved quantity. Symmetry under time translation gives energy conservation; spatial translation gives momentum conservation; rotation gives angular momentum conservation."><span class="def-tooltip"></span>Noether's theorem</span> (1918) establishes a profound connection: every continuous symmetry of a physical system corresponds to a conserved quantity.</p>
+
+            <table>
+                <tr><th>Symmetry</th><th>Conserved Quantity</th></tr>
+                <tr><td>Time translation</td><td>Energy</td></tr>
+                <tr><td>Space translation</td><td>Linear momentum</td></tr>
+                <tr><td>Rotation</td><td>Angular momentum</td></tr>
+                <tr><td>Gauge transformation</td><td>Charge</td></tr>
+            </table>
+
+            <p>SAMENESS under transformation generates conservation.</p>
+
+            <p>If the laws of physics are the same today as yesterday (time-translation symmetry), energy is conserved. If the laws are the same here as there (space-translation symmetry), momentum is conserved.</p>
+
+            <h3>4.3 Chemical Conservation</h3>
+            <p>In chemical reactions:</p>
+            <ul>
+                <li>Mass is conserved (Lavoisier)</li>
+                <li>Atom counts by element are conserved (stoichiometry)</li>
+                <li>Charge is conserved</li>
+            </ul>
+
+            <p>The balanced chemical equation is a statement of SAMENESS: the same atoms, the same mass, the same charge appear on both sides. Only their arrangement changes.</p>
+
+            <p style="text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 1.2rem; color: var(--accent-purple); margin: 2rem 0;">
+                2H₂ + O₂ → 2H₂O
+            </p>
+
+            <p>Left side: 4 H atoms, 2 O atoms, mass m, charge 0.<br>
+            Right side: 4 H atoms, 2 O atoms, mass m, charge 0.</p>
+
+            <p>SAMENESS of composition across CHANGE of arrangement.</p>
+        </section>
+
+        <!-- Part V: Eigenvalues -->
+        <section class="part">
+            <div class="part-header">
+                <div class="part-number">PART V</div>
+                <h2>Eigenvalues as What Survives Transformation</h2>
+            </div>
+
+            <h3>5.1 The Eigenvalue Problem</h3>
+            <p>Consider a linear transformation T acting on vectors.</p>
+
+            <p>Most vectors are rotated and scaled—they change direction and magnitude. But certain special vectors are only scaled: T sends them to scalar multiples of themselves. These are the <span class="def-popup" data-definition="Eigenvector: A nonzero vector v such that Tv = λv for some scalar λ. The transformation T only scales v, without changing its direction."><span class="def-tooltip"></span>eigenvectors</span>.</p>
+
+            <p>If T(v) = λv for nonzero v, then:</p>
+            <ul>
+                <li>v is an eigenvector of T</li>
+                <li>λ is the corresponding <span class="def-popup" data-definition="Eigenvalue: The scalar λ such that Tv = λv for eigenvector v. Eigenvalues measure how much the transformation scales along the eigenvector directions."><span class="def-tooltip"></span>eigenvalue</span></li>
+            </ul>
+
+            <p>The eigenvector's <em>direction</em> is invariant under T. SAMENESS of direction through transformation.</p>
+
+            <!-- Eigenvalue Animation -->
+            <div class="visual-container">
+                <div class="visual-title">Eigenvalue Animation</div>
+                <canvas id="eigenCanvas" width="600" height="400"></canvas>
+                <div class="controls">
+                    <div class="slider-group">
+                        <label>Matrix A[0,0]</label>
+                        <input type="range" id="eigenA00" min="-2" max="2" step="0.1" value="2">
+                        <span class="value-display" id="eigenA00Val">2.0</span>
+                    </div>
+                    <div class="slider-group">
+                        <label>Matrix A[0,1]</label>
+                        <input type="range" id="eigenA01" min="-2" max="2" step="0.1" value="1">
+                        <span class="value-display" id="eigenA01Val">1.0</span>
+                    </div>
+                    <div class="slider-group">
+                        <label>Matrix A[1,0]</label>
+                        <input type="range" id="eigenA10" min="-2" max="2" step="0.1" value="0">
+                        <span class="value-display" id="eigenA10Val">0.0</span>
+                    </div>
+                    <div class="slider-group">
+                        <label>Matrix A[1,1]</label>
+                        <input type="range" id="eigenA11" min="-2" max="2" step="0.1" value="1">
+                        <span class="value-display" id="eigenA11Val">1.0</span>
+                    </div>
+                </div>
+                <div class="controls">
+                    <button id="eigenApply">Apply Transformation</button>
+                    <button id="eigenReset">Reset</button>
+                </div>
+                <p class="caption">Eigenvectors maintain their direction through transformation. Other vectors rotate.</p>
+            </div>
+
+            <h3>5.2 Finding Eigenvalues</h3>
+            <p>For a matrix A, eigenvalues satisfy:</p>
+            <p style="text-align: center; font-family: 'JetBrains Mono', monospace; color: var(--accent-purple); font-size: 1.1rem;">det(A - λI) = 0</p>
+
+            <p>This <span class="def-popup" data-definition="Characteristic polynomial: The polynomial det(A - λI) whose roots are the eigenvalues of matrix A. For an n×n matrix, this is a polynomial of degree n."><span class="def-tooltip"></span>characteristic polynomial</span> has degree n for an n×n matrix, yielding (counting multiplicity) n eigenvalues.</p>
+
+            <h3>5.3 Eigenvalues in Chemistry</h3>
+
+            <h4>Molecular orbital theory (Hückel method)</h4>
+            <p>The Hückel matrix H encodes connectivity and interaction energies. Its eigenvalues are the orbital energies; its eigenvectors are the molecular orbitals.</p>
+
+            <!-- Hückel Orbital Energies -->
+            <div class="visual-container">
+                <div class="visual-title">Hückel Orbital Energies</div>
+                <canvas id="huckelCanvas" width="600" height="250"></canvas>
+                <div class="controls">
+                    <select id="huckelMolecule">
+                        <option value="ethene">Ethene (C₂H₄)</option>
+                        <option value="butadiene">1,3-Butadiene (C₄H₆)</option>
+                        <option value="benzene" selected>Benzene (C₆H₆)</option>
+                    </select>
+                </div>
+                <div id="huckelLevels" class="energy-levels"></div>
+                <div id="orbitalDisplay" class="orbital-display">
+                    <span style="color: var(--text-muted);">Click an energy level to see the molecular orbital</span>
+                </div>
+                <p class="caption">Molecular symmetry creates degenerate energy levels.</p>
+            </div>
+
+            <p>For benzene (C₆H₆), the degeneracy (repeated eigenvalues) reflects the D₆ₕ symmetry. SAMENESS (symmetry) creates SAMENESS of energy levels.</p>
+
+            <h4>Quantum mechanics</h4>
+            <p>The time-independent Schrödinger equation:</p>
+            <p style="text-align: center; font-family: 'JetBrains Mono', monospace; color: var(--accent-purple); font-size: 1.1rem;">Ĥψ = Eψ</p>
+            <p>is an eigenvalue problem. The allowed energies E are eigenvalues of the Hamiltonian. The wavefunctions ψ are eigenvectors.</p>
+
+            <h3>5.4 What Eigenvalues Reveal</h3>
+            <p>Eigenvalues answer: <em>What remains constant when everything else changes?</em></p>
+
+            <p>Under repeated application of transformation T:</p>
+            <ul>
+                <li>Eigenvectors maintain their direction</li>
+                <li>Eigenvalues describe scaling at each step</li>
+                <li>All other vectors wander through the space</li>
+            </ul>
+
+            <p>Eigenvalues are the SAMENESS hiding inside transformation.</p>
+        </section>
+
+        <!-- Part VI: The Formalism -->
+        <section class="part">
+            <div class="part-header">
+                <div class="part-number">PART VI</div>
+                <h2>The Formalism</h2>
+            </div>
+
+            <h3>6.1 Why Formalize</h3>
+            <p>Perception of SAMENESS is direct but imprecise. Formalization provides:</p>
+
+            <p><strong>Precision</strong>: What exactly is preserved? Under what exactly transformations?</p>
+
+            <p><strong>Calculation</strong>: Can we compute the invariants? Find all symmetries? Determine eigenvalues?</p>
+
+            <p><strong>Communication</strong>: Can we transmit the insight unambiguously?</p>
+
+            <p><strong>Generalization</strong>: Do the patterns extend to higher dimensions, abstract spaces, new domains?</p>
+
+            <h3>6.2 The Bridge Table</h3>
+            <div class="bridge-table">
+                <h3>Perception → Tool</h3>
+                <table>
+                    <tr><th>Perception</th><th>Formalization</th><th>Tool</th></tr>
+                    <tr><td>"It looks the same after rotation"</td><td>Rotational symmetry</td><td>Rotation matrices, SO(n)</td></tr>
+                    <tr><td>"These directions are equivalent"</td><td>Symmetry group</td><td>Group theory</td></tr>
+                    <tr><td>"This molecule has these symmetries"</td><td>Point group</td><td>Character tables</td></tr>
+                    <tr><td>"This quantity doesn't change"</td><td>Conservation law</td><td>Noether's theorem</td></tr>
+                    <tr><td>"This direction survives transformation"</td><td>Eigenvector</td><td>Linear algebra</td></tr>
+                    <tr><td>"How much it scales"</td><td>Eigenvalue</td><td>Characteristic polynomial</td></tr>
+                </table>
+            </div>
+
+            <h3>6.3 Formal Definitions</h3>
+            <div class="definition-box">
+                <h3>Core Concepts</h3>
+
+                <div class="definition-item">
+                    <div class="definition-term">Symmetry</div>
+                    <div class="definition-desc">A transformation T is a symmetry of system S if T(S) = S. The system is indistinguishable from itself after the transformation.</div>
+                </div>
+
+                <div class="definition-item">
+                    <div class="definition-term">Symmetry group</div>
+                    <div class="definition-desc">The set of all symmetries of a system, with composition as the group operation.</div>
+                </div>
+
+                <div class="definition-item">
+                    <div class="definition-term">Invariant</div>
+                    <div class="definition-desc">A function f on a state space is invariant under transformation T if f(T(x)) = f(x) for all x.</div>
+                </div>
+
+                <div class="definition-item">
+                    <div class="definition-term">Conservation law</div>
+                    <div class="definition-desc">An invariant of temporal evolution. If {A, H} = 0 (Poisson bracket with Hamiltonian), then A is conserved.</div>
+                </div>
+
+                <div class="definition-item">
+                    <div class="definition-term">Eigenvalue equation</div>
+                    <div class="definition-desc">Av = λv, where A is a linear operator, v is a nonzero vector (eigenvector), and λ is a scalar (eigenvalue).</div>
+                </div>
+
+                <div class="definition-item">
+                    <div class="definition-term">Characteristic polynomial</div>
+                    <div class="definition-desc">p(λ) = det(A - λI). Roots are eigenvalues.</div>
+                </div>
+
+                <div class="definition-item">
+                    <div class="definition-term">Determinant</div>
+                    <div class="definition-desc">det(A) = product of eigenvalues. Measures volume scaling under transformation A.</div>
+                </div>
+
+                <div class="definition-item">
+                    <div class="definition-term">Trace</div>
+                    <div class="definition-desc">tr(A) = sum of eigenvalues = sum of diagonal entries. Invariant under similarity transformation.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Part VII: Chemical Systems -->
+        <section class="part">
+            <div class="part-header">
+                <div class="part-number">PART VII</div>
+                <h2>SAMENESS in Chemical Systems</h2>
+            </div>
+
+            <h3>7.1 Molecular Symmetry and Properties</h3>
+            <p>The point group of a molecule determines:</p>
+
+            <p><strong>Polarity</strong>: A molecule is polar if and only if it belongs to Cₙ, Cₙᵥ, or Cₛ point groups. All others have sufficient symmetry to force the dipole moment to zero.</p>
+
+            <p><strong>Chirality</strong>: A molecule is chiral if and only if it has no improper rotation axes (Sₙ). This means no mirror planes, no inversion center, and no rotoreflection axes.</p>
+
+            <p><strong>Spectroscopic selection rules</strong>: Transitions are allowed only between states whose direct product contains the totally symmetric representation. Symmetry determines what light can do to a molecule.</p>
+
+            <p><strong>Orbital degeneracy</strong>: Eigenvalues (orbital energies) are degenerate when symmetry operations interchange the corresponding eigenvectors. Higher symmetry → more degeneracy.</p>
+
+            <h3>7.2 Resonance as SAMENESS</h3>
+            <p>Benzene can be drawn with alternating single and double bonds in two ways:</p>
+
+            <p>Structure A: double bonds at positions 1-2, 3-4, 5-6<br>
+            Structure B: double bonds at positions 2-3, 4-5, 6-1</p>
+
+            <p>Neither structure is benzene. Benzene is invariant under interchange of A and B.</p>
+
+            <p>The resonance structures are related by the molecular symmetry. The real electronic structure is symmetric—it has the SAMENESS that neither individual structure possesses.</p>
+
+            <p>Resonance energy arises from this SAMENESS. The symmetric state is lower in energy than any asymmetric localized structure.</p>
+
+            <h3>7.3 Equilibrium as Dynamic SAMENESS</h3>
+            <p>At chemical equilibrium:</p>
+            <p style="text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 1.2rem; color: var(--accent-purple);">A ⇌ B</p>
+
+            <p>The forward rate equals the reverse rate. The concentrations are constant (SAMENESS in time), even though molecules continuously interconvert.</p>
+
+            <p>Equilibrium is a stationary state: the eigenstate of the kinetic operator with eigenvalue 0 for the net rate of change.</p>
+
+            <h3>7.4 Stoichiometry as SAMENESS</h3>
+            <p>The balanced equation:</p>
+            <p style="text-align: center; font-family: 'JetBrains Mono', monospace; color: var(--text-secondary);">aA + bB → cC + dD</p>
+
+            <p>asserts that atoms of each element are the same on both sides, total mass is the same on both sides, and total charge is the same on both sides.</p>
+
+            <p>Stoichiometry is SAMENESS of composition through CHANGE of arrangement.</p>
+        </section>
+
+        <!-- Part VIII: Summary -->
+        <section class="part">
+            <div class="part-header">
+                <div class="part-number">PART VIII</div>
+                <h2>Summary</h2>
+            </div>
+
+            <h3>8.1 What SAMENESS Is</h3>
+            <p>SAMENESS is invariance: what persists when something else changes.</p>
+
+            <p>The perception is primary. Infants recognize faces across variation. Children learn conservation of quantity. Adults track identity through time.</p>
+
+            <p>The formalizations are secondary: symmetry groups, conservation laws, eigenvalues, invariants. These tools provide precision, calculation, and communication. They serve the perception.</p>
+
+            <h3>8.2 The Sister Relationship</h3>
+            <p>SAMENESS and DIRECTION are duals.</p>
+
+            <ul>
+                <li>SAMENESS detects what is preserved under transformation.</li>
+                <li>DIRECTION (asymmetry) emerges where SAMENESS fails.</li>
+                <li>More symmetry → less direction.</li>
+                <li>Less symmetry → more direction.</li>
+            </ul>
+
+            <p>The sphere has maximal SAMENESS and no intrinsic DIRECTION. The cone has partial SAMENESS and one DIRECTION (the axis). The irregular object has no SAMENESS and multiple distinguishable DIRECTIONS.</p>
+
+            <p>The primitives require each other. Symmetry defines which directions are equivalent. Asymmetry defines which directions are distinguishable.</p>
+
+            <h3>8.3 Forward to Chemistry</h3>
+            <p>SAMENESS structures chemistry at every level:</p>
+
+            <ul>
+                <li><strong>Molecular geometry</strong>: Point groups classify molecular symmetry.</li>
+                <li><strong>Spectroscopy</strong>: Selection rules depend on symmetry.</li>
+                <li><strong>Orbitals</strong>: Degeneracy reflects symmetry; eigenvalues are energies.</li>
+                <li><strong>Reactions</strong>: Conservation constrains outcomes; equilibrium is a stationary state.</li>
+                <li><strong>Thermodynamics</strong>: Entropy counts equivalent microstates.</li>
+            </ul>
+
+            <p>The lectures ahead (9-11) will develop these tools:</p>
+            <ul>
+                <li><strong>Lecture 9</strong>: Determinants—what doesn't change under row operations.</li>
+                <li><strong>Lecture 10</strong>: Eigenvalues and eigenvectors—what survives transformation.</li>
+                <li><strong>Lecture 11</strong>: Symmetry—group theory preview. Point groups.</li>
+            </ul>
+
+            <p>The primitive is established. The applications follow.</p>
+        </section>
+
+        <!-- Endnotes -->
+        <section class="endnotes">
+            <h3>Endnotes</h3>
+            <div class="endnote"><span class="endnote-ref">[1]</span> Object permanence and Piagetian conservation are discussed in Piaget, J. (1954). <em>The Construction of Reality in the Child</em>. Basic Books.</div>
+            <div class="endnote"><span class="endnote-ref">[2]</span> Noether, E. (1918). "Invariante Variationsprobleme." <em>Nachrichten von der Gesellschaft der Wissenschaften zu Göttingen</em>. For accessible treatment, see Neuenschwander, D. E. (2011). <em>Emmy Noether's Wonderful Theorem</em>. Johns Hopkins.</div>
+            <div class="endnote"><span class="endnote-ref">[3]</span> Point group classification and character tables are covered in Cotton, F. A. (1990). <em>Chemical Applications of Group Theory</em> (3rd ed.). Wiley.</div>
+            <div class="endnote"><span class="endnote-ref">[4]</span> The Hückel method is developed in Atkins, P. & de Paula, J. (2014). <em>Atkins' Physical Chemistry</em> (10th ed.). Oxford University Press, Chapter 10.</div>
+            <div class="endnote"><span class="endnote-ref">[5]</span> The relationship between symmetry and degeneracy is a consequence of Schur's lemma in representation theory.</div>
+        </section>
+
+        <!-- Navigation -->
+        <div class="nav-buttons">
+            <a href="arrangement.html" class="nav-link">← ARRANGEMENT</a>
+            <a href="../index.html" class="nav-link">Course Home</a>
+        </div>
+    </main>
+
+    <script>
+        // === Populate Definition Tooltips ===
+        document.querySelectorAll('.def-popup').forEach(el => {
+            const tooltip = el.querySelector('.def-tooltip');
+            if (tooltip && el.dataset.definition) {
+                tooltip.textContent = el.dataset.definition;
+            }
+        });
+
+        // === Symmetry Operations ===
+        const symCanvas = document.getElementById('symmetryCanvas');
+        const symCtx = symCanvas.getContext('2d');
+        let currentMolecule = 'h2o';
+        let symRotation = 0;
+        let symReflected = false;
+
+        const molecules = {
+            h2o: {
+                atoms: [
+                    { x: 0, y: -30, element: 'O', color: '#EF4444', r: 25 },
+                    { x: -40, y: 30, element: 'H', color: '#E6EDF3', r: 15 },
+                    { x: 40, y: 30, element: 'H', color: '#E6EDF3', r: 15 }
+                ],
+                bonds: [[0, 1], [0, 2]],
+                symmetries: ['E', 'C2', 'σv', 'σv\'']
+            },
+            nh3: {
+                atoms: [
+                    { x: 0, y: -20, element: 'N', color: '#3B82F6', r: 22 },
+                    { x: -50, y: 40, element: 'H', color: '#E6EDF3', r: 15 },
+                    { x: 50, y: 40, element: 'H', color: '#E6EDF3', r: 15 },
+                    { x: 0, y: 60, element: 'H', color: '#E6EDF3', r: 15 }
+                ],
+                bonds: [[0, 1], [0, 2], [0, 3]],
+                symmetries: ['E', 'C3', 'C3²', 'σv', 'σv\'', 'σv\'\'']
+            },
+            ch4: {
+                atoms: [
+                    { x: 0, y: 0, element: 'C', color: '#6B7280', r: 22 },
+                    { x: -45, y: -35, element: 'H', color: '#E6EDF3', r: 15 },
+                    { x: 45, y: -35, element: 'H', color: '#E6EDF3', r: 15 },
+                    { x: -45, y: 45, element: 'H', color: '#E6EDF3', r: 15 },
+                    { x: 45, y: 45, element: 'H', color: '#E6EDF3', r: 15 }
+                ],
+                bonds: [[0, 1], [0, 2], [0, 3], [0, 4]],
+                symmetries: ['E', 'C3', 'C2', 'S4', 'σd']
+            },
+            benzene: {
+                atoms: [],
+                bonds: [],
+                symmetries: ['E', 'C6', 'C3', 'C2', 'σh', 'σv']
+            },
+            sf6: {
+                atoms: [
+                    { x: 0, y: 0, element: 'S', color: '#F59E0B', r: 25 },
+                    { x: 0, y: -55, element: 'F', color: '#22C55E', r: 18 },
+                    { x: 0, y: 55, element: 'F', color: '#22C55E', r: 18 },
+                    { x: -55, y: 0, element: 'F', color: '#22C55E', r: 18 },
+                    { x: 55, y: 0, element: 'F', color: '#22C55E', r: 18 },
+                    { x: -30, y: -30, element: 'F', color: '#22C55E', r: 16 },
+                    { x: 30, y: 30, element: 'F', color: '#22C55E', r: 16 }
+                ],
+                bonds: [[0, 1], [0, 2], [0, 3], [0, 4], [0, 5], [0, 6]],
+                symmetries: ['E', 'C4', 'C3', 'C2', 'i', 'S4', 'σh']
+            }
+        };
+
+        // Generate benzene atoms
+        for (let i = 0; i < 6; i++) {
+            const angle = (i * 60 - 90) * Math.PI / 180;
+            molecules.benzene.atoms.push({
+                x: Math.cos(angle) * 50,
+                y: Math.sin(angle) * 50,
+                element: 'C',
+                color: '#6B7280',
+                r: 18
+            });
+        }
+        for (let i = 0; i < 6; i++) {
+            const angle = (i * 60 - 90) * Math.PI / 180;
+            molecules.benzene.atoms.push({
+                x: Math.cos(angle) * 85,
+                y: Math.sin(angle) * 85,
+                element: 'H',
+                color: '#E6EDF3',
+                r: 12
+            });
+            molecules.benzene.bonds.push([i, i + 6]);
+            molecules.benzene.bonds.push([i, (i + 1) % 6]);
+        }
+
+        function drawSymmetry() {
+            symCtx.fillStyle = '#161B22';
+            symCtx.fillRect(0, 0, 600, 350);
+
+            const mol = molecules[currentMolecule];
+            const cx = 300, cy = 175;
+
+            // Draw symmetry axes
+            symCtx.strokeStyle = '#30363D';
+            symCtx.lineWidth = 1;
+            symCtx.setLineDash([5, 5]);
+            symCtx.beginPath();
+            symCtx.moveTo(cx, 50);
+            symCtx.lineTo(cx, 300);
+            symCtx.stroke();
+            if (currentMolecule === 'h2o') {
+                symCtx.beginPath();
+                symCtx.moveTo(150, cy);
+                symCtx.lineTo(450, cy);
+                symCtx.stroke();
+            }
+            symCtx.setLineDash([]);
+
+            // Draw bonds
+            symCtx.strokeStyle = '#6B7280';
+            symCtx.lineWidth = 4;
+            mol.bonds.forEach(([a, b]) => {
+                let ax = mol.atoms[a].x, ay = mol.atoms[a].y;
+                let bx = mol.atoms[b].x, by = mol.atoms[b].y;
+
+                // Apply rotation
+                const cosR = Math.cos(symRotation);
+                const sinR = Math.sin(symRotation);
+                const ax2 = ax * cosR - ay * sinR;
+                const ay2 = ax * sinR + ay * cosR;
+                const bx2 = bx * cosR - by * sinR;
+                const by2 = bx * sinR + by * cosR;
+
+                // Apply reflection
+                const axF = symReflected ? -ax2 : ax2;
+                const bxF = symReflected ? -bx2 : bx2;
+
+                symCtx.beginPath();
+                symCtx.moveTo(cx + axF, cy + ay2);
+                symCtx.lineTo(cx + bxF, cy + by2);
+                symCtx.stroke();
+            });
+
+            // Draw atoms
+            mol.atoms.forEach(atom => {
+                let x = atom.x, y = atom.y;
+
+                const cosR = Math.cos(symRotation);
+                const sinR = Math.sin(symRotation);
+                const x2 = x * cosR - y * sinR;
+                const y2 = x * sinR + y * cosR;
+                const xF = symReflected ? -x2 : x2;
+
+                symCtx.beginPath();
+                symCtx.arc(cx + xF, cy + y2, atom.r, 0, Math.PI * 2);
+                symCtx.fillStyle = atom.color;
+                symCtx.fill();
+
+                symCtx.fillStyle = atom.color === '#E6EDF3' ? '#161B22' : '#E6EDF3';
+                symCtx.font = `${atom.r * 0.8}px Inter`;
+                symCtx.textAlign = 'center';
+                symCtx.textBaseline = 'middle';
+                symCtx.fillText(atom.element, cx + xF, cy + y2);
+            });
+
+            // Label
+            symCtx.fillStyle = '#8B949E';
+            symCtx.font = '14px JetBrains Mono';
+            symCtx.textAlign = 'center';
+            symCtx.fillText(`Point Group: ${getMolPointGroup()}`, cx, 330);
+        }
+
+        function getMolPointGroup() {
+            const groups = { h2o: 'C₂ᵥ', nh3: 'C₃ᵥ', ch4: 'Tᵈ', benzene: 'D₆ₕ', sf6: 'Oₕ' };
+            return groups[currentMolecule];
+        }
+
+        document.getElementById('moleculeSelect').addEventListener('change', e => {
+            currentMolecule = e.target.value;
+            symRotation = 0;
+            symReflected = false;
+            drawSymmetry();
+        });
+
+        document.querySelectorAll('.sym-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const op = btn.dataset.op;
+                if (op === 'E') {
+                    symRotation = 0;
+                    symReflected = false;
+                } else if (op === 'Cn') {
+                    const n = currentMolecule === 'h2o' ? 2 :
+                              currentMolecule === 'nh3' ? 3 :
+                              currentMolecule === 'benzene' ? 6 : 4;
+                    symRotation += 2 * Math.PI / n;
+                } else if (op === 'sigma') {
+                    symReflected = !symReflected;
+                } else if (op === 'i') {
+                    symRotation += Math.PI;
+                }
+                drawSymmetry();
+            });
+        });
+
+        drawSymmetry();
+
+        // === Conservation Demonstration ===
+        const consCanvas = document.getElementById('conservationCanvas');
+        const consCtx = consCanvas.getContext('2d');
+        let particles = [];
+        let consRunning = true;
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < 30; i++) {
+                particles.push({
+                    x: 50 + Math.random() * 200,
+                    y: 50 + Math.random() * 200,
+                    vx: (Math.random() - 0.5) * 4,
+                    vy: (Math.random() - 0.5) * 4,
+                    side: 'left'
+                });
+            }
+            for (let i = 0; i < 20; i++) {
+                particles.push({
+                    x: 350 + Math.random() * 200,
+                    y: 50 + Math.random() * 200,
+                    vx: (Math.random() - 0.5) * 4,
+                    vy: (Math.random() - 0.5) * 4,
+                    side: 'right'
+                });
+            }
+        }
+
+        function updateConservation() {
+            if (!consRunning) return;
+
+            particles.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+
+                // Walls
+                if (p.x < 20) { p.x = 20; p.vx *= -1; }
+                if (p.x > 580) { p.x = 580; p.vx *= -1; }
+                if (p.y < 20) { p.y = 20; p.vy *= -1; }
+                if (p.y > 280) { p.y = 280; p.vy *= -1; }
+
+                // Channel at center
+                if (p.x > 270 && p.x < 330 && p.y > 100 && p.y < 200) {
+                    p.side = p.x < 300 ? 'left' : 'right';
+                }
+            });
+        }
+
+        function drawConservation() {
+            consCtx.fillStyle = '#161B22';
+            consCtx.fillRect(0, 0, 600, 300);
+
+            // Containers
+            consCtx.strokeStyle = '#30363D';
+            consCtx.lineWidth = 2;
+            consCtx.strokeRect(20, 20, 260, 260);
+            consCtx.strokeRect(320, 20, 260, 260);
+
+            // Channel
+            consCtx.fillStyle = '#21262D';
+            consCtx.fillRect(270, 100, 60, 100);
+
+            // Particles
+            particles.forEach(p => {
+                consCtx.beginPath();
+                consCtx.arc(p.x, p.y, 6, 0, Math.PI * 2);
+                consCtx.fillStyle = p.side === 'left' ? '#3B82F6' : '#22C55E';
+                consCtx.fill();
+            });
+
+            // Counts
+            const leftCount = particles.filter(p => p.x < 300).length;
+            const rightCount = particles.length - leftCount;
+
+            consCtx.fillStyle = '#E6EDF3';
+            consCtx.font = '16px JetBrains Mono';
+            consCtx.textAlign = 'center';
+            consCtx.fillText(`N₁ = ${leftCount}`, 150, 295);
+            consCtx.fillText(`N₂ = ${rightCount}`, 450, 295);
+
+            consCtx.fillStyle = '#8B5CF6';
+            consCtx.fillText(`Total = ${particles.length}`, 300, 295);
+        }
+
+        function animateConservation() {
+            updateConservation();
+            drawConservation();
+            requestAnimationFrame(animateConservation);
+        }
+
+        document.getElementById('conserveReset').addEventListener('click', initParticles);
+        document.getElementById('conserveToggle').addEventListener('click', function() {
+            consRunning = !consRunning;
+            this.textContent = consRunning ? 'Pause' : 'Play';
+        });
+
+        initParticles();
+        animateConservation();
+
+        // === Eigenvalue Animation ===
+        const eigenCanvas = document.getElementById('eigenCanvas');
+        const eigenCtx = eigenCanvas.getContext('2d');
+        let eigenMatrix = [[2, 1], [0, 1]];
+        let eigenVectors = [];
+        let eigenAnimating = false;
+        let eigenT = 0;
+
+        function initEigenVectors() {
+            eigenVectors = [];
+            for (let angle = 0; angle < Math.PI * 2; angle += Math.PI / 8) {
+                eigenVectors.push({
+                    x: Math.cos(angle) * 60,
+                    y: Math.sin(angle) * 60,
+                    origX: Math.cos(angle) * 60,
+                    origY: Math.sin(angle) * 60
+                });
+            }
+        }
+
+        function computeEigenvalues(A) {
+            const a = A[0][0], b = A[0][1], c = A[1][0], d = A[1][1];
+            const trace = a + d;
+            const det = a * d - b * c;
+            const disc = trace * trace - 4 * det;
+
+            if (disc >= 0) {
+                return [
+                    (trace + Math.sqrt(disc)) / 2,
+                    (trace - Math.sqrt(disc)) / 2
+                ];
+            } else {
+                return [
+                    { re: trace / 2, im: Math.sqrt(-disc) / 2 },
+                    { re: trace / 2, im: -Math.sqrt(-disc) / 2 }
+                ];
+            }
+        }
+
+        function computeEigenvector(A, lambda) {
+            const a = A[0][0] - lambda, b = A[0][1];
+            if (Math.abs(b) > 0.001) {
+                return { x: -b, y: a };
+            } else {
+                return { x: 1, y: 0 };
+            }
+        }
+
+        function drawEigen() {
+            const cx = 300, cy = 200;
+            eigenCtx.fillStyle = '#161B22';
+            eigenCtx.fillRect(0, 0, 600, 400);
+
+            // Grid
+            eigenCtx.strokeStyle = '#21262D';
+            eigenCtx.lineWidth = 1;
+            for (let x = 0; x <= 600; x += 50) {
+                eigenCtx.beginPath();
+                eigenCtx.moveTo(x, 0);
+                eigenCtx.lineTo(x, 400);
+                eigenCtx.stroke();
+            }
+            for (let y = 0; y <= 400; y += 50) {
+                eigenCtx.beginPath();
+                eigenCtx.moveTo(0, y);
+                eigenCtx.lineTo(600, y);
+                eigenCtx.stroke();
+            }
+
+            // Axes
+            eigenCtx.strokeStyle = '#6B7280';
+            eigenCtx.lineWidth = 2;
+            eigenCtx.beginPath();
+            eigenCtx.moveTo(0, cy);
+            eigenCtx.lineTo(600, cy);
+            eigenCtx.moveTo(cx, 0);
+            eigenCtx.lineTo(cx, 400);
+            eigenCtx.stroke();
+
+            // Compute and draw eigenvectors
+            const eigenvals = computeEigenvalues(eigenMatrix);
+
+            if (typeof eigenvals[0] === 'number') {
+                // Real eigenvalues
+                for (let i = 0; i < 2; i++) {
+                    const ev = computeEigenvector(eigenMatrix, eigenvals[i]);
+                    const len = Math.sqrt(ev.x * ev.x + ev.y * ev.y);
+                    const ux = ev.x / len, uy = ev.y / len;
+
+                    eigenCtx.strokeStyle = i === 0 ? '#3B82F6' : '#8B5CF6';
+                    eigenCtx.lineWidth = 3;
+                    eigenCtx.beginPath();
+                    eigenCtx.moveTo(cx - ux * 150, cy + uy * 150);
+                    eigenCtx.lineTo(cx + ux * 150, cy - uy * 150);
+                    eigenCtx.stroke();
+
+                    // Arrow
+                    eigenCtx.beginPath();
+                    eigenCtx.moveTo(cx + ux * 150, cy - uy * 150);
+                    eigenCtx.lineTo(cx + ux * 130 - uy * 10, cy - uy * 130 - ux * 10);
+                    eigenCtx.lineTo(cx + ux * 130 + uy * 10, cy - uy * 130 + ux * 10);
+                    eigenCtx.closePath();
+                    eigenCtx.fillStyle = i === 0 ? '#3B82F6' : '#8B5CF6';
+                    eigenCtx.fill();
+                }
+            }
+
+            // Draw all vectors
+            eigenVectors.forEach((v, i) => {
+                const isEigenvector = checkIfEigenvector(v);
+                eigenCtx.strokeStyle = isEigenvector ? '#22C55E' : '#EF4444';
+                eigenCtx.lineWidth = 2;
+                eigenCtx.beginPath();
+                eigenCtx.moveTo(cx, cy);
+                eigenCtx.lineTo(cx + v.x, cy - v.y);
+                eigenCtx.stroke();
+
+                // Arrow head
+                const len = Math.sqrt(v.x * v.x + v.y * v.y);
+                if (len > 10) {
+                    const ux = v.x / len, uy = v.y / len;
+                    eigenCtx.beginPath();
+                    eigenCtx.moveTo(cx + v.x, cy - v.y);
+                    eigenCtx.lineTo(cx + v.x - ux * 10 - uy * 5, cy - v.y + uy * 10 - ux * 5);
+                    eigenCtx.lineTo(cx + v.x - ux * 10 + uy * 5, cy - v.y + uy * 10 + ux * 5);
+                    eigenCtx.closePath();
+                    eigenCtx.fillStyle = isEigenvector ? '#22C55E' : '#EF4444';
+                    eigenCtx.fill();
+                }
+            });
+
+            // Display matrix and eigenvalues
+            eigenCtx.fillStyle = '#E6EDF3';
+            eigenCtx.font = '14px JetBrains Mono';
+            eigenCtx.textAlign = 'left';
+            eigenCtx.fillText(`A = [${eigenMatrix[0][0].toFixed(1)}, ${eigenMatrix[0][1].toFixed(1)}]`, 20, 30);
+            eigenCtx.fillText(`    [${eigenMatrix[1][0].toFixed(1)}, ${eigenMatrix[1][1].toFixed(1)}]`, 20, 50);
+
+            if (typeof eigenvals[0] === 'number') {
+                eigenCtx.fillStyle = '#3B82F6';
+                eigenCtx.fillText(`λ₁ = ${eigenvals[0].toFixed(2)}`, 20, 80);
+                eigenCtx.fillStyle = '#8B5CF6';
+                eigenCtx.fillText(`λ₂ = ${eigenvals[1].toFixed(2)}`, 20, 100);
+            } else {
+                eigenCtx.fillStyle = '#F97316';
+                eigenCtx.fillText(`λ = ${eigenvals[0].re.toFixed(2)} ± ${Math.abs(eigenvals[0].im).toFixed(2)}i`, 20, 80);
+            }
+        }
+
+        function checkIfEigenvector(v) {
+            const eigenvals = computeEigenvalues(eigenMatrix);
+            if (typeof eigenvals[0] !== 'number') return false;
+
+            for (const lambda of eigenvals) {
+                const ev = computeEigenvector(eigenMatrix, lambda);
+                const len = Math.sqrt(ev.x * ev.x + ev.y * ev.y);
+                const lenV = Math.sqrt(v.origX * v.origX + v.origY * v.origY);
+                if (len < 0.001 || lenV < 0.001) continue;
+
+                const dot = (ev.x * v.origX + ev.y * v.origY) / (len * lenV);
+                if (Math.abs(Math.abs(dot) - 1) < 0.1) return true;
+            }
+            return false;
+        }
+
+        function applyTransform() {
+            eigenAnimating = true;
+            eigenT = 0;
+
+            const animate = () => {
+                eigenT += 0.05;
+                if (eigenT >= 1) {
+                    eigenT = 1;
+                    eigenAnimating = false;
+                }
+
+                eigenVectors.forEach(v => {
+                    const newX = eigenMatrix[0][0] * v.origX + eigenMatrix[0][1] * v.origY;
+                    const newY = eigenMatrix[1][0] * v.origX + eigenMatrix[1][1] * v.origY;
+                    v.x = v.origX + (newX - v.origX) * eigenT;
+                    v.y = v.origY + (newY - v.origY) * eigenT;
+                });
+
+                drawEigen();
+
+                if (eigenAnimating) {
+                    requestAnimationFrame(animate);
+                } else {
+                    // Update original positions
+                    eigenVectors.forEach(v => {
+                        v.origX = v.x;
+                        v.origY = v.y;
+                    });
+                }
+            };
+            animate();
+        }
+
+        // Slider handlers
+        ['eigenA00', 'eigenA01', 'eigenA10', 'eigenA11'].forEach((id, i) => {
+            const slider = document.getElementById(id);
+            const display = document.getElementById(id + 'Val');
+            slider.addEventListener('input', () => {
+                const val = parseFloat(slider.value);
+                display.textContent = val.toFixed(1);
+                eigenMatrix[Math.floor(i / 2)][i % 2] = val;
+                drawEigen();
+            });
+        });
+
+        document.getElementById('eigenApply').addEventListener('click', () => {
+            if (!eigenAnimating) applyTransform();
+        });
+
+        document.getElementById('eigenReset').addEventListener('click', () => {
+            initEigenVectors();
+            drawEigen();
+        });
+
+        initEigenVectors();
+        drawEigen();
+
+        // === Hückel Orbital Energies ===
+        const huckelCanvas = document.getElementById('huckelCanvas');
+        const huckelCtx = huckelCanvas.getContext('2d');
+        const huckelLevels = document.getElementById('huckelLevels');
+        const orbitalDisplay = document.getElementById('orbitalDisplay');
+
+        const huckelData = {
+            ethene: {
+                n: 2,
+                eigenvalues: [1, -1],
+                orbitals: [[0.707, 0.707], [0.707, -0.707]],
+                positions: [[200, 125], [400, 125]]
+            },
+            butadiene: {
+                n: 4,
+                eigenvalues: [1.618, 0.618, -0.618, -1.618],
+                orbitals: [
+                    [0.372, 0.602, 0.602, 0.372],
+                    [0.602, 0.372, -0.372, -0.602],
+                    [0.602, -0.372, -0.372, 0.602],
+                    [0.372, -0.602, 0.602, -0.372]
+                ],
+                positions: [[150, 125], [250, 125], [350, 125], [450, 125]]
+            },
+            benzene: {
+                n: 6,
+                eigenvalues: [2, 1, 1, -1, -1, -2],
+                orbitals: [
+                    [0.408, 0.408, 0.408, 0.408, 0.408, 0.408],
+                    [0.577, 0.289, -0.289, -0.577, -0.289, 0.289],
+                    [0, 0.5, 0.5, 0, -0.5, -0.5],
+                    [0, 0.5, -0.5, 0, 0.5, -0.5],
+                    [0.577, -0.289, -0.289, 0.577, -0.289, -0.289],
+                    [0.408, -0.408, 0.408, -0.408, 0.408, -0.408]
+                ],
+                positions: []
+            }
+        };
+
+        // Generate benzene positions
+        for (let i = 0; i < 6; i++) {
+            const angle = (i * 60 - 90) * Math.PI / 180;
+            huckelData.benzene.positions.push([
+                300 + Math.cos(angle) * 80,
+                125 + Math.sin(angle) * 80
+            ]);
+        }
+
+        let currentHuckel = 'benzene';
+        let selectedLevel = -1;
+
+        function drawHuckel() {
+            const data = huckelData[currentHuckel];
+            huckelCtx.fillStyle = '#161B22';
+            huckelCtx.fillRect(0, 0, 600, 250);
+
+            // Draw molecule structure
+            huckelCtx.strokeStyle = '#6B7280';
+            huckelCtx.lineWidth = 2;
+
+            for (let i = 0; i < data.n; i++) {
+                const [x1, y1] = data.positions[i];
+                const [x2, y2] = data.positions[(i + 1) % data.n];
+                if (currentHuckel !== 'butadiene' || i < data.n - 1) {
+                    huckelCtx.beginPath();
+                    huckelCtx.moveTo(x1, y1);
+                    huckelCtx.lineTo(x2, y2);
+                    huckelCtx.stroke();
+                }
+            }
+
+            // Draw atoms with orbital coefficients if selected
+            data.positions.forEach(([x, y], i) => {
+                let r = 20;
+                let color = '#6B7280';
+
+                if (selectedLevel >= 0) {
+                    const coef = data.orbitals[selectedLevel][i];
+                    r = 15 + Math.abs(coef) * 25;
+                    color = coef >= 0 ? '#3B82F6' : '#EF4444';
+                }
+
+                huckelCtx.beginPath();
+                huckelCtx.arc(x, y, r, 0, Math.PI * 2);
+                huckelCtx.fillStyle = color;
+                huckelCtx.fill();
+                huckelCtx.strokeStyle = '#E6EDF3';
+                huckelCtx.lineWidth = 1;
+                huckelCtx.stroke();
+
+                if (selectedLevel >= 0) {
+                    huckelCtx.fillStyle = '#E6EDF3';
+                    huckelCtx.font = '12px JetBrains Mono';
+                    huckelCtx.textAlign = 'center';
+                    huckelCtx.fillText(data.orbitals[selectedLevel][i].toFixed(2), x, y + 4);
+                }
+            });
+
+            // Title
+            huckelCtx.fillStyle = '#8B949E';
+            huckelCtx.font = '14px JetBrains Mono';
+            huckelCtx.textAlign = 'center';
+            huckelCtx.fillText(currentHuckel.charAt(0).toUpperCase() + currentHuckel.slice(1), 300, 240);
+        }
+
+        function updateHuckelLevels() {
+            const data = huckelData[currentHuckel];
+            huckelLevels.innerHTML = '';
+
+            data.eigenvalues.forEach((ev, i) => {
+                const level = document.createElement('div');
+                level.className = 'energy-level' + (i === selectedLevel ? ' active' : '');
+                level.innerHTML = `
+                    <span class="energy-value">E = α ${ev >= 0 ? '+' : ''}${ev.toFixed(2)}β</span>
+                    <div class="energy-bar" style="width: ${50 + ev * 20}%"></div>
+                `;
+                level.addEventListener('click', () => {
+                    selectedLevel = i;
+                    updateHuckelLevels();
+                    drawHuckel();
+                    orbitalDisplay.innerHTML = `<span style="color: var(--accent-purple)">Molecular Orbital ${i + 1}</span><br>
+                        <span style="color: var(--text-muted)">Energy: α ${ev >= 0 ? '+' : ''}${ev.toFixed(3)}β</span>`;
+                });
+                huckelLevels.appendChild(level);
+            });
+        }
+
+        document.getElementById('huckelMolecule').addEventListener('change', e => {
+            currentHuckel = e.target.value;
+            selectedLevel = -1;
+            updateHuckelLevels();
+            drawHuckel();
+            orbitalDisplay.innerHTML = '<span style="color: var(--text-muted);">Click an energy level to see the molecular orbital</span>';
+        });
+
+        updateHuckelLevels();
+        drawHuckel();
+    </script>
+</body>
+</html>
