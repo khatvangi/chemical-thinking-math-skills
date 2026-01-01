@@ -1,0 +1,1628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPREAD — Chemical Thinking</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a24;
+            --text-primary: #e8e6e3;
+            --text-secondary: #a8a5a0;
+            --text-muted: #6b6965;
+            --accent-purple: #8B5CF6;
+            --accent-blue: #3B82F6;
+            --accent-orange: #F97316;
+            --accent-green: #22C55E;
+            --accent-red: #EF4444;
+            --accent-cyan: #06B6D4;
+            --border-subtle: #2a2a35;
+            --max-width: 720px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 18px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            padding: 0 1.5rem;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            padding: 4rem 0 3rem;
+            border-bottom: 1px solid var(--border-subtle);
+            margin-bottom: 3rem;
+        }
+
+        .primitive-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-family: 'Fraunces', serif;
+            font-size: 3.5rem;
+            font-weight: 500;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+            font-optical-sizing: auto;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+        /* Typography */
+        h2 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.75rem;
+            font-weight: 500;
+            margin: 3rem 0 1.5rem;
+            color: var(--text-primary);
+        }
+
+        h3 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 2rem 0 1rem;
+            color: var(--text-primary);
+        }
+
+        p {
+            margin-bottom: 1.25rem;
+            color: var(--text-secondary);
+        }
+
+        strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        em {
+            font-style: italic;
+            color: var(--text-primary);
+        }
+
+        /* Parts */
+        .part {
+            margin: 5rem 0;
+            padding-top: 2rem;
+        }
+
+        .part-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .part-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-cyan);
+            letter-spacing: 0.1em;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .part-title {
+            font-family: 'Fraunces', serif;
+            font-size: 2rem;
+            font-weight: 500;
+        }
+
+        /* Definition popups */
+        .def-popup {
+            position: relative;
+            cursor: help;
+            border-bottom: 1px dotted var(--accent-cyan);
+            color: var(--text-primary);
+        }
+
+        .def-tooltip {
+            position: absolute;
+            bottom: calc(100% + 12px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-subtle);
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            width: 280px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s ease;
+            z-index: 100;
+            line-height: 1.5;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        }
+
+        .def-popup:hover .def-tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin: 1rem 0 1.5rem 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Math blocks */
+        .math-block {
+            background: var(--bg-secondary);
+            border-left: 3px solid var(--accent-cyan);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            overflow-x: auto;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        th {
+            color: var(--text-primary);
+            font-weight: 600;
+            background: var(--bg-secondary);
+        }
+
+        td {
+            color: var(--text-secondary);
+        }
+
+        /* Visualizations */
+        .visual-container {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .visual-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent-cyan);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .visual-canvas {
+            background: var(--bg-primary);
+            border-radius: 8px;
+            width: 100%;
+            display: block;
+        }
+
+        .visual-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .control-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .control-value {
+            font-size: 0.85rem;
+            color: var(--accent-cyan);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 4px;
+            -webkit-appearance: none;
+            background: var(--bg-tertiary);
+            border-radius: 2px;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            background: var(--accent-cyan);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .visual-caption {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-align: center;
+            margin-top: 1rem;
+            font-style: italic;
+        }
+
+        .visual-legend {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+        }
+
+        /* Button controls */
+        .btn-group {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 6px;
+            color: var(--text-secondary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn:hover {
+            background: var(--accent-cyan);
+            color: white;
+            border-color: var(--accent-cyan);
+        }
+
+        .btn.active {
+            background: var(--accent-cyan);
+            color: white;
+            border-color: var(--accent-cyan);
+        }
+
+        /* Prologue */
+        .prologue {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            border-left: 3px solid var(--accent-cyan);
+            padding-left: 1.5rem;
+            margin: 2rem 0 3rem;
+        }
+
+        /* Endnotes */
+        .endnotes {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .endnotes h2 {
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .endnote {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .endnote-num {
+            position: absolute;
+            left: 0;
+            color: var(--accent-cyan);
+        }
+
+        /* Navigation */
+        .nav-footer {
+            margin-top: 4rem;
+            padding: 2rem 0;
+            border-top: 1px solid var(--border-subtle);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .nav-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-cyan);
+        }
+
+        /* Formal definition box */
+        .formal-def {
+            background: var(--bg-secondary);
+            border: 1px solid var(--accent-cyan);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .formal-def-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent-cyan);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        /* Completion banner */
+        .completion-banner {
+            background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-purple) 100%);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .completion-banner h3 {
+            color: white;
+            margin: 0 0 0.5rem;
+        }
+
+        .completion-banner p {
+            color: rgba(255,255,255,0.9);
+            margin: 0;
+        }
+
+        /* Primitive table */
+        .primitive-table {
+            margin: 2rem 0;
+        }
+
+        .primitive-table th {
+            background: var(--bg-tertiary);
+        }
+
+        .primitive-table td:first-child {
+            font-weight: 600;
+            color: var(--accent-cyan);
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            html { font-size: 16px; }
+            h1 { font-size: 2.5rem; }
+            .part-title { font-size: 1.5rem; }
+            .visual-controls { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="primitive-label">Primitive 9 of 9 — Final</div>
+            <h1>SPREAD</h1>
+            <p class="subtitle">The cognitive act of perceiving distribution—allocation across possibilities.</p>
+        </header>
+
+        <div class="prologue">
+            <p>A single particle has a position. A mole of particles has a distribution.</p>
+            <p>The electron is not at one place in the orbital—it is spread across a probability cloud. The molecules in a gas are not at one energy—they are spread across a Boltzmann distribution. The measurement is not one value—it is spread across an uncertainty range.</p>
+            <p><span class="def-popup" data-definition="Spread: The distribution of a quantity across possibilities. Spread answers: how is the total allocated among the available states, positions, or outcomes?">SPREAD<span class="def-tooltip"></span></span> is the primitive of allocation. It answers: <em>How is the whole distributed among the parts?</em></p>
+            <p>Where ACCUMULATION gathers parts into a whole, SPREAD describes how the whole is partitioned back into parts.</p>
+        </div>
+
+        <!-- Part I -->
+        <section class="part" id="part-1">
+            <div class="part-header">
+                <span class="part-number">Part I</span>
+                <h2 class="part-title">The Cognitive Basis of SPREAD</h2>
+            </div>
+
+            <h3>1.1 Perception of Distribution</h3>
+            <p>Humans perceive spread directly.</p>
+            <p><strong>Scatter</strong>: We see that objects are dispersed or clustered without counting. A scattered handful of seeds looks different from a concentrated pile.</p>
+            <p><strong>Uncertainty</strong>: We sense that some outcomes are more likely than others. The experienced gambler, the weather-wise farmer, the seasoned clinician—all perceive probability before they calculate it.</p>
+            <p><strong>Fairness</strong>: We perceive equal vs. unequal distribution. "That's not fair" is a child's protest against uneven spread.</p>
+
+            <h3>1.2 Spread Requires Possibilities and Allocation</h3>
+            <p>SPREAD involves:</p>
+            <p><strong>A. A set of possibilities</strong>: The outcomes, states, positions, or values that could occur. The sample space.</p>
+            <p><strong>B. A total quantity</strong>: What is being distributed. Probability (sums to 1). Mass. Energy. Population.</p>
+            <p><strong>C. An allocation rule</strong>: How much goes to each possibility. The distribution function.</p>
+
+            <h3>1.3 Discrete vs. Continuous Spread</h3>
+            <p><strong>Discrete</strong>: Finite or countable possibilities. Each has a probability.</p>
+            <div class="math-block">$$P(X = x_i) = p_i, \quad \sum_i p_i = 1$$</div>
+            <p><strong>Continuous</strong>: Uncountable possibilities (real numbers). Probability density.</p>
+            <div class="math-block">$$P(a \leq X \leq b) = \int_a^b f(x) \, dx, \quad \int_{-\infty}^{\infty} f(x) \, dx = 1$$</div>
+
+            <!-- DISCRETE VS CONTINUOUS -->
+            <div class="visual-container" id="discrete-container">
+                <div class="visual-title">Interactive: Discrete vs Continuous Distributions</div>
+                <canvas id="discreteCanvas" class="visual-canvas" width="680" height="280"></canvas>
+                <div class="visual-controls">
+                    <div class="control-group">
+                        <span class="control-label">Number of trials n</span>
+                        <input type="range" id="discreteN" min="5" max="100" step="5" value="20">
+                        <span class="control-value" id="discreteNValue">n = 20</span>
+                    </div>
+                    <div class="control-group">
+                        <span class="control-label">Probability p</span>
+                        <input type="range" id="discreteP" min="0.1" max="0.9" step="0.05" value="0.5">
+                        <span class="control-value" id="discretePValue">p = 0.50</span>
+                    </div>
+                </div>
+                <p class="visual-caption">As n increases, the discrete binomial distribution approaches the continuous Gaussian.</p>
+            </div>
+        </section>
+
+        <!-- Part II -->
+        <section class="part" id="part-2">
+            <div class="part-header">
+                <span class="part-number">Part II</span>
+                <h2 class="part-title">Probability Foundations</h2>
+            </div>
+
+            <h3>2.1 Sample Space and Events</h3>
+            <p>The <span class="def-popup" data-definition="Sample space: The set of all possible outcomes of a random experiment. Denoted Ω or S. Every outcome belongs to exactly one elementary event.">sample space<span class="def-tooltip"></span></span> Ω is the set of all possible outcomes.</p>
+            <p>An <span class="def-popup" data-definition="Event: A subset of the sample space. An event occurs if the outcome belongs to that subset.">event<span class="def-tooltip"></span></span> A is a subset of Ω.</p>
+
+            <h3>2.2 Probability Axioms</h3>
+            <p><span class="def-popup" data-definition="Kolmogorov axioms: (1) P(A) ≥ 0 for all events. (2) P(Ω) = 1. (3) For mutually exclusive events, P(A∪B) = P(A) + P(B).">Probability<span class="def-tooltip"></span></span> P satisfies:</p>
+            <ol>
+                <li><strong>Non-negativity</strong>: P(A) ≥ 0 for all events A</li>
+                <li><strong>Normalization</strong>: P(Ω) = 1</li>
+                <li><strong>Additivity</strong>: For mutually exclusive A, B: P(A ∪ B) = P(A) + P(B)</li>
+            </ol>
+
+            <h3>2.3 Conditional Probability</h3>
+            <p>The probability of A given that B has occurred:</p>
+            <div class="math-block">$$P(A|B) = \frac{P(A \cap B)}{P(B)}$$</div>
+
+            <h3>2.4 Independence</h3>
+            <p>Events A and B are <span class="def-popup" data-definition="Independence: Events A and B are independent if P(A∩B) = P(A)·P(B). Knowing B doesn't change A's probability.">independent<span class="def-tooltip"></span></span> if: $P(A \cap B) = P(A) \cdot P(B)$</p>
+
+            <h3>2.5 Bayes' Theorem</h3>
+            <div class="math-block">$$P(A|B) = \frac{P(B|A) \cdot P(A)}{P(B)}$$</div>
+            <p>Relates conditional probabilities. Foundation for updating beliefs with evidence.</p>
+        </section>
+
+        <!-- Part III -->
+        <section class="part" id="part-3">
+            <div class="part-header">
+                <span class="part-number">Part III</span>
+                <h2 class="part-title">Random Variables and Distributions</h2>
+            </div>
+
+            <h3>3.1 Random Variables</h3>
+            <p>A <span class="def-popup" data-definition="Random variable: A function from the sample space to real numbers. Assigns a numerical value to each outcome.">random variable<span class="def-tooltip"></span></span> X is a function from outcomes to numbers.</p>
+
+            <h3>3.2 Probability Mass Function (Discrete)</h3>
+            <p>For discrete X, the <span class="def-popup" data-definition="PMF: p(x) = P(X = x). Gives the probability of each possible value. Must satisfy p(x) ≥ 0 and Σp(x) = 1.">probability mass function<span class="def-tooltip"></span></span>: $p(x) = P(X = x)$</p>
+
+            <h3>3.3 Probability Density Function (Continuous)</h3>
+            <p>For continuous X, the <span class="def-popup" data-definition="PDF: f(x) such that P(a ≤ X ≤ b) = ∫f(x)dx. The density can exceed 1, but integrates to 1.">probability density function<span class="def-tooltip"></span></span>:</p>
+            <div class="math-block">$$P(a \leq X \leq b) = \int_a^b f(x) \, dx$$</div>
+
+            <h3>3.4 Cumulative Distribution Function</h3>
+            <p>The <span class="def-popup" data-definition="CDF: F(x) = P(X ≤ x). Monotonically increasing from 0 to 1.">CDF<span class="def-tooltip"></span></span>: $F(x) = P(X \leq x)$</p>
+        </section>
+
+        <!-- Part IV -->
+        <section class="part" id="part-4">
+            <div class="part-header">
+                <span class="part-number">Part IV</span>
+                <h2 class="part-title">Moments and Summary Statistics</h2>
+            </div>
+
+            <h3>4.1 Expected Value (Mean)</h3>
+            <p>The <span class="def-popup" data-definition="Expected value: The probability-weighted average. E[X] = Σx·p(x) for discrete, E[X] = ∫x·f(x)dx for continuous.">expected value<span class="def-tooltip"></span></span> or mean:</p>
+            <div class="math-block">$$E[X] = \mu = \sum_x x \cdot p(x) \quad \text{or} \quad \int_{-\infty}^{\infty} x \cdot f(x) \, dx$$</div>
+
+            <h3>4.2 Variance and Standard Deviation</h3>
+            <p><span class="def-popup" data-definition="Variance: Var(X) = E[(X-μ)²]. Measures spread of distribution. Standard deviation σ = √Var(X).">Variance<span class="def-tooltip"></span></span>:</p>
+            <div class="math-block">$$\text{Var}(X) = \sigma^2 = E[(X - \mu)^2] = E[X^2] - (E[X])^2$$</div>
+            <p>Standard deviation: $\sigma = \sqrt{\text{Var}(X)}$</p>
+
+            <h3>4.3 Properties</h3>
+            <table>
+                <tr><th>Property</th><th>Expected Value</th><th>Variance</th></tr>
+                <tr><td>Scaling</td><td>E[aX + b] = aE[X] + b</td><td>Var(aX + b) = a²Var(X)</td></tr>
+                <tr><td>Sum</td><td>E[X + Y] = E[X] + E[Y]</td><td>Var(X + Y) = Var(X) + Var(Y)*</td></tr>
+            </table>
+            <p style="font-size: 0.85rem;">*if X, Y independent</p>
+        </section>
+
+        <!-- Part V -->
+        <section class="part" id="part-5">
+            <div class="part-header">
+                <span class="part-number">Part V</span>
+                <h2 class="part-title">Important Distributions</h2>
+            </div>
+
+            <h3>5.1 The Gaussian (Normal) Distribution</h3>
+            <p>The <span class="def-popup" data-definition="Gaussian: The 'bell curve.' f(x) = (1/σ√2π)exp(-(x-μ)²/2σ²). Central limit theorem makes it ubiquitous.">Gaussian<span class="def-tooltip"></span></span> or normal distribution:</p>
+            <div class="math-block">$$f(x) = \frac{1}{\sigma\sqrt{2\pi}} \exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)$$</div>
+
+            <!-- GAUSSIAN EXPLORER -->
+            <div class="visual-container" id="gaussian-container">
+                <div class="visual-title">Interactive: Gaussian Explorer</div>
+                <canvas id="gaussianCanvas" class="visual-canvas" width="680" height="300"></canvas>
+                <div class="visual-controls">
+                    <div class="control-group">
+                        <span class="control-label">Mean μ</span>
+                        <input type="range" id="gaussMu" min="-3" max="3" step="0.1" value="0">
+                        <span class="control-value" id="gaussMuValue">μ = 0.0</span>
+                    </div>
+                    <div class="control-group">
+                        <span class="control-label">Std Dev σ</span>
+                        <input type="range" id="gaussSigma" min="0.3" max="2" step="0.1" value="1">
+                        <span class="control-value" id="gaussSigmaValue">σ = 1.0</span>
+                    </div>
+                </div>
+                <div class="visual-legend">
+                    <div class="legend-item"><div class="legend-color" style="background: rgba(6, 182, 212, 0.5);"></div> 68% (μ ± σ)</div>
+                    <div class="legend-item"><div class="legend-color" style="background: rgba(6, 182, 212, 0.3);"></div> 95% (μ ± 2σ)</div>
+                    <div class="legend-item"><div class="legend-color" style="background: rgba(6, 182, 212, 0.15);"></div> 99.7% (μ ± 3σ)</div>
+                </div>
+                <p class="visual-caption">The Gaussian is characterized by its mean (center) and standard deviation (width).</p>
+            </div>
+
+            <h3>5.2 Other Important Distributions</h3>
+            <table>
+                <tr><th>Distribution</th><th>Type</th><th>Mean</th><th>Variance</th></tr>
+                <tr><td>Binomial(n, p)</td><td>Discrete</td><td>np</td><td>np(1-p)</td></tr>
+                <tr><td>Poisson(λ)</td><td>Discrete</td><td>λ</td><td>λ</td></tr>
+                <tr><td>Uniform[a,b]</td><td>Continuous</td><td>(a+b)/2</td><td>(b-a)²/12</td></tr>
+                <tr><td>Exponential(λ)</td><td>Continuous</td><td>1/λ</td><td>1/λ²</td></tr>
+            </table>
+        </section>
+
+        <!-- Part VI -->
+        <section class="part" id="part-6">
+            <div class="part-header">
+                <span class="part-number">Part VI</span>
+                <h2 class="part-title">SPREAD in Physical Systems</h2>
+            </div>
+
+            <h3>6.1 The Boltzmann Distribution</h3>
+            <p>At thermal equilibrium, the probability of a system being in state i with energy Eᵢ:</p>
+            <div class="math-block">$$P_i = \frac{e^{-E_i/k_BT}}{Z}, \quad Z = \sum_i g_i e^{-E_i/k_BT}$$</div>
+            <p>where Z is the <span class="def-popup" data-definition="Partition function: Z = Σᵢ gᵢexp(-Eᵢ/kT). Normalizes the Boltzmann distribution. Contains all thermodynamic information.">partition function<span class="def-tooltip"></span></span>.</p>
+
+            <!-- BOLTZMANN DISTRIBUTION -->
+            <div class="visual-container" id="boltzmann-container">
+                <div class="visual-title">Interactive: Boltzmann Distribution</div>
+                <canvas id="boltzmannCanvas" class="visual-canvas" width="680" height="320"></canvas>
+                <div class="visual-controls">
+                    <div class="control-group">
+                        <span class="control-label">Temperature T</span>
+                        <input type="range" id="boltzT" min="100" max="1000" step="50" value="300">
+                        <span class="control-value" id="boltzTValue">T = 300 K</span>
+                    </div>
+                    <div class="control-group">
+                        <span class="control-label">kT</span>
+                        <span class="control-value" id="boltzKTValue">= 2.49 kJ/mol</span>
+                    </div>
+                    <div class="control-group">
+                        <span class="control-label">⟨E⟩</span>
+                        <span class="control-value" id="boltzAvgValue">= 0.00 kJ/mol</span>
+                    </div>
+                </div>
+                <p class="visual-caption">Temperature controls how population spreads across energy levels. Low T → ground state; High T → even spread.</p>
+            </div>
+
+            <h3>6.2 The Maxwell-Boltzmann Speed Distribution</h3>
+            <p>For gas molecules of mass m at temperature T:</p>
+            <div class="math-block">$$f(v) = 4\pi \left(\frac{m}{2\pi k_BT}\right)^{3/2} v^2 e^{-mv^2/2k_BT}$$</div>
+
+            <!-- MAXWELL-BOLTZMANN -->
+            <div class="visual-container" id="maxwell-container">
+                <div class="visual-title">Interactive: Maxwell-Boltzmann Speed Distribution</div>
+                <canvas id="maxwellCanvas" class="visual-canvas" width="680" height="300"></canvas>
+                <div class="visual-legend">
+                    <div class="legend-item"><div class="legend-color" style="background: #22C55E;"></div> Most Probable</div>
+                    <div class="legend-item"><div class="legend-color" style="background: #F97316;"></div> Mean</div>
+                    <div class="legend-item"><div class="legend-color" style="background: #EF4444;"></div> RMS</div>
+                </div>
+                <div class="visual-controls">
+                    <div class="control-group">
+                        <span class="control-label">Temperature T</span>
+                        <input type="range" id="maxwellT" min="100" max="600" step="25" value="300">
+                        <span class="control-value" id="maxwellTValue">T = 300 K</span>
+                    </div>
+                    <div class="control-group">
+                        <span class="control-label">Molar Mass M</span>
+                        <input type="range" id="maxwellM" min="2" max="44" step="2" value="28">
+                        <span class="control-value" id="maxwellMValue">M = 28 g/mol (N₂)</span>
+                    </div>
+                </div>
+                <p class="visual-caption">Higher T or lower M shifts the distribution to faster speeds and broadens it.</p>
+            </div>
+        </section>
+
+        <!-- Part VII -->
+        <section class="part" id="part-7">
+            <div class="part-header">
+                <span class="part-number">Part VII</span>
+                <h2 class="part-title">SPREAD in Chemical Systems</h2>
+            </div>
+
+            <h3>7.1 Entropy and SPREAD</h3>
+            <p><span class="def-popup" data-definition="Entropy (statistical): S = -kB Σ Pᵢ ln Pᵢ. Measures the spread of probability across microstates.">Entropy<span class="def-tooltip"></span></span> measures the spread of probability:</p>
+            <div class="math-block">$$S = -k_B \sum_i P_i \ln P_i = k_B \ln W$$</div>
+            <ul>
+                <li><strong>Maximum entropy</strong>: uniform distribution (maximum spread)</li>
+                <li><strong>Minimum entropy</strong>: single state with P = 1 (no spread)</li>
+            </ul>
+            <p>The second law: systems evolve toward maximum spread consistent with constraints.</p>
+
+            <h3>7.2 Orbital Probability Density</h3>
+            <p>The electron in a hydrogen atom has probability density $\rho(\mathbf{r}) = |\psi(\mathbf{r})|^2$</p>
+            <p>The radial distribution function: $P(r) = 4\pi r^2 |\psi|^2$</p>
+
+            <!-- ORBITAL PROBABILITY -->
+            <div class="visual-container" id="orbital-container">
+                <div class="visual-title">Interactive: Hydrogen Orbital Probability</div>
+                <canvas id="orbitalCanvas" class="visual-canvas" width="680" height="300"></canvas>
+                <div class="visual-controls">
+                    <div class="control-group">
+                        <span class="control-label">Orbital</span>
+                        <select id="orbitalSelect" style="background: var(--bg-tertiary); color: var(--text-primary); border: 1px solid var(--border-subtle); padding: 0.5rem; border-radius: 4px; font-family: JetBrains Mono; font-size: 0.85rem;">
+                            <option value="1s">1s</option>
+                            <option value="2s">2s</option>
+                            <option value="2p">2p</option>
+                            <option value="3s">3s</option>
+                            <option value="3d">3d</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <span class="control-label">Most Probable r</span>
+                        <span class="control-value" id="orbitalRmax">= 1.0 a₀</span>
+                    </div>
+                </div>
+                <p class="visual-caption">The radial distribution P(r) = 4πr²|ψ|² shows where the electron is most likely found.</p>
+            </div>
+        </section>
+
+        <!-- Part VIII -->
+        <section class="part" id="part-8">
+            <div class="part-header">
+                <span class="part-number">Part VIII</span>
+                <h2 class="part-title">The Central Limit Theorem</h2>
+            </div>
+
+            <h3>8.1 Statement</h3>
+            <p>The <span class="def-popup" data-definition="Central Limit Theorem: The mean of many independent samples approaches a Gaussian distribution, regardless of the underlying distribution.">Central Limit Theorem<span class="def-tooltip"></span></span>: The sum (or mean) of many independent random variables approaches a Gaussian distribution, regardless of the original distribution.</p>
+
+            <h3>8.2 Implications</h3>
+            <p>This explains why the Gaussian appears everywhere:</p>
+            <ul>
+                <li>Measurement errors (sum of many small effects)</li>
+                <li>Thermal fluctuations (sum of many molecular collisions)</li>
+                <li>Any quantity that is the aggregate of many independent contributions</li>
+            </ul>
+
+            <!-- CENTRAL LIMIT THEOREM -->
+            <div class="visual-container" id="clt-container">
+                <div class="visual-title">Interactive: Central Limit Theorem</div>
+                <canvas id="cltCanvas" class="visual-canvas" width="680" height="300"></canvas>
+                <div class="btn-group">
+                    <button class="btn" id="cltSample">Sample 100 Means</button>
+                    <button class="btn" id="cltReset">Reset</button>
+                </div>
+                <div class="visual-controls">
+                    <div class="control-group">
+                        <span class="control-label">Sample Size n</span>
+                        <input type="range" id="cltN" min="1" max="30" step="1" value="1">
+                        <span class="control-value" id="cltNValue">n = 1</span>
+                    </div>
+                    <div class="control-group">
+                        <span class="control-label">Samples Drawn</span>
+                        <span class="control-value" id="cltCount">0</span>
+                    </div>
+                </div>
+                <p class="visual-caption">Sample from a uniform distribution. As n increases, the distribution of means becomes Gaussian.</p>
+            </div>
+        </section>
+
+        <!-- Part IX -->
+        <section class="part" id="part-9">
+            <div class="part-header">
+                <span class="part-number">Part IX</span>
+                <h2 class="part-title">SPREAD and Other Primitives</h2>
+            </div>
+
+            <h3>9.1 SPREAD and ACCUMULATION</h3>
+            <p>ACCUMULATION and SPREAD are duals.</p>
+            <p>ACCUMULATION: ∫f(x)dx (gather density into total)<br>
+            SPREAD: f(x) = dF/dx (distribute total into density)</p>
+            <p>The PDF is the derivative of the CDF. The CDF is the integral of the PDF.</p>
+
+            <h3>9.2 SPREAD and SAMENESS</h3>
+            <p>Maximum SPREAD is a form of SAMENESS: uniform distribution treats all outcomes identically.</p>
+            <p>Equilibrium maximizes entropy (SPREAD) subject to constraints (SAMENESS of total energy).</p>
+
+            <h3>9.3 SPREAD and RATE</h3>
+            <p>Distributions evolve in time. The master equation describes RATE of change of SPREAD:</p>
+            <div class="math-block">$$\frac{dP_i}{dt} = \sum_j (k_{ji}P_j - k_{ij}P_i)$$</div>
+            <p>At equilibrium, dPᵢ/dt = 0. The distribution is stationary.</p>
+        </section>
+
+        <!-- Part X: Summary -->
+        <section class="part" id="part-10">
+            <div class="part-header">
+                <span class="part-number">Part X</span>
+                <h2 class="part-title">Summary</h2>
+            </div>
+
+            <h3>10.1 What SPREAD Is</h3>
+            <p>SPREAD is distribution—how a total is allocated across possibilities.</p>
+            <p>The perception is primary. We see scatter vs. clustering. We feel uncertainty. We recognize fairness and unfairness in allocation.</p>
+            <p>The formalizations are secondary: probability, density functions, distributions, entropy. These tools quantify spread and enable prediction of aggregate behavior from individual randomness.</p>
+
+            <div class="formal-def">
+                <div class="formal-def-title">Key Concepts</div>
+                <p><strong>Probability</strong>: P(A) ∈ [0,1]. Measure of likelihood.</p>
+                <p><strong>PDF/PMF</strong>: How probability is spread across values.</p>
+                <p><strong>Mean</strong>: Center of mass of the distribution.</p>
+                <p><strong>Variance</strong>: Measure of spread width.</p>
+                <p><strong>Boltzmann distribution</strong>: How population spreads across energy levels.</p>
+                <p><strong>Entropy</strong>: Measure of spread; maximized at equilibrium.</p>
+            </div>
+
+            <div class="completion-banner">
+                <h3>All Nine Primitives Complete</h3>
+                <p>The cognitive foundation of Chemical Thinking is now established.</p>
+            </div>
+
+            <h3>10.2 The Nine Primitives</h3>
+            <table class="primitive-table">
+                <tr><th>Primitive</th><th>Perception</th><th>Tools</th></tr>
+                <tr><td>COLLECTION</td><td>"There are many"</td><td>Sets, counting</td></tr>
+                <tr><td>ARRANGEMENT</td><td>"Order matters"</td><td>Permutations, matrices</td></tr>
+                <tr><td>DIRECTION</td><td>"It points"</td><td>Vectors, dot product</td></tr>
+                <tr><td>PROXIMITY</td><td>"Near vs far"</td><td>Functions, limits</td></tr>
+                <tr><td>SAMENESS</td><td>"Unchanged"</td><td>Symmetry, eigenvalues</td></tr>
+                <tr><td>CHANGE</td><td>"Becoming"</td><td>Derivatives</td></tr>
+                <tr><td>RATE</td><td>"How fast"</td><td>Diff eq, kinetics</td></tr>
+                <tr><td>ACCUMULATION</td><td>"All together"</td><td>Integrals</td></tr>
+                <tr><td>SPREAD</td><td>"Distributed"</td><td>Probability, distributions</td></tr>
+            </table>
+            <p>The primitives form a complete basis for perceiving and formalizing chemical phenomena.</p>
+        </section>
+
+        <!-- Endnotes -->
+        <section class="endnotes">
+            <h2>Endnotes</h2>
+            <div class="endnote">
+                <span class="endnote-num">[1]</span>
+                The perception of probability and risk is discussed in Kahneman, D. (2011). <em>Thinking, Fast and Slow</em>. Farrar, Straus and Giroux.
+            </div>
+            <div class="endnote">
+                <span class="endnote-num">[2]</span>
+                The axiomatic foundation of probability is due to Kolmogorov, A.N. (1933). <em>Foundations of the Theory of Probability</em>.
+            </div>
+            <div class="endnote">
+                <span class="endnote-num">[3]</span>
+                The Boltzmann distribution and statistical mechanics are covered in McQuarrie, D.A. (2000). <em>Statistical Mechanics</em>. University Science Books.
+            </div>
+            <div class="endnote">
+                <span class="endnote-num">[4]</span>
+                The central limit theorem is proven in Feller, W. (1968). <em>An Introduction to Probability Theory and Its Applications</em> (3rd ed.). Wiley.
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <nav class="nav-footer">
+            <a href="accumulation.html" class="nav-link">← ACCUMULATION</a>
+            <a href="../index.html" class="nav-link">Home</a>
+            <a href="collection.html" class="nav-link">COLLECTION →</a>
+        </nav>
+    </div>
+
+    <script>
+        // Initialize KaTeX
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},
+                    {left: "$", right: "$", display: false}
+                ]
+            });
+
+            // Populate tooltips
+            document.querySelectorAll('.def-popup').forEach(el => {
+                const tooltip = el.querySelector('.def-tooltip');
+                if (tooltip) tooltip.textContent = el.dataset.definition;
+            });
+
+            initDiscrete();
+            initGaussian();
+            initBoltzmann();
+            initMaxwell();
+            initOrbital();
+            initCLT();
+        });
+
+        // ==========================================
+        // 1. DISCRETE VS CONTINUOUS
+        // ==========================================
+        function initDiscrete() {
+            const canvas = document.getElementById('discreteCanvas');
+            const ctx = canvas.getContext('2d');
+            const nSlider = document.getElementById('discreteN');
+            const pSlider = document.getElementById('discreteP');
+            const nValue = document.getElementById('discreteNValue');
+            const pValue = document.getElementById('discretePValue');
+
+            function binomial(n, k, p) {
+                // Binomial coefficient
+                let coef = 1;
+                for (let i = 0; i < k; i++) {
+                    coef *= (n - i) / (i + 1);
+                }
+                return coef * Math.pow(p, k) * Math.pow(1 - p, n - k);
+            }
+
+            function gaussian(x, mu, sigma) {
+                return Math.exp(-Math.pow(x - mu, 2) / (2 * sigma * sigma)) / (sigma * Math.sqrt(2 * Math.PI));
+            }
+
+            function draw() {
+                const n = parseInt(nSlider.value);
+                const p = parseFloat(pSlider.value);
+                nValue.textContent = 'n = ' + n;
+                pValue.textContent = 'p = ' + p.toFixed(2);
+
+                ctx.fillStyle = '#0a0a0f';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                const padding = 50;
+                const w = canvas.width - 2 * padding;
+                const h = canvas.height - 2 * padding;
+
+                const mu = n * p;
+                const sigma = Math.sqrt(n * p * (1 - p));
+
+                // Axes
+                ctx.strokeStyle = '#2a2a35';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(padding, padding);
+                ctx.lineTo(padding, canvas.height - padding);
+                ctx.lineTo(canvas.width - padding, canvas.height - padding);
+                ctx.stroke();
+
+                // Calculate max probability for scaling
+                let maxP = 0;
+                for (let k = 0; k <= n; k++) {
+                    maxP = Math.max(maxP, binomial(n, k, p));
+                }
+                const yScale = h / (maxP * 1.2);
+
+                // Draw binomial bars
+                const barWidth = Math.min(w / (n + 1) * 0.8, 20);
+                ctx.fillStyle = 'rgba(249, 115, 22, 0.7)';
+                ctx.strokeStyle = '#F97316';
+                ctx.lineWidth = 1;
+
+                for (let k = 0; k <= n; k++) {
+                    const prob = binomial(n, k, p);
+                    const x = padding + (k / n) * w;
+                    const barH = prob * yScale;
+                    ctx.fillRect(x - barWidth/2, canvas.height - padding - barH, barWidth, barH);
+                    ctx.strokeRect(x - barWidth/2, canvas.height - padding - barH, barWidth, barH);
+                }
+
+                // Draw Gaussian approximation
+                ctx.strokeStyle = '#06B6D4';
+                ctx.lineWidth = 2.5;
+                ctx.beginPath();
+
+                for (let i = 0; i <= 200; i++) {
+                    const x = (i / 200) * n;
+                    const prob = gaussian(x, mu, sigma);
+                    const px = padding + (x / n) * w;
+                    const py = canvas.height - padding - prob * yScale;
+                    if (i === 0) ctx.moveTo(px, py);
+                    else ctx.lineTo(px, py);
+                }
+                ctx.stroke();
+
+                // Labels
+                ctx.fillStyle = '#6b6965';
+                ctx.font = '12px JetBrains Mono';
+                ctx.textAlign = 'center';
+                ctx.fillText('k (number of successes)', canvas.width / 2, canvas.height - 10);
+                ctx.save();
+                ctx.translate(15, canvas.height / 2);
+                ctx.rotate(-Math.PI / 2);
+                ctx.fillText('P(X = k)', 0, 0);
+                ctx.restore();
+
+                // Mean marker
+                const muX = padding + (mu / n) * w;
+                ctx.setLineDash([5, 5]);
+                ctx.strokeStyle = '#8B5CF6';
+                ctx.beginPath();
+                ctx.moveTo(muX, padding);
+                ctx.lineTo(muX, canvas.height - padding);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                ctx.fillStyle = '#8B5CF6';
+                ctx.fillText('μ = ' + mu.toFixed(1), muX, padding - 10);
+            }
+
+            nSlider.addEventListener('input', draw);
+            pSlider.addEventListener('input', draw);
+            draw();
+        }
+
+        // ==========================================
+        // 2. GAUSSIAN EXPLORER
+        // ==========================================
+        function initGaussian() {
+            const canvas = document.getElementById('gaussianCanvas');
+            const ctx = canvas.getContext('2d');
+            const muSlider = document.getElementById('gaussMu');
+            const sigmaSlider = document.getElementById('gaussSigma');
+            const muValue = document.getElementById('gaussMuValue');
+            const sigmaValue = document.getElementById('gaussSigmaValue');
+
+            function gaussian(x, mu, sigma) {
+                return Math.exp(-Math.pow(x - mu, 2) / (2 * sigma * sigma)) / (sigma * Math.sqrt(2 * Math.PI));
+            }
+
+            function draw() {
+                const mu = parseFloat(muSlider.value);
+                const sigma = parseFloat(sigmaSlider.value);
+                muValue.textContent = 'μ = ' + mu.toFixed(1);
+                sigmaValue.textContent = 'σ = ' + sigma.toFixed(1);
+
+                ctx.fillStyle = '#0a0a0f';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                const padding = 50;
+                const w = canvas.width - 2 * padding;
+                const h = canvas.height - 2 * padding;
+                const xMin = -5, xMax = 5;
+                const yMax = 1.2;
+
+                // Axes
+                ctx.strokeStyle = '#2a2a35';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(padding, padding);
+                ctx.lineTo(padding, canvas.height - padding);
+                ctx.lineTo(canvas.width - padding, canvas.height - padding);
+                ctx.stroke();
+
+                // Shaded regions (99.7%, 95%, 68%)
+                const regions = [
+                    { z: 3, alpha: 0.15 },
+                    { z: 2, alpha: 0.3 },
+                    { z: 1, alpha: 0.5 }
+                ];
+
+                regions.forEach(region => {
+                    ctx.fillStyle = `rgba(6, 182, 212, ${region.alpha})`;
+                    ctx.beginPath();
+
+                    const left = mu - region.z * sigma;
+                    const right = mu + region.z * sigma;
+
+                    ctx.moveTo(padding + ((left - xMin) / (xMax - xMin)) * w, canvas.height - padding);
+
+                    for (let i = 0; i <= 100; i++) {
+                        const x = left + (i / 100) * (right - left);
+                        const y = gaussian(x, mu, sigma);
+                        const px = padding + ((x - xMin) / (xMax - xMin)) * w;
+                        const py = canvas.height - padding - (y / yMax) * h;
+                        ctx.lineTo(px, py);
+                    }
+
+                    ctx.lineTo(padding + ((right - xMin) / (xMax - xMin)) * w, canvas.height - padding);
+                    ctx.closePath();
+                    ctx.fill();
+                });
+
+                // Gaussian curve
+                ctx.strokeStyle = '#06B6D4';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+
+                for (let i = 0; i <= 200; i++) {
+                    const x = xMin + (i / 200) * (xMax - xMin);
+                    const y = gaussian(x, mu, sigma);
+                    const px = padding + ((x - xMin) / (xMax - xMin)) * w;
+                    const py = canvas.height - padding - (y / yMax) * h;
+                    if (i === 0) ctx.moveTo(px, py);
+                    else ctx.lineTo(px, py);
+                }
+                ctx.stroke();
+
+                // Mean line
+                const muPx = padding + ((mu - xMin) / (xMax - xMin)) * w;
+                ctx.setLineDash([5, 5]);
+                ctx.strokeStyle = '#F97316';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(muPx, canvas.height - padding);
+                ctx.lineTo(muPx, canvas.height - padding - (gaussian(mu, mu, sigma) / yMax) * h);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Sigma markers
+                for (let z = 1; z <= 3; z++) {
+                    const xRight = mu + z * sigma;
+                    const xLeft = mu - z * sigma;
+                    if (xRight <= xMax) {
+                        const px = padding + ((xRight - xMin) / (xMax - xMin)) * w;
+                        ctx.fillStyle = '#6b6965';
+                        ctx.font = '10px JetBrains Mono';
+                        ctx.textAlign = 'center';
+                        ctx.fillText('+' + z + 'σ', px, canvas.height - padding + 15);
+                    }
+                    if (xLeft >= xMin) {
+                        const px = padding + ((xLeft - xMin) / (xMax - xMin)) * w;
+                        ctx.fillText('-' + z + 'σ', px, canvas.height - padding + 15);
+                    }
+                }
+
+                // Labels
+                ctx.fillStyle = '#6b6965';
+                ctx.font = '12px JetBrains Mono';
+                ctx.textAlign = 'center';
+                ctx.fillText('x', canvas.width / 2, canvas.height - 10);
+            }
+
+            muSlider.addEventListener('input', draw);
+            sigmaSlider.addEventListener('input', draw);
+            draw();
+        }
+
+        // ==========================================
+        // 3. BOLTZMANN DISTRIBUTION
+        // ==========================================
+        function initBoltzmann() {
+            const canvas = document.getElementById('boltzmannCanvas');
+            const ctx = canvas.getContext('2d');
+            const tSlider = document.getElementById('boltzT');
+            const tValue = document.getElementById('boltzTValue');
+            const ktValue = document.getElementById('boltzKTValue');
+            const avgValue = document.getElementById('boltzAvgValue');
+
+            const R = 8.314; // J/(mol·K)
+            const energies = [0, 5, 10, 15, 20, 25, 30]; // kJ/mol
+            const degeneracies = [1, 2, 3, 2, 3, 2, 1];
+
+            function draw() {
+                const T = parseFloat(tSlider.value);
+                const kT = R * T / 1000; // kJ/mol
+
+                tValue.textContent = 'T = ' + T + ' K';
+                ktValue.textContent = '= ' + kT.toFixed(2) + ' kJ/mol';
+
+                ctx.fillStyle = '#0a0a0f';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                const padding = 60;
+                const w = canvas.width - 2 * padding;
+                const h = canvas.height - 2 * padding;
+
+                // Calculate partition function and populations
+                let Z = 0;
+                const populations = [];
+                for (let i = 0; i < energies.length; i++) {
+                    const boltz = degeneracies[i] * Math.exp(-energies[i] / kT);
+                    Z += boltz;
+                    populations.push(boltz);
+                }
+
+                // Normalize and calculate average energy
+                let avgE = 0;
+                for (let i = 0; i < energies.length; i++) {
+                    populations[i] /= Z;
+                    avgE += populations[i] * energies[i];
+                }
+                avgValue.textContent = '= ' + avgE.toFixed(2) + ' kJ/mol';
+
+                // Draw energy levels and populations
+                const levelSpacing = h / (energies.length + 1);
+                const maxPop = Math.max(...populations);
+
+                for (let i = 0; i < energies.length; i++) {
+                    const y = canvas.height - padding - (i + 1) * levelSpacing;
+                    const pop = populations[i];
+
+                    // Energy level line
+                    ctx.strokeStyle = '#22C55E';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.moveTo(padding + 100, y);
+                    ctx.lineTo(padding + 200, y);
+                    ctx.stroke();
+
+                    // Population bar
+                    const barWidth = (pop / maxPop) * (w - 250);
+                    ctx.fillStyle = 'rgba(249, 115, 22, 0.7)';
+                    ctx.fillRect(padding + 220, y - 8, barWidth, 16);
+                    ctx.strokeStyle = '#F97316';
+                    ctx.strokeRect(padding + 220, y - 8, barWidth, 16);
+
+                    // Labels
+                    ctx.fillStyle = '#e8e6e3';
+                    ctx.font = '11px JetBrains Mono';
+                    ctx.textAlign = 'right';
+                    ctx.fillText('E' + i + ' = ' + energies[i], padding + 90, y + 4);
+                    ctx.textAlign = 'left';
+                    ctx.fillText((pop * 100).toFixed(1) + '%', padding + 230 + barWidth, y + 4);
+                }
+
+                // Axis labels
+                ctx.fillStyle = '#6b6965';
+                ctx.font = '12px JetBrains Mono';
+                ctx.textAlign = 'center';
+                ctx.fillText('Population', padding + w/2 + 50, canvas.height - 15);
+
+                ctx.save();
+                ctx.translate(20, canvas.height / 2);
+                ctx.rotate(-Math.PI / 2);
+                ctx.fillText('Energy (kJ/mol)', 0, 0);
+                ctx.restore();
+            }
+
+            tSlider.addEventListener('input', draw);
+            draw();
+        }
+
+        // ==========================================
+        // 4. MAXWELL-BOLTZMANN SPEEDS
+        // ==========================================
+        function initMaxwell() {
+            const canvas = document.getElementById('maxwellCanvas');
+            const ctx = canvas.getContext('2d');
+            const tSlider = document.getElementById('maxwellT');
+            const mSlider = document.getElementById('maxwellM');
+            const tValue = document.getElementById('maxwellTValue');
+            const mValue = document.getElementById('maxwellMValue');
+
+            const kB = 1.38e-23;
+            const molecules = {
+                2: 'H₂', 4: 'He', 28: 'N₂', 32: 'O₂', 44: 'CO₂', 18: 'H₂O'
+            };
+
+            function maxwell(v, T, M) {
+                const m = M * 1e-3 / 6.022e23; // kg per molecule
+                const a = m / (2 * kB * T);
+                return 4 * Math.PI * Math.pow(a / Math.PI, 1.5) * v * v * Math.exp(-a * v * v);
+            }
+
+            function draw() {
+                const T = parseFloat(tSlider.value);
+                const M = parseFloat(mSlider.value);
+                const m = M * 1e-3 / 6.022e23;
+
+                tValue.textContent = 'T = ' + T + ' K';
+                const molName = molecules[M] || '';
+                mValue.textContent = 'M = ' + M + ' g/mol' + (molName ? ' (' + molName + ')' : '');
+
+                ctx.fillStyle = '#0a0a0f';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                const padding = 50;
+                const w = canvas.width - 2 * padding;
+                const h = canvas.height - 2 * padding;
+
+                // Characteristic speeds
+                const vp = Math.sqrt(2 * kB * T / m); // most probable
+                const vavg = Math.sqrt(8 * kB * T / (Math.PI * m)); // mean
+                const vrms = Math.sqrt(3 * kB * T / m); // RMS
+
+                const vMax = vrms * 2;
+
+                // Axes
+                ctx.strokeStyle = '#2a2a35';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(padding, padding);
+                ctx.lineTo(padding, canvas.height - padding);
+                ctx.lineTo(canvas.width - padding, canvas.height - padding);
+                ctx.stroke();
+
+                // Find max for scaling
+                let maxF = 0;
+                for (let i = 0; i <= 100; i++) {
+                    const v = (i / 100) * vMax;
+                    maxF = Math.max(maxF, maxwell(v, T, M));
+                }
+
+                // Shaded area
+                ctx.fillStyle = 'rgba(6, 182, 212, 0.2)';
+                ctx.beginPath();
+                ctx.moveTo(padding, canvas.height - padding);
+                for (let i = 0; i <= 200; i++) {
+                    const v = (i / 200) * vMax;
+                    const f = maxwell(v, T, M);
+                    const px = padding + (v / vMax) * w;
+                    const py = canvas.height - padding - (f / (maxF * 1.1)) * h;
+                    ctx.lineTo(px, py);
+                }
+                ctx.lineTo(canvas.width - padding, canvas.height - padding);
+                ctx.closePath();
+                ctx.fill();
+
+                // Curve
+                ctx.strokeStyle = '#06B6D4';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                for (let i = 0; i <= 200; i++) {
+                    const v = (i / 200) * vMax;
+                    const f = maxwell(v, T, M);
+                    const px = padding + (v / vMax) * w;
+                    const py = canvas.height - padding - (f / (maxF * 1.1)) * h;
+                    if (i === 0) ctx.moveTo(px, py);
+                    else ctx.lineTo(px, py);
+                }
+                ctx.stroke();
+
+                // Speed markers
+                const speeds = [
+                    { v: vp, color: '#22C55E', label: 'vₚ' },
+                    { v: vavg, color: '#F97316', label: 'v̄' },
+                    { v: vrms, color: '#EF4444', label: 'vᵣₘₛ' }
+                ];
+
+                speeds.forEach(s => {
+                    const px = padding + (s.v / vMax) * w;
+                    ctx.setLineDash([5, 5]);
+                    ctx.strokeStyle = s.color;
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.moveTo(px, canvas.height - padding);
+                    ctx.lineTo(px, padding);
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+
+                    ctx.fillStyle = s.color;
+                    ctx.font = '11px JetBrains Mono';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(s.label + ' = ' + (s.v).toFixed(0) + ' m/s', px, padding - 10);
+                });
+
+                // Labels
+                ctx.fillStyle = '#6b6965';
+                ctx.font = '12px JetBrains Mono';
+                ctx.textAlign = 'center';
+                ctx.fillText('Speed v (m/s)', canvas.width / 2, canvas.height - 10);
+            }
+
+            tSlider.addEventListener('input', draw);
+            mSlider.addEventListener('input', draw);
+            draw();
+        }
+
+        // ==========================================
+        // 5. ORBITAL PROBABILITY
+        // ==========================================
+        function initOrbital() {
+            const canvas = document.getElementById('orbitalCanvas');
+            const ctx = canvas.getContext('2d');
+            const orbitalSelect = document.getElementById('orbitalSelect');
+            const rmaxValue = document.getElementById('orbitalRmax');
+
+            // Radial wavefunctions (simplified, normalized approximately)
+            const orbitals = {
+                '1s': { n: 1, l: 0, R: r => 2 * Math.exp(-r), rmax: 1 },
+                '2s': { n: 2, l: 0, R: r => (1/(2*Math.sqrt(2))) * (2 - r) * Math.exp(-r/2), rmax: 5.24 },
+                '2p': { n: 2, l: 1, R: r => (1/(2*Math.sqrt(6))) * r * Math.exp(-r/2), rmax: 4 },
+                '3s': { n: 3, l: 0, R: r => (2/(81*Math.sqrt(3))) * (27 - 18*r + 2*r*r) * Math.exp(-r/3), rmax: 13.07 },
+                '3d': { n: 3, l: 2, R: r => (4/(81*Math.sqrt(30))) * r*r * Math.exp(-r/3), rmax: 9 }
+            };
+
+            function draw() {
+                const orbName = orbitalSelect.value;
+                const orb = orbitals[orbName];
+
+                ctx.fillStyle = '#0a0a0f';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                const padding = 50;
+                const w = canvas.width - 2 * padding;
+                const h = canvas.height - 2 * padding;
+
+                // Calculate radial distribution P(r) = 4πr²|R(r)|²
+                const rMax = orb.rmax * 2;
+                let maxP = 0;
+                let actualRmax = 0;
+                let maxPValue = 0;
+
+                for (let i = 1; i <= 200; i++) {
+                    const r = (i / 200) * rMax;
+                    const R = orb.R(r);
+                    const P = 4 * Math.PI * r * r * R * R;
+                    if (P > maxPValue) {
+                        maxPValue = P;
+                        actualRmax = r;
+                    }
+                    maxP = Math.max(maxP, P);
+                }
+
+                rmaxValue.textContent = '= ' + actualRmax.toFixed(2) + ' a₀';
+
+                // Axes
+                ctx.strokeStyle = '#2a2a35';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(padding, padding);
+                ctx.lineTo(padding, canvas.height - padding);
+                ctx.lineTo(canvas.width - padding, canvas.height - padding);
+                ctx.stroke();
+
+                // Shaded area
+                ctx.fillStyle = 'rgba(59, 130, 246, 0.3)';
+                ctx.beginPath();
+                ctx.moveTo(padding, canvas.height - padding);
+                for (let i = 0; i <= 200; i++) {
+                    const r = (i / 200) * rMax;
+                    const R = orb.R(r);
+                    const P = 4 * Math.PI * r * r * R * R;
+                    const px = padding + (r / rMax) * w;
+                    const py = canvas.height - padding - (P / (maxP * 1.1)) * h;
+                    ctx.lineTo(px, py);
+                }
+                ctx.lineTo(canvas.width - padding, canvas.height - padding);
+                ctx.closePath();
+                ctx.fill();
+
+                // Curve
+                ctx.strokeStyle = '#3B82F6';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                for (let i = 0; i <= 200; i++) {
+                    const r = (i / 200) * rMax;
+                    const R = orb.R(r);
+                    const P = 4 * Math.PI * r * r * R * R;
+                    const px = padding + (r / rMax) * w;
+                    const py = canvas.height - padding - (P / (maxP * 1.1)) * h;
+                    if (i === 0) ctx.moveTo(px, py);
+                    else ctx.lineTo(px, py);
+                }
+                ctx.stroke();
+
+                // Most probable radius marker
+                const rmaxPx = padding + (actualRmax / rMax) * w;
+                ctx.setLineDash([5, 5]);
+                ctx.strokeStyle = '#F97316';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(rmaxPx, canvas.height - padding);
+                ctx.lineTo(rmaxPx, padding);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                ctx.fillStyle = '#F97316';
+                ctx.beginPath();
+                ctx.arc(rmaxPx, canvas.height - padding - (maxPValue / (maxP * 1.1)) * h, 6, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Labels
+                ctx.fillStyle = '#6b6965';
+                ctx.font = '12px JetBrains Mono';
+                ctx.textAlign = 'center';
+                ctx.fillText('r / a₀', canvas.width / 2, canvas.height - 10);
+                ctx.save();
+                ctx.translate(15, canvas.height / 2);
+                ctx.rotate(-Math.PI / 2);
+                ctx.fillText('P(r) = 4πr²|ψ|²', 0, 0);
+                ctx.restore();
+
+                // Orbital label
+                ctx.fillStyle = '#3B82F6';
+                ctx.font = '14px JetBrains Mono';
+                ctx.textAlign = 'left';
+                ctx.fillText(orbName + ' orbital', padding + 10, padding + 20);
+            }
+
+            orbitalSelect.addEventListener('change', draw);
+            draw();
+        }
+
+        // ==========================================
+        // 6. CENTRAL LIMIT THEOREM
+        // ==========================================
+        function initCLT() {
+            const canvas = document.getElementById('cltCanvas');
+            const ctx = canvas.getContext('2d');
+            const nSlider = document.getElementById('cltN');
+            const nValue = document.getElementById('cltNValue');
+            const countValue = document.getElementById('cltCount');
+            const sampleBtn = document.getElementById('cltSample');
+            const resetBtn = document.getElementById('cltReset');
+
+            let means = [];
+            const bins = 30;
+            const binCounts = new Array(bins).fill(0);
+
+            function draw() {
+                const n = parseInt(nSlider.value);
+                nValue.textContent = 'n = ' + n;
+                countValue.textContent = means.length;
+
+                ctx.fillStyle = '#0a0a0f';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                const padding = 50;
+                const w = canvas.width - 2 * padding;
+                const h = canvas.height - 2 * padding;
+
+                // Axes
+                ctx.strokeStyle = '#2a2a35';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(padding, padding);
+                ctx.lineTo(padding, canvas.height - padding);
+                ctx.lineTo(canvas.width - padding, canvas.height - padding);
+                ctx.stroke();
+
+                if (means.length === 0) {
+                    ctx.fillStyle = '#6b6965';
+                    ctx.font = '14px Inter';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('Click "Sample 100 Means" to start', canvas.width / 2, canvas.height / 2);
+                    return;
+                }
+
+                // Draw histogram
+                const maxCount = Math.max(...binCounts, 1);
+                const barWidth = w / bins;
+
+                ctx.fillStyle = 'rgba(6, 182, 212, 0.6)';
+                ctx.strokeStyle = '#06B6D4';
+                ctx.lineWidth = 1;
+
+                for (let i = 0; i < bins; i++) {
+                    const barH = (binCounts[i] / maxCount) * h * 0.9;
+                    const x = padding + i * barWidth;
+                    const y = canvas.height - padding - barH;
+                    ctx.fillRect(x, y, barWidth - 1, barH);
+                    ctx.strokeRect(x, y, barWidth - 1, barH);
+                }
+
+                // Theoretical Gaussian overlay
+                const mu = 0.5; // Mean of uniform [0,1]
+                const sigma = 1 / Math.sqrt(12 * n); // Std of mean
+
+                ctx.strokeStyle = '#F97316';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+
+                for (let i = 0; i <= 100; i++) {
+                    const x = i / 100;
+                    const gaussVal = Math.exp(-Math.pow(x - mu, 2) / (2 * sigma * sigma)) / (sigma * Math.sqrt(2 * Math.PI));
+                    // Scale to match histogram
+                    const scaledVal = gaussVal * means.length * (1 / bins);
+                    const px = padding + x * w;
+                    const py = canvas.height - padding - (scaledVal / maxCount) * h * 0.9;
+                    if (i === 0) ctx.moveTo(px, py);
+                    else ctx.lineTo(px, py);
+                }
+                ctx.stroke();
+
+                // Labels
+                ctx.fillStyle = '#6b6965';
+                ctx.font = '12px JetBrains Mono';
+                ctx.textAlign = 'center';
+                ctx.fillText('Sample Mean', canvas.width / 2, canvas.height - 10);
+                ctx.fillText('0', padding, canvas.height - padding + 15);
+                ctx.fillText('1', canvas.width - padding, canvas.height - padding + 15);
+            }
+
+            function sample() {
+                const n = parseInt(nSlider.value);
+
+                for (let s = 0; s < 100; s++) {
+                    let sum = 0;
+                    for (let i = 0; i < n; i++) {
+                        sum += Math.random();
+                    }
+                    const mean = sum / n;
+                    means.push(mean);
+
+                    const binIndex = Math.min(Math.floor(mean * bins), bins - 1);
+                    binCounts[binIndex]++;
+                }
+
+                draw();
+            }
+
+            function reset() {
+                means = [];
+                binCounts.fill(0);
+                draw();
+            }
+
+            nSlider.addEventListener('input', () => {
+                reset();
+            });
+            sampleBtn.addEventListener('click', sample);
+            resetBtn.addEventListener('click', reset);
+            draw();
+        }
+    </script>
+</body>
+</html>
