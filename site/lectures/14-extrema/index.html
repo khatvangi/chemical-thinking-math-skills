@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 14: Finding Extrema | Chemical Thinking</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a24;
+            --bg-card: #16161f;
+            --text-primary: #e8e6e3;
+            --text-secondary: #a0a0a0;
+            --text-muted: #6b6b6b;
+            --accent-red: #ef4444;
+            --accent-orange: #f59e0b;
+            --accent-blue: #4a9eff;
+            --accent-purple: #8b5cf6;
+            --accent-green: #10b981;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 17px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Navigation */
+        .lecture-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--bg-tertiary);
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover { color: var(--accent-red); }
+
+        .primitive-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(245, 158, 11, 0.1));
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .primitive-link:hover {
+            border-color: var(--accent-red);
+            box-shadow: 0 0 20px rgba(239, 68, 68, 0.2);
+        }
+
+        .primitive-badge {
+            background: var(--accent-red);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .primitive-text {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 3rem 0;
+        }
+
+        .lecture-number {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-red);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            letter-spacing: 0.1em;
+        }
+
+        h1 {
+            font-family: 'Fraunces', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-red), var(--accent-orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        /* Sections */
+        section {
+            margin-bottom: 4rem;
+        }
+
+        h2 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.8rem;
+            color: var(--accent-red);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--bg-tertiary);
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        strong { color: var(--text-primary); }
+
+        /* Hook Box */
+        .hook-box {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(245, 158, 11, 0.05));
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .hook-box p:last-child { margin-bottom: 0; }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--bg-tertiary);
+        }
+
+        th {
+            background: var(--bg-tertiary);
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        td { color: var(--text-secondary); }
+
+        tr:last-child td { border-bottom: none; }
+
+        /* Definition boxes */
+        .definition-box {
+            background: var(--bg-secondary);
+            border-left: 4px solid var(--accent-red);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .definition-box .term {
+            font-weight: 600;
+            color: var(--accent-red);
+        }
+
+        /* Theorem boxes */
+        .theorem-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--accent-purple);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .theorem-box h4 {
+            color: var(--accent-purple);
+            margin-bottom: 1rem;
+        }
+
+        /* Interactive visualizations */
+        .visualization {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .viz-title {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .canvas-container {
+            background: var(--bg-primary);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            border-radius: 4px;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .control-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .control-group label {
+            display: block;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            accent-color: var(--accent-red);
+        }
+
+        select {
+            width: 100%;
+            padding: 0.5rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--bg-card);
+            color: var(--text-primary);
+            border-radius: 4px;
+        }
+
+        .value-display {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-red);
+            font-size: 0.9rem;
+        }
+
+        /* Info box */
+        .info-box {
+            background: var(--bg-card);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+        }
+
+        /* Procedure box */
+        .procedure-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--accent-green);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .procedure-box h4 {
+            color: var(--accent-green);
+            margin-bottom: 1rem;
+        }
+
+        .procedure-box ol {
+            margin-left: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        .procedure-box li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Example box */
+        .example-box {
+            background: var(--bg-card);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .example-box h4 {
+            color: var(--accent-orange);
+            margin-bottom: 1rem;
+        }
+
+        /* Key insight */
+        .key-insight {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(139, 92, 246, 0.1));
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .key-insight p {
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        /* Summary table */
+        .summary-table {
+            margin: 2rem 0;
+        }
+
+        /* Pitfalls */
+        .pitfall-list {
+            list-style: none;
+            margin: 1rem 0;
+        }
+
+        .pitfall-list li {
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.5rem;
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 3px solid var(--accent-red);
+            border-radius: 0 4px 4px 0;
+            color: var(--text-secondary);
+        }
+
+        /* Footer navigation */
+        .lecture-footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--bg-tertiary);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            background: var(--bg-secondary);
+            transition: all 0.3s;
+        }
+
+        .footer-link:hover {
+            background: var(--bg-tertiary);
+            color: var(--accent-red);
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .container { padding: 1rem; }
+            .controls { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="lecture-nav">
+            <a href="../all-lectures.html" class="nav-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                All Lectures
+            </a>
+            <a href="../../primitives/change.html" class="primitive-link">
+                <span class="primitive-badge">CHANGE</span>
+                <span class="primitive-text">Explore the Primitive</span>
+            </a>
+        </nav>
+
+        <header>
+            <div class="lecture-number">LECTURE 14</div>
+            <h1>Finding Extrema</h1>
+            <p class="subtitle">Where are the maxima and minima? Optimization in one variable.</p>
+        </header>
+
+        <div class="hook-box">
+            <h3>The Hook</h3>
+            <p><strong>Two argon atoms.</strong> At what distance is the energy minimized?</p>
+            <p>$$V(r) = 4\varepsilon \left[ \left(\frac{\sigma}{r}\right)^{12} - \left(\frac{\sigma}{r}\right)^{6} \right]$$</p>
+            <p>You could plot it and eyeball the minimum. But chemistry demands precision.</p>
+            <p><strong>The derivative tells you exactly where.</strong> At a minimum, the function stops decreasing and starts increasing. At that instant, the rate of change is zero: <strong>V'(r) = 0</strong>.</p>
+        </div>
+
+        <section>
+            <h2>Why Extrema Matter in Chemistry</h2>
+            <table>
+                <tr><th>Problem</th><th>What You're Optimizing</th></tr>
+                <tr><td>Equilibrium bond length</td><td>Minimize potential energy</td></tr>
+                <tr><td>Transition state</td><td>Saddle point (max in one direction)</td></tr>
+                <tr><td>Equilibrium constant</td><td>Minimize Gibbs free energy</td></tr>
+                <tr><td>Most probable speed</td><td>Maximize Maxwell-Boltzmann distribution</td></tr>
+                <tr><td>Crystal structure</td><td>Minimize lattice energy</td></tr>
+                <tr><td>Protein folding</td><td>Minimize free energy</td></tr>
+            </table>
+            <div class="key-insight">
+                <p><strong>Finding extrema is how nature finds equilibrium.</strong></p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Critical Points</h2>
+            <div class="definition-box">
+                <p><span class="term">Critical point:</span> A value x = c where f'(c) = 0 (horizontal tangent) or f'(c) does not exist (corner, cusp).</p>
+            </div>
+            <p>Critical points are <strong>candidates</strong> for extrema, but not every critical point is an extremum.</p>
+
+            <h3>Local vs Global Extrema</h3>
+            <div class="definition-box">
+                <p><span class="term">Local maximum:</span> f(c) &ge; f(x) for all x <em>near</em> c.</p>
+                <p><span class="term">Global maximum:</span> f(c) &ge; f(x) for all x in the <em>entire domain</em>.</p>
+            </div>
+            <p><strong>Key insight:</strong> Every global extremum is a local extremum, but local extrema are not necessarily global. A critical point may not be an extremum at all (inflection point).</p>
+        </section>
+
+        <section>
+            <h2>Interactive: Critical Point Classifier</h2>
+            <div class="visualization">
+                <div class="viz-title">Explore Critical Points and Extrema</div>
+                <div class="canvas-container">
+                    <canvas id="criticalCanvas" width="800" height="500"></canvas>
+                </div>
+                <div class="controls">
+                    <div class="control-group">
+                        <label>Function:</label>
+                        <select id="funcSelect">
+                            <option value="cubic">f(x) = x³ - 3x (two extrema)</option>
+                            <option value="quartic">f(x) = x⁴ - 4x³ (inflection + minimum)</option>
+                            <option value="x3">f(x) = x³ (inflection only)</option>
+                            <option value="x4">f(x) = x⁴ (min where f''=0)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="info-box" id="criticalInfo">
+                    Select a function to analyze its critical points.
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>The First Derivative Test</h2>
+            <div class="theorem-box">
+                <h4>First Derivative Test</h4>
+                <p>Let c be a critical point where f is continuous.</p>
+                <ol style="margin-left: 1.5rem; color: var(--text-secondary);">
+                    <li>If f' changes from <strong>+ to &minus;</strong> at c, then f has a <strong>local maximum</strong>.</li>
+                    <li>If f' changes from <strong>&minus; to +</strong> at c, then f has a <strong>local minimum</strong>.</li>
+                    <li>If f' does <strong>not change sign</strong>, then c is <strong>not an extremum</strong>.</li>
+                </ol>
+            </div>
+            <p><strong>Why it works:</strong> f' > 0 means increasing, f' < 0 means decreasing. If f goes from increasing to decreasing, it peaked (maximum). If from decreasing to increasing, it bottomed out (minimum).</p>
+        </section>
+
+        <section>
+            <h2>The Second Derivative Test</h2>
+            <div class="theorem-box">
+                <h4>Second Derivative Test</h4>
+                <p>Let f'(c) = 0 and f''(c) exist.</p>
+                <ol style="margin-left: 1.5rem; color: var(--text-secondary);">
+                    <li>If f''(c) > 0, then f has a <strong>local minimum</strong> at c. (concave up)</li>
+                    <li>If f''(c) < 0, then f has a <strong>local maximum</strong> at c. (concave down)</li>
+                    <li>If f''(c) = 0, the test is <strong>inconclusive</strong>. (use first derivative test)</li>
+                </ol>
+            </div>
+            <p><strong>Why it works:</strong> f'' > 0 means the curve bends upward (like a cup) &mdash; minimum. f'' < 0 means it bends downward (like a cap) &mdash; maximum.</p>
+        </section>
+
+        <section>
+            <h2>Chemistry: Lennard-Jones Minimum</h2>
+            <div class="visualization">
+                <div class="viz-title">Finding the Equilibrium Distance</div>
+                <div class="canvas-container">
+                    <canvas id="ljCanvas" width="800" height="400"></canvas>
+                </div>
+                <div class="controls">
+                    <div class="control-group">
+                        <label>&epsilon; (well depth): <span class="value-display" id="epsValue">1.0</span></label>
+                        <input type="range" id="epsSlider" min="0.5" max="3" step="0.1" value="1.0">
+                    </div>
+                    <div class="control-group">
+                        <label>&sigma; (size parameter): <span class="value-display" id="sigValue">1.0</span></label>
+                        <input type="range" id="sigSlider" min="0.5" max="2" step="0.1" value="1.0">
+                    </div>
+                </div>
+                <div class="info-box" id="ljInfo">
+                    Equilibrium: r = 2^(1/6)&sigma; with V = -&epsilon;
+                </div>
+            </div>
+
+            <div class="example-box">
+                <h4>Derivation</h4>
+                <p>Setting V'(r) = 0:</p>
+                <p>$$\frac{12\sigma^{12}}{r^{13}} = \frac{6\sigma^{6}}{r^{7}} \implies r^6 = 2\sigma^6 \implies r_{eq} = 2^{1/6}\sigma \approx 1.122\sigma$$</p>
+                <p>At the minimum: V(r<sub>eq</sub>) = &minus;&epsilon;</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Chemistry: Maxwell-Boltzmann Most Probable Speed</h2>
+            <div class="visualization">
+                <div class="viz-title">Where Does the Distribution Peak?</div>
+                <div class="canvas-container">
+                    <canvas id="mbCanvas" width="800" height="350"></canvas>
+                </div>
+                <div class="controls">
+                    <div class="control-group">
+                        <label>Temperature (K): <span class="value-display" id="tempValue">300</span></label>
+                        <input type="range" id="tempSlider" min="100" max="600" step="25" value="300">
+                    </div>
+                    <div class="control-group">
+                        <label>Molar mass (g/mol): <span class="value-display" id="massValue">28</span></label>
+                        <input type="range" id="massSlider" min="2" max="44" step="2" value="28">
+                    </div>
+                </div>
+                <div class="info-box" id="mbInfo">
+                    Most probable speed for N₂ at 300 K
+                </div>
+            </div>
+
+            <div class="example-box">
+                <h4>Derivation</h4>
+                <p>The distribution: f(v) &propto; v²e<sup>&minus;av²</sup> where a = m/(2k<sub>B</sub>T)</p>
+                <p>Setting d/dv[v²e<sup>&minus;av²</sup>] = 0:</p>
+                <p>$$2ve^{-av^2}(1 - av^2) = 0 \implies v_{mp} = \sqrt{\frac{1}{a}} = \sqrt{\frac{2RT}{M}}$$</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Global Extrema on Closed Intervals</h2>
+            <div class="theorem-box">
+                <h4>Extreme Value Theorem</h4>
+                <p>If f is continuous on [a, b], then f attains both a global maximum and minimum on [a, b].</p>
+            </div>
+
+            <div class="procedure-box">
+                <h4>Closed Interval Method</h4>
+                <ol>
+                    <li>Find all critical points in (a, b)</li>
+                    <li>Evaluate f at each critical point</li>
+                    <li>Evaluate f at endpoints: f(a) and f(b)</li>
+                    <li>Compare all values: largest is global max, smallest is global min</li>
+                </ol>
+            </div>
+
+            <div class="visualization">
+                <div class="viz-title">Closed Interval Method</div>
+                <div class="canvas-container">
+                    <canvas id="intervalCanvas" width="800" height="350"></canvas>
+                </div>
+                <div class="controls">
+                    <div class="control-group">
+                        <label>Left endpoint a: <span class="value-display" id="aValue">-2</span></label>
+                        <input type="range" id="aSlider" min="-3" max="0" step="0.5" value="-2">
+                    </div>
+                    <div class="control-group">
+                        <label>Right endpoint b: <span class="value-display" id="bValue">3</span></label>
+                        <input type="range" id="bSlider" min="1" max="4" step="0.5" value="3">
+                    </div>
+                </div>
+                <div class="info-box" id="intervalInfo">
+                    f(x) = x³ - 3x² on the interval
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Extrema-Finding Procedure</h2>
+            <div class="procedure-box">
+                <h4>Summary: How to Find Extrema</h4>
+                <ol>
+                    <li><strong>Find critical points:</strong> Solve f'(x) = 0, find where f'(x) doesn't exist</li>
+                    <li><strong>Classify each:</strong> Use first or second derivative test</li>
+                    <li><strong>Check boundaries:</strong> Endpoints for [a,b], limits for open/infinite domains</li>
+                    <li><strong>Compare values:</strong> Global max = largest, global min = smallest</li>
+                </ol>
+            </div>
+        </section>
+
+        <section>
+            <h2>Common Pitfalls</h2>
+            <ul class="pitfall-list">
+                <li><strong>Forgetting endpoints:</strong> Critical points give local extrema. Global extrema may be at boundaries.</li>
+                <li><strong>Assuming f'(c) = 0 means extremum:</strong> Could be an inflection point (like x³ at x = 0).</li>
+                <li><strong>Forgetting where f' doesn't exist:</strong> Corners and cusps are also critical points.</li>
+                <li><strong>Wrong interval:</strong> Physical constraints may limit the domain (r > 0, concentrations &ge; 0).</li>
+                <li><strong>Second derivative test inconclusive:</strong> When f''(c) = 0, must use first derivative test.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Summary</h2>
+            <table class="summary-table">
+                <tr><th>Test</th><th>Condition</th><th>Result</th></tr>
+                <tr><td>First Derivative</td><td>f' changes + to &minus;</td><td>Local maximum</td></tr>
+                <tr><td>First Derivative</td><td>f' changes &minus; to +</td><td>Local minimum</td></tr>
+                <tr><td>First Derivative</td><td>f' no sign change</td><td>Not an extremum</td></tr>
+                <tr><td>Second Derivative</td><td>f''(c) > 0</td><td>Local minimum</td></tr>
+                <tr><td>Second Derivative</td><td>f''(c) < 0</td><td>Local maximum</td></tr>
+                <tr><td>Second Derivative</td><td>f''(c) = 0</td><td>Inconclusive</td></tr>
+            </table>
+        </section>
+
+        <nav class="lecture-footer">
+            <a href="../13-rules/" class="footer-link">&larr; Lecture 13: Rules of Change</a>
+            <a href="../all-lectures.html" class="footer-link">All Lectures</a>
+            <a href="../15-partial/" class="footer-link">Lecture 15: Partial Derivatives &rarr;</a>
+        </nav>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},
+                    {left: "$", right: "$", display: false}
+                ]
+            });
+        });
+
+        // Critical Point Classifier
+        (function() {
+            const canvas = document.getElementById('criticalCanvas');
+            const ctx = canvas.getContext('2d');
+            const funcSelect = document.getElementById('funcSelect');
+            const info = document.getElementById('criticalInfo');
+
+            const functions = {
+                cubic: {
+                    f: x => x*x*x - 3*x,
+                    df: x => 3*x*x - 3,
+                    ddf: x => 6*x,
+                    range: [-2.5, 2.5],
+                    critPts: [-1, 1],
+                    name: "f(x) = x³ - 3x"
+                },
+                quartic: {
+                    f: x => x*x*x*x - 4*x*x*x,
+                    df: x => 4*x*x*x - 12*x*x,
+                    ddf: x => 12*x*x - 24*x,
+                    range: [-1, 4.5],
+                    critPts: [0, 3],
+                    name: "f(x) = x⁴ - 4x³"
+                },
+                x3: {
+                    f: x => x*x*x,
+                    df: x => 3*x*x,
+                    ddf: x => 6*x,
+                    range: [-2, 2],
+                    critPts: [0],
+                    name: "f(x) = x³"
+                },
+                x4: {
+                    f: x => x*x*x*x,
+                    df: x => 4*x*x*x,
+                    ddf: x => 12*x*x,
+                    range: [-1.5, 1.5],
+                    critPts: [0],
+                    name: "f(x) = x⁴"
+                }
+            };
+
+            function draw() {
+                const fn = functions[funcSelect.value];
+                const w = canvas.width, h = canvas.height;
+                const panelH = h / 3;
+
+                ctx.fillStyle = '#0a0a0f';
+                ctx.fillRect(0, 0, w, h);
+
+                const [xMin, xMax] = fn.range;
+
+                // Calculate y ranges for each plot
+                let yVals = [], dyVals = [], ddyVals = [];
+                for (let i = 0; i <= 200; i++) {
+                    const x = xMin + (xMax - xMin) * i / 200;
+                    yVals.push(fn.f(x));
+                    dyVals.push(fn.df(x));
+                    ddyVals.push(fn.ddf(x));
+                }
+
+                function getYRange(vals) {
+                    const min = Math.min(...vals);
+                    const max = Math.max(...vals);
+                    const pad = (max - min) * 0.15 || 1;
+                    return [min - pad, max + pad];
+                }
+
+                const yRange = getYRange(yVals);
+                const dyRange = getYRange(dyVals);
+                const ddyRange = getYRange(ddyVals);
+
+                function drawPanel(panelIdx, yR, color, label, plotFn) {
+                    const py = panelIdx * panelH;
+
+                    // Panel background
+                    ctx.fillStyle = '#12121a';
+                    ctx.fillRect(10, py + 10, w - 20, panelH - 20);
+
+                    // Axes
+                    ctx.strokeStyle = '#333';
+                    ctx.lineWidth = 1;
+
+                    // Y axis at x=0 if in range
+                    if (xMin < 0 && xMax > 0) {
+                        const ax = 10 + (-xMin) / (xMax - xMin) * (w - 20);
+                        ctx.beginPath();
+                        ctx.moveTo(ax, py + 10);
+                        ctx.lineTo(ax, py + panelH - 10);
+                        ctx.stroke();
+                    }
+
+                    // X axis at y=0 if in range
+                    if (yR[0] < 0 && yR[1] > 0) {
+                        const ay = py + panelH - 10 - (-yR[0]) / (yR[1] - yR[0]) * (panelH - 20);
+                        ctx.beginPath();
+                        ctx.moveTo(10, ay);
+                        ctx.lineTo(w - 10, ay);
+                        ctx.stroke();
+                    }
+
+                    // Plot function
+                    ctx.strokeStyle = color;
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    for (let i = 0; i <= 200; i++) {
+                        const x = xMin + (xMax - xMin) * i / 200;
+                        const y = plotFn(x);
+                        const px = 10 + (x - xMin) / (xMax - xMin) * (w - 20);
+                        const pyy = py + panelH - 10 - (y - yR[0]) / (yR[1] - yR[0]) * (panelH - 20);
+                        if (i === 0) ctx.moveTo(px, pyy);
+                        else ctx.lineTo(px, pyy);
+                    }
+                    ctx.stroke();
+
+                    // Mark critical points
+                    fn.critPts.forEach(c => {
+                        const px = 10 + (c - xMin) / (xMax - xMin) * (w - 20);
+                        const y = plotFn(c);
+                        const pyy = py + panelH - 10 - (y - yR[0]) / (yR[1] - yR[0]) * (panelH - 20);
+
+                        ctx.beginPath();
+                        ctx.arc(px, pyy, 8, 0, Math.PI * 2);
+                        ctx.fillStyle = '#ef4444';
+                        ctx.fill();
+                    });
+
+                    // Label
+                    ctx.fillStyle = color;
+                    ctx.font = '14px JetBrains Mono';
+                    ctx.fillText(label, 20, py + 30);
+                }
+
+                drawPanel(0, yRange, '#4a9eff', 'f(x)', fn.f);
+                drawPanel(1, dyRange, '#10b981', "f'(x)", fn.df);
+                drawPanel(2, ddyRange, '#8b5cf6', "f''(x)", fn.ddf);
+
+                // Update info
+                let infoText = `<strong>${fn.name}</strong><br><br>`;
+                infoText += `<table style="width:100%"><tr><th>Critical Point</th><th>f(c)</th><th>f''(c)</th><th>Classification</th></tr>`;
+
+                fn.critPts.forEach(c => {
+                    const fc = fn.f(c).toFixed(3);
+                    const ddc = fn.ddf(c).toFixed(3);
+                    let classification;
+                    if (Math.abs(fn.ddf(c)) > 0.01) {
+                        classification = fn.ddf(c) > 0 ? 'Local minimum (f'' > 0)' : 'Local maximum (f'' < 0)';
+                    } else {
+                        classification = 'Inconclusive (f'' = 0)';
+                    }
+                    infoText += `<tr><td>x = ${c}</td><td>${fc}</td><td>${ddc}</td><td>${classification}</td></tr>`;
+                });
+                infoText += `</table>`;
+                info.innerHTML = infoText;
+            }
+
+            funcSelect.addEventListener('change', draw);
+            draw();
+        })();
+
+        // Lennard-Jones
+        (function() {
+            const canvas = document.getElementById('ljCanvas');
+            const ctx = canvas.getContext('2d');
+            const epsSlider = document.getElementById('epsSlider');
+            const sigSlider = document.getElementById('sigSlider');
+            const epsValue = document.getElementById('epsValue');
+            const sigValue = document.getElementById('sigValue');
+            const info = document.getElementById('ljInfo');
+
+            function draw() {
+                const eps = parseFloat(epsSlider.value);
+                const sig = parseFloat(sigSlider.value);
+                epsValue.textContent = eps.toFixed(1);
+                sigValue.textContent = sig.toFixed(1);
+
+                const w = canvas.width, h = canvas.height;
+                ctx.fillStyle = '#0a0a0f';
+                ctx.fillRect(0, 0, w, h);
+
+                const rMin = 0.9 * sig;
+                const rMax = 3 * sig;
+                const rEq = sig * Math.pow(2, 1/6);
+
+                function V(r) {
+                    const s = sig / r;
+                    return 4 * eps * (Math.pow(s, 12) - Math.pow(s, 6));
+                }
+
+                // Y range
+                const vMin = -1.5 * eps;
+                const vMax = 2 * eps;
+
+                // Axes
+                ctx.strokeStyle = '#333';
+                ctx.lineWidth = 1;
+
+                // X axis (V = 0)
+                const y0 = h - 40 - (-vMin) / (vMax - vMin) * (h - 80);
+                ctx.beginPath();
+                ctx.moveTo(60, y0);
+                ctx.lineTo(w - 20, y0);
+                ctx.stroke();
+
+                // Y axis
+                ctx.beginPath();
+                ctx.moveTo(60, 40);
+                ctx.lineTo(60, h - 40);
+                ctx.stroke();
+
+                // Labels
+                ctx.fillStyle = '#a0a0a0';
+                ctx.font = '12px Inter';
+                ctx.fillText('r', w - 30, y0 + 15);
+                ctx.fillText('V(r)', 20, 50);
+
+                // V = -eps line
+                const yEps = h - 40 - (-eps - vMin) / (vMax - vMin) * (h - 80);
+                ctx.strokeStyle = '#10b981';
+                ctx.setLineDash([5, 5]);
+                ctx.beginPath();
+                ctx.moveTo(60, yEps);
+                ctx.lineTo(w - 20, yEps);
+                ctx.stroke();
+                ctx.setLineDash([]);
+                ctx.fillStyle = '#10b981';
+                ctx.fillText('V = -ε', w - 60, yEps - 5);
+
+                // Plot V(r)
+                ctx.strokeStyle = '#4a9eff';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                for (let i = 0; i <= 300; i++) {
+                    const r = rMin + (rMax - rMin) * i / 300;
+                    const v = V(r);
+                    if (v > vMax || v < vMin - 1) continue;
+                    const px = 60 + (r - rMin) / (rMax - rMin) * (w - 80);
+                    const py = h - 40 - (v - vMin) / (vMax - vMin) * (h - 80);
+                    if (i === 0 || v > vMax - 0.1) ctx.moveTo(px, py);
+                    else ctx.lineTo(px, py);
+                }
+                ctx.stroke();
+
+                // Mark equilibrium
+                const pxEq = 60 + (rEq - rMin) / (rMax - rMin) * (w - 80);
+                ctx.beginPath();
+                ctx.arc(pxEq, yEps, 10, 0, Math.PI * 2);
+                ctx.fillStyle = '#ef4444';
+                ctx.fill();
+
+                // Vertical line at r_eq
+                ctx.strokeStyle = '#ef4444';
+                ctx.setLineDash([3, 3]);
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(pxEq, y0);
+                ctx.lineTo(pxEq, yEps);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Label
+                ctx.fillStyle = '#ef4444';
+                ctx.font = '12px JetBrains Mono';
+                ctx.fillText(`r_eq = ${rEq.toFixed(3)}`, pxEq - 40, y0 + 20);
+
+                // Info
+                info.innerHTML = `<strong>Equilibrium:</strong> r<sub>eq</sub> = 2<sup>1/6</sup>&sigma; = ${rEq.toFixed(3)}<br>` +
+                    `<strong>Well depth:</strong> V(r<sub>eq</sub>) = -&epsilon; = ${(-eps).toFixed(1)}`;
+            }
+
+            epsSlider.addEventListener('input', draw);
+            sigSlider.addEventListener('input', draw);
+            draw();
+        })();
+
+        // Maxwell-Boltzmann
+        (function() {
+            const canvas = document.getElementById('mbCanvas');
+            const ctx = canvas.getContext('2d');
+            const tempSlider = document.getElementById('tempSlider');
+            const massSlider = document.getElementById('massSlider');
+            const tempValue = document.getElementById('tempValue');
+            const massValue = document.getElementById('massValue');
+            const info = document.getElementById('mbInfo');
+
+            const R = 8.314; // J/(mol·K)
+
+            function draw() {
+                const T = parseFloat(tempSlider.value);
+                const M = parseFloat(massSlider.value);
+                tempValue.textContent = T;
+                massValue.textContent = M;
+
+                const w = canvas.width, h = canvas.height;
+                ctx.fillStyle = '#0a0a0f';
+                ctx.fillRect(0, 0, w, h);
+
+                const vMp = Math.sqrt(2 * R * T / (M / 1000));
+                const a = (M / 1000) / (2 * R * T);
+
+                function f(v) {
+                    return v * v * Math.exp(-a * v * v);
+                }
+
+                const vMax = 3 * vMp;
+                const fMax = f(vMp) * 1.1;
+
+                // Axes
+                ctx.strokeStyle = '#333';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(60, h - 40);
+                ctx.lineTo(w - 20, h - 40);
+                ctx.moveTo(60, h - 40);
+                ctx.lineTo(60, 20);
+                ctx.stroke();
+
+                ctx.fillStyle = '#a0a0a0';
+                ctx.font = '12px Inter';
+                ctx.fillText('v (m/s)', w - 60, h - 15);
+                ctx.fillText('f(v)', 20, 30);
+
+                // Plot
+                ctx.strokeStyle = '#f59e0b';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                for (let i = 0; i <= 300; i++) {
+                    const v = vMax * i / 300;
+                    const fv = f(v);
+                    const px = 60 + v / vMax * (w - 80);
+                    const py = h - 40 - fv / fMax * (h - 60);
+                    if (i === 0) ctx.moveTo(px, py);
+                    else ctx.lineTo(px, py);
+                }
+                ctx.stroke();
+
+                // Mark most probable speed
+                const pxMp = 60 + vMp / vMax * (w - 80);
+                const pyMp = h - 40 - f(vMp) / fMax * (h - 60);
+
+                ctx.strokeStyle = '#ef4444';
+                ctx.setLineDash([5, 5]);
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(pxMp, h - 40);
+                ctx.lineTo(pxMp, pyMp);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                ctx.beginPath();
+                ctx.arc(pxMp, pyMp, 8, 0, Math.PI * 2);
+                ctx.fillStyle = '#ef4444';
+                ctx.fill();
+
+                ctx.fillStyle = '#ef4444';
+                ctx.font = '12px JetBrains Mono';
+                ctx.fillText(`v_mp = ${Math.round(vMp)} m/s`, pxMp + 10, pyMp - 10);
+
+                // Gas name
+                let gasName = 'Gas';
+                if (M === 2) gasName = 'H₂';
+                else if (M === 28) gasName = 'N₂';
+                else if (M === 32) gasName = 'O₂';
+                else if (M === 44) gasName = 'CO₂';
+                else if (M === 4) gasName = 'He';
+
+                info.innerHTML = `<strong>${gasName}</strong> at T = ${T} K<br>` +
+                    `v<sub>mp</sub> = √(2RT/M) = <strong>${Math.round(vMp)} m/s</strong>`;
+            }
+
+            tempSlider.addEventListener('input', draw);
+            massSlider.addEventListener('input', draw);
+            draw();
+        })();
+
+        // Closed Interval Method
+        (function() {
+            const canvas = document.getElementById('intervalCanvas');
+            const ctx = canvas.getContext('2d');
+            const aSlider = document.getElementById('aSlider');
+            const bSlider = document.getElementById('bSlider');
+            const aValue = document.getElementById('aValue');
+            const bValue = document.getElementById('bValue');
+            const info = document.getElementById('intervalInfo');
+
+            function f(x) { return x*x*x - 3*x*x; }
+
+            function draw() {
+                const a = parseFloat(aSlider.value);
+                const b = parseFloat(bSlider.value);
+                aValue.textContent = a;
+                bValue.textContent = b;
+
+                const w = canvas.width, h = canvas.height;
+                ctx.fillStyle = '#0a0a0f';
+                ctx.fillRect(0, 0, w, h);
+
+                // Critical points: x(x-2) = 0 -> x = 0 or x = 2
+                const critPts = [0, 2].filter(c => c > a && c < b);
+                const candidates = [a, ...critPts, b];
+                const values = candidates.map(x => f(x));
+
+                const maxIdx = values.indexOf(Math.max(...values));
+                const minIdx = values.indexOf(Math.min(...values));
+
+                // Y range
+                const xMin = -3.5, xMax = 4.5;
+                let yMin = -30, yMax = 10;
+
+                // Axes
+                ctx.strokeStyle = '#333';
+                ctx.lineWidth = 1;
+
+                const y0 = h - 40 - (-yMin) / (yMax - yMin) * (h - 80);
+                ctx.beginPath();
+                ctx.moveTo(60, y0);
+                ctx.lineTo(w - 20, y0);
+                ctx.stroke();
+
+                const x0 = 60 + (-xMin) / (xMax - xMin) * (w - 80);
+                ctx.beginPath();
+                ctx.moveTo(x0, 20);
+                ctx.lineTo(x0, h - 40);
+                ctx.stroke();
+
+                // Shade interval
+                const pxa = 60 + (a - xMin) / (xMax - xMin) * (w - 80);
+                const pxb = 60 + (b - xMin) / (xMax - xMin) * (w - 80);
+                ctx.fillStyle = 'rgba(239, 68, 68, 0.1)';
+                ctx.fillRect(pxa, 20, pxb - pxa, h - 60);
+
+                // Plot f(x)
+                ctx.strokeStyle = '#4a9eff';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                for (let i = 0; i <= 300; i++) {
+                    const x = xMin + (xMax - xMin) * i / 300;
+                    const y = f(x);
+                    if (y > yMax || y < yMin) continue;
+                    const px = 60 + (x - xMin) / (xMax - xMin) * (w - 80);
+                    const py = h - 40 - (y - yMin) / (yMax - yMin) * (h - 80);
+                    if (i === 0) ctx.moveTo(px, py);
+                    else ctx.lineTo(px, py);
+                }
+                ctx.stroke();
+
+                // Mark candidates
+                candidates.forEach((x, i) => {
+                    const y = f(x);
+                    const px = 60 + (x - xMin) / (xMax - xMin) * (w - 80);
+                    const py = h - 40 - (y - yMin) / (yMax - yMin) * (h - 80);
+
+                    let color = '#f59e0b';
+                    let size = 8;
+                    if (i === maxIdx) { color = '#10b981'; size = 12; }
+                    if (i === minIdx) { color = '#ef4444'; size = 12; }
+
+                    ctx.beginPath();
+                    ctx.arc(px, py, size, 0, Math.PI * 2);
+                    ctx.fillStyle = color;
+                    ctx.fill();
+                });
+
+                // Labels
+                ctx.fillStyle = '#a0a0a0';
+                ctx.font = '12px Inter';
+                ctx.fillText('x', w - 30, y0 + 15);
+                ctx.fillText('f(x)', 20, 30);
+
+                // Info
+                let infoHTML = `<strong>f(x) = x³ - 3x²</strong> on [${a}, ${b}]<br><br>`;
+                infoHTML += `<table style="width:100%"><tr><th>x</th><th>Type</th><th>f(x)</th></tr>`;
+                candidates.forEach((x, i) => {
+                    const type = (x === a || x === b) ? 'Endpoint' : 'Critical';
+                    let mark = '';
+                    if (i === maxIdx) mark = ' <span style="color:#10b981">← Global Max</span>';
+                    if (i === minIdx) mark = ' <span style="color:#ef4444">← Global Min</span>';
+                    infoHTML += `<tr><td>${x}</td><td>${type}</td><td>${f(x).toFixed(2)}${mark}</td></tr>`;
+                });
+                infoHTML += `</table>`;
+                info.innerHTML = infoHTML;
+            }
+
+            aSlider.addEventListener('input', draw);
+            bSlider.addEventListener('input', draw);
+            draw();
+        })();
+    </script>
+</body>
+</html>

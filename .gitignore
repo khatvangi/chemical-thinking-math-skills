@@ -27,6 +27,7 @@ site/.quarto/
 !site/lectures/11-functions-limits/*.html
 !site/lectures/12-derivative/*.html
 !site/lectures/13-rules/*.html
+!site/lectures/14-extrema/*.html
 !site/lectures/all-lectures.html
 !site/protein-raga.html
 !site/landing.html
