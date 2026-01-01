@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARRANGEMENT | Order Matters</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0D1117;
+            --bg-secondary: #161B22;
+            --bg-tertiary: #21262D;
+            --text-primary: #E6EDF3;
+            --text-secondary: #8B949E;
+            --text-muted: #6E7681;
+            --accent-orange: #FFA657;
+            --accent-orange-dim: #9E6A30;
+            --accent-blue: #79C0FF;
+            --accent-purple: #A371F7;
+            --accent-green: #7EE787;
+            --accent-red: #F85149;
+            --accent-yellow: #F2CC60;
+            --border-color: #30363D;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.8;
+            font-size: 18px;
+        }
+
+        /* Header */
+        header {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            background: radial-gradient(ellipse at center, var(--bg-secondary) 0%, var(--bg-primary) 70%);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .primitive-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-orange);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+
+        h1 {
+            font-family: 'Fraunces', serif;
+            font-size: 5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, var(--accent-orange), var(--accent-yellow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+        }
+
+        .tagline {
+            font-family: 'Fraunces', serif;
+            font-size: 1.8rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+            font-style: italic;
+            max-width: 600px;
+        }
+
+        /* Main content */
+        .container {
+            max-width: 750px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Parts */
+        .part {
+            padding: 5rem 0;
+            border-bottom: 1px solid var(--border-color);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .part.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .part:last-of-type {
+            border-bottom: none;
+        }
+
+        .part-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .part-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-orange);
+            letter-spacing: 0.15em;
+        }
+
+        h2 {
+            font-family: 'Fraunces', serif;
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        h3 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--accent-orange);
+            margin: 2.5rem 0 1rem;
+        }
+
+        h4 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 2rem 0 0.75rem;
+        }
+
+        p {
+            margin-bottom: 1.3rem;
+            color: var(--text-secondary);
+        }
+
+        strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        em {
+            color: var(--accent-orange);
+            font-style: italic;
+        }
+
+        /* The Recognition (opening statement) */
+        .recognition {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 3rem;
+            margin: 4rem 0;
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .recognition p {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .recognition p:last-child {
+            margin-bottom: 0;
+            font-family: 'Fraunces', serif;
+            font-size: 1.3rem;
+            color: var(--accent-orange);
+        }
+
+        /* Definition popup */
+        .def-popup {
+            position: relative;
+            color: var(--accent-blue);
+            cursor: help;
+            border-bottom: 1px dashed var(--accent-blue);
+        }
+
+        .def-popup .def-tooltip {
+            position: absolute;
+            bottom: calc(100% + 12px);
+            left: 50%;
+            transform: translateX(-50%);
+            width: 340px;
+            padding: 1rem 1.25rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.25s, visibility 0.25s;
+            z-index: 100;
+            text-align: left;
+            line-height: 1.6;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+
+        .def-popup:hover .def-tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Visual containers */
+        .visual-container {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2.5rem 0;
+            border: 1px solid var(--border-color);
+        }
+
+        .visual-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-orange);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        canvas {
+            display: block;
+            margin: 0 auto;
+            border-radius: 8px;
+        }
+
+        .caption {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-align: center;
+            margin-top: 1.25rem;
+            font-style: italic;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            justify-content: center;
+        }
+
+        button {
+            padding: 0.6rem 1.25rem;
+            background: var(--accent-orange-dim);
+            border: 1px solid var(--accent-orange);
+            color: var(--text-primary);
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+
+        button:hover {
+            background: var(--accent-orange);
+            color: var(--bg-primary);
+        }
+
+        button.active {
+            background: var(--accent-orange);
+            color: var(--bg-primary);
+        }
+
+        .result-display {
+            text-align: center;
+            padding: 1rem;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            margin-top: 1.25rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .result-value {
+            font-size: 1.4rem;
+            color: var(--accent-orange);
+        }
+
+        .result-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 0.4rem;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.75rem 0;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            padding: 0.85rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-orange);
+            font-weight: 500;
+            background: var(--bg-tertiary);
+            font-size: 0.85rem;
+        }
+
+        td {
+            color: var(--text-secondary);
+        }
+
+        /* Formula box */
+        .formula-box {
+            background: var(--bg-tertiary);
+            border-left: 3px solid var(--accent-orange);
+            padding: 1.25rem 1.5rem;
+            margin: 1.75rem 0;
+            font-family: 'JetBrains Mono', monospace;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .formula-box .formula {
+            font-size: 1.15rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .formula-box .explanation {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Definition block */
+        .definition-block {
+            background: var(--bg-secondary);
+            border: 1px solid var(--accent-orange);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin: 3rem 0;
+        }
+
+        .definition-block h3 {
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .definition-item {
+            margin-bottom: 1.25rem;
+            padding-bottom: 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .definition-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .definition-term {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-blue);
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .definition-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-top: 0.3rem;
+        }
+
+        /* Matrix display */
+        .matrix-display {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 2rem 0;
+            font-family: 'JetBrains Mono', monospace;
+            flex-wrap: wrap;
+        }
+
+        .matrix {
+            display: inline-flex;
+            flex-direction: column;
+            padding: 0.5rem 0.75rem;
+            border-left: 2px solid var(--accent-orange);
+            border-right: 2px solid var(--accent-orange);
+            background: var(--bg-tertiary);
+            border-radius: 0;
+        }
+
+        .matrix-row {
+            display: flex;
+            gap: 1.25rem;
+        }
+
+        .matrix-row span {
+            min-width: 35px;
+            text-align: center;
+            color: var(--accent-blue);
+            font-size: 0.95rem;
+        }
+
+        .code-block {
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--accent-blue);
+            overflow-x: auto;
+            white-space: pre;
+            line-height: 1.5;
+        }
+
+        /* Enantiomer comparison */
+        .enantiomer-pair {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+        }
+
+        .enantiomer {
+            text-align: center;
+        }
+
+        .enantiomer-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            margin-top: 0.75rem;
+        }
+
+        .enantiomer-label.safe { color: var(--accent-green); }
+        .enantiomer-label.danger { color: var(--accent-red); }
+
+        .enantiomer-effect {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Sequence vs Set interactive */
+        .sequence-demo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .element-row {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .element-box {
+            width: 60px;
+            height: 60px;
+            background: var(--bg-tertiary);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Fraunces', serif;
+            font-size: 1.5rem;
+            color: var(--accent-blue);
+            cursor: grab;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .element-box:hover {
+            border-color: var(--accent-orange);
+            transform: scale(1.05);
+        }
+
+        .element-box.dragging {
+            opacity: 0.5;
+            cursor: grabbing;
+        }
+
+        .comparison-result {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.1rem;
+        }
+
+        .comparison-result .equals { color: var(--accent-green); }
+        .comparison-result .not-equals { color: var(--accent-red); }
+
+        /* Endnotes */
+        .endnotes {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .endnotes h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .endnote {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+            padding-left: 2.5rem;
+            text-indent: -2.5rem;
+        }
+
+        .endnote-ref {
+            color: var(--accent-blue);
+            font-weight: 500;
+        }
+
+        /* CTA */
+        .cta {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            margin: 3rem 0;
+            border: 1px solid var(--border-color);
+        }
+
+        .cta h3 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .cta p {
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--accent-orange);
+            color: var(--bg-primary);
+            text-decoration: none;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .cta-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(255, 166, 87, 0.3);
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            h1 { font-size: 3rem; }
+            h2 { font-size: 1.8rem; }
+            .tagline { font-size: 1.3rem; }
+            .container { padding: 0 1.25rem; }
+            .visual-container { padding: 1.25rem; }
+            .recognition { padding: 2rem; }
+            .enantiomer-pair { gap: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="primitive-label">Primitive</div>
+        <h1>ARRANGEMENT</h1>
+        <p class="tagline">The recognition that the same elements, differently ordered, constitute different things.</p>
+    </header>
+
+    <main class="container">
+        <!-- The Recognition -->
+        <div class="recognition">
+            <p>Some things are not just collections. They have <em>order</em>.</p>
+            <p>The sequence ABC differs from CBA. The configuration of a stereocenter determines whether a molecule is drug or poison. The layout of atoms in a crystal determines whether carbon is graphite or diamond.</p>
+            <p>ARRANGEMENT is the recognition that order matters.</p>
+        </div>
+
+        <!-- Part I: The Cognitive Basis -->
+        <section class="part">
+            <div class="part-header">
+                <div class="part-number">PART I</div>
+                <h2>The Cognitive Basis</h2>
+            </div>
+
+            <h3>1.1 Sequence vs. Set</h3>
+
+            <p>COLLECTION recognizes multiplicity: there are many.</p>
+
+            <p>ARRANGEMENT adds structure: the many are <em>ordered</em>.</p>
+
+            <p>A set is defined by its members. {A, B, C} = {C, B, A} = {B, A, C}. Order is irrelevant.</p>
+
+            <p>A sequence is defined by its members <em>and their positions</em>. (A, B, C) ≠ (C, B, A). Order is constitutive.</p>
+
+            <!-- Sequence vs Set Interactive -->
+            <div class="visual-container">
+                <div class="visual-title">Sequence vs. Set</div>
+                <div class="sequence-demo">
+                    <div>
+                        <div style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.5rem; text-align: center;">Drag to reorder:</div>
+                        <div class="element-row" id="sequenceRow">
+                            <div class="element-box" draggable="true" data-letter="A">A</div>
+                            <div class="element-box" draggable="true" data-letter="B">B</div>
+                            <div class="element-box" draggable="true" data-letter="C">C</div>
+                        </div>
+                    </div>
+                    <div class="comparison-result">
+                        <span>As set: {A, B, C} = {A, B, C}</span>
+                        <span class="equals">✓ Equal</span>
+                    </div>
+                    <div class="comparison-result">
+                        <span>As sequence: (<span id="seqDisplay">A, B, C</span>) vs (A, B, C)</span>
+                        <span id="seqResult" class="equals">✓ Equal</span>
+                    </div>
+                </div>
+                <p class="caption">Sets ignore order. Sequences encode it.</p>
+            </div>
+
+            <p>This distinction emerges early in development. Infants distinguish between sequences of events: A-then-B differs from B-then-A. The capacity for <span class="def-popup" data-definition="Serial order processing: The cognitive ability to represent and manipulate ordered sequences. Distinct from set representation. Engages prefrontal and parietal cortex."><span class="def-tooltip"></span>serial order processing</span> is fundamental to language, music, motor planning, and causal reasoning.</p>
+
+            <h3>1.2 Configuration vs. Composition</h3>
+
+            <p>Chemistry makes the ARRANGEMENT primitive vivid.</p>
+
+            <p><strong>Isomers</strong> share the same molecular formula (composition) but differ in structure (arrangement):</p>
+
+            <table>
+                <tr><th>Type</th><th>Same</th><th>Different</th><th>Example</th></tr>
+                <tr><td>Structural</td><td>Formula</td><td>Connectivity</td><td>n-butane vs. isobutane</td></tr>
+                <tr><td>Geometric</td><td>Connectivity</td><td>Spatial arrangement</td><td>cis- vs. trans-2-butene</td></tr>
+                <tr><td>Stereoisomers</td><td>Connectivity</td><td>3D configuration</td><td>D- vs. L-alanine</td></tr>
+            </table>
+
+            <p>The extreme case: <strong>enantiomers</strong>. Mirror-image molecules with identical physical properties but opposite biological activity.</p>
+
+            <!-- Enantiomer visualization -->
+            <div class="visual-container">
+                <div class="visual-title">Enantiomers: Same Atoms, Different Fate</div>
+                <div class="enantiomer-pair">
+                    <div class="enantiomer">
+                        <canvas id="sThalidomide" width="140" height="140"></canvas>
+                        <div class="enantiomer-label safe">(S)-thalidomide</div>
+                        <div class="enantiomer-effect">Sedative</div>
+                    </div>
+                    <div class="enantiomer">
+                        <canvas id="rThalidomide" width="140" height="140"></canvas>
+                        <div class="enantiomer-label danger">(R)-thalidomide</div>
+                        <div class="enantiomer-effect">Teratogen</div>
+                    </div>
+                </div>
+                <p class="caption">Same atoms. Same bonds. Different arrangement. Opposite effects.</p>
+            </div>
+
+            <h3>1.3 The Asymmetry of Order</h3>
+
+            <p>ARRANGEMENT involves asymmetry in two senses:</p>
+
+            <p><strong>Temporal asymmetry</strong>: First vs. second vs. third. The positions are not interchangeable.</p>
+
+            <p><strong>Spatial asymmetry</strong>: Left vs. right, up vs. down. Chirality requires that space itself lack mirror symmetry in its physical laws — which it does, via the weak force.</p>
+
+            <p>Where SAMENESS (symmetry) asks "what remains unchanged?", ARRANGEMENT asks "what differs when we permute?"</p>
+        </section>
+
+        <!-- Part II: From Sequences to Grids -->
+        <section class="part">
+            <div class="part-header">
+                <div class="part-number">PART II</div>
+                <h2>From Sequences to Grids</h2>
+            </div>
+
+            <h3>2.1 One Dimension: Sequences</h3>
+
+            <p>A sequence of n objects is an ordered n-tuple: (a₁, a₂, ..., aₙ).</p>
+
+            <p>Vectors are sequences of numbers: <strong>v</strong> = (v₁, v₂, v₃).</p>
+
+            <p>The components have meaning tied to their position: first component = x-direction, second = y, third = z.</p>
+
+            <h3>2.2 Two Dimensions: Arrays</h3>
+
+            <p>When data has two independent orderings — rows <em>and</em> columns — we get a rectangular array:</p>
+
+            <div class="code-block">        col 1   col 2   col 3
+row 1    a₁₁     a₁₂     a₁₃
+row 2    a₂₁     a₂₂     a₂₃</div>
+
+            <p>This is a <span class="def-popup" data-definition="Matrix: A rectangular array of numbers arranged in rows and columns. An m × n matrix has m rows and n columns. Matrices encode linear transformations and systems of linear equations."><span class="def-tooltip"></span>matrix</span>.</p>
+
+            <p>Matrices arise whenever we track quantities across two categorical dimensions:</p>
+            <ul style="color: var(--text-secondary); margin-left: 1.5rem; margin-bottom: 1.5rem;">
+                <li>Rows = chemical species, Columns = elements → Stoichiometry matrix</li>
+                <li>Rows = orbitals, Columns = orbitals → Overlap matrix, Fock matrix</li>
+                <li>Rows = output components, Columns = input components → Transformation matrix</li>
+            </ul>
+
+            <h3>2.3 Higher Dimensions: Tensors</h3>
+
+            <p>Three indices: a cube of numbers (3-tensor). Four indices: a hypercube (4-tensor).</p>
+
+            <p>Quantum mechanics uses tensors extensively: the two-electron integral ⟨ij|kl⟩ has four indices.</p>
+
+            <p>For this course, we focus on matrices (two indices). The principles generalize.</p>
+        </section>
+
+        <!-- Part III: What Matrices Represent -->
+        <section class="part">
+            <div class="part-header">
+                <div class="part-number">PART III</div>
+                <h2>What Matrices Represent</h2>
+            </div>
+
+            <h3>3.1 Data Tables</h3>
+
+            <p>The simplest interpretation: a matrix stores data.</p>
+
+            <p>Rows = observations, Columns = variables. This is the standard format for statistical analysis.</p>
+
+            <table>
+                <tr><th></th><th>Carbons</th><th>Hydrogens</th><th>MW (g/mol)</th><th>BP (°C)</th></tr>
+                <tr><td>Methane</td><td>1</td><td>4</td><td>16.04</td><td>-161</td></tr>
+                <tr><td>Ethane</td><td>2</td><td>6</td><td>30.07</td><td>-89</td></tr>
+                <tr><td>Propane</td><td>3</td><td>8</td><td>44.10</td><td>-42</td></tr>
+                <tr><td>Butane</td><td>4</td><td>10</td><td>58.12</td><td>-1</td></tr>
+            </table>
+
+            <p>This is a 4 × 4 matrix of data.</p>
+
+            <h3>3.2 Linear Transformations</h3>
+
+            <p>Deeper interpretation: a matrix represents a <em>function</em> that transforms vectors.</p>
+
+            <p>If A is an m × n matrix and <strong>v</strong> is an n-component vector, the product A<strong>v</strong> is an m-component vector.</p>
+
+            <div class="formula-box">
+                <div class="formula">v → Av</div>
+                <div class="explanation">The matrix acts on the vector. It stretches, rotates, reflects, or projects.</div>
+            </div>
+
+            <!-- Transformation Interactive -->
+            <div class="visual-container">
+                <div class="visual-title">Matrix as Transformation</div>
+                <canvas id="transformCanvas" width="600" height="300"></canvas>
+                <div class="controls">
+                    <button class="transform-btn active" data-transform="identity">Identity</button>
+                    <button class="transform-btn" data-transform="rotate">Rotate 45°</button>
+                    <button class="transform-btn" data-transform="reflect">Reflect</button>
+                    <button class="transform-btn" data-transform="scale">Scale 1.5×</button>
+                    <button class="transform-btn" data-transform="shear">Shear</button>
+                </div>
+                <div class="matrix-display" id="currentMatrix">
+                    <div class="matrix">
+                        <div class="matrix-row"><span>1</span><span>0</span></div>
+                        <div class="matrix-row"><span>0</span><span>1</span></div>
+                    </div>
+                </div>
+                <p class="caption">Each matrix encodes a specific spatial transformation.</p>
+            </div>
+
+            <h4>Example: Rotation in 2D by angle θ</h4>
+
+            <div class="matrix-display">
+                <span style="color: var(--text-secondary);">R(θ) =</span>
+                <div class="matrix">
+                    <div class="matrix-row"><span>cos θ</span><span>-sin θ</span></div>
+                    <div class="matrix-row"><span>sin θ</span><span>cos θ</span></div>
+                </div>
+            </div>
+
+            <p>This matrix, multiplying any vector <strong>v</strong>, rotates <strong>v</strong> by angle θ counterclockwise.</p>
+
+            <h3>3.3 Systems of Equations</h3>
+
+            <p>A system of m linear equations in n unknowns can be written as:</p>
+
+            <div class="formula-box">
+                <div class="formula">A<strong>x</strong> = <strong>b</strong></div>
+                <div class="explanation">A = coefficient matrix, <strong>x</strong> = vector of unknowns, <strong>b</strong> = vector of constants</div>
+            </div>
+
+            <p>Solving the system = finding <strong>x</strong> such that A<strong>x</strong> = <strong>b</strong>.</p>
+        </section>
+
+        <!-- Part IV: ARRANGEMENT in Chemistry -->
+        <section class="part">
+            <div class="part-header">
+                <div class="part-number">PART IV</div>
+                <h2>ARRANGEMENT in Chemistry</h2>
+            </div>
+
+            <h3>4.1 Stoichiometry Matrices</h3>
+
+            <p>A chemical reaction: 2 H₂ + O₂ → 2 H₂O</p>
+
+            <p>can be encoded in a stoichiometry matrix. Rows = species, Columns = elements:</p>
+
+            <div class="code-block">        H   O
+H₂      2   0
+O₂      0   2
+H₂O     2   1</div>
+
+            <p>Conservation of mass becomes a linear algebra problem: the coefficient vector must lie in the null space of a certain matrix.</p>
+
+            <h3>4.2 Hückel Theory</h3>
+
+            <p>The Hückel method for π-electron systems constructs a matrix where:</p>
+            <ul style="color: var(--text-secondary); margin-left: 1.5rem; margin-bottom: 1.5rem;">
+                <li>Diagonal elements = α (Coulomb integral)</li>
+                <li>Off-diagonal elements = β if atoms are bonded, 0 otherwise</li>
+            </ul>
+
+            <!-- Hückel Matrix Interactive -->
+            <div class="visual-container">
+                <div class="visual-title">Hückel Matrix — Connectivity Encoded</div>
+                <canvas id="huckelCanvas" width="600" height="280"></canvas>
+                <div class="controls">
+                    <button class="huckel-btn active" data-molecule="ethene">Ethene</button>
+                    <button class="huckel-btn" data-molecule="butadiene">Butadiene</button>
+                    <button class="huckel-btn" data-molecule="benzene">Benzene</button>
+                </div>
+                <div class="result-display">
+                    <div class="result-label" id="huckelDesc">The matrix structure encodes molecular connectivity</div>
+                </div>
+            </div>
+
+            <p>The eigenvalues of this matrix give the π-orbital energies. The eigenvectors give the orbital coefficients.</p>
+
+            <p>The ARRANGEMENT of ones and zeros in the matrix encodes the <em>connectivity</em> of the molecule.</p>
+
+            <h3>4.3 Symmetry Operations</h3>
+
+            <p>Molecular symmetry operations (rotations, reflections, inversions) are linear transformations of 3D space. Each can be represented by a 3 × 3 matrix.</p>
+
+            <p>For the C₂ rotation (180° around z-axis):</p>
+
+            <div class="matrix-display">
+                <span style="color: var(--text-secondary);">C₂(z) =</span>
+                <div class="matrix">
+                    <div class="matrix-row"><span>-1</span><span>0</span><span>0</span></div>
+                    <div class="matrix-row"><span>0</span><span>-1</span><span>0</span></div>
+                    <div class="matrix-row"><span>0</span><span>0</span><span>1</span></div>
+                </div>
+            </div>
+
+            <p>This matrix, applied to any position vector (x, y, z), gives (−x, −y, z).</p>
+
+            <p>Group theory in chemistry = the algebra of these transformation matrices.</p>
+
+            <h3>4.4 Transition Matrices</h3>
+
+            <p>Kinetics of interconverting species: A ⇌ B ⇌ C</p>
+
+            <p>The rate equations form a system of ODEs whose coefficient matrix encodes the rate constants. The eigenvalues give the time constants for approach to equilibrium.</p>
+        </section>
+
+        <!-- Part V: Formal Definitions -->
+        <section class="part">
+            <div class="part-header">
+                <div class="part-number">PART V</div>
+                <h2>Formal Definitions</h2>
+            </div>
+
+            <div class="definition-block">
+                <h3>Core Concepts</h3>
+
+                <div class="definition-item">
+                    <div class="definition-term">Sequence</div>
+                    <div class="definition-desc">An ordered n-tuple (a₁, a₂, ..., aₙ). Order matters: (a, b) ≠ (b, a) unless a = b.</div>
+                </div>
+
+                <div class="definition-item">
+                    <div class="definition-term">Matrix</div>
+                    <div class="definition-desc">A rectangular array of numbers with m rows and n columns. Denoted A ∈ ℝᵐˣⁿ.</div>
+                </div>
+
+                <div class="definition-item">
+                    <div class="definition-term">Entry</div>
+                    <div class="definition-desc">The element in row i, column j is denoted aᵢⱼ or [A]ᵢⱼ.</div>
+                </div>
+
+                <div class="definition-item">
+                    <div class="definition-term">Square matrix</div>
+                    <div class="definition-desc">A matrix with m = n.</div>
+                </div>
+
+                <div class="definition-item">
+                    <div class="definition-term">Transpose</div>
+                    <div class="definition-desc">The transpose Aᵀ has rows and columns swapped: [Aᵀ]ᵢⱼ = [A]ⱼᵢ.</div>
+                </div>
+
+                <div class="definition-item">
+                    <div class="definition-term">Symmetric matrix</div>
+                    <div class="definition-desc">A matrix satisfying A = Aᵀ.</div>
+                </div>
+
+                <div class="definition-item">
+                    <div class="definition-term">Identity matrix</div>
+                    <div class="definition-desc">I with 1s on diagonal, 0s elsewhere. AI = IA = A for all A.</div>
+                </div>
+
+                <div class="definition-item">
+                    <div class="definition-term">Linear transformation</div>
+                    <div class="definition-desc">A function T: ℝⁿ → ℝᵐ satisfying T(au + bv) = aT(u) + bT(v). Every linear transformation corresponds to a matrix.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Part VI: Forward -->
+        <section class="part">
+            <div class="part-header">
+                <div class="part-number">PART VI</div>
+                <h2>Forward</h2>
+            </div>
+
+            <h3>What ARRANGEMENT Establishes</h3>
+
+            <p>ARRANGEMENT is the recognition that order constitutes identity. The same elements, differently arranged, are not the same thing.</p>
+
+            <p>Formalization:</p>
+            <ul style="color: var(--text-secondary); margin-left: 1.5rem; margin-bottom: 1.5rem;">
+                <li><strong>Sequences</strong>: ordered tuples</li>
+                <li><strong>Matrices</strong>: rectangular arrays with row and column structure</li>
+                <li><strong>Linear transformations</strong>: matrices as functions on vectors</li>
+            </ul>
+
+            <p>Chemistry applications:</p>
+            <ul style="color: var(--text-secondary); margin-left: 1.5rem; margin-bottom: 1.5rem;">
+                <li>Isomers (same formula, different arrangement)</li>
+                <li>Stoichiometry matrices (species × elements)</li>
+                <li>Hückel matrices (atoms × atoms, encoding connectivity)</li>
+                <li>Symmetry operation matrices (3D transformations)</li>
+                <li>Rate matrices (kinetics of interconverting species)</li>
+            </ul>
+
+            <h3>Connection to SAMENESS</h3>
+
+            <p>ARRANGEMENT asks: what changes when we reorder?</p>
+
+            <p>SAMENESS will ask the complementary question: what <em>doesn't</em> change under transformation?</p>
+
+            <p>The eigenvalue problem — finding vectors that a matrix merely scales, not rotates — bridges these primitives. Eigenvectors are the "sameness within transformation."</p>
+
+            <div class="cta">
+                <h3>Continue to the Tools</h3>
+                <p>Explore stereochemistry, crystal structures, symmetry operations, and matrix transformations.</p>
+                <a href="../lectures/05-arrangement/" class="cta-link">Lecture 05: ARRANGEMENT Tools →</a>
+            </div>
+        </section>
+
+        <!-- Endnotes -->
+        <section class="endnotes">
+            <h3>Endnotes</h3>
+            <div class="endnote"><span class="endnote-ref">[1]</span> Lashley, K. S. (1951), "The problem of serial order in behavior," in <em>Cerebral Mechanisms in Behavior</em>, Wiley. For modern treatment: Hurlstone, M. J., Hitch, G. J., & Baddeley, A. D. (2014), "Memory for serial order across domains," <em>Psychological Bulletin</em> 140:339-373.</div>
+            <div class="endnote"><span class="endnote-ref">[2]</span> Wu, C. S., et al. (1957), "Experimental test of parity conservation in beta decay," <em>Physical Review</em> 105:1413-1415. The weak force violates parity symmetry, explaining the predominance of L-amino acids in biology.</div>
+            <div class="endnote"><span class="endnote-ref">[3]</span> For matrix formulation of stoichiometry: Alberty, R. A. (1991), "Equilibrium compositions of solutions of biochemical species," <em>PNAS</em> 88:3268-3271.</div>
+        </section>
+    </main>
+
+    <script>
+        // === Populate Definition Tooltips ===
+        document.querySelectorAll('.def-popup').forEach(el => {
+            const tooltip = el.querySelector('.def-tooltip');
+            if (tooltip && el.dataset.definition) {
+                tooltip.textContent = el.dataset.definition;
+            }
+        });
+
+        // === Scroll Reveal ===
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.part').forEach(part => observer.observe(part));
+
+        // === Sequence vs Set Interactive ===
+        const sequenceRow = document.getElementById('sequenceRow');
+        const seqDisplay = document.getElementById('seqDisplay');
+        const seqResult = document.getElementById('seqResult');
+        let draggedElement = null;
+
+        sequenceRow.querySelectorAll('.element-box').forEach(box => {
+            box.addEventListener('dragstart', e => {
+                draggedElement = box;
+                box.classList.add('dragging');
+            });
+
+            box.addEventListener('dragend', () => {
+                draggedElement.classList.remove('dragging');
+                draggedElement = null;
+                updateSequenceDisplay();
+            });
+
+            box.addEventListener('dragover', e => {
+                e.preventDefault();
+                if (draggedElement && draggedElement !== box) {
+                    const boxes = [...sequenceRow.querySelectorAll('.element-box')];
+                    const draggedIdx = boxes.indexOf(draggedElement);
+                    const targetIdx = boxes.indexOf(box);
+
+                    if (draggedIdx < targetIdx) {
+                        box.after(draggedElement);
+                    } else {
+                        box.before(draggedElement);
+                    }
+                }
+            });
+        });
+
+        function updateSequenceDisplay() {
+            const boxes = sequenceRow.querySelectorAll('.element-box');
+            const letters = [...boxes].map(b => b.dataset.letter);
+            const seqStr = letters.join(', ');
+            seqDisplay.textContent = seqStr;
+
+            if (seqStr === 'A, B, C') {
+                seqResult.textContent = '✓ Equal';
+                seqResult.className = 'equals';
+            } else {
+                seqResult.textContent = '✗ Not equal';
+                seqResult.className = 'not-equals';
+            }
+        }
+
+        // === Enantiomer Drawings ===
+        function drawEnantiomer(canvasId, isS) {
+            const canvas = document.getElementById(canvasId);
+            const ctx = canvas.getContext('2d');
+
+            ctx.fillStyle = '#161B22';
+            ctx.fillRect(0, 0, 140, 140);
+
+            const cx = 70, cy = 70;
+
+            // Central carbon
+            ctx.beginPath();
+            ctx.arc(cx, cy, 10, 0, Math.PI * 2);
+            ctx.fillStyle = '#6E7681';
+            ctx.fill();
+
+            // Four different groups
+            const groups = isS ? [
+                { angle: -60, color: '#F85149', len: 35 },
+                { angle: 60, color: '#79C0FF', len: 35 },
+                { angle: 180, color: '#7EE787', len: 28 },
+                { angle: -120, color: '#F2CC60', len: 35 }
+            ] : [
+                { angle: -60, color: '#79C0FF', len: 35 },
+                { angle: 60, color: '#F85149', len: 35 },
+                { angle: 180, color: '#7EE787', len: 28 },
+                { angle: -120, color: '#F2CC60', len: 35 }
+            ];
+
+            groups.forEach(g => {
+                const rad = g.angle * Math.PI / 180;
+                const gx = cx + g.len * Math.cos(rad);
+                const gy = cy + g.len * Math.sin(rad);
+
+                ctx.beginPath();
+                ctx.moveTo(cx, cy);
+                ctx.lineTo(gx, gy);
+                ctx.strokeStyle = '#6E7681';
+                ctx.lineWidth = 3;
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.arc(gx, gy, 10, 0, Math.PI * 2);
+                ctx.fillStyle = g.color;
+                ctx.fill();
+            });
+
+            // Chiral center marker
+            ctx.fillStyle = '#FFA657';
+            ctx.font = '12px JetBrains Mono';
+            ctx.textAlign = 'center';
+            ctx.fillText('*', cx, cy + 4);
+        }
+
+        drawEnantiomer('sThalidomide', true);
+        drawEnantiomer('rThalidomide', false);
+
+        // === Transformation Interactive ===
+        const transformCanvas = document.getElementById('transformCanvas');
+        const transformCtx = transformCanvas.getContext('2d');
+        let currentTransform = 'identity';
+
+        const transforms = {
+            identity: [[1, 0], [0, 1]],
+            rotate: [[0.707, -0.707], [0.707, 0.707]],
+            reflect: [[-1, 0], [0, 1]],
+            scale: [[1.5, 0], [0, 1.5]],
+            shear: [[1, 0.5], [0, 1]]
+        };
+
+        function drawTransform() {
+            transformCtx.fillStyle = '#161B22';
+            transformCtx.fillRect(0, 0, 600, 300);
+
+            const cx = 300, cy = 150;
+            const scale = 40;
+
+            // Grid
+            transformCtx.strokeStyle = 'rgba(255,255,255,0.08)';
+            transformCtx.lineWidth = 1;
+            for (let i = -6; i <= 6; i++) {
+                transformCtx.beginPath();
+                transformCtx.moveTo(cx + i * scale, 0);
+                transformCtx.lineTo(cx + i * scale, 300);
+                transformCtx.stroke();
+                transformCtx.beginPath();
+                transformCtx.moveTo(0, cy + i * scale);
+                transformCtx.lineTo(600, cy + i * scale);
+                transformCtx.stroke();
+            }
+
+            // Axes
+            transformCtx.strokeStyle = 'rgba(255,255,255,0.2)';
+            transformCtx.lineWidth = 2;
+            transformCtx.beginPath();
+            transformCtx.moveTo(0, cy);
+            transformCtx.lineTo(600, cy);
+            transformCtx.moveTo(cx, 0);
+            transformCtx.lineTo(cx, 300);
+            transformCtx.stroke();
+
+            // Original shape (faded)
+            const originalPoints = [[1, 1], [1, -1], [-1, -1], [-1, 1]];
+            transformCtx.beginPath();
+            originalPoints.forEach((p, i) => {
+                const x = cx + p[0] * scale;
+                const y = cy - p[1] * scale;
+                if (i === 0) transformCtx.moveTo(x, y);
+                else transformCtx.lineTo(x, y);
+            });
+            transformCtx.closePath();
+            transformCtx.strokeStyle = 'rgba(255, 166, 87, 0.25)';
+            transformCtx.lineWidth = 2;
+            transformCtx.stroke();
+
+            // Transformed shape
+            const m = transforms[currentTransform];
+            const transformedPoints = originalPoints.map(p => [
+                m[0][0] * p[0] + m[0][1] * p[1],
+                m[1][0] * p[0] + m[1][1] * p[1]
+            ]);
+
+            transformCtx.beginPath();
+            transformedPoints.forEach((p, i) => {
+                const x = cx + p[0] * scale;
+                const y = cy - p[1] * scale;
+                if (i === 0) transformCtx.moveTo(x, y);
+                else transformCtx.lineTo(x, y);
+            });
+            transformCtx.closePath();
+            transformCtx.strokeStyle = '#FFA657';
+            transformCtx.lineWidth = 3;
+            transformCtx.stroke();
+            transformCtx.fillStyle = 'rgba(255, 166, 87, 0.15)';
+            transformCtx.fill();
+
+            // Update matrix display
+            document.getElementById('currentMatrix').innerHTML = `
+                <div class="matrix">
+                    <div class="matrix-row"><span>${m[0][0].toFixed(2)}</span><span>${m[0][1].toFixed(2)}</span></div>
+                    <div class="matrix-row"><span>${m[1][0].toFixed(2)}</span><span>${m[1][1].toFixed(2)}</span></div>
+                </div>
+            `;
+        }
+
+        document.querySelectorAll('.transform-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.transform-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentTransform = btn.dataset.transform;
+                drawTransform();
+            });
+        });
+
+        drawTransform();
+
+        // === Hückel Matrix Interactive ===
+        const huckelCanvas = document.getElementById('huckelCanvas');
+        const huckelCtx = huckelCanvas.getContext('2d');
+        let currentMolecule = 'ethene';
+
+        const molecules = {
+            ethene: {
+                atoms: 2,
+                bonds: [[0, 1]],
+                positions: [[200, 140], [400, 140]]
+            },
+            butadiene: {
+                atoms: 4,
+                bonds: [[0, 1], [1, 2], [2, 3]],
+                positions: [[120, 140], [220, 140], [380, 140], [480, 140]]
+            },
+            benzene: {
+                atoms: 6,
+                bonds: [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 0]],
+                positions: []
+            }
+        };
+
+        // Generate benzene positions
+        for (let i = 0; i < 6; i++) {
+            const angle = (i * 60 - 90) * Math.PI / 180;
+            molecules.benzene.positions.push([
+                300 + 70 * Math.cos(angle),
+                140 + 70 * Math.sin(angle)
+            ]);
+        }
+
+        function drawHuckel() {
+            huckelCtx.fillStyle = '#161B22';
+            huckelCtx.fillRect(0, 0, 600, 280);
+
+            const mol = molecules[currentMolecule];
+
+            // Draw bonds
+            huckelCtx.strokeStyle = '#6E7681';
+            huckelCtx.lineWidth = 3;
+            mol.bonds.forEach(([a, b]) => {
+                huckelCtx.beginPath();
+                huckelCtx.moveTo(mol.positions[a][0], mol.positions[a][1]);
+                huckelCtx.lineTo(mol.positions[b][0], mol.positions[b][1]);
+                huckelCtx.stroke();
+            });
+
+            // Draw atoms
+            mol.positions.forEach((pos, i) => {
+                huckelCtx.beginPath();
+                huckelCtx.arc(pos[0], pos[1], 18, 0, Math.PI * 2);
+                huckelCtx.fillStyle = '#21262D';
+                huckelCtx.fill();
+                huckelCtx.strokeStyle = '#79C0FF';
+                huckelCtx.lineWidth = 2;
+                huckelCtx.stroke();
+
+                huckelCtx.fillStyle = '#79C0FF';
+                huckelCtx.font = '14px JetBrains Mono';
+                huckelCtx.textAlign = 'center';
+                huckelCtx.fillText((i + 1).toString(), pos[0], pos[1] + 5);
+            });
+
+            // Draw matrix representation (simplified)
+            huckelCtx.fillStyle = '#8B949E';
+            huckelCtx.font = '11px JetBrains Mono';
+            huckelCtx.textAlign = 'left';
+
+            const matrixX = 450;
+            const matrixY = 60;
+            const cellSize = 25;
+
+            // Build matrix
+            const n = mol.atoms;
+            const matrix = [];
+            for (let i = 0; i < n; i++) {
+                matrix[i] = [];
+                for (let j = 0; j < n; j++) {
+                    if (i === j) matrix[i][j] = 'α';
+                    else if (mol.bonds.some(([a, b]) => (a === i && b === j) || (a === j && b === i))) {
+                        matrix[i][j] = 'β';
+                    } else {
+                        matrix[i][j] = '0';
+                    }
+                }
+            }
+
+            // Draw matrix (only for small molecules)
+            if (n <= 4) {
+                for (let i = 0; i < n; i++) {
+                    for (let j = 0; j < n; j++) {
+                        const val = matrix[i][j];
+                        huckelCtx.fillStyle = val === 'α' ? '#FFA657' : val === 'β' ? '#79C0FF' : '#6E7681';
+                        huckelCtx.fillText(val, matrixX + j * cellSize, matrixY + i * cellSize);
+                    }
+                }
+            }
+
+            document.getElementById('huckelDesc').textContent =
+                `${currentMolecule.charAt(0).toUpperCase() + currentMolecule.slice(1)}: ${mol.atoms} atoms, ${mol.bonds.length} π-bonds`;
+        }
+
+        document.querySelectorAll('.huckel-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.huckel-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentMolecule = btn.dataset.molecule;
+                drawHuckel();
+            });
+        });
+
+        drawHuckel();
+    </script>
+</body>
+</html>
