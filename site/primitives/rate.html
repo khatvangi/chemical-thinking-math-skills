@@ -1,0 +1,1657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RATE — Chemical Thinking</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a24;
+            --text-primary: #e8e6e3;
+            --text-secondary: #a8a5a0;
+            --text-muted: #6b6965;
+            --accent-purple: #8B5CF6;
+            --accent-blue: #3B82F6;
+            --accent-orange: #F97316;
+            --accent-green: #22C55E;
+            --accent-red: #EF4444;
+            --accent-gray: #6B7280;
+            --border-subtle: #2a2a35;
+            --max-width: 720px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 18px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            padding: 0 1.5rem;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            padding: 4rem 0 3rem;
+            border-bottom: 1px solid var(--border-subtle);
+            margin-bottom: 3rem;
+        }
+
+        .primitive-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            color: var(--accent-purple);
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-family: 'Fraunces', serif;
+            font-size: 3.5rem;
+            font-weight: 500;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+            font-optical-sizing: auto;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+        /* Typography */
+        h2 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.75rem;
+            font-weight: 500;
+            margin: 3rem 0 1.5rem;
+            color: var(--text-primary);
+        }
+
+        h3 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 2rem 0 1rem;
+            color: var(--text-primary);
+        }
+
+        p {
+            margin-bottom: 1.25rem;
+            color: var(--text-secondary);
+        }
+
+        strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        em {
+            font-style: italic;
+            color: var(--text-primary);
+        }
+
+        /* Parts */
+        .part {
+            margin: 5rem 0;
+            padding-top: 2rem;
+        }
+
+        .part-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .part-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-purple);
+            letter-spacing: 0.1em;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .part-title {
+            font-family: 'Fraunces', serif;
+            font-size: 2rem;
+            font-weight: 500;
+        }
+
+        /* Definition popups */
+        .def-popup {
+            position: relative;
+            cursor: help;
+            border-bottom: 1px dotted var(--accent-purple);
+            color: var(--text-primary);
+        }
+
+        .def-tooltip {
+            position: absolute;
+            bottom: calc(100% + 12px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-subtle);
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            width: 280px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s ease;
+            z-index: 100;
+            line-height: 1.5;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        }
+
+        .def-popup:hover .def-tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin: 1rem 0 1.5rem 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Math blocks */
+        .math-block {
+            background: var(--bg-secondary);
+            border-left: 3px solid var(--accent-purple);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            overflow-x: auto;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        th {
+            color: var(--text-primary);
+            font-weight: 600;
+            background: var(--bg-secondary);
+        }
+
+        td {
+            color: var(--text-secondary);
+        }
+
+        /* Visualizations */
+        .visual-container {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .visual-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent-purple);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .visual-canvas {
+            background: var(--bg-primary);
+            border-radius: 8px;
+            width: 100%;
+            display: block;
+        }
+
+        .visual-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .control-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .control-value {
+            font-size: 0.85rem;
+            color: var(--accent-purple);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 4px;
+            -webkit-appearance: none;
+            background: var(--bg-tertiary);
+            border-radius: 2px;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            background: var(--accent-purple);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .visual-caption {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-align: center;
+            margin-top: 1rem;
+            font-style: italic;
+        }
+
+        .visual-legend {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+        }
+
+        /* Button controls */
+        .btn-group {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 6px;
+            color: var(--text-secondary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn:hover {
+            background: var(--accent-purple);
+            color: white;
+            border-color: var(--accent-purple);
+        }
+
+        .btn.active {
+            background: var(--accent-purple);
+            color: white;
+            border-color: var(--accent-purple);
+        }
+
+        /* Prologue */
+        .prologue {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            border-left: 3px solid var(--accent-purple);
+            padding-left: 1.5rem;
+            margin: 2rem 0 3rem;
+        }
+
+        /* Endnotes */
+        .endnotes {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .endnotes h2 {
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .endnote {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .endnote-num {
+            position: absolute;
+            left: 0;
+            color: var(--accent-purple);
+        }
+
+        sup a {
+            color: var(--accent-purple);
+            text-decoration: none;
+            font-size: 0.75em;
+        }
+
+        /* Navigation */
+        .nav-footer {
+            margin-top: 4rem;
+            padding: 2rem 0;
+            border-top: 1px solid var(--border-subtle);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .nav-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-purple);
+        }
+
+        /* Formal definition box */
+        .formal-def {
+            background: var(--bg-secondary);
+            border: 1px solid var(--accent-purple);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .formal-def-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent-purple);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        /* Code inline */
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85em;
+            background: var(--bg-tertiary);
+            padding: 0.15em 0.4em;
+            border-radius: 4px;
+            color: var(--accent-purple);
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            html { font-size: 16px; }
+            h1 { font-size: 2.5rem; }
+            .part-title { font-size: 1.5rem; }
+            .visual-controls { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="primitive-label">Primitive 7 of 9</div>
+            <h1>RATE</h1>
+            <p class="subtitle">The cognitive act of perceiving tempo—how fast things change.</p>
+        </header>
+
+        <div class="prologue">
+            <p>CHANGE tells us something is different. RATE tells us <em>how quickly</em>.</p>
+            <p>The candle burns. The glacier melts. The nucleus decays. The enzyme turns over. All change—but at vastly different tempos. A reaction completing in femtoseconds and one completing in geological time are both CHANGE. Their RATES differ by twenty orders of magnitude.</p>
+            <p><span class="def-popup" data-definition="Rate: The amount of change per unit time. Rate quantifies the tempo of a process—how quickly a quantity increases or decreases.">RATE<span class="def-tooltip"></span></span> is CHANGE with a clock. It answers: <em>How much change per unit time?</em></p>
+        </div>
+
+        <!-- Part I -->
+        <section class="part" id="part-1">
+            <div class="part-header">
+                <span class="part-number">Part I</span>
+                <h2 class="part-title">The Cognitive Basis of RATE</h2>
+            </div>
+
+            <h3>1.1 Perception of Tempo</h3>
+            <p>Humans perceive rate directly.</p>
+            <p>A fast-moving object triggers different neural responses than a slow-moving one. We flinch at rapid approach; we track gradual motion calmly. The distinction between fast and slow is not computed from position differences—it is perceived as a primary quality.</p>
+            <p>Beyond motion, we perceive tempo in:</p>
+            <ul>
+                <li><strong>Sound</strong>: Rapid drumbeats vs. slow pulses. Music has tempo measured in beats per minute.</li>
+                <li><strong>Speech</strong>: Fast talkers vs. slow talkers. Words per minute.</li>
+                <li><strong>Growth</strong>: The child shoots up; the tree grows imperceptibly.</li>
+                <li><strong>Process</strong>: The quick reaction; the slow equilibration.</li>
+            </ul>
+            <p>The perception of rate is ecological. Organisms must distinguish threats (fast) from non-threats (slow), opportunities (accessible rate) from impossibilities (too fast or too slow to engage).</p>
+
+            <h3>1.2 Rate Requires a Reference</h3>
+            <p>RATE is inherently relational. It requires:</p>
+            <p><strong>A. A changing quantity</strong>: Something must change. No change → no rate.</p>
+            <p><strong>B. A reference quantity</strong>: Usually time, but not always. Rate of change of position with respect to time is velocity. Rate of change of concentration with respect to distance is a gradient. Rate of change of one reactant with respect to another is stoichiometric ratio.</p>
+            <p><strong>C. Units</strong>: Rate has dimensions of [quantity]/[reference]. Concentration rate: mol/(L·s). Velocity: m/s. Frequency: 1/s = Hz.</p>
+
+            <h3>1.3 Instantaneous vs. Average Rate</h3>
+            <p><strong>Average rate</strong> over interval [t₁, t₂]:</p>
+            <div class="math-block">
+                $$\bar{r} = \frac{\Delta f}{\Delta t} = \frac{f(t_2) - f(t_1)}{t_2 - t_1}$$
+            </div>
+            <p><strong>Instantaneous rate</strong> at time t:</p>
+            <div class="math-block">
+                $$r(t) = \lim_{\Delta t \to 0} \frac{f(t + \Delta t) - f(t)}{\Delta t} = \frac{df}{dt}$$
+            </div>
+            <p>The instantaneous rate is the derivative. RATE, when formalized precisely, collapses into CHANGE (the derivative). But cognitively, RATE emphasizes the temporal aspect—the question of <em>how fast</em> rather than merely <em>what is different</em>.</p>
+        </section>
+
+        <!-- Part II -->
+        <section class="part" id="part-2">
+            <div class="part-header">
+                <span class="part-number">Part II</span>
+                <h2 class="part-title">Rate Laws in Chemistry</h2>
+            </div>
+
+            <h3>2.1 The Rate of Reaction</h3>
+            <p>For a reaction A → B, the rate r is defined as:</p>
+            <div class="math-block">
+                $$r = -\frac{1}{a}\frac{d[\text{A}]}{dt} = \frac{1}{b}\frac{d[\text{B}]}{dt}$$
+            </div>
+            <p>where a, b are stoichiometric coefficients (for A → B, both are 1). The negative sign for reactants ensures r > 0 (reactants decrease, products increase, rate is positive).</p>
+
+            <h3>2.2 Rate Laws</h3>
+            <p>The rate typically depends on concentrations. The <span class="def-popup" data-definition="Rate law: An equation expressing reaction rate as a function of concentrations. r = k[A]^m[B]^n, where k is the rate constant and m, n are orders with respect to each reactant.">rate law<span class="def-tooltip"></span></span> expresses this dependence:</p>
+            <div class="math-block">
+                $$r = k[\text{A}]^m[\text{B}]^n \cdots$$
+            </div>
+            <ul>
+                <li><strong>k</strong>: rate constant (depends on temperature, catalyst, etc.)</li>
+                <li><strong>m, n</strong>: orders with respect to A, B (determined experimentally)</li>
+                <li><strong>Overall order</strong>: m + n + ...</li>
+            </ul>
+
+            <h3>2.3 Reaction Orders</h3>
+            <p><strong>Zero order</strong> (m = 0):</p>
+            <div class="math-block">$$r = k$$</div>
+            <p>Rate independent of concentration. Occurs when a catalyst is saturated or when surface area limits reaction.</p>
+
+            <p><strong>First order</strong> (m = 1):</p>
+            <div class="math-block">$$r = k[\text{A}]$$</div>
+            <p>Rate proportional to concentration. Common for unimolecular processes, radioactive decay.</p>
+
+            <p><strong>Second order</strong> (m = 2 or m = n = 1):</p>
+            <div class="math-block">$$r = k[\text{A}]^2 \quad \text{or} \quad r = k[\text{A}][\text{B}]$$</div>
+            <p>Rate proportional to concentration squared (collisional processes) or product of two concentrations (bimolecular).</p>
+
+            <!-- ORDER COMPARISON INTERACTIVE -->
+            <div class="visual-container" id="order-comparison-container">
+                <div class="visual-title">Interactive: Reaction Order Comparison</div>
+                <canvas id="orderCanvas" class="visual-canvas" width="680" height="300"></canvas>
+                <div class="visual-legend">
+                    <div class="legend-item"><div class="legend-color" style="background: #3B82F6;"></div> Zero Order</div>
+                    <div class="legend-item"><div class="legend-color" style="background: #F97316;"></div> First Order</div>
+                    <div class="legend-item"><div class="legend-color" style="background: #22C55E;"></div> Second Order</div>
+                </div>
+                <div class="visual-controls">
+                    <div class="control-group">
+                        <span class="control-label">Rate Constant k</span>
+                        <input type="range" id="orderK" min="0.1" max="2" step="0.1" value="0.5">
+                        <span class="control-value" id="orderKValue">0.5</span>
+                    </div>
+                    <div class="control-group">
+                        <span class="control-label">Initial [A]₀</span>
+                        <input type="range" id="orderA0" min="0.5" max="2" step="0.1" value="1">
+                        <span class="control-value" id="orderA0Value">1.0 M</span>
+                    </div>
+                </div>
+                <p class="visual-caption">Different reaction orders produce distinct concentration-time profiles from identical starting conditions.</p>
+            </div>
+        </section>
+
+        <!-- Part III -->
+        <section class="part" id="part-3">
+            <div class="part-header">
+                <span class="part-number">Part III</span>
+                <h2 class="part-title">Integrated Rate Laws</h2>
+            </div>
+
+            <h3>3.1 From Rate to Concentration</h3>
+            <p>The rate law is a differential equation. Solving it gives concentration as a function of time.</p>
+
+            <h3>3.2 Zero Order</h3>
+            <p>Rate law: $-\frac{d[\text{A}]}{dt} = k$</p>
+            <p>Integrated: $[\text{A}] = [\text{A}]_0 - kt$</p>
+            <p>Linear decrease. Reaction completes when [A] = 0, at t = [A]₀/k.</p>
+            <p>Half-life: $t_{1/2} = \frac{[\text{A}]_0}{2k}$ — depends on initial concentration.</p>
+
+            <h3>3.3 First Order</h3>
+            <p>Rate law: $-\frac{d[\text{A}]}{dt} = k[\text{A}]$</p>
+            <p>Separation of variables and integration:</p>
+            <div class="math-block">
+                $$\frac{d[\text{A}]}{[\text{A}]} = -k \, dt \quad \Rightarrow \quad \ln[\text{A}] = \ln[\text{A}]_0 - kt$$
+            </div>
+            <p>Or: $[\text{A}] = [\text{A}]_0 e^{-kt}$</p>
+            <p>Exponential decay. Never reaches zero, only approaches it.</p>
+            <p>Half-life: $t_{1/2} = \frac{\ln 2}{k} \approx \frac{0.693}{k}$ — independent of initial concentration. This is the signature of first-order kinetics.</p>
+
+            <h3>3.4 Second Order (Single Reactant)</h3>
+            <p>Rate law: $-\frac{d[\text{A}]}{dt} = k[\text{A}]^2$</p>
+            <p>Integrated: $\frac{1}{[\text{A}]} = \frac{1}{[\text{A}]_0} + kt$</p>
+            <p>Half-life: $t_{1/2} = \frac{1}{k[\text{A}]_0}$ — inversely proportional to initial concentration.</p>
+
+            <!-- HALF-LIFE EXPLORER -->
+            <div class="visual-container" id="halflife-container">
+                <div class="visual-title">Interactive: Half-Life Explorer</div>
+                <canvas id="halflifeCanvas" class="visual-canvas" width="680" height="320"></canvas>
+                <div class="visual-controls">
+                    <div class="control-group">
+                        <span class="control-label">Rate Constant k</span>
+                        <input type="range" id="halflifeK" min="0.1" max="1.5" step="0.05" value="0.5">
+                        <span class="control-value" id="halflifeKValue">0.50 s⁻¹</span>
+                    </div>
+                    <div class="control-group">
+                        <span class="control-label">Half-life t₁/₂</span>
+                        <span class="control-value" id="halflifeT12Value">1.39 s</span>
+                    </div>
+                </div>
+                <p class="visual-caption">Each half-life reduces the remaining amount by half. For first-order kinetics, t₁/₂ = ln(2)/k.</p>
+            </div>
+
+            <h3>3.5 Summary Table</h3>
+            <table>
+                <tr><th>Order</th><th>Rate Law</th><th>Integrated Form</th><th>Half-life</th><th>Linear Plot</th></tr>
+                <tr><td>0</td><td>r = k</td><td>[A] = [A]₀ - kt</td><td>[A]₀/2k</td><td>[A] vs t</td></tr>
+                <tr><td>1</td><td>r = k[A]</td><td>[A] = [A]₀e⁻ᵏᵗ</td><td>ln2/k</td><td>ln[A] vs t</td></tr>
+                <tr><td>2</td><td>r = k[A]²</td><td>1/[A] = 1/[A]₀ + kt</td><td>1/(k[A]₀)</td><td>1/[A] vs t</td></tr>
+            </table>
+        </section>
+
+        <!-- Part IV -->
+        <section class="part" id="part-4">
+            <div class="part-header">
+                <span class="part-number">Part IV</span>
+                <h2 class="part-title">Temperature Dependence</h2>
+            </div>
+
+            <h3>4.1 The Arrhenius Equation</h3>
+            <p>The rate constant depends on temperature:</p>
+            <div class="math-block">
+                $$k(T) = A e^{-E_a/RT}$$
+            </div>
+            <ul>
+                <li><strong>A</strong>: pre-exponential factor (frequency factor), units same as k</li>
+                <li><strong>Eₐ</strong>: activation energy (J/mol)</li>
+                <li><strong>R</strong>: gas constant (8.314 J/(mol·K))</li>
+                <li><strong>T</strong>: absolute temperature (K)</li>
+            </ul>
+
+            <h3>4.2 Physical Interpretation</h3>
+            <p><strong>Activation energy</strong> Eₐ: The minimum energy required for reaction. Only molecules with energy ≥ Eₐ can react.</p>
+            <p><strong>Pre-exponential factor</strong> A: Related to collision frequency and orientation requirements. How often molecules collide with correct geometry.</p>
+            <p><strong>Boltzmann factor</strong> e⁻ᴱᵃ/ᴿᵀ: Fraction of molecules with energy ≥ Eₐ at temperature T.</p>
+
+            <h3>4.3 Linearized Form</h3>
+            <p>Taking logarithms:</p>
+            <div class="math-block">
+                $$\ln k = \ln A - \frac{E_a}{R} \cdot \frac{1}{T}$$
+            </div>
+            <p>Plot ln k vs 1/T: straight line with slope -Eₐ/R and intercept ln A.</p>
+
+            <!-- ARRHENIUS PLOT -->
+            <div class="visual-container" id="arrhenius-container">
+                <div class="visual-title">Interactive: Arrhenius Plot</div>
+                <canvas id="arrheniusCanvas" class="visual-canvas" width="680" height="320"></canvas>
+                <div class="visual-controls">
+                    <div class="control-group">
+                        <span class="control-label">Activation Energy Eₐ</span>
+                        <input type="range" id="arrheniusEa" min="20" max="100" step="5" value="50">
+                        <span class="control-value" id="arrheniusEaValue">50 kJ/mol</span>
+                    </div>
+                    <div class="control-group">
+                        <span class="control-label">Pre-exponential A</span>
+                        <input type="range" id="arrheniusA" min="10" max="15" step="0.5" value="12">
+                        <span class="control-value" id="arrheniusAValue">10¹² s⁻¹</span>
+                    </div>
+                    <div class="control-group">
+                        <span class="control-label">Temperature</span>
+                        <input type="range" id="arrheniusT" min="250" max="500" step="10" value="300">
+                        <span class="control-value" id="arrheniusTValue">300 K</span>
+                    </div>
+                </div>
+                <p class="visual-caption">The Arrhenius plot extracts activation energy from temperature-dependent rate data.</p>
+            </div>
+
+            <h3>4.4 Rate of Change of k</h3>
+            <p>At room temperature (T ≈ 300 K) with typical Eₐ ≈ 50 kJ/mol, a 10 K increase roughly doubles the rate (the "Q₁₀ rule").</p>
+        </section>
+
+        <!-- Part V -->
+        <section class="part" id="part-5">
+            <div class="part-header">
+                <span class="part-number">Part V</span>
+                <h2 class="part-title">Half-Life and Characteristic Times</h2>
+            </div>
+
+            <h3>5.1 Half-Life</h3>
+            <p>The <span class="def-popup" data-definition="Half-life: The time required for a quantity to decrease to half its initial value. For first-order processes, t₁/₂ = ln(2)/k, independent of initial amount.">half-life<span class="def-tooltip"></span></span> t₁/₂ is the time for [A] to fall to [A]₀/2.</p>
+
+            <h3>5.2 Radioactive Decay</h3>
+            <p>Radioactive decay is first-order. Each nucleus has a constant probability per unit time of decaying, independent of how many nuclei remain.</p>
+            <table>
+                <tr><th>Isotope</th><th>Half-life</th><th>Use</th></tr>
+                <tr><td>¹⁴C</td><td>5730 years</td><td>Carbon dating</td></tr>
+                <tr><td>²³⁸U</td><td>4.5 × 10⁹ years</td><td>Geological dating</td></tr>
+                <tr><td>¹³¹I</td><td>8.0 days</td><td>Medical imaging</td></tr>
+                <tr><td>⁹⁹ᵐTc</td><td>6.0 hours</td><td>Medical imaging</td></tr>
+                <tr><td>²²²Rn</td><td>3.8 days</td><td>Environmental hazard</td></tr>
+            </table>
+
+            <h3>5.3 Time Constants</h3>
+            <p>The <span class="def-popup" data-definition="Time constant: τ = 1/k for first-order processes. The time for the quantity to decrease to 1/e ≈ 37% of its initial value.">time constant<span class="def-tooltip"></span></span> τ = 1/k is an alternative characterization:</p>
+            <div class="math-block">
+                $$[\text{A}] = [\text{A}]_0 e^{-t/\tau}$$
+            </div>
+            <p>At t = τ: [A] = [A]₀/e ≈ 0.37[A]₀</p>
+            <p>Relationship: τ = t₁/₂ / ln(2) ≈ 1.44 t₁/₂</p>
+
+            <h3>5.4 Characteristic Times in Chemistry</h3>
+            <table>
+                <tr><th>Process</th><th>Typical Time Scale</th></tr>
+                <tr><td>Electronic transitions</td><td>10⁻¹⁵ s (femtoseconds)</td></tr>
+                <tr><td>Molecular vibrations</td><td>10⁻¹⁴ - 10⁻¹² s</td></tr>
+                <tr><td>Molecular rotations</td><td>10⁻¹² s (picoseconds)</td></tr>
+                <tr><td>Enzyme turnover</td><td>10⁻³ - 10³ s</td></tr>
+                <tr><td>Protein folding</td><td>10⁻⁶ - 10³ s</td></tr>
+                <tr><td>Small molecule diffusion</td><td>10⁻⁹ - 10⁻³ s</td></tr>
+                <tr><td>Radioactive decay</td><td>10⁻⁶ s - 10¹⁰ years</td></tr>
+            </table>
+            <p>The range spans over 30 orders of magnitude.</p>
+        </section>
+
+        <!-- Part VI -->
+        <section class="part" id="part-6">
+            <div class="part-header">
+                <span class="part-number">Part VI</span>
+                <h2 class="part-title">Differential Equations</h2>
+            </div>
+
+            <h3>6.1 Rate Laws as Differential Equations</h3>
+            <p>Every rate law is a differential equation—an equation relating a function to its derivatives.</p>
+            <p>First-order decay: $\frac{d[\text{A}]}{dt} = -k[\text{A}]$</p>
+            <p>This says: the rate of change of [A] is proportional to [A] itself.</p>
+
+            <h3>6.2 Systems of Rate Equations</h3>
+            <p>Coupled reactions produce systems of differential equations.</p>
+            <p><strong>Example</strong>: A → B → C (consecutive reactions)</p>
+            <div class="math-block">
+                $$\frac{d[\text{A}]}{dt} = -k_1[\text{A}]$$
+                $$\frac{d[\text{B}]}{dt} = k_1[\text{A}] - k_2[\text{B}]$$
+                $$\frac{d[\text{C}]}{dt} = k_2[\text{B}]$$
+            </div>
+            <p>The first equation is independent; [A] decays exponentially. The second depends on [A]; [B] rises then falls. The third depends on [B]; [C] rises monotonically.</p>
+
+            <!-- CONSECUTIVE REACTIONS -->
+            <div class="visual-container" id="consecutive-container">
+                <div class="visual-title">Interactive: Consecutive Reactions A → B → C</div>
+                <canvas id="consecutiveCanvas" class="visual-canvas" width="680" height="320"></canvas>
+                <div class="visual-legend">
+                    <div class="legend-item"><div class="legend-color" style="background: #3B82F6;"></div> [A] Reactant</div>
+                    <div class="legend-item"><div class="legend-color" style="background: #F97316;"></div> [B] Intermediate</div>
+                    <div class="legend-item"><div class="legend-color" style="background: #22C55E;"></div> [C] Product</div>
+                </div>
+                <div class="visual-controls">
+                    <div class="control-group">
+                        <span class="control-label">k₁ (A → B)</span>
+                        <input type="range" id="consK1" min="0.1" max="2" step="0.1" value="0.5">
+                        <span class="control-value" id="consK1Value">0.5 s⁻¹</span>
+                    </div>
+                    <div class="control-group">
+                        <span class="control-label">k₂ (B → C)</span>
+                        <input type="range" id="consK2" min="0.1" max="2" step="0.1" value="0.3">
+                        <span class="control-value" id="consK2Value">0.3 s⁻¹</span>
+                    </div>
+                </div>
+                <p class="visual-caption">In consecutive reactions, the intermediate rises then falls. Adjust k₁ and k₂ to see how relative rates affect the concentration profiles.</p>
+            </div>
+
+            <h3>6.3 Steady-State Approximation</h3>
+            <p>For intermediates that form and react quickly, assume d[B]/dt ≈ 0:</p>
+            <div class="math-block">
+                $$0 = k_1[\text{A}] - k_2[\text{B}]_{ss} \quad \Rightarrow \quad [\text{B}]_{ss} = \frac{k_1}{k_2}[\text{A}]$$
+            </div>
+            <p>This <span class="def-popup" data-definition="Steady-state approximation: The assumption that the concentration of a reactive intermediate remains approximately constant because its rate of formation equals its rate of consumption.">steady-state approximation<span class="def-tooltip"></span></span> simplifies complex mechanisms by eliminating fast intermediates.</p>
+
+            <h3>6.4 Equilibrium as Zero Net Rate</h3>
+            <p>At equilibrium, forward and reverse rates are equal:</p>
+            <div class="math-block">
+                $$r_f = r_r \quad \Rightarrow \quad K_{eq} = \frac{k_f}{k_r}$$
+            </div>
+            <p>Equilibrium is where net RATE vanishes—dynamic SAMENESS.</p>
+        </section>
+
+        <!-- Part VII -->
+        <section class="part" id="part-7">
+            <div class="part-header">
+                <span class="part-number">Part VII</span>
+                <h2 class="part-title">Beyond Simple Kinetics</h2>
+            </div>
+
+            <h3>7.1 Enzyme Kinetics</h3>
+            <p>Enzymes follow Michaelis-Menten kinetics:</p>
+            <div class="math-block">
+                $$v = \frac{V_{max}[\text{S}]}{K_M + [\text{S}]}$$
+            </div>
+            <ul>
+                <li><strong>v</strong>: reaction velocity</li>
+                <li><strong>Vₘₐₓ</strong>: maximum velocity (at saturation)</li>
+                <li><strong>Kₘ</strong>: Michaelis constant (substrate concentration at half-max velocity)</li>
+                <li><strong>[S]</strong>: substrate concentration</li>
+            </ul>
+            <p>At low [S]: v ≈ (Vₘₐₓ/Kₘ)[S] — first order<br>
+            At high [S]: v ≈ Vₘₐₓ — zero order</p>
+
+            <!-- MICHAELIS-MENTEN -->
+            <div class="visual-container" id="mm-container">
+                <div class="visual-title">Interactive: Michaelis-Menten Kinetics</div>
+                <canvas id="mmCanvas" class="visual-canvas" width="680" height="320"></canvas>
+                <div class="visual-controls">
+                    <div class="control-group">
+                        <span class="control-label">Vₘₐₓ</span>
+                        <input type="range" id="mmVmax" min="0.5" max="2" step="0.1" value="1">
+                        <span class="control-value" id="mmVmaxValue">1.0 μM/s</span>
+                    </div>
+                    <div class="control-group">
+                        <span class="control-label">Kₘ</span>
+                        <input type="range" id="mmKm" min="0.2" max="2" step="0.1" value="0.5">
+                        <span class="control-value" id="mmKmValue">0.5 mM</span>
+                    </div>
+                </div>
+                <p class="visual-caption">Enzyme kinetics transitions from first-order (low [S]) to zero-order (high [S]) around Kₘ.</p>
+            </div>
+
+            <h3>7.2 Turnover Number</h3>
+            <p>The <span class="def-popup" data-definition="Turnover number: kcat = Vmax/[E]total. The number of substrate molecules converted to product per enzyme molecule per unit time when saturated.">turnover number<span class="def-tooltip"></span></span> kcat = Vₘₐₓ/[E]total represents reactions per enzyme per second. Typical values: 10² - 10⁶ s⁻¹. Carbonic anhydrase: ~10⁶ s⁻¹.</p>
+
+            <h3>7.3 Diffusion</h3>
+            <p>Diffusion is RATE applied to spatial redistribution.</p>
+            <p><strong>Fick's first law:</strong></p>
+            <div class="math-block">
+                $$J = -D \frac{d[C]}{dx}$$
+            </div>
+            <p>The rate of matter transport is proportional to the concentration gradient.</p>
+
+            <!-- DIFFUSION SIMULATION -->
+            <div class="visual-container" id="diffusion-container">
+                <div class="visual-title">Interactive: Diffusion Simulation</div>
+                <canvas id="diffusionCanvas" class="visual-canvas" width="680" height="280"></canvas>
+                <div class="btn-group">
+                    <button class="btn" id="diffusionReset">Reset</button>
+                    <button class="btn" id="diffusionStart">Start</button>
+                </div>
+                <div class="visual-controls">
+                    <div class="control-group">
+                        <span class="control-label">Diffusion Coefficient D</span>
+                        <input type="range" id="diffusionD" min="0.5" max="3" step="0.25" value="1.5">
+                        <span class="control-value" id="diffusionDValue">1.5</span>
+                    </div>
+                </div>
+                <p class="visual-caption">Diffusion spreads matter down concentration gradients. Random walks produce net flow from high to low concentration.</p>
+            </div>
+        </section>
+
+        <!-- Part VIII -->
+        <section class="part" id="part-8">
+            <div class="part-header">
+                <span class="part-number">Part VIII</span>
+                <h2 class="part-title">RATE and Other Primitives</h2>
+            </div>
+
+            <h3>8.1 RATE and CHANGE</h3>
+            <p>RATE is CHANGE measured against time.</p>
+            <p>CHANGE: df (how much different)<br>
+            RATE: df/dt (how much different per unit time)</p>
+            <p>The derivative formalizes both, but RATE emphasizes the temporal dimension.</p>
+
+            <h3>8.2 RATE and PROXIMITY</h3>
+            <p>Rate laws often depend on proximity:</p>
+            <ul>
+                <li>Bimolecular reactions require collision (spatial proximity)</li>
+                <li>Higher concentrations increase encounter rates (effective proximity)</li>
+                <li>Diffusion-controlled reactions are limited by how fast molecules can approach</li>
+            </ul>
+
+            <h3>8.3 RATE and ACCUMULATION</h3>
+            <p>ACCUMULATION is the inverse of RATE.</p>
+            <p>If r = d[P]/dt, then total product is:</p>
+            <div class="math-block">
+                $$[\text{P}] = \int_0^t r \, dt'$$
+            </div>
+            <p>RATE differentiates; ACCUMULATION integrates. They are inverse operations.</p>
+
+            <h3>8.4 RATE and SAMENESS</h3>
+            <p>Steady state and equilibrium are where RATE produces SAMENESS.</p>
+            <p>At steady state: d[X]/dt = 0 for intermediates<br>
+            At equilibrium: d[A]/dt = d[B]/dt = ... = 0 for all species</p>
+            <p>SAMENESS emerges when rates balance.</p>
+        </section>
+
+        <!-- Part IX: Summary -->
+        <section class="part" id="part-9">
+            <div class="part-header">
+                <span class="part-number">Part IX</span>
+                <h2 class="part-title">Summary</h2>
+            </div>
+
+            <h3>9.1 What RATE Is</h3>
+            <p>RATE is the tempo of change—how much per unit time.</p>
+            <p>The perception is primary. Fast and slow are felt directly, not computed. Organisms must respond appropriately to different rates: flee the fast, ignore the slow.</p>
+            <p>The formalization is secondary: derivatives, rate laws, differential equations. These tools quantify tempo and enable prediction.</p>
+
+            <div class="formal-def">
+                <div class="formal-def-title">Key Concepts</div>
+                <p><strong>Rate</strong>: df/dt. Change per unit time.</p>
+                <p><strong>Rate law</strong>: r = k[A]^m[B]^n. Dependence of rate on concentrations.</p>
+                <p><strong>Order</strong>: Exponents in the rate law. Determines shape of concentration-time curve.</p>
+                <p><strong>Arrhenius equation</strong>: k = Ae⁻ᴱᵃ/ᴿᵀ. Temperature dependence of rate constant.</p>
+                <p><strong>Half-life</strong>: Time for half to react. Constant for first-order processes.</p>
+            </div>
+
+            <h3>9.2 Forward</h3>
+            <p>RATE provides the temporal dimension to CHANGE. The next primitive, ACCUMULATION, inverts the operation: from rates to totals, from derivatives to integrals.</p>
+        </section>
+
+        <!-- Endnotes -->
+        <section class="endnotes">
+            <h2>Endnotes</h2>
+            <div class="endnote">
+                <span class="endnote-num">[1]</span>
+                The perception of motion and rate is discussed in Nakayama, K. (1985). "Biological image motion processing: A review." <em>Vision Research</em>, 25(5), 625-660.
+            </div>
+            <div class="endnote">
+                <span class="endnote-num">[2]</span>
+                Chemical kinetics is covered comprehensively in Houston, P.L. (2001). <em>Chemical Kinetics and Reaction Dynamics</em>. McGraw-Hill.
+            </div>
+            <div class="endnote">
+                <span class="endnote-num">[3]</span>
+                The Arrhenius equation and its physical interpretation are discussed in Laidler, K.J. (1984). "The development of the Arrhenius equation." <em>Journal of Chemical Education</em>, 61(6), 494-498.
+            </div>
+            <div class="endnote">
+                <span class="endnote-num">[4]</span>
+                Enzyme kinetics and the Michaelis-Menten equation are covered in Cornish-Bowden, A. (2012). <em>Fundamentals of Enzyme Kinetics</em> (4th ed.). Wiley-Blackwell.
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <nav class="nav-footer">
+            <a href="change.html" class="nav-link">← CHANGE</a>
+            <a href="../index.html" class="nav-link">Home</a>
+            <a href="accumulation.html" class="nav-link">ACCUMULATION →</a>
+        </nav>
+    </div>
+
+    <script>
+        // Initialize KaTeX
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},
+                    {left: "$", right: "$", display: false}
+                ]
+            });
+
+            // Populate tooltips
+            document.querySelectorAll('.def-popup').forEach(el => {
+                const tooltip = el.querySelector('.def-tooltip');
+                if (tooltip) tooltip.textContent = el.dataset.definition;
+            });
+
+            initOrderComparison();
+            initHalfLife();
+            initArrhenius();
+            initConsecutive();
+            initMichaelisMenten();
+            initDiffusion();
+        });
+
+        // ==========================================
+        // 1. ORDER COMPARISON
+        // ==========================================
+        function initOrderComparison() {
+            const canvas = document.getElementById('orderCanvas');
+            const ctx = canvas.getContext('2d');
+            const kSlider = document.getElementById('orderK');
+            const a0Slider = document.getElementById('orderA0');
+            const kValue = document.getElementById('orderKValue');
+            const a0Value = document.getElementById('orderA0Value');
+
+            function draw() {
+                const k = parseFloat(kSlider.value);
+                const A0 = parseFloat(a0Slider.value);
+
+                kValue.textContent = k.toFixed(1);
+                a0Value.textContent = A0.toFixed(1) + ' M';
+
+                ctx.fillStyle = '#0a0a0f';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                const padding = 50;
+                const w = canvas.width - 2 * padding;
+                const h = canvas.height - 2 * padding;
+
+                // Axes
+                ctx.strokeStyle = '#2a2a35';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(padding, padding);
+                ctx.lineTo(padding, canvas.height - padding);
+                ctx.lineTo(canvas.width - padding, canvas.height - padding);
+                ctx.stroke();
+
+                // Labels
+                ctx.fillStyle = '#6b6965';
+                ctx.font = '12px JetBrains Mono';
+                ctx.textAlign = 'center';
+                ctx.fillText('Time (s)', canvas.width / 2, canvas.height - 10);
+                ctx.save();
+                ctx.translate(15, canvas.height / 2);
+                ctx.rotate(-Math.PI / 2);
+                ctx.fillText('[A] (M)', 0, 0);
+                ctx.restore();
+
+                // Time range
+                const tMax = 10;
+
+                // Draw curves
+                const orders = [
+                    { name: 'Zero', color: '#3B82F6', calc: (t) => Math.max(0, A0 - k * t) },
+                    { name: 'First', color: '#F97316', calc: (t) => A0 * Math.exp(-k * t) },
+                    { name: 'Second', color: '#22C55E', calc: (t) => A0 / (1 + k * A0 * t) }
+                ];
+
+                orders.forEach(order => {
+                    ctx.strokeStyle = order.color;
+                    ctx.lineWidth = 2.5;
+                    ctx.beginPath();
+
+                    for (let i = 0; i <= 200; i++) {
+                        const t = (i / 200) * tMax;
+                        const A = order.calc(t);
+                        const x = padding + (t / tMax) * w;
+                        const y = canvas.height - padding - (A / (A0 * 1.1)) * h;
+
+                        if (i === 0) ctx.moveTo(x, y);
+                        else ctx.lineTo(x, y);
+                    }
+                    ctx.stroke();
+                });
+
+                // Axis ticks
+                ctx.fillStyle = '#6b6965';
+                ctx.font = '10px JetBrains Mono';
+                for (let t = 0; t <= tMax; t += 2) {
+                    const x = padding + (t / tMax) * w;
+                    ctx.fillText(t, x, canvas.height - padding + 15);
+                }
+                for (let a = 0; a <= A0 * 1.1; a += 0.5) {
+                    const y = canvas.height - padding - (a / (A0 * 1.1)) * h;
+                    ctx.fillText(a.toFixed(1), padding - 25, y + 4);
+                }
+            }
+
+            kSlider.addEventListener('input', draw);
+            a0Slider.addEventListener('input', draw);
+            draw();
+        }
+
+        // ==========================================
+        // 2. HALF-LIFE EXPLORER
+        // ==========================================
+        function initHalfLife() {
+            const canvas = document.getElementById('halflifeCanvas');
+            const ctx = canvas.getContext('2d');
+            const kSlider = document.getElementById('halflifeK');
+            const kValue = document.getElementById('halflifeKValue');
+            const t12Value = document.getElementById('halflifeT12Value');
+
+            function draw() {
+                const k = parseFloat(kSlider.value);
+                const t12 = Math.log(2) / k;
+
+                kValue.textContent = k.toFixed(2) + ' s⁻¹';
+                t12Value.textContent = t12.toFixed(2) + ' s';
+
+                ctx.fillStyle = '#0a0a0f';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                const padding = 50;
+                const w = canvas.width - 2 * padding;
+                const h = canvas.height - 2 * padding;
+
+                const A0 = 1.0;
+                const tMax = t12 * 5;
+
+                // Axes
+                ctx.strokeStyle = '#2a2a35';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(padding, padding);
+                ctx.lineTo(padding, canvas.height - padding);
+                ctx.lineTo(canvas.width - padding, canvas.height - padding);
+                ctx.stroke();
+
+                // Half-life markers
+                ctx.setLineDash([5, 5]);
+                ctx.strokeStyle = '#6B7280';
+                ctx.lineWidth = 1;
+
+                for (let n = 1; n <= 4; n++) {
+                    const t = n * t12;
+                    const A = A0 * Math.pow(0.5, n);
+                    const x = padding + (t / tMax) * w;
+                    const y = canvas.height - padding - (A / A0) * h;
+
+                    // Vertical line at each half-life
+                    ctx.beginPath();
+                    ctx.moveTo(x, canvas.height - padding);
+                    ctx.lineTo(x, y);
+                    ctx.stroke();
+
+                    // Horizontal line at each concentration
+                    ctx.beginPath();
+                    ctx.moveTo(padding, y);
+                    ctx.lineTo(x, y);
+                    ctx.stroke();
+
+                    // Labels
+                    ctx.fillStyle = '#6B7280';
+                    ctx.font = '10px JetBrains Mono';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(n + 't₁/₂', x, canvas.height - padding + 15);
+                    ctx.textAlign = 'right';
+                    ctx.fillText('[A]₀/' + Math.pow(2, n), padding - 5, y + 4);
+                }
+                ctx.setLineDash([]);
+
+                // Decay curve
+                ctx.strokeStyle = '#F97316';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+
+                for (let i = 0; i <= 200; i++) {
+                    const t = (i / 200) * tMax;
+                    const A = A0 * Math.exp(-k * t);
+                    const x = padding + (t / tMax) * w;
+                    const y = canvas.height - padding - (A / A0) * h;
+
+                    if (i === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.stroke();
+
+                // Mark half-life points
+                for (let n = 1; n <= 4; n++) {
+                    const t = n * t12;
+                    const A = A0 * Math.pow(0.5, n);
+                    const x = padding + (t / tMax) * w;
+                    const y = canvas.height - padding - (A / A0) * h;
+
+                    ctx.fillStyle = '#F97316';
+                    ctx.beginPath();
+                    ctx.arc(x, y, 5, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+
+                // Axis labels
+                ctx.fillStyle = '#6b6965';
+                ctx.font = '12px JetBrains Mono';
+                ctx.textAlign = 'center';
+                ctx.fillText('Time', canvas.width / 2, canvas.height - 10);
+                ctx.save();
+                ctx.translate(15, canvas.height / 2);
+                ctx.rotate(-Math.PI / 2);
+                ctx.fillText('[A]', 0, 0);
+                ctx.restore();
+            }
+
+            kSlider.addEventListener('input', draw);
+            draw();
+        }
+
+        // ==========================================
+        // 3. ARRHENIUS PLOT
+        // ==========================================
+        function initArrhenius() {
+            const canvas = document.getElementById('arrheniusCanvas');
+            const ctx = canvas.getContext('2d');
+            const eaSlider = document.getElementById('arrheniusEa');
+            const aSlider = document.getElementById('arrheniusA');
+            const tSlider = document.getElementById('arrheniusT');
+            const eaValue = document.getElementById('arrheniusEaValue');
+            const aValue = document.getElementById('arrheniusAValue');
+            const tValue = document.getElementById('arrheniusTValue');
+
+            const R = 8.314; // J/(mol·K)
+
+            function draw() {
+                const Ea = parseFloat(eaSlider.value) * 1000; // kJ to J
+                const lnA = parseFloat(aSlider.value);
+                const T = parseFloat(tSlider.value);
+
+                eaValue.textContent = (Ea / 1000).toFixed(0) + ' kJ/mol';
+                aValue.textContent = '10^' + lnA.toFixed(1).replace('.0', '') + ' s⁻¹';
+                tValue.textContent = T + ' K';
+
+                ctx.fillStyle = '#0a0a0f';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                const padding = 60;
+                const w = canvas.width - 2 * padding;
+                const h = canvas.height - 2 * padding;
+
+                // Temperature range
+                const Tmin = 250, Tmax = 500;
+                const invTmin = 1 / Tmax, invTmax = 1 / Tmin;
+
+                // ln(k) range
+                const lnkMin = lnA * Math.log(10) - Ea / (R * Tmin);
+                const lnkMax = lnA * Math.log(10) - Ea / (R * Tmax);
+                const lnkRange = lnkMax - lnkMin;
+
+                // Axes
+                ctx.strokeStyle = '#2a2a35';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(padding, padding);
+                ctx.lineTo(padding, canvas.height - padding);
+                ctx.lineTo(canvas.width - padding, canvas.height - padding);
+                ctx.stroke();
+
+                // Arrhenius line
+                ctx.strokeStyle = '#EF4444';
+                ctx.lineWidth = 2.5;
+                ctx.beginPath();
+
+                for (let i = 0; i <= 100; i++) {
+                    const invT = invTmin + (i / 100) * (invTmax - invTmin);
+                    const lnk = lnA * Math.log(10) - Ea / (R * (1 / invT));
+                    const x = padding + ((invT - invTmin) / (invTmax - invTmin)) * w;
+                    const y = canvas.height - padding - ((lnk - lnkMin) / lnkRange) * h;
+
+                    if (i === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.stroke();
+
+                // Current temperature point
+                const invT = 1 / T;
+                const lnk = lnA * Math.log(10) - Ea / (R * T);
+                const px = padding + ((invT - invTmin) / (invTmax - invTmin)) * w;
+                const py = canvas.height - padding - ((lnk - lnkMin) / lnkRange) * h;
+
+                // Dashed lines
+                ctx.setLineDash([5, 5]);
+                ctx.strokeStyle = '#8B5CF6';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(px, canvas.height - padding);
+                ctx.lineTo(px, py);
+                ctx.lineTo(padding, py);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Point
+                ctx.fillStyle = '#8B5CF6';
+                ctx.beginPath();
+                ctx.arc(px, py, 8, 0, Math.PI * 2);
+                ctx.fill();
+
+                // k value at this T
+                const k = Math.exp(lnk);
+                ctx.fillStyle = '#e8e6e3';
+                ctx.font = '11px JetBrains Mono';
+                ctx.textAlign = 'left';
+                ctx.fillText('k = ' + k.toExponential(2) + ' s⁻¹', px + 12, py - 5);
+
+                // Axis labels
+                ctx.fillStyle = '#6b6965';
+                ctx.font = '12px JetBrains Mono';
+                ctx.textAlign = 'center';
+                ctx.fillText('1/T (K⁻¹)', canvas.width / 2, canvas.height - 10);
+                ctx.save();
+                ctx.translate(15, canvas.height / 2);
+                ctx.rotate(-Math.PI / 2);
+                ctx.fillText('ln(k)', 0, 0);
+                ctx.restore();
+
+                // Slope annotation
+                ctx.fillStyle = '#EF4444';
+                ctx.font = '11px JetBrains Mono';
+                ctx.fillText('slope = -Eₐ/R', canvas.width - padding - 60, padding + 30);
+            }
+
+            eaSlider.addEventListener('input', draw);
+            aSlider.addEventListener('input', draw);
+            tSlider.addEventListener('input', draw);
+            draw();
+        }
+
+        // ==========================================
+        // 4. CONSECUTIVE REACTIONS
+        // ==========================================
+        function initConsecutive() {
+            const canvas = document.getElementById('consecutiveCanvas');
+            const ctx = canvas.getContext('2d');
+            const k1Slider = document.getElementById('consK1');
+            const k2Slider = document.getElementById('consK2');
+            const k1Value = document.getElementById('consK1Value');
+            const k2Value = document.getElementById('consK2Value');
+
+            function draw() {
+                const k1 = parseFloat(k1Slider.value);
+                const k2 = parseFloat(k2Slider.value);
+
+                k1Value.textContent = k1.toFixed(1) + ' s⁻¹';
+                k2Value.textContent = k2.toFixed(1) + ' s⁻¹';
+
+                ctx.fillStyle = '#0a0a0f';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                const padding = 50;
+                const w = canvas.width - 2 * padding;
+                const h = canvas.height - 2 * padding;
+
+                const A0 = 1.0;
+                const tMax = 10;
+
+                // Axes
+                ctx.strokeStyle = '#2a2a35';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(padding, padding);
+                ctx.lineTo(padding, canvas.height - padding);
+                ctx.lineTo(canvas.width - padding, canvas.height - padding);
+                ctx.stroke();
+
+                // Calculate concentrations
+                function getConc(t) {
+                    const A = A0 * Math.exp(-k1 * t);
+                    let B, C;
+
+                    if (Math.abs(k1 - k2) < 0.001) {
+                        // Special case: k1 ≈ k2
+                        B = A0 * k1 * t * Math.exp(-k1 * t);
+                    } else {
+                        B = A0 * (k1 / (k2 - k1)) * (Math.exp(-k1 * t) - Math.exp(-k2 * t));
+                    }
+                    C = A0 - A - B;
+
+                    return { A: Math.max(0, A), B: Math.max(0, B), C: Math.max(0, C) };
+                }
+
+                // Draw curves
+                const species = [
+                    { name: 'A', color: '#3B82F6', key: 'A' },
+                    { name: 'B', color: '#F97316', key: 'B' },
+                    { name: 'C', color: '#22C55E', key: 'C' }
+                ];
+
+                species.forEach(sp => {
+                    ctx.strokeStyle = sp.color;
+                    ctx.lineWidth = 2.5;
+                    ctx.beginPath();
+
+                    for (let i = 0; i <= 200; i++) {
+                        const t = (i / 200) * tMax;
+                        const conc = getConc(t);
+                        const x = padding + (t / tMax) * w;
+                        const y = canvas.height - padding - (conc[sp.key] / A0) * h;
+
+                        if (i === 0) ctx.moveTo(x, y);
+                        else ctx.lineTo(x, y);
+                    }
+                    ctx.stroke();
+                });
+
+                // Find and mark B maximum
+                let maxB = 0, tMaxB = 0;
+                for (let t = 0; t <= tMax; t += 0.01) {
+                    const conc = getConc(t);
+                    if (conc.B > maxB) {
+                        maxB = conc.B;
+                        tMaxB = t;
+                    }
+                }
+
+                const xMax = padding + (tMaxB / tMax) * w;
+                const yMax = canvas.height - padding - (maxB / A0) * h;
+
+                ctx.fillStyle = '#F97316';
+                ctx.beginPath();
+                ctx.arc(xMax, yMax, 6, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = '#e8e6e3';
+                ctx.font = '10px JetBrains Mono';
+                ctx.textAlign = 'left';
+                ctx.fillText('[B]max at t=' + tMaxB.toFixed(2) + 's', xMax + 10, yMax - 5);
+
+                // Axis labels
+                ctx.fillStyle = '#6b6965';
+                ctx.font = '12px JetBrains Mono';
+                ctx.textAlign = 'center';
+                ctx.fillText('Time (s)', canvas.width / 2, canvas.height - 10);
+                ctx.save();
+                ctx.translate(15, canvas.height / 2);
+                ctx.rotate(-Math.PI / 2);
+                ctx.fillText('Concentration', 0, 0);
+                ctx.restore();
+
+                // Axis ticks
+                ctx.font = '10px JetBrains Mono';
+                for (let t = 0; t <= tMax; t += 2) {
+                    const x = padding + (t / tMax) * w;
+                    ctx.fillText(t, x, canvas.height - padding + 15);
+                }
+            }
+
+            k1Slider.addEventListener('input', draw);
+            k2Slider.addEventListener('input', draw);
+            draw();
+        }
+
+        // ==========================================
+        // 5. MICHAELIS-MENTEN
+        // ==========================================
+        function initMichaelisMenten() {
+            const canvas = document.getElementById('mmCanvas');
+            const ctx = canvas.getContext('2d');
+            const vmaxSlider = document.getElementById('mmVmax');
+            const kmSlider = document.getElementById('mmKm');
+            const vmaxValue = document.getElementById('mmVmaxValue');
+            const kmValue = document.getElementById('mmKmValue');
+
+            function draw() {
+                const Vmax = parseFloat(vmaxSlider.value);
+                const Km = parseFloat(kmSlider.value);
+
+                vmaxValue.textContent = Vmax.toFixed(1) + ' μM/s';
+                kmValue.textContent = Km.toFixed(1) + ' mM';
+
+                ctx.fillStyle = '#0a0a0f';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                const padding = 50;
+                const w = canvas.width - 2 * padding;
+                const h = canvas.height - 2 * padding;
+
+                const Smax = Km * 8;
+
+                // Axes
+                ctx.strokeStyle = '#2a2a35';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(padding, padding);
+                ctx.lineTo(padding, canvas.height - padding);
+                ctx.lineTo(canvas.width - padding, canvas.height - padding);
+                ctx.stroke();
+
+                // Vmax asymptote
+                const yVmax = canvas.height - padding - (Vmax / (Vmax * 1.2)) * h;
+                ctx.setLineDash([5, 5]);
+                ctx.strokeStyle = '#6B7280';
+                ctx.beginPath();
+                ctx.moveTo(padding, yVmax);
+                ctx.lineTo(canvas.width - padding, yVmax);
+                ctx.stroke();
+
+                // Km marker
+                const xKm = padding + (Km / Smax) * w;
+                const yKmV = canvas.height - padding - ((Vmax / 2) / (Vmax * 1.2)) * h;
+                ctx.beginPath();
+                ctx.moveTo(xKm, canvas.height - padding);
+                ctx.lineTo(xKm, yKmV);
+                ctx.lineTo(padding, yKmV);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // MM curve
+                ctx.strokeStyle = '#8B5CF6';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+
+                for (let i = 0; i <= 200; i++) {
+                    const S = (i / 200) * Smax;
+                    const v = (Vmax * S) / (Km + S);
+                    const x = padding + (S / Smax) * w;
+                    const y = canvas.height - padding - (v / (Vmax * 1.2)) * h;
+
+                    if (i === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.stroke();
+
+                // Mark Km point
+                ctx.fillStyle = '#8B5CF6';
+                ctx.beginPath();
+                ctx.arc(xKm, yKmV, 6, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Labels
+                ctx.fillStyle = '#6B7280';
+                ctx.font = '11px JetBrains Mono';
+                ctx.textAlign = 'right';
+                ctx.fillText('Vmax', padding - 5, yVmax + 4);
+                ctx.fillText('Vmax/2', padding - 5, yKmV + 4);
+                ctx.textAlign = 'center';
+                ctx.fillText('Km', xKm, canvas.height - padding + 15);
+
+                // Initial slope (first-order region)
+                ctx.strokeStyle = '#22C55E';
+                ctx.lineWidth = 1.5;
+                ctx.setLineDash([3, 3]);
+                ctx.beginPath();
+                ctx.moveTo(padding, canvas.height - padding);
+                const slope = Vmax / Km;
+                const endS = Km * 0.8;
+                const endV = slope * endS;
+                ctx.lineTo(padding + (endS / Smax) * w, canvas.height - padding - (endV / (Vmax * 1.2)) * h);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                ctx.fillStyle = '#22C55E';
+                ctx.font = '10px JetBrains Mono';
+                ctx.fillText('first-order', padding + (endS / Smax) * w + 30, canvas.height - padding - (endV / (Vmax * 1.2)) * h);
+
+                // Zero-order region label
+                ctx.fillStyle = '#F97316';
+                ctx.fillText('zero-order', canvas.width - padding - 50, yVmax - 10);
+
+                // Axis labels
+                ctx.fillStyle = '#6b6965';
+                ctx.font = '12px JetBrains Mono';
+                ctx.textAlign = 'center';
+                ctx.fillText('[S] (mM)', canvas.width / 2, canvas.height - 10);
+                ctx.save();
+                ctx.translate(15, canvas.height / 2);
+                ctx.rotate(-Math.PI / 2);
+                ctx.fillText('v (μM/s)', 0, 0);
+                ctx.restore();
+            }
+
+            vmaxSlider.addEventListener('input', draw);
+            kmSlider.addEventListener('input', draw);
+            draw();
+        }
+
+        // ==========================================
+        // 6. DIFFUSION SIMULATION
+        // ==========================================
+        function initDiffusion() {
+            const canvas = document.getElementById('diffusionCanvas');
+            const ctx = canvas.getContext('2d');
+            const dSlider = document.getElementById('diffusionD');
+            const dValue = document.getElementById('diffusionDValue');
+            const resetBtn = document.getElementById('diffusionReset');
+            const startBtn = document.getElementById('diffusionStart');
+
+            let particles = [];
+            let animationId = null;
+            let running = false;
+            const numParticles = 200;
+
+            function reset() {
+                particles = [];
+                // Start all particles on left side
+                for (let i = 0; i < numParticles; i++) {
+                    particles.push({
+                        x: 30 + Math.random() * 80,
+                        y: 30 + Math.random() * (canvas.height - 60)
+                    });
+                }
+                draw();
+            }
+
+            function draw() {
+                const D = parseFloat(dSlider.value);
+                dValue.textContent = D.toFixed(2);
+
+                ctx.fillStyle = '#0a0a0f';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                // Boundary
+                ctx.strokeStyle = '#2a2a35';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(20, 20, canvas.width - 40, canvas.height - 40);
+
+                // Particles
+                ctx.fillStyle = '#3B82F6';
+                particles.forEach(p => {
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+
+                // Concentration profile
+                const binWidth = (canvas.width - 40) / 20;
+                const bins = new Array(20).fill(0);
+                particles.forEach(p => {
+                    const bin = Math.floor((p.x - 20) / binWidth);
+                    if (bin >= 0 && bin < 20) bins[bin]++;
+                });
+
+                const maxBin = Math.max(...bins, 1);
+                ctx.strokeStyle = '#F97316';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                bins.forEach((count, i) => {
+                    const x = 20 + (i + 0.5) * binWidth;
+                    const barHeight = (count / maxBin) * 60;
+                    const y = canvas.height - 20 - barHeight;
+                    if (i === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                });
+                ctx.stroke();
+            }
+
+            function animate() {
+                const D = parseFloat(dSlider.value);
+
+                particles.forEach(p => {
+                    // Random walk
+                    p.x += (Math.random() - 0.5) * D * 4;
+                    p.y += (Math.random() - 0.5) * D * 2;
+
+                    // Bounce off walls
+                    if (p.x < 24) p.x = 24;
+                    if (p.x > canvas.width - 24) p.x = canvas.width - 24;
+                    if (p.y < 24) p.y = 24;
+                    if (p.y > canvas.height - 24) p.y = canvas.height - 24;
+                });
+
+                draw();
+                if (running) animationId = requestAnimationFrame(animate);
+            }
+
+            resetBtn.addEventListener('click', () => {
+                running = false;
+                if (animationId) cancelAnimationFrame(animationId);
+                startBtn.textContent = 'Start';
+                startBtn.classList.remove('active');
+                reset();
+            });
+
+            startBtn.addEventListener('click', () => {
+                running = !running;
+                if (running) {
+                    startBtn.textContent = 'Pause';
+                    startBtn.classList.add('active');
+                    animate();
+                } else {
+                    startBtn.textContent = 'Start';
+                    startBtn.classList.remove('active');
+                    if (animationId) cancelAnimationFrame(animationId);
+                }
+            });
+
+            dSlider.addEventListener('input', draw);
+            reset();
+        }
+    </script>
+</body>
+</html>
