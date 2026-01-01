@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 6: Coordinates and Basis | Chemical Thinking</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a24;
+            --text-primary: #e8e6e3;
+            --text-secondary: #a0a0a0;
+            --accent-blue: #4a9eff;
+            --accent-purple: #8b5cf6;
+            --accent-green: #10b981;
+            --accent-orange: #f59e0b;
+            --accent-red: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            padding: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            font-style: italic;
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            color: var(--accent-blue);
+            margin: 3rem 0 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--bg-tertiary);
+        }
+
+        h3 {
+            font-size: 1.35rem;
+            color: var(--accent-purple);
+            margin: 2rem 0 1rem;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            color: var(--accent-green);
+            margin: 1.5rem 0 0.75rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        .hook-box {
+            background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
+            border-left: 4px solid var(--accent-orange);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .hook-box p {
+            margin-bottom: 0.5rem;
+        }
+
+        .definition-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--accent-purple);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+        }
+
+        .definition-box strong {
+            color: var(--accent-purple);
+        }
+
+        .visual-container {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .visual-container h4 {
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+
+        canvas {
+            display: block;
+            margin: 0 auto;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .control-group label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        input[type="range"] {
+            width: 150px;
+            accent-color: var(--accent-blue);
+        }
+
+        select, button {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--accent-blue);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        button:hover {
+            background: var(--accent-blue);
+            color: var(--bg-primary);
+        }
+
+        .value-display {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-green);
+            min-width: 60px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--bg-tertiary);
+        }
+
+        th {
+            background: var(--bg-secondary);
+            color: var(--accent-blue);
+        }
+
+        tr:hover {
+            background: var(--bg-secondary);
+        }
+
+        .math-block {
+            background: var(--bg-secondary);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            overflow-x: auto;
+            text-align: center;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-tertiary);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        .exercise-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--accent-green);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+        }
+
+        .exercise-box h4 {
+            color: var(--accent-green);
+            margin-top: 0;
+        }
+
+        .solution {
+            background: var(--bg-tertiary);
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 6px;
+            display: none;
+        }
+
+        .solution.visible {
+            display: block;
+        }
+
+        .toggle-solution {
+            background: transparent;
+            border: 1px dashed var(--accent-green);
+            color: var(--accent-green);
+            padding: 0.4rem 0.8rem;
+            font-size: 0.85rem;
+        }
+
+        .toggle-solution:hover {
+            background: var(--accent-green);
+            color: var(--bg-primary);
+        }
+
+        .nav-footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--bg-tertiary);
+        }
+
+        .nav-footer a {
+            color: var(--accent-blue);
+            text-decoration: none;
+        }
+
+        .nav-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .coord-display {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-tertiary);
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            margin: 0.5rem;
+            display: inline-block;
+        }
+
+        .system-label {
+            color: var(--accent-orange);
+            font-weight: bold;
+        }
+
+        .matrix {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        .info-box {
+            background: var(--bg-secondary);
+            border-left: 4px solid var(--accent-blue);
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lecture 6: Coordinates and Basis</h1>
+    <p class="subtitle">The same vector looks different in different coordinate systems.</p>
+
+    <!-- THE HOOK -->
+    <h2>The Hook</h2>
+
+    <div class="visual-container">
+        <h4>Water Molecule in Two Coordinate Systems</h4>
+        <canvas id="coordSystemsCanvas" width="700" height="300"></canvas>
+        <div class="controls">
+            <div class="coord-display">
+                <span class="system-label">System 1:</span> H₁ = <span id="sys1-h1">(0.958, 0, 0)</span>
+            </div>
+            <div class="coord-display">
+                <span class="system-label">System 2:</span> H₁ = <span id="sys2-h1">(0.587, 0.758, 0)</span>
+            </div>
+        </div>
+        <p style="text-align: center; color: var(--text-secondary); margin-top: 1rem;">
+            Same molecule. Different numbers. The geometry hasn't changed — only our description of it.
+        </p>
+    </div>
+
+    <div class="hook-box">
+        <p><strong>Same physical reality. Different numerical description.</strong></p>
+        <p>How do we translate between them? When does it matter? Why do chemists care?</p>
+    </div>
+
+    <!-- RECOGNITION -->
+    <h2>Recognition</h2>
+
+    <p><strong>DIRECTION</strong> (continued): "It points."</p>
+
+    <p>A vector <strong>is</strong> a direction and magnitude. The <strong>components</strong> are how we describe it in a particular coordinate system.</p>
+
+    <p>Change the coordinate system → change the components → same vector.</p>
+
+    <p>This is the distinction between:</p>
+    <ul>
+        <li>The <strong>vector</strong> (geometric object, coordinate-free)</li>
+        <li>Its <strong>representation</strong> (list of numbers, coordinate-dependent)</li>
+    </ul>
+
+    <!-- WHEN TO THINK ABOUT COORDINATES -->
+    <h2>When to Think About Coordinates and Basis</h2>
+
+    <table>
+        <tr>
+            <th>Situation</th>
+            <th>What you need</th>
+        </tr>
+        <tr>
+            <td>"The components look messy — is there a simpler description?"</td>
+            <td>Change to a better basis</td>
+        </tr>
+        <tr>
+            <td>"I have data in one coordinate system, need it in another"</td>
+            <td>Change of basis / coordinate transformation</td>
+        </tr>
+        <tr>
+            <td>"What do molecular orbital coefficients mean?"</td>
+            <td>They're components in a basis of atomic orbitals</td>
+        </tr>
+        <tr>
+            <td>"Why do quantum calculations depend on basis set?"</td>
+            <td>Different bases → different representations</td>
+        </tr>
+        <tr>
+            <td>"How do I rotate a molecule?"</td>
+            <td>Rotation matrix (change of coordinates)</td>
+        </tr>
+        <tr>
+            <td>"What's the 'natural' coordinate system for this problem?"</td>
+            <td>Find eigenvectors or symmetry-adapted basis</td>
+        </tr>
+    </table>
+
+    <!-- BASIS VECTORS -->
+    <h2>Basis Vectors</h2>
+
+    <h3>Definition</h3>
+
+    <div class="definition-box">
+        <p><strong>Definition:</strong> A <strong>basis</strong> for a vector space V is a set of vectors {<strong>e</strong>₁, <strong>e</strong>₂, ..., <strong>e</strong>ₙ} such that:</p>
+        <ol>
+            <li><strong>Spanning:</strong> Every vector in V can be written as a linear combination of basis vectors</li>
+            <li><strong>Linear independence:</strong> No basis vector can be written as a combination of the others</li>
+        </ol>
+        <p>The number of vectors in a basis is the <strong>dimension</strong> of V.</p>
+    </div>
+
+    <h3>The Standard Basis</h3>
+
+    <p>In ℝ³, the <strong>standard basis</strong> is:</p>
+
+    <div class="math-block">
+        $$\mathbf{\hat{i}} = \mathbf{e}_1 = (1, 0, 0)$$
+        $$\mathbf{\hat{j}} = \mathbf{e}_2 = (0, 1, 0)$$
+        $$\mathbf{\hat{k}} = \mathbf{e}_3 = (0, 0, 1)$$
+    </div>
+
+    <p>Any vector <strong>v</strong> = (v₁, v₂, v₃) is written:</p>
+
+    <div class="math-block">
+        $$\mathbf{v} = v_1 \mathbf{e}_1 + v_2 \mathbf{e}_2 + v_3 \mathbf{e}_3$$
+    </div>
+
+    <p>The components (v₁, v₂, v₃) are the <strong>coefficients</strong> in this basis.</p>
+
+    <h3>Explore Different Bases</h3>
+
+    <div class="visual-container">
+        <h4>Basis Explorer</h4>
+        <canvas id="basisCanvas" width="500" height="400"></canvas>
+        <div class="controls">
+            <div class="control-group">
+                <label>Basis:</label>
+                <select id="basisSelect">
+                    <option value="standard">Standard {(1,0), (0,1)}</option>
+                    <option value="rotated">Rotated 45° {(1,1)/√2, (1,-1)/√2}</option>
+                    <option value="scaled">Scaled {(2,0), (0,3)}</option>
+                    <option value="skewed">Skewed {(1,0), (1,1)}</option>
+                </select>
+            </div>
+        </div>
+        <p style="text-align: center; margin-top: 1rem;">
+            <span style="color: var(--accent-blue);">Blue: basis vectors</span> &nbsp;|&nbsp;
+            <span style="color: var(--accent-orange);">Orange: vector v = (3, 2) in standard</span>
+        </p>
+        <div class="coord-display" style="display: block; text-align: center; margin-top: 0.5rem;">
+            Components in selected basis: <span id="basisComponents" style="color: var(--accent-green);">(3, 2)</span>
+        </div>
+    </div>
+
+    <h3>Orthonormal Bases</h3>
+
+    <div class="definition-box">
+        <p><strong>Definition:</strong> A basis is <strong>orthonormal</strong> if:</p>
+        <ol>
+            <li>All basis vectors are unit vectors: |<strong>e</strong>ᵢ| = 1</li>
+            <li>All pairs are orthogonal: <strong>e</strong>ᵢ · <strong>e</strong>ⱼ = 0 for i ≠ j</li>
+        </ol>
+        <p>Combined: <strong>e</strong>ᵢ · <strong>e</strong>ⱼ = δᵢⱼ (Kronecker delta)</p>
+    </div>
+
+    <div class="info-box">
+        <p><strong>Why orthonormal bases are nice:</strong></p>
+        <p>To find the component of <strong>v</strong> along <strong>e</strong>ᵢ in an orthonormal basis:</p>
+        <div class="math-block">
+            $$v_i = \mathbf{v} \cdot \mathbf{e}_i$$
+        </div>
+        <p>Just take the dot product! No matrix inversion needed.</p>
+    </div>
+
+    <!-- COMPONENTS IN A BASIS -->
+    <h2>Components in a Basis</h2>
+
+    <h3>Finding Components</h3>
+
+    <p><strong>Given:</strong> Vector <strong>v</strong>, basis {<strong>e</strong>₁, <strong>e</strong>₂, ..., <strong>e</strong>ₙ}</p>
+    <p><strong>Find:</strong> Components (v₁, v₂, ..., vₙ) such that <strong>v</strong> = Σvᵢ<strong>e</strong>ᵢ</p>
+
+    <h4>Method 1: Orthonormal basis</h4>
+    <p>If the basis is orthonormal:</p>
+    <div class="math-block">
+        $$v_i = \mathbf{v} \cdot \mathbf{e}_i$$
+    </div>
+
+    <h4>Method 2: General basis (solve linear system)</h4>
+    <p>Write out the equation <strong>v</strong> = v₁<strong>e</strong>₁ + v₂<strong>e</strong>₂ + ... + vₙ<strong>e</strong>ₙ component by component and solve.</p>
+    <p>This becomes a matrix equation: E<strong>c</strong> = <strong>v</strong>, where E has basis vectors as columns.</p>
+
+    <h4>Shortcut for orthogonal (but not normalized) basis:</h4>
+    <div class="math-block">
+        $$v_i = \frac{\mathbf{v} \cdot \mathbf{e}_i}{\mathbf{e}_i \cdot \mathbf{e}_i}$$
+    </div>
+
+    <!-- CHANGE OF BASIS -->
+    <h2>Change of Basis</h2>
+
+    <h3>Rotation as Change of Basis</h3>
+
+    <div class="visual-container">
+        <h4>Coordinate Rotation</h4>
+        <canvas id="rotationCanvas" width="500" height="400"></canvas>
+        <div class="controls">
+            <div class="control-group">
+                <label>Rotation angle θ:</label>
+                <input type="range" id="rotationAngle" min="0" max="360" value="0">
+                <span class="value-display" id="angleValue">0°</span>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 1rem;">
+            <div class="coord-display">
+                <span class="system-label">Original:</span> v = <span id="origCoords">(1.00, 0.50)</span>
+            </div>
+            <div class="coord-display">
+                <span class="system-label">Rotated:</span> v' = <span id="rotCoords">(1.00, 0.50)</span>
+            </div>
+        </div>
+    </div>
+
+    <p>The rotation matrix for angle θ counterclockwise:</p>
+
+    <div class="math-block">
+        $$R(\theta) = \begin{pmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{pmatrix}$$
+    </div>
+
+    <p>Transforms coordinates: <strong>v'</strong> = R(θ)<strong>v</strong></p>
+
+    <h3>Properties of Rotation Matrices</h3>
+    <ol>
+        <li><strong>Orthogonal:</strong> R<sup>T</sup>R = I (inverse = transpose)</li>
+        <li><strong>Determinant 1:</strong> det(R) = 1 (preserves orientation)</li>
+        <li><strong>Preserve lengths:</strong> |R<strong>v</strong>| = |<strong>v</strong>|</li>
+        <li><strong>Preserve angles:</strong> (R<strong>v</strong>)·(R<strong>w</strong>) = <strong>v</strong>·<strong>w</strong></li>
+    </ol>
+
+    <!-- GRAM-SCHMIDT -->
+    <h2>Gram-Schmidt Orthogonalization</h2>
+
+    <p><strong>Given:</strong> A set of linearly independent vectors {<strong>v</strong>₁, <strong>v</strong>₂, ..., <strong>v</strong>ₙ}</p>
+    <p><strong>Find:</strong> An orthonormal basis {<strong>e</strong>₁, <strong>e</strong>₂, ..., <strong>e</strong>ₙ} spanning the same space</p>
+
+    <div class="visual-container">
+        <h4>Gram-Schmidt Step by Step</h4>
+        <canvas id="gramSchmidtCanvas" width="500" height="400"></canvas>
+        <div class="controls">
+            <button id="gsReset">Reset</button>
+            <button id="gsStep1">Step 1: Normalize v₁</button>
+            <button id="gsStep2">Step 2: Orthogonalize v₂</button>
+            <button id="gsStep3">Step 3: Normalize</button>
+        </div>
+        <p id="gsExplanation" style="text-align: center; margin-top: 1rem; color: var(--text-secondary);">
+            Starting vectors: v₁ = (2, 1), v₂ = (1, 2)
+        </p>
+    </div>
+
+    <h3>The Algorithm</h3>
+
+    <p><strong>Step 1:</strong> Normalize the first vector</p>
+    <div class="math-block">
+        $$\mathbf{e}_1 = \frac{\mathbf{v}_1}{|\mathbf{v}_1|}$$
+    </div>
+
+    <p><strong>Step 2:</strong> Subtract projection onto <strong>e</strong>₁, then normalize</p>
+    <div class="math-block">
+        $$\mathbf{u}_2 = \mathbf{v}_2 - (\mathbf{v}_2 \cdot \mathbf{e}_1)\mathbf{e}_1$$
+        $$\mathbf{e}_2 = \frac{\mathbf{u}_2}{|\mathbf{u}_2|}$$
+    </div>
+
+    <p><strong>Step 3:</strong> For additional vectors, subtract projections onto all previous <strong>e</strong>ᵢ, then normalize.</p>
+
+    <!-- CHEMISTRY CONNECTIONS -->
+    <h2>Chemistry Connection: Molecular Orbitals</h2>
+
+    <p>A molecular orbital ψ is expressed as a linear combination of atomic orbitals {φ₁, φ₂, ..., φₙ}:</p>
+
+    <div class="math-block">
+        $$\psi = c_1 \phi_1 + c_2 \phi_2 + \cdots + c_n \phi_n$$
+    </div>
+
+    <p>The atomic orbitals form a <strong>basis</strong> for the space of molecular orbitals.</p>
+    <p>The coefficients (c₁, c₂, ..., cₙ) are the <strong>components</strong> of ψ in this basis.</p>
+
+    <div class="visual-container">
+        <h4>H₂ Molecular Orbitals</h4>
+        <canvas id="moCanvas" width="600" height="250"></canvas>
+        <div class="controls">
+            <div class="control-group">
+                <label>MO type:</label>
+                <select id="moSelect">
+                    <option value="bonding">Bonding ψ₊ = (φₐ + φᵦ)/√2</option>
+                    <option value="antibonding">Antibonding ψ₋ = (φₐ − φᵦ)/√2</option>
+                    <option value="custom">Custom blend</option>
+                </select>
+            </div>
+            <div class="control-group" id="customControls" style="display: none;">
+                <label>cₐ:</label>
+                <input type="range" id="coefA" min="-100" max="100" value="70">
+                <span class="value-display" id="coefAValue">0.70</span>
+            </div>
+        </div>
+        <div class="coord-display" style="display: block; text-align: center; margin-top: 0.5rem;">
+            Coefficients: (<span id="moCoefs">1/√2, 1/√2</span>) in {φₐ, φᵦ} basis
+        </div>
+    </div>
+
+    <h3>Basis Set Dependence</h3>
+
+    <p><strong>Why do quantum chemistry results depend on basis set?</strong></p>
+
+    <p>A "basis set" (STO-3G, 6-31G*, cc-pVDZ, etc.) is literally a choice of basis functions.</p>
+
+    <ul>
+        <li>Larger basis → more functions → can represent more detail</li>
+        <li>Smaller basis → fewer functions → coarser approximation</li>
+    </ul>
+
+    <p>The true wavefunction exists independent of basis. Our numerical representation depends entirely on which basis we choose.</p>
+
+    <h2>Chemistry Connection: Normal Modes</h2>
+
+    <p>Two coupled harmonic oscillators have equations that are <strong>coupled</strong> in the standard {x₁, x₂} basis.</p>
+
+    <p>Transform to <strong>normal mode</strong> coordinates:</p>
+    <ul>
+        <li>q₁ = (x₁ + x₂)/√2 (symmetric stretch)</li>
+        <li>q₂ = (x₁ - x₂)/√2 (antisymmetric stretch)</li>
+    </ul>
+
+    <p>The equations become <strong>uncoupled</strong> — each normal mode oscillates independently!</p>
+
+    <div class="info-box">
+        <p><strong>The lesson:</strong> The right basis diagonalizes the problem.</p>
+        <p>This is why we seek eigenvectors — they are the natural basis for a given operator.</p>
+    </div>
+
+    <h2>Chemistry Connection: Crystal Coordinates</h2>
+
+    <p>In crystallography, positions are often given in <strong>fractional coordinates</strong> relative to the unit cell vectors <strong>a</strong>, <strong>b</strong>, <strong>c</strong>:</p>
+
+    <div class="math-block">
+        $$\mathbf{r} = x\mathbf{a} + y\mathbf{b} + z\mathbf{c}$$
+    </div>
+
+    <p>where (x, y, z) are fractions (typically 0 to 1).</p>
+
+    <div class="visual-container">
+        <h4>Fractional ↔ Cartesian Conversion</h4>
+        <canvas id="crystalCanvas" width="500" height="350"></canvas>
+        <div class="controls">
+            <div class="control-group">
+                <label>x:</label>
+                <input type="range" id="fracX" min="0" max="100" value="50">
+                <span class="value-display" id="fracXValue">0.50</span>
+            </div>
+            <div class="control-group">
+                <label>y:</label>
+                <input type="range" id="fracY" min="0" max="100" value="50">
+                <span class="value-display" id="fracYValue">0.50</span>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 1rem;">
+            <div class="coord-display">
+                <span class="system-label">Fractional:</span> (<span id="fracCoords">0.50, 0.50</span>)
+            </div>
+            <div class="coord-display">
+                <span class="system-label">Cartesian:</span> (<span id="cartCoords">2.00, 2.00</span>) Å
+            </div>
+        </div>
+    </div>
+
+    <!-- SUMMARY -->
+    <h2>Summary: When to Use What</h2>
+
+    <table>
+        <tr>
+            <th>I want to...</th>
+            <th>Use...</th>
+        </tr>
+        <tr>
+            <td>Find components in orthonormal basis</td>
+            <td>Dot product: vᵢ = <strong>v</strong>·<strong>e</strong>ᵢ</td>
+        </tr>
+        <tr>
+            <td>Find components in general basis</td>
+            <td>Solve linear system E<strong>c</strong> = <strong>v</strong></td>
+        </tr>
+        <tr>
+            <td>Rotate a molecule</td>
+            <td>Rotation matrix R(θ)</td>
+        </tr>
+        <tr>
+            <td>Convert crystal coordinates</td>
+            <td>Basis transformation matrix</td>
+        </tr>
+        <tr>
+            <td>Simplify coupled equations</td>
+            <td>Change to normal mode basis</td>
+        </tr>
+        <tr>
+            <td>Make a basis orthonormal</td>
+            <td>Gram-Schmidt</td>
+        </tr>
+        <tr>
+            <td>Understand MO coefficients</td>
+            <td>They're components in AO basis</td>
+        </tr>
+    </table>
+
+    <!-- EXERCISES -->
+    <h2>Exercises</h2>
+
+    <div class="exercise-box">
+        <h4>Exercise 1: Components in a New Basis</h4>
+        <p>Find the components of <strong>v</strong> = (3, 4) in the orthonormal basis:</p>
+        <ul>
+            <li><strong>e</strong>₁ = (1, 1)/√2</li>
+            <li><strong>e</strong>₂ = (1, -1)/√2</li>
+        </ul>
+        <button class="toggle-solution" onclick="toggleSolution('sol1')">Show Solution</button>
+        <div id="sol1" class="solution">
+            <p>Since the basis is orthonormal, use dot products:</p>
+            <p>v₁ = <strong>v</strong>·<strong>e</strong>₁ = (3, 4)·(1/√2, 1/√2) = (3 + 4)/√2 = 7/√2 ≈ 4.95</p>
+            <p>v₂ = <strong>v</strong>·<strong>e</strong>₂ = (3, 4)·(1/√2, -1/√2) = (3 - 4)/√2 = -1/√2 ≈ -0.71</p>
+            <p><strong>Components in new basis:</strong> (7/√2, -1/√2)</p>
+        </div>
+    </div>
+
+    <div class="exercise-box">
+        <h4>Exercise 2: Rotation Matrix</h4>
+        <p>(a) Write the 2D rotation matrix for θ = 45°.</p>
+        <p>(b) Apply it to the vector (1, 0). What do you get?</p>
+        <p>(c) Verify that the rotation preserves the length of the vector.</p>
+        <button class="toggle-solution" onclick="toggleSolution('sol2')">Show Solution</button>
+        <div id="sol2" class="solution">
+            <p>(a) R(45°) = [[cos45°, -sin45°], [sin45°, cos45°]] = [[1/√2, -1/√2], [1/√2, 1/√2]]</p>
+            <p>(b) R(45°)(1, 0) = (1/√2, 1/√2)</p>
+            <p>(c) |(1/√2, 1/√2)| = √(1/2 + 1/2) = 1 = |(1, 0)| ✓</p>
+        </div>
+    </div>
+
+    <div class="exercise-box">
+        <h4>Exercise 3: Molecular Orbitals</h4>
+        <p>For H₂, the bonding and antibonding MOs are:</p>
+        <ul>
+            <li>ψ₊ = (φₐ + φᵦ)/√2</li>
+            <li>ψ₋ = (φₐ - φᵦ)/√2</li>
+        </ul>
+        <p>(a) What are the coefficient vectors for ψ₊ and ψ₋ in the {φₐ, φᵦ} basis?</p>
+        <p>(b) Show that ψ₊ and ψ₋ are orthogonal (assume φₐ and φᵦ are orthonormal).</p>
+        <button class="toggle-solution" onclick="toggleSolution('sol3')">Show Solution</button>
+        <div id="sol3" class="solution">
+            <p>(a) ψ₊: (1/√2, 1/√2), ψ₋: (1/√2, -1/√2)</p>
+            <p>(b) ψ₊·ψ₋ = (1/√2)(1/√2) + (1/√2)(-1/√2) = 1/2 - 1/2 = 0 ✓</p>
+        </div>
+    </div>
+
+    <div class="exercise-box">
+        <h4>Exercise 4: Crystal Coordinates</h4>
+        <p>A cubic unit cell has a = b = c = 4 Å.</p>
+        <p>(a) Convert fractional coordinates (0.25, 0.5, 0.75) to Cartesian.</p>
+        <p>(b) An atom at Cartesian (3, 2, 1) Å — what are its fractional coordinates?</p>
+        <button class="toggle-solution" onclick="toggleSolution('sol4')">Show Solution</button>
+        <div id="sol4" class="solution">
+            <p>(a) (x, y, z)_Cart = (0.25 × 4, 0.5 × 4, 0.75 × 4) = <strong>(1, 2, 3) Å</strong></p>
+            <p>(b) (x, y, z)_frac = (3/4, 2/4, 1/4) = <strong>(0.75, 0.5, 0.25)</strong></p>
+        </div>
+    </div>
+
+    <!-- NAVIGATION -->
+    <div class="nav-footer">
+        <a href="../05-arrangement/">← Lecture 5: Angles and Projections</a>
+        <a href="../">All Lectures</a>
+        <a href="../07-matrices/">Lecture 7: Grids of Numbers →</a>
+    </div>
+
+    <script>
+        // Initialize KaTeX
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},
+                    {left: "$", right: "$", display: false}
+                ]
+            });
+
+            initCoordSystems();
+            initBasisExplorer();
+            initRotation();
+            initGramSchmidt();
+            initMO();
+            initCrystal();
+        });
+
+        function toggleSolution(id) {
+            const sol = document.getElementById(id);
+            sol.classList.toggle('visible');
+        }
+
+        // ===================
+        // 1. Coordinate Systems (Water Molecule)
+        // ===================
+        function initCoordSystems() {
+            const canvas = document.getElementById('coordSystemsCanvas');
+            const ctx = canvas.getContext('2d');
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                const leftCenter = { x: 175, y: 150 };
+                const rightCenter = { x: 525, y: 150 };
+
+                // Draw both coordinate systems
+                drawWaterInSystem(ctx, leftCenter, 0, "System 1: O-H₁ along x");
+                drawWaterInSystem(ctx, rightCenter, 52.25, "System 2: Bisector along y");
+            }
+
+            function drawWaterInSystem(ctx, center, rotationDeg, label) {
+                const scale = 80;
+                const bondAngle = 104.5 * Math.PI / 180;
+                const halfAngle = bondAngle / 2;
+                const rotation = rotationDeg * Math.PI / 180;
+
+                // Draw axes
+                ctx.strokeStyle = '#444';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(center.x - 100, center.y);
+                ctx.lineTo(center.x + 100, center.y);
+                ctx.moveTo(center.x, center.y - 100);
+                ctx.lineTo(center.x, center.y + 100);
+                ctx.stroke();
+
+                // Axis labels
+                ctx.fillStyle = '#666';
+                ctx.font = '12px Inter';
+                ctx.fillText('x', center.x + 90, center.y - 5);
+                ctx.fillText('y', center.x + 5, center.y - 90);
+
+                // H positions (in molecular frame, then rotated)
+                const h1Mol = { x: Math.cos(-halfAngle), y: Math.sin(-halfAngle) };
+                const h2Mol = { x: Math.cos(halfAngle), y: Math.sin(halfAngle) };
+
+                // Apply rotation
+                const cos = Math.cos(rotation);
+                const sin = Math.sin(rotation);
+
+                const h1 = {
+                    x: center.x + scale * (h1Mol.x * cos - h1Mol.y * sin),
+                    y: center.y - scale * (h1Mol.x * sin + h1Mol.y * cos)
+                };
+                const h2 = {
+                    x: center.x + scale * (h2Mol.x * cos - h2Mol.y * sin),
+                    y: center.y - scale * (h2Mol.x * sin + h2Mol.y * cos)
+                };
+
+                // Draw bonds
+                ctx.strokeStyle = '#666';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(center.x, center.y);
+                ctx.lineTo(h1.x, h1.y);
+                ctx.moveTo(center.x, center.y);
+                ctx.lineTo(h2.x, h2.y);
+                ctx.stroke();
+
+                // Draw atoms
+                // Oxygen
+                ctx.beginPath();
+                ctx.arc(center.x, center.y, 15, 0, Math.PI * 2);
+                ctx.fillStyle = '#e07a5f';
+                ctx.fill();
+                ctx.fillStyle = '#fff';
+                ctx.font = 'bold 12px Inter';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('O', center.x, center.y);
+
+                // Hydrogens
+                [h1, h2].forEach((h, i) => {
+                    ctx.beginPath();
+                    ctx.arc(h.x, h.y, 10, 0, Math.PI * 2);
+                    ctx.fillStyle = '#81b29a';
+                    ctx.fill();
+                    ctx.fillStyle = '#fff';
+                    ctx.fillText('H', h.x, h.y);
+                });
+
+                // Label
+                ctx.fillStyle = var(--text-secondary);
+                ctx.font = '13px Inter';
+                ctx.textAlign = 'center';
+                ctx.fillText(label, center.x, center.y + 130);
+            }
+
+            draw();
+        }
+
+        // ===================
+        // 2. Basis Explorer
+        // ===================
+        function initBasisExplorer() {
+            const canvas = document.getElementById('basisCanvas');
+            const ctx = canvas.getContext('2d');
+            const select = document.getElementById('basisSelect');
+            const componentsSpan = document.getElementById('basisComponents');
+
+            const v = { x: 3, y: 2 }; // Vector in standard basis
+
+            const bases = {
+                standard: { e1: {x: 1, y: 0}, e2: {x: 0, y: 1} },
+                rotated: { e1: {x: 1/Math.sqrt(2), y: 1/Math.sqrt(2)}, e2: {x: 1/Math.sqrt(2), y: -1/Math.sqrt(2)} },
+                scaled: { e1: {x: 2, y: 0}, e2: {x: 0, y: 3} },
+                skewed: { e1: {x: 1, y: 0}, e2: {x: 1, y: 1} }
+            };
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                const center = { x: 250, y: 200 };
+                const scale = 40;
+
+                const basis = bases[select.value];
+
+                // Draw grid
+                ctx.strokeStyle = '#222';
+                ctx.lineWidth = 1;
+                for (let i = -5; i <= 5; i++) {
+                    ctx.beginPath();
+                    ctx.moveTo(center.x + i * scale, center.y - 5 * scale);
+                    ctx.lineTo(center.x + i * scale, center.y + 5 * scale);
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.moveTo(center.x - 5 * scale, center.y + i * scale);
+                    ctx.lineTo(center.x + 5 * scale, center.y + i * scale);
+                    ctx.stroke();
+                }
+
+                // Draw axes
+                ctx.strokeStyle = '#555';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(center.x - 200, center.y);
+                ctx.lineTo(center.x + 200, center.y);
+                ctx.moveTo(center.x, center.y - 180);
+                ctx.lineTo(center.x, center.y + 180);
+                ctx.stroke();
+
+                // Draw basis vectors
+                drawArrow(ctx, center.x, center.y,
+                    center.x + basis.e1.x * scale * 2,
+                    center.y - basis.e1.y * scale * 2,
+                    '#4a9eff', 3);
+                drawArrow(ctx, center.x, center.y,
+                    center.x + basis.e2.x * scale * 2,
+                    center.y - basis.e2.y * scale * 2,
+                    '#4a9eff', 3);
+
+                // Labels for basis vectors
+                ctx.fillStyle = '#4a9eff';
+                ctx.font = 'bold 14px Inter';
+                ctx.fillText('e₁', center.x + basis.e1.x * scale * 2 + 10, center.y - basis.e1.y * scale * 2);
+                ctx.fillText('e₂', center.x + basis.e2.x * scale * 2 + 10, center.y - basis.e2.y * scale * 2);
+
+                // Draw vector v
+                drawArrow(ctx, center.x, center.y,
+                    center.x + v.x * scale,
+                    center.y - v.y * scale,
+                    '#f59e0b', 4);
+                ctx.fillStyle = '#f59e0b';
+                ctx.fillText('v', center.x + v.x * scale + 10, center.y - v.y * scale - 5);
+
+                // Calculate components in new basis
+                const components = getComponentsInBasis(v, basis);
+                componentsSpan.textContent = `(${components.c1.toFixed(2)}, ${components.c2.toFixed(2)})`;
+            }
+
+            function getComponentsInBasis(v, basis) {
+                // Solve: v = c1 * e1 + c2 * e2
+                // Matrix form: [e1x e2x; e1y e2y] * [c1; c2] = [vx; vy]
+                const det = basis.e1.x * basis.e2.y - basis.e1.y * basis.e2.x;
+                const c1 = (v.x * basis.e2.y - v.y * basis.e2.x) / det;
+                const c2 = (basis.e1.x * v.y - basis.e1.y * v.x) / det;
+                return { c1, c2 };
+            }
+
+            select.addEventListener('change', draw);
+            draw();
+        }
+
+        // ===================
+        // 3. Rotation
+        // ===================
+        function initRotation() {
+            const canvas = document.getElementById('rotationCanvas');
+            const ctx = canvas.getContext('2d');
+            const slider = document.getElementById('rotationAngle');
+            const angleDisplay = document.getElementById('angleValue');
+            const origDisplay = document.getElementById('origCoords');
+            const rotDisplay = document.getElementById('rotCoords');
+
+            const v = { x: 1, y: 0.5 };
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                const center = { x: 250, y: 200 };
+                const scale = 100;
+                const theta = parseFloat(slider.value) * Math.PI / 180;
+
+                angleDisplay.textContent = slider.value + '°';
+
+                // Draw original axes (grey)
+                ctx.strokeStyle = '#444';
+                ctx.lineWidth = 1;
+                ctx.setLineDash([5, 5]);
+                ctx.beginPath();
+                ctx.moveTo(center.x - 180, center.y);
+                ctx.lineTo(center.x + 180, center.y);
+                ctx.moveTo(center.x, center.y - 180);
+                ctx.lineTo(center.x, center.y + 180);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Draw rotated axes
+                const cos = Math.cos(theta);
+                const sin = Math.sin(theta);
+
+                ctx.strokeStyle = '#8b5cf6';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(center.x - 150 * cos, center.y + 150 * sin);
+                ctx.lineTo(center.x + 150 * cos, center.y - 150 * sin);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(center.x + 150 * sin, center.y + 150 * cos);
+                ctx.lineTo(center.x - 150 * sin, center.y - 150 * cos);
+                ctx.stroke();
+
+                // Axis labels
+                ctx.fillStyle = '#666';
+                ctx.font = '12px Inter';
+                ctx.fillText("x", center.x + 165, center.y + 15);
+                ctx.fillText("y", center.x + 5, center.y - 165);
+
+                ctx.fillStyle = '#8b5cf6';
+                ctx.fillText("x'", center.x + 155 * cos + 5, center.y - 155 * sin);
+                ctx.fillText("y'", center.x - 155 * sin + 5, center.y - 155 * cos);
+
+                // Draw original vector
+                drawArrow(ctx, center.x, center.y,
+                    center.x + v.x * scale, center.y - v.y * scale,
+                    '#f59e0b', 3);
+
+                // Calculate rotated coordinates (inverse rotation to get coords in rotated system)
+                const vRotX = v.x * cos + v.y * sin;
+                const vRotY = -v.x * sin + v.y * cos;
+
+                origDisplay.textContent = `(${v.x.toFixed(2)}, ${v.y.toFixed(2)})`;
+                rotDisplay.textContent = `(${vRotX.toFixed(2)}, ${vRotY.toFixed(2)})`;
+            }
+
+            slider.addEventListener('input', draw);
+            draw();
+        }
+
+        // ===================
+        // 4. Gram-Schmidt
+        // ===================
+        function initGramSchmidt() {
+            const canvas = document.getElementById('gramSchmidtCanvas');
+            const ctx = canvas.getContext('2d');
+            const explanation = document.getElementById('gsExplanation');
+
+            const v1 = { x: 2, y: 1 };
+            const v2 = { x: 1, y: 2 };
+            let step = 0;
+
+            // Precompute results
+            const mag1 = Math.sqrt(v1.x * v1.x + v1.y * v1.y);
+            const e1 = { x: v1.x / mag1, y: v1.y / mag1 };
+            const proj = (v2.x * e1.x + v2.y * e1.y);
+            const u2 = { x: v2.x - proj * e1.x, y: v2.y - proj * e1.y };
+            const mag2 = Math.sqrt(u2.x * u2.x + u2.y * u2.y);
+            const e2 = { x: u2.x / mag2, y: u2.y / mag2 };
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                const center = { x: 250, y: 250 };
+                const scale = 60;
+
+                // Draw axes
+                ctx.strokeStyle = '#333';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(center.x - 200, center.y);
+                ctx.lineTo(center.x + 200, center.y);
+                ctx.moveTo(center.x, center.y - 200);
+                ctx.lineTo(center.x, center.y + 200);
+                ctx.stroke();
+
+                // Draw original vectors (dashed)
+                ctx.setLineDash([5, 5]);
+                drawArrow(ctx, center.x, center.y,
+                    center.x + v1.x * scale, center.y - v1.y * scale,
+                    '#666', 2);
+                drawArrow(ctx, center.x, center.y,
+                    center.x + v2.x * scale, center.y - v2.y * scale,
+                    '#666', 2);
+                ctx.setLineDash([]);
+
+                // Labels for original
+                ctx.fillStyle = '#888';
+                ctx.font = '14px Inter';
+                ctx.fillText('v₁', center.x + v1.x * scale + 10, center.y - v1.y * scale);
+                ctx.fillText('v₂', center.x + v2.x * scale + 10, center.y - v2.y * scale);
+
+                if (step >= 1) {
+                    // Draw e1
+                    drawArrow(ctx, center.x, center.y,
+                        center.x + e1.x * scale * 2, center.y - e1.y * scale * 2,
+                        '#4a9eff', 3);
+                    ctx.fillStyle = '#4a9eff';
+                    ctx.fillText('e₁', center.x + e1.x * scale * 2 + 10, center.y - e1.y * scale * 2);
+                }
+
+                if (step >= 2) {
+                    // Draw projection
+                    ctx.setLineDash([3, 3]);
+                    ctx.strokeStyle = '#ef4444';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.moveTo(center.x + v2.x * scale, center.y - v2.y * scale);
+                    ctx.lineTo(center.x + proj * e1.x * scale, center.y - proj * e1.y * scale);
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+
+                    // Draw u2
+                    drawArrow(ctx, center.x, center.y,
+                        center.x + u2.x * scale, center.y - u2.y * scale,
+                        '#10b981', 3);
+                    ctx.fillStyle = '#10b981';
+                    ctx.fillText('u₂', center.x + u2.x * scale + 10, center.y - u2.y * scale);
+                }
+
+                if (step >= 3) {
+                    // Draw e2
+                    drawArrow(ctx, center.x, center.y,
+                        center.x + e2.x * scale * 2, center.y - e2.y * scale * 2,
+                        '#f59e0b', 3);
+                    ctx.fillStyle = '#f59e0b';
+                    ctx.fillText('e₂', center.x + e2.x * scale * 2 + 10, center.y - e2.y * scale * 2);
+                }
+            }
+
+            document.getElementById('gsReset').onclick = () => {
+                step = 0;
+                explanation.textContent = 'Starting vectors: v₁ = (2, 1), v₂ = (1, 2)';
+                draw();
+            };
+
+            document.getElementById('gsStep1').onclick = () => {
+                step = 1;
+                explanation.textContent = `Step 1: e₁ = v₁/|v₁| = (${e1.x.toFixed(3)}, ${e1.y.toFixed(3)})`;
+                draw();
+            };
+
+            document.getElementById('gsStep2').onclick = () => {
+                step = 2;
+                explanation.textContent = `Step 2: u₂ = v₂ - (v₂·e₁)e₁ = (${u2.x.toFixed(3)}, ${u2.y.toFixed(3)})`;
+                draw();
+            };
+
+            document.getElementById('gsStep3').onclick = () => {
+                step = 3;
+                explanation.textContent = `Step 3: e₂ = u₂/|u₂| = (${e2.x.toFixed(3)}, ${e2.y.toFixed(3)})`;
+                draw();
+            };
+
+            draw();
+        }
+
+        // ===================
+        // 5. Molecular Orbitals
+        // ===================
+        function initMO() {
+            const canvas = document.getElementById('moCanvas');
+            const ctx = canvas.getContext('2d');
+            const select = document.getElementById('moSelect');
+            const customControls = document.getElementById('customControls');
+            const coefSlider = document.getElementById('coefA');
+            const coefDisplay = document.getElementById('coefAValue');
+            const coefsDisplay = document.getElementById('moCoefs');
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                let ca, cb;
+
+                if (select.value === 'bonding') {
+                    ca = cb = 1 / Math.sqrt(2);
+                    customControls.style.display = 'none';
+                } else if (select.value === 'antibonding') {
+                    ca = 1 / Math.sqrt(2);
+                    cb = -1 / Math.sqrt(2);
+                    customControls.style.display = 'none';
+                } else {
+                    customControls.style.display = 'flex';
+                    ca = parseFloat(coefSlider.value) / 100;
+                    cb = Math.sqrt(1 - ca * ca) * (ca >= 0 ? 1 : -1);
+                    coefDisplay.textContent = ca.toFixed(2);
+                }
+
+                coefsDisplay.textContent = `${ca.toFixed(3)}, ${cb.toFixed(3)}`;
+
+                const centerY = 125;
+                const atomA = { x: 200, y: centerY };
+                const atomB = { x: 400, y: centerY };
+
+                // Draw molecular axis
+                ctx.strokeStyle = '#444';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(150, centerY);
+                ctx.lineTo(450, centerY);
+                ctx.stroke();
+
+                // Draw atomic orbitals as circles with fill based on coefficient
+                const orbRadius = 50;
+
+                // Atom A orbital
+                ctx.beginPath();
+                ctx.arc(atomA.x, atomA.y, orbRadius * Math.abs(ca), 0, Math.PI * 2);
+                ctx.fillStyle = ca >= 0 ? 'rgba(74, 158, 255, 0.5)' : 'rgba(239, 68, 68, 0.5)';
+                ctx.fill();
+                ctx.strokeStyle = ca >= 0 ? '#4a9eff' : '#ef4444';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                // Atom B orbital
+                ctx.beginPath();
+                ctx.arc(atomB.x, atomB.y, orbRadius * Math.abs(cb), 0, Math.PI * 2);
+                ctx.fillStyle = cb >= 0 ? 'rgba(74, 158, 255, 0.5)' : 'rgba(239, 68, 68, 0.5)';
+                ctx.fill();
+                ctx.strokeStyle = cb >= 0 ? '#4a9eff' : '#ef4444';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                // Draw nuclei
+                ctx.beginPath();
+                ctx.arc(atomA.x, atomA.y, 8, 0, Math.PI * 2);
+                ctx.fillStyle = '#888';
+                ctx.fill();
+                ctx.beginPath();
+                ctx.arc(atomB.x, atomB.y, 8, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Labels
+                ctx.fillStyle = '#fff';
+                ctx.font = 'bold 12px Inter';
+                ctx.textAlign = 'center';
+                ctx.fillText('A', atomA.x, atomA.y + 4);
+                ctx.fillText('B', atomB.x, atomB.y + 4);
+
+                ctx.fillStyle = '#aaa';
+                ctx.font = '14px Inter';
+                ctx.fillText('φₐ', atomA.x, atomA.y + 80);
+                ctx.fillText('φᵦ', atomB.x, atomB.y + 80);
+
+                // Sign indicators
+                ctx.fillStyle = ca >= 0 ? '#4a9eff' : '#ef4444';
+                ctx.font = 'bold 20px Inter';
+                ctx.fillText(ca >= 0 ? '+' : '−', atomA.x, atomA.y - 60);
+                ctx.fillStyle = cb >= 0 ? '#4a9eff' : '#ef4444';
+                ctx.fillText(cb >= 0 ? '+' : '−', atomB.x, atomB.y - 60);
+            }
+
+            select.addEventListener('change', draw);
+            coefSlider.addEventListener('input', draw);
+            draw();
+        }
+
+        // ===================
+        // 6. Crystal Coordinates
+        // ===================
+        function initCrystal() {
+            const canvas = document.getElementById('crystalCanvas');
+            const ctx = canvas.getContext('2d');
+            const xSlider = document.getElementById('fracX');
+            const ySlider = document.getElementById('fracY');
+            const xDisplay = document.getElementById('fracXValue');
+            const yDisplay = document.getElementById('fracYValue');
+            const fracDisplay = document.getElementById('fracCoords');
+            const cartDisplay = document.getElementById('cartCoords');
+
+            const cellSize = 4; // Å
+            const scale = 50; // pixels per Å
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                const fracX = parseFloat(xSlider.value) / 100;
+                const fracY = parseFloat(ySlider.value) / 100;
+
+                xDisplay.textContent = fracX.toFixed(2);
+                yDisplay.textContent = fracY.toFixed(2);
+
+                const cartX = fracX * cellSize;
+                const cartY = fracY * cellSize;
+
+                fracDisplay.textContent = `${fracX.toFixed(2)}, ${fracY.toFixed(2)}`;
+                cartDisplay.textContent = `${cartX.toFixed(2)}, ${cartY.toFixed(2)}`;
+
+                const origin = { x: 50, y: 300 };
+
+                // Draw unit cell
+                ctx.strokeStyle = '#4a9eff';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(origin.x, origin.y - cellSize * scale, cellSize * scale, cellSize * scale);
+
+                // Draw grid lines
+                ctx.strokeStyle = '#333';
+                ctx.lineWidth = 1;
+                for (let i = 1; i < 4; i++) {
+                    ctx.beginPath();
+                    ctx.moveTo(origin.x + i * scale, origin.y);
+                    ctx.lineTo(origin.x + i * scale, origin.y - cellSize * scale);
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.moveTo(origin.x, origin.y - i * scale);
+                    ctx.lineTo(origin.x + cellSize * scale, origin.y - i * scale);
+                    ctx.stroke();
+                }
+
+                // Draw basis vectors
+                drawArrow(ctx, origin.x, origin.y, origin.x + cellSize * scale, origin.y, '#f59e0b', 3);
+                drawArrow(ctx, origin.x, origin.y, origin.x, origin.y - cellSize * scale, '#10b981', 3);
+
+                ctx.fillStyle = '#f59e0b';
+                ctx.font = 'bold 14px Inter';
+                ctx.fillText('a = 4 Å', origin.x + cellSize * scale / 2 - 15, origin.y + 25);
+                ctx.fillStyle = '#10b981';
+                ctx.save();
+                ctx.translate(origin.x - 25, origin.y - cellSize * scale / 2);
+                ctx.rotate(-Math.PI / 2);
+                ctx.fillText('b = 4 Å', -20, 0);
+                ctx.restore();
+
+                // Draw atom position
+                const atomX = origin.x + cartX * scale;
+                const atomY = origin.y - cartY * scale;
+
+                ctx.beginPath();
+                ctx.arc(atomX, atomY, 10, 0, Math.PI * 2);
+                ctx.fillStyle = '#e07a5f';
+                ctx.fill();
+                ctx.strokeStyle = '#fff';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                // Draw dashed lines to axes
+                ctx.setLineDash([4, 4]);
+                ctx.strokeStyle = '#888';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(atomX, atomY);
+                ctx.lineTo(atomX, origin.y);
+                ctx.moveTo(atomX, atomY);
+                ctx.lineTo(origin.x, atomY);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Axis labels
+                ctx.fillStyle = '#888';
+                ctx.font = '12px Inter';
+                ctx.textAlign = 'center';
+                for (let i = 0; i <= 4; i++) {
+                    ctx.fillText(i.toString(), origin.x + i * scale, origin.y + 15);
+                    if (i > 0) ctx.fillText(i.toString(), origin.x - 15, origin.y - i * scale + 4);
+                }
+
+                // Fractional labels on right
+                ctx.fillStyle = '#8b5cf6';
+                for (let i = 0; i <= 4; i++) {
+                    const frac = (i / 4).toFixed(2);
+                    ctx.fillText(frac, origin.x + cellSize * scale + 30, origin.y - i * scale + 4);
+                }
+                ctx.fillText('Fractional', origin.x + cellSize * scale + 30, origin.y + 25);
+            }
+
+            xSlider.addEventListener('input', draw);
+            ySlider.addEventListener('input', draw);
+            draw();
+        }
+
+        // ===================
+        // Helper: Draw Arrow
+        // ===================
+        function drawArrow(ctx, fromX, fromY, toX, toY, color, width) {
+            const headLen = 10;
+            const angle = Math.atan2(fromY - toY, toX - fromX);
+
+            ctx.strokeStyle = color;
+            ctx.fillStyle = color;
+            ctx.lineWidth = width;
+
+            ctx.beginPath();
+            ctx.moveTo(fromX, fromY);
+            ctx.lineTo(toX, toY);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(toX, toY);
+            ctx.lineTo(toX - headLen * Math.cos(angle - Math.PI / 6), toY + headLen * Math.sin(angle - Math.PI / 6));
+            ctx.lineTo(toX - headLen * Math.cos(angle + Math.PI / 6), toY + headLen * Math.sin(angle + Math.PI / 6));
+            ctx.closePath();
+            ctx.fill();
+        }
+    </script>
+</body>
+</html>

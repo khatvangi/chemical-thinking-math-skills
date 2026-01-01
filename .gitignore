@@ -19,6 +19,7 @@ site/.quarto/
 !site/lectures/03-collection/*.html
 !site/lectures/04-direction/*.html
 !site/lectures/05-arrangement/*.html
+!site/lectures/06-coordinates/*.html
 !site/protein-raga.html
 
 # IDE
