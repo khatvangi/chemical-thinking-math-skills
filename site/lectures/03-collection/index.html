@@ -3,31 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>COLLECTION | Counting Things</title>
+    <title>Lecture 3: Counting Things | Chemical Thinking</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
     <style>
         :root {
-            --bg-primary: #0D1117;
-            --bg-secondary: #161B22;
-            --bg-tertiary: #21262D;
-            --text-primary: #E6EDF3;
-            --text-secondary: #8B949E;
-            --text-muted: #6E7681;
-            --accent-green: #7EE787;
-            --accent-green-dim: #238636;
-            --accent-blue: #58A6FF;
-            --accent-purple: #A371F7;
-            --accent-yellow: #F2CC60;
-            --accent-red: #F85149;
-            --accent-cyan: #79C0FF;
-            --border-color: #30363D;
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a24;
+            --text-primary: #e8e6e3;
+            --text-secondary: #a8a5a0;
+            --text-muted: #6b6966;
+            --accent-gold: #d4a574;
+            --accent-purple: #9d8cd9;
+            --accent-blue: #7db3dc;
+            --accent-green: #8bc49d;
+            --accent-red: #dc8b8b;
+            --border-color: #2a2a35;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
-        html { scroll-behavior: smooth; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -37,92 +40,72 @@
             font-size: 17px;
         }
 
-        /* Header */
-        .header {
-            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
-            padding: 4rem 2rem 6rem;
-            text-align: center;
-            border-bottom: 1px solid var(--border-color);
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem;
         }
 
-        .header-label {
+        /* Header */
+        header {
+            padding: 4rem 0 3rem;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 3rem;
+        }
+
+        .lecture-number {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
-            color: var(--accent-green);
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            margin-bottom: 1rem;
+            color: var(--accent-purple);
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
         }
 
         h1 {
             font-family: 'Fraunces', serif;
-            font-size: 3.5rem;
-            font-weight: 700;
+            font-size: 2.8rem;
+            font-weight: 600;
             margin-bottom: 1rem;
-            background: linear-gradient(135deg, var(--accent-green), var(--accent-cyan));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            line-height: 1.2;
         }
 
         .subtitle {
             font-size: 1.3rem;
             color: var(--text-secondary);
-            max-width: 600px;
-            margin: 0 auto;
+            font-style: italic;
         }
 
-        /* Main content */
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        /* Parts/Sections */
-        .part {
-            padding: 4rem 0;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .part:last-child {
-            border-bottom: none;
-        }
-
-        .part-header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .part-number {
+        .primitive-tag {
+            display: inline-block;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.9rem;
-            color: var(--accent-green);
-            letter-spacing: 0.1em;
+            font-size: 0.85rem;
+            margin-top: 1.5rem;
+        }
+
+        /* Sections */
+        section {
+            margin-bottom: 4rem;
         }
 
         h2 {
             font-family: 'Fraunces', serif;
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: 600;
-            margin-top: 0.5rem;
-            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            color: var(--accent-gold);
         }
 
         h3 {
             font-family: 'Fraunces', serif;
             font-size: 1.4rem;
             font-weight: 600;
-            color: var(--accent-green);
-            margin: 2.5rem 0 1rem;
-        }
-
-        h4 {
-            font-family: 'Inter', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--text-primary);
             margin: 2rem 0 1rem;
+            color: var(--text-primary);
         }
 
         p {
@@ -135,77 +118,108 @@
             font-weight: 600;
         }
 
-        em {
-            color: var(--accent-green);
-            font-style: italic;
+        /* Hook questions */
+        .hook-box {
+            background: var(--bg-secondary);
+            border-left: 3px solid var(--accent-purple);
+            padding: 1.5rem 2rem;
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
         }
 
-        /* Hook section */
-        .hook {
-            background: var(--bg-secondary);
-            border-radius: 12px;
-            padding: 2.5rem;
-            margin: 3rem 0;
-            border: 1px solid var(--border-color);
+        .hook-box p {
+            margin-bottom: 0.8rem;
+        }
+
+        .hook-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Definition boxes */
+        .definition-box {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--accent-blue);
+            padding: 1.5rem 2rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+        }
+
+        .definition-box .label {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-blue);
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Principle boxes */
+        .principle-box {
+            background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
+            border: 1px solid var(--accent-gold);
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 8px;
             text-align: center;
         }
 
-        .hook-equation {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 2rem;
-            color: var(--accent-green);
+        .principle-box p {
+            color: var(--text-primary);
+            font-size: 1.1rem;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
             margin: 1.5rem 0;
+            font-size: 0.95rem;
         }
 
-        /* Definition popups */
-        .def-popup {
-            position: relative;
-            color: var(--accent-blue);
-            cursor: help;
-            border-bottom: 1px dashed var(--accent-blue);
-        }
-
-        .def-popup .def-tooltip {
-            position: absolute;
-            bottom: calc(100% + 10px);
-            left: 50%;
-            transform: translateX(-50%);
-            width: 320px;
-            padding: 1rem;
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.2s, visibility 0.2s;
-            z-index: 100;
+        th, td {
+            padding: 0.8rem 1rem;
             text-align: left;
-            line-height: 1.5;
+            border-bottom: 1px solid var(--border-color);
         }
 
-        .def-popup:hover .def-tooltip {
-            opacity: 1;
-            visibility: visible;
+        th {
+            background: var(--bg-secondary);
+            color: var(--accent-gold);
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+        }
+
+        td {
+            color: var(--text-secondary);
+        }
+
+        tr:hover td {
+            background: var(--bg-secondary);
+        }
+
+        /* Code blocks */
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-tertiary);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-purple);
         }
 
         /* Visual containers */
         .visual-container {
             background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
             border-radius: 12px;
             padding: 2rem;
-            margin: 2.5rem 0;
-            border: 1px solid var(--border-color);
+            margin: 2rem 0;
         }
 
         .visual-title {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
-            color: var(--accent-green);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 1.5rem;
+            color: var(--accent-purple);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
             text-align: center;
         }
 
@@ -215,12 +229,20 @@
             border-radius: 8px;
         }
 
+        /* Controls */
         .controls {
             display: flex;
             flex-wrap: wrap;
             gap: 1.5rem;
-            margin-top: 1.5rem;
             justify-content: center;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .controls.no-border {
+            border-top: none;
+            padding-top: 0;
         }
 
         .control-group {
@@ -231,287 +253,120 @@
         }
 
         .control-group label {
-            font-size: 0.85rem;
-            color: var(--text-muted);
             font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text-muted);
         }
 
         input[type="range"] {
-            width: 140px;
-            accent-color: var(--accent-green);
+            width: 150px;
+            accent-color: var(--accent-gold);
+        }
+
+        select {
+            font-family: 'JetBrains Mono', monospace;
+            padding: 0.4rem 0.8rem;
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 0.85rem;
         }
 
         .value-display {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.9rem;
-            color: var(--accent-green);
+            color: var(--accent-gold);
+            font-size: 1rem;
+            min-width: 60px;
+            text-align: center;
         }
 
         button {
-            padding: 0.75rem 1.5rem;
-            background: var(--accent-green-dim);
-            border: 1px solid var(--accent-green);
-            color: var(--text-primary);
-            border-radius: 8px;
-            cursor: pointer;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.9rem;
-            transition: all 0.2s ease;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--accent-purple);
+            color: var(--accent-purple);
+            padding: 0.5rem 1.2rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
         }
 
         button:hover {
-            background: var(--accent-green);
+            background: var(--accent-purple);
             color: var(--bg-primary);
         }
 
-        button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .btn-group button {
-            padding: 0.5rem 1rem;
-        }
-
-        .btn-group button.active {
-            background: var(--accent-green);
+        button.active {
+            background: var(--accent-purple);
             color: var(--bg-primary);
         }
 
-        .result-display {
-            text-align: center;
-            padding: 1rem;
+        /* Info displays */
+        .info-display {
             background: var(--bg-tertiary);
+            padding: 1rem 1.5rem;
             border-radius: 8px;
             margin-top: 1rem;
             font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            text-align: center;
         }
 
-        .result-value {
-            font-size: 1.5rem;
-            color: var(--accent-green);
-        }
-
-        .result-label {
-            font-size: 0.85rem;
-            color: var(--text-muted);
+        .info-display .result {
+            color: var(--accent-gold);
+            font-size: 1.2rem;
             margin-top: 0.5rem;
         }
 
-        .caption {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            text-align: center;
-            margin-top: 1rem;
-            font-style: italic;
-        }
-
-        /* Tables */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 1.5rem 0;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.9rem;
-        }
-
-        th, td {
-            padding: 0.75rem 1rem;
-            text-align: left;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        th {
-            color: var(--accent-green);
-            font-weight: 500;
-            background: var(--bg-tertiary);
-        }
-
-        td {
+        /* Lists */
+        ul, ol {
+            margin: 1rem 0 1.5rem 1.5rem;
             color: var(--text-secondary);
         }
 
-        /* Formula boxes */
-        .formula-box {
-            background: var(--bg-tertiary);
-            border-left: 3px solid var(--accent-green);
-            padding: 1.25rem 1.5rem;
-            margin: 1.5rem 0;
-            font-family: 'JetBrains Mono', monospace;
-            border-radius: 0 8px 8px 0;
-        }
-
-        .formula-box .formula {
-            font-size: 1.2rem;
-            color: var(--text-primary);
+        li {
             margin-bottom: 0.5rem;
         }
 
-        .formula-box .explanation {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        /* Definition block */
-        .definition-block {
-            background: var(--bg-secondary);
-            border: 1px solid var(--accent-green);
-            border-radius: 12px;
-            padding: 2rem;
-            margin: 2.5rem 0;
-        }
-
-        .definition-block h3 {
-            margin-top: 0;
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-
-        .definition-item {
-            margin-bottom: 1rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .definition-item:last-child {
-            margin-bottom: 0;
-            padding-bottom: 0;
-            border-bottom: none;
-        }
-
-        .definition-term {
+        /* Pascal's Triangle display */
+        .pascal-display {
             font-family: 'JetBrains Mono', monospace;
-            color: var(--accent-cyan);
-            font-weight: 500;
-        }
-
-        .definition-desc {
+            text-align: center;
+            line-height: 2;
             color: var(--text-secondary);
-            font-size: 0.95rem;
-            margin-top: 0.25rem;
-        }
-
-        /* Hierarchy display */
-        .hierarchy {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 1.1rem;
-            margin: 2rem 0;
-            flex-wrap: wrap;
-        }
-
-        .hierarchy-item {
-            padding: 0.5rem 1rem;
-            background: var(--bg-tertiary);
-            border-radius: 6px;
-            color: var(--accent-cyan);
-        }
-
-        .hierarchy-arrow {
-            color: var(--text-muted);
-        }
-
-        /* Endnotes */
-        .endnotes {
-            margin-top: 4rem;
-            padding-top: 2rem;
-            border-top: 1px solid var(--border-color);
-        }
-
-        .endnotes h3 {
-            font-size: 1.2rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .endnote {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-bottom: 0.75rem;
-            padding-left: 2rem;
-            text-indent: -2rem;
-        }
-
-        .endnote-ref {
-            color: var(--accent-blue);
-            font-weight: 500;
-        }
-
-        /* Subitizing game */
-        .game-area {
-            position: relative;
-            width: 100%;
-            height: 300px;
-            background: var(--bg-tertiary);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .game-message {
-            font-family: 'Fraunces', serif;
-            font-size: 1.5rem;
-            color: var(--text-muted);
-        }
-
-        .game-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-
-        .stat-box {
-            background: var(--bg-tertiary);
+            overflow-x: auto;
             padding: 1rem;
-            border-radius: 8px;
-            text-align: center;
         }
 
-        .stat-value {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 1.5rem;
-            color: var(--accent-green);
+        .pascal-row {
+            white-space: nowrap;
         }
 
-        .stat-label {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-top: 0.25rem;
+        .pascal-entry {
+            display: inline-block;
+            min-width: 40px;
+            padding: 0.2rem 0.4rem;
+            margin: 0.1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
         }
 
-        /* Number input buttons */
-        .number-buttons {
-            display: flex;
-            gap: 0.5rem;
-            justify-content: center;
-            margin-top: 1rem;
+        .pascal-entry:hover {
+            background: var(--accent-purple);
+            color: var(--bg-primary);
         }
 
-        .number-btn {
-            width: 50px;
-            height: 50px;
-            font-size: 1.2rem;
-            padding: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .pascal-entry.highlighted {
+            background: var(--accent-gold);
+            color: var(--bg-primary);
         }
 
-        /* Isomer display */
-        .isomer-grid {
+        /* Benzene visualization */
+        .isomer-info {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 1rem;
             margin-top: 1rem;
         }
@@ -521,1001 +376,1277 @@
             padding: 1rem;
             border-radius: 8px;
             text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
         }
 
-        .isomer-card canvas {
-            margin-bottom: 0.5rem;
+        .isomer-card:hover {
+            border-color: var(--accent-green);
+        }
+
+        .isomer-card.active {
+            border: 2px solid var(--accent-green);
         }
 
         .isomer-name {
+            color: var(--accent-gold);
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .isomer-positions {
+            font-family: 'JetBrains Mono', monospace;
             font-size: 0.85rem;
-            color: var(--text-secondary);
+            color: var(--text-muted);
+        }
+
+        /* Exercises */
+        .exercise-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+        }
+
+        .exercise-box h4 {
+            color: var(--accent-purple);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
         }
 
         /* Navigation */
-        .nav-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--accent-green);
-            text-decoration: none;
-            padding: 0.5rem 1rem;
-            border: 1px solid var(--accent-green);
-            border-radius: 8px;
-            margin: 1rem 0;
-            transition: all 0.2s ease;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.9rem;
-        }
-
-        .nav-link:hover {
-            background: var(--accent-green);
-            color: var(--bg-primary);
-        }
-
-        .nav-buttons {
+        .nav-links {
             display: flex;
             justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin: 3rem 0;
+            padding: 2rem 0;
+            border-top: 1px solid var(--border-color);
+            margin-top: 4rem;
+        }
+
+        .nav-links a {
+            color: var(--accent-purple);
+            text-decoration: none;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-gold);
+        }
+
+        /* KaTeX adjustments */
+        .katex {
+            font-size: 1.1em;
+        }
+
+        .katex-display {
+            margin: 1.5rem 0;
+            overflow-x: auto;
         }
 
         /* Responsive */
-        @media (max-width: 600px) {
-            h1 { font-size: 2.5rem; }
-            h2 { font-size: 1.6rem; }
-            .container { padding: 0 1rem; }
-            .visual-container { padding: 1rem; }
-            .hook { padding: 1.5rem; }
-            .hook-equation { font-size: 1.5rem; }
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            canvas {
+                max-width: 100%;
+            }
         }
     </style>
 </head>
 <body>
-    <header class="header">
-        <div class="header-label">Lecture 03 — Primitive</div>
-        <h1>COLLECTION</h1>
-        <p class="subtitle">The recognition that discrete, countable entities exist. The cognitive foundation of sets, cardinality, and the mole.</p>
-    </header>
+    <div class="container">
+        <header>
+            <div class="lecture-number">LECTURE 03</div>
+            <h1>Counting Things</h1>
+            <p class="subtitle">The primitive of multiplicity. How many?</p>
+            <div class="primitive-tag">COLLECTION</div>
+        </header>
 
-    <main class="container">
         <!-- The Hook -->
-        <div class="hook">
-            <p style="color: var(--text-secondary); margin-bottom: 1rem;">A balanced chemical equation:</p>
-            <div class="hook-equation">2 H₂ + O₂ → 2 H₂O</div>
-            <p style="color: var(--text-secondary); margin: 0;">The coefficients — 2, 1, 2 — are counts. Chemistry is built on counting.</p>
-        </div>
+        <section id="hook">
+            <h2>The Hook</h2>
 
-        <!-- Part I: From Numbers to Collections -->
-        <section class="part">
-            <div class="part-header">
-                <div class="part-number">PART I</div>
-                <h2>From Numbers to Collections</h2>
+            <div class="hook-box">
+                <p><strong>Question 1:</strong> You have 5 different reagent bottles. How many ways can you arrange them on a shelf?</p>
+                <p><strong>Question 2:</strong> A protein has 100 amino acid positions. Each position can be one of 20 amino acids. How many possible sequences exist?</p>
+                <p><strong>Question 3:</strong> Benzene has 6 equivalent positions. You want to substitute 2 of them with chlorine. How many dichlorobenzene isomers are there?</p>
             </div>
 
-            <h3>1.1 What Lecture 2 Established</h3>
-            <p>The previous lecture traced the hierarchy of number systems:</p>
-
-            <div class="hierarchy">
-                <span class="hierarchy-item">ℕ</span>
-                <span class="hierarchy-arrow">→</span>
-                <span class="hierarchy-item">ℤ</span>
-                <span class="hierarchy-arrow">→</span>
-                <span class="hierarchy-item">ℚ</span>
-                <span class="hierarchy-arrow">→</span>
-                <span class="hierarchy-item">ℝ</span>
-                <span class="hierarchy-arrow">→</span>
-                <span class="hierarchy-item">ℂ</span>
-            </div>
-
-            <p>Natural numbers (ℕ) emerged first — the counting numbers. Integers (ℤ) extended counting to include negatives. Rationals (ℚ) arose from division. Reals (ℝ) filled the gaps. Complex numbers (ℂ) completed the algebraic picture.</p>
-
-            <p>But the foundation — the natural numbers — arose from something more basic than algebra. The natural numbers formalize <em>counting</em>. And counting requires something to count.</p>
-
-            <h3>1.2 The Question Behind Numbers</h3>
-            <p>What does it mean to count?</p>
-
-            <p>Consider: you have three apples. You point to each in turn and say "one, two, three." The number three is the result. You have established a <span class="def-popup" data-definition="One-to-one correspondence (bijection): A pairing between two sets such that each element of the first set pairs with exactly one element of the second, and vice versa."><span class="def-tooltip"></span>one-to-one correspondence</span> between apples and the words {one, two, three}.</p>
-
-            <p>This presupposes something: you must first perceive the apples as discrete, countable units. The visual scene must be parsed into bounded objects before enumeration can begin.</p>
-
-            <p><span class="def-popup" data-definition="Object individuation: The cognitive process of parsing sensory input into discrete, bounded entities that can be tracked through space and time. Precedes enumeration."><span class="def-tooltip"></span>Object individuation</span> is the prerequisite for counting. You cannot count a continuous gradient. You can only count discrete units.</p>
-
-            <p>The natural numbers formalize counting. Sets formalize the collections being counted. COLLECTION, as a cognitive primitive, is the perception that discrete countable units exist.</p>
+            <p>These questions share a structure: <em>counting configurations</em>.</p>
+            <p>The numbers involved grow rapidly. Question 2 has more possible sequences than atoms in the observable universe.</p>
+            <p>We need systematic methods.</p>
         </section>
 
-        <!-- Part II: The Cognitive Basis -->
-        <section class="part">
-            <div class="part-header">
-                <div class="part-number">PART II</div>
-                <h2>The Cognitive Basis of Collection</h2>
+        <!-- Recognition -->
+        <section id="recognition">
+            <h2>Recognition</h2>
+
+            <div class="definition-box">
+                <div class="label">THE PRIMITIVE</div>
+                <p><strong>COLLECTION:</strong> "There are many."</p>
+                <p>Before we can do anything with objects — arrange them, select them, distribute them — we must count them.</p>
             </div>
 
-            <h3>2.1 Individuation</h3>
-            <p>The sensory stream is continuous. Light gradients, pressure variations, acoustic waveforms — none come pre-divided into objects. The parsing of experience into discrete entities is accomplished by the perceptual system, beginning in infancy.</p>
-
-            <p>By 4 months, human infants represent bounded objects that persist through brief occlusion. By 12 months, infants use shape differences to distinguish object kinds.</p>
-
-            <p><span class="def-popup" data-definition="Sortal concept: A concept that provides criteria for (1) individuating members of a kind and (2) tracing their identity through time. Example: 'atom' specifies what counts as one atom."><span class="def-tooltip"></span>Sortal concepts</span> specify individuation criteria. Different sortals parse the same matter differently:</p>
-
-            <table>
-                <tr><th>Sortal</th><th>What counts as one?</th></tr>
-                <tr><td>Atom</td><td>One nucleus + electrons</td></tr>
-                <tr><td>Molecule</td><td>One bonded assembly</td></tr>
-                <tr><td>Formula unit</td><td>One NaCl pair (ionic)</td></tr>
-                <tr><td>Mole</td><td>6.022 × 10²³ of the above</td></tr>
-            </table>
-
-            <p>The mole is a second-order counting unit — it counts counts.</p>
-
-            <h3>2.2 Two Systems for Numerosity</h3>
-
-            <p>Humans (and many other animals) possess two distinct systems for perceiving quantity.</p>
-
-            <h4>Subitizing</h4>
-            <p>Immediate, exact perception of small quantities (1-4 items). Flash four dots on a screen for 200 milliseconds. You know there are four — instantly, without counting. Flash seven dots and you must either count or estimate.</p>
-
-            <!-- Subitizing Interactive -->
-            <div class="visual-container">
-                <div class="visual-title">Subitizing Boundary</div>
-                <div class="game-area" id="subitizeArea">
-                    <div class="game-message" id="subitizeMessage">Press START to begin</div>
-                </div>
-                <div class="controls">
-                    <button id="subitizeStart">START</button>
-                </div>
-                <div class="number-buttons" id="numberButtons" style="display: none;">
-                    <button class="number-btn" data-n="1">1</button>
-                    <button class="number-btn" data-n="2">2</button>
-                    <button class="number-btn" data-n="3">3</button>
-                    <button class="number-btn" data-n="4">4</button>
-                    <button class="number-btn" data-n="5">5</button>
-                    <button class="number-btn" data-n="6">6</button>
-                    <button class="number-btn" data-n="7">7</button>
-                    <button class="number-btn" data-n="8">8</button>
-                </div>
-                <div class="game-stats" id="subitizeStats" style="display: none;">
-                    <div class="stat-box">
-                        <div class="stat-value" id="statTrials">0</div>
-                        <div class="stat-label">Trials</div>
-                    </div>
-                    <div class="stat-box">
-                        <div class="stat-value" id="statCorrect">0%</div>
-                        <div class="stat-label">Correct</div>
-                    </div>
-                    <div class="stat-box">
-                        <div class="stat-value" id="statAvgTime">-</div>
-                        <div class="stat-label">Avg Time (ms)</div>
-                    </div>
-                </div>
-                <p class="caption">The subitizing boundary at ~4 reflects a limit on parallel object tracking.</p>
-            </div>
-
-            <h4>Approximate Number System (ANS)</h4>
-            <p>Ratio-dependent estimation of larger quantities. The ANS follows <span class="def-popup" data-definition="Weber's law (for numerosity): The discriminability of two quantities depends on their ratio, not their absolute difference. Distinguishing 8 from 16 (ratio 1:2) is as easy as distinguishing 4 from 8."><span class="def-tooltip"></span>Weber's law</span>: discrimination accuracy depends on the ratio between quantities. Distinguishing 8 from 16 is easy (ratio 1:2). Distinguishing 8 from 9 is hard (ratio 8:9).</p>
-
-            <!-- Weber's Law Interactive -->
-            <div class="visual-container">
-                <div class="visual-title">Weber's Law — Ratio Dependence</div>
-                <canvas id="weberCanvas" width="700" height="300"></canvas>
-                <div class="controls">
-                    <button id="weberLeft">LEFT has more</button>
-                    <button id="weberRight">RIGHT has more</button>
-                </div>
-                <div class="result-display">
-                    <div class="result-value" id="weberResult">Click a button to guess</div>
-                    <div class="result-label" id="weberRatio">Ratio will be shown</div>
-                </div>
-                <p class="caption">Accuracy depends on ratio, not absolute difference.</p>
-            </div>
-
-            <h3>2.3 From Perception to Symbol</h3>
-            <p>The ANS and subitizing provide approximate or limited-range numerosity perception. Exact enumeration of large quantities requires external scaffolding: tallies, words, numerals.</p>
-
-            <p>The oldest known tally marks are approximately 44,000 years old — notches carved on a baboon fibula. <span class="def-popup" data-definition="Tally marks: Physical marks (notches, strokes) representing single units. Tally systems externalize counting, extending it beyond working memory limits."><span class="def-tooltip"></span>Tally marks</span> implement one-to-one correspondence physically: one notch per day, one mark per animal.</p>
-
-            <p>Number words formalize tally systems linguistically. Written numerals abstract further. The Hindu-Arabic system (0-9 in positional notation) enables representation of arbitrarily large numbers with a finite symbol set.</p>
+            <p>Counting is the foundation. The tools are:</p>
+            <ul>
+                <li>The multiplication principle</li>
+                <li>Factorial</li>
+                <li>Permutations</li>
+                <li>Combinations</li>
+            </ul>
         </section>
 
-        <!-- Part III: Sets -->
-        <section class="part">
-            <div class="part-header">
-                <div class="part-number">PART III</div>
-                <h2>Sets — The Formalization</h2>
+        <!-- Multiplication Principle -->
+        <section id="multiplication-principle">
+            <h2>The Multiplication Principle</h2>
+
+            <p>The most fundamental counting rule.</p>
+
+            <div class="principle-box">
+                <p>If task A can be done in <em>m</em> ways, and for each way of doing A, task B can be done in <em>n</em> ways, then A followed by B can be done in <strong>m × n</strong> ways.</p>
             </div>
 
-            <h3>3.1 What Is a Set?</h3>
-            <p><span class="def-popup" data-definition="Set: A well-defined collection of distinct objects (elements). A set is determined entirely by its elements. Notation: {a, b, c} is the set containing exactly a, b, and c."><span class="def-tooltip"></span>A set</span> is a collection of distinct objects considered as a single mathematical entity.</p>
+            <h3>Interactive: Decision Tree</h3>
+            <p>Watch how choices multiply at each step.</p>
 
-            <div class="formula-box">
-                <div class="formula">Notation:</div>
-                <div class="explanation">
-                    {a, b, c} — the set containing a, b, and c<br>
-                    x ∈ S — x is an element of S<br>
-                    x ∉ S — x is not an element of S<br>
-                    |S| — the cardinality of S
+            <div class="visual-container">
+                <div class="visual-title">[ MULTIPLICATION PRINCIPLE TREE ]</div>
+                <canvas id="tree-canvas" width="700" height="400"></canvas>
+                <div class="controls">
+                    <div class="control-group">
+                        <label>Choices per step</label>
+                        <input type="range" id="tree-choices" min="2" max="4" value="3">
+                        <span class="value-display" id="tree-choices-val">3</span>
+                    </div>
+                    <div class="control-group">
+                        <label>Number of steps</label>
+                        <input type="range" id="tree-steps" min="1" max="4" value="2">
+                        <span class="value-display" id="tree-steps-val">2</span>
+                    </div>
+                </div>
+                <div class="info-display">
+                    <span id="tree-formula">3 × 3 = </span>
+                    <span class="result" id="tree-result">9 outcomes</span>
                 </div>
             </div>
 
-            <p><strong>Examples:</strong></p>
-            <ul style="color: var(--text-secondary); margin-left: 1.5rem; margin-bottom: 1.5rem;">
-                <li>{1, 2, 3} — a finite set of natural numbers</li>
-                <li>{H, He, Li, Be, B, C, N, O, F, Ne} — the first ten elements</li>
-                <li>{x ∈ ℕ : x is prime} = {2, 3, 5, 7, 11, ...} — an infinite set</li>
-                <li>∅ or {} — the empty set</li>
+            <h3>Examples</h3>
+            <p><strong>License plates:</strong> 3 letters followed by 3 digits</p>
+            <ul>
+                <li>Letters: 26 choices each → 26³ = 17,576</li>
+                <li>Digits: 10 choices each → 10³ = 1,000</li>
+                <li>Total: 26³ × 10³ = 17,576,000</li>
             </ul>
 
-            <h3>3.2 Set Operations</h3>
+            <p><strong>DNA sequences of length k:</strong></p>
+            <p>Each position has 4 choices (A, T, G, C). For k positions: 4<sup>k</sup> sequences.</p>
 
-            <!-- Venn Diagram Interactive -->
-            <div class="visual-container">
-                <div class="visual-title">Set Operations</div>
-                <canvas id="vennCanvas" width="700" height="350"></canvas>
-                <div class="btn-group">
-                    <button class="venn-btn" data-op="A">A</button>
-                    <button class="venn-btn" data-op="B">B</button>
-                    <button class="venn-btn active" data-op="union">A ∪ B</button>
-                    <button class="venn-btn" data-op="intersection">A ∩ B</button>
-                    <button class="venn-btn" data-op="diff-a">A − B</button>
-                    <button class="venn-btn" data-op="diff-b">B − A</button>
-                </div>
-                <div class="result-display">
-                    <div class="result-value" id="vennOp">A ∪ B</div>
-                    <div class="result-label" id="vennDesc">Elements in A or B (or both)</div>
-                </div>
-            </div>
-
-            <div class="formula-box">
-                <div class="formula">Set Operations:</div>
-                <div class="explanation">
-                    <strong>Union</strong>: A ∪ B = {x : x ∈ A or x ∈ B}<br>
-                    <strong>Intersection</strong>: A ∩ B = {x : x ∈ A and x ∈ B}<br>
-                    <strong>Difference</strong>: A − B = {x : x ∈ A and x ∉ B}<br>
-                    <strong>Complement</strong>: Aᶜ = {x : x ∉ A}
-                </div>
-            </div>
-
-            <h3>3.3 The Power Set</h3>
-            <p>The <span class="def-popup" data-definition="Power set P(S): The set of all subsets of S, including ∅ and S itself. If |S| = n, then |P(S)| = 2ⁿ."><span class="def-tooltip"></span>power set</span> P(S) is the set of all subsets of S.</p>
-
-            <p>If S = {a, b}, then P(S) = {∅, {a}, {b}, {a, b}} — four subsets.</p>
-
-            <div class="formula-box">
-                <div class="formula">|P(S)| = 2ⁿ</div>
-                <div class="explanation">Each element is either included or excluded — two choices per element, n elements total.</div>
-            </div>
-
-            <table>
-                <tr><th>n</th><th>2ⁿ</th></tr>
-                <tr><td>0</td><td>1</td></tr>
-                <tr><td>3</td><td>8</td></tr>
-                <tr><td>10</td><td>1,024</td></tr>
-                <tr><td>20</td><td>1,048,576</td></tr>
-            </table>
+            <p><strong>General formula:</strong> n choices at each of k positions → n<sup>k</sup> sequences.</p>
         </section>
 
-        <!-- Part IV: Combinatorics -->
-        <section class="part">
-            <div class="part-header">
-                <div class="part-number">PART IV</div>
-                <h2>Combinatorics — Counting Arrangements</h2>
+        <!-- Factorial -->
+        <section id="factorial">
+            <h2>The Factorial</h2>
+
+            <p>How many ways to arrange <em>n</em> distinct objects in a row?</p>
+
+            <ul>
+                <li>First position: n choices</li>
+                <li>Second position: n − 1 remaining choices</li>
+                <li>Third position: n − 2 remaining choices</li>
+                <li>...</li>
+                <li>Last position: 1 choice</li>
+            </ul>
+
+            <div class="definition-box">
+                <div class="label">DEFINITION</div>
+                <p>The <strong>factorial</strong> of a non-negative integer n is:</p>
+                <p style="text-align: center; font-size: 1.2rem;">$$n! = n \times (n-1) \times (n-2) \times \cdots \times 2 \times 1$$</p>
+                <p>with the convention that <strong>0! = 1</strong>.</p>
             </div>
 
-            <h3>4.1 The Factorial</h3>
-            <p>Given n distinct objects, how many ways can they be arranged in sequence?</p>
-
-            <p>For the first position: n choices. For the second: n − 1 remaining. For the third: n − 2. And so on.</p>
-
-            <div class="formula-box">
-                <div class="formula">n! = n × (n−1) × (n−2) × ... × 2 × 1</div>
-                <div class="explanation">The factorial counts permutations of n distinct objects.</div>
-            </div>
-
-            <table>
-                <tr><th>n</th><th>n!</th></tr>
-                <tr><td>1</td><td>1</td></tr>
-                <tr><td>3</td><td>6</td></tr>
-                <tr><td>5</td><td>120</td></tr>
-                <tr><td>10</td><td>3,628,800</td></tr>
-                <tr><td>20</td><td>2.43 × 10¹⁸</td></tr>
-            </table>
-
-            <p>Factorials grow faster than exponentials. This rapid growth underlies the combinatorial explosion in chemical structure enumeration.</p>
-
-            <h3>4.2 Permutations and Combinations</h3>
-
-            <div class="formula-box">
-                <div class="formula">P(n,k) = n!/(n−k)!</div>
-                <div class="explanation"><strong>Permutation</strong>: Ordered arrangements of k objects from n. Order matters.</div>
-            </div>
-
-            <div class="formula-box">
-                <div class="formula">C(n,k) = n!/[k!(n−k)!]</div>
-                <div class="explanation"><strong>Combination</strong>: Unordered selections of k objects from n. Order does not matter.</div>
-            </div>
-
-            <p><strong>Example</strong>: A committee of 3 from 10 people. Order does not matter. Use combinations: C(10,3) = 120.</p>
-
-            <p><strong>Example</strong>: Gold, silver, bronze medals for 10 competitors. Order matters. Use permutations: P(10,3) = 720.</p>
-
-            <h3>4.3 Isomer Enumeration</h3>
-            <p>The molecular formula C₄H₁₀ corresponds to two structural isomers. C₁₀H₂₂ has 75 isomers. C₄₀H₈₂ has over 62 trillion.</p>
-
-            <!-- Isomer Counter -->
-            <div class="visual-container">
-                <div class="visual-title">Isomer Counting — Alkanes CₙH₂ₙ₊₂</div>
-                <div class="controls">
-                    <div class="control-group">
-                        <label>Carbon atoms (n)</label>
-                        <input type="range" id="isomerN" min="1" max="12" value="4">
-                        <span class="value-display" id="isomerNVal">4</span>
-                    </div>
-                </div>
-                <div class="result-display">
-                    <div class="result-value" id="isomerCount">2 isomers</div>
-                    <div class="result-label" id="isomerFormula">C₄H₁₀</div>
-                </div>
-                <div class="isomer-grid" id="isomerGrid"></div>
-                <p class="caption">Combinatorial explosion: small increases in n yield huge increases in isomer count.</p>
-            </div>
-        </section>
-
-        <!-- Part V: Collection in Chemistry -->
-        <section class="part">
-            <div class="part-header">
-                <div class="part-number">PART V</div>
-                <h2>Collection in Chemistry</h2>
-            </div>
-
-            <h3>5.1 The Mole</h3>
-            <p>Chemistry operates at scales where direct counting is impossible. A drop of water contains approximately 10²¹ molecules. Counting at one molecule per second would take ~30 trillion years.</p>
-
-            <p><span class="def-popup" data-definition="Mole (mol): The SI unit of amount of substance. One mole contains exactly 6.02214076 × 10²³ entities (the Avogadro constant)."><span class="def-tooltip"></span>The mole</span> is a counting unit scaled for chemical quantities.</p>
-
-            <div class="formula-box">
-                <div class="formula">1 mol = 6.02214076 × 10²³ entities</div>
-                <div class="explanation">Avogadro's constant Nₐ connects the atomic mass unit to the gram.</div>
-            </div>
-
-            <table>
-                <tr><th>Quantity</th><th>Atomic scale</th><th>Molar scale</th></tr>
-                <tr><td>Mass</td><td>12 u (one ¹²C atom)</td><td>12 g (one mole ¹²C)</td></tr>
-                <tr><td>Number</td><td>1 atom</td><td>6.022 × 10²³ atoms</td></tr>
-            </table>
-
-            <h3>5.2 Counting by Weighing</h3>
-            <p>Atoms cannot be counted directly. But they can be weighed. The mole provides the conversion factor.</p>
-
-            <div class="formula-box">
-                <div class="formula">n = m/M</div>
-                <div class="explanation">n = amount (mol), m = mass (g), M = molar mass (g/mol)</div>
-            </div>
-
-            <h3>5.3 Stoichiometry</h3>
-            <p><span class="def-popup" data-definition="Stoichiometry: The quantitative relationship between reactants and products in a chemical reaction, determined by the balanced equation coefficients."><span class="def-tooltip"></span>Stoichiometry</span> applies counting to chemical reactions.</p>
-
-            <!-- Stoichiometry Scaling -->
-            <div class="visual-container">
-                <div class="visual-title">Stoichiometry — Scale Invariance</div>
-                <canvas id="stoichCanvas" width="700" height="250"></canvas>
-                <div class="controls">
-                    <div class="control-group">
-                        <label>Scale</label>
-                        <input type="range" id="stoichScale" min="0" max="100" value="0">
-                        <span class="value-display" id="stoichScaleVal">molecules</span>
-                    </div>
-                </div>
-                <div class="result-display">
-                    <div class="result-value" id="stoichEq">2 H₂ + 1 O₂ → 2 H₂O</div>
-                    <div class="result-label" id="stoichMass">4 u + 32 u → 36 u</div>
-                </div>
-                <p class="caption">The ratio is constant across scales. Stoichiometry is counting.</p>
-            </div>
-
-            <p>Every stoichiometry problem is a counting problem:</p>
-            <ol style="color: var(--text-secondary); margin-left: 1.5rem; margin-bottom: 1.5rem;">
-                <li>Convert mass to moles (count)</li>
-                <li>Apply mole ratio (counting ratio)</li>
-                <li>Convert back to mass if needed</li>
+            <h3>Why 0! = 1?</h3>
+            <ol>
+                <li><strong>Combinatorial:</strong> There is exactly one way to arrange zero objects: do nothing.</li>
+                <li><strong>Recursive:</strong> We have n! = n × (n−1)!. Setting n = 1: 1! = 1 × 0!, so 0! = 1.</li>
+                <li><strong>Gamma function:</strong> Γ(1) = 1, and Γ(n+1) = n! for positive integers.</li>
             </ol>
+
+            <h3>Interactive: Factorial Calculator</h3>
+
+            <div class="visual-container">
+                <div class="visual-title">[ FACTORIAL VALUES ]</div>
+                <div class="controls no-border">
+                    <div class="control-group">
+                        <label>n =</label>
+                        <input type="range" id="fact-n" min="0" max="20" value="5">
+                        <span class="value-display" id="fact-n-val">5</span>
+                    </div>
+                </div>
+                <div class="info-display">
+                    <div id="fact-expansion">5! = 5 × 4 × 3 × 2 × 1</div>
+                    <div class="result" id="fact-result">= 120</div>
+                </div>
+            </div>
+
+            <h3>Factorial Growth</h3>
+            <p>Factorials grow faster than exponentials. 70! > 10<sup>100</sup> (a googol).</p>
+
+            <div class="visual-container">
+                <div class="visual-title">[ FACTORIAL GROWTH — LOG SCALE ]</div>
+                <canvas id="factorial-canvas" width="700" height="350"></canvas>
+                <div class="controls">
+                    <div class="control-group">
+                        <label>Max n</label>
+                        <input type="range" id="fact-max" min="5" max="15" value="10">
+                        <span class="value-display" id="fact-max-val">10</span>
+                    </div>
+                </div>
+                <div class="info-display">
+                    <span style="color: var(--accent-blue);">●</span> n! &nbsp;&nbsp;
+                    <span style="color: var(--accent-red);">●</span> 2<sup>n</sup> &nbsp;&nbsp;
+                    <span style="color: var(--accent-green);">●</span> 10<sup>n</sup>
+                </div>
+            </div>
+
+            <h3>Stirling's Approximation</h3>
+            <p>For large n:</p>
+            <p style="text-align: center;">$$n! \approx \sqrt{2\pi n} \left(\frac{n}{e}\right)^n$$</p>
+            <p>Or more simply: $$\ln(n!) \approx n\ln(n) - n$$</p>
+
+            <table>
+                <thead>
+                    <tr><th>n</th><th>n!</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>0</td><td>1</td></tr>
+                    <tr><td>5</td><td>120</td></tr>
+                    <tr><td>10</td><td>3,628,800</td></tr>
+                    <tr><td>20</td><td>2.43 × 10<sup>18</sup></td></tr>
+                    <tr><td>100</td><td>9.33 × 10<sup>157</sup></td></tr>
+                </tbody>
+            </table>
         </section>
 
-        <!-- Part VI: Formal Definitions -->
-        <section class="part">
-            <div class="part-header">
-                <div class="part-number">PART VI</div>
-                <h2>Formal Definitions</h2>
+        <!-- Permutations -->
+        <section id="permutations">
+            <h2>Permutations</h2>
+
+            <p>A <strong>permutation</strong> is an arrangement of objects where <strong>order matters</strong>.</p>
+
+            <div class="definition-box">
+                <div class="label">PERMUTATIONS OF n TAKEN k</div>
+                <p>From n distinct objects, the number of ways to select and arrange k of them:</p>
+                <p style="text-align: center; font-size: 1.2rem;">$$P(n, k) = \frac{n!}{(n-k)!} = n \times (n-1) \times \cdots \times (n-k+1)$$</p>
             </div>
 
-            <div class="definition-block">
-                <h3>Core Concepts</h3>
+            <h3>Interactive: Permutation Calculator</h3>
 
-                <div class="definition-item">
-                    <div class="definition-term">Set</div>
-                    <div class="definition-desc">A collection of distinct objects (elements). Notation: {a, b, c}.</div>
+            <div class="visual-container">
+                <div class="visual-title">[ PERMUTATIONS P(n, k) ]</div>
+                <div class="controls no-border">
+                    <div class="control-group">
+                        <label>n (total)</label>
+                        <input type="range" id="perm-n" min="1" max="15" value="10">
+                        <span class="value-display" id="perm-n-val">10</span>
+                    </div>
+                    <div class="control-group">
+                        <label>k (arrange)</label>
+                        <input type="range" id="perm-k" min="1" max="15" value="3">
+                        <span class="value-display" id="perm-k-val">3</span>
+                    </div>
                 </div>
-
-                <div class="definition-item">
-                    <div class="definition-term">Cardinality (|S|)</div>
-                    <div class="definition-desc">The number of elements in set S.</div>
-                </div>
-
-                <div class="definition-item">
-                    <div class="definition-term">Natural numbers (ℕ)</div>
-                    <div class="definition-desc">{0, 1, 2, 3, ...} or {1, 2, 3, ...}. The counting numbers.</div>
-                </div>
-
-                <div class="definition-item">
-                    <div class="definition-term">Factorial (n!)</div>
-                    <div class="definition-desc">n × (n−1) × ... × 1. Counts arrangements of n objects.</div>
-                </div>
-
-                <div class="definition-item">
-                    <div class="definition-term">Permutation P(n,k)</div>
-                    <div class="definition-desc">n!/(n−k)!. Ordered arrangements of k from n.</div>
-                </div>
-
-                <div class="definition-item">
-                    <div class="definition-term">Combination C(n,k)</div>
-                    <div class="definition-desc">n!/[k!(n−k)!]. Unordered selections of k from n.</div>
-                </div>
-
-                <div class="definition-item">
-                    <div class="definition-term">Mole (mol)</div>
-                    <div class="definition-desc">SI unit of amount. Contains 6.02214076 × 10²³ entities.</div>
-                </div>
-
-                <div class="definition-item">
-                    <div class="definition-term">Avogadro constant (Nₐ)</div>
-                    <div class="definition-desc">6.02214076 × 10²³ mol⁻¹.</div>
-                </div>
-
-                <div class="definition-item">
-                    <div class="definition-term">Molar mass (M)</div>
-                    <div class="definition-desc">Mass per mole in g/mol.</div>
-                </div>
-
-                <div class="definition-item">
-                    <div class="definition-term">Stoichiometry</div>
-                    <div class="definition-desc">Quantitative relations in chemical reactions via mole ratios.</div>
+                <div class="info-display">
+                    <div id="perm-formula">P(10, 3) = 10 × 9 × 8</div>
+                    <div class="result" id="perm-result">= 720</div>
                 </div>
             </div>
-        </section>
 
-        <!-- Part VII: Forward -->
-        <section class="part">
-            <div class="part-header">
-                <div class="part-number">PART VII</div>
-                <h2>Forward</h2>
-            </div>
+            <p><strong>Example:</strong> From 10 runners, how many ways to award gold, silver, bronze?</p>
+            <p>P(10, 3) = 10 × 9 × 8 = 720</p>
 
-            <h3>What COLLECTION Establishes</h3>
-            <p>COLLECTION is the recognition that the world contains discrete, countable entities. This recognition is cognitively primitive — infants and animals individuate objects and perceive numerosity without symbolic training.</p>
-
-            <p>Formalization yields:</p>
-            <ul style="color: var(--text-secondary); margin-left: 1.5rem; margin-bottom: 1.5rem;">
-                <li><strong>Sets</strong>: collections as mathematical objects</li>
-                <li><strong>Cardinality</strong>: the measure of "how many"</li>
-                <li><strong>Combinatorics</strong>: counting arrangements</li>
-                <li><strong>The mole</strong>: a counting unit for chemistry</li>
+            <h3>Permutations with Repetition</h3>
+            <p>How many arrangements of the letters in MISSISSIPPI?</p>
+            <ul>
+                <li>11 letters total</li>
+                <li>M: 1, I: 4, S: 4, P: 2</li>
             </ul>
 
-            <h3>What Comes Next</h3>
-            <p>With COLLECTION established, we can ask about the <em>properties</em> of the things collected.</p>
+            <p>The formula:</p>
+            <p style="text-align: center;">$$\frac{n!}{n_1! \times n_2! \times \cdots \times n_k!}$$</p>
 
-            <p><strong>Lecture 4 (DIRECTION)</strong>: Molecules have geometry. Bonds point somewhere. The water molecule's bond angle is 104.5°. Describing "where bonds point" requires the concept of direction, formalized as vectors.</p>
-
-            <div class="formula-box">
-                <div class="formula">COLLECTION → "How many atoms?"</div>
-                <div class="explanation">DIRECTION → "Which way do they point?"</div>
-            </div>
-
-            <p>The transition from counting to geometry is the transition from sets to vectors — from cardinality to orientation.</p>
+            <p>MISSISSIPPI: $\frac{11!}{1! \times 4! \times 4! \times 2!} = \frac{39,916,800}{1,152} = 34,650$</p>
         </section>
 
-        <!-- Endnotes -->
-        <section class="endnotes">
-            <h3>Endnotes</h3>
-            <div class="endnote"><span class="endnote-ref">[1]</span> Spelke, E. (1990), "Principles of object perception," <em>Cognitive Science</em> 14:29-56.</div>
-            <div class="endnote"><span class="endnote-ref">[2]</span> Baillargeon, R. (2004), "Infants' physical world," <em>Current Directions in Psychological Science</em> 13:89-94.</div>
-            <div class="endnote"><span class="endnote-ref">[3]</span> Xu, F., & Carey, S. (1996), "Infants' metaphysics: The case of numerical identity," <em>Cognitive Psychology</em> 30:111-153.</div>
-            <div class="endnote"><span class="endnote-ref">[4]</span> Kaufman, E., Lord, M., Reese, T., & Volkmann, J. (1949), "The discrimination of visual number," <em>American Journal of Psychology</em> 62:498-525.</div>
-            <div class="endnote"><span class="endnote-ref">[5]</span> Piazza, M., et al. (2011), "Subitizing reflects visuo-spatial object individuation capacity," <em>Cognition</em> 121:147-153.</div>
-            <div class="endnote"><span class="endnote-ref">[6]</span> Halberda, J., & Feigenson, L. (2008), "Developmental change in the acuity of the 'Number Sense'," <em>Developmental Psychology</em> 44:1457-1465.</div>
-            <div class="endnote"><span class="endnote-ref">[7]</span> Feigenson, L., Dehaene, S., & Spelke, E. (2004), "Core systems of number," <em>Trends in Cognitive Sciences</em> 8:307-314.</div>
-            <div class="endnote"><span class="endnote-ref">[8]</span> d'Errico, F., et al. (2012), "Early evidence of San material culture," <em>PNAS</em> 109:13214-13219.</div>
-            <div class="endnote"><span class="endnote-ref">[9]</span> de Heinzelin, J. (1962), "Ishango," <em>Scientific American</em> 206:105-116.</div>
-            <div class="endnote"><span class="endnote-ref">[10]</span> Ifrah, G. (2000), <em>The Universal History of Numbers</em>, Wiley.</div>
-            <div class="endnote"><span class="endnote-ref">[11]</span> Cantor, G. (1874), "Über eine Eigenschaft des Inbegriffes aller reellen algebraischen Zahlen," <em>J. reine angew. Math.</em> 77:258-262.</div>
-            <div class="endnote"><span class="endnote-ref">[12]</span> Cantor's diagonal argument demonstrates ℝ is uncountable. See Enderton, H. (1977), <em>Elements of Set Theory</em>.</div>
-            <div class="endnote"><span class="endnote-ref">[13]</span> Sloane, N.J.A., "A000602: Number of n-node unrooted quartic trees," <em>OEIS</em>.</div>
-            <div class="endnote"><span class="endnote-ref">[14]</span> Pólya, G. (1937), "Kombinatorische Anzahlbestimmungen für Gruppen, Graphen und chemische Verbindungen," <em>Acta Math.</em> 68:145-254.</div>
-            <div class="endnote"><span class="endnote-ref">[15]</span> One mole of water ≈ 18 mL. One drop ≈ 0.05 mL ≈ 1.7 × 10²¹ molecules.</div>
+        <!-- Combinations -->
+        <section id="combinations">
+            <h2>Combinations</h2>
+
+            <p>A <strong>combination</strong> is a selection of objects where <strong>order does not matter</strong>.</p>
+
+            <div class="definition-box">
+                <div class="label">COMBINATIONS OF n TAKEN k</div>
+                <p>From n distinct objects, the number of ways to choose k of them:</p>
+                <p style="text-align: center; font-size: 1.2rem;">$$\binom{n}{k} = \frac{n!}{k!(n-k)!}$$</p>
+                <p style="text-align: center; color: var(--text-muted);">Read as "n choose k"</p>
+            </div>
+
+            <p><strong>Key insight:</strong> Each unordered selection of k objects can be arranged in k! ways. So:</p>
+            <p style="text-align: center;">$$\binom{n}{k} = \frac{P(n,k)}{k!}$$</p>
+
+            <h3>Interactive: Combination Calculator</h3>
+
+            <div class="visual-container">
+                <div class="visual-title">[ COMBINATIONS C(n, k) ]</div>
+                <div class="controls no-border">
+                    <div class="control-group">
+                        <label>n (total)</label>
+                        <input type="range" id="comb-n" min="1" max="20" value="10">
+                        <span class="value-display" id="comb-n-val">10</span>
+                    </div>
+                    <div class="control-group">
+                        <label>k (choose)</label>
+                        <input type="range" id="comb-k" min="0" max="20" value="3">
+                        <span class="value-display" id="comb-k-val">3</span>
+                    </div>
+                </div>
+                <div class="info-display">
+                    <div id="comb-formula">C(10, 3) = 10! / (3! × 7!)</div>
+                    <div class="result" id="comb-result">= 120</div>
+                    <div id="comb-symmetry" style="color: var(--text-muted); font-size: 0.85rem; margin-top: 0.5rem;">
+                        Symmetry: C(10, 3) = C(10, 7) = 120
+                    </div>
+                </div>
+            </div>
+
+            <h3>Properties of Binomial Coefficients</h3>
+
+            <p><strong>Symmetry:</strong> $\binom{n}{k} = \binom{n}{n-k}$</p>
+            <p>Choosing k objects to include is equivalent to choosing n−k objects to exclude.</p>
+
+            <p><strong>Pascal's Identity:</strong> $\binom{n}{k} = \binom{n-1}{k-1} + \binom{n-1}{k}$</p>
+            <p>Each entry is the sum of two entries above it.</p>
+
+            <p><strong>Sum of row n:</strong> $\displaystyle\sum_{k=0}^{n} \binom{n}{k} = 2^n$</p>
+        </section>
+
+        <!-- Pascal's Triangle -->
+        <section id="pascal">
+            <h2>Pascal's Triangle</h2>
+
+            <div class="visual-container">
+                <div class="visual-title">[ PASCAL'S TRIANGLE ]</div>
+                <div class="controls no-border">
+                    <div class="control-group">
+                        <label>Rows</label>
+                        <input type="range" id="pascal-rows" min="3" max="12" value="8">
+                        <span class="value-display" id="pascal-rows-val">8</span>
+                    </div>
+                </div>
+                <div id="pascal-display" class="pascal-display"></div>
+                <div class="info-display">
+                    <div id="pascal-info">Click any entry to see its identity</div>
+                </div>
+            </div>
+
+            <h3>The Binomial Theorem</h3>
+            <p style="text-align: center;">$$(x + y)^n = \sum_{k=0}^{n} \binom{n}{k} x^{n-k} y^k$$</p>
+
+            <p><strong>Example:</strong> $(x + y)^4 = x^4 + 4x^3y + 6x^2y^2 + 4xy^3 + y^4$</p>
+            <p>Coefficients: 1, 4, 6, 4, 1 — row 4 of Pascal's triangle.</p>
+        </section>
+
+        <!-- Summary Table -->
+        <section id="summary">
+            <h2>Counting Principles Summary</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Situation</th>
+                        <th>Formula</th>
+                        <th>When to use</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>n choices at each of k positions</td>
+                        <td>n<sup>k</sup></td>
+                        <td>Independent choices with replacement</td>
+                    </tr>
+                    <tr>
+                        <td>Arrange n distinct objects</td>
+                        <td>n!</td>
+                        <td>All objects, order matters</td>
+                    </tr>
+                    <tr>
+                        <td>Arrange k of n distinct objects</td>
+                        <td>n!/(n−k)!</td>
+                        <td>Subset, order matters</td>
+                    </tr>
+                    <tr>
+                        <td>Arrange n with repetitions</td>
+                        <td>n!/(n₁!n₂!···)</td>
+                        <td>Identical objects present</td>
+                    </tr>
+                    <tr>
+                        <td>Choose k of n objects</td>
+                        <td>n!/[k!(n−k)!]</td>
+                        <td>Subset, order doesn't matter</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Chemistry Connections -->
+        <section id="chemistry">
+            <h2>Chemistry Connections</h2>
+
+            <h3>Counting Isomers</h3>
+            <p>How many structural isomers of C₅H₁₂ (pentane)?</p>
+            <p>Not a simple formula — requires enumerating distinct carbon skeletons:</p>
+            <ol>
+                <li>n-pentane: C-C-C-C-C (linear)</li>
+                <li>isopentane: C-C-C(-C)-C (one branch)</li>
+                <li>neopentane: C-C(-C)(-C)-C (two branches on same carbon)</li>
+            </ol>
+            <p>Answer: <strong>3 isomers</strong>.</p>
+
+            <p>For larger alkanes, the count grows rapidly:</p>
+            <ul>
+                <li>C₁₀H₂₂: 75 isomers</li>
+                <li>C₂₀H₄₂: 366,319 isomers</li>
+                <li>C₄₀H₈₂: 62,481,801,147,341 isomers</li>
+            </ul>
+
+            <h3>Benzene Substitution Patterns</h3>
+            <p>Benzene has 6 equivalent positions. Choose 2 for Cl.</p>
+            <p>Naive count: $\binom{6}{2} = 15$</p>
+            <p>But benzene has symmetry. Positions related by rotation/reflection give the same isomer.</p>
+
+            <div class="visual-container">
+                <div class="visual-title">[ BENZENE SUBSTITUTION ]</div>
+                <canvas id="benzene-canvas" width="600" height="320"></canvas>
+                <div class="controls">
+                    <div class="control-group">
+                        <label>Number of Cl</label>
+                        <input type="range" id="benzene-ncl" min="0" max="6" value="2">
+                        <span class="value-display" id="benzene-ncl-val">2</span>
+                    </div>
+                </div>
+                <div class="info-display">
+                    <div>Naive count: C(6, <span id="benzene-k">2</span>) = <span id="benzene-naive">15</span></div>
+                    <div class="result">Distinct isomers: <span id="benzene-actual">3</span></div>
+                </div>
+                <div id="isomer-cards" class="isomer-info"></div>
+            </div>
+
+            <p>Actual distinct dichlorobenzene isomers:</p>
+            <ol>
+                <li><strong>ortho</strong> (1,2-): adjacent positions</li>
+                <li><strong>meta</strong> (1,3-): one position apart</li>
+                <li><strong>para</strong> (1,4-): opposite positions</li>
+            </ol>
+            <p>Answer: <strong>3 isomers</strong>. Symmetry reduces the count from 15 to 3.</p>
+
+            <h3>Electron Configurations</h3>
+            <p>How many ways to put electrons in orbitals?</p>
+
+            <div class="visual-container">
+                <div class="visual-title">[ ELECTRON MICROSTATES ]</div>
+                <div class="controls no-border">
+                    <div class="control-group">
+                        <label>Subshell</label>
+                        <select id="subshell-select">
+                            <option value="s">s (2 spin-orbitals)</option>
+                            <option value="p" selected>p (6 spin-orbitals)</option>
+                            <option value="d">d (10 spin-orbitals)</option>
+                            <option value="f">f (14 spin-orbitals)</option>
+                        </select>
+                    </div>
+                    <div class="control-group">
+                        <label>Electrons</label>
+                        <input type="range" id="electrons-n" min="0" max="6" value="2">
+                        <span class="value-display" id="electrons-n-val">2</span>
+                    </div>
+                </div>
+                <canvas id="microstate-canvas" width="600" height="180"></canvas>
+                <div class="info-display">
+                    <div id="microstate-formula">Microstates = C(6, 2)</div>
+                    <div class="result" id="microstate-result">= 15</div>
+                </div>
+            </div>
+
+            <p>For p² (2 electrons in p subshell): C(6, 2) = <strong>15 microstates</strong></p>
+            <p>These 15 microstates span three term symbols: ³P (9), ¹D (5), ¹S (1).</p>
+
+            <h3>Protein Sequences</h3>
+            <p>How many possible sequences for a 100-residue protein?</p>
+            <p>20 amino acid choices at each of 100 positions:</p>
+            <p style="text-align: center; font-size: 1.2rem;">$20^{100} = 10^{130}$</p>
+
+            <p>For comparison:</p>
+            <ul>
+                <li>Atoms in observable universe: ~10<sup>80</sup></li>
+                <li>Seconds since Big Bang: ~10<sup>17</sup></li>
+            </ul>
+
+            <p><strong>The sequence space of even modest proteins is astronomically vast.</strong> This is why evolution explores only a tiny fraction of possible sequences.</p>
+
+            <h3>Statistical Mechanics: Microstates</h3>
+            <p><strong>The Boltzmann entropy:</strong></p>
+            <p style="text-align: center; font-size: 1.2rem;">$$S = k_B \ln W$$</p>
+            <p>where W is the number of microstates.</p>
+
+            <p>If n₁ particles have energy E₁, n₂ have E₂, etc., the number of arrangements is:</p>
+            <p style="text-align: center;">$$W = \frac{N!}{n_1! n_2! n_3! \cdots}$$</p>
+            <p>This multinomial coefficient counts how many ways to partition N distinguishable particles into groups.</p>
+        </section>
+
+        <!-- Exercises -->
+        <section id="exercises">
+            <h2>Exercises</h2>
+
+            <div class="exercise-box">
+                <h4>Exercise 1: Basic Counting</h4>
+                <p>(a) How many 5-letter "words" can be formed from the 26-letter alphabet (letters can repeat)?</p>
+                <p>(b) How many if no letter can repeat?</p>
+                <p>(c) How many 5-letter words have exactly one vowel (A, E, I, O, U)?</p>
+            </div>
+
+            <div class="exercise-box">
+                <h4>Exercise 2: Factorials</h4>
+                <p>(a) Compute 8!/5! without computing each factorial separately.</p>
+                <p>(b) Simplify: n!/(n−2)!</p>
+                <p>(c) Use Stirling's approximation to estimate ln(50!).</p>
+            </div>
+
+            <div class="exercise-box">
+                <h4>Exercise 3: Permutations</h4>
+                <p>(a) How many ways can 8 people stand in a line?</p>
+                <p>(b) How many ways can 8 people sit at a round table? (Rotations are considered the same.)</p>
+                <p>(c) How many distinct arrangements of the letters in CHEMISTRY?</p>
+            </div>
+
+            <div class="exercise-box">
+                <h4>Exercise 4: Combinations</h4>
+                <p>(a) From a standard 52-card deck, how many 5-card hands are possible?</p>
+                <p>(b) How many of these hands contain exactly 2 aces?</p>
+                <p>(c) How many contain at least one ace?</p>
+            </div>
+
+            <div class="exercise-box">
+                <h4>Exercise 5: Chemistry Applications</h4>
+                <p>(a) How many tripeptides can be formed from the 20 standard amino acids?</p>
+                <p>(b) Methane (CH₄) has 4 equivalent H atoms. How many distinct mono-chlorinated products exist when one H is replaced by Cl?</p>
+                <p>(c) For the complex [Co(NH₃)₄Cl₂]⁺, how many geometric isomers exist? (Hint: octahedral geometry)</p>
+            </div>
         </section>
 
         <!-- Navigation -->
-        <div class="nav-buttons">
-            <a href="../index.html" class="nav-link">← Back to Lectures</a>
-            <a href="../04-direction/sec1-what-points.html" class="nav-link">Next: DIRECTION →</a>
-        </div>
-    </main>
+        <nav class="nav-links">
+            <a href="../02-existence/">← Lecture 2: Existence</a>
+            <a href="../04-direction/">Lecture 4: Bonds Point →</a>
+        </nav>
+    </div>
 
     <script>
-        // === Populate Definition Tooltips ===
-        document.querySelectorAll('.def-popup').forEach(el => {
-            const tooltip = el.querySelector('.def-tooltip');
-            if (tooltip && el.dataset.definition) {
-                tooltip.textContent = el.dataset.definition;
-            }
-        });
-
-        // === Subitizing Game ===
-        const subitizeArea = document.getElementById('subitizeArea');
-        const subitizeMessage = document.getElementById('subitizeMessage');
-        const subitizeStart = document.getElementById('subitizeStart');
-        const numberButtons = document.getElementById('numberButtons');
-        const subitizeStats = document.getElementById('subitizeStats');
-
-        let subitizeState = {
-            trials: 0,
-            correct: 0,
-            times: [],
-            currentN: 0,
-            startTime: 0,
-            dots: []
-        };
-
-        function shuffleArray(arr) {
-            for (let i = arr.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [arr[i], arr[j]] = [arr[j], arr[i]];
-            }
-            return arr;
-        }
-
-        subitizeStart.addEventListener('click', () => {
-            subitizeState.trials = 0;
-            subitizeState.correct = 0;
-            subitizeState.times = [];
-            subitizeStats.style.display = 'grid';
-            runSubitizeTrial();
-        });
-
-        function runSubitizeTrial() {
-            // Random number of dots 1-8
-            subitizeState.currentN = Math.floor(Math.random() * 8) + 1;
-            subitizeState.dots = [];
-
-            // Generate non-overlapping positions
-            const areaRect = subitizeArea.getBoundingClientRect();
-            const dotSize = 30;
-            const padding = 40;
-
-            for (let i = 0; i < subitizeState.currentN; i++) {
-                let attempts = 0;
-                let x, y, valid;
-                do {
-                    x = padding + Math.random() * (areaRect.width - 2 * padding);
-                    y = padding + Math.random() * (areaRect.height - 2 * padding);
-                    valid = true;
-                    for (const dot of subitizeState.dots) {
-                        const dist = Math.sqrt((x - dot.x) ** 2 + (y - dot.y) ** 2);
-                        if (dist < dotSize + 10) {
-                            valid = false;
-                            break;
-                        }
-                    }
-                    attempts++;
-                } while (!valid && attempts < 100);
-                subitizeState.dots.push({ x, y });
-            }
-
-            // Clear and show dots
-            subitizeMessage.style.display = 'none';
-            subitizeArea.innerHTML = '';
-            numberButtons.style.display = 'none';
-
-            subitizeState.dots.forEach(dot => {
-                const el = document.createElement('div');
-                el.style.cssText = `
-                    position: absolute;
-                    left: ${dot.x - dotSize/2}px;
-                    top: ${dot.y - dotSize/2}px;
-                    width: ${dotSize}px;
-                    height: ${dotSize}px;
-                    background: var(--accent-green);
-                    border-radius: 50%;
-                `;
-                subitizeArea.appendChild(el);
+        // Initialize KaTeX
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false}
+                ],
+                throwOnError: false
             });
+        });
 
-            // Flash for 200ms
-            subitizeState.startTime = performance.now();
-
-            setTimeout(() => {
-                subitizeArea.innerHTML = '';
-                subitizeMessage.textContent = 'How many dots?';
-                subitizeMessage.style.display = 'block';
-                numberButtons.style.display = 'flex';
-            }, 200);
+        // Factorial function with BigInt for large values
+        function factorial(n) {
+            if (n <= 1) return 1n;
+            let result = 1n;
+            for (let i = 2n; i <= BigInt(n); i++) {
+                result *= i;
+            }
+            return result;
         }
 
-        document.querySelectorAll('.number-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const guess = parseInt(btn.dataset.n);
-                const responseTime = performance.now() - subitizeState.startTime;
+        function binomial(n, k) {
+            if (k < 0 || k > n) return 0n;
+            if (k === 0 || k === n) return 1n;
+            return factorial(n) / (factorial(k) * factorial(n - k));
+        }
 
-                subitizeState.trials++;
-                if (guess === subitizeState.currentN) {
-                    subitizeState.correct++;
-                    subitizeMessage.textContent = `✓ Correct! (${subitizeState.currentN} dots)`;
-                    subitizeMessage.style.color = 'var(--accent-green)';
-                } else {
-                    subitizeMessage.textContent = `✗ It was ${subitizeState.currentN} dots`;
-                    subitizeMessage.style.color = 'var(--accent-red)';
+        function formatBigInt(n) {
+            const str = n.toString();
+            if (str.length <= 15) return str.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return str.slice(0, 3) + "..." + str.slice(-3) + " (" + str.length + " digits)";
+        }
+
+        // ===== MULTIPLICATION PRINCIPLE TREE =====
+        const treeCanvas = document.getElementById('tree-canvas');
+        const treeCtx = treeCanvas.getContext('2d');
+        const treeChoices = document.getElementById('tree-choices');
+        const treeSteps = document.getElementById('tree-steps');
+        const treeChoicesVal = document.getElementById('tree-choices-val');
+        const treeStepsVal = document.getElementById('tree-steps-val');
+        const treeFormula = document.getElementById('tree-formula');
+        const treeResult = document.getElementById('tree-result');
+
+        function drawTree() {
+            const choices = parseInt(treeChoices.value);
+            const steps = parseInt(treeSteps.value);
+            const width = treeCanvas.width;
+            const height = treeCanvas.height;
+
+            treeCtx.fillStyle = '#12121a';
+            treeCtx.fillRect(0, 0, width, height);
+
+            // Calculate total outcomes
+            let total = 1;
+            let formula = '';
+            for (let i = 0; i < steps; i++) {
+                total *= choices;
+                formula += (i > 0 ? ' × ' : '') + choices;
+            }
+            formula += ' = ';
+
+            treeFormula.textContent = formula;
+            treeResult.textContent = total + ' outcomes';
+            treeChoicesVal.textContent = choices;
+            treeStepsVal.textContent = steps;
+
+            // Draw tree
+            const startX = 60;
+            const endX = width - 40;
+            const stepWidth = (endX - startX) / steps;
+
+            // Colors for branches
+            const colors = ['#9d8cd9', '#7db3dc', '#8bc49d', '#d4a574'];
+
+            // Draw connections first (behind nodes)
+            function drawConnections(level, parentY, startY, rangeY) {
+                if (level >= steps) return;
+
+                const parentX = startX + level * stepWidth;
+                const childX = startX + (level + 1) * stepWidth;
+                const parentCount = Math.pow(choices, level);
+                const parentSpacing = rangeY / parentCount;
+
+                for (let p = 0; p < parentCount; p++) {
+                    const py = startY + parentSpacing * (p + 0.5);
+                    const childSpacing = parentSpacing / choices;
+
+                    for (let c = 0; c < choices; c++) {
+                        const cy = startY + parentSpacing * p + childSpacing * (c + 0.5);
+
+                        treeCtx.beginPath();
+                        treeCtx.moveTo(parentX, py);
+                        treeCtx.lineTo(childX, cy);
+                        treeCtx.strokeStyle = colors[c % colors.length];
+                        treeCtx.lineWidth = Math.max(1, 3 - level * 0.5);
+                        treeCtx.globalAlpha = 0.6;
+                        treeCtx.stroke();
+                        treeCtx.globalAlpha = 1;
+                    }
                 }
-                subitizeState.times.push(responseTime);
 
-                // Update stats
-                document.getElementById('statTrials').textContent = subitizeState.trials;
-                document.getElementById('statCorrect').textContent =
-                    Math.round(subitizeState.correct / subitizeState.trials * 100) + '%';
-                const avgTime = subitizeState.times.reduce((a, b) => a + b, 0) / subitizeState.times.length;
-                document.getElementById('statAvgTime').textContent = Math.round(avgTime);
-
-                numberButtons.style.display = 'none';
-
-                // Next trial after delay
-                setTimeout(() => {
-                    subitizeMessage.style.color = 'var(--text-muted)';
-                    runSubitizeTrial();
-                }, 1500);
-            });
-        });
-
-        // === Weber's Law ===
-        const weberCanvas = document.getElementById('weberCanvas');
-        const weberCtx = weberCanvas.getContext('2d');
-        let weberState = { leftN: 0, rightN: 0 };
-
-        function generateWeberTrial() {
-            // Generate two counts with varying ratios
-            const base = Math.floor(Math.random() * 20) + 10;
-            const ratios = [1.1, 1.2, 1.3, 1.5, 2.0];
-            const ratio = ratios[Math.floor(Math.random() * ratios.length)];
-            const larger = Math.round(base * ratio);
-
-            if (Math.random() < 0.5) {
-                weberState.leftN = larger;
-                weberState.rightN = base;
-            } else {
-                weberState.leftN = base;
-                weberState.rightN = larger;
+                drawConnections(level + 1, 0, startY, rangeY);
             }
 
-            drawWeberDots();
-            document.getElementById('weberResult').textContent = 'Which side has more?';
-            document.getElementById('weberRatio').textContent = '';
-        }
+            drawConnections(0, 0, 30, height - 60);
 
-        function drawWeberDots() {
-            weberCtx.fillStyle = '#21262D';
-            weberCtx.fillRect(0, 0, 700, 300);
+            // Draw nodes
+            function drawNodes(level, startY, rangeY) {
+                if (level > steps) return;
 
-            // Divider
-            weberCtx.strokeStyle = '#30363D';
-            weberCtx.lineWidth = 2;
-            weberCtx.beginPath();
-            weberCtx.moveTo(350, 30);
-            weberCtx.lineTo(350, 270);
-            weberCtx.stroke();
+                const x = startX + level * stepWidth;
+                const nodeCount = Math.pow(choices, level);
+                const spacing = rangeY / nodeCount;
+
+                for (let i = 0; i < nodeCount; i++) {
+                    const y = startY + spacing * (i + 0.5);
+                    const radius = level === 0 ? 10 : (level === steps ? 5 : 7);
+
+                    treeCtx.beginPath();
+                    treeCtx.arc(x, y, radius, 0, Math.PI * 2);
+                    treeCtx.fillStyle = level === 0 ? '#d4a574' : (level === steps ? '#8bc49d' : '#9d8cd9');
+                    treeCtx.fill();
+                }
+
+                drawNodes(level + 1, startY, rangeY);
+            }
+
+            drawNodes(0, 30, height - 60);
 
             // Labels
-            weberCtx.fillStyle = '#6E7681';
-            weberCtx.font = '14px JetBrains Mono';
-            weberCtx.textAlign = 'center';
-            weberCtx.fillText('LEFT', 175, 25);
-            weberCtx.fillText('RIGHT', 525, 25);
+            treeCtx.fillStyle = '#a8a5a0';
+            treeCtx.font = '12px "JetBrains Mono"';
+            treeCtx.textAlign = 'center';
 
-            // Draw dots
-            drawDotCloud(weberCtx, 30, 40, 290, 220, weberState.leftN);
-            drawDotCloud(weberCtx, 380, 40, 290, 220, weberState.rightN);
+            for (let i = 0; i <= steps; i++) {
+                const x = startX + i * stepWidth;
+                if (i === 0) {
+                    treeCtx.fillText('Start', x, height - 8);
+                } else {
+                    treeCtx.fillText('Step ' + i, x, height - 8);
+                }
+            }
         }
 
-        function drawDotCloud(ctx, x, y, w, h, n) {
-            const dotSize = 10;
-            const positions = [];
+        treeChoices.addEventListener('input', drawTree);
+        treeSteps.addEventListener('input', drawTree);
+        drawTree();
 
-            for (let i = 0; i < n; i++) {
-                let px, py, valid, attempts = 0;
-                do {
-                    px = x + Math.random() * w;
-                    py = y + Math.random() * h;
-                    valid = true;
-                    for (const pos of positions) {
-                        if (Math.sqrt((px - pos.x) ** 2 + (py - pos.y) ** 2) < dotSize + 3) {
-                            valid = false;
-                            break;
+        // ===== FACTORIAL CALCULATOR =====
+        const factN = document.getElementById('fact-n');
+        const factNVal = document.getElementById('fact-n-val');
+        const factExpansion = document.getElementById('fact-expansion');
+        const factResult = document.getElementById('fact-result');
+
+        function updateFactorial() {
+            const n = parseInt(factN.value);
+            factNVal.textContent = n;
+
+            if (n === 0) {
+                factExpansion.textContent = '0! = 1 (by convention)';
+                factResult.textContent = '= 1';
+            } else {
+                let expansion = n + '! = ';
+                let terms = [];
+                for (let i = n; i >= 1; i--) {
+                    terms.push(i);
+                }
+                expansion += terms.join(' × ');
+                factExpansion.textContent = expansion;
+                factResult.textContent = '= ' + formatBigInt(factorial(n));
+            }
+        }
+
+        factN.addEventListener('input', updateFactorial);
+        updateFactorial();
+
+        // ===== FACTORIAL GROWTH CHART =====
+        const factCanvas = document.getElementById('factorial-canvas');
+        const factCtx = factCanvas.getContext('2d');
+        const factMax = document.getElementById('fact-max');
+        const factMaxVal = document.getElementById('fact-max-val');
+
+        function drawFactorialGrowth() {
+            const maxN = parseInt(factMax.value);
+            const width = factCanvas.width;
+            const height = factCanvas.height;
+            const padding = { left: 60, right: 30, top: 30, bottom: 40 };
+
+            factCtx.fillStyle = '#12121a';
+            factCtx.fillRect(0, 0, width, height);
+            factMaxVal.textContent = maxN;
+
+            // Calculate data
+            const factData = [];
+            const exp2Data = [];
+            const exp10Data = [];
+
+            for (let n = 1; n <= maxN; n++) {
+                factData.push(Math.log10(Number(factorial(n))));
+                exp2Data.push(n * Math.log10(2));
+                exp10Data.push(n);
+            }
+
+            const maxY = Math.max(...factData);
+            const scaleX = (width - padding.left - padding.right) / (maxN - 1);
+            const scaleY = (height - padding.top - padding.bottom) / maxY;
+
+            // Draw grid
+            factCtx.strokeStyle = '#2a2a35';
+            factCtx.lineWidth = 1;
+            for (let y = 0; y <= maxY; y += Math.ceil(maxY / 5)) {
+                const yPos = height - padding.bottom - y * scaleY;
+                factCtx.beginPath();
+                factCtx.moveTo(padding.left, yPos);
+                factCtx.lineTo(width - padding.right, yPos);
+                factCtx.stroke();
+            }
+
+            // Draw axes
+            factCtx.strokeStyle = '#6b6966';
+            factCtx.lineWidth = 2;
+            factCtx.beginPath();
+            factCtx.moveTo(padding.left, padding.top);
+            factCtx.lineTo(padding.left, height - padding.bottom);
+            factCtx.lineTo(width - padding.right, height - padding.bottom);
+            factCtx.stroke();
+
+            // Axis labels
+            factCtx.fillStyle = '#a8a5a0';
+            factCtx.font = '11px "JetBrains Mono"';
+            factCtx.textAlign = 'center';
+
+            for (let n = 1; n <= maxN; n++) {
+                const x = padding.left + (n - 1) * scaleX;
+                if (n % 2 === 0 || maxN <= 8) {
+                    factCtx.fillText(n.toString(), x, height - padding.bottom + 18);
+                }
+            }
+
+            factCtx.textAlign = 'right';
+            for (let y = 0; y <= maxY; y += Math.ceil(maxY / 5)) {
+                const yPos = height - padding.bottom - y * scaleY;
+                factCtx.fillText('10^' + Math.round(y), padding.left - 5, yPos + 4);
+            }
+
+            // Y-axis label
+            factCtx.save();
+            factCtx.translate(15, height / 2);
+            factCtx.rotate(-Math.PI / 2);
+            factCtx.textAlign = 'center';
+            factCtx.fillText('log₁₀(value)', 0, 0);
+            factCtx.restore();
+
+            // X-axis label
+            factCtx.textAlign = 'center';
+            factCtx.fillText('n', width / 2, height - 5);
+
+            // Draw lines
+            function drawLine(data, color, lineWidth) {
+                factCtx.beginPath();
+                for (let i = 0; i < data.length; i++) {
+                    const x = padding.left + i * scaleX;
+                    const y = height - padding.bottom - data[i] * scaleY;
+                    if (i === 0) factCtx.moveTo(x, y);
+                    else factCtx.lineTo(x, y);
+                }
+                factCtx.strokeStyle = color;
+                factCtx.lineWidth = lineWidth;
+                factCtx.stroke();
+
+                // Draw points
+                for (let i = 0; i < data.length; i++) {
+                    const x = padding.left + i * scaleX;
+                    const y = height - padding.bottom - data[i] * scaleY;
+                    factCtx.beginPath();
+                    factCtx.arc(x, y, 3, 0, Math.PI * 2);
+                    factCtx.fillStyle = color;
+                    factCtx.fill();
+                }
+            }
+
+            drawLine(exp10Data, '#8bc49d', 2);  // 10^n (green)
+            drawLine(exp2Data, '#dc8b8b', 2);   // 2^n (red)
+            drawLine(factData, '#7db3dc', 3);   // n! (blue)
+        }
+
+        factMax.addEventListener('input', drawFactorialGrowth);
+        drawFactorialGrowth();
+
+        // ===== PERMUTATION CALCULATOR =====
+        const permN = document.getElementById('perm-n');
+        const permK = document.getElementById('perm-k');
+        const permNVal = document.getElementById('perm-n-val');
+        const permKVal = document.getElementById('perm-k-val');
+        const permFormula = document.getElementById('perm-formula');
+        const permResult = document.getElementById('perm-result');
+
+        function updatePermutation() {
+            const n = parseInt(permN.value);
+            let k = parseInt(permK.value);
+
+            if (k > n) {
+                k = n;
+                permK.value = n;
+            }
+            permK.max = n;
+
+            permNVal.textContent = n;
+            permKVal.textContent = k;
+
+            let terms = [];
+            for (let i = n; i > n - k; i--) {
+                terms.push(i);
+            }
+
+            permFormula.textContent = `P(${n}, ${k}) = ${terms.join(' × ')}`;
+
+            const result = factorial(n) / factorial(n - k);
+            permResult.textContent = '= ' + formatBigInt(result);
+        }
+
+        permN.addEventListener('input', updatePermutation);
+        permK.addEventListener('input', updatePermutation);
+        updatePermutation();
+
+        // ===== COMBINATION CALCULATOR =====
+        const combN = document.getElementById('comb-n');
+        const combK = document.getElementById('comb-k');
+        const combNVal = document.getElementById('comb-n-val');
+        const combKVal = document.getElementById('comb-k-val');
+        const combFormula = document.getElementById('comb-formula');
+        const combResult = document.getElementById('comb-result');
+        const combSymmetry = document.getElementById('comb-symmetry');
+
+        function updateCombination() {
+            const n = parseInt(combN.value);
+            let k = parseInt(combK.value);
+
+            if (k > n) {
+                k = n;
+                combK.value = n;
+            }
+            combK.max = n;
+
+            combNVal.textContent = n;
+            combKVal.textContent = k;
+
+            combFormula.textContent = `C(${n}, ${k}) = ${n}! / (${k}! × ${n-k}!)`;
+
+            const result = binomial(n, k);
+            combResult.textContent = '= ' + formatBigInt(result);
+            combSymmetry.textContent = `Symmetry: C(${n}, ${k}) = C(${n}, ${n-k}) = ${formatBigInt(result)}`;
+        }
+
+        combN.addEventListener('input', updateCombination);
+        combK.addEventListener('input', updateCombination);
+        updateCombination();
+
+        // ===== PASCAL'S TRIANGLE =====
+        const pascalRows = document.getElementById('pascal-rows');
+        const pascalRowsVal = document.getElementById('pascal-rows-val');
+        const pascalDisplay = document.getElementById('pascal-display');
+        const pascalInfo = document.getElementById('pascal-info');
+
+        function drawPascal() {
+            const rows = parseInt(pascalRows.value);
+            pascalRowsVal.textContent = rows;
+            pascalDisplay.innerHTML = '';
+
+            for (let n = 0; n < rows; n++) {
+                const rowDiv = document.createElement('div');
+                rowDiv.className = 'pascal-row';
+
+                for (let k = 0; k <= n; k++) {
+                    const entry = document.createElement('span');
+                    entry.className = 'pascal-entry';
+                    entry.textContent = binomial(n, k).toString();
+                    entry.dataset.n = n;
+                    entry.dataset.k = k;
+
+                    entry.addEventListener('click', function() {
+                        // Remove previous highlights
+                        document.querySelectorAll('.pascal-entry.highlighted').forEach(el => {
+                            el.classList.remove('highlighted');
+                        });
+
+                        this.classList.add('highlighted');
+
+                        const clickN = parseInt(this.dataset.n);
+                        const clickK = parseInt(this.dataset.k);
+                        const val = binomial(clickN, clickK);
+
+                        if (clickN > 0 && clickK > 0 && clickK < clickN) {
+                            const left = binomial(clickN - 1, clickK - 1);
+                            const right = binomial(clickN - 1, clickK);
+                            pascalInfo.innerHTML = `C(${clickN}, ${clickK}) = ${val}<br>` +
+                                `= C(${clickN-1}, ${clickK-1}) + C(${clickN-1}, ${clickK})<br>` +
+                                `= ${left} + ${right}`;
+                        } else {
+                            pascalInfo.innerHTML = `C(${clickN}, ${clickK}) = ${val}`;
                         }
-                    }
-                    attempts++;
-                } while (!valid && attempts < 50);
+                    });
 
-                positions.push({ x: px, y: py });
-                ctx.beginPath();
-                ctx.arc(px, py, dotSize / 2, 0, Math.PI * 2);
-                ctx.fillStyle = '#7EE787';
-                ctx.fill();
+                    rowDiv.appendChild(entry);
+                }
+
+                pascalDisplay.appendChild(rowDiv);
             }
+
+            // Row sum
+            const lastRow = rows - 1;
+            let sum = 0n;
+            for (let k = 0; k <= lastRow; k++) {
+                sum += binomial(lastRow, k);
+            }
+            pascalInfo.innerHTML = `Row ${lastRow} sum = ${sum} = 2<sup>${lastRow}</sup><br>Click any entry to see Pascal's identity`;
         }
 
-        document.getElementById('weberLeft').addEventListener('click', () => checkWeber('left'));
-        document.getElementById('weberRight').addEventListener('click', () => checkWeber('right'));
+        pascalRows.addEventListener('input', drawPascal);
+        drawPascal();
 
-        function checkWeber(choice) {
-            const correct = (choice === 'left' && weberState.leftN > weberState.rightN) ||
-                           (choice === 'right' && weberState.rightN > weberState.leftN);
+        // ===== BENZENE SUBSTITUTION =====
+        const benzeneCanvas = document.getElementById('benzene-canvas');
+        const benzeneCtx = benzeneCanvas.getContext('2d');
+        const benzeneNcl = document.getElementById('benzene-ncl');
+        const benzeneNclVal = document.getElementById('benzene-ncl-val');
+        const benzeneK = document.getElementById('benzene-k');
+        const benzeneNaive = document.getElementById('benzene-naive');
+        const benzeneActual = document.getElementById('benzene-actual');
+        const isomerCards = document.getElementById('isomer-cards');
 
-            const ratio = Math.max(weberState.leftN, weberState.rightN) /
-                         Math.min(weberState.leftN, weberState.rightN);
-
-            document.getElementById('weberResult').textContent =
-                correct ? '✓ Correct!' : '✗ Wrong!';
-            document.getElementById('weberResult').style.color =
-                correct ? 'var(--accent-green)' : 'var(--accent-red)';
-            document.getElementById('weberRatio').textContent =
-                `Left: ${weberState.leftN}, Right: ${weberState.rightN} (ratio ${ratio.toFixed(2)}:1)`;
-
-            setTimeout(() => {
-                document.getElementById('weberResult').style.color = 'var(--accent-green)';
-                generateWeberTrial();
-            }, 2000);
-        }
-
-        generateWeberTrial();
-
-        // === Venn Diagram ===
-        const vennCanvas = document.getElementById('vennCanvas');
-        const vennCtx = vennCanvas.getContext('2d');
-        let currentVennOp = 'union';
-
-        const vennDescriptions = {
-            'A': { label: 'A', desc: 'Elements in set A only' },
-            'B': { label: 'B', desc: 'Elements in set B only' },
-            'union': { label: 'A ∪ B', desc: 'Elements in A or B (or both)' },
-            'intersection': { label: 'A ∩ B', desc: 'Elements in both A and B' },
-            'diff-a': { label: 'A − B', desc: 'Elements in A but not in B' },
-            'diff-b': { label: 'B − A', desc: 'Elements in B but not in A' }
+        // Isomer data
+        const isomerData = {
+            0: { count: 1, isomers: [{name: 'Benzene', positions: []}] },
+            1: { count: 1, isomers: [{name: 'Chlorobenzene', positions: [1]}] },
+            2: { count: 3, isomers: [
+                {name: 'ortho (1,2)', positions: [1, 2]},
+                {name: 'meta (1,3)', positions: [1, 3]},
+                {name: 'para (1,4)', positions: [1, 4]}
+            ]},
+            3: { count: 3, isomers: [
+                {name: '1,2,3-', positions: [1, 2, 3]},
+                {name: '1,2,4-', positions: [1, 2, 4]},
+                {name: '1,3,5-', positions: [1, 3, 5]}
+            ]},
+            4: { count: 3, isomers: [
+                {name: '1,2,3,4-', positions: [1, 2, 3, 4]},
+                {name: '1,2,3,5-', positions: [1, 2, 3, 5]},
+                {name: '1,2,4,5-', positions: [1, 2, 4, 5]}
+            ]},
+            5: { count: 1, isomers: [{name: 'Pentachloro', positions: [1, 2, 3, 4, 5]}] },
+            6: { count: 1, isomers: [{name: 'Hexachloro', positions: [1, 2, 3, 4, 5, 6]}] }
         };
 
-        function drawVenn() {
-            vennCtx.fillStyle = '#161B22';
-            vennCtx.fillRect(0, 0, 700, 350);
+        let selectedIsomerIndex = 0;
 
-            const cx1 = 280, cx2 = 420, cy = 175, r = 120;
+        function drawBenzene() {
+            const ncl = parseInt(benzeneNcl.value);
+            const width = benzeneCanvas.width;
+            const height = benzeneCanvas.height;
 
-            // Draw based on operation
-            vennCtx.globalAlpha = 0.3;
+            benzeneCtx.fillStyle = '#12121a';
+            benzeneCtx.fillRect(0, 0, width, height);
 
-            // Background circles
-            vennCtx.beginPath();
-            vennCtx.arc(cx1, cy, r, 0, Math.PI * 2);
-            vennCtx.fillStyle = '#58A6FF';
-            if (currentVennOp === 'A' || currentVennOp === 'union' || currentVennOp === 'diff-a') {
-                vennCtx.globalAlpha = 0.5;
-            } else {
-                vennCtx.globalAlpha = 0.15;
+            benzeneNclVal.textContent = ncl;
+            benzeneK.textContent = ncl;
+            benzeneNaive.textContent = Number(binomial(6, ncl));
+            benzeneActual.textContent = isomerData[ncl].count;
+
+            const centerX = width / 2;
+            const centerY = height / 2 - 20;
+            const radius = 90;
+
+            // Draw ring
+            benzeneCtx.beginPath();
+            for (let i = 0; i <= 6; i++) {
+                const angle = -Math.PI / 2 + (i * Math.PI * 2 / 6);
+                const x = centerX + radius * Math.cos(angle);
+                const y = centerY + radius * Math.sin(angle);
+                if (i === 0) benzeneCtx.moveTo(x, y);
+                else benzeneCtx.lineTo(x, y);
             }
-            vennCtx.fill();
+            benzeneCtx.strokeStyle = '#6b6966';
+            benzeneCtx.lineWidth = 2;
+            benzeneCtx.stroke();
 
-            vennCtx.beginPath();
-            vennCtx.arc(cx2, cy, r, 0, Math.PI * 2);
-            vennCtx.fillStyle = '#7EE787';
-            if (currentVennOp === 'B' || currentVennOp === 'union' || currentVennOp === 'diff-b') {
-                vennCtx.globalAlpha = 0.5;
-            } else {
-                vennCtx.globalAlpha = 0.15;
+            // Inner circle for aromaticity
+            benzeneCtx.beginPath();
+            benzeneCtx.arc(centerX, centerY, radius * 0.5, 0, Math.PI * 2);
+            benzeneCtx.strokeStyle = 'rgba(107, 105, 102, 0.5)';
+            benzeneCtx.stroke();
+
+            // Draw positions
+            const currentIsomer = isomerData[ncl].isomers[selectedIsomerIndex];
+            const clPositions = currentIsomer ? currentIsomer.positions : [];
+
+            for (let i = 1; i <= 6; i++) {
+                const angle = -Math.PI / 2 + ((i - 1) * Math.PI * 2 / 6);
+                const x = centerX + radius * Math.cos(angle);
+                const y = centerY + radius * Math.sin(angle);
+
+                const isCl = clPositions.includes(i);
+
+                // Draw atom
+                benzeneCtx.beginPath();
+                benzeneCtx.arc(x, y, 20, 0, Math.PI * 2);
+                benzeneCtx.fillStyle = isCl ? '#8bc49d' : '#2a2a35';
+                benzeneCtx.fill();
+                benzeneCtx.strokeStyle = isCl ? '#8bc49d' : '#6b6966';
+                benzeneCtx.lineWidth = 2;
+                benzeneCtx.stroke();
+
+                // Label
+                benzeneCtx.fillStyle = isCl ? '#0a0a0f' : '#a8a5a0';
+                benzeneCtx.font = 'bold 13px "JetBrains Mono"';
+                benzeneCtx.textAlign = 'center';
+                benzeneCtx.textBaseline = 'middle';
+                benzeneCtx.fillText(isCl ? 'Cl' : i.toString(), x, y);
             }
-            vennCtx.fill();
 
-            // Intersection highlight
-            if (currentVennOp === 'intersection' || currentVennOp === 'union') {
-                vennCtx.globalAlpha = 0.6;
-                vennCtx.beginPath();
-                vennCtx.arc(cx1, cy, r, 0, Math.PI * 2);
-                vennCtx.clip();
-                vennCtx.beginPath();
-                vennCtx.arc(cx2, cy, r, 0, Math.PI * 2);
-                vennCtx.fillStyle = currentVennOp === 'intersection' ? '#F2CC60' : '#A371F7';
-                vennCtx.fill();
-                vennCtx.restore();
-            }
-
-            // Reset and draw outlines
-            vennCtx.globalAlpha = 1;
-            vennCtx.save();
-            vennCtx.beginPath();
-            vennCtx.arc(cx1, cy, r, 0, Math.PI * 2);
-            vennCtx.strokeStyle = '#58A6FF';
-            vennCtx.lineWidth = 3;
-            vennCtx.stroke();
-
-            vennCtx.beginPath();
-            vennCtx.arc(cx2, cy, r, 0, Math.PI * 2);
-            vennCtx.strokeStyle = '#7EE787';
-            vennCtx.stroke();
-            vennCtx.restore();
-
-            // Labels
-            vennCtx.fillStyle = '#E6EDF3';
-            vennCtx.font = '24px Fraunces';
-            vennCtx.textAlign = 'center';
-            vennCtx.fillText('A', cx1 - 50, cy + 8);
-            vennCtx.fillText('B', cx2 + 50, cy + 8);
-        }
-
-        document.querySelectorAll('.venn-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.venn-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentVennOp = btn.dataset.op;
-                drawVenn();
-                document.getElementById('vennOp').textContent = vennDescriptions[currentVennOp].label;
-                document.getElementById('vennDesc').textContent = vennDescriptions[currentVennOp].desc;
-            });
-        });
-
-        drawVenn();
-
-        // === Isomer Counter ===
-        const isomerSlider = document.getElementById('isomerN');
-        const isomerCounts = [1, 1, 1, 2, 3, 5, 9, 18, 35, 75, 159, 355]; // n = 1 to 12
-        const isomerNames = {
-            1: ['Methane'],
-            2: ['Ethane'],
-            3: ['Propane'],
-            4: ['n-Butane', 'Isobutane'],
-            5: ['n-Pentane', 'Isopentane', 'Neopentane']
-        };
-
-        function updateIsomers() {
-            const n = parseInt(isomerSlider.value);
-            document.getElementById('isomerNVal').textContent = n;
-            document.getElementById('isomerCount').textContent = isomerCounts[n - 1] + ' isomer' + (isomerCounts[n - 1] > 1 ? 's' : '');
-
-            // Subscript formatting
-            document.getElementById('isomerFormula').innerHTML = `C<sub>${n}</sub>H<sub>${2*n + 2}</sub>`;
-
-            // Show isomer names for small n
-            const grid = document.getElementById('isomerGrid');
-            grid.innerHTML = '';
-
-            if (n <= 5 && isomerNames[n]) {
-                isomerNames[n].forEach(name => {
-                    const card = document.createElement('div');
-                    card.className = 'isomer-card';
-                    card.innerHTML = `<div class="isomer-name">${name}</div>`;
-                    grid.appendChild(card);
+            // Update isomer cards
+            isomerCards.innerHTML = '';
+            isomerData[ncl].isomers.forEach((isomer, idx) => {
+                const card = document.createElement('div');
+                card.className = 'isomer-card' + (idx === selectedIsomerIndex ? ' active' : '');
+                card.innerHTML = `
+                    <div class="isomer-name">${isomer.name}</div>
+                    <div class="isomer-positions">${isomer.positions.length > 0 ? 'Positions: ' + isomer.positions.join(', ') : '—'}</div>
+                `;
+                card.addEventListener('click', () => {
+                    selectedIsomerIndex = idx;
+                    drawBenzene();
                 });
-            } else if (n > 5) {
-                grid.innerHTML = '<p style="color: var(--text-muted); text-align: center; grid-column: 1/-1;">Too many isomers to display individually</p>';
+                isomerCards.appendChild(card);
+            });
+        }
+
+        benzeneNcl.addEventListener('input', () => {
+            selectedIsomerIndex = 0;
+            drawBenzene();
+        });
+        drawBenzene();
+
+        // ===== ELECTRON MICROSTATES =====
+        const microstateCanvas = document.getElementById('microstate-canvas');
+        const microstateCtx = microstateCanvas.getContext('2d');
+        const subshellSelect = document.getElementById('subshell-select');
+        const electronsN = document.getElementById('electrons-n');
+        const electronsNVal = document.getElementById('electrons-n-val');
+        const microstateFormula = document.getElementById('microstate-formula');
+        const microstateResult = document.getElementById('microstate-result');
+
+        const subshellData = {
+            's': { orbitals: 1, spinOrbitals: 2, maxElectrons: 2 },
+            'p': { orbitals: 3, spinOrbitals: 6, maxElectrons: 6 },
+            'd': { orbitals: 5, spinOrbitals: 10, maxElectrons: 10 },
+            'f': { orbitals: 7, spinOrbitals: 14, maxElectrons: 14 }
+        };
+
+        function drawMicrostates() {
+            const subshell = subshellSelect.value;
+            const data = subshellData[subshell];
+            let n = parseInt(electronsN.value);
+
+            // Clamp electrons to max
+            if (n > data.maxElectrons) {
+                n = data.maxElectrons;
+                electronsN.value = n;
             }
+            electronsN.max = data.maxElectrons;
+            electronsNVal.textContent = n;
+
+            const spinOrbs = data.spinOrbitals;
+            const microstates = binomial(spinOrbs, n);
+
+            microstateFormula.textContent = `Microstates = C(${spinOrbs}, ${n})`;
+            microstateResult.textContent = '= ' + formatBigInt(microstates);
+
+            // Draw orbital diagram
+            const width = microstateCanvas.width;
+            const height = microstateCanvas.height;
+            microstateCtx.fillStyle = '#12121a';
+            microstateCtx.fillRect(0, 0, width, height);
+
+            const orbitals = data.orbitals;
+            const boxWidth = 45;
+            const boxHeight = 55;
+            const spacing = 12;
+            const totalWidth = orbitals * boxWidth + (orbitals - 1) * spacing;
+            const startX = (width - totalWidth) / 2;
+            const startY = (height - boxHeight) / 2 - 10;
+
+            // Calculate a sample ground-state-like distribution (Hund's rule)
+            let remaining = n;
+            const orbitalElectrons = [];
+
+            // First pass: one electron per orbital (Hund's rule)
+            for (let i = 0; i < orbitals && remaining > 0; i++) {
+                orbitalElectrons[i] = 1;
+                remaining--;
+            }
+            // Second pass: pair up
+            for (let i = 0; i < orbitals && remaining > 0; i++) {
+                if (orbitalElectrons[i] < 2) {
+                    orbitalElectrons[i]++;
+                    remaining--;
+                }
+            }
+            // Fill remaining if needed
+            for (let i = 0; i < orbitals; i++) {
+                if (orbitalElectrons[i] === undefined) orbitalElectrons[i] = 0;
+            }
+
+            // Draw orbitals
+            for (let i = 0; i < orbitals; i++) {
+                const x = startX + i * (boxWidth + spacing);
+
+                // Box
+                microstateCtx.strokeStyle = '#6b6966';
+                microstateCtx.lineWidth = 2;
+                microstateCtx.strokeRect(x, startY, boxWidth, boxHeight);
+
+                // Electrons (arrows)
+                const numE = orbitalElectrons[i];
+                const arrowY = startY + boxHeight / 2;
+
+                if (numE >= 1) {
+                    // Up arrow
+                    const ax = x + boxWidth / 3;
+                    microstateCtx.beginPath();
+                    microstateCtx.moveTo(ax, arrowY + 15);
+                    microstateCtx.lineTo(ax, arrowY - 15);
+                    microstateCtx.strokeStyle = '#7db3dc';
+                    microstateCtx.lineWidth = 2.5;
+                    microstateCtx.stroke();
+                    // Arrowhead
+                    microstateCtx.beginPath();
+                    microstateCtx.moveTo(ax - 5, arrowY - 10);
+                    microstateCtx.lineTo(ax, arrowY - 18);
+                    microstateCtx.lineTo(ax + 5, arrowY - 10);
+                    microstateCtx.stroke();
+                }
+
+                if (numE >= 2) {
+                    // Down arrow
+                    const ax = x + 2 * boxWidth / 3;
+                    microstateCtx.beginPath();
+                    microstateCtx.moveTo(ax, arrowY - 15);
+                    microstateCtx.lineTo(ax, arrowY + 15);
+                    microstateCtx.strokeStyle = '#dc8b8b';
+                    microstateCtx.lineWidth = 2.5;
+                    microstateCtx.stroke();
+                    // Arrowhead
+                    microstateCtx.beginPath();
+                    microstateCtx.moveTo(ax - 5, arrowY + 10);
+                    microstateCtx.lineTo(ax, arrowY + 18);
+                    microstateCtx.lineTo(ax + 5, arrowY + 10);
+                    microstateCtx.stroke();
+                }
+
+                // Label
+                microstateCtx.fillStyle = '#6b6966';
+                microstateCtx.font = '10px "JetBrains Mono"';
+                microstateCtx.textAlign = 'center';
+                const ml = subshell === 's' ? 0 :
+                           subshell === 'p' ? i - 1 :
+                           subshell === 'd' ? i - 2 :
+                           i - 3;
+                microstateCtx.fillText('mₗ=' + ml, x + boxWidth/2, startY + boxHeight + 15);
+            }
+
+            // Caption
+            microstateCtx.fillStyle = '#a8a5a0';
+            microstateCtx.font = '11px "JetBrains Mono"';
+            microstateCtx.textAlign = 'center';
+            microstateCtx.fillText(`${subshell}${n} configuration — one of ${formatBigInt(microstates)} microstates (ground state shown)`, width/2, height - 8);
         }
 
-        isomerSlider.addEventListener('input', updateIsomers);
-        updateIsomers();
-
-        // === Stoichiometry Scaling ===
-        const stoichCanvas = document.getElementById('stoichCanvas');
-        const stoichCtx = stoichCanvas.getContext('2d');
-        const stoichSlider = document.getElementById('stoichScale');
-
-        const stoichScales = [
-            { label: 'molecules', h2: '2', o2: '1', h2o: '2', mass: '4 u + 32 u → 36 u' },
-            { label: 'dozen', h2: '24', o2: '12', h2o: '24', mass: '48 u + 384 u → 432 u' },
-            { label: 'thousand', h2: '2,000', o2: '1,000', h2o: '2,000', mass: '4,000 u + 32,000 u → 36,000 u' },
-            { label: 'moles', h2: '2 mol', o2: '1 mol', h2o: '2 mol', mass: '4 g + 32 g → 36 g' }
-        ];
-
-        function drawStoich() {
-            const val = parseInt(stoichSlider.value);
-            const scaleIdx = Math.floor(val / 34);
-            const scale = stoichScales[Math.min(scaleIdx, 3)];
-
-            stoichCtx.fillStyle = '#161B22';
-            stoichCtx.fillRect(0, 0, 700, 250);
-
-            // Draw molecules
-            const y = 125;
-
-            // H2 molecules
-            drawH2(stoichCtx, 80, y, val);
-            drawH2(stoichCtx, 140, y, val);
-
-            // Plus sign
-            stoichCtx.fillStyle = '#E6EDF3';
-            stoichCtx.font = '30px Inter';
-            stoichCtx.textAlign = 'center';
-            stoichCtx.fillText('+', 200, y + 10);
-
-            // O2 molecule
-            drawO2(stoichCtx, 280, y, val);
-
-            // Arrow
-            stoichCtx.fillStyle = '#7EE787';
-            stoichCtx.font = '30px Inter';
-            stoichCtx.fillText('→', 380, y + 10);
-
-            // H2O molecules
-            drawH2O(stoichCtx, 480, y, val);
-            drawH2O(stoichCtx, 580, y, val);
-
-            // Update displays
-            document.getElementById('stoichScaleVal').textContent = scale.label;
-            document.getElementById('stoichEq').textContent = `${scale.h2} H₂ + ${scale.o2} O₂ → ${scale.h2o} H₂O`;
-            document.getElementById('stoichMass').textContent = scale.mass;
-        }
-
-        function drawH2(ctx, x, y, scale) {
-            const size = 15 + scale * 0.1;
-            ctx.fillStyle = '#E6EDF3';
-            ctx.beginPath();
-            ctx.arc(x - 12, y, size, 0, Math.PI * 2);
-            ctx.arc(x + 12, y, size, 0, Math.PI * 2);
-            ctx.fill();
-
-            ctx.fillStyle = '#161B22';
-            ctx.font = '12px Inter';
-            ctx.textAlign = 'center';
-            ctx.fillText('H', x - 12, y + 4);
-            ctx.fillText('H', x + 12, y + 4);
-        }
-
-        function drawO2(ctx, x, y, scale) {
-            const size = 18 + scale * 0.1;
-            ctx.fillStyle = '#F85149';
-            ctx.beginPath();
-            ctx.arc(x - 15, y, size, 0, Math.PI * 2);
-            ctx.arc(x + 15, y, size, 0, Math.PI * 2);
-            ctx.fill();
-
-            ctx.fillStyle = '#E6EDF3';
-            ctx.font = '14px Inter';
-            ctx.textAlign = 'center';
-            ctx.fillText('O', x - 15, y + 5);
-            ctx.fillText('O', x + 15, y + 5);
-        }
-
-        function drawH2O(ctx, x, y, scale) {
-            const size = 12 + scale * 0.08;
-            const oSize = 16 + scale * 0.1;
-
-            // Oxygen
-            ctx.fillStyle = '#F85149';
-            ctx.beginPath();
-            ctx.arc(x, y, oSize, 0, Math.PI * 2);
-            ctx.fill();
-
-            // Hydrogens
-            ctx.fillStyle = '#E6EDF3';
-            ctx.beginPath();
-            ctx.arc(x - 22, y - 15, size, 0, Math.PI * 2);
-            ctx.arc(x + 22, y - 15, size, 0, Math.PI * 2);
-            ctx.fill();
-
-            ctx.fillStyle = '#E6EDF3';
-            ctx.font = '12px Inter';
-            ctx.textAlign = 'center';
-            ctx.fillText('O', x, y + 4);
-            ctx.fillStyle = '#161B22';
-            ctx.font = '10px Inter';
-            ctx.fillText('H', x - 22, y - 12);
-            ctx.fillText('H', x + 22, y - 12);
-        }
-
-        stoichSlider.addEventListener('input', drawStoich);
-        drawStoich();
+        subshellSelect.addEventListener('change', drawMicrostates);
+        electronsN.addEventListener('input', drawMicrostates);
+        drawMicrostates();
     </script>
 </body>
 </html>
