@@ -39,6 +39,7 @@ jobs:
           mkdir -p site/_site/lectures/05-arrangement
           mkdir -p site/_site/lectures/06-coordinates
           mkdir -p site/_site/lectures/07-matrices
+          mkdir -p site/_site/lectures/08-transformations
           cp site/primitives/collection.html site/_site/primitives/collection.html
           cp site/primitives/direction.html site/_site/primitives/direction.html
           cp site/primitives/arrangement.html site/_site/primitives/arrangement.html
@@ -55,6 +56,7 @@ jobs:
           cp -r site/lectures/05-arrangement/*.html site/_site/lectures/05-arrangement/ 2>/dev/null || true
           cp -r site/lectures/06-coordinates/*.html site/_site/lectures/06-coordinates/ 2>/dev/null || true
           cp -r site/lectures/07-matrices/*.html site/_site/lectures/07-matrices/ 2>/dev/null || true
+          cp -r site/lectures/08-transformations/*.html site/_site/lectures/08-transformations/ 2>/dev/null || true
           cp site/protein-raga.html site/_site/protein-raga.html
           cp site/CNAME site/_site/CNAME
 
