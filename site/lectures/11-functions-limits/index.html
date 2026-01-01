@@ -1,0 +1,1594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 11: As X Approaches... | Chemical Thinking</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a24;
+            --text-primary: #e8e6e3;
+            --text-secondary: #a0a0a0;
+            --accent-blue: #4a9eff;
+            --accent-purple: #8b5cf6;
+            --accent-green: #10b981;
+            --accent-orange: #f59e0b;
+            --accent-red: #ef4444;
+            --accent-cyan: #06b6d4;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            padding: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--accent-orange), var(--accent-red));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            font-style: italic;
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            color: var(--accent-orange);
+            margin: 3rem 0 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--bg-tertiary);
+        }
+
+        h3 {
+            font-size: 1.35rem;
+            color: var(--accent-purple);
+            margin: 2rem 0 1rem;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            color: var(--accent-green);
+            margin: 1.5rem 0 0.75rem;
+        }
+
+        p { margin-bottom: 1rem; }
+
+        .lecture-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--bg-tertiary);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .nav-link {
+            color: var(--accent-orange);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--accent-orange);
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover {
+            background: var(--accent-orange);
+            color: var(--bg-primary);
+        }
+
+        .primitive-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(249, 158, 11, 0.1), rgba(239, 68, 68, 0.1));
+            border: 1px solid rgba(249, 158, 11, 0.3);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .primitive-link:hover {
+            background: linear-gradient(135deg, rgba(249, 158, 11, 0.2), rgba(239, 68, 68, 0.2));
+            border-color: var(--accent-orange);
+        }
+
+        .primitive-badge {
+            background: var(--accent-orange);
+            color: var(--bg-primary);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .primitive-text {
+            color: var(--accent-orange);
+            font-size: 0.9rem;
+        }
+
+        .hook-box {
+            background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
+            border-left: 4px solid var(--accent-orange);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .definition-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--accent-orange);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+        }
+
+        .definition-box strong { color: var(--accent-orange); }
+
+        .visual-container {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .visual-container h4 { margin-top: 0; margin-bottom: 1rem; }
+
+        canvas {
+            display: block;
+            margin: 0 auto;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .control-group label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        input[type="range"] {
+            width: 120px;
+            accent-color: var(--accent-orange);
+        }
+
+        select, button {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--accent-orange);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        button:hover {
+            background: var(--accent-orange);
+            color: var(--bg-primary);
+        }
+
+        button.active {
+            background: var(--accent-orange);
+            color: var(--bg-primary);
+        }
+
+        .value-display {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-orange);
+            min-width: 50px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+
+        th, td {
+            border: 1px solid var(--bg-tertiary);
+            padding: 0.75rem;
+            text-align: left;
+        }
+
+        th {
+            background: var(--bg-secondary);
+            color: var(--accent-orange);
+        }
+
+        tr:nth-child(even) { background: var(--bg-secondary); }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-tertiary);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .stat-box {
+            background: var(--bg-tertiary);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .stat-value {
+            font-size: 1.25rem;
+            color: var(--accent-orange);
+            font-family: 'JetBrains Mono', monospace;
+            margin-top: 0.25rem;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        li { margin-bottom: 0.5rem; color: var(--text-primary); }
+
+        .exercise-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--accent-purple);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .exercise-box h4 {
+            color: var(--accent-purple);
+            margin-top: 0;
+        }
+
+        .solution {
+            background: var(--bg-tertiary);
+            border-radius: 6px;
+            padding: 1rem;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .solution.show { display: block; }
+
+        .solution-toggle {
+            background: var(--accent-purple);
+            color: var(--bg-primary);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        .next-section {
+            background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 3rem 0;
+            text-align: center;
+        }
+
+        .next-section h3 {
+            color: var(--accent-orange);
+            margin-bottom: 1rem;
+        }
+
+        .footnote {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--bg-tertiary);
+            padding-top: 1rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 1rem; }
+            h1 { font-size: 1.75rem; }
+            h2 { font-size: 1.4rem; }
+            canvas { max-width: 100%; height: auto; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="lecture-nav">
+        <a href="../all-lectures.html" class="nav-link">← All Lectures</a>
+        <a href="../../primitives/proximity.html" class="primitive-link">
+            <span class="primitive-badge">PROXIMITY</span>
+            <span class="primitive-text">Explore the Primitive →</span>
+        </a>
+    </nav>
+
+    <h1>Lecture 11: As X Approaches...</h1>
+    <p class="subtitle">Functions and limits — the mathematics of nearness</p>
+
+    <!-- Hook -->
+    <div class="hook-box">
+        <p><strong>The Chemical Hook:</strong> When two argon atoms approach each other, what happens to the potential energy? At large distances, they barely interact. At intermediate distances, they attract. At very short distances, they repel violently. The whole story of chemistry is written in this curve of "as r approaches..."</p>
+    </div>
+
+    <!-- Section 1: Functions -->
+    <h2>1. Functions: The Language of Dependence</h2>
+
+    <h3>1.1 What Is a Function?</h3>
+    <p>A <strong>function</strong> is a rule that assigns to each input exactly one output. We write:</p>
+    <p style="text-align: center; font-size: 1.2rem;">$$f: X \to Y$$</p>
+    <p style="text-align: center; font-size: 1.2rem;">$$x \mapsto f(x)$$</p>
+
+    <p>"For each element x in the domain X, there is exactly one element f(x) in the codomain Y."</p>
+
+    <div class="definition-box">
+        <strong>Definition (Function):</strong> A function f from set X to set Y is a rule that assigns to each element x ∈ X a unique element f(x) ∈ Y. X is the <em>domain</em>, Y is the <em>codomain</em>, and the set of all outputs {f(x) : x ∈ X} is the <em>range</em>.
+    </div>
+
+    <h3>1.2 Functions in Chemistry</h3>
+    <table>
+        <tr>
+            <th>Input (Domain)</th>
+            <th>Output (Range)</th>
+            <th>Function</th>
+        </tr>
+        <tr>
+            <td>Distance r between atoms</td>
+            <td>Potential energy V</td>
+            <td>V(r) — Lennard-Jones potential</td>
+        </tr>
+        <tr>
+            <td>Substrate concentration [S]</td>
+            <td>Reaction rate v</td>
+            <td>v([S]) — Michaelis-Menten</td>
+        </tr>
+        <tr>
+            <td>Temperature T</td>
+            <td>Fraction in excited state</td>
+            <td>Boltzmann distribution</td>
+        </tr>
+        <tr>
+            <td>Time t</td>
+            <td>Concentration [A]</td>
+            <td>[A](t) — kinetics</td>
+        </tr>
+    </table>
+
+    <!-- Function Grapher -->
+    <div class="visual-container">
+        <h4>Interactive: Function Grapher</h4>
+        <canvas id="functionCanvas" width="700" height="400"></canvas>
+        <div class="controls">
+            <div class="control-group">
+                <label>Function:</label>
+                <select id="functionSelect">
+                    <option value="polynomial">Polynomial: x² - 2x + 1</option>
+                    <option value="rational">Rational: 1/(x-1)</option>
+                    <option value="exponential">Exponential: e^(-x)</option>
+                    <option value="sinc">Sinc: sin(x)/x</option>
+                    <option value="gaussian">Gaussian: e^(-x²)</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label>Zoom:</label>
+                <input type="range" id="functionZoom" min="1" max="10" value="3">
+                <span class="value-display" id="zoomVal">3x</span>
+            </div>
+        </div>
+        <div class="stat-grid">
+            <div class="stat-box">
+                <div class="stat-label">Domain</div>
+                <div class="stat-value" id="domainDisplay">ℝ</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Range</div>
+                <div class="stat-value" id="rangeDisplay">[0, ∞)</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Zeros</div>
+                <div class="stat-value" id="zerosDisplay">x = 1</div>
+            </div>
+        </div>
+    </div>
+
+    <h3>1.3 Key Properties of Functions</h3>
+    <ul>
+        <li><strong>Continuity:</strong> Small changes in input produce small changes in output (no jumps)</li>
+        <li><strong>Monotonicity:</strong> Always increasing or always decreasing</li>
+        <li><strong>Boundedness:</strong> Outputs stay within a finite range</li>
+        <li><strong>Periodicity:</strong> Function repeats at regular intervals</li>
+    </ul>
+
+    <!-- Section 2: Limits -->
+    <h2>2. Limits: The Mathematics of Approach</h2>
+
+    <h3>2.1 The Intuition</h3>
+    <p>The <strong>limit</strong> captures what happens as we get arbitrarily close to a point, without necessarily reaching it.</p>
+
+    <div class="hook-box">
+        <p><strong>Question:</strong> What is the value of sin(x)/x when x = 0?</p>
+        <p>Direct substitution gives 0/0 — undefined! But watch what happens as x approaches 0...</p>
+    </div>
+
+    <!-- Limit Explorer -->
+    <div class="visual-container">
+        <h4>Interactive: Limit Explorer</h4>
+        <canvas id="limitCanvas" width="700" height="400"></canvas>
+        <div class="controls">
+            <div class="control-group">
+                <label>x approaching:</label>
+                <input type="range" id="limitX" min="0.01" max="2" step="0.01" value="1">
+                <span class="value-display" id="limitXVal">1.00</span>
+            </div>
+            <div class="control-group">
+                <button id="animateLimit">Animate Approach</button>
+            </div>
+        </div>
+        <div class="stat-grid">
+            <div class="stat-box">
+                <div class="stat-label">f(x) = sin(x)/x</div>
+                <div class="stat-value" id="funcValue">0.841</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Limit as x→0</div>
+                <div class="stat-value">1.000</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Distance from limit</div>
+                <div class="stat-value" id="distFromLimit">0.159</div>
+            </div>
+        </div>
+    </div>
+
+    <h3>2.2 Formal Definition</h3>
+    <div class="definition-box">
+        <strong>Definition (Limit):</strong> We say lim<sub>x→a</sub> f(x) = L if for every ε > 0, there exists δ > 0 such that:
+        <p style="text-align: center; margin: 1rem 0;">$$0 < |x - a| < \delta \implies |f(x) - L| < \varepsilon$$</p>
+        <p>"For any desired closeness ε to L, we can find a neighborhood δ around a where f(x) stays within ε of L."</p>
+    </div>
+
+    <h3>2.3 One-Sided Limits</h3>
+    <p>Sometimes behavior differs from the left and right:</p>
+    <ul>
+        <li><strong>Left-hand limit:</strong> lim<sub>x→a⁻</sub> f(x) — approaching from below</li>
+        <li><strong>Right-hand limit:</strong> lim<sub>x→a⁺</sub> f(x) — approaching from above</li>
+    </ul>
+    <p>The two-sided limit exists only if both one-sided limits exist and are equal.</p>
+
+    <!-- Section 3: Limit Laws -->
+    <h2>3. Limit Laws</h2>
+
+    <p>If lim<sub>x→a</sub> f(x) = L and lim<sub>x→a</sub> g(x) = M, then:</p>
+
+    <table>
+        <tr>
+            <th>Operation</th>
+            <th>Result</th>
+        </tr>
+        <tr>
+            <td>Sum</td>
+            <td>lim<sub>x→a</sub> [f(x) + g(x)] = L + M</td>
+        </tr>
+        <tr>
+            <td>Difference</td>
+            <td>lim<sub>x→a</sub> [f(x) - g(x)] = L - M</td>
+        </tr>
+        <tr>
+            <td>Product</td>
+            <td>lim<sub>x→a</sub> [f(x) · g(x)] = L · M</td>
+        </tr>
+        <tr>
+            <td>Quotient</td>
+            <td>lim<sub>x→a</sub> [f(x) / g(x)] = L / M (if M ≠ 0)</td>
+        </tr>
+        <tr>
+            <td>Constant multiple</td>
+            <td>lim<sub>x→a</sub> [c · f(x)] = c · L</td>
+        </tr>
+        <tr>
+            <td>Power</td>
+            <td>lim<sub>x→a</sub> [f(x)]ⁿ = Lⁿ</td>
+        </tr>
+    </table>
+
+    <!-- Section 4: Continuity -->
+    <h2>4. Continuity: When Limits Behave</h2>
+
+    <h3>4.1 Definition</h3>
+    <div class="definition-box">
+        <strong>Definition (Continuity):</strong> A function f is <em>continuous at a</em> if:
+        <ol>
+            <li>f(a) is defined</li>
+            <li>lim<sub>x→a</sub> f(x) exists</li>
+            <li>lim<sub>x→a</sub> f(x) = f(a)</li>
+        </ol>
+        <p>In words: the function value equals the limiting value. No jumps, no gaps, no surprises.</p>
+    </div>
+
+    <!-- Continuity Explorer -->
+    <div class="visual-container">
+        <h4>Interactive: Types of Discontinuity</h4>
+        <canvas id="continuityCanvas" width="700" height="350"></canvas>
+        <div class="controls">
+            <button class="discont-btn active" data-type="continuous">Continuous</button>
+            <button class="discont-btn" data-type="jump">Jump</button>
+            <button class="discont-btn" data-type="removable">Removable</button>
+            <button class="discont-btn" data-type="infinite">Infinite</button>
+        </div>
+        <div class="stat-grid">
+            <div class="stat-box">
+                <div class="stat-label">Type</div>
+                <div class="stat-value" id="discontType">Continuous</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Left limit</div>
+                <div class="stat-value" id="leftLimit">—</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Right limit</div>
+                <div class="stat-value" id="rightLimit">—</div>
+            </div>
+        </div>
+    </div>
+
+    <h3>4.2 Physical Significance</h3>
+    <p>Most physical quantities are continuous. Nature doesn't jump:</p>
+    <ul>
+        <li>Position changes continuously with time</li>
+        <li>Potential energy varies smoothly with distance</li>
+        <li>Concentration gradients are continuous in space</li>
+    </ul>
+    <p>Discontinuities signal special physics: phase transitions, boundaries, or singularities.</p>
+
+    <!-- Section 5: Chemical Applications -->
+    <h2>5. Chemical Applications</h2>
+
+    <h3>5.1 The Lennard-Jones Potential</h3>
+    <p>The potential energy between two neutral atoms:</p>
+    <p style="text-align: center; font-size: 1.2rem;">$$V(r) = 4\varepsilon\left[\left(\frac{\sigma}{r}\right)^{12} - \left(\frac{\sigma}{r}\right)^6\right]$$</p>
+
+    <!-- Lennard-Jones Interactive -->
+    <div class="visual-container">
+        <h4>Interactive: Lennard-Jones Potential</h4>
+        <canvas id="ljCanvas" width="700" height="400"></canvas>
+        <div class="controls">
+            <div class="control-group">
+                <label>ε (well depth):</label>
+                <input type="range" id="ljEpsilon" min="0.5" max="3" step="0.1" value="1">
+                <span class="value-display" id="ljEpsVal">1.0</span>
+            </div>
+            <div class="control-group">
+                <label>σ (size):</label>
+                <input type="range" id="ljSigma" min="0.5" max="2" step="0.1" value="1">
+                <span class="value-display" id="ljSigVal">1.0</span>
+            </div>
+            <div class="control-group">
+                <button id="showForce">Show Force</button>
+            </div>
+        </div>
+        <div class="stat-grid">
+            <div class="stat-box">
+                <div class="stat-label">lim V(r) as r→0</div>
+                <div class="stat-value">+∞</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">lim V(r) as r→∞</div>
+                <div class="stat-value">0</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Minimum at</div>
+                <div class="stat-value" id="ljMinR">r = 1.12σ</div>
+            </div>
+        </div>
+    </div>
+
+    <p><strong>Limit analysis:</strong></p>
+    <ul>
+        <li><strong>As r → 0:</strong> The r⁻¹² term dominates → V → +∞ (infinite repulsion)</li>
+        <li><strong>As r → ∞:</strong> Both terms → 0 → V → 0 (no interaction)</li>
+        <li><strong>At r = 2<sup>1/6</sup>σ:</strong> V is minimized at -ε (equilibrium distance)</li>
+    </ul>
+
+    <h3>5.2 Michaelis-Menten Kinetics</h3>
+    <p>Enzyme-catalyzed reaction rate as a function of substrate concentration:</p>
+    <p style="text-align: center; font-size: 1.2rem;">$$v = \frac{V_{max}[S]}{K_M + [S]}$$</p>
+
+    <!-- Michaelis-Menten Interactive -->
+    <div class="visual-container">
+        <h4>Interactive: Michaelis-Menten Kinetics</h4>
+        <canvas id="mmCanvas" width="700" height="400"></canvas>
+        <div class="controls">
+            <div class="control-group">
+                <label>V<sub>max</sub>:</label>
+                <input type="range" id="mmVmax" min="0.5" max="2" step="0.1" value="1">
+                <span class="value-display" id="mmVmaxVal">1.0</span>
+            </div>
+            <div class="control-group">
+                <label>K<sub>M</sub>:</label>
+                <input type="range" id="mmKm" min="0.1" max="2" step="0.1" value="0.5">
+                <span class="value-display" id="mmKmVal">0.5</span>
+            </div>
+        </div>
+        <div class="stat-grid">
+            <div class="stat-box">
+                <div class="stat-label">lim v as [S]→0</div>
+                <div class="stat-value">0</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">lim v as [S]→∞</div>
+                <div class="stat-value" id="mmLimInf">V<sub>max</sub></div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">v at [S] = K<sub>M</sub></div>
+                <div class="stat-value">V<sub>max</sub>/2</div>
+            </div>
+        </div>
+    </div>
+
+    <h3>5.3 Boltzmann Distribution</h3>
+    <p>Fraction of molecules in excited state as a function of temperature:</p>
+    <p style="text-align: center; font-size: 1.2rem;">$$\frac{n_i}{N} = \frac{e^{-E_i/k_BT}}{Z}$$</p>
+
+    <!-- Boltzmann Interactive -->
+    <div class="visual-container">
+        <h4>Interactive: Boltzmann Distribution</h4>
+        <canvas id="boltzCanvas" width="700" height="400"></canvas>
+        <div class="controls">
+            <div class="control-group">
+                <label>Temperature:</label>
+                <input type="range" id="boltzTemp" min="100" max="1000" step="50" value="300">
+                <span class="value-display" id="boltzTempVal">300 K</span>
+            </div>
+            <div class="control-group">
+                <label>Energy gap:</label>
+                <input type="range" id="boltzGap" min="0.5" max="5" step="0.5" value="2">
+                <span class="value-display" id="boltzGapVal">2 kT</span>
+            </div>
+        </div>
+        <div class="stat-grid">
+            <div class="stat-box">
+                <div class="stat-label">lim P(excited) as T→0</div>
+                <div class="stat-value">0</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">lim P(excited) as T→∞</div>
+                <div class="stat-value">1/2</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Current P(excited)</div>
+                <div class="stat-value" id="boltzProb">—</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 6: Exercises -->
+    <h2>6. Exercises</h2>
+
+    <div class="exercise-box">
+        <h4>Exercise 1: Evaluating Limits</h4>
+        <p>Evaluate the following limits:</p>
+        <ol>
+            <li>lim<sub>x→2</sub> (x² - 4)/(x - 2)</li>
+            <li>lim<sub>x→0</sub> (e<sup>x</sup> - 1)/x</li>
+            <li>lim<sub>x→∞</sub> (3x² + 2x)/(x² + 1)</li>
+        </ol>
+        <button class="solution-toggle" onclick="toggleSolution('sol1')">Show Solution</button>
+        <div class="solution" id="sol1">
+            <ol>
+                <li>(x² - 4)/(x - 2) = (x+2)(x-2)/(x-2) = x + 2 → <strong>4</strong></li>
+                <li>This is the definition of the derivative of e<sup>x</sup> at x=0 → <strong>1</strong></li>
+                <li>Divide top and bottom by x²: (3 + 2/x)/(1 + 1/x²) → <strong>3</strong></li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="exercise-box">
+        <h4>Exercise 2: Lennard-Jones Analysis</h4>
+        <p>For the Lennard-Jones potential V(r) = 4ε[(σ/r)¹² - (σ/r)⁶]:</p>
+        <ol>
+            <li>Find the equilibrium distance r<sub>eq</sub> where dV/dr = 0</li>
+            <li>What is V(r<sub>eq</sub>)?</li>
+            <li>At what distance r₀ does V(r₀) = 0?</li>
+        </ol>
+        <button class="solution-toggle" onclick="toggleSolution('sol2')">Show Solution</button>
+        <div class="solution" id="sol2">
+            <ol>
+                <li>Set dV/dr = 0: 4ε[-12σ¹²/r¹³ + 6σ⁶/r⁷] = 0 → r<sub>eq</sub> = <strong>2<sup>1/6</sup>σ ≈ 1.122σ</strong></li>
+                <li>V(r<sub>eq</sub>) = 4ε[1/4 - 1/2] = <strong>-ε</strong></li>
+                <li>V(r₀) = 0 when (σ/r)¹² = (σ/r)⁶ → r₀ = <strong>σ</strong></li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="exercise-box">
+        <h4>Exercise 3: Michaelis-Menten</h4>
+        <p>An enzyme has V<sub>max</sub> = 100 μM/s and K<sub>M</sub> = 5 μM.</p>
+        <ol>
+            <li>What is v when [S] = 5 μM?</li>
+            <li>What [S] gives v = 90 μM/s?</li>
+            <li>Explain why v approaches V<sub>max</sub> but never exceeds it.</li>
+        </ol>
+        <button class="solution-toggle" onclick="toggleSolution('sol3')">Show Solution</button>
+        <div class="solution" id="sol3">
+            <ol>
+                <li>v = 100·5/(5+5) = <strong>50 μM/s</strong> (half of V<sub>max</sub>)</li>
+                <li>90 = 100·[S]/(5+[S]) → 90(5+[S]) = 100[S] → [S] = <strong>45 μM</strong></li>
+                <li>As [S]→∞, v = V<sub>max</sub>·[S]/([S](K<sub>M</sub>/[S]+1)) → V<sub>max</sub>. The enzyme is the bottleneck; even infinite substrate can't make it go faster than V<sub>max</sub>.</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="exercise-box">
+        <h4>Exercise 4: Continuity</h4>
+        <p>Determine if the following functions are continuous at the given point:</p>
+        <ol>
+            <li>f(x) = |x|/x at x = 0</li>
+            <li>f(x) = (x² - 9)/(x - 3) at x = 3</li>
+            <li>f(x) = e<sup>-1/x²</sup> for x ≠ 0, f(0) = 0 at x = 0</li>
+        </ol>
+        <button class="solution-toggle" onclick="toggleSolution('sol4')">Show Solution</button>
+        <div class="solution" id="sol4">
+            <ol>
+                <li><strong>Not continuous</strong>: lim<sub>x→0⁺</sub> = 1, lim<sub>x→0⁻</sub> = -1 (jump discontinuity)</li>
+                <li><strong>Not continuous</strong> (removable): f(3) undefined, but lim<sub>x→3</sub> = 6</li>
+                <li><strong>Continuous</strong>: lim<sub>x→0</sub> e<sup>-1/x²</sup> = 0 = f(0) (smooth function)</li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- Next Section -->
+    <div class="next-section">
+        <h3>Coming Up: Lecture 12</h3>
+        <p>Derivatives — When limits meet rates of change</p>
+        <p style="color: var(--text-secondary); font-size: 0.9rem;">The CHANGE primitive: how functions transform</p>
+    </div>
+
+    <!-- Footer -->
+    <div class="footnote">
+        <p>References: McQuarrie, <em>Mathematics for Physical Chemistry</em>; Atkins, <em>Physical Chemistry</em></p>
+    </div>
+
+    <script>
+        // Initialize KaTeX
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false}
+                ]
+            });
+        });
+
+        // Solution toggle
+        function toggleSolution(id) {
+            const sol = document.getElementById(id);
+            sol.classList.toggle('show');
+        }
+
+        // === Function Grapher ===
+        const funcCanvas = document.getElementById('functionCanvas');
+        const funcCtx = funcCanvas.getContext('2d');
+        const funcSelect = document.getElementById('functionSelect');
+        const funcZoom = document.getElementById('functionZoom');
+
+        const functions = {
+            polynomial: {
+                f: x => x*x - 2*x + 1,
+                domain: 'ℝ',
+                range: '[0, ∞)',
+                zeros: 'x = 1'
+            },
+            rational: {
+                f: x => Math.abs(x - 1) < 0.05 ? null : 1/(x - 1),
+                domain: 'ℝ \\ {1}',
+                range: 'ℝ \\ {0}',
+                zeros: 'None'
+            },
+            exponential: {
+                f: x => Math.exp(-x),
+                domain: 'ℝ',
+                range: '(0, ∞)',
+                zeros: 'None'
+            },
+            sinc: {
+                f: x => Math.abs(x) < 0.001 ? 1 : Math.sin(x)/x,
+                domain: 'ℝ',
+                range: '[-0.22, 1]',
+                zeros: 'x = nπ (n ≠ 0)'
+            },
+            gaussian: {
+                f: x => Math.exp(-x*x),
+                domain: 'ℝ',
+                range: '(0, 1]',
+                zeros: 'None'
+            }
+        };
+
+        function drawFunction() {
+            const zoom = parseFloat(funcZoom.value);
+            document.getElementById('zoomVal').textContent = zoom + 'x';
+
+            const func = functions[funcSelect.value];
+            document.getElementById('domainDisplay').textContent = func.domain;
+            document.getElementById('rangeDisplay').textContent = func.range;
+            document.getElementById('zerosDisplay').textContent = func.zeros;
+
+            funcCtx.fillStyle = '#1a1a24';
+            funcCtx.fillRect(0, 0, 700, 400);
+
+            const cx = 350, cy = 200;
+            const scale = 40 * zoom;
+
+            // Grid
+            funcCtx.strokeStyle = '#2a2a34';
+            funcCtx.lineWidth = 1;
+            for (let i = -10; i <= 10; i++) {
+                const x = cx + i * scale / zoom;
+                const y = cy + i * scale / zoom;
+                if (x >= 0 && x <= 700) {
+                    funcCtx.beginPath();
+                    funcCtx.moveTo(x, 0);
+                    funcCtx.lineTo(x, 400);
+                    funcCtx.stroke();
+                }
+                if (y >= 0 && y <= 400) {
+                    funcCtx.beginPath();
+                    funcCtx.moveTo(0, y);
+                    funcCtx.lineTo(700, y);
+                    funcCtx.stroke();
+                }
+            }
+
+            // Axes
+            funcCtx.strokeStyle = '#6b7280';
+            funcCtx.lineWidth = 2;
+            funcCtx.beginPath();
+            funcCtx.moveTo(0, cy);
+            funcCtx.lineTo(700, cy);
+            funcCtx.moveTo(cx, 0);
+            funcCtx.lineTo(cx, 400);
+            funcCtx.stroke();
+
+            // Draw function
+            funcCtx.strokeStyle = '#f59e0b';
+            funcCtx.lineWidth = 2;
+            funcCtx.beginPath();
+            let started = false;
+
+            for (let px = 0; px <= 700; px++) {
+                const x = (px - cx) / scale;
+                const y = func.f(x);
+
+                if (y === null || !isFinite(y)) {
+                    started = false;
+                    continue;
+                }
+
+                const py = cy - y * scale;
+                if (py < 0 || py > 400) {
+                    started = false;
+                    continue;
+                }
+
+                if (!started) {
+                    funcCtx.moveTo(px, py);
+                    started = true;
+                } else {
+                    funcCtx.lineTo(px, py);
+                }
+            }
+            funcCtx.stroke();
+
+            // Labels
+            funcCtx.fillStyle = '#a0a0a0';
+            funcCtx.font = '12px monospace';
+            funcCtx.fillText('x', 685, cy - 5);
+            funcCtx.fillText('y', cx + 5, 15);
+        }
+
+        funcSelect.addEventListener('change', drawFunction);
+        funcZoom.addEventListener('input', drawFunction);
+        drawFunction();
+
+        // === Limit Explorer ===
+        const limitCanvas = document.getElementById('limitCanvas');
+        const limitCtx = limitCanvas.getContext('2d');
+        const limitX = document.getElementById('limitX');
+        let animating = false;
+
+        function sincFunc(x) {
+            return Math.abs(x) < 0.0001 ? 1 : Math.sin(x) / x;
+        }
+
+        function drawLimit() {
+            const x = parseFloat(limitX.value);
+            document.getElementById('limitXVal').textContent = x.toFixed(2);
+
+            const fVal = sincFunc(x);
+            document.getElementById('funcValue').textContent = fVal.toFixed(3);
+            document.getElementById('distFromLimit').textContent = Math.abs(1 - fVal).toFixed(3);
+
+            limitCtx.fillStyle = '#1a1a24';
+            limitCtx.fillRect(0, 0, 700, 400);
+
+            const cx = 350, cy = 200, scale = 50;
+
+            // Grid
+            limitCtx.strokeStyle = '#2a2a34';
+            limitCtx.lineWidth = 1;
+            for (let i = -7; i <= 7; i++) {
+                limitCtx.beginPath();
+                limitCtx.moveTo(cx + i * scale, 0);
+                limitCtx.lineTo(cx + i * scale, 400);
+                limitCtx.stroke();
+            }
+            for (let i = -4; i <= 4; i++) {
+                limitCtx.beginPath();
+                limitCtx.moveTo(0, cy + i * scale);
+                limitCtx.lineTo(700, cy + i * scale);
+                limitCtx.stroke();
+            }
+
+            // Axes
+            limitCtx.strokeStyle = '#6b7280';
+            limitCtx.lineWidth = 2;
+            limitCtx.beginPath();
+            limitCtx.moveTo(0, cy);
+            limitCtx.lineTo(700, cy);
+            limitCtx.moveTo(cx, 0);
+            limitCtx.lineTo(cx, 400);
+            limitCtx.stroke();
+
+            // Limit line y = 1
+            limitCtx.strokeStyle = '#ef4444';
+            limitCtx.setLineDash([5, 5]);
+            limitCtx.beginPath();
+            limitCtx.moveTo(0, cy - scale);
+            limitCtx.lineTo(700, cy - scale);
+            limitCtx.stroke();
+            limitCtx.setLineDash([]);
+
+            // Draw sin(x)/x
+            limitCtx.strokeStyle = '#f59e0b';
+            limitCtx.lineWidth = 2;
+            limitCtx.beginPath();
+            let started = false;
+
+            for (let px = 0; px <= 700; px++) {
+                const xVal = (px - cx) / scale;
+                if (Math.abs(xVal) < 0.01) {
+                    started = false;
+                    continue;
+                }
+                const y = sincFunc(xVal);
+                const py = cy - y * scale;
+
+                if (py < 0 || py > 400) {
+                    started = false;
+                    continue;
+                }
+
+                if (!started) {
+                    limitCtx.moveTo(px, py);
+                    started = true;
+                } else {
+                    limitCtx.lineTo(px, py);
+                }
+            }
+            limitCtx.stroke();
+
+            // Mark current point
+            const px = cx + x * scale;
+            const py = cy - fVal * scale;
+
+            limitCtx.beginPath();
+            limitCtx.arc(px, py, 8, 0, Math.PI * 2);
+            limitCtx.fillStyle = '#10b981';
+            limitCtx.fill();
+
+            // Draw approach arrows
+            limitCtx.strokeStyle = '#10b981';
+            limitCtx.lineWidth = 2;
+            limitCtx.setLineDash([3, 3]);
+            limitCtx.beginPath();
+            limitCtx.moveTo(px, py);
+            limitCtx.lineTo(cx, cy - scale);
+            limitCtx.stroke();
+            limitCtx.setLineDash([]);
+
+            // Hole at origin
+            limitCtx.beginPath();
+            limitCtx.arc(cx, cy - scale, 5, 0, Math.PI * 2);
+            limitCtx.strokeStyle = '#f59e0b';
+            limitCtx.lineWidth = 2;
+            limitCtx.stroke();
+
+            // Labels
+            limitCtx.fillStyle = '#ef4444';
+            limitCtx.font = '12px monospace';
+            limitCtx.fillText('y = 1 (limit)', 10, cy - scale - 5);
+        }
+
+        limitX.addEventListener('input', drawLimit);
+
+        document.getElementById('animateLimit').addEventListener('click', () => {
+            if (animating) return;
+            animating = true;
+            let val = 2;
+            const animate = () => {
+                val *= 0.95;
+                if (val < 0.02) {
+                    animating = false;
+                    val = 0.01;
+                }
+                limitX.value = val;
+                drawLimit();
+                if (animating) requestAnimationFrame(animate);
+            };
+            animate();
+        });
+
+        drawLimit();
+
+        // === Continuity Explorer ===
+        const contCanvas = document.getElementById('continuityCanvas');
+        const contCtx = contCanvas.getContext('2d');
+        let discontType = 'continuous';
+
+        const discontFuncs = {
+            continuous: {
+                f: x => Math.sin(x * 2) * 0.8 + 1,
+                type: 'Continuous',
+                leftLim: '—',
+                rightLim: '—'
+            },
+            jump: {
+                f: x => x < 0 ? 0.5 : 1.5,
+                type: 'Jump',
+                leftLim: '0.5',
+                rightLim: '1.5'
+            },
+            removable: {
+                f: x => Math.abs(x) < 0.1 ? null : (x*x - 1)/(x - 1),
+                type: 'Removable',
+                leftLim: '2',
+                rightLim: '2'
+            },
+            infinite: {
+                f: x => Math.abs(x) < 0.1 ? null : 1/x,
+                type: 'Infinite',
+                leftLim: '-∞',
+                rightLim: '+∞'
+            }
+        };
+
+        function drawContinuity() {
+            const func = discontFuncs[discontType];
+            document.getElementById('discontType').textContent = func.type;
+            document.getElementById('leftLimit').textContent = func.leftLim;
+            document.getElementById('rightLimit').textContent = func.rightLim;
+
+            contCtx.fillStyle = '#1a1a24';
+            contCtx.fillRect(0, 0, 700, 350);
+
+            const cx = 350, cy = 175, scale = 80;
+
+            // Axes
+            contCtx.strokeStyle = '#6b7280';
+            contCtx.lineWidth = 2;
+            contCtx.beginPath();
+            contCtx.moveTo(50, cy);
+            contCtx.lineTo(650, cy);
+            contCtx.moveTo(cx, 20);
+            contCtx.lineTo(cx, 330);
+            contCtx.stroke();
+
+            // Draw function
+            contCtx.strokeStyle = '#f59e0b';
+            contCtx.lineWidth = 2;
+            contCtx.beginPath();
+            let started = false;
+
+            for (let px = 50; px <= 650; px++) {
+                const x = (px - cx) / scale;
+                const y = func.f(x);
+
+                if (y === null || !isFinite(y)) {
+                    started = false;
+                    continue;
+                }
+
+                const py = cy - y * scale;
+                if (py < 20 || py > 330) {
+                    started = false;
+                    continue;
+                }
+
+                if (!started) {
+                    contCtx.moveTo(px, py);
+                    started = true;
+                } else {
+                    contCtx.lineTo(px, py);
+                }
+            }
+            contCtx.stroke();
+
+            // Mark discontinuity point
+            if (discontType === 'jump') {
+                contCtx.beginPath();
+                contCtx.arc(cx, cy - 0.5 * scale, 6, 0, Math.PI * 2);
+                contCtx.fillStyle = '#f59e0b';
+                contCtx.fill();
+
+                contCtx.beginPath();
+                contCtx.arc(cx, cy - 1.5 * scale, 6, 0, Math.PI * 2);
+                contCtx.strokeStyle = '#f59e0b';
+                contCtx.lineWidth = 2;
+                contCtx.stroke();
+            }
+
+            if (discontType === 'removable') {
+                contCtx.beginPath();
+                contCtx.arc(cx + scale, cy - 2 * scale, 6, 0, Math.PI * 2);
+                contCtx.strokeStyle = '#f59e0b';
+                contCtx.lineWidth = 2;
+                contCtx.stroke();
+            }
+
+            // Vertical asymptote for infinite
+            if (discontType === 'infinite') {
+                contCtx.strokeStyle = '#ef4444';
+                contCtx.setLineDash([5, 5]);
+                contCtx.beginPath();
+                contCtx.moveTo(cx, 20);
+                contCtx.lineTo(cx, 330);
+                contCtx.stroke();
+                contCtx.setLineDash([]);
+            }
+
+            // Labels
+            contCtx.fillStyle = '#a0a0a0';
+            contCtx.font = '12px monospace';
+            contCtx.fillText('x = 0', cx + 5, 335);
+        }
+
+        document.querySelectorAll('.discont-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.discont-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                discontType = btn.dataset.type;
+                drawContinuity();
+            });
+        });
+
+        drawContinuity();
+
+        // === Lennard-Jones ===
+        const ljCanvas = document.getElementById('ljCanvas');
+        const ljCtx = ljCanvas.getContext('2d');
+        const ljEps = document.getElementById('ljEpsilon');
+        const ljSig = document.getElementById('ljSigma');
+        let showForce = false;
+
+        function drawLJ() {
+            const eps = parseFloat(ljEps.value);
+            const sig = parseFloat(ljSig.value);
+            document.getElementById('ljEpsVal').textContent = eps.toFixed(1);
+            document.getElementById('ljSigVal').textContent = sig.toFixed(1);
+
+            const rMin = Math.pow(2, 1/6) * sig;
+            document.getElementById('ljMinR').textContent = `r = ${rMin.toFixed(2)}σ`;
+
+            ljCtx.fillStyle = '#1a1a24';
+            ljCtx.fillRect(0, 0, 700, 400);
+
+            const ox = 80, oy = 250;
+            const scaleX = 120, scaleY = 80;
+
+            // Grid
+            ljCtx.strokeStyle = '#2a2a34';
+            ljCtx.lineWidth = 1;
+            for (let i = 0; i <= 5; i++) {
+                ljCtx.beginPath();
+                ljCtx.moveTo(ox + i * scaleX, 30);
+                ljCtx.lineTo(ox + i * scaleX, 370);
+                ljCtx.stroke();
+            }
+            for (let i = -2; i <= 2; i++) {
+                ljCtx.beginPath();
+                ljCtx.moveTo(60, oy + i * scaleY);
+                ljCtx.lineTo(680, oy + i * scaleY);
+                ljCtx.stroke();
+            }
+
+            // Axes
+            ljCtx.strokeStyle = '#6b7280';
+            ljCtx.lineWidth = 2;
+            ljCtx.beginPath();
+            ljCtx.moveTo(ox, 30);
+            ljCtx.lineTo(ox, 370);
+            ljCtx.moveTo(60, oy);
+            ljCtx.lineTo(680, oy);
+            ljCtx.stroke();
+
+            // LJ Potential
+            ljCtx.strokeStyle = '#f59e0b';
+            ljCtx.lineWidth = 2;
+            ljCtx.beginPath();
+            let started = false;
+
+            for (let px = ox + 30; px <= 660; px++) {
+                const r = (px - ox) / scaleX;
+                if (r < 0.1) continue;
+
+                const sr = sig / r;
+                const V = 4 * eps * (Math.pow(sr, 12) - Math.pow(sr, 6));
+                const py = oy - V * scaleY;
+
+                if (py < 30 || py > 370) {
+                    started = false;
+                    continue;
+                }
+
+                if (!started) {
+                    ljCtx.moveTo(px, py);
+                    started = true;
+                } else {
+                    ljCtx.lineTo(px, py);
+                }
+            }
+            ljCtx.stroke();
+
+            // Force curve
+            if (showForce) {
+                ljCtx.strokeStyle = '#10b981';
+                ljCtx.lineWidth = 2;
+                ljCtx.beginPath();
+                started = false;
+
+                for (let px = ox + 30; px <= 660; px++) {
+                    const r = (px - ox) / scaleX;
+                    if (r < 0.1) continue;
+
+                    const sr = sig / r;
+                    const F = 24 * eps / r * (2 * Math.pow(sr, 12) - Math.pow(sr, 6));
+                    const py = oy - F * scaleY * 0.3;
+
+                    if (py < 30 || py > 370) {
+                        started = false;
+                        continue;
+                    }
+
+                    if (!started) {
+                        ljCtx.moveTo(px, py);
+                        started = true;
+                    } else {
+                        ljCtx.lineTo(px, py);
+                    }
+                }
+                ljCtx.stroke();
+            }
+
+            // Mark minimum
+            const pxMin = ox + rMin * scaleX;
+            const pyMin = oy - (-eps) * scaleY;
+            ljCtx.beginPath();
+            ljCtx.arc(pxMin, pyMin, 6, 0, Math.PI * 2);
+            ljCtx.fillStyle = '#8b5cf6';
+            ljCtx.fill();
+
+            // Labels
+            ljCtx.fillStyle = '#a0a0a0';
+            ljCtx.font = '12px monospace';
+            ljCtx.fillText('r/σ', 670, oy + 20);
+            ljCtx.fillText('V/ε', ox - 25, 40);
+
+            ljCtx.fillStyle = '#f59e0b';
+            ljCtx.fillText('V(r)', 600, 60);
+            if (showForce) {
+                ljCtx.fillStyle = '#10b981';
+                ljCtx.fillText('F(r)', 600, 80);
+            }
+        }
+
+        ljEps.addEventListener('input', drawLJ);
+        ljSig.addEventListener('input', drawLJ);
+        document.getElementById('showForce').addEventListener('click', () => {
+            showForce = !showForce;
+            document.getElementById('showForce').textContent = showForce ? 'Hide Force' : 'Show Force';
+            drawLJ();
+        });
+        drawLJ();
+
+        // === Michaelis-Menten ===
+        const mmCanvas = document.getElementById('mmCanvas');
+        const mmCtx = mmCanvas.getContext('2d');
+        const mmVmax = document.getElementById('mmVmax');
+        const mmKm = document.getElementById('mmKm');
+
+        function drawMM() {
+            const Vmax = parseFloat(mmVmax.value);
+            const Km = parseFloat(mmKm.value);
+            document.getElementById('mmVmaxVal').textContent = Vmax.toFixed(1);
+            document.getElementById('mmKmVal').textContent = Km.toFixed(1);
+
+            mmCtx.fillStyle = '#1a1a24';
+            mmCtx.fillRect(0, 0, 700, 400);
+
+            const ox = 80, oy = 350;
+            const scaleX = 80, scaleY = 250;
+
+            // Grid
+            mmCtx.strokeStyle = '#2a2a34';
+            mmCtx.lineWidth = 1;
+            for (let i = 0; i <= 7; i++) {
+                mmCtx.beginPath();
+                mmCtx.moveTo(ox + i * scaleX, 30);
+                mmCtx.lineTo(ox + i * scaleX, oy);
+                mmCtx.stroke();
+            }
+            for (let i = 0; i <= 4; i++) {
+                mmCtx.beginPath();
+                mmCtx.moveTo(ox, oy - i * scaleY/4);
+                mmCtx.lineTo(680, oy - i * scaleY/4);
+                mmCtx.stroke();
+            }
+
+            // Axes
+            mmCtx.strokeStyle = '#6b7280';
+            mmCtx.lineWidth = 2;
+            mmCtx.beginPath();
+            mmCtx.moveTo(ox, 30);
+            mmCtx.lineTo(ox, oy);
+            mmCtx.moveTo(ox, oy);
+            mmCtx.lineTo(680, oy);
+            mmCtx.stroke();
+
+            // Vmax asymptote
+            const pyVmax = oy - Vmax * scaleY;
+            mmCtx.strokeStyle = '#ef4444';
+            mmCtx.setLineDash([5, 5]);
+            mmCtx.beginPath();
+            mmCtx.moveTo(ox, pyVmax);
+            mmCtx.lineTo(680, pyVmax);
+            mmCtx.stroke();
+            mmCtx.setLineDash([]);
+
+            // MM curve
+            mmCtx.strokeStyle = '#f59e0b';
+            mmCtx.lineWidth = 2;
+            mmCtx.beginPath();
+
+            for (let px = ox; px <= 660; px++) {
+                const S = (px - ox) / scaleX;
+                const v = Vmax * S / (Km + S);
+                const py = oy - v * scaleY;
+
+                if (px === ox) {
+                    mmCtx.moveTo(px, py);
+                } else {
+                    mmCtx.lineTo(px, py);
+                }
+            }
+            mmCtx.stroke();
+
+            // Mark Km point
+            const pxKm = ox + Km * scaleX;
+            const pyKm = oy - (Vmax/2) * scaleY;
+            mmCtx.beginPath();
+            mmCtx.arc(pxKm, pyKm, 6, 0, Math.PI * 2);
+            mmCtx.fillStyle = '#8b5cf6';
+            mmCtx.fill();
+
+            // Labels
+            mmCtx.fillStyle = '#a0a0a0';
+            mmCtx.font = '12px monospace';
+            mmCtx.fillText('[S]', 670, oy + 20);
+            mmCtx.fillText('v', ox - 15, 40);
+
+            mmCtx.fillStyle = '#ef4444';
+            mmCtx.fillText('Vmax', 600, pyVmax - 5);
+
+            mmCtx.fillStyle = '#8b5cf6';
+            mmCtx.fillText('Km', pxKm - 10, oy + 20);
+        }
+
+        mmVmax.addEventListener('input', drawMM);
+        mmKm.addEventListener('input', drawMM);
+        drawMM();
+
+        // === Boltzmann Distribution ===
+        const boltzCanvas = document.getElementById('boltzCanvas');
+        const boltzCtx = boltzCanvas.getContext('2d');
+        const boltzTemp = document.getElementById('boltzTemp');
+        const boltzGap = document.getElementById('boltzGap');
+
+        function drawBoltzmann() {
+            const T = parseFloat(boltzTemp.value);
+            const gap = parseFloat(boltzGap.value);
+            document.getElementById('boltzTempVal').textContent = T + ' K';
+            document.getElementById('boltzGapVal').textContent = gap.toFixed(1) + ' kT';
+
+            // Probability of excited state
+            const kT = T / 300; // normalize to room temp
+            const expFactor = Math.exp(-gap / kT);
+            const prob = expFactor / (1 + expFactor);
+            document.getElementById('boltzProb').textContent = prob.toFixed(3);
+
+            boltzCtx.fillStyle = '#1a1a24';
+            boltzCtx.fillRect(0, 0, 700, 400);
+
+            // Draw energy levels
+            const cx = 200, groundY = 300, excitedY = 100;
+
+            // Ground state
+            boltzCtx.strokeStyle = '#10b981';
+            boltzCtx.lineWidth = 4;
+            boltzCtx.beginPath();
+            boltzCtx.moveTo(cx - 80, groundY);
+            boltzCtx.lineTo(cx + 80, groundY);
+            boltzCtx.stroke();
+
+            // Excited state
+            boltzCtx.strokeStyle = '#f59e0b';
+            boltzCtx.beginPath();
+            boltzCtx.moveTo(cx - 80, excitedY);
+            boltzCtx.lineTo(cx + 80, excitedY);
+            boltzCtx.stroke();
+
+            // Energy gap arrow
+            boltzCtx.strokeStyle = '#8b5cf6';
+            boltzCtx.lineWidth = 2;
+            boltzCtx.beginPath();
+            boltzCtx.moveTo(cx + 100, groundY);
+            boltzCtx.lineTo(cx + 100, excitedY);
+            boltzCtx.stroke();
+
+            boltzCtx.fillStyle = '#8b5cf6';
+            boltzCtx.font = '14px monospace';
+            boltzCtx.fillText('ΔE = ' + gap.toFixed(1) + 'kT', cx + 110, (groundY + excitedY)/2);
+
+            // Populations (represented by filled circles)
+            const nGround = Math.round((1 - prob) * 20);
+            const nExcited = Math.round(prob * 20);
+
+            boltzCtx.fillStyle = '#10b981';
+            for (let i = 0; i < nGround; i++) {
+                const x = cx - 60 + (i % 10) * 12;
+                const y = groundY - 15 - Math.floor(i / 10) * 12;
+                boltzCtx.beginPath();
+                boltzCtx.arc(x, y, 4, 0, Math.PI * 2);
+                boltzCtx.fill();
+            }
+
+            boltzCtx.fillStyle = '#f59e0b';
+            for (let i = 0; i < nExcited; i++) {
+                const x = cx - 60 + (i % 10) * 12;
+                const y = excitedY - 15 - Math.floor(i / 10) * 12;
+                boltzCtx.beginPath();
+                boltzCtx.arc(x, y, 4, 0, Math.PI * 2);
+                boltzCtx.fill();
+            }
+
+            // Draw probability vs temperature curve
+            const graphOx = 400, graphOy = 350;
+            const graphW = 250, graphH = 300;
+
+            // Graph axes
+            boltzCtx.strokeStyle = '#6b7280';
+            boltzCtx.lineWidth = 2;
+            boltzCtx.beginPath();
+            boltzCtx.moveTo(graphOx, graphOy - graphH);
+            boltzCtx.lineTo(graphOx, graphOy);
+            boltzCtx.lineTo(graphOx + graphW, graphOy);
+            boltzCtx.stroke();
+
+            // Curve
+            boltzCtx.strokeStyle = '#f59e0b';
+            boltzCtx.lineWidth = 2;
+            boltzCtx.beginPath();
+
+            for (let i = 0; i <= 100; i++) {
+                const tempVal = 100 + i * 9; // 100 to 1000 K
+                const kTval = tempVal / 300;
+                const exp = Math.exp(-gap / kTval);
+                const p = exp / (1 + exp);
+
+                const px = graphOx + (tempVal - 100) / 900 * graphW;
+                const py = graphOy - p * graphH;
+
+                if (i === 0) {
+                    boltzCtx.moveTo(px, py);
+                } else {
+                    boltzCtx.lineTo(px, py);
+                }
+            }
+            boltzCtx.stroke();
+
+            // Mark current temperature
+            const pxT = graphOx + (T - 100) / 900 * graphW;
+            const pyT = graphOy - prob * graphH;
+            boltzCtx.beginPath();
+            boltzCtx.arc(pxT, pyT, 6, 0, Math.PI * 2);
+            boltzCtx.fillStyle = '#ef4444';
+            boltzCtx.fill();
+
+            // Asymptote at 0.5
+            boltzCtx.strokeStyle = '#ef4444';
+            boltzCtx.setLineDash([5, 5]);
+            boltzCtx.beginPath();
+            boltzCtx.moveTo(graphOx, graphOy - 0.5 * graphH);
+            boltzCtx.lineTo(graphOx + graphW, graphOy - 0.5 * graphH);
+            boltzCtx.stroke();
+            boltzCtx.setLineDash([]);
+
+            // Labels
+            boltzCtx.fillStyle = '#a0a0a0';
+            boltzCtx.font = '12px monospace';
+            boltzCtx.fillText('T (K)', graphOx + graphW/2, graphOy + 25);
+            boltzCtx.fillText('P(excited)', graphOx - 10, graphOy - graphH - 10);
+            boltzCtx.fillText('0.5', graphOx - 25, graphOy - 0.5 * graphH + 4);
+            boltzCtx.fillText('100', graphOx, graphOy + 15);
+            boltzCtx.fillText('1000', graphOx + graphW - 20, graphOy + 15);
+
+            // State labels
+            boltzCtx.fillStyle = '#10b981';
+            boltzCtx.font = '14px monospace';
+            boltzCtx.fillText('Ground', cx - 30, groundY + 25);
+            boltzCtx.fillStyle = '#f59e0b';
+            boltzCtx.fillText('Excited', cx - 30, excitedY + 25);
+        }
+
+        boltzTemp.addEventListener('input', drawBoltzmann);
+        boltzGap.addEventListener('input', drawBoltzmann);
+        drawBoltzmann();
+    </script>
+</body>
+</html>
