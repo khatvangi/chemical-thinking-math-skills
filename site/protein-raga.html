@@ -16,9 +16,11 @@
     body {
       margin: 0;
       font-family: system-ui, -apple-system, sans-serif;
-      background: #08080c;
+      background: linear-gradient(135deg, #0a0a1a 0%, #1a0a2a 50%, #0a1a2a 100%);
     }
     .devanagari { font-family: 'Noto Sans Devanagari', sans-serif; }
+    .neon-glow { text-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 40px currentColor; }
+    .neon-box { box-shadow: 0 0 15px currentColor, inset 0 0 15px rgba(255,255,255,0.1); }
   </style>
 </head>
 <body>
@@ -56,7 +58,7 @@
         avaroha: ['S+', 'N', 'D', 'P', 'm', 'G', 'R', 'S'],
         pakad: [['N-', 'R', 'G', 'R', 'S'], ['G', 'm', 'D', 'N', 'S+'], ['R', 'G', 'm', 'P'], ['N', 'D', 'P', 'm', 'G']],
         alpieces: [['S', 'R', 'G'], ['G', 'm', 'P'], ['N', 'D', 'P']],
-        color: '#c9a227',
+        color: '#FFD700',
       },
       bhairav: {
         name: 'Bhairav',
@@ -70,7 +72,7 @@
         avaroha: ['S+', 'N', 'd', 'P', 'M', 'G', 'r', 'S'],
         pakad: [['G', 'M', 'r', 'S'], ['r', 'G', 'M', 'P'], ['d', 'P', 'M', 'G']],
         alpieces: [['S', 'r', 'G'], ['M', 'P', 'd'], ['G', 'M', 'r']],
-        color: '#a65d57',
+        color: '#FF6B6B',
       },
       darbari: {
         name: 'Darbārī Kānaḍā',
@@ -84,7 +86,7 @@
         avaroha: ['S+', 'n', 'd', 'P', 'M', 'g', 'M', 'r', 'S'],
         pakad: [['g', 'M', 'r', 'S'], ['M', 'P', 'd', 'n', 'd', 'P'], ['r', 'g', 'M', 'P']],
         alpieces: [['S', 'r', 'g'], ['g', 'M', 'r'], ['M', 'P', 'd']],
-        color: '#6b5b7a',
+        color: '#A855F7',
       },
       marwa: {
         name: 'Mārwā',
@@ -98,7 +100,7 @@
         avaroha: ['S+', 'N', 'D', 'm', 'G', 'r', 'S'],
         pakad: [['D', 'N', 'r', 'S'], ['r', 'G', 'm', 'D'], ['N', 'D', 'm', 'G', 'r']],
         alpieces: [['S', 'r', 'G'], ['G', 'm', 'D'], ['D', 'N', 'r']],
-        color: '#b07845',
+        color: '#FF9F1C',
       },
       bihag: {
         name: 'Bihāg',
@@ -112,7 +114,7 @@
         avaroha: ['S+', 'N', 'D', 'P', 'M', 'G', 'R', 'S'],
         pakad: [['G', 'M', 'G', 'R', 'S'], ['S', 'G', 'M', 'P'], ['N', 'S+', 'N', 'D', 'P']],
         alpieces: [['S', 'G', 'M'], ['G', 'M', 'G'], ['P', 'N', 'S+']],
-        color: '#4a7c6f',
+        color: '#00F5D4',
       },
       bhairavi: {
         name: 'Bhairavī',
@@ -126,7 +128,7 @@
         avaroha: ['S+', 'n', 'd', 'P', 'M', 'g', 'r', 'S'],
         pakad: [['g', 'M', 'P', 'g', 'M', 'r', 'S'], ['S', 'r', 'g', 'M', 'P'], ['d', 'n', 'd', 'P']],
         alpieces: [['S', 'r', 'g'], ['g', 'M', 'P'], ['P', 'd', 'n']],
-        color: '#5a7fa8',
+        color: '#00BFFF',
       },
     };
 
@@ -149,7 +151,7 @@
         function: 'Editing domain (Class I aaRS)',
         raga: 'bhairav',
         mukhda: ['G', 'M', 'r', 'S', 'r', 'G', 'M'],
-        color: '#a65d57',
+        color: '#FF6B6B',
       },
       'KMSKS': {
         pattern: /K[MIL]SKS/g,
@@ -159,7 +161,7 @@
         function: 'ATP binding loop (Class I aaRS)',
         raga: 'yaman',
         mukhda: ['G', 'm', 'P', 'D', 'N', 'S+', 'N', 'D'],
-        color: '#c9a227',
+        color: '#FFD700',
       },
       'GxGxxG': {
         pattern: /G.G..G/g,
@@ -169,7 +171,7 @@
         function: 'Rossmann fold (nucleotide binding)',
         raga: 'bihag',
         mukhda: ['G', 'M', 'G', 'R', 'S', 'G', 'M', 'P'],
-        color: '#4a7c6f',
+        color: '#00F5D4',
       },
       'RGD': {
         pattern: /RGD/g,
@@ -179,7 +181,7 @@
         function: 'Cell adhesion (integrins)',
         raga: 'darbari',
         mukhda: ['r', 'g', 'M', 'P', 'd', 'P', 'g', 'M', 'r'],
-        color: '#6b5b7a',
+        color: '#A855F7',
       },
       'CxxC': {
         pattern: /C..C/g,
@@ -189,7 +191,7 @@
         function: 'Metal coordination (zinc fingers)',
         raga: 'marwa',
         mukhda: ['D', 'N', 'r', 'S', 'N-', 'D', 'm', 'G'],
-        color: '#b07845',
+        color: '#FF9F1C',
       },
       'Walker_A': {
         pattern: /G..G[KT]G/g,
@@ -199,7 +201,7 @@
         function: 'P-loop (ATP/GTP hydrolysis)',
         raga: 'yaman',
         mukhda: ['N-', 'R', 'G', 'm', 'P', 'D', 'N', 'S+'],
-        color: '#7a6b8a',
+        color: '#E879F9',
       },
       'DxD': {
         pattern: /D.D/g,
@@ -209,7 +211,7 @@
         function: 'Catalytic metal binding',
         raga: 'darbari',
         mukhda: ['d', 'P', 'M', 'g', 'M', 'r', 'S'],
-        color: '#5a7fa8',
+        color: '#00BFFF',
       },
       'NPxY': {
         pattern: /NP.Y/g,
@@ -219,7 +221,7 @@
         function: 'Endocytosis signal',
         raga: 'bhairavi',
         mukhda: ['g', 'M', 'P', 'g', 'M', 'r', 'S'],
-        color: '#5a7fa8',
+        color: '#4ADE80',
       },
     };
 
@@ -569,18 +571,23 @@
         const ragaColor = composition?.raga?.color || '#b8956e';
 
         const draw = () => {
-          ctx.fillStyle = '#0c0c10';
+          // Gradient background
+          const bgGrad = ctx.createLinearGradient(0, 0, W, H);
+          bgGrad.addColorStop(0, '#0a0a1a');
+          bgGrad.addColorStop(0.5, '#12082a');
+          bgGrad.addColorStop(1, '#0a1a2a');
+          ctx.fillStyle = bgGrad;
           ctx.fillRect(0, 0, W, H);
 
           if (allNotes.length === 0) {
-            ctx.fillStyle = '#333';
+            ctx.fillStyle = '#888';
             ctx.font = '14px system-ui';
             ctx.fillText('Load a protein to see melody', W/2 - 100, H/2);
             animRef.current = requestAnimationFrame(draw);
             return;
           }
 
-          ctx.strokeStyle = '#1a1a22';
+          ctx.strokeStyle = '#3a3a5a';
           ctx.lineWidth = 1;
           for (let i = 0; i <= 12; i++) {
             const y = 25 + (H - 50) * (1 - i / 12);
@@ -590,7 +597,7 @@
             ctx.stroke();
           }
 
-          ctx.fillStyle = '#2a2a35';
+          ctx.fillStyle = '#8888aa';
           ctx.font = '10px monospace';
           ['S', 'r', 'R', 'g', 'G', 'M', 'm', 'P', 'd', 'D', 'n', 'N', 'S+'].forEach((sv, i) => {
             const y = 25 + (H - 50) * (1 - i / 12);
@@ -645,35 +652,48 @@
             const alpha = Math.max(0.2, 1 - distFromCurrent * 0.03);
 
             if (isCurrent) {
-              ctx.fillStyle = '#f0f0f0';
+              ctx.fillStyle = '#ffffff';
+              // Neon glow for current note
+              ctx.shadowColor = ragaColor;
+              ctx.shadowBlur = 15;
             } else if (isPast) {
-              ctx.fillStyle = `rgba(80, 80, 100, ${alpha})`;
+              ctx.fillStyle = `rgba(120, 120, 160, ${alpha})`;
+              ctx.shadowBlur = 0;
             } else {
-              ctx.fillStyle = ragaColor + Math.floor(alpha * 200).toString(16).padStart(2, '0');
+              ctx.fillStyle = ragaColor;
+              ctx.shadowColor = ragaColor;
+              ctx.shadowBlur = 8;
             }
 
             ctx.arc(x, y, radius, 0, Math.PI * 2);
             ctx.fill();
+            ctx.shadowBlur = 0;
 
             if (isCurrent) {
-              ctx.fillStyle = '#e0e0e0';
+              ctx.fillStyle = '#ffffff';
+              ctx.shadowColor = ragaColor;
+              ctx.shadowBlur = 10;
               ctx.font = 'bold 12px system-ui';
               ctx.fillText(n.svara, x - 5, y - 12);
+              ctx.shadowBlur = 0;
             }
           }
 
           if (composition && currentSection >= 0 && currentSection < composition.sections.length) {
             const sec = composition.sections[currentSection];
-            ctx.fillStyle = ragaColor + 'bb';
+            ctx.fillStyle = ragaColor;
+            ctx.shadowColor = ragaColor;
+            ctx.shadowBlur = 10;
             ctx.font = '500 14px system-ui';
             ctx.fillText(sec.devanagari, W - 50, 20);
+            ctx.shadowBlur = 0;
           }
 
           if (isPlaying) {
             const offset = offsetRef.current;
             ctx.beginPath();
-            ctx.strokeStyle = ragaColor + '25';
-            ctx.lineWidth = 1;
+            ctx.strokeStyle = ragaColor + '60';
+            ctx.lineWidth = 2;
             for (let x = 0; x < W; x++) {
               const wave = Math.sin((x + offset) * 0.04) * 6 + Math.sin((x + offset) * 0.02) * 3;
               const y = H - 12 + wave;
@@ -710,28 +730,34 @@
 
     const RagaCard = ({ raga }) => (
       <div
-        className="rounded-xl p-5 border"
+        className="rounded-xl p-5 border-2"
         style={{
-          background: `linear-gradient(135deg, ${raga.color}15, ${raga.color}08)`,
-          borderColor: raga.color + '30',
+          background: `linear-gradient(135deg, ${raga.color}25, ${raga.color}10)`,
+          borderColor: raga.color,
+          boxShadow: `0 0 20px ${raga.color}40, inset 0 0 30px ${raga.color}10`,
         }}
       >
         <div className="flex items-center gap-4">
           <div
             className="w-14 h-14 rounded-full flex items-center justify-center text-xl font-bold devanagari"
-            style={{ background: raga.color + '30', color: raga.color }}
+            style={{
+              background: raga.color + '40',
+              color: raga.color,
+              boxShadow: `0 0 15px ${raga.color}80`,
+              textShadow: `0 0 10px ${raga.color}`,
+            }}
           >
             {raga.devanagari.charAt(0)}
           </div>
           <div className="flex-1">
-            <h3 className="text-lg font-medium" style={{ color: raga.color }}>
-              {raga.name} <span className="text-gray-500 font-normal devanagari">({raga.devanagari})</span>
+            <h3 className="text-lg font-semibold" style={{ color: raga.color, textShadow: `0 0 10px ${raga.color}60` }}>
+              {raga.name} <span className="font-normal devanagari" style={{ color: raga.color + 'cc' }}>({raga.devanagari})</span>
             </h3>
-            <p className="text-gray-500 text-sm">{raga.time}</p>
-            <p className="text-gray-600 text-xs mt-1">{raga.description}</p>
-            <p className="text-gray-600 text-xs mt-1">
-              Vadi: <span style={{ color: raga.color }}>{raga.vadi}</span> ·
-              Samvadi: <span style={{ color: raga.color }}>{raga.samvadi}</span> ·
+            <p className="text-gray-300 text-sm">{raga.time}</p>
+            <p className="text-gray-400 text-xs mt-1">{raga.description}</p>
+            <p className="text-gray-400 text-xs mt-1">
+              Vadi: <span style={{ color: raga.color, textShadow: `0 0 5px ${raga.color}` }}>{raga.vadi}</span> ·
+              Samvadi: <span style={{ color: raga.color, textShadow: `0 0 5px ${raga.color}` }}>{raga.samvadi}</span> ·
               Rasa: {raga.rasa}
             </p>
           </div>
@@ -741,34 +767,35 @@
 
     const SignatureCard = ({ sig, isPlaying, onPlay }) => (
       <div
-        className="rounded-lg p-3 border cursor-pointer transition-all hover:scale-[1.02]"
+        className="rounded-lg p-3 border-2 cursor-pointer transition-all hover:scale-[1.03]"
         style={{
-          background: isPlaying ? sig.color + '30' : '#12121a',
-          borderColor: sig.color + '40',
+          background: isPlaying ? sig.color + '35' : 'rgba(20, 15, 35, 0.8)',
+          borderColor: sig.color,
+          boxShadow: isPlaying ? `0 0 25px ${sig.color}60` : `0 0 10px ${sig.color}30`,
         }}
         onClick={onPlay}
       >
         <div className="flex items-center justify-between">
-          <span className="font-mono text-sm" style={{ color: sig.color }}>{sig.matched || sig.name}</span>
-          <span className="text-xs text-gray-600">pos {(sig.position || 0) + 1}</span>
+          <span className="font-mono text-sm font-bold" style={{ color: sig.color, textShadow: `0 0 8px ${sig.color}` }}>{sig.matched || sig.name}</span>
+          <span className="text-xs text-gray-400">pos {(sig.position || 0) + 1}</span>
         </div>
-        <div className="text-sm mt-1 devanagari" style={{ color: sig.color + 'cc' }}>{sig.sanskrit}</div>
-        <div className="text-xs text-gray-500 italic">{sig.transliteration} — {sig.meaning}</div>
-        <div className="text-xs text-gray-600 mt-1">{sig.function}</div>
+        <div className="text-sm mt-1 devanagari" style={{ color: sig.color }}>{sig.sanskrit}</div>
+        <div className="text-xs text-gray-300 italic">{sig.transliteration} — {sig.meaning}</div>
+        <div className="text-xs text-gray-400 mt-1">{sig.function}</div>
       </div>
     );
 
     const ProteinInfo = ({ protein }) => (
-      <div className="bg-[#0e0e14] rounded-xl p-5 border border-gray-800/30">
+      <div className="rounded-xl p-5 border-2 border-cyan-400/50" style={{ background: 'rgba(10, 20, 40, 0.8)', boxShadow: '0 0 20px rgba(0, 255, 255, 0.15)' }}>
         <div className="flex items-start justify-between">
           <div>
-            <h2 className="text-lg font-medium text-gray-200">{protein.name}</h2>
-            <p className="text-gray-500 text-sm">{protein.organism}</p>
-            {protein.family && <p className="text-gray-600 text-xs mt-1">{protein.family}</p>}
+            <h2 className="text-lg font-semibold text-cyan-300" style={{ textShadow: '0 0 10px rgba(0, 255, 255, 0.5)' }}>{protein.name}</h2>
+            <p className="text-gray-300 text-sm">{protein.organism}</p>
+            {protein.family && <p className="text-gray-400 text-xs mt-1">{protein.family}</p>}
           </div>
           <div className="text-right">
-            <span className="text-gray-600 text-xs">{protein.id}</span>
-            <p className="text-gray-500 text-sm mt-1">{protein.sequence.length} residues</p>
+            <span className="text-cyan-400 text-xs font-mono">{protein.id}</span>
+            <p className="text-gray-300 text-sm mt-1">{protein.sequence.length} residues</p>
           </div>
         </div>
       </div>
@@ -928,14 +955,14 @@
       }, []);
 
       return (
-        <div className="min-h-screen bg-gradient-to-b from-[#08080c] to-[#0c0c12] text-gray-200">
+        <div className="min-h-screen text-gray-100" style={{ background: 'linear-gradient(135deg, #0a0a1a 0%, #1a0a2e 50%, #0a1a2a 100%)' }}>
           {/* Header */}
-          <header className="border-b border-gray-800/30 px-6 py-5">
+          <header className="border-b border-purple-500/30 px-6 py-5" style={{ boxShadow: '0 2px 20px rgba(160, 100, 255, 0.15)' }}>
             <div className="max-w-4xl mx-auto">
-              <h1 className="text-2xl font-light tracking-wide devanagari">
-                <span style={{ color: '#c9a227' }}>प्रोटीन</span>-राग
+              <h1 className="text-3xl font-bold tracking-wide devanagari" style={{ color: '#FFD700', textShadow: '0 0 20px rgba(255, 215, 0, 0.6), 0 0 40px rgba(255, 215, 0, 0.3)' }}>
+                <span>प्रोटीन</span>-राग
               </h1>
-              <p className="text-gray-600 text-sm mt-1">
+              <p className="text-purple-300 text-sm mt-1" style={{ textShadow: '0 0 10px rgba(160, 100, 255, 0.5)' }}>
                 Proteins as raga · Motifs as mantra · Structure as sangita
               </p>
             </div>
@@ -943,31 +970,40 @@
 
           <main className="max-w-4xl mx-auto px-6 py-8 space-y-6">
             {/* Input Section */}
-            <div className="bg-[#0e0e14] rounded-xl p-5 border border-gray-800/30 space-y-4">
+            <div className="rounded-xl p-5 border-2 border-purple-500/40 space-y-4" style={{ background: 'rgba(20, 10, 40, 0.7)', boxShadow: '0 0 25px rgba(160, 100, 255, 0.15)' }}>
               <div className="flex flex-wrap gap-3">
                 <button
                   onClick={() => setInputMode('db')}
-                  className={`px-4 py-2 rounded-lg text-sm transition-all ${
-                    inputMode === 'db' ? 'bg-[#c9a227]/20 text-[#c9a227]' : 'bg-[#16161d] text-gray-500'
-                  }`}
+                  className="px-4 py-2 rounded-lg text-sm font-medium transition-all"
+                  style={{
+                    background: inputMode === 'db' ? 'rgba(255, 215, 0, 0.25)' : 'rgba(40, 30, 60, 0.8)',
+                    color: inputMode === 'db' ? '#FFD700' : '#aaa',
+                    border: inputMode === 'db' ? '1px solid #FFD700' : '1px solid #444',
+                    boxShadow: inputMode === 'db' ? '0 0 15px rgba(255, 215, 0, 0.3)' : 'none',
+                  }}
                 >
                   Protein ID
                 </button>
                 <button
                   onClick={() => setInputMode('paste')}
-                  className={`px-4 py-2 rounded-lg text-sm transition-all ${
-                    inputMode === 'paste' ? 'bg-[#c9a227]/20 text-[#c9a227]' : 'bg-[#16161d] text-gray-500'
-                  }`}
+                  className="px-4 py-2 rounded-lg text-sm font-medium transition-all"
+                  style={{
+                    background: inputMode === 'paste' ? 'rgba(255, 215, 0, 0.25)' : 'rgba(40, 30, 60, 0.8)',
+                    color: inputMode === 'paste' ? '#FFD700' : '#aaa',
+                    border: inputMode === 'paste' ? '1px solid #FFD700' : '1px solid #444',
+                    boxShadow: inputMode === 'paste' ? '0 0 15px rgba(255, 215, 0, 0.3)' : 'none',
+                  }}
                 >
                   Paste Sequence
                 </button>
                 <button
                   onClick={loadRandom}
-                  className="px-4 py-2 rounded-lg text-sm bg-[#16161d] text-gray-400 hover:bg-[#1c1c24] transition-all"
+                  className="px-4 py-2 rounded-lg text-sm font-medium transition-all"
+                  style={{ background: 'rgba(0, 245, 212, 0.2)', color: '#00F5D4', border: '1px solid #00F5D4', boxShadow: '0 0 10px rgba(0, 245, 212, 0.2)' }}
                 >
                   Random
                 </button>
-                <label className="px-4 py-2 rounded-lg text-sm bg-[#16161d] text-gray-400 hover:bg-[#1c1c24] cursor-pointer transition-all">
+                <label className="px-4 py-2 rounded-lg text-sm font-medium cursor-pointer transition-all" style={{ background: 'rgba(168, 85, 247, 0.2)', color: '#A855F7', border: '1px solid #A855F7', boxShadow: '0 0 10px rgba(168, 85, 247, 0.2)' }}>
                   Upload FASTA
                   <input type="file" accept=".fasta,.fa,.txt" onChange={handleFileUpload} className="hidden" />
                 </label>
@@ -981,11 +1017,13 @@
                     onChange={(e) => setProteinId(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && loadFromDb(proteinId)}
                     placeholder="e.g. P00533, P04637, P16658..."
-                    className="flex-1 bg-[#16161d] border border-gray-700/50 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-[#c9a227]/50"
+                    className="flex-1 rounded-lg px-4 py-3 text-sm focus:outline-none text-white"
+                    style={{ background: 'rgba(30, 20, 50, 0.9)', border: '2px solid #666', boxShadow: 'inset 0 0 10px rgba(0,0,0,0.3)' }}
                   />
                   <button
                     onClick={() => loadFromDb(proteinId)}
-                    className="px-6 py-3 rounded-lg text-sm bg-[#c9a227]/20 text-[#c9a227] hover:bg-[#c9a227]/30 transition-all"
+                    className="px-6 py-3 rounded-lg text-sm font-bold transition-all"
+                    style={{ background: 'linear-gradient(135deg, #FFD700, #FFA500)', color: '#000', boxShadow: '0 0 20px rgba(255, 215, 0, 0.4)' }}
                   >
                     Load
                   </button>
@@ -998,20 +1036,22 @@
                     value={customSeq}
                     onChange={(e) => setCustomSeq(e.target.value)}
                     placeholder="Paste protein sequence (single-letter amino acid codes)..."
-                    className="w-full bg-[#16161d] border border-gray-700/50 rounded-lg px-4 py-3 text-sm font-mono focus:outline-none focus:border-[#c9a227]/50 resize-none"
+                    className="w-full rounded-lg px-4 py-3 text-sm font-mono focus:outline-none resize-none text-white"
                     rows={3}
+                    style={{ background: 'rgba(30, 20, 50, 0.9)', border: '2px solid #666', boxShadow: 'inset 0 0 10px rgba(0,0,0,0.3)' }}
                   />
                   <button
                     onClick={loadCustom}
-                    className="px-6 py-3 rounded-lg text-sm bg-[#c9a227]/20 text-[#c9a227] hover:bg-[#c9a227]/30 transition-all"
+                    className="px-6 py-3 rounded-lg text-sm font-bold transition-all"
+                    style={{ background: 'linear-gradient(135deg, #FFD700, #FFA500)', color: '#000', boxShadow: '0 0 20px rgba(255, 215, 0, 0.4)' }}
                   >
                     Analyze
                   </button>
                 </div>
               )}
 
-              <p className="text-gray-600 text-xs">
-                Built-in: P16658 (ProRS), P00533 (EGFR), P04637 (p53), P68871 (Hemoglobin), P01308 (Insulin), P00698 (Lysozyme)...
+              <p className="text-gray-400 text-xs">
+                Built-in: <span className="text-cyan-400">P16658</span> (ProRS), <span className="text-cyan-400">P00533</span> (EGFR), <span className="text-cyan-400">P04637</span> (p53), <span className="text-cyan-400">P68871</span> (Hemoglobin), <span className="text-cyan-400">P01308</span> (Insulin), <span className="text-cyan-400">P00698</span> (Lysozyme)...
               </p>
             </div>
 
@@ -1023,7 +1063,7 @@
                 <RagaCard raga={analysis.composition.raga} />
 
                 {/* Visualization */}
-                <div className="bg-[#0e0e14] rounded-xl p-4 border border-gray-800/30">
+                <div className="rounded-xl p-4 border-2 border-purple-500/30" style={{ background: 'rgba(15, 10, 30, 0.8)', boxShadow: '0 0 20px rgba(160, 100, 255, 0.1)' }}>
                   <MelodyVisualizer
                     composition={analysis.composition}
                     currentSection={currentSection}
@@ -1035,7 +1075,7 @@
                 {/* Signatures */}
                 {analysis.signatures.length > 0 && (
                   <div className="space-y-3">
-                    <h3 className="text-gray-500 text-sm devanagari">
+                    <h3 className="text-sm devanagari" style={{ color: '#E879F9', textShadow: '0 0 10px rgba(232, 121, 249, 0.5)' }}>
                       मन्त्राः — Signature Motifs ({analysis.signatures.length})
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -1052,17 +1092,17 @@
                 )}
 
                 {/* Playback Controls */}
-                <div className="bg-[#0e0e14] rounded-xl p-5 border border-gray-800/30 space-y-4">
+                <div className="rounded-xl p-5 border-2 border-purple-500/30 space-y-4" style={{ background: 'rgba(15, 10, 30, 0.8)', boxShadow: '0 0 20px rgba(160, 100, 255, 0.1)' }}>
                   <div className="flex items-center justify-between flex-wrap gap-3">
-                    <h3 className="text-gray-500 text-sm devanagari">रचना — Composition</h3>
+                    <h3 className="text-sm devanagari" style={{ color: '#00F5D4', textShadow: '0 0 10px rgba(0, 245, 212, 0.5)' }}>रचना — Composition</h3>
                     <div className="flex gap-2">
                       {analysis.composition.sections.map((sec, i) => (
                         <span
                           key={i}
-                          className="px-3 py-1 rounded-full text-sm transition-all devanagari"
+                          className="px-3 py-1 rounded-full text-sm font-medium transition-all devanagari"
                           style={currentSection === i
-                            ? { background: analysis.composition.raga.color, color: '#0a0a0f' }
-                            : { background: '#16161d', color: '#555' }
+                            ? { background: analysis.composition.raga.color, color: '#000', boxShadow: `0 0 15px ${analysis.composition.raga.color}` }
+                            : { background: 'rgba(40, 30, 60, 0.8)', color: '#888', border: '1px solid #444' }
                           }
                         >
                           {sec.devanagari}
@@ -1074,10 +1114,10 @@
                   <div className="flex gap-3">
                     <button
                       onClick={isPlaying ? stop : playComposition}
-                      className="flex-1 py-4 rounded-xl text-lg font-medium transition-all"
+                      className="flex-1 py-4 rounded-xl text-lg font-bold transition-all"
                       style={isPlaying
-                        ? { background: '#8b3a3a', color: '#fff' }
-                        : { background: `linear-gradient(90deg, ${analysis.composition.raga.color}cc, ${analysis.composition.raga.color}88)`, color: '#0a0a0f' }
+                        ? { background: 'linear-gradient(135deg, #FF6B6B, #FF3333)', color: '#fff', boxShadow: '0 0 25px rgba(255, 100, 100, 0.5)' }
+                        : { background: `linear-gradient(135deg, ${analysis.composition.raga.color}, ${analysis.composition.raga.color}cc)`, color: '#000', boxShadow: `0 0 25px ${analysis.composition.raga.color}60` }
                       }
                     >
                       {isPlaying ? 'Stop' : 'Play Raga'}
@@ -1085,11 +1125,11 @@
 
                     <button
                       onClick={toggleDrone}
-                      className={`px-6 py-4 rounded-xl transition-all ${
-                        droneActive
-                          ? 'bg-[#4a7c6f] text-white'
-                          : 'bg-[#16161d] text-gray-400 hover:bg-[#1c1c24]'
-                      }`}
+                      className="px-6 py-4 rounded-xl font-medium transition-all"
+                      style={droneActive
+                        ? { background: 'linear-gradient(135deg, #00F5D4, #00D4AA)', color: '#000', boxShadow: '0 0 20px rgba(0, 245, 212, 0.5)' }
+                        : { background: 'rgba(40, 30, 60, 0.8)', color: '#00F5D4', border: '2px solid #00F5D4', boxShadow: '0 0 10px rgba(0, 245, 212, 0.2)' }
+                      }
                     >
                       Tanpura
                     </button>
@@ -1099,21 +1139,22 @@
             )}
 
             {!protein && (
-              <div className="text-center py-16 text-gray-600">
-                Load a protein to hear its raga
+              <div className="text-center py-16" style={{ color: '#888' }}>
+                <p className="text-lg" style={{ color: '#A855F7', textShadow: '0 0 15px rgba(168, 85, 247, 0.5)' }}>Load a protein to hear its raga</p>
+                <p className="text-sm mt-2 text-gray-500">Click "Random" to start exploring</p>
               </div>
             )}
           </main>
 
           {/* Footer */}
-          <footer className="border-t border-gray-800/20 mt-12 py-8 text-center space-y-3">
-            <p className="text-[#c9a227]/40 text-lg devanagari">नाद ब्रह्म</p>
-            <p className="text-gray-700 text-xs max-w-lg mx-auto px-6">
+          <footer className="border-t border-purple-500/20 mt-12 py-8 text-center space-y-3" style={{ background: 'rgba(10, 5, 20, 0.5)' }}>
+            <p className="text-2xl devanagari" style={{ color: '#FFD700', textShadow: '0 0 20px rgba(255, 215, 0, 0.6)' }}>नाद ब्रह्म</p>
+            <p className="text-gray-400 text-xs max-w-lg mx-auto px-6">
               Sanskrit grammatical concepts serve as an evocative vocabulary for protein organization;
               raga provides the musical framework. The parallels are structural analogies —
               both are constrained generative systems — not encoding claims.
             </p>
-            <p className="text-gray-600 text-xs mt-4">Happy New Year 2025!</p>
+            <p className="text-sm mt-4" style={{ color: '#00F5D4', textShadow: '0 0 10px rgba(0, 245, 212, 0.5)' }}>Happy New Year 2025!</p>
           </footer>
         </div>
       );
