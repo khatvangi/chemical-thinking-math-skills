@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHANGE | The Primitive of Becoming</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0D1117;
+            --bg-secondary: #161B22;
+            --bg-tertiary: #21262D;
+            --text-primary: #E6EDF3;
+            --text-secondary: #8B949E;
+            --text-muted: #6E7681;
+            --accent-purple: #8B5CF6;
+            --accent-blue: #3B82F6;
+            --accent-orange: #F97316;
+            --accent-green: #22C55E;
+            --accent-red: #EF4444;
+            --accent-cyan: #06B6D4;
+            --border-color: #30363D;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.8;
+            font-size: 18px;
+        }
+
+        .header {
+            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+            padding: 5rem 2rem 6rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--accent-orange);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-family: 'Fraunces', serif;
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-orange), var(--accent-red));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.4rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+            font-style: italic;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .prologue {
+            padding: 4rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .prologue-title {
+            font-family: 'Fraunces', serif;
+            font-size: 1.8rem;
+            color: var(--accent-orange);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .part {
+            padding: 4rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .part:last-child { border-bottom: none; }
+
+        .part-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .part-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--accent-orange);
+            letter-spacing: 0.1em;
+        }
+
+        h2 {
+            font-family: 'Fraunces', serif;
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        h3 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--accent-orange);
+            margin: 3rem 0 1.5rem;
+        }
+
+        h4 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        p { margin-bottom: 1.4rem; color: var(--text-secondary); }
+        strong { color: var(--text-primary); font-weight: 600; }
+        em { color: var(--accent-orange); font-style: italic; }
+
+        .def-popup {
+            position: relative;
+            color: var(--accent-blue);
+            cursor: help;
+            border-bottom: 1px dashed var(--accent-blue);
+        }
+
+        .def-popup .def-tooltip {
+            position: absolute;
+            bottom: calc(100% + 10px);
+            left: 50%;
+            transform: translateX(-50%);
+            width: 360px;
+            padding: 1rem 1.25rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s, visibility 0.2s;
+            z-index: 100;
+            text-align: left;
+            line-height: 1.5;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .def-popup:hover .def-tooltip { opacity: 1; visibility: visible; }
+
+        .visual-container {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2.5rem 0;
+            border: 1px solid var(--border-color);
+        }
+
+        .visual-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-orange);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        canvas { display: block; margin: 0 auto; border-radius: 8px; }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+            justify-content: center;
+        }
+
+        .slider-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .slider-group label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        input[type="range"] { width: 150px; accent-color: var(--accent-orange); }
+
+        .value-display {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-orange);
+            font-size: 0.9rem;
+        }
+
+        button {
+            padding: 0.6rem 1.2rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+
+        button:hover { background: var(--accent-orange); border-color: var(--accent-orange); color: var(--bg-primary); }
+        button.active { background: var(--accent-orange); border-color: var(--accent-orange); color: var(--bg-primary); }
+
+        select {
+            padding: 0.6rem 1rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+        }
+
+        .caption {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-align: center;
+            margin-top: 1.5rem;
+            font-style: italic;
+        }
+
+        table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.95rem; }
+        th, td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--border-color); }
+        th { color: var(--accent-orange); font-weight: 500; background: var(--bg-tertiary); font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; }
+        td { color: var(--text-secondary); }
+
+        ul, ol { color: var(--text-secondary); margin: 1rem 0 1.5rem 1.5rem; }
+        li { margin-bottom: 0.5rem; }
+
+        .formula-box {
+            background: var(--bg-tertiary);
+            border-left: 3px solid var(--accent-orange);
+            padding: 1.25rem 1.5rem;
+            margin: 1.5rem 0;
+            font-family: 'JetBrains Mono', monospace;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .formula-box .formula { font-size: 1.1rem; color: var(--text-primary); margin-bottom: 0.5rem; }
+        .formula-box .explanation { font-size: 0.85rem; color: var(--text-muted); }
+
+        .definition-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--accent-orange);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2.5rem 0;
+        }
+
+        .definition-box h3 { margin-top: 0; margin-bottom: 1.5rem; text-align: center; }
+
+        .definition-item { margin-bottom: 1.25rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--border-color); }
+        .definition-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+        .definition-term { font-family: 'JetBrains Mono', monospace; color: var(--accent-blue); font-weight: 500; margin-bottom: 0.25rem; }
+        .definition-desc { color: var(--text-secondary); font-size: 0.95rem; }
+
+        .endnotes { margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border-color); }
+        .endnotes h3 { font-size: 1.3rem; margin-bottom: 1.5rem; }
+        .endnote { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem; padding-left: 2.5rem; text-indent: -2.5rem; }
+        .endnote-ref { color: var(--accent-orange); font-weight: 500; }
+
+        .nav-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent-orange);
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border: 1px solid var(--accent-orange);
+            border-radius: 8px;
+            margin: 1rem 0;
+            transition: all 0.2s ease;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+        }
+
+        .nav-link:hover { background: var(--accent-orange); color: var(--bg-primary); }
+        .nav-buttons { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin: 4rem 0 2rem; }
+
+        .info-display { background: var(--bg-tertiary); border-radius: 8px; padding: 1rem; margin-top: 1rem; text-align: center; }
+        .info-value { font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; color: var(--accent-orange); }
+        .info-label { font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem; }
+
+        .dual-panel { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2.8rem; }
+            h2 { font-size: 1.8rem; }
+            .container { padding: 0 1rem; }
+            .visual-container { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-label">Primitive VI</div>
+        <h1>CHANGE</h1>
+        <p class="subtitle">The primitive of becoming. The perception of transformation.</p>
+    </header>
+
+    <main class="container">
+        <!-- Prologue -->
+        <section class="prologue">
+            <h2 class="prologue-title">Nothing Stays</h2>
+
+            <p>The world is not static. It flows.</p>
+
+            <p>Concentrations rise and fall. Bonds form and break. Electrons jump between orbitals. Molecules vibrate, rotate, translate. Reactions proceed. Systems equilibrate. Everything changes.</p>
+
+            <p><span class="def-popup" data-definition="Change: The transition from one state to another. Change requires a before-state, an after-state, and a difference between them."><span class="def-tooltip"></span>CHANGE</span> is the primitive that captures this flux. Before any formalism—before derivatives, before differential equations—there is the perception that something is <em>becoming</em> something else.</p>
+
+            <p>CHANGE answers: <em>What is different?</em></p>
+
+            <p>And its refinement: <em>How fast?</em> (That is RATE, the next primitive.)</p>
+        </section>
+
+        <!-- Part I: Cognitive Basis -->
+        <section class="part">
+            <div class="part-header">
+                <div class="part-number">PART I</div>
+                <h2>The Cognitive Basis of CHANGE</h2>
+            </div>
+
+            <h3>1.1 Perception of Transformation</h3>
+            <p>Motion perception is hardwired.</p>
+
+            <p>The visual system contains specialized neurons for detecting movement—direction-selective cells in the visual cortex that fire when something in the visual field changes position. This is not learned. Newborns track moving objects within hours of birth.</p>
+
+            <p>Beyond motion, humans perceive transformation in:</p>
+            <ul>
+                <li><strong>Quantity</strong>: More or less than before</li>
+                <li><strong>Quality</strong>: Different color, shape, texture, sound</li>
+                <li><strong>State</strong>: Solid to liquid, asleep to awake</li>
+                <li><strong>Identity</strong>: Caterpillar to butterfly, reactant to product</li>
+                <li><strong>Relationship</strong>: Together to apart, aligned to opposed</li>
+            </ul>
+
+            <h3>1.2 Change Requires Comparison</h3>
+            <p>CHANGE is inherently relational. It requires:</p>
+
+            <p><strong>A. A state space</strong>: The set of possible configurations.</p>
+            <p><strong>B. Two states</strong>: A before-state and an after-state.</p>
+            <p><strong>C. A difference</strong>: The states must be distinguishable.</p>
+            <p><strong>D. An ordering</strong>: Which is "before" and which is "after."</p>
+
+            <h3>1.3 Kinds of Change</h3>
+            <table>
+                <tr><th>Type</th><th>Description</th><th>Example</th></tr>
+                <tr><td>Continuous</td><td>Smooth variation through intermediates</td><td>Temperature rising</td></tr>
+                <tr><td>Discrete</td><td>Jumps without intermediates</td><td>Electron transitions</td></tr>
+                <tr><td>Cyclic</td><td>Returns to starting point</td><td>Oscillation, rotation</td></tr>
+                <tr><td>Irreversible</td><td>Cannot return</td><td>Combustion, decay</td></tr>
+            </table>
+        </section>
+
+        <!-- Part II: Quantifying Change -->
+        <section class="part">
+            <div class="part-header">
+                <div class="part-number">PART II</div>
+                <h2>Quantifying Change</h2>
+            </div>
+
+            <h3>2.1 The Difference</h3>
+            <div class="formula-box">
+                <div class="formula">Δf = f_after - f_before = f₂ - f₁</div>
+                <div class="explanation">Net change: Δf > 0 (increase), Δf < 0 (decrease), Δf = 0 (no change)</div>
+            </div>
+
+            <h3>2.2 The Difference Quotient</h3>
+            <p>Change occurs over some interval. To compare changes, normalize by interval size:</p>
+
+            <div class="formula-box">
+                <div class="formula">Δf/Δt = [f(t + Δt) - f(t)] / Δt</div>
+                <div class="explanation">Average rate of change over interval Δt. Units: [f]/[t]</div>
+            </div>
+
+            <h3>2.3 The Problem of Instantaneous Change</h3>
+            <p>The average rate depends on the interval. A reaction may be fast initially, then slow.</p>
+
+            <p><em>What is the rate right now?</em></p>
+
+            <p>This requires the interval to shrink to zero. But Δf/Δt with Δt = 0 is undefined (0/0). The resolution is PROXIMITY: take the limit.</p>
+        </section>
+
+        <!-- Part III: The Derivative -->
+        <section class="part">
+            <div class="part-header">
+                <div class="part-number">PART III</div>
+                <h2>The Derivative</h2>
+            </div>
+
+            <h3>3.1 Definition</h3>
+            <p>The <span class="def-popup" data-definition="Derivative: The instantaneous rate of change of a function. df/dt = lim(Δt→0) [f(t+Δt) - f(t)]/Δt. The derivative measures how fast f is changing at each instant."><span class="def-tooltip"></span>derivative</span> is the limit of the difference quotient:</p>
+
+            <div class="formula-box">
+                <div class="formula">df/dt = lim(Δt→0) [f(t + Δt) - f(t)] / Δt</div>
+                <div class="explanation">Alternative notations: f'(t), Df, ḟ</div>
+            </div>
+
+            <!-- Secant to Tangent -->
+            <div class="visual-container">
+                <div class="visual-title">Secant to Tangent</div>
+                <canvas id="secantCanvas" width="600" height="350"></canvas>
+                <div class="controls">
+                    <div class="slider-group">
+                        <label>Δx (separation)</label>
+                        <input type="range" id="secantDx" min="0.1" max="3" step="0.1" value="2">
+                        <span class="value-display" id="secantDxVal">2.0</span>
+                    </div>
+                </div>
+                <div class="info-display">
+                    <div class="info-value" id="secantSlope">Secant slope: 1.50</div>
+                    <div class="info-label">As Δx → 0, secant → tangent, slope → derivative</div>
+                </div>
+                <p class="caption">The derivative is the limit of the secant slope as the points converge.</p>
+            </div>
+
+            <h3>3.2 Geometric Interpretation</h3>
+            <p>The derivative is the <strong>slope of the tangent line</strong>.</p>
+            <ul>
+                <li>f'(t) > 0: function increasing (tangent slopes upward)</li>
+                <li>f'(t) < 0: function decreasing (tangent slopes downward)</li>
+                <li>f'(t) = 0: horizontal tangent (local extremum or inflection)</li>
+            </ul>
+
+            <h3>3.3 Physical Interpretation</h3>
+            <p>The derivative measures <strong>sensitivity</strong>: how much does output change per unit change in input?</p>
+            <ul>
+                <li>Position f(t) → Velocity f'(t)</li>
+                <li>Velocity v(t) → Acceleration v'(t)</li>
+                <li>Concentration [A](t) → Reaction rate d[A]/dt</li>
+            </ul>
+        </section>
+
+        <!-- Part IV: Differentiation Rules -->
+        <section class="part">
+            <div class="part-header">
+                <div class="part-number">PART IV</div>
+                <h2>Differentiation Rules</h2>
+            </div>
+
+            <h3>4.1 Basic Rules</h3>
+            <table>
+                <tr><th>Rule</th><th>Formula</th></tr>
+                <tr><td>Constant</td><td>d/dx [c] = 0</td></tr>
+                <tr><td>Power</td><td>d/dx [xⁿ] = nxⁿ⁻¹</td></tr>
+                <tr><td>Sum</td><td>d/dx [f + g] = f' + g'</td></tr>
+                <tr><td>Constant multiple</td><td>d/dx [cf] = c·f'</td></tr>
+            </table>
+
+            <h3>4.2 Product and Chain Rules</h3>
+            <div class="formula-box">
+                <div class="formula">Product: d/dx [f·g] = f'·g + f·g'</div>
+                <div class="explanation">Chain: d/dx [f(g(x))] = f'(g(x))·g'(x)</div>
+            </div>
+
+            <h3>4.3 Special Functions</h3>
+            <table>
+                <tr><th>f(x)</th><th>f'(x)</th><th>Chemistry context</th></tr>
+                <tr><td>eˣ</td><td>eˣ</td><td>First-order kinetics</td></tr>
+                <tr><td>e^(kx)</td><td>ke^(kx)</td><td>Arrhenius, decay</td></tr>
+                <tr><td>ln(x)</td><td>1/x</td><td>Entropy, equilibrium</td></tr>
+                <tr><td>1/x</td><td>-1/x²</td><td>Coulomb potential</td></tr>
+                <tr><td>sin(ωt)</td><td>ω cos(ωt)</td><td>Spectroscopy</td></tr>
+            </table>
+
+            <!-- Derivative Explorer -->
+            <div class="visual-container">
+                <div class="visual-title">Derivative Explorer</div>
+                <canvas id="derivCanvas" width="600" height="400"></canvas>
+                <div class="controls">
+                    <select id="derivFunc">
+                        <option value="x2">f(x) = x²</option>
+                        <option value="x3">f(x) = x³</option>
+                        <option value="sin">f(x) = sin(x)</option>
+                        <option value="exp">f(x) = eˣ</option>
+                        <option value="ln">f(x) = ln(x)</option>
+                    </select>
+                    <div class="slider-group">
+                        <label>x position</label>
+                        <input type="range" id="derivX" min="-2.5" max="2.5" step="0.1" value="1">
+                        <span class="value-display" id="derivXVal">1.0</span>
+                    </div>
+                </div>
+                <div class="info-display">
+                    <div class="info-value" id="derivValue">f(1) = 1, f'(1) = 2</div>
+                </div>
+                <p class="caption">The derivative at each point equals the slope of the tangent.</p>
+            </div>
+        </section>
+
+        <!-- Part V: Higher Derivatives -->
+        <section class="part">
+            <div class="part-header">
+                <div class="part-number">PART V</div>
+                <h2>Higher Derivatives</h2>
+            </div>
+
+            <h3>5.1 The Second Derivative</h3>
+            <div class="formula-box">
+                <div class="formula">f''(x) = d²f/dx² = d/dx[df/dx]</div>
+                <div class="explanation">Rate of change of the rate of change—how the slope itself changes.</div>
+            </div>
+
+            <h3>5.2 Physical Interpretation</h3>
+            <ul>
+                <li>f(t) position → f'(t) velocity → f''(t) acceleration</li>
+                <li>f''(t) indicates whether the rate is speeding up or slowing down</li>
+            </ul>
+
+            <h3>5.3 Concavity</h3>
+            <p>The second derivative determines <span class="def-popup" data-definition="Concavity: The direction a curve bends. Concave up (f'' > 0): curve bends upward. Concave down (f'' < 0): curve bends downward."><span class="def-tooltip"></span>concavity</span>:</p>
+            <ul>
+                <li>f''(x) > 0: concave up (curve bends upward)</li>
+                <li>f''(x) < 0: concave down (curve bends downward)</li>
+                <li>f''(x) = 0: possible inflection point</li>
+            </ul>
+        </section>
+
+        <!-- Part VI: Partial Derivatives -->
+        <section class="part">
+            <div class="part-header">
+                <div class="part-number">PART VI</div>
+                <h2>Partial Derivatives</h2>
+            </div>
+
+            <h3>6.1 Functions of Multiple Variables</h3>
+            <p>Many chemical quantities depend on several variables:</p>
+            <ul>
+                <li>Pressure P(V, T, n)</li>
+                <li>Gibbs energy G(T, P)</li>
+                <li>Rate k(T, [A], [B])</li>
+            </ul>
+
+            <h3>6.2 Definition</h3>
+            <p>The <span class="def-popup" data-definition="Partial derivative: The derivative of a multivariable function with respect to one variable, holding all others constant. Notation: ∂f/∂x."><span class="def-tooltip"></span>partial derivative</span> of f(x, y) with respect to x:</p>
+
+            <div class="formula-box">
+                <div class="formula">∂f/∂x = lim(h→0) [f(x+h, y) - f(x, y)] / h</div>
+                <div class="explanation">Treat y as constant, differentiate with respect to x only.</div>
+            </div>
+
+            <h3>6.3 The Total Differential</h3>
+            <div class="formula-box">
+                <div class="formula">df = (∂f/∂x)dx + (∂f/∂y)dy</div>
+                <div class="explanation">Total change when both variables vary.</div>
+            </div>
+
+            <h3>6.4 Chemical Applications</h3>
+            <p>For ideal gas PV = nRT:</p>
+            <ul>
+                <li>(∂P/∂V)_{T,n} = -nRT/V²</li>
+                <li>(∂P/∂T)_{V,n} = nR/V</li>
+            </ul>
+        </section>
+
+        <!-- Part VII: CHANGE in Chemical Systems -->
+        <section class="part">
+            <div class="part-header">
+                <div class="part-number">PART VII</div>
+                <h2>CHANGE in Chemical Systems</h2>
+            </div>
+
+            <h3>7.1 Reaction Progress</h3>
+            <p>A chemical reaction transforms reactants into products: A → B</p>
+            <p>The rate of change of concentration:</p>
+            <ul>
+                <li>d[A]/dt < 0 (A is consumed)</li>
+                <li>d[B]/dt > 0 (B is produced)</li>
+            </ul>
+
+            <!-- Concentration vs Time -->
+            <div class="visual-container">
+                <div class="visual-title">First-Order Decay</div>
+                <canvas id="concCanvas" width="600" height="350"></canvas>
+                <div class="controls">
+                    <div class="slider-group">
+                        <label>Rate constant k</label>
+                        <input type="range" id="concK" min="0.1" max="2" step="0.1" value="0.5">
+                        <span class="value-display" id="concKVal">0.5</span>
+                    </div>
+                    <div class="slider-group">
+                        <label>Time point</label>
+                        <input type="range" id="concT" min="0" max="8" step="0.1" value="2">
+                        <span class="value-display" id="concTVal">2.0</span>
+                    </div>
+                </div>
+                <div class="info-display">
+                    <div class="info-value" id="concInfo">[A] = 0.37, d[A]/dt = -0.18</div>
+                </div>
+                <p class="caption">The derivative gives the instantaneous rate of concentration change.</p>
+            </div>
+
+            <h3>7.2 Rate Laws</h3>
+            <table>
+                <tr><th>Order</th><th>Rate Law</th><th>Integrated Form</th></tr>
+                <tr><td>Zero</td><td>r = k</td><td>[A] = [A]₀ - kt</td></tr>
+                <tr><td>First</td><td>r = k[A]</td><td>[A] = [A]₀ e^(-kt)</td></tr>
+                <tr><td>Second</td><td>r = k[A]²</td><td>1/[A] = 1/[A]₀ + kt</td></tr>
+            </table>
+
+            <h3>7.3 Potential Energy Surfaces</h3>
+
+            <!-- Reaction Coordinate -->
+            <div class="visual-container">
+                <div class="visual-title">Reaction Coordinate Diagram</div>
+                <canvas id="pesCanvas" width="600" height="350"></canvas>
+                <div class="controls">
+                    <div class="slider-group">
+                        <label>Activation Energy Ea</label>
+                        <input type="range" id="pesEa" min="20" max="100" step="5" value="60">
+                        <span class="value-display" id="pesEaVal">60</span>
+                    </div>
+                    <div class="slider-group">
+                        <label>Reaction Energy ΔE</label>
+                        <input type="range" id="pesDe" min="-50" max="50" step="5" value="-20">
+                        <span class="value-display" id="pesDeVal">-20</span>
+                    </div>
+                </div>
+                <div class="info-display">
+                    <div class="info-value" id="pesInfo">dV/dξ = 0 at stationary points</div>
+                </div>
+                <p class="caption">Reactions proceed through stationary points on the potential energy surface.</p>
+            </div>
+        </section>
+
+        <!-- Part VIII: CHANGE and Other Primitives -->
+        <section class="part">
+            <div class="part-header">
+                <div class="part-number">PART VIII</div>
+                <h2>CHANGE and Other Primitives</h2>
+            </div>
+
+            <h3>8.1 CHANGE and PROXIMITY</h3>
+            <p>The derivative requires the limit concept from PROXIMITY.</p>
+            <ul>
+                <li>CHANGE asks: <em>What is different?</em></li>
+                <li>PROXIMITY enables: <em>What happens as Δt → 0?</em></li>
+            </ul>
+
+            <h3>8.2 CHANGE and SAMENESS</h3>
+            <p>SAMENESS is the negation of CHANGE.</p>
+            <ul>
+                <li>Where SAMENESS holds, the derivative is zero</li>
+                <li>Equilibrium: d[A]/dt = 0, d[B]/dt = 0</li>
+            </ul>
+
+            <h3>8.3 CHANGE and DIRECTION</h3>
+            <p>In multivariate functions, CHANGE has DIRECTION.</p>
+            <p>The <span class="def-popup" data-definition="Gradient: The vector of partial derivatives. ∇f = (∂f/∂x, ∂f/∂y, ∂f/∂z). Points in the direction of steepest increase."><span class="def-tooltip"></span>gradient</span> ∇f points in the direction of steepest increase.</p>
+
+            <!-- Gradient Field -->
+            <div class="visual-container">
+                <div class="visual-title">Gradient Field</div>
+                <canvas id="gradCanvas" width="600" height="350"></canvas>
+                <div class="controls">
+                    <select id="gradFunc">
+                        <option value="paraboloid">f = x² + y²</option>
+                        <option value="saddle">f = x² - y²</option>
+                        <option value="exp">f = e^(-(x²+y²))</option>
+                    </select>
+                </div>
+                <p class="caption">The gradient points in the direction of fastest increase.</p>
+            </div>
+        </section>
+
+        <!-- Part IX: Summary -->
+        <section class="part">
+            <div class="part-header">
+                <div class="part-number">PART IX</div>
+                <h2>Summary</h2>
+            </div>
+
+            <h3>9.1 What CHANGE Is</h3>
+            <p>CHANGE is the perception of becoming—the recognition that the current state differs from the previous state.</p>
+
+            <p>The perception is primary. Infants perceive motion. Organisms respond to environmental change. The awareness of transformation precedes any formal quantification.</p>
+
+            <h3>9.2 Key Concepts</h3>
+            <div class="definition-box">
+                <h3>Core Concepts</h3>
+
+                <div class="definition-item">
+                    <div class="definition-term">Difference (Δf)</div>
+                    <div class="definition-desc">Net change: f_after - f_before.</div>
+                </div>
+
+                <div class="definition-item">
+                    <div class="definition-term">Difference quotient (Δf/Δt)</div>
+                    <div class="definition-desc">Average rate of change over interval.</div>
+                </div>
+
+                <div class="definition-item">
+                    <div class="definition-term">Derivative (df/dt)</div>
+                    <div class="definition-desc">Instantaneous rate: lim(Δt→0) Δf/Δt.</div>
+                </div>
+
+                <div class="definition-item">
+                    <div class="definition-term">Partial derivative (∂f/∂x)</div>
+                    <div class="definition-desc">Rate with respect to one variable, others held fixed.</div>
+                </div>
+
+                <div class="definition-item">
+                    <div class="definition-term">Gradient (∇f)</div>
+                    <div class="definition-desc">Vector of partial derivatives. Direction of steepest change.</div>
+                </div>
+            </div>
+
+            <h3>9.3 Forward</h3>
+            <p>CHANGE is formalized through the derivative. The next primitive, RATE, applies this to temporal evolution.</p>
+            <ul>
+                <li><strong>Lecture 14</strong>: Instantaneous Rate — the derivative definition</li>
+                <li><strong>Lecture 15</strong>: Rules of Change — differentiation techniques</li>
+                <li><strong>Lecture 16</strong>: The Kinetics Problem — RATE applied to reactions</li>
+            </ul>
+        </section>
+
+        <!-- Endnotes -->
+        <section class="endnotes">
+            <h3>Endnotes</h3>
+            <div class="endnote"><span class="endnote-ref">[1]</span> Movshon, J.A. & Newsome, W.T. (1992). "Neural foundations of visual motion perception." <em>Current Directions in Psychological Science</em>, 1(2), 35-39.</div>
+            <div class="endnote"><span class="endnote-ref">[2]</span> Boyer, C.B. (1959). <em>The History of the Calculus and Its Conceptual Development</em>. Dover.</div>
+            <div class="endnote"><span class="endnote-ref">[3]</span> Atkins, P. & de Paula, J. (2014). <em>Atkins' Physical Chemistry</em> (10th ed.). Oxford University Press, Chapters 20-22.</div>
+            <div class="endnote"><span class="endnote-ref">[4]</span> Levine, I.N. (2009). <em>Physical Chemistry</em> (6th ed.). McGraw-Hill, Chapter 23.</div>
+        </section>
+
+        <!-- Navigation -->
+        <div class="nav-buttons">
+            <a href="proximity.html" class="nav-link">← PROXIMITY</a>
+            <a href="../index.html" class="nav-link">Course Home</a>
+        </div>
+    </main>
+
+    <script>
+        // === Populate Definition Tooltips ===
+        document.querySelectorAll('.def-popup').forEach(el => {
+            const tooltip = el.querySelector('.def-tooltip');
+            if (tooltip && el.dataset.definition) {
+                tooltip.textContent = el.dataset.definition;
+            }
+        });
+
+        // === Secant to Tangent ===
+        const secCanvas = document.getElementById('secantCanvas');
+        const secCtx = secCanvas.getContext('2d');
+        const secDx = document.getElementById('secantDx');
+
+        function f(x) { return 0.3 * x * x + 0.5; }
+        function fp(x) { return 0.6 * x; }
+
+        function drawSecant() {
+            const dx = parseFloat(secDx.value);
+            document.getElementById('secantDxVal').textContent = dx.toFixed(1);
+
+            secCtx.fillStyle = '#161B22';
+            secCtx.fillRect(0, 0, 600, 350);
+
+            const ox = 100, oy = 280, sx = 80, sy = 60;
+            const x1 = 2;
+            const x2 = x1 + dx;
+
+            // Grid
+            secCtx.strokeStyle = '#21262D';
+            secCtx.lineWidth = 1;
+            for (let i = 0; i <= 6; i++) {
+                secCtx.beginPath();
+                secCtx.moveTo(ox + i * sx, 50);
+                secCtx.lineTo(ox + i * sx, oy);
+                secCtx.stroke();
+            }
+            for (let i = 0; i <= 4; i++) {
+                secCtx.beginPath();
+                secCtx.moveTo(ox - 20, oy - i * sy);
+                secCtx.lineTo(580, oy - i * sy);
+                secCtx.stroke();
+            }
+
+            // Axes
+            secCtx.strokeStyle = '#6B7680';
+            secCtx.lineWidth = 2;
+            secCtx.beginPath();
+            secCtx.moveTo(ox, 50);
+            secCtx.lineTo(ox, oy + 20);
+            secCtx.moveTo(ox - 20, oy);
+            secCtx.lineTo(580, oy);
+            secCtx.stroke();
+
+            // Function curve
+            secCtx.strokeStyle = '#8B5CF6';
+            secCtx.lineWidth = 3;
+            secCtx.beginPath();
+            for (let px = ox; px <= 550; px++) {
+                const x = (px - ox) / sx;
+                const y = f(x);
+                const py = oy - y * sy;
+                if (px === ox) secCtx.moveTo(px, py);
+                else secCtx.lineTo(px, py);
+            }
+            secCtx.stroke();
+
+            // Points
+            const px1 = ox + x1 * sx, py1 = oy - f(x1) * sy;
+            const px2 = ox + x2 * sx, py2 = oy - f(x2) * sy;
+
+            // Secant line (extended)
+            const slope = (f(x2) - f(x1)) / dx;
+            secCtx.strokeStyle = '#6B7680';
+            secCtx.lineWidth = 2;
+            secCtx.setLineDash([5, 5]);
+            secCtx.beginPath();
+            const extX1 = 0, extX2 = 7;
+            secCtx.moveTo(ox + extX1 * sx, oy - (f(x1) + slope * (extX1 - x1)) * sy);
+            secCtx.lineTo(ox + extX2 * sx, oy - (f(x1) + slope * (extX2 - x1)) * sy);
+            secCtx.stroke();
+            secCtx.setLineDash([]);
+
+            // Tangent line at x1
+            const tangentSlope = fp(x1);
+            secCtx.strokeStyle = '#3B82F6';
+            secCtx.lineWidth = 2;
+            secCtx.beginPath();
+            secCtx.moveTo(ox + extX1 * sx, oy - (f(x1) + tangentSlope * (extX1 - x1)) * sy);
+            secCtx.lineTo(ox + extX2 * sx, oy - (f(x1) + tangentSlope * (extX2 - x1)) * sy);
+            secCtx.stroke();
+
+            // Points
+            secCtx.beginPath();
+            secCtx.arc(px1, py1, 8, 0, Math.PI * 2);
+            secCtx.fillStyle = '#F97316';
+            secCtx.fill();
+
+            secCtx.beginPath();
+            secCtx.arc(px2, py2, 8, 0, Math.PI * 2);
+            secCtx.fillStyle = '#F97316';
+            secCtx.fill();
+
+            // Labels
+            secCtx.fillStyle = '#8B949E';
+            secCtx.font = '12px JetBrains Mono';
+            secCtx.textAlign = 'center';
+            secCtx.fillText('x', 570, oy + 20);
+            secCtx.fillText('f(x)', ox + 10, 45);
+
+            secCtx.fillStyle = '#6B7680';
+            secCtx.fillText('Secant', 500, 100);
+            secCtx.fillStyle = '#3B82F6';
+            secCtx.fillText('Tangent', 150, 230);
+
+            document.getElementById('secantSlope').textContent =
+                `Secant slope: ${slope.toFixed(3)} | Tangent slope: ${tangentSlope.toFixed(3)}`;
+        }
+
+        secDx.addEventListener('input', drawSecant);
+        drawSecant();
+
+        // === Derivative Explorer ===
+        const derivCanvas = document.getElementById('derivCanvas');
+        const derivCtx = derivCanvas.getContext('2d');
+        const derivFunc = document.getElementById('derivFunc');
+        const derivX = document.getElementById('derivX');
+
+        const derivFuncs = {
+            'x2': { f: x => x * x, fp: x => 2 * x, label: 'f(x) = x²' },
+            'x3': { f: x => x * x * x, fp: x => 3 * x * x, label: 'f(x) = x³' },
+            'sin': { f: x => Math.sin(x), fp: x => Math.cos(x), label: 'f(x) = sin(x)' },
+            'exp': { f: x => Math.exp(x), fp: x => Math.exp(x), label: 'f(x) = eˣ' },
+            'ln': { f: x => x > 0 ? Math.log(x) : null, fp: x => x > 0 ? 1/x : null, label: 'f(x) = ln(x)' }
+        };
+
+        function drawDeriv() {
+            const func = derivFuncs[derivFunc.value];
+            const xPos = parseFloat(derivX.value);
+            document.getElementById('derivXVal').textContent = xPos.toFixed(1);
+
+            derivCtx.fillStyle = '#161B22';
+            derivCtx.fillRect(0, 0, 600, 400);
+
+            const ox = 300, oy = 200, sx = 50, sy = 50;
+
+            // Grid
+            derivCtx.strokeStyle = '#21262D';
+            derivCtx.lineWidth = 1;
+            for (let i = -6; i <= 6; i++) {
+                derivCtx.beginPath();
+                derivCtx.moveTo(ox + i * sx, 30);
+                derivCtx.lineTo(ox + i * sx, 370);
+                derivCtx.stroke();
+            }
+            for (let i = -3; i <= 3; i++) {
+                derivCtx.beginPath();
+                derivCtx.moveTo(30, oy + i * sy);
+                derivCtx.lineTo(570, oy + i * sy);
+                derivCtx.stroke();
+            }
+
+            // Axes
+            derivCtx.strokeStyle = '#6B7680';
+            derivCtx.lineWidth = 2;
+            derivCtx.beginPath();
+            derivCtx.moveTo(ox, 30);
+            derivCtx.lineTo(ox, 370);
+            derivCtx.moveTo(30, oy);
+            derivCtx.lineTo(570, oy);
+            derivCtx.stroke();
+
+            // Function
+            derivCtx.strokeStyle = '#8B5CF6';
+            derivCtx.lineWidth = 2;
+            derivCtx.beginPath();
+            let started = false;
+            for (let px = 30; px <= 570; px++) {
+                const x = (px - ox) / sx;
+                const y = func.f(x);
+                if (y === null || !isFinite(y) || Math.abs(y) > 6) {
+                    started = false;
+                    continue;
+                }
+                const py = oy - y * sy;
+                if (!started) { derivCtx.moveTo(px, py); started = true; }
+                else derivCtx.lineTo(px, py);
+            }
+            derivCtx.stroke();
+
+            // Derivative curve
+            derivCtx.strokeStyle = '#F97316';
+            derivCtx.lineWidth = 2;
+            derivCtx.beginPath();
+            started = false;
+            for (let px = 30; px <= 570; px++) {
+                const x = (px - ox) / sx;
+                const y = func.fp(x);
+                if (y === null || !isFinite(y) || Math.abs(y) > 6) {
+                    started = false;
+                    continue;
+                }
+                const py = oy - y * sy;
+                if (!started) { derivCtx.moveTo(px, py); started = true; }
+                else derivCtx.lineTo(px, py);
+            }
+            derivCtx.stroke();
+
+            // Point and tangent
+            const fVal = func.f(xPos);
+            const fpVal = func.fp(xPos);
+
+            if (fVal !== null && fpVal !== null && isFinite(fVal) && isFinite(fpVal)) {
+                const px = ox + xPos * sx;
+                const py = oy - fVal * sy;
+
+                // Tangent line
+                derivCtx.strokeStyle = '#3B82F6';
+                derivCtx.lineWidth = 2;
+                derivCtx.beginPath();
+                for (let dx = -3; dx <= 3; dx += 0.1) {
+                    const tx = xPos + dx;
+                    const ty = fVal + fpVal * dx;
+                    const tpx = ox + tx * sx;
+                    const tpy = oy - ty * sy;
+                    if (dx === -3) derivCtx.moveTo(tpx, tpy);
+                    else derivCtx.lineTo(tpx, tpy);
+                }
+                derivCtx.stroke();
+
+                // Point on function
+                derivCtx.beginPath();
+                derivCtx.arc(px, py, 8, 0, Math.PI * 2);
+                derivCtx.fillStyle = '#22C55E';
+                derivCtx.fill();
+
+                // Point on derivative
+                const dpx = ox + xPos * sx;
+                const dpy = oy - fpVal * sy;
+                derivCtx.beginPath();
+                derivCtx.arc(dpx, dpy, 6, 0, Math.PI * 2);
+                derivCtx.fillStyle = '#F97316';
+                derivCtx.fill();
+
+                document.getElementById('derivValue').textContent =
+                    `f(${xPos.toFixed(1)}) = ${fVal.toFixed(2)}, f'(${xPos.toFixed(1)}) = ${fpVal.toFixed(2)}`;
+            }
+
+            // Legend
+            derivCtx.fillStyle = '#8B5CF6';
+            derivCtx.font = '12px JetBrains Mono';
+            derivCtx.fillText('f(x)', 520, 50);
+            derivCtx.fillStyle = '#F97316';
+            derivCtx.fillText("f'(x)", 520, 70);
+        }
+
+        derivFunc.addEventListener('change', drawDeriv);
+        derivX.addEventListener('input', drawDeriv);
+        drawDeriv();
+
+        // === Concentration Decay ===
+        const concCanvas = document.getElementById('concCanvas');
+        const concCtx = concCanvas.getContext('2d');
+        const concK = document.getElementById('concK');
+        const concT = document.getElementById('concT');
+
+        function drawConc() {
+            const k = parseFloat(concK.value);
+            const t = parseFloat(concT.value);
+            document.getElementById('concKVal').textContent = k.toFixed(1);
+            document.getElementById('concTVal').textContent = t.toFixed(1);
+
+            concCtx.fillStyle = '#161B22';
+            concCtx.fillRect(0, 0, 600, 350);
+
+            const ox = 80, oy = 280, sx = 60, sy = 200;
+
+            // Grid
+            concCtx.strokeStyle = '#21262D';
+            concCtx.lineWidth = 1;
+            for (let i = 0; i <= 8; i++) {
+                concCtx.beginPath();
+                concCtx.moveTo(ox + i * sx, 50);
+                concCtx.lineTo(ox + i * sx, oy);
+                concCtx.stroke();
+            }
+
+            // Axes
+            concCtx.strokeStyle = '#6B7680';
+            concCtx.lineWidth = 2;
+            concCtx.beginPath();
+            concCtx.moveTo(ox, 50);
+            concCtx.lineTo(ox, oy + 20);
+            concCtx.moveTo(ox - 20, oy);
+            concCtx.lineTo(570, oy);
+            concCtx.stroke();
+
+            // Decay curve [A] = e^(-kt)
+            concCtx.strokeStyle = '#8B5CF6';
+            concCtx.lineWidth = 3;
+            concCtx.beginPath();
+            for (let px = ox; px <= 560; px++) {
+                const time = (px - ox) / sx;
+                const conc = Math.exp(-k * time);
+                const py = oy - conc * sy;
+                if (px === ox) concCtx.moveTo(px, py);
+                else concCtx.lineTo(px, py);
+            }
+            concCtx.stroke();
+
+            // Current point
+            const conc = Math.exp(-k * t);
+            const rate = -k * conc;
+            const px = ox + t * sx;
+            const py = oy - conc * sy;
+
+            // Tangent at current point
+            concCtx.strokeStyle = '#3B82F6';
+            concCtx.lineWidth = 2;
+            concCtx.beginPath();
+            for (let dt = -1.5; dt <= 1.5; dt += 0.1) {
+                const tt = t + dt;
+                const tc = conc + rate * dt;
+                const tpx = ox + tt * sx;
+                const tpy = oy - tc * sy;
+                if (dt === -1.5) concCtx.moveTo(tpx, tpy);
+                else concCtx.lineTo(tpx, tpy);
+            }
+            concCtx.stroke();
+
+            // Point
+            concCtx.beginPath();
+            concCtx.arc(px, py, 8, 0, Math.PI * 2);
+            concCtx.fillStyle = '#F97316';
+            concCtx.fill();
+
+            // Labels
+            concCtx.fillStyle = '#8B949E';
+            concCtx.font = '12px JetBrains Mono';
+            concCtx.textAlign = 'center';
+            concCtx.fillText('Time (t)', 350, oy + 35);
+            concCtx.save();
+            concCtx.translate(30, 165);
+            concCtx.rotate(-Math.PI/2);
+            concCtx.fillText('[A]/[A]₀', 0, 0);
+            concCtx.restore();
+
+            document.getElementById('concInfo').textContent =
+                `[A] = ${conc.toFixed(3)}, d[A]/dt = ${rate.toFixed(3)}`;
+        }
+
+        concK.addEventListener('input', drawConc);
+        concT.addEventListener('input', drawConc);
+        drawConc();
+
+        // === Reaction Coordinate (PES) ===
+        const pesCanvas = document.getElementById('pesCanvas');
+        const pesCtx = pesCanvas.getContext('2d');
+        const pesEa = document.getElementById('pesEa');
+        const pesDe = document.getElementById('pesDe');
+
+        function drawPES() {
+            const Ea = parseFloat(pesEa.value);
+            const dE = parseFloat(pesDe.value);
+            document.getElementById('pesEaVal').textContent = Ea;
+            document.getElementById('pesDeVal').textContent = dE;
+
+            pesCtx.fillStyle = '#161B22';
+            pesCtx.fillRect(0, 0, 600, 350);
+
+            const ox = 80, oy = 280, sx = 100, sy = 2;
+
+            // Axes
+            pesCtx.strokeStyle = '#6B7680';
+            pesCtx.lineWidth = 2;
+            pesCtx.beginPath();
+            pesCtx.moveTo(ox, 50);
+            pesCtx.lineTo(ox, oy + 20);
+            pesCtx.moveTo(ox - 20, oy);
+            pesCtx.lineTo(550, oy);
+            pesCtx.stroke();
+
+            // PES curve: double well with barrier
+            // Reactant at ξ=1, TS at ξ=2.5, Product at ξ=4
+            const E0 = 50; // Reactant energy
+            pesCtx.strokeStyle = '#22C55E';
+            pesCtx.lineWidth = 3;
+            pesCtx.beginPath();
+
+            for (let xi = 0; xi <= 5; xi += 0.05) {
+                // Polynomial that goes through: (1, E0), (2.5, E0+Ea), (4, E0+dE)
+                // Using cosine-based smooth curve
+                let E;
+                if (xi < 1) {
+                    E = E0 + 50 * Math.pow(1 - xi, 2);
+                } else if (xi < 2.5) {
+                    const t = (xi - 1) / 1.5;
+                    E = E0 + Ea * Math.sin(t * Math.PI / 2) * Math.sin(t * Math.PI / 2);
+                } else if (xi < 4) {
+                    const t = (xi - 2.5) / 1.5;
+                    E = E0 + Ea - (Ea - dE) * Math.sin(t * Math.PI / 2) * Math.sin(t * Math.PI / 2);
+                } else {
+                    E = E0 + dE + 50 * Math.pow(xi - 4, 2);
+                }
+
+                const px = ox + xi * sx;
+                const py = oy - E * sy;
+                if (xi === 0) pesCtx.moveTo(px, py);
+                else pesCtx.lineTo(px, py);
+            }
+            pesCtx.stroke();
+
+            // Mark stationary points
+            const points = [
+                { x: 1, y: E0, label: 'Reactant', color: '#3B82F6' },
+                { x: 2.5, y: E0 + Ea, label: 'TS', color: '#EF4444' },
+                { x: 4, y: E0 + dE, label: 'Product', color: '#8B5CF6' }
+            ];
+
+            points.forEach(pt => {
+                const px = ox + pt.x * sx;
+                const py = oy - pt.y * sy;
+                pesCtx.beginPath();
+                pesCtx.arc(px, py, 8, 0, Math.PI * 2);
+                pesCtx.fillStyle = pt.color;
+                pesCtx.fill();
+                pesCtx.fillStyle = '#E6EDF3';
+                pesCtx.font = '11px JetBrains Mono';
+                pesCtx.textAlign = 'center';
+                pesCtx.fillText(pt.label, px, py - 15);
+            });
+
+            // Energy annotations
+            pesCtx.setLineDash([5, 5]);
+            pesCtx.strokeStyle = '#6B7680';
+            pesCtx.lineWidth = 1;
+            // Ea arrow
+            pesCtx.beginPath();
+            pesCtx.moveTo(ox + 1.8 * sx, oy - E0 * sy);
+            pesCtx.lineTo(ox + 1.8 * sx, oy - (E0 + Ea) * sy);
+            pesCtx.stroke();
+            pesCtx.fillStyle = '#F97316';
+            pesCtx.fillText(`Ea = ${Ea}`, ox + 1.8 * sx + 25, oy - (E0 + Ea/2) * sy);
+
+            // ΔE arrow
+            pesCtx.beginPath();
+            pesCtx.moveTo(ox + 4.5 * sx, oy - E0 * sy);
+            pesCtx.lineTo(ox + 4.5 * sx, oy - (E0 + dE) * sy);
+            pesCtx.stroke();
+            pesCtx.fillStyle = dE < 0 ? '#22C55E' : '#EF4444';
+            pesCtx.fillText(`ΔE = ${dE}`, ox + 4.5 * sx + 25, oy - (E0 + dE/2) * sy);
+            pesCtx.setLineDash([]);
+
+            // Labels
+            pesCtx.fillStyle = '#8B949E';
+            pesCtx.font = '12px JetBrains Mono';
+            pesCtx.textAlign = 'center';
+            pesCtx.fillText('Reaction Coordinate (ξ)', 300, oy + 35);
+            pesCtx.save();
+            pesCtx.translate(30, 165);
+            pesCtx.rotate(-Math.PI/2);
+            pesCtx.fillText('Energy', 0, 0);
+            pesCtx.restore();
+        }
+
+        pesEa.addEventListener('input', drawPES);
+        pesDe.addEventListener('input', drawPES);
+        drawPES();
+
+        // === Gradient Field ===
+        const gradCanvas = document.getElementById('gradCanvas');
+        const gradCtx = gradCanvas.getContext('2d');
+        const gradFunc = document.getElementById('gradFunc');
+
+        const gradFuncs = {
+            'paraboloid': {
+                f: (x, y) => x * x + y * y,
+                gx: (x, y) => 2 * x,
+                gy: (x, y) => 2 * y
+            },
+            'saddle': {
+                f: (x, y) => x * x - y * y,
+                gx: (x, y) => 2 * x,
+                gy: (x, y) => -2 * y
+            },
+            'exp': {
+                f: (x, y) => Math.exp(-(x * x + y * y)),
+                gx: (x, y) => -2 * x * Math.exp(-(x * x + y * y)),
+                gy: (x, y) => -2 * y * Math.exp(-(x * x + y * y))
+            }
+        };
+
+        function drawGrad() {
+            const func = gradFuncs[gradFunc.value];
+
+            gradCtx.fillStyle = '#161B22';
+            gradCtx.fillRect(0, 0, 600, 350);
+
+            const cx = 300, cy = 175, scale = 60;
+
+            // Draw contours
+            for (let level = 0.5; level <= 4; level += 0.5) {
+                gradCtx.strokeStyle = `rgba(139, 92, 246, ${0.3 + level * 0.1})`;
+                gradCtx.lineWidth = 1;
+                gradCtx.beginPath();
+
+                for (let theta = 0; theta <= Math.PI * 2; theta += 0.05) {
+                    // For paraboloid, contours are circles
+                    // For others, more complex
+                    let r;
+                    if (gradFunc.value === 'paraboloid') {
+                        r = Math.sqrt(level);
+                    } else if (gradFunc.value === 'saddle') {
+                        continue; // Skip contours for saddle
+                    } else {
+                        r = Math.sqrt(-Math.log(level));
+                        if (!isFinite(r)) continue;
+                    }
+
+                    const x = r * Math.cos(theta);
+                    const y = r * Math.sin(theta);
+                    const px = cx + x * scale;
+                    const py = cy - y * scale;
+
+                    if (theta === 0) gradCtx.moveTo(px, py);
+                    else gradCtx.lineTo(px, py);
+                }
+                gradCtx.closePath();
+                gradCtx.stroke();
+            }
+
+            // Draw gradient arrows
+            for (let gx = -2; gx <= 2; gx += 0.5) {
+                for (let gy = -2; gy <= 2; gy += 0.5) {
+                    if (gx === 0 && gy === 0) continue;
+
+                    const dx = func.gx(gx, gy);
+                    const dy = func.gy(gx, gy);
+                    const mag = Math.sqrt(dx * dx + dy * dy);
+                    if (mag < 0.01) continue;
+
+                    const px = cx + gx * scale;
+                    const py = cy - gy * scale;
+
+                    const arrowLen = Math.min(mag * 10, 20);
+                    const ax = dx / mag * arrowLen;
+                    const ay = dy / mag * arrowLen;
+
+                    gradCtx.strokeStyle = '#22C55E';
+                    gradCtx.lineWidth = 2;
+                    gradCtx.beginPath();
+                    gradCtx.moveTo(px, py);
+                    gradCtx.lineTo(px + ax, py - ay);
+                    gradCtx.stroke();
+
+                    // Arrow head
+                    const headLen = 5;
+                    const angle = Math.atan2(-ay, ax);
+                    gradCtx.beginPath();
+                    gradCtx.moveTo(px + ax, py - ay);
+                    gradCtx.lineTo(px + ax - headLen * Math.cos(angle - 0.4), py - ay + headLen * Math.sin(angle - 0.4));
+                    gradCtx.lineTo(px + ax - headLen * Math.cos(angle + 0.4), py - ay + headLen * Math.sin(angle + 0.4));
+                    gradCtx.closePath();
+                    gradCtx.fillStyle = '#22C55E';
+                    gradCtx.fill();
+                }
+            }
+
+            // Axes
+            gradCtx.strokeStyle = '#6B7680';
+            gradCtx.lineWidth = 1;
+            gradCtx.beginPath();
+            gradCtx.moveTo(50, cy);
+            gradCtx.lineTo(550, cy);
+            gradCtx.moveTo(cx, 30);
+            gradCtx.lineTo(cx, 320);
+            gradCtx.stroke();
+
+            // Labels
+            gradCtx.fillStyle = '#8B949E';
+            gradCtx.font = '12px JetBrains Mono';
+            gradCtx.textAlign = 'center';
+            gradCtx.fillText('x', 555, cy + 15);
+            gradCtx.fillText('y', cx + 15, 25);
+        }
+
+        gradFunc.addEventListener('change', drawGrad);
+        drawGrad();
+    </script>
+</body>
+</html>
