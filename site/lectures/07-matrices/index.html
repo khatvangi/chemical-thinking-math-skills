@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 7: Grids of Numbers | Chemical Thinking</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a24;
+            --text-primary: #e8e6e3;
+            --text-secondary: #a0a0a0;
+            --accent-blue: #4a9eff;
+            --accent-purple: #8b5cf6;
+            --accent-green: #10b981;
+            --accent-orange: #f59e0b;
+            --accent-red: #ef4444;
+            --accent-cyan: #06b6d4;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            padding: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--accent-orange), var(--accent-red));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            font-style: italic;
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            color: var(--accent-blue);
+            margin: 3rem 0 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--bg-tertiary);
+        }
+
+        h3 {
+            font-size: 1.35rem;
+            color: var(--accent-purple);
+            margin: 2rem 0 1rem;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            color: var(--accent-green);
+            margin: 1.5rem 0 0.75rem;
+        }
+
+        p { margin-bottom: 1rem; }
+
+        .hook-box {
+            background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
+            border-left: 4px solid var(--accent-orange);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .definition-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--accent-purple);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+        }
+
+        .definition-box strong { color: var(--accent-purple); }
+
+        .visual-container {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .visual-container h4 { margin-top: 0; margin-bottom: 1rem; }
+
+        canvas {
+            display: block;
+            margin: 0 auto;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .control-group label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        input[type="range"] {
+            width: 120px;
+            accent-color: var(--accent-blue);
+        }
+
+        input[type="number"] {
+            width: 60px;
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--accent-blue);
+            padding: 0.3rem;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        select, button {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--accent-blue);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        button:hover {
+            background: var(--accent-blue);
+            color: var(--bg-primary);
+        }
+
+        .value-display {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-green);
+            min-width: 50px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--bg-tertiary);
+        }
+
+        th {
+            background: var(--bg-secondary);
+            color: var(--accent-blue);
+        }
+
+        tr:hover { background: var(--bg-secondary); }
+
+        .math-block {
+            background: var(--bg-secondary);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            overflow-x: auto;
+            text-align: center;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-tertiary);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        .exercise-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--accent-green);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+        }
+
+        .exercise-box h4 {
+            color: var(--accent-green);
+            margin-top: 0;
+        }
+
+        .solution {
+            background: var(--bg-tertiary);
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 6px;
+            display: none;
+        }
+
+        .solution.visible { display: block; }
+
+        .toggle-solution {
+            background: transparent;
+            border: 1px dashed var(--accent-green);
+            color: var(--accent-green);
+            padding: 0.4rem 0.8rem;
+            font-size: 0.85rem;
+        }
+
+        .toggle-solution:hover {
+            background: var(--accent-green);
+            color: var(--bg-primary);
+        }
+
+        .nav-footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--bg-tertiary);
+        }
+
+        .nav-footer a {
+            color: var(--accent-blue);
+            text-decoration: none;
+        }
+
+        .nav-footer a:hover { text-decoration: underline; }
+
+        ul, ol { margin: 1rem 0 1rem 1.5rem; }
+        li { margin-bottom: 0.5rem; }
+
+        .info-box {
+            background: var(--bg-secondary);
+            border-left: 4px solid var(--accent-blue);
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .matrix-display {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-tertiary);
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            display: inline-block;
+            margin: 0.5rem;
+            text-align: center;
+        }
+
+        .matrix-grid {
+            display: grid;
+            gap: 0.5rem;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+
+        .matrix-input-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 60px);
+            gap: 0.25rem;
+        }
+
+        .result-box {
+            background: var(--bg-tertiary);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lecture 7: Grids of Numbers</h1>
+    <p class="subtitle">Matrices: organized collections of numbers that encode structure and transformation.</p>
+
+    <!-- THE HOOK -->
+    <h2>The Hook</h2>
+
+    <div class="hook-box">
+        <p>Consider this rectangular array:</p>
+        <div class="math-block">
+            $$\begin{pmatrix} 0.96 & -0.24 \\ 0.00 & 0.93 \\ 0.00 & 0.00 \end{pmatrix}$$
+        </div>
+        <p>What is it?</p>
+        <ul>
+            <li><strong>Interpretation 1:</strong> Two column vectors — the O-H bond vectors in water.</li>
+            <li><strong>Interpretation 2:</strong> Three row vectors — the x, y, z coordinates of the bonds.</li>
+            <li><strong>Interpretation 3:</strong> A transformation that maps something in R² to something in R³.</li>
+        </ul>
+        <p><strong>Same grid of numbers. Three different meanings.</strong> This is a <strong>matrix</strong>.</p>
+    </div>
+
+    <!-- RECOGNITION -->
+    <h2>Recognition</h2>
+
+    <p><strong>ARRANGEMENT:</strong> "Order matters."</p>
+
+    <p>A matrix is an <strong>organized collection</strong> of numbers where:</p>
+    <ul>
+        <li>Position matters (row i, column j)</li>
+        <li>The whole structure has meaning beyond individual entries</li>
+        <li>Operations on the structure encode relationships</li>
+    </ul>
+
+    <!-- WHEN TO USE -->
+    <h2>When to Use Matrices</h2>
+
+    <table>
+        <tr><th>Situation</th><th>Matrix gives you</th></tr>
+        <tr><td>"I have several vectors to track"</td><td>Store as columns (or rows)</td></tr>
+        <tr><td>"I need to transform vectors"</td><td>Linear transformation Av</td></tr>
+        <tr><td>"I have a system of linear equations"</td><td>Ax = b</td></tr>
+        <tr><td>"I need to rotate/reflect/scale"</td><td>Transformation matrix</td></tr>
+        <tr><td>"I have relational data"</td><td>Adjacency matrix</td></tr>
+        <tr><td>"I'm doing quantum mechanics"</td><td>Operators as matrices</td></tr>
+    </table>
+
+    <!-- MATRIX FUNDAMENTALS -->
+    <h2>Matrix Fundamentals</h2>
+
+    <div class="definition-box">
+        <p><strong>Definition:</strong> An <strong>m × n matrix</strong> A is a rectangular array of numbers with m rows and n columns.</p>
+        <p>The entry in row i, column j is denoted $a_{ij}$ or $A_{ij}$.</p>
+    </div>
+
+    <h3>Special Matrices</h3>
+
+    <div class="visual-container">
+        <h4>Special Matrix Types</h4>
+        <div class="controls">
+            <select id="specialMatrixSelect">
+                <option value="identity">Identity I₃</option>
+                <option value="diagonal">Diagonal</option>
+                <option value="symmetric">Symmetric</option>
+                <option value="upper">Upper Triangular</option>
+                <option value="lower">Lower Triangular</option>
+                <option value="zero">Zero Matrix</option>
+            </select>
+        </div>
+        <div class="result-box">
+            <div id="specialMatrixDisplay" class="matrix-display" style="font-size: 1.2rem;"></div>
+            <p id="specialMatrixDesc" style="margin-top: 1rem; color: var(--text-secondary);"></p>
+        </div>
+    </div>
+
+    <!-- MATRIX OPERATIONS -->
+    <h2>Matrix Operations</h2>
+
+    <h3>Matrix Multiplication</h3>
+
+    <div class="visual-container">
+        <h4>Matrix Multiplication Visualizer</h4>
+        <canvas id="matMulCanvas" width="650" height="300"></canvas>
+        <div class="controls">
+            <div class="control-group">
+                <label>Highlight entry:</label>
+                <select id="mulEntrySelect">
+                    <option value="0,0">(1,1)</option>
+                    <option value="0,1">(1,2)</option>
+                    <option value="1,0">(2,1)</option>
+                    <option value="1,1">(2,2)</option>
+                </select>
+            </div>
+        </div>
+        <p style="text-align: center; margin-top: 1rem; color: var(--text-secondary);">
+            Entry (i,j) of AB = dot product of row i of A with column j of B
+        </p>
+    </div>
+
+    <div class="info-box">
+        <p><strong>Key requirement:</strong> Number of columns of A = number of rows of B.</p>
+        <p>(m × n) · (n × p) = (m × p)</p>
+    </div>
+
+    <h3>Matrix Multiplication is NOT Commutative</h3>
+
+    <div class="visual-container">
+        <h4>AB vs BA</h4>
+        <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
+            <div>
+                <p style="text-align: center; color: var(--accent-blue);">Matrix A</p>
+                <div class="matrix-input-grid">
+                    <input type="number" id="a11" value="1">
+                    <input type="number" id="a12" value="2">
+                    <input type="number" id="a21" value="0">
+                    <input type="number" id="a22" value="1">
+                </div>
+            </div>
+            <div>
+                <p style="text-align: center; color: var(--accent-orange);">Matrix B</p>
+                <div class="matrix-input-grid">
+                    <input type="number" id="b11" value="0">
+                    <input type="number" id="b12" value="1">
+                    <input type="number" id="b21" value="1">
+                    <input type="number" id="b22" value="0">
+                </div>
+            </div>
+        </div>
+        <div class="controls">
+            <button id="computeProducts">Compute AB and BA</button>
+        </div>
+        <div class="result-box">
+            <div style="display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap;">
+                <div>
+                    <p style="color: var(--accent-green);">AB =</p>
+                    <div id="abResult" class="matrix-display"></div>
+                </div>
+                <div>
+                    <p style="color: var(--accent-purple);">BA =</p>
+                    <div id="baResult" class="matrix-display"></div>
+                </div>
+            </div>
+            <p id="commuteResult" style="margin-top: 1rem;"></p>
+        </div>
+    </div>
+
+    <!-- TRANSFORMATIONS -->
+    <h2>Matrices as Linear Transformations</h2>
+
+    <div class="visual-container">
+        <h4>Transformation Visualizer</h4>
+        <canvas id="transformCanvas" width="500" height="400"></canvas>
+        <div class="controls">
+            <div class="control-group">
+                <label>Transform:</label>
+                <select id="transformSelect">
+                    <option value="identity">Identity</option>
+                    <option value="rotate45">Rotate 45°</option>
+                    <option value="rotate90">Rotate 90°</option>
+                    <option value="reflectX">Reflect across x-axis</option>
+                    <option value="reflectY">Reflect across y-axis</option>
+                    <option value="scale">Scale (2x, 0.5x)</option>
+                    <option value="shear">Shear</option>
+                    <option value="project">Project onto x-axis</option>
+                </select>
+            </div>
+            <button id="applyTransform">Apply</button>
+            <button id="resetTransform">Reset</button>
+        </div>
+        <div class="result-box">
+            <p>Matrix: <span id="transformMatrix" style="color: var(--accent-green); font-family: monospace;"></span></p>
+        </div>
+    </div>
+
+    <h3>Composition of Transformations</h3>
+
+    <div class="visual-container">
+        <h4>Transformation Composer</h4>
+        <canvas id="composeCanvas" width="500" height="350"></canvas>
+        <div class="controls">
+            <div class="control-group">
+                <label>First:</label>
+                <select id="firstTransform">
+                    <option value="rotate45">Rotate 45°</option>
+                    <option value="rotate90">Rotate 90°</option>
+                    <option value="reflectX">Reflect x</option>
+                    <option value="reflectY">Reflect y</option>
+                    <option value="scale2">Scale 2x</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label>Then:</label>
+                <select id="secondTransform">
+                    <option value="reflectX">Reflect x</option>
+                    <option value="rotate45">Rotate 45°</option>
+                    <option value="rotate90">Rotate 90°</option>
+                    <option value="reflectY">Reflect y</option>
+                    <option value="scale2">Scale 2x</option>
+                </select>
+            </div>
+            <button id="composeTransforms">Compose</button>
+        </div>
+        <div class="result-box">
+            <p>Combined matrix = Second × First:</p>
+            <div id="composedMatrix" class="matrix-display"></div>
+        </div>
+    </div>
+
+    <!-- INVERSE -->
+    <h2>The Inverse Matrix</h2>
+
+    <div class="definition-box">
+        <p><strong>Definition:</strong> For a square matrix A, the <strong>inverse</strong> A⁻¹ (if it exists) satisfies:</p>
+        <div class="math-block">$$A^{-1}A = AA^{-1} = I$$</div>
+    </div>
+
+    <div class="visual-container">
+        <h4>2×2 Inverse Calculator</h4>
+        <div style="display: flex; justify-content: center; gap: 2rem; align-items: center; flex-wrap: wrap;">
+            <div>
+                <p style="text-align: center; color: var(--accent-blue);">Matrix A</p>
+                <div class="matrix-input-grid">
+                    <input type="number" id="inv_a" value="3">
+                    <input type="number" id="inv_b" value="1">
+                    <input type="number" id="inv_c" value="2">
+                    <input type="number" id="inv_d" value="1">
+                </div>
+            </div>
+        </div>
+        <div class="controls">
+            <button id="computeInverse">Compute Inverse</button>
+        </div>
+        <div class="result-box">
+            <p>det(A) = ad - bc = <span id="detValue" style="color: var(--accent-orange);">1</span></p>
+            <div style="margin-top: 1rem;">
+                <span style="color: var(--accent-green);">A⁻¹ = </span>
+                <div id="inverseResult" class="matrix-display"></div>
+            </div>
+            <p id="inverseCheck" style="margin-top: 1rem; color: var(--text-secondary);"></p>
+        </div>
+    </div>
+
+    <p>The 2×2 inverse formula:</p>
+    <div class="math-block">
+        $$\begin{pmatrix} a & b \\ c & d \end{pmatrix}^{-1} = \frac{1}{ad - bc} \begin{pmatrix} d & -b \\ -c & a \end{pmatrix}$$
+    </div>
+
+    <!-- CHEMISTRY: MOLECULAR COORDINATES -->
+    <h2>Chemistry Connection: Molecular Coordinates</h2>
+
+    <p>A molecule with N atoms can be stored as a 3 × N matrix — each column is one atom's position.</p>
+
+    <div class="visual-container">
+        <h4>Molecular Coordinate Transformer</h4>
+        <canvas id="moleculeCanvas" width="500" height="350"></canvas>
+        <div class="controls">
+            <div class="control-group">
+                <label>Molecule:</label>
+                <select id="moleculeSelect">
+                    <option value="water">Water (H₂O)</option>
+                    <option value="methane">Methane (CH₄)</option>
+                    <option value="ammonia">Ammonia (NH₃)</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label>Rotate z:</label>
+                <input type="range" id="molRotation" min="0" max="360" value="0">
+                <span class="value-display" id="molRotValue">0°</span>
+            </div>
+        </div>
+        <div class="result-box">
+            <p style="color: var(--text-secondary);">Rotation matrix R<sub>z</sub>(θ) transforms all atom positions simultaneously.</p>
+        </div>
+    </div>
+
+    <!-- CHEMISTRY: HÜCKEL -->
+    <h2>Chemistry Connection: Hückel Theory</h2>
+
+    <p>For π-electron systems, the Hamiltonian in the basis of p-orbitals is encoded as a matrix where diagonal = α (orbital energy) and off-diagonal = β (interaction).</p>
+
+    <div class="visual-container">
+        <h4>Hückel Matrix Builder</h4>
+        <canvas id="huckelCanvas" width="600" height="250"></canvas>
+        <div class="controls">
+            <div class="control-group">
+                <label>Molecule:</label>
+                <select id="huckelSelect">
+                    <option value="ethylene">Ethylene (2 C)</option>
+                    <option value="allyl">Allyl (3 C, linear)</option>
+                    <option value="butadiene">Butadiene (4 C, linear)</option>
+                    <option value="benzene">Benzene (6 C, cyclic)</option>
+                </select>
+            </div>
+        </div>
+        <div class="result-box">
+            <p>Hückel matrix (α = 0, β = -1):</p>
+            <div id="huckelMatrix" class="matrix-display" style="font-size: 1rem;"></div>
+            <p id="huckelNote" style="margin-top: 1rem; color: var(--text-secondary);"></p>
+        </div>
+    </div>
+
+    <!-- SUMMARY -->
+    <h2>Summary: Matrix Toolkit</h2>
+
+    <table>
+        <tr><th>Operation</th><th>Notation</th><th>Result Dimensions</th></tr>
+        <tr><td>Addition</td><td>A + B</td><td>Same as A, B</td></tr>
+        <tr><td>Scalar mult</td><td>cA</td><td>Same as A</td></tr>
+        <tr><td>Transpose</td><td>A<sup>T</sup></td><td>Swap m ↔ n</td></tr>
+        <tr><td>Multiplication</td><td>AB</td><td>(m×n)(n×p) → m×p</td></tr>
+        <tr><td>Inverse</td><td>A⁻¹</td><td>Same as A (square)</td></tr>
+    </table>
+
+    <!-- EXERCISES -->
+    <h2>Exercises</h2>
+
+    <div class="exercise-box">
+        <h4>Exercise 1: Matrix Operations</h4>
+        <p>Let A = [[1,2],[3,4]] and B = [[5,6],[7,8]].</p>
+        <p>(a) Compute AB. (b) Compute BA. (c) Verify AB ≠ BA.</p>
+        <button class="toggle-solution" onclick="toggleSolution('sol1')">Show Solution</button>
+        <div id="sol1" class="solution">
+            <p>(a) AB = [[1·5+2·7, 1·6+2·8], [3·5+4·7, 3·6+4·8]] = [[19, 22], [43, 50]]</p>
+            <p>(b) BA = [[5·1+6·3, 5·2+6·4], [7·1+8·3, 7·2+8·4]] = [[23, 34], [31, 46]]</p>
+            <p>(c) [[19,22],[43,50]] ≠ [[23,34],[31,46]] ✓</p>
+        </div>
+    </div>
+
+    <div class="exercise-box">
+        <h4>Exercise 2: Inverse</h4>
+        <p>Find the inverse of A = [[4,3],[3,2]]. Verify AA⁻¹ = I.</p>
+        <button class="toggle-solution" onclick="toggleSolution('sol2')">Show Solution</button>
+        <div id="sol2" class="solution">
+            <p>det(A) = 4·2 - 3·3 = 8 - 9 = -1</p>
+            <p>A⁻¹ = (1/-1)[[2,-3],[-3,4]] = [[-2,3],[3,-4]]</p>
+            <p>Check: AA⁻¹ = [[4,3],[3,2]][[-2,3],[3,-4]] = [[-8+9, 12-12],[−6+6, 9−8]] = [[1,0],[0,1]] ✓</p>
+        </div>
+    </div>
+
+    <div class="exercise-box">
+        <h4>Exercise 3: Transformation Composition</h4>
+        <p>(a) Write the matrix for reflection across y-axis.</p>
+        <p>(b) Write the matrix for rotation by 90°.</p>
+        <p>(c) Find the matrix that first reflects, then rotates.</p>
+        <button class="toggle-solution" onclick="toggleSolution('sol3')">Show Solution</button>
+        <div id="sol3" class="solution">
+            <p>(a) Reflect y: [[-1,0],[0,1]]</p>
+            <p>(b) Rotate 90°: [[0,-1],[1,0]]</p>
+            <p>(c) Combined = Rotate × Reflect = [[0,-1],[1,0]][[-1,0],[0,1]] = [[0,-1],[-1,0]]</p>
+            <p>This is reflection across y = -x.</p>
+        </div>
+    </div>
+
+    <div class="exercise-box">
+        <h4>Exercise 4: Hückel Matrix</h4>
+        <p>For allyl radical (3 carbons in a row), write the Hückel matrix with α=0, β=-1. What is its trace?</p>
+        <button class="toggle-solution" onclick="toggleSolution('sol4')">Show Solution</button>
+        <div id="sol4" class="solution">
+            <p>H = [[0,-1,0],[-1,0,-1],[0,-1,0]]</p>
+            <p>Trace = 0 + 0 + 0 = 0 = 3α ✓</p>
+        </div>
+    </div>
+
+    <!-- NAVIGATION -->
+    <div class="nav-footer">
+        <a href="../06-coordinates/">← Lecture 6: Coordinates and Basis</a>
+        <a href="../">All Lectures</a>
+        <a href="../08-transformations/">Lecture 8: Transformations →</a>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},
+                    {left: "$", right: "$", display: false}
+                ]
+            });
+
+            initSpecialMatrices();
+            initMatMul();
+            initCommutative();
+            initTransform();
+            initCompose();
+            initInverse();
+            initMolecule();
+            initHuckel();
+        });
+
+        function toggleSolution(id) {
+            document.getElementById(id).classList.toggle('visible');
+        }
+
+        // ===============
+        // Special Matrices
+        // ===============
+        function initSpecialMatrices() {
+            const select = document.getElementById('specialMatrixSelect');
+            const display = document.getElementById('specialMatrixDisplay');
+            const desc = document.getElementById('specialMatrixDesc');
+
+            const matrices = {
+                identity: { m: [[1,0,0],[0,1,0],[0,0,1]], d: "Diagonal all 1s. AI = IA = A for any A." },
+                diagonal: { m: [[2,0,0],[0,-3,0],[0,0,5]], d: "Only diagonal entries nonzero. Scales each axis independently." },
+                symmetric: { m: [[1,2,3],[2,4,5],[3,5,6]], d: "A = Aᵀ. Common in physics (Hamiltonians, covariance)." },
+                upper: { m: [[1,2,3],[0,4,5],[0,0,6]], d: "Zeros below diagonal. Easy to solve systems." },
+                lower: { m: [[1,0,0],[2,3,0],[4,5,6]], d: "Zeros above diagonal. Used in LU decomposition." },
+                zero: { m: [[0,0,0],[0,0,0],[0,0,0]], d: "All entries zero. A + 0 = A." }
+            };
+
+            function update() {
+                const data = matrices[select.value];
+                let html = '<table style="margin: 0 auto; border-collapse: collapse;">';
+                for (let row of data.m) {
+                    html += '<tr>';
+                    for (let val of row) {
+                        const color = val === 0 ? '#666' : (val > 0 ? '#4a9eff' : '#ef4444');
+                        html += `<td style="padding: 8px 12px; color: ${color}; text-align: center;">${val}</td>`;
+                    }
+                    html += '</tr>';
+                }
+                html += '</table>';
+                display.innerHTML = html;
+                desc.textContent = data.d;
+            }
+
+            select.addEventListener('change', update);
+            update();
+        }
+
+        // ===============
+        // Matrix Multiplication Visualizer
+        // ===============
+        function initMatMul() {
+            const canvas = document.getElementById('matMulCanvas');
+            const ctx = canvas.getContext('2d');
+            const select = document.getElementById('mulEntrySelect');
+
+            const A = [[1, 2], [3, 4]];
+            const B = [[5, 6], [7, 8]];
+            const C = [[19, 22], [43, 50]];
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                const [hi, hj] = select.value.split(',').map(Number);
+
+                // Draw matrices
+                drawMatrix(ctx, A, 50, 80, 'A', hi, -1, '#4a9eff');
+                drawMatrix(ctx, B, 230, 80, 'B', -1, hj, '#f59e0b');
+                drawMatrix(ctx, C, 450, 80, 'AB', hi, hj, '#10b981');
+
+                // Draw multiplication symbol
+                ctx.fillStyle = '#888';
+                ctx.font = '24px Inter';
+                ctx.fillText('×', 175, 150);
+                ctx.fillText('=', 395, 150);
+
+                // Show calculation
+                const rowA = A[hi];
+                const colB = [B[0][hj], B[1][hj]];
+                const result = rowA[0] * colB[0] + rowA[1] * colB[1];
+
+                ctx.fillStyle = '#e8e6e3';
+                ctx.font = '14px JetBrains Mono';
+                ctx.textAlign = 'center';
+                ctx.fillText(`Row ${hi+1} of A: [${rowA.join(', ')}]`, 325, 240);
+                ctx.fillText(`Col ${hj+1} of B: [${colB.join(', ')}]`, 325, 260);
+                ctx.fillStyle = '#10b981';
+                ctx.fillText(`${rowA[0]}×${colB[0]} + ${rowA[1]}×${colB[1]} = ${result}`, 325, 285);
+            }
+
+            function drawMatrix(ctx, M, x, y, label, highlightRow, highlightCol, color) {
+                const cellW = 45, cellH = 40;
+
+                ctx.fillStyle = color;
+                ctx.font = 'bold 16px Inter';
+                ctx.textAlign = 'center';
+                ctx.fillText(label, x + cellW, y - 15);
+
+                for (let i = 0; i < 2; i++) {
+                    for (let j = 0; j < 2; j++) {
+                        const cx = x + j * cellW;
+                        const cy = y + i * cellH;
+
+                        if (i === highlightRow || j === highlightCol) {
+                            ctx.fillStyle = color + '33';
+                            ctx.fillRect(cx, cy, cellW, cellH);
+                        }
+
+                        ctx.strokeStyle = '#444';
+                        ctx.strokeRect(cx, cy, cellW, cellH);
+
+                        ctx.fillStyle = (i === highlightRow && j === highlightCol) ? color : '#e8e6e3';
+                        ctx.font = '16px JetBrains Mono';
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillText(M[i][j].toString(), cx + cellW/2, cy + cellH/2);
+                    }
+                }
+            }
+
+            select.addEventListener('change', draw);
+            draw();
+        }
+
+        // ===============
+        // Commutativity Check
+        // ===============
+        function initCommutative() {
+            const btn = document.getElementById('computeProducts');
+
+            btn.addEventListener('click', () => {
+                const a = [[+document.getElementById('a11').value, +document.getElementById('a12').value],
+                          [+document.getElementById('a21').value, +document.getElementById('a22').value]];
+                const b = [[+document.getElementById('b11').value, +document.getElementById('b12').value],
+                          [+document.getElementById('b21').value, +document.getElementById('b22').value]];
+
+                const ab = matMul(a, b);
+                const ba = matMul(b, a);
+
+                document.getElementById('abResult').innerHTML = formatMatrix(ab);
+                document.getElementById('baResult').innerHTML = formatMatrix(ba);
+
+                const same = ab[0][0]===ba[0][0] && ab[0][1]===ba[0][1] && ab[1][0]===ba[1][0] && ab[1][1]===ba[1][1];
+                document.getElementById('commuteResult').innerHTML = same ?
+                    '<span style="color: #10b981;">AB = BA (these matrices commute!)</span>' :
+                    '<span style="color: #ef4444;">AB ≠ BA (multiplication is not commutative)</span>';
+            });
+
+            btn.click();
+        }
+
+        function matMul(a, b) {
+            return [
+                [a[0][0]*b[0][0] + a[0][1]*b[1][0], a[0][0]*b[0][1] + a[0][1]*b[1][1]],
+                [a[1][0]*b[0][0] + a[1][1]*b[1][0], a[1][0]*b[0][1] + a[1][1]*b[1][1]]
+            ];
+        }
+
+        function formatMatrix(m) {
+            return `<table style="margin: 0 auto;"><tr><td style="padding:4px 8px;">${m[0][0].toFixed(2)}</td><td style="padding:4px 8px;">${m[0][1].toFixed(2)}</td></tr><tr><td style="padding:4px 8px;">${m[1][0].toFixed(2)}</td><td style="padding:4px 8px;">${m[1][1].toFixed(2)}</td></tr></table>`;
+        }
+
+        // ===============
+        // Transformation Visualizer
+        // ===============
+        function initTransform() {
+            const canvas = document.getElementById('transformCanvas');
+            const ctx = canvas.getContext('2d');
+            const select = document.getElementById('transformSelect');
+            const matrixDisplay = document.getElementById('transformMatrix');
+
+            const transforms = {
+                identity: [[1, 0], [0, 1]],
+                rotate45: [[Math.cos(Math.PI/4), -Math.sin(Math.PI/4)], [Math.sin(Math.PI/4), Math.cos(Math.PI/4)]],
+                rotate90: [[0, -1], [1, 0]],
+                reflectX: [[1, 0], [0, -1]],
+                reflectY: [[-1, 0], [0, 1]],
+                scale: [[2, 0], [0, 0.5]],
+                shear: [[1, 0.5], [0, 1]],
+                project: [[1, 0], [0, 0]]
+            };
+
+            let currentPoints = [[1, 0], [0, 1], [1, 1]];
+            const originalPoints = [[1, 0], [0, 1], [1, 1]];
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                const center = { x: 250, y: 200 };
+                const scale = 80;
+
+                // Grid
+                ctx.strokeStyle = '#222';
+                ctx.lineWidth = 1;
+                for (let i = -3; i <= 3; i++) {
+                    ctx.beginPath();
+                    ctx.moveTo(center.x + i * scale, 0);
+                    ctx.lineTo(center.x + i * scale, canvas.height);
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.moveTo(0, center.y + i * scale);
+                    ctx.lineTo(canvas.width, center.y + i * scale);
+                    ctx.stroke();
+                }
+
+                // Axes
+                ctx.strokeStyle = '#555';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(0, center.y);
+                ctx.lineTo(canvas.width, center.y);
+                ctx.moveTo(center.x, 0);
+                ctx.lineTo(center.x, canvas.height);
+                ctx.stroke();
+
+                // Original shape (dashed)
+                ctx.setLineDash([5, 5]);
+                ctx.strokeStyle = '#666';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(center.x, center.y);
+                for (let p of originalPoints) {
+                    ctx.lineTo(center.x + p[0] * scale, center.y - p[1] * scale);
+                }
+                ctx.closePath();
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Transformed shape
+                ctx.strokeStyle = '#4a9eff';
+                ctx.fillStyle = 'rgba(74, 158, 255, 0.2)';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(center.x, center.y);
+                for (let p of currentPoints) {
+                    ctx.lineTo(center.x + p[0] * scale, center.y - p[1] * scale);
+                }
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
+
+                // Points
+                for (let i = 0; i < currentPoints.length; i++) {
+                    const p = currentPoints[i];
+                    ctx.beginPath();
+                    ctx.arc(center.x + p[0] * scale, center.y - p[1] * scale, 6, 0, Math.PI * 2);
+                    ctx.fillStyle = '#f59e0b';
+                    ctx.fill();
+                }
+            }
+
+            document.getElementById('applyTransform').onclick = () => {
+                const M = transforms[select.value];
+                currentPoints = currentPoints.map(p => [
+                    M[0][0] * p[0] + M[0][1] * p[1],
+                    M[1][0] * p[0] + M[1][1] * p[1]
+                ]);
+                matrixDisplay.textContent = `[[${M[0][0].toFixed(2)}, ${M[0][1].toFixed(2)}], [${M[1][0].toFixed(2)}, ${M[1][1].toFixed(2)}]]`;
+                draw();
+            };
+
+            document.getElementById('resetTransform').onclick = () => {
+                currentPoints = originalPoints.map(p => [...p]);
+                matrixDisplay.textContent = '[[1, 0], [0, 1]]';
+                draw();
+            };
+
+            select.onchange = () => {
+                const M = transforms[select.value];
+                matrixDisplay.textContent = `[[${M[0][0].toFixed(2)}, ${M[0][1].toFixed(2)}], [${M[1][0].toFixed(2)}, ${M[1][1].toFixed(2)}]]`;
+            };
+
+            matrixDisplay.textContent = '[[1, 0], [0, 1]]';
+            draw();
+        }
+
+        // ===============
+        // Composition
+        // ===============
+        function initCompose() {
+            const canvas = document.getElementById('composeCanvas');
+            const ctx = canvas.getContext('2d');
+
+            const transforms = {
+                rotate45: [[Math.cos(Math.PI/4), -Math.sin(Math.PI/4)], [Math.sin(Math.PI/4), Math.cos(Math.PI/4)]],
+                rotate90: [[0, -1], [1, 0]],
+                reflectX: [[1, 0], [0, -1]],
+                reflectY: [[-1, 0], [0, 1]],
+                scale2: [[2, 0], [0, 2]]
+            };
+
+            function draw(composed) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                const center = { x: 250, y: 175 };
+                const scale = 60;
+
+                // Grid
+                ctx.strokeStyle = '#222';
+                for (let i = -4; i <= 4; i++) {
+                    ctx.beginPath();
+                    ctx.moveTo(center.x + i * scale, 0);
+                    ctx.lineTo(center.x + i * scale, canvas.height);
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.moveTo(0, center.y + i * scale);
+                    ctx.lineTo(canvas.width, center.y + i * scale);
+                    ctx.stroke();
+                }
+
+                // Axes
+                ctx.strokeStyle = '#555';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(0, center.y);
+                ctx.lineTo(canvas.width, center.y);
+                ctx.moveTo(center.x, 0);
+                ctx.lineTo(center.x, canvas.height);
+                ctx.stroke();
+
+                // Original basis vectors
+                drawArrow(ctx, center.x, center.y, center.x + scale, center.y, '#666', 2);
+                drawArrow(ctx, center.x, center.y, center.x, center.y - scale, '#666', 2);
+
+                // Transformed basis vectors
+                const e1 = [composed[0][0], composed[1][0]];
+                const e2 = [composed[0][1], composed[1][1]];
+                drawArrow(ctx, center.x, center.y, center.x + e1[0] * scale, center.y - e1[1] * scale, '#4a9eff', 3);
+                drawArrow(ctx, center.x, center.y, center.x + e2[0] * scale, center.y - e2[1] * scale, '#10b981', 3);
+
+                ctx.fillStyle = '#4a9eff';
+                ctx.font = '14px Inter';
+                ctx.fillText('e₁', center.x + e1[0] * scale + 10, center.y - e1[1] * scale);
+                ctx.fillStyle = '#10b981';
+                ctx.fillText('e₂', center.x + e2[0] * scale + 10, center.y - e2[1] * scale);
+            }
+
+            document.getElementById('composeTransforms').onclick = () => {
+                const first = transforms[document.getElementById('firstTransform').value];
+                const second = transforms[document.getElementById('secondTransform').value];
+                const composed = matMul(second, first);
+                document.getElementById('composedMatrix').innerHTML = formatMatrix(composed);
+                draw(composed);
+            };
+
+            draw([[1, 0], [0, 1]]);
+            document.getElementById('composedMatrix').innerHTML = formatMatrix([[1, 0], [0, 1]]);
+        }
+
+        function drawArrow(ctx, x1, y1, x2, y2, color, width) {
+            const headLen = 10;
+            const angle = Math.atan2(y1 - y2, x2 - x1);
+            ctx.strokeStyle = color;
+            ctx.fillStyle = color;
+            ctx.lineWidth = width;
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(x2, y2);
+            ctx.lineTo(x2 - headLen * Math.cos(angle - Math.PI/6), y2 + headLen * Math.sin(angle - Math.PI/6));
+            ctx.lineTo(x2 - headLen * Math.cos(angle + Math.PI/6), y2 + headLen * Math.sin(angle + Math.PI/6));
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        // ===============
+        // Inverse Calculator
+        // ===============
+        function initInverse() {
+            document.getElementById('computeInverse').onclick = () => {
+                const a = +document.getElementById('inv_a').value;
+                const b = +document.getElementById('inv_b').value;
+                const c = +document.getElementById('inv_c').value;
+                const d = +document.getElementById('inv_d').value;
+
+                const det = a * d - b * c;
+                document.getElementById('detValue').textContent = det.toFixed(2);
+
+                if (Math.abs(det) < 0.0001) {
+                    document.getElementById('inverseResult').innerHTML = '<span style="color: #ef4444;">Not invertible (det = 0)</span>';
+                    document.getElementById('inverseCheck').textContent = '';
+                } else {
+                    const inv = [[d/det, -b/det], [-c/det, a/det]];
+                    document.getElementById('inverseResult').innerHTML = formatMatrix(inv);
+                    document.getElementById('inverseCheck').textContent = 'Verify: AA⁻¹ should equal I';
+                }
+            };
+        }
+
+        // ===============
+        // Molecule Transformer
+        // ===============
+        function initMolecule() {
+            const canvas = document.getElementById('moleculeCanvas');
+            const ctx = canvas.getContext('2d');
+            const select = document.getElementById('moleculeSelect');
+            const slider = document.getElementById('molRotation');
+            const display = document.getElementById('molRotValue');
+
+            const molecules = {
+                water: {
+                    atoms: [
+                        { x: 0, y: 0, z: 0, symbol: 'O', color: '#e07a5f', r: 12 },
+                        { x: 0.958, y: 0, z: 0, symbol: 'H', color: '#81b29a', r: 8 },
+                        { x: -0.24, y: 0.927, z: 0, symbol: 'H', color: '#81b29a', r: 8 }
+                    ]
+                },
+                methane: {
+                    atoms: [
+                        { x: 0, y: 0, z: 0, symbol: 'C', color: '#6b6965', r: 12 },
+                        { x: 1, y: 1, z: 1, symbol: 'H', color: '#81b29a', r: 8 },
+                        { x: 1, y: -1, z: -1, symbol: 'H', color: '#81b29a', r: 8 },
+                        { x: -1, y: 1, z: -1, symbol: 'H', color: '#81b29a', r: 8 },
+                        { x: -1, y: -1, z: 1, symbol: 'H', color: '#81b29a', r: 8 }
+                    ]
+                },
+                ammonia: {
+                    atoms: [
+                        { x: 0, y: 0, z: 0.38, symbol: 'N', color: '#4a9eff', r: 11 },
+                        { x: 0.94, y: 0, z: -0.13, symbol: 'H', color: '#81b29a', r: 8 },
+                        { x: -0.47, y: 0.81, z: -0.13, symbol: 'H', color: '#81b29a', r: 8 },
+                        { x: -0.47, y: -0.81, z: -0.13, symbol: 'H', color: '#81b29a', r: 8 }
+                    ]
+                }
+            };
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                const center = { x: 250, y: 175 };
+                const scale = 80;
+                const theta = parseFloat(slider.value) * Math.PI / 180;
+                display.textContent = slider.value + '°';
+
+                const mol = molecules[select.value];
+                const cos = Math.cos(theta), sin = Math.sin(theta);
+
+                // Draw axes
+                ctx.strokeStyle = '#444';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(center.x - 150, center.y);
+                ctx.lineTo(center.x + 150, center.y);
+                ctx.moveTo(center.x, center.y - 130);
+                ctx.lineTo(center.x, center.y + 130);
+                ctx.stroke();
+                ctx.fillStyle = '#666';
+                ctx.font = '12px Inter';
+                ctx.fillText('x', center.x + 140, center.y - 5);
+                ctx.fillText('y', center.x + 5, center.y - 120);
+
+                // Transform and draw atoms
+                const transformed = mol.atoms.map(atom => ({
+                    ...atom,
+                    x: atom.x * cos - atom.y * sin,
+                    y: atom.x * sin + atom.y * cos
+                }));
+
+                // Draw bonds first
+                ctx.strokeStyle = '#555';
+                ctx.lineWidth = 3;
+                for (let i = 1; i < transformed.length; i++) {
+                    ctx.beginPath();
+                    ctx.moveTo(center.x + transformed[0].x * scale, center.y - transformed[0].y * scale);
+                    ctx.lineTo(center.x + transformed[i].x * scale, center.y - transformed[i].y * scale);
+                    ctx.stroke();
+                }
+
+                // Draw atoms
+                for (let atom of transformed) {
+                    ctx.beginPath();
+                    ctx.arc(center.x + atom.x * scale, center.y - atom.y * scale, atom.r, 0, Math.PI * 2);
+                    ctx.fillStyle = atom.color;
+                    ctx.fill();
+                    ctx.fillStyle = '#fff';
+                    ctx.font = 'bold 10px Inter';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(atom.symbol, center.x + atom.x * scale, center.y - atom.y * scale);
+                }
+            }
+
+            select.addEventListener('change', draw);
+            slider.addEventListener('input', draw);
+            draw();
+        }
+
+        // ===============
+        // Hückel Matrix
+        // ===============
+        function initHuckel() {
+            const canvas = document.getElementById('huckelCanvas');
+            const ctx = canvas.getContext('2d');
+            const select = document.getElementById('huckelSelect');
+            const display = document.getElementById('huckelMatrix');
+            const note = document.getElementById('huckelNote');
+
+            const molecules = {
+                ethylene: { n: 2, cyclic: false },
+                allyl: { n: 3, cyclic: false },
+                butadiene: { n: 4, cyclic: false },
+                benzene: { n: 6, cyclic: true }
+            };
+
+            function buildHuckel(n, cyclic) {
+                const H = Array(n).fill(0).map(() => Array(n).fill(0));
+                for (let i = 0; i < n; i++) {
+                    if (i < n - 1) {
+                        H[i][i+1] = -1;
+                        H[i+1][i] = -1;
+                    }
+                }
+                if (cyclic) {
+                    H[0][n-1] = -1;
+                    H[n-1][0] = -1;
+                }
+                return H;
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                const mol = molecules[select.value];
+                const n = mol.n;
+                const centerX = 150, centerY = 125, radius = 60;
+
+                // Draw molecule structure
+                ctx.strokeStyle = '#555';
+                ctx.lineWidth = 3;
+                if (mol.cyclic) {
+                    for (let i = 0; i < n; i++) {
+                        const a1 = (2 * Math.PI * i / n) - Math.PI/2;
+                        const a2 = (2 * Math.PI * ((i+1) % n) / n) - Math.PI/2;
+                        ctx.beginPath();
+                        ctx.moveTo(centerX + radius * Math.cos(a1), centerY + radius * Math.sin(a1));
+                        ctx.lineTo(centerX + radius * Math.cos(a2), centerY + radius * Math.sin(a2));
+                        ctx.stroke();
+                    }
+                } else {
+                    for (let i = 0; i < n - 1; i++) {
+                        const x1 = centerX - (n-1)*20 + i*40;
+                        const x2 = x1 + 40;
+                        ctx.beginPath();
+                        ctx.moveTo(x1, centerY);
+                        ctx.lineTo(x2, centerY);
+                        ctx.stroke();
+                    }
+                }
+
+                // Draw atoms
+                for (let i = 0; i < n; i++) {
+                    let x, y;
+                    if (mol.cyclic) {
+                        const a = (2 * Math.PI * i / n) - Math.PI/2;
+                        x = centerX + radius * Math.cos(a);
+                        y = centerY + radius * Math.sin(a);
+                    } else {
+                        x = centerX - (n-1)*20 + i*40;
+                        y = centerY;
+                    }
+                    ctx.beginPath();
+                    ctx.arc(x, y, 15, 0, Math.PI * 2);
+                    ctx.fillStyle = '#6b6965';
+                    ctx.fill();
+                    ctx.fillStyle = '#fff';
+                    ctx.font = 'bold 12px Inter';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText((i+1).toString(), x, y);
+                }
+
+                // Build and display matrix
+                const H = buildHuckel(n, mol.cyclic);
+                let html = '<table style="margin: 0 auto; border-collapse: collapse;">';
+                for (let row of H) {
+                    html += '<tr>';
+                    for (let val of row) {
+                        const color = val === 0 ? '#666' : '#ef4444';
+                        html += `<td style="padding: 6px 10px; color: ${color}; text-align: center;">${val}</td>`;
+                    }
+                    html += '</tr>';
+                }
+                html += '</table>';
+                display.innerHTML = html;
+
+                note.textContent = mol.cyclic ?
+                    `Cyclic: corners have β (atoms 1 and ${n} are bonded)` :
+                    'Linear: corners are 0 (no ring closure)';
+            }
+
+            select.addEventListener('change', draw);
+            draw();
+        }
+    </script>
+</body>
+</html>
