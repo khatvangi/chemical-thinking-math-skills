@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 9: What Doesn't Change? | Chemical Thinking</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a24;
+            --text-primary: #e8e6e3;
+            --text-secondary: #a0a0a0;
+            --accent-blue: #4a9eff;
+            --accent-purple: #8b5cf6;
+            --accent-green: #10b981;
+            --accent-orange: #f59e0b;
+            --accent-red: #ef4444;
+            --accent-cyan: #06b6d4;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            padding: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            font-style: italic;
+            margin-bottom: 2rem;
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            color: var(--accent-cyan);
+            margin: 3rem 0 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--bg-tertiary);
+        }
+
+        h3 {
+            font-size: 1.35rem;
+            color: var(--accent-purple);
+            margin: 2rem 0 1rem;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            color: var(--accent-green);
+            margin: 1.5rem 0 0.75rem;
+        }
+
+        p { margin-bottom: 1rem; }
+
+        .hook-box {
+            background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
+            border-left: 4px solid var(--accent-cyan);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .definition-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--accent-cyan);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+        }
+
+        .definition-box strong { color: var(--accent-cyan); }
+
+        .visual-container {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .visual-container h4 { margin-top: 0; margin-bottom: 1rem; }
+
+        canvas {
+            display: block;
+            margin: 0 auto;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .control-group label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        input[type="range"] {
+            width: 120px;
+            accent-color: var(--accent-cyan);
+        }
+
+        select, button {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--accent-cyan);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        button:hover {
+            background: var(--accent-cyan);
+            color: var(--bg-primary);
+        }
+
+        .value-display {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-cyan);
+            min-width: 50px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+
+        th, td {
+            border: 1px solid var(--bg-tertiary);
+            padding: 0.75rem;
+            text-align: left;
+        }
+
+        th {
+            background: var(--bg-secondary);
+            color: var(--accent-cyan);
+        }
+
+        tr:nth-child(even) { background: var(--bg-secondary); }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-tertiary);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .stat-box {
+            background: var(--bg-tertiary);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .stat-value {
+            font-size: 1.3rem;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-green);
+        }
+
+        /* Lecture Navigation */
+        .lecture-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--bg-tertiary);
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-cyan);
+        }
+
+        .primitive-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(74, 158, 255, 0.1));
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            transition: all 0.3s;
+        }
+
+        .primitive-link:hover {
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(74, 158, 255, 0.2));
+            border-color: var(--accent-cyan);
+            transform: translateX(3px);
+        }
+
+        .primitive-badge {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+        }
+
+        .primitive-text {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .example-box {
+            background: var(--bg-secondary);
+            border-left: 3px solid var(--accent-green);
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .chemistry-box {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(6, 182, 212, 0.1));
+            border: 1px solid var(--accent-green);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+        }
+
+        .matrix-display {
+            font-family: 'JetBrains Mono', monospace;
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .exercise-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--accent-orange);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+        }
+
+        .exercise-box h4 { color: var(--accent-orange); margin-top: 0; }
+
+        details {
+            margin-top: 1rem;
+        }
+
+        summary {
+            cursor: pointer;
+            color: var(--accent-blue);
+            padding: 0.5rem;
+        }
+
+        summary:hover { color: var(--accent-cyan); }
+
+        .solution {
+            padding: 1rem;
+            background: var(--bg-tertiary);
+            border-radius: 0 0 8px 8px;
+            margin-top: 0.5rem;
+        }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        li { margin-bottom: 0.5rem; }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        @media (max-width: 600px) {
+            .two-column { grid-template-columns: 1fr; }
+        }
+
+        .invariant-table {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .invariant-table th {
+            background: var(--bg-tertiary);
+        }
+
+        .match-yes { color: var(--accent-green); }
+        .match-no { color: var(--accent-red); }
+    </style>
+</head>
+<body>
+    <nav class="lecture-nav">
+        <a href="../all-lectures.html" class="nav-link">← All Lectures</a>
+        <a href="../../primitives/sameness.html" class="primitive-link">
+            <span class="primitive-badge">SAMENESS</span>
+            <span class="primitive-text">Explore the Primitive →</span>
+        </a>
+    </nav>
+
+    <h1>Lecture 9: What Doesn't Change?</h1>
+    <p class="subtitle">Invariants — the properties that survive transformation.</p>
+
+    <!-- THE HOOK -->
+    <h2>The Hook</h2>
+
+    <div class="hook-box">
+        <h4>Same Molecule, Different Coordinates</h4>
+        <p>Water molecule in three coordinate systems:</p>
+        <table>
+            <thead>
+                <tr><th>System</th><th>O position</th><th>H₁ position</th><th>H₂ position</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Original</td><td>(0, 0, 0)</td><td>(0.96, 0, 0)</td><td>(-0.24, 0.93, 0)</td></tr>
+                <tr><td>Rotated 90°</td><td>(0, 0, 0)</td><td>(0, 0.96, 0)</td><td>(-0.93, -0.24, 0)</td></tr>
+                <tr><td>Reflected</td><td>(0, 0, 0)</td><td>(-0.96, 0, 0)</td><td>(0.24, 0.93, 0)</td></tr>
+            </tbody>
+        </table>
+        <p>The numbers change completely. But:</p>
+        <ul>
+            <li>Bond length O-H: <strong>0.96 Å</strong> in all three</li>
+            <li>Bond angle H-O-H: <strong>104.5°</strong> in all three</li>
+            <li>Dipole moment magnitude: <strong>1.85 D</strong> in all three</li>
+        </ul>
+        <p>Some things don't change. These are <strong>invariants</strong>.</p>
+    </div>
+
+    <div class="visual-container">
+        <h4>Molecular Coordinate Transformation</h4>
+        <canvas id="moleculeCanvas" width="650" height="350"></canvas>
+        <div class="controls">
+            <div class="control-group">
+                <label>Rotation:</label>
+                <input type="range" id="molRotation" min="0" max="360" step="5" value="0">
+                <span class="value-display" id="molRotVal">0°</span>
+            </div>
+            <button id="resetMol">Reset</button>
+        </div>
+        <div class="stat-grid">
+            <div class="stat-box">
+                <div class="stat-label">O-H Bond</div>
+                <div class="stat-value" id="bondLength">0.96 Å</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">H-O-H Angle</div>
+                <div class="stat-value" id="bondAngle">104.5°</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">|μ| Dipole</div>
+                <div class="stat-value" id="dipoleMag">1.85 D</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- RECOGNITION -->
+    <h2>Recognition: The SAMENESS Primitive</h2>
+
+    <div class="definition-box">
+        <strong>SAMENESS:</strong> "What doesn't change?"
+        <p style="margin-top: 1rem;">Transformations alter representations. But certain properties remain fixed — they are intrinsic to the object, not to our description of it.</p>
+        <p>Finding invariants means finding <strong>what's real</strong> versus <strong>what's coordinate-dependent</strong>.</p>
+    </div>
+
+    <h3>When to Think About Invariants</h3>
+
+    <table>
+        <thead>
+            <tr><th>Situation</th><th>Why invariants matter</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>"Is this property physical or just coordinate-dependent?"</td><td>Physical = invariant</td></tr>
+            <tr><td>"Are these two matrices really the same transformation?"</td><td>Check invariants</td></tr>
+            <tr><td>"What's preserved under this symmetry?"</td><td>Find the invariants</td></tr>
+            <tr><td>"Why do similar matrices have the same eigenvalues?"</td><td>Eigenvalues are invariants</td></tr>
+            <tr><td>"What quantity is conserved?"</td><td>Conservation = invariance under time</td></tr>
+        </tbody>
+    </table>
+
+    <!-- SIMILAR MATRICES -->
+    <h2>Invariants Under Similarity</h2>
+
+    <h3>Similar Matrices</h3>
+
+    <div class="definition-box">
+        <strong>Definition:</strong> Matrices A and B are <strong>similar</strong> if:
+        $$B = P^{-1}AP$$
+        for some invertible P.
+        <p style="margin-top: 1rem;"><strong>Meaning:</strong> A and B represent the <em>same linear transformation</em> in different bases.</p>
+        <ul>
+            <li>A is the matrix in the original basis</li>
+            <li>P is the change-of-basis matrix</li>
+            <li>B is the matrix in the new basis</li>
+        </ul>
+    </div>
+
+    <h3>What's Preserved Under Similarity?</h3>
+
+    <div class="definition-box">
+        <strong>Theorem:</strong> If B = P⁻¹AP, then A and B have the same:
+        <ol>
+            <li><strong>Determinant:</strong> det(B) = det(A)</li>
+            <li><strong>Trace:</strong> tr(B) = tr(A)</li>
+            <li><strong>Eigenvalues:</strong> same characteristic polynomial</li>
+            <li><strong>Rank:</strong> rank(B) = rank(A)</li>
+            <li><strong>Nullity:</strong> nullity(B) = nullity(A)</li>
+        </ol>
+    </div>
+
+    <div class="example-box">
+        <strong>Proof (Determinant):</strong>
+        <div class="matrix-display">
+            $$\det(B) = \det(P^{-1}AP) = \det(P^{-1})\det(A)\det(P) = \frac{1}{\det(P)}\det(A)\det(P) = \det(A)$$
+        </div>
+    </div>
+
+    <div class="example-box">
+        <strong>Proof (Trace):</strong>
+        <p>Using tr(XY) = tr(YX):</p>
+        <div class="matrix-display">
+            $$\text{tr}(B) = \text{tr}(P^{-1}AP) = \text{tr}(APP^{-1}) = \text{tr}(A)$$
+        </div>
+    </div>
+
+    <div class="example-box">
+        <strong>Proof (Eigenvalues):</strong>
+        <p>The characteristic polynomial is:</p>
+        <div class="matrix-display">
+            $$\det(B - \lambda I) = \det(P^{-1}AP - \lambda I) = \det(P^{-1}(A - \lambda I)P) = \det(A - \lambda I)$$
+        </div>
+        <p>Same polynomial ⟹ same roots ⟹ same eigenvalues.</p>
+    </div>
+
+    <h3>What Changes Under Similarity?</h3>
+    <ul>
+        <li><strong>Individual entries</strong> of the matrix</li>
+        <li><strong>Eigenvectors</strong> (they transform: if A<strong>v</strong> = λ<strong>v</strong>, then B(P⁻¹<strong>v</strong>) = λ(P⁻¹<strong>v</strong>))</li>
+        <li><strong>The matrix itself</strong> (obviously)</li>
+    </ul>
+    <p>The invariants capture the <strong>essence</strong> of the transformation; the rest is coordinate choice.</p>
+
+    <!-- SIMILARITY TESTER -->
+    <div class="visual-container">
+        <h4>Similarity Tester</h4>
+        <p>Enter two matrices and check if they could be similar:</p>
+        <div class="two-column">
+            <div>
+                <h4 style="color: var(--accent-blue);">Matrix A</h4>
+                <div class="controls" style="flex-direction: column; align-items: flex-start;">
+                    <div class="control-group">
+                        <label>a₁₁:</label>
+                        <input type="range" id="a11" min="-5" max="5" step="1" value="4">
+                        <span class="value-display" id="a11Val">4</span>
+                    </div>
+                    <div class="control-group">
+                        <label>a₁₂:</label>
+                        <input type="range" id="a12" min="-5" max="5" step="1" value="-2">
+                        <span class="value-display" id="a12Val">-2</span>
+                    </div>
+                    <div class="control-group">
+                        <label>a₂₁:</label>
+                        <input type="range" id="a21" min="-5" max="5" step="1" value="1">
+                        <span class="value-display" id="a21Val">1</span>
+                    </div>
+                    <div class="control-group">
+                        <label>a₂₂:</label>
+                        <input type="range" id="a22" min="-5" max="5" step="1" value="1">
+                        <span class="value-display" id="a22Val">1</span>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <h4 style="color: var(--accent-purple);">Matrix B</h4>
+                <div class="controls" style="flex-direction: column; align-items: flex-start;">
+                    <div class="control-group">
+                        <label>b₁₁:</label>
+                        <input type="range" id="b11" min="-5" max="5" step="1" value="3">
+                        <span class="value-display" id="b11Val">3</span>
+                    </div>
+                    <div class="control-group">
+                        <label>b₁₂:</label>
+                        <input type="range" id="b12" min="-5" max="5" step="1" value="0">
+                        <span class="value-display" id="b12Val">0</span>
+                    </div>
+                    <div class="control-group">
+                        <label>b₂₁:</label>
+                        <input type="range" id="b21" min="-5" max="5" step="1" value="0">
+                        <span class="value-display" id="b21Val">0</span>
+                    </div>
+                    <div class="control-group">
+                        <label>b₂₂:</label>
+                        <input type="range" id="b22" min="-5" max="5" step="1" value="2">
+                        <span class="value-display" id="b22Val">2</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="similarityResult" style="margin-top: 1.5rem;"></div>
+    </div>
+
+    <!-- TRACE-DETERMINANT PLANE -->
+    <h2>The Trace-Determinant Plane</h2>
+
+    <p>For 2×2 matrices, trace and determinant completely determine the eigenvalues:</p>
+    <div class="matrix-display">
+        $$\lambda = \frac{\text{tr} \pm \sqrt{\text{tr}^2 - 4\det}}{2}$$
+    </div>
+
+    <table>
+        <thead>
+            <tr><th>Region</th><th>Eigenvalue type</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>tr² - 4det > 0</td><td>Two distinct real</td></tr>
+            <tr><td>tr² - 4det = 0</td><td>One repeated real</td></tr>
+            <tr><td>tr² - 4det < 0</td><td>Complex conjugate pair</td></tr>
+        </tbody>
+    </table>
+
+    <div class="visual-container">
+        <h4>Trace-Determinant Classification</h4>
+        <canvas id="traceDetCanvas" width="550" height="550"></canvas>
+        <div class="controls">
+            <div class="control-group">
+                <label>Trace:</label>
+                <input type="range" id="traceSlider" min="-5" max="5" step="0.5" value="2">
+                <span class="value-display" id="traceVal">2</span>
+            </div>
+            <div class="control-group">
+                <label>Det:</label>
+                <input type="range" id="detSlider" min="-5" max="5" step="0.5" value="1">
+                <span class="value-display" id="detVal">1</span>
+            </div>
+        </div>
+        <div id="eigenResult" style="margin-top: 1rem; text-align: center;"></div>
+    </div>
+
+    <!-- DETERMINANT AND TRACE -->
+    <h2>The Determinant as Invariant</h2>
+
+    <h3>Geometric Meaning</h3>
+    <p>The determinant is the <strong>signed volume scaling factor</strong>.</p>
+
+    <table>
+        <thead>
+            <tr><th>Transformation</th><th>det</th><th>Meaning</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>Rotation</td><td>+1</td><td>Volume preserved, orientation preserved</td></tr>
+            <tr><td>Reflection</td><td>-1</td><td>Volume preserved, orientation flipped</td></tr>
+            <tr><td>Scaling by k</td><td>kⁿ</td><td>Volume scales by kⁿ</td></tr>
+            <tr><td>Singular</td><td>0</td><td>Collapses dimension</td></tr>
+        </tbody>
+    </table>
+
+    <h3>Determinant as Product of Eigenvalues</h3>
+    <div class="definition-box">
+        <strong>Theorem:</strong> det(A) = λ₁ · λ₂ · ... · λₙ
+        <p style="margin-top: 1rem;">The determinant equals the product of all eigenvalues.</p>
+    </div>
+
+    <h2>The Trace as Invariant</h2>
+
+    <h3>Trace as Sum of Eigenvalues</h3>
+    <div class="definition-box">
+        <strong>Theorem:</strong> tr(A) = λ₁ + λ₂ + ... + λₙ
+        <p style="margin-top: 1rem;">The trace equals the sum of all eigenvalues.</p>
+    </div>
+
+    <!-- EIGENVALUES AS FUNDAMENTAL -->
+    <h2>Eigenvalues as the Fundamental Invariants</h2>
+
+    <div class="definition-box">
+        <p><strong>Old framing:</strong> "Eigenvalues are special scalings along special directions."</p>
+        <p><strong>New framing:</strong> "Eigenvalues are the coordinate-independent quantities that characterize a transformation."</p>
+        <p style="margin-top: 1rem;">The directions (eigenvectors) depend on your basis. The scalings (eigenvalues) don't.</p>
+    </div>
+
+    <p>The eigenvalues are the <strong>complete similarity invariants</strong> for diagonalizable matrices.</p>
+    <p>Two diagonalizable matrices are similar <strong>if and only if</strong> they have the same eigenvalues (with same multiplicities).</p>
+
+    <!-- CONSERVATION LAWS -->
+    <h2>Conservation Laws as Invariance</h2>
+
+    <div class="chemistry-box">
+        <h3>The Physics Connection</h3>
+        <p>In physics, <strong>conservation laws</strong> are statements of invariance:</p>
+        <table>
+            <thead>
+                <tr><th>Conservation of...</th><th>Invariance under...</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Energy</td><td>Time translation</td></tr>
+                <tr><td>Momentum</td><td>Space translation</td></tr>
+                <tr><td>Angular momentum</td><td>Rotation</td></tr>
+                <tr><td>Charge</td><td>Gauge transformation</td></tr>
+            </tbody>
+        </table>
+        <p style="margin-top: 1rem;"><strong>Noether's Theorem:</strong> Every continuous symmetry corresponds to a conserved quantity.</p>
+    </div>
+
+    <h3>Molecular Invariants</h3>
+
+    <div class="two-column">
+        <div>
+            <h4 style="color: var(--accent-red);">Coordinate-dependent:</h4>
+            <ul>
+                <li>Atomic positions</li>
+                <li>Dipole vector components</li>
+                <li>MO coefficient signs</li>
+            </ul>
+        </div>
+        <div>
+            <h4 style="color: var(--accent-green);">Invariant:</h4>
+            <ul>
+                <li>Bond lengths</li>
+                <li>Bond angles</li>
+                <li>Dipole magnitude</li>
+                <li>Total energy</li>
+                <li>Orbital energies</li>
+                <li>Vibrational frequencies</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- TESTING SIMILARITY -->
+    <h2>Testing Similarity</h2>
+
+    <p>Given A and B, are they similar (same transformation, different basis)?</p>
+
+    <div class="definition-box">
+        <strong>Quick tests (necessary but not sufficient):</strong>
+        <ol>
+            <li>Same trace?</li>
+            <li>Same determinant?</li>
+            <li>Same characteristic polynomial?</li>
+            <li>Same rank?</li>
+        </ol>
+        <p style="margin-top: 1rem;">If any differ, <strong>not similar</strong>.</p>
+        <p>If all agree, <strong>might be similar</strong> — need deeper analysis.</p>
+    </div>
+
+    <div class="example-box">
+        <strong>Example: Not similar despite matching invariants</strong>
+        <div class="matrix-display">
+            $$A = \begin{pmatrix} 1 & 1 \\ 0 & 1 \end{pmatrix}, \quad B = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}$$
+        </div>
+        <ul>
+            <li>tr(A) = 2, tr(B) = 2 ✓</li>
+            <li>det(A) = 1, det(B) = 1 ✓</li>
+            <li>Eigenvalues: both have λ = 1 (double) ✓</li>
+        </ul>
+        <p>But A is not diagonalizable (only one eigenvector) while B = I is diagonal.</p>
+        <p><strong>Not similar!</strong> (Deeper invariant: Jordan structure differs.)</p>
+    </div>
+
+    <!-- SUMMARY -->
+    <h2>Summary: Invariant Hierarchy</h2>
+
+    <table>
+        <thead>
+            <tr><th>Transformation type</th><th>What's preserved</th></tr>
+        </thead>
+        <tbody>
+            <tr><td><strong>Any invertible P⁻¹AP</strong></td><td>det, tr, eigenvalues, rank, char. poly.</td></tr>
+            <tr><td><strong>Orthogonal Q^T AQ</strong></td><td>Above + singular values, Frobenius norm</td></tr>
+            <tr><td><strong>Identity (no change)</strong></td><td>Everything</td></tr>
+        </tbody>
+    </table>
+
+    <div class="definition-box">
+        <strong>Why This Matters:</strong>
+        <p>When you see a matrix, ask:</p>
+        <ul>
+            <li>What are its invariants?</li>
+            <li>Which properties are "real" vs coordinate-dependent?</li>
+            <li>What transformation class are we working within?</li>
+        </ul>
+        <p><strong>The invariants tell you what's physically meaningful.</strong></p>
+    </div>
+
+    <!-- EXERCISES -->
+    <h2>Exercises</h2>
+
+    <div class="exercise-box">
+        <h4>Exercise 1: Similarity Invariants</h4>
+        <p>Verify that these matrices have the same trace, determinant, and eigenvalues:</p>
+        <div class="matrix-display">
+            $$A = \begin{pmatrix} 4 & -2 \\ 1 & 1 \end{pmatrix}, \quad B = \begin{pmatrix} 3 & 0 \\ 0 & 2 \end{pmatrix}$$
+        </div>
+        <p>Are they similar? If so, find P such that P⁻¹AP = B.</p>
+
+        <details>
+            <summary>Show Solution</summary>
+            <div class="solution">
+                <p>tr(A) = 4 + 1 = 5, tr(B) = 3 + 2 = 5 ✓</p>
+                <p>det(A) = 4 - (-2) = 6, det(B) = 6 ✓</p>
+                <p>Eigenvalues of A: λ² - 5λ + 6 = 0 ⟹ λ = 2, 3 ✓ (matches B's diagonal)</p>
+                <p>Yes, similar. To find P: eigenvectors of A are columns of P.</p>
+                <p>For λ = 3: (A - 3I)v = 0 ⟹ v₁ = (2, 1)</p>
+                <p>For λ = 2: (A - 2I)v = 0 ⟹ v₂ = (1, 1)</p>
+                <p>P = [2 1; 1 1], verify P⁻¹AP = B.</p>
+            </div>
+        </details>
+    </div>
+
+    <div class="exercise-box">
+        <h4>Exercise 2: Not Similar</h4>
+        <p>Show that these matrices are <strong>not</strong> similar, despite having the same trace and determinant:</p>
+        <div class="matrix-display">
+            $$A = \begin{pmatrix} 2 & 1 \\ 0 & 2 \end{pmatrix}, \quad B = \begin{pmatrix} 2 & 0 \\ 0 & 2 \end{pmatrix}$$
+        </div>
+
+        <details>
+            <summary>Show Solution</summary>
+            <div class="solution">
+                <p>Both have tr = 4, det = 4, eigenvalue λ = 2 (double).</p>
+                <p>But A has only one eigenvector direction: (A - 2I) = [0 1; 0 0], null space = span{(1,0)}.</p>
+                <p>B = 2I has every vector as eigenvector (full eigenspace).</p>
+                <p>Different geometric multiplicity ⟹ <strong>not similar</strong>.</p>
+            </div>
+        </details>
+    </div>
+
+    <div class="exercise-box">
+        <h4>Exercise 3: Trace-Determinant Classification</h4>
+        <p>For each 2×2 matrix, use trace and determinant to classify the eigenvalues:</p>
+        <p>(a) $\begin{pmatrix} 3 & 1 \\ 1 & 3 \end{pmatrix}$</p>
+        <p>(b) $\begin{pmatrix} 0 & -1 \\ 1 & 0 \end{pmatrix}$</p>
+        <p>(c) $\begin{pmatrix} 2 & 1 \\ 0 & 2 \end{pmatrix}$</p>
+
+        <details>
+            <summary>Show Solution</summary>
+            <div class="solution">
+                <p>(a) tr = 6, det = 9 - 1 = 8. Discriminant = 36 - 32 = 4 > 0. <strong>Two distinct real</strong>.</p>
+                <p>(b) tr = 0, det = 1. Discriminant = 0 - 4 = -4 < 0. <strong>Complex conjugate pair</strong> (±i).</p>
+                <p>(c) tr = 4, det = 4. Discriminant = 16 - 16 = 0. <strong>Repeated real</strong> (λ = 2).</p>
+            </div>
+        </details>
+    </div>
+
+    <div class="exercise-box">
+        <h4>Exercise 4: Conservation</h4>
+        <p>In the reaction 2H₂ + O₂ → 2H₂O:</p>
+        <p>(a) What quantities are conserved (invariant)?</p>
+        <p>(b) What quantities change?</p>
+
+        <details>
+            <summary>Show Solution</summary>
+            <div class="solution">
+                <p>(a) <strong>Conserved:</strong> Total mass, total charge (0), atom counts (4 H, 2 O), total energy (in isolated system), total momentum.</p>
+                <p>(b) <strong>Changes:</strong> Number of molecules (3 → 2), bond types, molecular geometries, potential energy distribution.</p>
+            </div>
+        </details>
+    </div>
+
+    <!-- NEXT LECTURE -->
+    <h2>Next</h2>
+
+    <p><strong>Lecture 10: What Survives?</strong></p>
+    <p>Now that we know eigenvalues are fundamental invariants, how do we find them? The characteristic equation, eigenvectors, and applications to chemistry.</p>
+
+    <div style="text-align: center; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--bg-tertiary); color: var(--text-secondary); font-size: 0.9rem;">
+        <p>Chemical Thinking: The Grammar of Reality</p>
+        <p>Lecture 9 — What Doesn't Change?</p>
+    </div>
+
+    <script>
+        // Render KaTeX
+        document.addEventListener('DOMContentLoaded', function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false}
+                ]
+            });
+        });
+
+        // ====================
+        // Molecule Rotation Visualization
+        // ====================
+        const molCanvas = document.getElementById('moleculeCanvas');
+        const molCtx = molCanvas.getContext('2d');
+        const molRotation = document.getElementById('molRotation');
+        const resetMol = document.getElementById('resetMol');
+
+        // Water molecule coordinates (centered at O)
+        const O_pos = [0, 0];
+        const H1_orig = [0.96, 0];
+        const H2_orig = [-0.24, 0.93];
+        const dipole_orig = [0, 0.5];
+
+        function rotatePoint(p, angle) {
+            const c = Math.cos(angle);
+            const s = Math.sin(angle);
+            return [p[0] * c - p[1] * s, p[0] * s + p[1] * c];
+        }
+
+        function drawMolecule() {
+            const angle = parseFloat(molRotation.value) * Math.PI / 180;
+            document.getElementById('molRotVal').textContent = molRotation.value + '°';
+
+            const H1 = rotatePoint(H1_orig, angle);
+            const H2 = rotatePoint(H2_orig, angle);
+            const dipole = rotatePoint(dipole_orig, angle);
+
+            molCtx.fillStyle = '#1a1a24';
+            molCtx.fillRect(0, 0, molCanvas.width, molCanvas.height);
+
+            const cx = molCanvas.width / 2;
+            const cy = molCanvas.height / 2;
+            const scale = 120;
+
+            // Draw coordinate axes
+            molCtx.strokeStyle = '#333';
+            molCtx.lineWidth = 1;
+            molCtx.beginPath();
+            molCtx.moveTo(50, cy);
+            molCtx.lineTo(molCanvas.width - 50, cy);
+            molCtx.moveTo(cx, 50);
+            molCtx.lineTo(cx, molCanvas.height - 50);
+            molCtx.stroke();
+
+            molCtx.fillStyle = '#666';
+            molCtx.font = '12px Inter';
+            molCtx.fillText('x', molCanvas.width - 45, cy - 5);
+            molCtx.fillText('y', cx + 5, 55);
+
+            // Draw bonds
+            molCtx.strokeStyle = '#666';
+            molCtx.lineWidth = 4;
+            molCtx.beginPath();
+            molCtx.moveTo(cx, cy);
+            molCtx.lineTo(cx + H1[0] * scale, cy - H1[1] * scale);
+            molCtx.moveTo(cx, cy);
+            molCtx.lineTo(cx + H2[0] * scale, cy - H2[1] * scale);
+            molCtx.stroke();
+
+            // Draw dipole vector
+            molCtx.strokeStyle = '#4a9eff';
+            molCtx.lineWidth = 3;
+            molCtx.beginPath();
+            molCtx.moveTo(cx, cy);
+            molCtx.lineTo(cx + dipole[0] * scale * 1.5, cy - dipole[1] * scale * 1.5);
+            molCtx.stroke();
+
+            // Arrowhead for dipole
+            const dLen = Math.sqrt(dipole[0]*dipole[0] + dipole[1]*dipole[1]) * scale * 1.5;
+            const dAngle = Math.atan2(-dipole[1], dipole[0]);
+            molCtx.beginPath();
+            molCtx.moveTo(cx + dipole[0] * scale * 1.5, cy - dipole[1] * scale * 1.5);
+            molCtx.lineTo(cx + dipole[0] * scale * 1.5 - 10 * Math.cos(dAngle - 0.3),
+                         cy - dipole[1] * scale * 1.5 + 10 * Math.sin(dAngle - 0.3));
+            molCtx.moveTo(cx + dipole[0] * scale * 1.5, cy - dipole[1] * scale * 1.5);
+            molCtx.lineTo(cx + dipole[0] * scale * 1.5 - 10 * Math.cos(dAngle + 0.3),
+                         cy - dipole[1] * scale * 1.5 + 10 * Math.sin(dAngle + 0.3));
+            molCtx.stroke();
+
+            // Draw atoms
+            // Oxygen (red)
+            molCtx.fillStyle = '#ef4444';
+            molCtx.beginPath();
+            molCtx.arc(cx, cy, 20, 0, 2 * Math.PI);
+            molCtx.fill();
+            molCtx.fillStyle = '#fff';
+            molCtx.font = 'bold 14px Inter';
+            molCtx.textAlign = 'center';
+            molCtx.fillText('O', cx, cy + 5);
+
+            // Hydrogens (white)
+            molCtx.fillStyle = '#fff';
+            molCtx.beginPath();
+            molCtx.arc(cx + H1[0] * scale, cy - H1[1] * scale, 12, 0, 2 * Math.PI);
+            molCtx.fill();
+            molCtx.beginPath();
+            molCtx.arc(cx + H2[0] * scale, cy - H2[1] * scale, 12, 0, 2 * Math.PI);
+            molCtx.fill();
+            molCtx.fillStyle = '#000';
+            molCtx.font = 'bold 12px Inter';
+            molCtx.fillText('H', cx + H1[0] * scale, cy - H1[1] * scale + 4);
+            molCtx.fillText('H', cx + H2[0] * scale, cy - H2[1] * scale + 4);
+
+            // Label dipole
+            molCtx.fillStyle = '#4a9eff';
+            molCtx.font = '12px Inter';
+            molCtx.fillText('μ', cx + dipole[0] * scale * 1.6, cy - dipole[1] * scale * 1.6);
+
+            // Show coordinates
+            molCtx.textAlign = 'left';
+            molCtx.fillStyle = '#a0a0a0';
+            molCtx.font = '11px JetBrains Mono';
+            molCtx.fillText(`O: (0.00, 0.00)`, 20, 30);
+            molCtx.fillText(`H₁: (${H1[0].toFixed(2)}, ${H1[1].toFixed(2)})`, 20, 48);
+            molCtx.fillText(`H₂: (${H2[0].toFixed(2)}, ${H2[1].toFixed(2)})`, 20, 66);
+            molCtx.fillStyle = '#4a9eff';
+            molCtx.fillText(`μ: (${dipole[0].toFixed(2)}, ${dipole[1].toFixed(2)})`, 20, 84);
+
+            // Invariants always stay the same
+            document.getElementById('bondLength').textContent = '0.96 Å';
+            document.getElementById('bondAngle').textContent = '104.5°';
+            document.getElementById('dipoleMag').textContent = '1.85 D';
+        }
+
+        molRotation.addEventListener('input', drawMolecule);
+        resetMol.addEventListener('click', () => {
+            molRotation.value = 0;
+            drawMolecule();
+        });
+        drawMolecule();
+
+        // ====================
+        // Similarity Tester
+        // ====================
+        const matrixInputs = ['a11', 'a12', 'a21', 'a22', 'b11', 'b12', 'b21', 'b22'];
+
+        function updateSimilarityTest() {
+            const a11 = parseFloat(document.getElementById('a11').value);
+            const a12 = parseFloat(document.getElementById('a12').value);
+            const a21 = parseFloat(document.getElementById('a21').value);
+            const a22 = parseFloat(document.getElementById('a22').value);
+            const b11 = parseFloat(document.getElementById('b11').value);
+            const b12 = parseFloat(document.getElementById('b12').value);
+            const b21 = parseFloat(document.getElementById('b21').value);
+            const b22 = parseFloat(document.getElementById('b22').value);
+
+            // Update displays
+            matrixInputs.forEach(id => {
+                document.getElementById(id + 'Val').textContent = document.getElementById(id).value;
+            });
+
+            // Compute invariants
+            const trA = a11 + a22;
+            const trB = b11 + b22;
+            const detA = a11 * a22 - a12 * a21;
+            const detB = b11 * b22 - b12 * b21;
+
+            // Eigenvalues
+            const discA = trA * trA - 4 * detA;
+            const discB = trB * trB - 4 * detB;
+
+            let eigA1, eigA2, eigB1, eigB2;
+            if (discA >= 0) {
+                eigA1 = (trA + Math.sqrt(discA)) / 2;
+                eigA2 = (trA - Math.sqrt(discA)) / 2;
+            } else {
+                eigA1 = trA / 2;
+                eigA2 = Math.sqrt(-discA) / 2;
+            }
+            if (discB >= 0) {
+                eigB1 = (trB + Math.sqrt(discB)) / 2;
+                eigB2 = (trB - Math.sqrt(discB)) / 2;
+            } else {
+                eigB1 = trB / 2;
+                eigB2 = Math.sqrt(-discB) / 2;
+            }
+
+            const trMatch = Math.abs(trA - trB) < 0.01;
+            const detMatch = Math.abs(detA - detB) < 0.01;
+            const eigMatch = discA >= 0 && discB >= 0 &&
+                ((Math.abs(eigA1 - eigB1) < 0.01 && Math.abs(eigA2 - eigB2) < 0.01) ||
+                 (Math.abs(eigA1 - eigB2) < 0.01 && Math.abs(eigA2 - eigB1) < 0.01));
+
+            const allMatch = trMatch && detMatch && eigMatch;
+
+            let eigAStr = discA >= 0 ? `${eigA1.toFixed(2)}, ${eigA2.toFixed(2)}` : `${eigA1.toFixed(2)} ± ${eigA2.toFixed(2)}i`;
+            let eigBStr = discB >= 0 ? `${eigB1.toFixed(2)}, ${eigB2.toFixed(2)}` : `${eigB1.toFixed(2)} ± ${eigB2.toFixed(2)}i`;
+
+            document.getElementById('similarityResult').innerHTML = `
+                <table class="invariant-table">
+                    <thead>
+                        <tr><th>Invariant</th><th>Matrix A</th><th>Matrix B</th><th>Match?</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Trace</strong></td>
+                            <td>${trA.toFixed(2)}</td>
+                            <td>${trB.toFixed(2)}</td>
+                            <td class="${trMatch ? 'match-yes' : 'match-no'}">${trMatch ? '✓' : '✗'}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Determinant</strong></td>
+                            <td>${detA.toFixed(2)}</td>
+                            <td>${detB.toFixed(2)}</td>
+                            <td class="${detMatch ? 'match-yes' : 'match-no'}">${detMatch ? '✓' : '✗'}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Eigenvalues</strong></td>
+                            <td>${eigAStr}</td>
+                            <td>${eigBStr}</td>
+                            <td class="${eigMatch ? 'match-yes' : 'match-no'}">${eigMatch ? '✓' : '✗'}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p style="text-align: center; margin-top: 1rem; font-size: 1.1rem;">
+                    <strong>${allMatch ?
+                        '<span style="color: var(--accent-green);">Possibly similar</span> (all invariants match)' :
+                        '<span style="color: var(--accent-red);">Not similar</span> (invariants differ)'}</strong>
+                </p>
+            `;
+        }
+
+        matrixInputs.forEach(id => {
+            document.getElementById(id).addEventListener('input', updateSimilarityTest);
+        });
+        updateSimilarityTest();
+
+        // ====================
+        // Trace-Determinant Plane
+        // ====================
+        const tdCanvas = document.getElementById('traceDetCanvas');
+        const tdCtx = tdCanvas.getContext('2d');
+        const traceSlider = document.getElementById('traceSlider');
+        const detSlider = document.getElementById('detSlider');
+
+        function drawTraceDet() {
+            const tr = parseFloat(traceSlider.value);
+            const det = parseFloat(detSlider.value);
+            document.getElementById('traceVal').textContent = tr;
+            document.getElementById('detVal').textContent = det;
+
+            tdCtx.fillStyle = '#1a1a24';
+            tdCtx.fillRect(0, 0, tdCanvas.width, tdCanvas.height);
+
+            const cx = tdCanvas.width / 2;
+            const cy = tdCanvas.height / 2;
+            const scale = 45;
+
+            // Draw regions
+            // Complex region (above parabola)
+            tdCtx.fillStyle = 'rgba(74, 158, 255, 0.15)';
+            tdCtx.beginPath();
+            tdCtx.moveTo(0, 0);
+            for (let x = -6; x <= 6; x += 0.1) {
+                const y = x * x / 4;
+                const px = cx + x * scale;
+                const py = cy - y * scale;
+                tdCtx.lineTo(px, Math.max(0, py));
+            }
+            tdCtx.lineTo(tdCanvas.width, 0);
+            tdCtx.closePath();
+            tdCtx.fill();
+
+            // Real region (below parabola)
+            tdCtx.fillStyle = 'rgba(16, 185, 129, 0.15)';
+            tdCtx.beginPath();
+            tdCtx.moveTo(0, tdCanvas.height);
+            for (let x = -6; x <= 6; x += 0.1) {
+                const y = x * x / 4;
+                const px = cx + x * scale;
+                const py = cy - y * scale;
+                tdCtx.lineTo(px, Math.min(tdCanvas.height, py));
+            }
+            tdCtx.lineTo(tdCanvas.width, tdCanvas.height);
+            tdCtx.closePath();
+            tdCtx.fill();
+
+            // Draw axes
+            tdCtx.strokeStyle = '#666';
+            tdCtx.lineWidth = 1;
+            tdCtx.beginPath();
+            tdCtx.moveTo(0, cy);
+            tdCtx.lineTo(tdCanvas.width, cy);
+            tdCtx.moveTo(cx, 0);
+            tdCtx.lineTo(cx, tdCanvas.height);
+            tdCtx.stroke();
+
+            // Axis labels
+            tdCtx.fillStyle = '#a0a0a0';
+            tdCtx.font = '12px Inter';
+            tdCtx.fillText('Trace', tdCanvas.width - 40, cy - 10);
+            tdCtx.fillText('Det', cx + 10, 20);
+
+            // Draw parabola det = tr²/4
+            tdCtx.strokeStyle = '#fff';
+            tdCtx.lineWidth = 2;
+            tdCtx.beginPath();
+            for (let x = -6; x <= 6; x += 0.1) {
+                const y = x * x / 4;
+                const px = cx + x * scale;
+                const py = cy - y * scale;
+                if (x === -6) tdCtx.moveTo(px, py);
+                else tdCtx.lineTo(px, py);
+            }
+            tdCtx.stroke();
+
+            // Labels for regions
+            tdCtx.fillStyle = 'rgba(74, 158, 255, 0.8)';
+            tdCtx.font = '14px Inter';
+            tdCtx.textAlign = 'center';
+            tdCtx.fillText('Complex eigenvalues', cx, 80);
+            tdCtx.fillText('(rotation)', cx, 100);
+
+            tdCtx.fillStyle = 'rgba(16, 185, 129, 0.8)';
+            tdCtx.fillText('Real eigenvalues', cx, tdCanvas.height - 60);
+
+            tdCtx.fillStyle = '#fff';
+            tdCtx.font = '11px Inter';
+            tdCtx.fillText('det = tr²/4', cx + 130, cy - 100);
+
+            // Current point
+            const px = cx + tr * scale;
+            const py = cy - det * scale;
+            tdCtx.fillStyle = '#ef4444';
+            tdCtx.beginPath();
+            tdCtx.arc(px, py, 8, 0, 2 * Math.PI);
+            tdCtx.fill();
+
+            // Compute eigenvalue info
+            const disc = tr * tr - 4 * det;
+            let eigInfo;
+            if (disc > 0.01) {
+                const l1 = (tr + Math.sqrt(disc)) / 2;
+                const l2 = (tr - Math.sqrt(disc)) / 2;
+                eigInfo = `<strong style="color: var(--accent-green);">Two distinct real:</strong> λ = ${l1.toFixed(3)}, ${l2.toFixed(3)}`;
+            } else if (disc < -0.01) {
+                const re = tr / 2;
+                const im = Math.sqrt(-disc) / 2;
+                eigInfo = `<strong style="color: var(--accent-blue);">Complex conjugates:</strong> λ = ${re.toFixed(3)} ± ${im.toFixed(3)}i`;
+            } else {
+                const l = tr / 2;
+                eigInfo = `<strong style="color: var(--accent-orange);">Repeated:</strong> λ = ${l.toFixed(3)} (multiplicity 2)`;
+            }
+
+            document.getElementById('eigenResult').innerHTML = `
+                <p>Discriminant: tr² - 4det = ${disc.toFixed(3)}</p>
+                <p>${eigInfo}</p>
+            `;
+        }
+
+        traceSlider.addEventListener('input', drawTraceDet);
+        detSlider.addEventListener('input', drawTraceDet);
+        drawTraceDet();
+    </script>
+</body>
+</html>
