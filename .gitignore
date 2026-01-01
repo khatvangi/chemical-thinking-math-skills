@@ -31,6 +31,7 @@ site/.quarto/
 !site/lectures/15-partial/*.html
 !site/lectures/16-taylor-lagrange/*.html
 !site/lectures/17-integrals/*.html
+!site/lectures/18-integration-techniques/*.html
 !site/lectures/all-lectures.html
 !site/protein-raga.html
 !site/landing.html
