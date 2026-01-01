@@ -1,0 +1,1602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROXIMITY | The Primitive of Nearness</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0D1117;
+            --bg-secondary: #161B22;
+            --bg-tertiary: #21262D;
+            --text-primary: #E6EDF3;
+            --text-secondary: #8B949E;
+            --text-muted: #6E7681;
+            --accent-green: #22C55E;
+            --accent-orange: #F97316;
+            --accent-blue: #3B82F6;
+            --accent-purple: #8B5CF6;
+            --accent-red: #EF4444;
+            --accent-cyan: #06B6D4;
+            --border-color: #30363D;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.8;
+            font-size: 18px;
+        }
+
+        .header {
+            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+            padding: 5rem 2rem 6rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--accent-cyan);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-family: 'Fraunces', serif;
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.4rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+            font-style: italic;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .prologue {
+            padding: 4rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .prologue-title {
+            font-family: 'Fraunces', serif;
+            font-size: 1.8rem;
+            color: var(--accent-cyan);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .part {
+            padding: 4rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .part:last-child { border-bottom: none; }
+
+        .part-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .part-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--accent-cyan);
+            letter-spacing: 0.1em;
+        }
+
+        h2 {
+            font-family: 'Fraunces', serif;
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        h3 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            margin: 3rem 0 1.5rem;
+        }
+
+        h4 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        p {
+            margin-bottom: 1.4rem;
+            color: var(--text-secondary);
+        }
+
+        strong { color: var(--text-primary); font-weight: 600; }
+        em { color: var(--accent-cyan); font-style: italic; }
+
+        .def-popup {
+            position: relative;
+            color: var(--accent-blue);
+            cursor: help;
+            border-bottom: 1px dashed var(--accent-blue);
+        }
+
+        .def-popup .def-tooltip {
+            position: absolute;
+            bottom: calc(100% + 10px);
+            left: 50%;
+            transform: translateX(-50%);
+            width: 360px;
+            padding: 1rem 1.25rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s, visibility 0.2s;
+            z-index: 100;
+            text-align: left;
+            line-height: 1.5;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .def-popup:hover .def-tooltip { opacity: 1; visibility: visible; }
+
+        .visual-container {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2.5rem 0;
+            border: 1px solid var(--border-color);
+        }
+
+        .visual-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        canvas {
+            display: block;
+            margin: 0 auto;
+            border-radius: 8px;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+            justify-content: center;
+        }
+
+        .slider-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .slider-group label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        input[type="range"] {
+            width: 150px;
+            accent-color: var(--accent-cyan);
+        }
+
+        .value-display {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-cyan);
+            font-size: 0.9rem;
+        }
+
+        button {
+            padding: 0.6rem 1.2rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+
+        button:hover {
+            background: var(--accent-cyan);
+            border-color: var(--accent-cyan);
+            color: var(--bg-primary);
+        }
+
+        button.active {
+            background: var(--accent-cyan);
+            border-color: var(--accent-cyan);
+            color: var(--bg-primary);
+        }
+
+        select {
+            padding: 0.6rem 1rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+
+        .caption {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-align: center;
+            margin-top: 1.5rem;
+            font-style: italic;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            color: var(--accent-cyan);
+            font-weight: 500;
+            background: var(--bg-tertiary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+        }
+
+        td { color: var(--text-secondary); }
+
+        ul, ol {
+            color: var(--text-secondary);
+            margin: 1rem 0 1.5rem 1.5rem;
+        }
+
+        li { margin-bottom: 0.5rem; }
+
+        .formula-box {
+            background: var(--bg-tertiary);
+            border-left: 3px solid var(--accent-cyan);
+            padding: 1.25rem 1.5rem;
+            margin: 1.5rem 0;
+            font-family: 'JetBrains Mono', monospace;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .formula-box .formula {
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .formula-box .explanation {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .definition-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--accent-cyan);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2.5rem 0;
+        }
+
+        .definition-box h3 {
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .definition-item {
+            margin-bottom: 1.25rem;
+            padding-bottom: 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .definition-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .definition-term {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-blue);
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .definition-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .endnotes {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .endnotes h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .endnote {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            padding-left: 2.5rem;
+            text-indent: -2.5rem;
+        }
+
+        .endnote-ref {
+            color: var(--accent-cyan);
+            font-weight: 500;
+        }
+
+        .nav-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent-cyan);
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border: 1px solid var(--accent-cyan);
+            border-radius: 8px;
+            margin: 1rem 0;
+            transition: all 0.2s ease;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+        }
+
+        .nav-link:hover {
+            background: var(--accent-cyan);
+            color: var(--bg-primary);
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 4rem 0 2rem;
+        }
+
+        .info-display {
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .info-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.2rem;
+            color: var(--accent-cyan);
+        }
+
+        .info-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2.8rem; }
+            h2 { font-size: 1.8rem; }
+            .container { padding: 0 1rem; }
+            .visual-container { padding: 1rem; }
+            .def-popup .def-tooltip { width: 280px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-label">Primitive V</div>
+        <h1>PROXIMITY</h1>
+        <p class="subtitle">The primitive of nearness. The perception of distance and approach.</p>
+    </header>
+
+    <main class="container">
+        <!-- Prologue -->
+        <section class="prologue">
+            <h2 class="prologue-title">The Space Between</h2>
+
+            <p>Before measurement, before coordinates, before any formalism—there is nearness.</p>
+
+            <p>The infant reaches for the closer object. The predator tracks the nearer prey. The molecule feels the adjacent molecule more strongly than the distant one. <span class="def-popup" data-definition="Proximity: The quality of being near in space, time, or relationship. Proximity implies a metric or ordering that distinguishes close from far."><span class="def-tooltip"></span>Proximity</span> structures experience before it structures thought.</p>
+
+            <p>PROXIMITY answers the question: <em>How near?</em></p>
+
+            <p>And its companion: <em>What happens as we get nearer?</em></p>
+        </section>
+
+        <!-- Part I: Cognitive Basis -->
+        <section class="part">
+            <div class="part-header">
+                <div class="part-number">PART I</div>
+                <h2>The Cognitive Basis of PROXIMITY</h2>
+            </div>
+
+            <h3>1.1 Perception of Nearness</h3>
+            <p>Spatial proximity is perceived directly, not computed.</p>
+
+            <p>The visual system estimates depth through multiple cues: binocular disparity, motion parallax, occlusion, relative size, atmospheric perspective. These cues combine preattentively—before conscious processing—to yield a sense of how far.</p>
+
+            <p>The result is not a number. It is a felt sense of <em>nearness</em> or <em>farness</em>, of <em>within reach</em> or <em>beyond reach</em>, of <em>here</em> or <em>there</em>.</p>
+
+            <p>This perception is ancient. Single-celled organisms exhibit chemotaxis—movement toward or away from chemical gradients. They have no eyes, no nervous system, no concept of distance. Yet they behave as if proximity matters. Because it does.</p>
+
+            <h3>1.2 Zones of Proximity</h3>
+            <p>Proximity is not uniform. It organizes into qualitatively distinct zones.</p>
+
+            <p><strong>Contact</strong>: Zero distance. Touch. Direct interaction. The regime where surfaces meet, bonds form, reactions occur.</p>
+
+            <p><strong>Near field</strong>: Within interaction range. The regime where forces are strong, gradients are steep, small changes in distance produce large changes in effect.</p>
+
+            <p><strong>Far field</strong>: Beyond significant interaction. The regime where effects attenuate, gradients flatten, further distance makes little difference.</p>
+
+            <p><strong>Infinity</strong>: Arbitrarily far. The regime of asymptotic behavior, limiting values, boundary conditions "at infinity."</p>
+
+            <!-- Proximity Zones Interactive -->
+            <div class="visual-container">
+                <div class="visual-title">Proximity Zones</div>
+                <canvas id="zonesCanvas" width="600" height="300"></canvas>
+                <div class="controls">
+                    <div class="slider-group">
+                        <label>Characteristic Length (σ)</label>
+                        <input type="range" id="zonesSigma" min="20" max="80" value="40">
+                        <span class="value-display" id="zonesSigmaVal">40</span>
+                    </div>
+                </div>
+                <p class="caption">The boundaries between zones depend on the interaction's characteristic length.</p>
+            </div>
+
+            <h3>1.3 Approach and Limit</h3>
+            <p>PROXIMITY implies not just static distance but dynamic approach.</p>
+
+            <p><em>What happens as we get closer?</em></p>
+
+            <p>The answer may be:</p>
+            <ul>
+                <li>Convergence: approaching a definite value</li>
+                <li>Divergence: growing without bound</li>
+                <li>Oscillation: failing to settle</li>
+                <li>Discontinuity: jumping at the boundary</li>
+            </ul>
+
+            <p>The <span class="def-popup" data-definition="Limit: The value that a function approaches as its input approaches some value. Formally, lim(x→a) f(x) = L if f(x) can be made arbitrarily close to L by making x sufficiently close to a."><span class="def-tooltip"></span>limit</span> is the formalization of approach. It captures what happens in the neighborhood of a point without requiring arrival at that point.</p>
+        </section>
+
+        <!-- Part II: Distance and Metric -->
+        <section class="part">
+            <div class="part-header">
+                <div class="part-number">PART II</div>
+                <h2>Distance and Metric</h2>
+            </div>
+
+            <h3>2.1 What Distance Requires</h3>
+            <p>To speak precisely of proximity requires a <span class="def-popup" data-definition="Metric: A function d(x,y) that assigns a non-negative real number to pairs of points, satisfying: (1) d(x,y) = 0 iff x = y; (2) d(x,y) = d(y,x) (symmetry); (3) d(x,z) ≤ d(x,y) + d(y,z) (triangle inequality)."><span class="def-tooltip"></span>metric</span>—a way of assigning distances.</p>
+
+            <p>A metric d(x, y) must satisfy:</p>
+
+            <ol>
+                <li><strong>Identity</strong>: d(x, y) = 0 if and only if x = y</li>
+                <li><strong>Symmetry</strong>: d(x, y) = d(y, x)</li>
+                <li><strong>Triangle inequality</strong>: d(x, z) ≤ d(x, y) + d(y, z)</li>
+            </ol>
+
+            <h3>2.2 Euclidean Distance</h3>
+            <p>The familiar distance in physical space:</p>
+
+            <div class="formula-box">
+                <div class="formula">d = √[(x₂-x₁)² + (y₂-y₁)² + (z₂-z₁)²]</div>
+                <div class="explanation">Derived from the Pythagorean theorem. The metric of flat space.</div>
+            </div>
+
+            <h3>2.3 Other Metrics</h3>
+            <p>Euclidean distance is not the only possibility.</p>
+
+            <table>
+                <tr><th>Metric</th><th>Formula</th><th>When Relevant</th></tr>
+                <tr><td>Manhattan (L¹)</td><td>Σ|xᵢ - yᵢ|</td><td>Movement constrained to axes</td></tr>
+                <tr><td>Chebyshev (L∞)</td><td>max|xᵢ - yᵢ|</td><td>Slowest component dominates</td></tr>
+                <tr><td>Geodesic</td><td>Arc length</td><td>Paths along surfaces</td></tr>
+                <tr><td>Graph</td><td># edges</td><td>Network connectivity</td></tr>
+            </table>
+
+            <p>The choice of metric determines what "near" means. In a long-chain polymer, two atoms may be Euclidean-close but graph-distant (separated by many bonds), or graph-close but Euclidean-far (coiled back).</p>
+        </section>
+
+        <!-- Part III: Functions -->
+        <section class="part">
+            <div class="part-header">
+                <div class="part-number">PART III</div>
+                <h2>Functions as Proximity Relations</h2>
+            </div>
+
+            <h3>3.1 Functions Encode Dependence</h3>
+            <p>A <span class="def-popup" data-definition="Function: A rule f that assigns to each element x in a domain exactly one element f(x) in a codomain. Functions encode how one quantity depends on another."><span class="def-tooltip"></span>function</span> f: X → Y assigns to each input x an output f(x).</p>
+
+            <p>Functions answer: <em>Given proximity to this input, what is the output?</em></p>
+
+            <h3>3.2 Continuity as Preservation of Proximity</h3>
+            <p>A function is <span class="def-popup" data-definition="Continuous function: A function f is continuous at point a if lim(x→a) f(x) = f(a). Small changes in input produce small changes in output. No jumps, no gaps."><span class="def-tooltip"></span>continuous</span> if it preserves proximity: nearby inputs produce nearby outputs.</p>
+
+            <div class="formula-box">
+                <div class="formula">For every ε > 0, there exists δ > 0 such that |x - a| < δ implies |f(x) - f(a)| < ε</div>
+                <div class="explanation">If you want output within ε of f(a), keep input within δ of a.</div>
+            </div>
+
+            <!-- Continuity Interactive -->
+            <div class="visual-container">
+                <div class="visual-title">Continuity and Discontinuity</div>
+                <canvas id="continuityCanvas" width="600" height="300"></canvas>
+                <div class="controls">
+                    <button class="cont-btn active" data-type="continuous">Continuous</button>
+                    <button class="cont-btn" data-type="jump">Jump</button>
+                    <button class="cont-btn" data-type="removable">Removable</button>
+                    <button class="cont-btn" data-type="infinite">Infinite</button>
+                </div>
+                <p class="caption">Continuity preserves proximity: nearby inputs produce nearby outputs.</p>
+            </div>
+
+            <h3>3.3 Physical Significance</h3>
+            <p>Most physical laws assume continuity. Nature does not jump.</p>
+
+            <p>The potential energy of two molecules varies continuously with their separation. The concentration in a solution varies continuously with position. The temperature varies continuously through a conducting medium.</p>
+
+            <p>Discontinuities, when they occur, signal boundaries, phase transitions, or singularities—places where the usual description breaks down.</p>
+        </section>
+
+        <!-- Part IV: Limits -->
+        <section class="part">
+            <div class="part-header">
+                <div class="part-number">PART IV</div>
+                <h2>Limits and Approach</h2>
+            </div>
+
+            <h3>4.1 The Limit Concept</h3>
+            <p>The <span class="def-popup" data-definition="Limit: lim(x→a) f(x) = L means that f(x) approaches L as x approaches a. Formally: for every ε > 0, there exists δ > 0 such that 0 < |x - a| < δ implies |f(x) - L| < ε."><span class="def-tooltip"></span>limit</span> formalizes the question: <em>What value does f(x) approach as x approaches a?</em></p>
+
+            <!-- Limit Demonstration -->
+            <div class="visual-container">
+                <div class="visual-title">Limit Demonstration: sin(x)/x</div>
+                <canvas id="limitCanvas" width="600" height="350"></canvas>
+                <div class="controls">
+                    <div class="slider-group">
+                        <label>Zoom Level</label>
+                        <input type="range" id="limitZoom" min="1" max="50" value="5">
+                        <span class="value-display" id="limitZoomVal">5x</span>
+                    </div>
+                </div>
+                <div class="info-display">
+                    <div class="info-value" id="limitValue">lim(x→0) sin(x)/x = 1</div>
+                    <div class="info-label">The limit exists even though f(0) is undefined</div>
+                </div>
+                <p class="caption">The limit captures approach behavior without requiring arrival.</p>
+            </div>
+
+            <h3>4.2 One-Sided Limits</h3>
+            <p>Approach from the left: lim(x→a⁻) f(x)</p>
+            <p>Approach from the right: lim(x→a⁺) f(x)</p>
+            <p>The two-sided limit exists only if both one-sided limits exist and are equal.</p>
+
+            <h3>4.3 Limits at Infinity</h3>
+            <p>What happens as x grows without bound?</p>
+
+            <div class="formula-box">
+                <div class="formula">lim(x→∞) 1/x = 0</div>
+                <div class="explanation">As x grows, 1/x shrinks toward zero.</div>
+            </div>
+
+            <h3>4.4 Limit Laws</h3>
+            <table>
+                <tr><th>Operation</th><th>Limit</th></tr>
+                <tr><td>Sum</td><td>lim(f + g) = L + M</td></tr>
+                <tr><td>Product</td><td>lim(f · g) = L · M</td></tr>
+                <tr><td>Quotient</td><td>lim(f / g) = L / M (if M ≠ 0)</td></tr>
+                <tr><td>Power</td><td>lim(f^n) = L^n</td></tr>
+            </table>
+        </section>
+
+        <!-- Part V: Asymptotic Behavior -->
+        <section class="part">
+            <div class="part-header">
+                <div class="part-number">PART V</div>
+                <h2>Asymptotic Behavior</h2>
+            </div>
+
+            <h3>5.1 Asymptotes</h3>
+            <p>An <span class="def-popup" data-definition="Asymptote: A line that a curve approaches arbitrarily closely as one coordinate tends to infinity or as the curve approaches a singularity. Types: horizontal (y = L as x → ±∞), vertical (x = a where f → ±∞), oblique (y = mx + b as x → ±∞)."><span class="def-tooltip"></span>asymptote</span> is a boundary the function approaches but does not cross (or crosses and then re-approaches).</p>
+
+            <p><strong>Horizontal asymptote</strong>: y = L is a horizontal asymptote if lim(x→±∞) f(x) = L</p>
+
+            <p><strong>Vertical asymptote</strong>: x = a is a vertical asymptote if lim(x→a) f(x) = ±∞</p>
+
+            <!-- Asymptote Explorer -->
+            <div class="visual-container">
+                <div class="visual-title">Asymptote Explorer</div>
+                <canvas id="asymptoteCanvas" width="600" height="350"></canvas>
+                <div class="controls">
+                    <select id="asymptoteFunc">
+                        <option value="1/x">f(x) = 1/x</option>
+                        <option value="1/x2">f(x) = 1/x²</option>
+                        <option value="exp">f(x) = e^(-x)</option>
+                        <option value="rational">f(x) = (x²-1)/(x-1)</option>
+                        <option value="tanh">f(x) = tanh(x)</option>
+                    </select>
+                </div>
+                <div class="info-display">
+                    <div class="info-value" id="asymptoteInfo">Vertical: x = 0 | Horizontal: y = 0</div>
+                </div>
+                <p class="caption">Asymptotes describe limiting behavior—the regime of extreme proximity.</p>
+            </div>
+
+            <h3>5.2 Dominant Balance</h3>
+            <p>For functions with multiple terms, asymptotic behavior depends on which terms dominate.</p>
+
+            <p><strong>Example</strong>: f(x) = x³ + 5x² - 2x + 7</p>
+            <ul>
+                <li>As x → ∞: The x³ term dominates. f(x) ~ x³.</li>
+                <li>As x → 0: The constant term dominates. f(x) ~ 7.</li>
+            </ul>
+        </section>
+
+        <!-- Part VI: Physical Systems -->
+        <section class="part">
+            <div class="part-header">
+                <div class="part-number">PART VI</div>
+                <h2>PROXIMITY in Physical Systems</h2>
+            </div>
+
+            <h3>6.1 Interaction Potentials</h3>
+            <p>Physical interactions depend on proximity. The <span class="def-popup" data-definition="Potential energy: The energy stored in a system by virtue of the positions/configurations of its components. For two particles, V(r) gives the energy as a function of separation r."><span class="def-tooltip"></span>potential energy</span> V(r) encodes how energy varies with separation r.</p>
+
+            <!-- Lennard-Jones Potential -->
+            <div class="visual-container">
+                <div class="visual-title">Lennard-Jones Potential</div>
+                <canvas id="ljCanvas" width="600" height="400"></canvas>
+                <div class="controls">
+                    <div class="slider-group">
+                        <label>Well Depth (ε)</label>
+                        <input type="range" id="ljEpsilon" min="0.5" max="3" step="0.1" value="1">
+                        <span class="value-display" id="ljEpsilonVal">1.0</span>
+                    </div>
+                    <div class="slider-group">
+                        <label>Length Scale (σ)</label>
+                        <input type="range" id="ljSigma" min="0.5" max="2" step="0.1" value="1">
+                        <span class="value-display" id="ljSigmaVal">1.0</span>
+                    </div>
+                    <button id="ljShowForce">Toggle Force</button>
+                </div>
+                <div class="info-display">
+                    <div class="info-value" id="ljInfo">Equilibrium: r = 1.12σ</div>
+                    <div class="info-label">Repulsive at short range, attractive at intermediate, negligible at long range</div>
+                </div>
+                <p class="caption">The Lennard-Jones potential models van der Waals interactions.</p>
+            </div>
+
+            <h3>6.2 The Force-Distance Relationship</h3>
+            <p>Force is the negative gradient of potential:</p>
+
+            <div class="formula-box">
+                <div class="formula">F(r) = -dV/dr</div>
+                <div class="explanation">Steep potential → strong force. At equilibrium (minimum), F = 0.</div>
+            </div>
+
+            <h3>6.3 Near-Field and Far-Field</h3>
+            <p>The character of interactions changes with proximity.</p>
+
+            <table>
+                <tr><th>Regime</th><th>Characteristics</th></tr>
+                <tr><td>Near field (r < σ)</td><td>Strong forces, steep gradients, repulsive core</td></tr>
+                <tr><td>Intermediate</td><td>Attractive well, equilibrium distance</td></tr>
+                <tr><td>Far field (r >> σ)</td><td>Weak forces, V → 0, negligible interaction</td></tr>
+            </table>
+        </section>
+
+        <!-- Part VII: Chemical Systems -->
+        <section class="part">
+            <div class="part-header">
+                <div class="part-number">PART VII</div>
+                <h2>PROXIMITY in Chemical Systems</h2>
+            </div>
+
+            <h3>7.1 Molecular Interactions</h3>
+            <p>Chemistry is governed by proximity.</p>
+
+            <table>
+                <tr><th>Interaction</th><th>Range</th><th>Strength</th></tr>
+                <tr><td>Covalent bonding</td><td>~1-2 Å</td><td>Strong (200-400 kJ/mol)</td></tr>
+                <tr><td>Hydrogen bonding</td><td>~1.5-3 Å</td><td>Moderate (10-40 kJ/mol)</td></tr>
+                <tr><td>Van der Waals</td><td>~3-6 Å</td><td>Weak (0.5-5 kJ/mol)</td></tr>
+                <tr><td>Ionic</td><td>Long-range (1/r)</td><td>Strong, screened in solution</td></tr>
+            </table>
+
+            <h3>7.2 Titration Curves</h3>
+            <p>PROXIMITY appears in titration curves as approach to the equivalence point.</p>
+
+            <!-- Titration Curve -->
+            <div class="visual-container">
+                <div class="visual-title">Titration Curve</div>
+                <canvas id="titrationCanvas" width="600" height="350"></canvas>
+                <div class="controls">
+                    <div class="slider-group">
+                        <label>pKa of Weak Acid</label>
+                        <input type="range" id="titrationPka" min="2" max="12" step="0.5" value="4.75">
+                        <span class="value-display" id="titrationPkaVal">4.75</span>
+                    </div>
+                </div>
+                <div class="info-display">
+                    <div class="info-value" id="titrationInfo">Near equivalence: rapid pH change</div>
+                </div>
+                <p class="caption">Near the equivalence point, pH changes rapidly. Far from it, buffering moderates change.</p>
+            </div>
+
+            <h3>7.3 Kinetics and Concentration</h3>
+            <p>Reaction rates depend on proximity of reactants.</p>
+
+            <div class="formula-box">
+                <div class="formula">rate = k[A][B]</div>
+                <div class="explanation">Higher concentrations → closer molecules → more collisions → faster reaction.</div>
+            </div>
+        </section>
+
+        <!-- Part VIII: Calculus Bridge -->
+        <section class="part">
+            <div class="part-header">
+                <div class="part-number">PART VIII</div>
+                <h2>The Calculus Bridge</h2>
+            </div>
+
+            <h3>8.1 Limits Enable Calculus</h3>
+            <p>The limit concept is the foundation of calculus.</p>
+
+            <p><strong>Derivative</strong> (CHANGE + PROXIMITY):</p>
+            <div class="formula-box">
+                <div class="formula">f'(x) = lim(h→0) [f(x+h) - f(x)] / h</div>
+                <div class="explanation">The instantaneous rate of change—what happens at arbitrarily small separation.</div>
+            </div>
+
+            <p><strong>Integral</strong> (ACCUMULATION + PROXIMITY):</p>
+            <div class="formula-box">
+                <div class="formula">∫f(x)dx = lim(n→∞) Σf(xᵢ)Δx</div>
+                <div class="explanation">Total accumulation—the limit of sums over arbitrarily fine partitions.</div>
+            </div>
+
+            <h3>8.2 Taylor Series</h3>
+            <p>A function can be approximated near a point by its Taylor series:</p>
+
+            <div class="formula-box">
+                <div class="formula">f(x) = f(a) + f'(a)(x-a) + f''(a)(x-a)²/2! + ...</div>
+                <div class="explanation">Accurate for x in proximity to a. Local behavior from derivatives at a single point.</div>
+            </div>
+        </section>
+
+        <!-- Part IX: Summary -->
+        <section class="part">
+            <div class="part-header">
+                <div class="part-number">PART IX</div>
+                <h2>Summary</h2>
+            </div>
+
+            <h3>9.1 What PROXIMITY Is</h3>
+            <p>PROXIMITY is the perception of nearness—how close, how far, what happens upon approach.</p>
+
+            <p>The perception is primary. Organisms navigate by proximity. Infants reach for near objects. Molecules interact based on separation.</p>
+
+            <p>The formalizations are secondary: metrics, limits, continuity, asymptotes. These tools provide precision and enable calculation. They serve the perception.</p>
+
+            <h3>9.2 Key Concepts</h3>
+            <div class="definition-box">
+                <h3>Core Concepts</h3>
+
+                <div class="definition-item">
+                    <div class="definition-term">Distance (Metric)</div>
+                    <div class="definition-desc">Quantifies proximity. Satisfies identity, symmetry, and triangle inequality.</div>
+                </div>
+
+                <div class="definition-item">
+                    <div class="definition-term">Function</div>
+                    <div class="definition-desc">Encodes dependence—how output varies with input proximity.</div>
+                </div>
+
+                <div class="definition-item">
+                    <div class="definition-term">Limit</div>
+                    <div class="definition-desc">Formalizes approach. What value is approached as input approaches target?</div>
+                </div>
+
+                <div class="definition-item">
+                    <div class="definition-term">Continuity</div>
+                    <div class="definition-desc">Preservation of proximity. Nearby inputs produce nearby outputs.</div>
+                </div>
+
+                <div class="definition-item">
+                    <div class="definition-term">Asymptote</div>
+                    <div class="definition-desc">Limiting behavior at boundaries—infinite distance or singular points.</div>
+                </div>
+            </div>
+
+            <h3>9.3 Forward to Chemistry and Calculus</h3>
+            <p>PROXIMITY structures chemistry through interaction potentials, concentration effects, and critical points.</p>
+
+            <p>PROXIMITY enables calculus by providing the limit concept—the foundation for derivatives (CHANGE) and integrals (ACCUMULATION).</p>
+
+            <p>The lectures ahead (12-13) develop these tools:</p>
+            <ul>
+                <li><strong>Lecture 12</strong>: Functions and limits. Approaching boundaries. Continuity.</li>
+                <li><strong>Lecture 13</strong>: Asymptotic behavior. Behavior at infinity. Indeterminate forms.</li>
+            </ul>
+
+            <p>Then CHANGE (Lectures 14-15) builds on PROXIMITY through the derivative.</p>
+        </section>
+
+        <!-- Endnotes -->
+        <section class="endnotes">
+            <h3>Endnotes</h3>
+            <div class="endnote"><span class="endnote-ref">[1]</span> Gibson, J.J. (1979). <em>The Ecological Approach to Visual Perception</em>. Houghton Mifflin.</div>
+            <div class="endnote"><span class="endnote-ref">[2]</span> Grabiner, J.V. (1981). <em>The Origins of Cauchy's Rigorous Calculus</em>. MIT Press.</div>
+            <div class="endnote"><span class="endnote-ref">[3]</span> Israelachvili, J.N. (2011). <em>Intermolecular and Surface Forces</em> (3rd ed.). Academic Press.</div>
+            <div class="endnote"><span class="endnote-ref">[4]</span> McQuarrie, D.A. (2008). <em>Mathematics for Physical Chemistry</em> (3rd ed.). University Science Books.</div>
+        </section>
+
+        <!-- Navigation -->
+        <div class="nav-buttons">
+            <a href="sameness.html" class="nav-link">← SAMENESS</a>
+            <a href="../index.html" class="nav-link">Course Home</a>
+        </div>
+    </main>
+
+    <script>
+        // === Populate Definition Tooltips ===
+        document.querySelectorAll('.def-popup').forEach(el => {
+            const tooltip = el.querySelector('.def-tooltip');
+            if (tooltip && el.dataset.definition) {
+                tooltip.textContent = el.dataset.definition;
+            }
+        });
+
+        // === Proximity Zones ===
+        const zonesCanvas = document.getElementById('zonesCanvas');
+        const zonesCtx = zonesCanvas.getContext('2d');
+        const zonesSigma = document.getElementById('zonesSigma');
+
+        function drawZones() {
+            const sigma = parseInt(zonesSigma.value);
+            document.getElementById('zonesSigmaVal').textContent = sigma;
+
+            zonesCtx.fillStyle = '#161B22';
+            zonesCtx.fillRect(0, 0, 600, 300);
+
+            const cx = 300, cy = 150;
+
+            // Draw zones as concentric rings
+            const zones = [
+                { r: sigma * 3, color: 'rgba(139, 92, 246, 0.2)', label: 'Far Field' },
+                { r: sigma * 1.5, color: 'rgba(59, 130, 246, 0.3)', label: 'Near Field' },
+                { r: sigma * 0.5, color: 'rgba(34, 197, 94, 0.4)', label: 'Contact' }
+            ];
+
+            zones.forEach(zone => {
+                zonesCtx.beginPath();
+                zonesCtx.arc(cx, cy, zone.r, 0, Math.PI * 2);
+                zonesCtx.fillStyle = zone.color;
+                zonesCtx.fill();
+            });
+
+            // Central point
+            zonesCtx.beginPath();
+            zonesCtx.arc(cx, cy, 8, 0, Math.PI * 2);
+            zonesCtx.fillStyle = '#22C55E';
+            zonesCtx.fill();
+
+            // Labels
+            zonesCtx.fillStyle = '#E6EDF3';
+            zonesCtx.font = '12px JetBrains Mono';
+            zonesCtx.textAlign = 'center';
+            zonesCtx.fillText('Contact', cx, cy - sigma * 0.25);
+            zonesCtx.fillText('Near Field', cx + sigma, cy);
+            zonesCtx.fillText('Far Field', cx + sigma * 2.2, cy);
+
+            // Distance markers
+            zonesCtx.strokeStyle = '#6B7280';
+            zonesCtx.setLineDash([5, 5]);
+            zones.forEach(zone => {
+                zonesCtx.beginPath();
+                zonesCtx.arc(cx, cy, zone.r, 0, Math.PI * 2);
+                zonesCtx.stroke();
+            });
+            zonesCtx.setLineDash([]);
+        }
+
+        zonesSigma.addEventListener('input', drawZones);
+        drawZones();
+
+        // === Continuity Demo ===
+        const contCanvas = document.getElementById('continuityCanvas');
+        const contCtx = contCanvas.getContext('2d');
+        let contType = 'continuous';
+
+        const contFunctions = {
+            continuous: {
+                f: x => Math.sin(x * 2) * 50 + 150,
+                title: 'Continuous: f(x) = sin(2x)'
+            },
+            jump: {
+                f: x => x < 300 ? 100 : 200,
+                title: 'Jump Discontinuity at x = 0'
+            },
+            removable: {
+                f: x => {
+                    const t = (x - 300) / 50;
+                    return Math.abs(t) < 0.1 ? null : (t === 0 ? null : Math.sin(t * Math.PI) / (t * Math.PI) * 80 + 150);
+                },
+                title: 'Removable: sin(πx)/(πx)'
+            },
+            infinite: {
+                f: x => {
+                    const t = (x - 300) / 50;
+                    if (Math.abs(t) < 0.1) return null;
+                    return 150 - 50 / t;
+                },
+                title: 'Infinite Discontinuity: 1/x'
+            }
+        };
+
+        function drawContinuity() {
+            contCtx.fillStyle = '#161B22';
+            contCtx.fillRect(0, 0, 600, 300);
+
+            // Axes
+            contCtx.strokeStyle = '#30363D';
+            contCtx.lineWidth = 1;
+            contCtx.beginPath();
+            contCtx.moveTo(50, 150);
+            contCtx.lineTo(550, 150);
+            contCtx.moveTo(300, 30);
+            contCtx.lineTo(300, 270);
+            contCtx.stroke();
+
+            // Draw function
+            const func = contFunctions[contType];
+            contCtx.strokeStyle = '#22C55E';
+            contCtx.lineWidth = 2;
+            contCtx.beginPath();
+            let started = false;
+
+            for (let x = 50; x <= 550; x++) {
+                const y = func.f(x);
+                if (y === null || y < 30 || y > 270) {
+                    started = false;
+                    continue;
+                }
+                if (!started) {
+                    contCtx.moveTo(x, y);
+                    started = true;
+                } else {
+                    contCtx.lineTo(x, y);
+                }
+            }
+            contCtx.stroke();
+
+            // For jump discontinuity, show the two values
+            if (contType === 'jump') {
+                contCtx.beginPath();
+                contCtx.arc(300, 100, 6, 0, Math.PI * 2);
+                contCtx.fillStyle = '#22C55E';
+                contCtx.fill();
+                contCtx.beginPath();
+                contCtx.arc(300, 200, 6, 0, Math.PI * 2);
+                contCtx.strokeStyle = '#22C55E';
+                contCtx.lineWidth = 2;
+                contCtx.stroke();
+            }
+
+            // For removable, show the hole
+            if (contType === 'removable') {
+                contCtx.beginPath();
+                contCtx.arc(300, 150, 6, 0, Math.PI * 2);
+                contCtx.strokeStyle = '#22C55E';
+                contCtx.lineWidth = 2;
+                contCtx.stroke();
+
+                contCtx.beginPath();
+                contCtx.arc(300, 230, 5, 0, Math.PI * 2);
+                contCtx.fillStyle = '#22C55E';
+                contCtx.fill();
+            }
+
+            // Title
+            contCtx.fillStyle = '#8B949E';
+            contCtx.font = '14px JetBrains Mono';
+            contCtx.textAlign = 'center';
+            contCtx.fillText(func.title, 300, 290);
+        }
+
+        document.querySelectorAll('.cont-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.cont-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                contType = btn.dataset.type;
+                drawContinuity();
+            });
+        });
+
+        drawContinuity();
+
+        // === Limit Demo ===
+        const limitCanvas = document.getElementById('limitCanvas');
+        const limitCtx = limitCanvas.getContext('2d');
+        const limitZoom = document.getElementById('limitZoom');
+
+        function drawLimit() {
+            const zoom = parseInt(limitZoom.value);
+            document.getElementById('limitZoomVal').textContent = zoom + 'x';
+
+            limitCtx.fillStyle = '#161B22';
+            limitCtx.fillRect(0, 0, 600, 350);
+
+            const cx = 300, cy = 175;
+            const scale = zoom * 10;
+
+            // Grid
+            limitCtx.strokeStyle = '#21262D';
+            limitCtx.lineWidth = 1;
+            for (let i = -10; i <= 10; i++) {
+                const x = cx + i * scale / zoom;
+                const y = cy - i * scale / (zoom * 5);
+                if (x >= 50 && x <= 550) {
+                    limitCtx.beginPath();
+                    limitCtx.moveTo(x, 30);
+                    limitCtx.lineTo(x, 320);
+                    limitCtx.stroke();
+                }
+            }
+
+            // Axes
+            limitCtx.strokeStyle = '#6B7280';
+            limitCtx.lineWidth = 2;
+            limitCtx.beginPath();
+            limitCtx.moveTo(50, cy);
+            limitCtx.lineTo(550, cy);
+            limitCtx.moveTo(cx, 30);
+            limitCtx.lineTo(cx, 320);
+            limitCtx.stroke();
+
+            // Draw f(x) = sin(x)/x
+            limitCtx.strokeStyle = '#06B6D4';
+            limitCtx.lineWidth = 2;
+            limitCtx.beginPath();
+            let started = false;
+
+            for (let px = 50; px <= 550; px++) {
+                const x = (px - cx) / scale;
+                if (Math.abs(x) < 0.001) {
+                    started = false;
+                    continue;
+                }
+                const y = Math.sin(x) / x;
+                const py = cy - y * scale;
+
+                if (py < 30 || py > 320) {
+                    started = false;
+                    continue;
+                }
+
+                if (!started) {
+                    limitCtx.moveTo(px, py);
+                    started = true;
+                } else {
+                    limitCtx.lineTo(px, py);
+                }
+            }
+            limitCtx.stroke();
+
+            // Mark the limit value y = 1
+            const limitY = cy - scale;
+            if (limitY > 30 && limitY < 320) {
+                limitCtx.strokeStyle = '#F97316';
+                limitCtx.setLineDash([5, 5]);
+                limitCtx.beginPath();
+                limitCtx.moveTo(50, limitY);
+                limitCtx.lineTo(550, limitY);
+                limitCtx.stroke();
+                limitCtx.setLineDash([]);
+
+                limitCtx.fillStyle = '#F97316';
+                limitCtx.font = '12px JetBrains Mono';
+                limitCtx.textAlign = 'left';
+                limitCtx.fillText('y = 1', 555, limitY + 4);
+            }
+
+            // Mark the hole at x = 0
+            limitCtx.beginPath();
+            limitCtx.arc(cx, limitY, 6, 0, Math.PI * 2);
+            limitCtx.strokeStyle = '#06B6D4';
+            limitCtx.lineWidth = 2;
+            limitCtx.stroke();
+
+            // Labels
+            limitCtx.fillStyle = '#6B7680';
+            limitCtx.font = '12px JetBrains Mono';
+            limitCtx.textAlign = 'center';
+            limitCtx.fillText('x', 560, cy + 15);
+            limitCtx.fillText('y', cx + 15, 25);
+            limitCtx.fillText('0', cx - 10, cy + 15);
+        }
+
+        limitZoom.addEventListener('input', drawLimit);
+        drawLimit();
+
+        // === Asymptote Explorer ===
+        const asymCanvas = document.getElementById('asymptoteCanvas');
+        const asymCtx = asymCanvas.getContext('2d');
+        const asymSelect = document.getElementById('asymptoteFunc');
+
+        const asymFunctions = {
+            '1/x': {
+                f: x => 1 / x,
+                info: 'Vertical: x = 0 | Horizontal: y = 0',
+                vAsym: [0],
+                hAsym: [0]
+            },
+            '1/x2': {
+                f: x => 1 / (x * x),
+                info: 'Vertical: x = 0 | Horizontal: y = 0',
+                vAsym: [0],
+                hAsym: [0]
+            },
+            'exp': {
+                f: x => Math.exp(-x),
+                info: 'Horizontal: y = 0 (as x → ∞)',
+                vAsym: [],
+                hAsym: [0]
+            },
+            'rational': {
+                f: x => Math.abs(x - 1) < 0.05 ? null : (x * x - 1) / (x - 1),
+                info: 'Removable discontinuity at x = 1, simplifies to x + 1',
+                vAsym: [],
+                hAsym: []
+            },
+            'tanh': {
+                f: x => Math.tanh(x),
+                info: 'Horizontal: y = ±1 (as x → ±∞)',
+                vAsym: [],
+                hAsym: [-1, 1]
+            }
+        };
+
+        function drawAsymptote() {
+            const funcName = asymSelect.value;
+            const func = asymFunctions[funcName];
+
+            asymCtx.fillStyle = '#161B22';
+            asymCtx.fillRect(0, 0, 600, 350);
+
+            const cx = 300, cy = 175, scale = 40;
+
+            // Grid
+            asymCtx.strokeStyle = '#21262D';
+            asymCtx.lineWidth = 1;
+            for (let i = -7; i <= 7; i++) {
+                asymCtx.beginPath();
+                asymCtx.moveTo(cx + i * scale, 30);
+                asymCtx.lineTo(cx + i * scale, 320);
+                asymCtx.stroke();
+                asymCtx.beginPath();
+                asymCtx.moveTo(50, cy + i * scale);
+                asymCtx.lineTo(550, cy + i * scale);
+                asymCtx.stroke();
+            }
+
+            // Axes
+            asymCtx.strokeStyle = '#6B7680';
+            asymCtx.lineWidth = 2;
+            asymCtx.beginPath();
+            asymCtx.moveTo(50, cy);
+            asymCtx.lineTo(550, cy);
+            asymCtx.moveTo(cx, 30);
+            asymCtx.lineTo(cx, 320);
+            asymCtx.stroke();
+
+            // Draw asymptotes
+            asymCtx.setLineDash([8, 4]);
+            asymCtx.strokeStyle = '#EF4444';
+            asymCtx.lineWidth = 1;
+
+            func.vAsym.forEach(a => {
+                const px = cx + a * scale;
+                asymCtx.beginPath();
+                asymCtx.moveTo(px, 30);
+                asymCtx.lineTo(px, 320);
+                asymCtx.stroke();
+            });
+
+            asymCtx.strokeStyle = '#F97316';
+            func.hAsym.forEach(a => {
+                const py = cy - a * scale;
+                if (py > 30 && py < 320) {
+                    asymCtx.beginPath();
+                    asymCtx.moveTo(50, py);
+                    asymCtx.lineTo(550, py);
+                    asymCtx.stroke();
+                }
+            });
+            asymCtx.setLineDash([]);
+
+            // Draw function
+            asymCtx.strokeStyle = '#22C55E';
+            asymCtx.lineWidth = 2;
+
+            // Left of vertical asymptotes
+            asymCtx.beginPath();
+            let started = false;
+            for (let px = 50; px <= 550; px++) {
+                const x = (px - cx) / scale;
+                const y = func.f(x);
+                if (y === null || !isFinite(y)) {
+                    started = false;
+                    continue;
+                }
+                const py = cy - y * scale;
+                if (py < 30 || py > 320) {
+                    started = false;
+                    continue;
+                }
+                if (!started) {
+                    asymCtx.moveTo(px, py);
+                    started = true;
+                } else {
+                    asymCtx.lineTo(px, py);
+                }
+            }
+            asymCtx.stroke();
+
+            document.getElementById('asymptoteInfo').textContent = func.info;
+        }
+
+        asymSelect.addEventListener('change', drawAsymptote);
+        drawAsymptote();
+
+        // === Lennard-Jones Potential ===
+        const ljCanvas = document.getElementById('ljCanvas');
+        const ljCtx = ljCanvas.getContext('2d');
+        const ljEpsilon = document.getElementById('ljEpsilon');
+        const ljSigma = document.getElementById('ljSigma');
+        let showForce = false;
+
+        function drawLJ() {
+            const eps = parseFloat(ljEpsilon.value);
+            const sig = parseFloat(ljSigma.value);
+            document.getElementById('ljEpsilonVal').textContent = eps.toFixed(1);
+            document.getElementById('ljSigmaVal').textContent = sig.toFixed(1);
+
+            ljCtx.fillStyle = '#161B22';
+            ljCtx.fillRect(0, 0, 600, 400);
+
+            const ox = 80, oy = 200;
+            const scaleX = 120, scaleY = 60;
+
+            // Grid
+            ljCtx.strokeStyle = '#21262D';
+            ljCtx.lineWidth = 1;
+            for (let i = 0; i <= 5; i++) {
+                ljCtx.beginPath();
+                ljCtx.moveTo(ox + i * scaleX, 30);
+                ljCtx.lineTo(ox + i * scaleX, 370);
+                ljCtx.stroke();
+            }
+            for (let i = -3; i <= 3; i++) {
+                ljCtx.beginPath();
+                ljCtx.moveTo(60, oy + i * scaleY);
+                ljCtx.lineTo(580, oy + i * scaleY);
+                ljCtx.stroke();
+            }
+
+            // Axes
+            ljCtx.strokeStyle = '#6B7680';
+            ljCtx.lineWidth = 2;
+            ljCtx.beginPath();
+            ljCtx.moveTo(ox, 30);
+            ljCtx.lineTo(ox, 370);
+            ljCtx.moveTo(60, oy);
+            ljCtx.lineTo(580, oy);
+            ljCtx.stroke();
+
+            // LJ potential: V(r) = 4ε[(σ/r)^12 - (σ/r)^6]
+            ljCtx.strokeStyle = '#22C55E';
+            ljCtx.lineWidth = 2;
+            ljCtx.beginPath();
+            let started = false;
+
+            for (let px = ox + 20; px <= 560; px++) {
+                const r = (px - ox) / scaleX;
+                if (r < 0.1) continue;
+
+                const sr = sig / r;
+                const v = 4 * eps * (Math.pow(sr, 12) - Math.pow(sr, 6));
+                const py = oy - v * scaleY;
+
+                if (py < 30 || py > 370) {
+                    started = false;
+                    continue;
+                }
+
+                if (!started) {
+                    ljCtx.moveTo(px, py);
+                    started = true;
+                } else {
+                    ljCtx.lineTo(px, py);
+                }
+            }
+            ljCtx.stroke();
+
+            // Force curve if enabled
+            if (showForce) {
+                ljCtx.strokeStyle = '#F97316';
+                ljCtx.lineWidth = 2;
+                ljCtx.beginPath();
+                started = false;
+
+                for (let px = ox + 20; px <= 560; px++) {
+                    const r = (px - ox) / scaleX;
+                    if (r < 0.1) continue;
+
+                    const sr = sig / r;
+                    // F = -dV/dr = 24ε/r [2(σ/r)^12 - (σ/r)^6]
+                    const f = 24 * eps / r * (2 * Math.pow(sr, 12) - Math.pow(sr, 6));
+                    const py = oy - f * scaleY * 0.3;
+
+                    if (py < 30 || py > 370) {
+                        started = false;
+                        continue;
+                    }
+
+                    if (!started) {
+                        ljCtx.moveTo(px, py);
+                        started = true;
+                    } else {
+                        ljCtx.lineTo(px, py);
+                    }
+                }
+                ljCtx.stroke();
+            }
+
+            // Equilibrium point
+            const rEq = Math.pow(2, 1/6) * sig;
+            const pxEq = ox + rEq * scaleX;
+            const vEq = -eps;
+            const pyEq = oy - vEq * scaleY;
+
+            ljCtx.beginPath();
+            ljCtx.arc(pxEq, pyEq, 6, 0, Math.PI * 2);
+            ljCtx.fillStyle = '#06B6D4';
+            ljCtx.fill();
+
+            // Labels
+            ljCtx.fillStyle = '#8B949E';
+            ljCtx.font = '12px JetBrains Mono';
+            ljCtx.textAlign = 'center';
+            ljCtx.fillText('r/σ', 560, oy + 20);
+            ljCtx.textAlign = 'right';
+            ljCtx.fillText('V(r)/ε', ox - 10, 40);
+
+            ljCtx.fillStyle = '#22C55E';
+            ljCtx.textAlign = 'left';
+            ljCtx.fillText('V(r)', 500, 60);
+
+            if (showForce) {
+                ljCtx.fillStyle = '#F97316';
+                ljCtx.fillText('F(r)', 500, 80);
+            }
+
+            // Axis labels
+            ljCtx.fillStyle = '#6B7680';
+            ljCtx.textAlign = 'center';
+            for (let i = 1; i <= 4; i++) {
+                ljCtx.fillText(i.toString(), ox + i * scaleX, oy + 20);
+            }
+            ljCtx.textAlign = 'right';
+            for (let i = -2; i <= 2; i++) {
+                if (i !== 0) ljCtx.fillText(i.toString(), ox - 10, oy - i * scaleY + 4);
+            }
+
+            document.getElementById('ljInfo').textContent = `Equilibrium: r = ${(rEq).toFixed(2)}σ = ${(rEq * sig).toFixed(2)}`;
+        }
+
+        ljEpsilon.addEventListener('input', drawLJ);
+        ljSigma.addEventListener('input', drawLJ);
+        document.getElementById('ljShowForce').addEventListener('click', () => {
+            showForce = !showForce;
+            drawLJ();
+        });
+        drawLJ();
+
+        // === Titration Curve ===
+        const titCanvas = document.getElementById('titrationCanvas');
+        const titCtx = titCanvas.getContext('2d');
+        const titPka = document.getElementById('titrationPka');
+
+        function drawTitration() {
+            const pKa = parseFloat(titPka.value);
+            document.getElementById('titrationPkaVal').textContent = pKa.toFixed(2);
+
+            titCtx.fillStyle = '#161B22';
+            titCtx.fillRect(0, 0, 600, 350);
+
+            const ox = 80, oy = 320;
+            const scaleX = 4, scaleY = 20;
+
+            // Grid
+            titCtx.strokeStyle = '#21262D';
+            titCtx.lineWidth = 1;
+            for (let v = 0; v <= 120; v += 20) {
+                titCtx.beginPath();
+                titCtx.moveTo(ox + v * scaleX, 30);
+                titCtx.lineTo(ox + v * scaleX, oy);
+                titCtx.stroke();
+            }
+            for (let pH = 0; pH <= 14; pH += 2) {
+                titCtx.beginPath();
+                titCtx.moveTo(ox, oy - pH * scaleY);
+                titCtx.lineTo(560, oy - pH * scaleY);
+                titCtx.stroke();
+            }
+
+            // Axes
+            titCtx.strokeStyle = '#6B7680';
+            titCtx.lineWidth = 2;
+            titCtx.beginPath();
+            titCtx.moveTo(ox, 30);
+            titCtx.lineTo(ox, oy);
+            titCtx.moveTo(ox, oy);
+            titCtx.lineTo(560, oy);
+            titCtx.stroke();
+
+            // Titration curve (simplified weak acid + strong base)
+            // At start: pH = (pKa - log(Ca))/2 ≈ low
+            // At half-equiv: pH = pKa
+            // At equiv: pH = 7 + pKa/2 (simplified)
+            // After equiv: pH rises to ~14
+
+            titCtx.strokeStyle = '#06B6D4';
+            titCtx.lineWidth = 2;
+            titCtx.beginPath();
+
+            for (let v = 0; v <= 120; v++) {
+                let pH;
+                if (v < 50) {
+                    // Buffer region: Henderson-Hasselbalch
+                    const ratio = v / (50 - v + 0.1);
+                    pH = pKa + Math.log10(ratio + 0.01);
+                    pH = Math.max(2, Math.min(pH, 7));
+                } else if (v < 52) {
+                    // Steep transition near equivalence
+                    const t = (v - 50) / 2;
+                    pH = 7 + pKa/4 + t * 4;
+                } else {
+                    // After equivalence
+                    pH = 11 + (v - 52) * 0.03;
+                    pH = Math.min(pH, 13);
+                }
+
+                const px = ox + v * scaleX;
+                const py = oy - pH * scaleY;
+
+                if (v === 0) {
+                    titCtx.moveTo(px, py);
+                } else {
+                    titCtx.lineTo(px, py);
+                }
+            }
+            titCtx.stroke();
+
+            // Mark equivalence point
+            const eqX = ox + 50 * scaleX;
+            const eqpH = 7 + pKa/4;
+            const eqY = oy - eqpH * scaleY;
+
+            titCtx.beginPath();
+            titCtx.arc(eqX, eqY, 6, 0, Math.PI * 2);
+            titCtx.fillStyle = '#EF4444';
+            titCtx.fill();
+
+            // Mark half-equivalence (pH = pKa)
+            const halfX = ox + 25 * scaleX;
+            const halfY = oy - pKa * scaleY;
+            titCtx.setLineDash([5, 5]);
+            titCtx.strokeStyle = '#F97316';
+            titCtx.beginPath();
+            titCtx.moveTo(ox, halfY);
+            titCtx.lineTo(halfX, halfY);
+            titCtx.lineTo(halfX, oy);
+            titCtx.stroke();
+            titCtx.setLineDash([]);
+
+            // Labels
+            titCtx.fillStyle = '#8B949E';
+            titCtx.font = '12px JetBrains Mono';
+            titCtx.textAlign = 'center';
+            titCtx.fillText('Volume of Base (mL)', 320, oy + 30);
+            titCtx.save();
+            titCtx.translate(30, 175);
+            titCtx.rotate(-Math.PI/2);
+            titCtx.fillText('pH', 0, 0);
+            titCtx.restore();
+
+            // pH axis labels
+            titCtx.textAlign = 'right';
+            for (let pH = 0; pH <= 14; pH += 2) {
+                titCtx.fillText(pH.toString(), ox - 10, oy - pH * scaleY + 4);
+            }
+
+            // Volume labels
+            titCtx.textAlign = 'center';
+            for (let v = 0; v <= 100; v += 25) {
+                titCtx.fillText(v.toString(), ox + v * scaleX, oy + 15);
+            }
+
+            // Annotations
+            titCtx.fillStyle = '#F97316';
+            titCtx.textAlign = 'left';
+            titCtx.fillText(`pH = pKa = ${pKa.toFixed(1)}`, halfX + 10, halfY - 10);
+            titCtx.fillStyle = '#EF4444';
+            titCtx.fillText('Equivalence', eqX + 10, eqY - 10);
+
+            document.getElementById('titrationInfo').textContent = `Buffer region: pH changes slowly | Near equivalence: rapid change`;
+        }
+
+        titPka.addEventListener('input', drawTitration);
+        drawTitration();
+    </script>
+</body>
+</html>
