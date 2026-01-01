@@ -35,6 +35,7 @@ jobs:
           mkdir -p site/_site/lectures/03-collection
           mkdir -p site/_site/lectures/04-direction
           mkdir -p site/_site/lectures/05-arrangement
+          cp site/primitives/collection.html site/_site/primitives/collection.html
           cp site/primitives/direction.html site/_site/primitives/direction.html
           cp site/primitives/arrangement.html site/_site/primitives/arrangement.html
           cp -r site/lectures/03-collection/*.html site/_site/lectures/03-collection/ 2>/dev/null || true
