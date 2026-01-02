@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 21: Distributions | Chemical Thinking</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a24;
+            --bg-card: #16161f;
+            --text-primary: #e8e6e3;
+            --text-secondary: #a0a0a0;
+            --text-muted: #6b6b6b;
+            --accent-teal: #14b8a6;
+            --accent-cyan: #06b6d4;
+            --accent-purple: #8b5cf6;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --accent-orange: #f59e0b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        /* Navigation */
+        .lecture-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--bg-tertiary);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover { color: var(--accent-teal); }
+
+        .primitive-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(20, 184, 166, 0.1), rgba(139, 92, 246, 0.1));
+            border: 1px solid rgba(20, 184, 166, 0.3);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .primitive-link:hover {
+            background: linear-gradient(135deg, rgba(20, 184, 166, 0.2), rgba(139, 92, 246, 0.2));
+            border-color: var(--accent-teal);
+        }
+
+        .primitive-badge {
+            background: var(--accent-teal);
+            color: var(--bg-primary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .primitive-text {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Header */
+        .lecture-header {
+            text-align: center;
+            padding: 4rem 2rem 3rem;
+            background: linear-gradient(180deg, var(--bg-secondary), var(--bg-primary));
+        }
+
+        .lecture-number {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-teal);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .lecture-title {
+            font-family: 'Fraunces', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-teal), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .lecture-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.25rem;
+            font-style: italic;
+        }
+
+        /* Main content */
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        section {
+            margin-bottom: 4rem;
+        }
+
+        h2 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.75rem;
+            color: var(--accent-teal);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--bg-tertiary);
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            color: var(--accent-cyan);
+            margin: 1.5rem 0 0.75rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        strong { color: var(--text-primary); }
+
+        /* Hook section */
+        .hook-section {
+            background: linear-gradient(135deg, rgba(20, 184, 166, 0.1), rgba(139, 92, 246, 0.05));
+            border: 1px solid rgba(20, 184, 166, 0.3);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--bg-tertiary);
+        }
+
+        th {
+            background: var(--bg-secondary);
+            color: var(--accent-teal);
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: rgba(20, 184, 166, 0.05);
+        }
+
+        td { color: var(--text-secondary); }
+
+        /* Visualizations */
+        .visual-container {
+            background: var(--bg-secondary);
+            border: 1px solid var(--bg-tertiary);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .visual-title {
+            font-size: 1rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .visual-canvas {
+            width: 100%;
+            height: 400px;
+            background: var(--bg-primary);
+            border-radius: 8px;
+            display: block;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--bg-tertiary);
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .control-group label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .control-group input[type="range"] {
+            width: 150px;
+            accent-color: var(--accent-teal);
+        }
+
+        .control-group select {
+            padding: 0.5rem;
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--bg-tertiary);
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .value-display {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-teal);
+            font-size: 0.9rem;
+        }
+
+        /* Formula boxes */
+        .formula-box {
+            background: var(--bg-secondary);
+            border-left: 4px solid var(--accent-teal);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .formula-box .katex { font-size: 1.2rem; }
+
+        /* Definition blocks */
+        .definition {
+            background: rgba(20, 184, 166, 0.1);
+            border: 1px solid rgba(20, 184, 166, 0.3);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+        }
+
+        .definition-term {
+            color: var(--accent-teal);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Examples */
+        .example {
+            background: var(--bg-card);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+        }
+
+        .example-title {
+            color: var(--accent-cyan);
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
+        }
+
+        /* Key insight */
+        .key-insight {
+            background: linear-gradient(135deg, rgba(20, 184, 166, 0.15), rgba(139, 92, 246, 0.1));
+            border: 1px solid var(--accent-teal);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .key-insight::before {
+            content: "Key Insight";
+            display: block;
+            color: var(--accent-teal);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin: 1rem 0 1rem 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        li { margin-bottom: 0.5rem; }
+
+        /* Stats display */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.25rem;
+            color: var(--accent-teal);
+            font-weight: 600;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        /* Legend */
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+            font-size: 0.85rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 4px;
+            border-radius: 2px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            border-top: 1px solid var(--bg-tertiary);
+            color: var(--text-muted);
+        }
+
+        .notebook-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--accent-teal);
+            color: var(--bg-primary);
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .notebook-link:hover {
+            background: var(--accent-cyan);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .lecture-title { font-size: 2rem; }
+            .controls { flex-direction: column; }
+            main { padding: 2rem 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="lecture-nav">
+        <a href="../all-lectures.html" class="nav-link">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            All Lectures
+        </a>
+        <a href="../../primitives/spread.html" class="primitive-link">
+            <span class="primitive-badge">SPREAD</span>
+            <span class="primitive-text">Explore the Primitive</span>
+        </a>
+    </nav>
+
+    <header class="lecture-header">
+        <div class="lecture-number">LECTURE 21</div>
+        <h1 class="lecture-title">Distributions</h1>
+        <p class="lecture-subtitle">How probability spreads across states</p>
+    </header>
+
+    <main>
+        <!-- Hook -->
+        <div class="hook-section">
+            <h2 style="border: none; padding: 0; margin-bottom: 1rem;">The Hook</h2>
+            <p>In a gas at room temperature, molecules move at different speeds:</p>
+            <ul>
+                <li>Some are slow (~100 m/s)</li>
+                <li>Most are moderate (~400 m/s for N₂)</li>
+                <li>Some are very fast (~1000 m/s)</li>
+                <li>Almost none exceed 2000 m/s</li>
+            </ul>
+            <p><strong>Question:</strong> What determines this spread? Why this particular shape?</p>
+            <p><strong>Answer:</strong> The <strong>Boltzmann distribution</strong> — nature's way of spreading energy across states.</p>
+        </div>
+
+        <!-- The Boltzmann Distribution -->
+        <section>
+            <h2>The Boltzmann Distribution</h2>
+
+            <div class="formula-box">
+                <p>At thermal equilibrium, the probability of a system being in state i with energy E<sub>i</sub> is:</p>
+                $$P_i = \frac{g_i e^{-E_i/k_BT}}{Z}$$
+                <p style="margin-top: 0.75rem; font-size: 0.9rem; color: var(--text-muted);">where Z = Σ gᵢ e<sup>-Eᵢ/k<sub>B</sub>T</sup> is the partition function</p>
+            </div>
+
+            <h3>The Boltzmann Factor</h3>
+            <p>The heart of the distribution: <strong>e<sup>-E/k<sub>B</sub>T</sup></strong></p>
+            <ul>
+                <li><strong>Low energy states:</strong> e<sup>-E/kT</sup> ≈ 1 (high probability)</li>
+                <li><strong>High energy states:</strong> e<sup>-E/kT</sup> → 0 (low probability)</li>
+                <li><strong>Higher T:</strong> flatter distribution (more states accessible)</li>
+            </ul>
+
+            <div class="key-insight">
+                <p>The Boltzmann distribution is the <strong>most probable</strong> distribution — it maximizes entropy subject to constraints (fixed average energy).</p>
+            </div>
+
+            <h3>Interactive: Two-Level System</h3>
+            <div class="visual-container">
+                <div class="visual-title">Population vs Temperature: Ground (E=0) and Excited (E=ε) States</div>
+                <canvas id="boltzmannCanvas" class="visual-canvas"></canvas>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="p0Value">-</div>
+                        <div class="stat-label">P₀ (ground)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="p1Value">-</div>
+                        <div class="stat-label">P₁ (excited)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="ratioValue">-</div>
+                        <div class="stat-label">P₁/P₀</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="tStarValue">-</div>
+                        <div class="stat-label">T where k<sub>B</sub>T = ε</div>
+                    </div>
+                </div>
+                <div class="controls">
+                    <div class="control-group">
+                        <label>Energy gap ε (cm⁻¹):</label>
+                        <input type="range" id="epsilon" min="100" max="2000" step="100" value="500">
+                        <span class="value-display" id="epsilonValue">500</span>
+                    </div>
+                    <div class="control-group">
+                        <label>Temperature (K):</label>
+                        <input type="range" id="tempBoltz" min="100" max="2000" step="50" value="300">
+                        <span class="value-display" id="tempBoltzValue">300</span>
+                    </div>
+                </div>
+                <div class="legend">
+                    <div class="legend-item"><div class="legend-color" style="background: #3b82f6;"></div> P₀ (ground)</div>
+                    <div class="legend-item"><div class="legend-color" style="background: #ef4444;"></div> P₁ (excited)</div>
+                    <div class="legend-item"><div class="legend-color" style="background: #6b7280; height: 2px;"></div> k<sub>B</sub>T = ε</div>
+                </div>
+            </div>
+
+            <h4>Population Ratio</h4>
+            <div class="formula-box">
+                $$\frac{P_j}{P_i} = e^{-(E_j - E_i)/k_BT}$$
+                <p style="margin-top: 0.5rem; font-size: 0.9rem;">The ratio depends only on the <strong>energy difference</strong>.</p>
+            </div>
+        </section>
+
+        <!-- Maxwell-Boltzmann -->
+        <section>
+            <h2>The Maxwell-Boltzmann Speed Distribution</h2>
+
+            <div class="formula-box">
+                $$f(v) = 4\pi \left(\frac{m}{2\pi k_BT}\right)^{3/2} v^2 e^{-mv^2/(2k_BT)}$$
+            </div>
+
+            <div class="visual-container">
+                <div class="visual-title">Molecular Speed Distribution</div>
+                <canvas id="mbCanvas" class="visual-canvas"></canvas>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="vmpValue">-</div>
+                        <div class="stat-label">v<sub>mp</sub> (m/s)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="vmeanValue">-</div>
+                        <div class="stat-label">⟨v⟩ (m/s)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="vrmsValue">-</div>
+                        <div class="stat-label">v<sub>rms</sub> (m/s)</div>
+                    </div>
+                </div>
+                <div class="controls">
+                    <div class="control-group">
+                        <label>Temperature (K):</label>
+                        <input type="range" id="tempMB" min="100" max="1000" step="50" value="300">
+                        <span class="value-display" id="tempMBValue">300</span>
+                    </div>
+                    <div class="control-group">
+                        <label>Molecule:</label>
+                        <select id="moleculeSelect">
+                            <option value="2">H₂ (M = 2)</option>
+                            <option value="28" selected>N₂ (M = 28)</option>
+                            <option value="32">O₂ (M = 32)</option>
+                            <option value="40">Ar (M = 40)</option>
+                            <option value="44">CO₂ (M = 44)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="legend">
+                    <div class="legend-item"><div class="legend-color" style="background: #ef4444;"></div> v<sub>mp</sub> = √(2RT/M)</div>
+                    <div class="legend-item"><div class="legend-color" style="background: #10b981;"></div> ⟨v⟩ = √(8RT/πM)</div>
+                    <div class="legend-item"><div class="legend-color" style="background: #3b82f6;"></div> v<sub>rms</sub> = √(3RT/M)</div>
+                </div>
+            </div>
+
+            <div class="key-insight">
+                <p><strong>Why the v² factor?</strong> In 3D, there are more ways to have high speed than low — the number of velocity states with speed v is proportional to the surface area of a sphere: 4πv². This competes with the Boltzmann factor e<sup>-mv²/2kT</sup>.</p>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Speed</th>
+                        <th>Formula</th>
+                        <th>Meaning</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>v<sub>mp</sub></td><td>√(2k<sub>B</sub>T/m)</td><td>Peak of distribution</td></tr>
+                    <tr><td>⟨v⟩</td><td>√(8k<sub>B</sub>T/πm)</td><td>Average speed</td></tr>
+                    <tr><td>v<sub>rms</sub></td><td>√(3k<sub>B</sub>T/m)</td><td>√⟨v²⟩, relates to kinetic energy</td></tr>
+                </tbody>
+            </table>
+            <p><strong>Order:</strong> v<sub>mp</sub> < ⟨v⟩ < v<sub>rms</sub> (always!)</p>
+        </section>
+
+        <!-- Gaussian -->
+        <section>
+            <h2>The Gaussian (Normal) Distribution</h2>
+
+            <div class="formula-box">
+                $$f(x) = \frac{1}{\sigma\sqrt{2\pi}} e^{-(x-\mu)^2/(2\sigma^2)}$$
+            </div>
+
+            <div class="visual-container">
+                <div class="visual-title">Gaussian Distribution with 68-95-99.7 Rule</div>
+                <canvas id="gaussCanvas" class="visual-canvas"></canvas>
+                <div class="controls">
+                    <div class="control-group">
+                        <label>Mean μ:</label>
+                        <input type="range" id="muGauss" min="-3" max="3" step="0.5" value="0">
+                        <span class="value-display" id="muValue">0</span>
+                    </div>
+                    <div class="control-group">
+                        <label>Std dev σ:</label>
+                        <input type="range" id="sigmaGauss" min="0.3" max="2" step="0.1" value="1">
+                        <span class="value-display" id="sigmaValue">1</span>
+                    </div>
+                </div>
+            </div>
+
+            <h4>The 68-95-99.7 Rule</h4>
+            <table>
+                <thead>
+                    <tr><th>Range</th><th>Probability</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>μ ± 1σ</td><td>68.3%</td></tr>
+                    <tr><td>μ ± 2σ</td><td>95.4%</td></tr>
+                    <tr><td>μ ± 3σ</td><td>99.7%</td></tr>
+                </tbody>
+            </table>
+
+            <div class="key-insight">
+                <p><strong>Central Limit Theorem:</strong> The sum of many independent random variables approaches a Gaussian, regardless of the original distributions. This is why Gaussians appear everywhere — measurement errors, thermal fluctuations, diffusion.</p>
+            </div>
+        </section>
+
+        <!-- Rotational Distribution -->
+        <section>
+            <h2>Rotational Population Distribution</h2>
+
+            <div class="formula-box">
+                $$P_J \propto (2J+1) e^{-BJ(J+1)/k_BT}$$
+                <p style="margin-top: 0.5rem; font-size: 0.9rem;">The degeneracy factor (2J+1) causes the peak at J > 0!</p>
+            </div>
+
+            <div class="visual-container">
+                <div class="visual-title">Rotational State Populations</div>
+                <canvas id="rotCanvas" class="visual-canvas" style="height: 350px;"></canvas>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="jmpValue">-</div>
+                        <div class="stat-label">J<sub>mp</sub></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="kbtRotValue">-</div>
+                        <div class="stat-label">k<sub>B</sub>T (cm⁻¹)</div>
+                    </div>
+                </div>
+                <div class="controls">
+                    <div class="control-group">
+                        <label>Rotational constant B (cm⁻¹):</label>
+                        <input type="range" id="rotB" min="0.5" max="10" step="0.5" value="2">
+                        <span class="value-display" id="rotBValue">2</span>
+                    </div>
+                    <div class="control-group">
+                        <label>Temperature (K):</label>
+                        <input type="range" id="rotT" min="100" max="1000" step="50" value="300">
+                        <span class="value-display" id="rotTValue">300</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="example">
+                <div class="example-title">Why J<sub>mp</sub> > 0?</div>
+                <p>The degeneracy (2J+1) increases with J, but the Boltzmann factor decreases. These compete:</p>
+                <ul>
+                    <li><strong>Low J:</strong> low degeneracy but high Boltzmann factor</li>
+                    <li><strong>High J:</strong> high degeneracy but low Boltzmann factor</li>
+                    <li><strong>Peak:</strong> where they balance</li>
+                </ul>
+                <p>$$J_{mp} \approx \sqrt{\frac{k_BT}{2B}} - \frac{1}{2}$$</p>
+            </div>
+        </section>
+
+        <!-- Chemistry Applications -->
+        <section>
+            <h2>Chemistry Applications</h2>
+
+            <h3>Arrhenius Equation</h3>
+            <div class="formula-box">
+                $$k = A e^{-E_a/RT}$$
+                <p style="margin-top: 0.5rem;">This is a Boltzmann factor! Only molecules with E ≥ E<sub>a</sub> can react.</p>
+            </div>
+
+            <h3>Spectral Line Intensities</h3>
+            <p>Absorption intensity from level i to j depends on:</p>
+            <div class="formula-box">
+                $$I_{i \to j} \propto N_i \cdot |\mu_{ij}|^2$$
+                <p style="margin-top: 0.5rem;">Population N<sub>i</sub> follows the Boltzmann distribution!</p>
+            </div>
+
+            <h3>Doppler Broadening</h3>
+            <p>Spectral lines are broadened due to molecular motion:</p>
+            <div class="formula-box">
+                $$I(\nu) \propto e^{-mc^2(\nu - \nu_0)^2/(2k_BT\nu_0^2)}$$
+                <p style="margin-top: 0.5rem;">A Gaussian shape with width ∝ √T</p>
+            </div>
+        </section>
+
+        <!-- Summary -->
+        <section>
+            <h2>Summary: Key Distributions</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Distribution</th>
+                        <th>Domain</th>
+                        <th>Key Parameter</th>
+                        <th>Use</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Boltzmann</td><td>Discrete states</td><td>k<sub>B</sub>T</td><td>Energy state populations</td></tr>
+                    <tr><td>Gaussian</td><td>Continuous, unbounded</td><td>σ (width)</td><td>Errors, fluctuations</td></tr>
+                    <tr><td>Maxwell-Boltzmann</td><td>v ≥ 0</td><td>T and m</td><td>Molecular speeds</td></tr>
+                    <tr><td>Poisson</td><td>Non-negative integers</td><td>λ (rate)</td><td>Rare events</td></tr>
+                    <tr><td>Exponential</td><td>t ≥ 0</td><td>λ (rate)</td><td>Waiting times</td></tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <footer>
+        <p>Chemical Thinking | Lecture 21: Distributions</p>
+        <p style="margin-top: 0.5rem; font-size: 0.85rem;">SPREAD Primitive — How probability spreads across states</p>
+        <a href="../../notebooks/Lecture_21_Distributions.jl" class="notebook-link">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+            </svg>
+            Open Pluto Notebook
+        </a>
+    </footer>
+
+    <script>
+        // Render KaTeX
+        document.addEventListener('DOMContentLoaded', function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false}
+                ]
+            });
+        });
+
+        const kB_cm = 0.695; // cm⁻¹/K
+
+        function resizeCanvas(canvas) {
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width - 48;
+            canvas.height = parseInt(canvas.style.height) || 400;
+        }
+
+        // ========== Boltzmann Two-Level System ==========
+        const boltzCanvas = document.getElementById('boltzmannCanvas');
+        const boltzCtx = boltzCanvas.getContext('2d');
+
+        function updateBoltzmann() {
+            const epsilon = parseFloat(document.getElementById('epsilon').value);
+            const T = parseFloat(document.getElementById('tempBoltz').value);
+
+            document.getElementById('epsilonValue').textContent = epsilon;
+            document.getElementById('tempBoltzValue').textContent = T;
+
+            const kBT = kB_cm * T;
+            const x = Math.exp(-epsilon / kBT);
+            const Z = 1 + x;
+            const P0 = 1 / Z;
+            const P1 = x / Z;
+
+            document.getElementById('p0Value').textContent = P0.toFixed(3);
+            document.getElementById('p1Value').textContent = P1.toFixed(3);
+            document.getElementById('ratioValue').textContent = (P1/P0).toFixed(3);
+            document.getElementById('tStarValue').textContent = Math.round(epsilon / kB_cm) + ' K';
+
+            drawBoltzmann(epsilon, T);
+        }
+
+        function drawBoltzmann(epsilon, currentT) {
+            resizeCanvas(boltzCanvas);
+            const w = boltzCanvas.width;
+            const h = boltzCanvas.height;
+            const padding = 60;
+
+            boltzCtx.fillStyle = '#0a0a0f';
+            boltzCtx.fillRect(0, 0, w, h);
+
+            const Tstar = epsilon / kB_cm;
+
+            // Draw curves for T range
+            const Tmin = 100, Tmax = 2000;
+            const numPoints = 200;
+
+            // Grid
+            boltzCtx.strokeStyle = '#1a1a24';
+            boltzCtx.lineWidth = 1;
+            for (let p = 0; p <= 1; p += 0.25) {
+                const y = padding + (1 - p) * (h - 2 * padding);
+                boltzCtx.beginPath();
+                boltzCtx.moveTo(padding, y);
+                boltzCtx.lineTo(w - padding, y);
+                boltzCtx.stroke();
+
+                boltzCtx.fillStyle = '#6b6b6b';
+                boltzCtx.font = '12px JetBrains Mono';
+                boltzCtx.textAlign = 'right';
+                boltzCtx.fillText(p.toFixed(2), padding - 10, y + 4);
+            }
+
+            // P0 curve
+            boltzCtx.strokeStyle = '#3b82f6';
+            boltzCtx.lineWidth = 3;
+            boltzCtx.beginPath();
+            for (let i = 0; i <= numPoints; i++) {
+                const T = Tmin + (i / numPoints) * (Tmax - Tmin);
+                const x_exp = Math.exp(-epsilon / (kB_cm * T));
+                const P0 = 1 / (1 + x_exp);
+                const px = padding + (T - Tmin) / (Tmax - Tmin) * (w - 2 * padding);
+                const py = padding + (1 - P0) * (h - 2 * padding);
+                if (i === 0) boltzCtx.moveTo(px, py);
+                else boltzCtx.lineTo(px, py);
+            }
+            boltzCtx.stroke();
+
+            // P1 curve
+            boltzCtx.strokeStyle = '#ef4444';
+            boltzCtx.beginPath();
+            for (let i = 0; i <= numPoints; i++) {
+                const T = Tmin + (i / numPoints) * (Tmax - Tmin);
+                const x_exp = Math.exp(-epsilon / (kB_cm * T));
+                const P1 = x_exp / (1 + x_exp);
+                const px = padding + (T - Tmin) / (Tmax - Tmin) * (w - 2 * padding);
+                const py = padding + (1 - P1) * (h - 2 * padding);
+                if (i === 0) boltzCtx.moveTo(px, py);
+                else boltzCtx.lineTo(px, py);
+            }
+            boltzCtx.stroke();
+
+            // T* line (where kBT = epsilon)
+            if (Tstar <= Tmax && Tstar >= Tmin) {
+                const xStar = padding + (Tstar - Tmin) / (Tmax - Tmin) * (w - 2 * padding);
+                boltzCtx.strokeStyle = '#6b7280';
+                boltzCtx.lineWidth = 2;
+                boltzCtx.setLineDash([5, 5]);
+                boltzCtx.beginPath();
+                boltzCtx.moveTo(xStar, padding);
+                boltzCtx.lineTo(xStar, h - padding);
+                boltzCtx.stroke();
+                boltzCtx.setLineDash([]);
+            }
+
+            // Current T marker
+            const xCurrent = padding + (currentT - Tmin) / (Tmax - Tmin) * (w - 2 * padding);
+            boltzCtx.strokeStyle = '#14b8a6';
+            boltzCtx.lineWidth = 2;
+            boltzCtx.setLineDash([3, 3]);
+            boltzCtx.beginPath();
+            boltzCtx.moveTo(xCurrent, padding);
+            boltzCtx.lineTo(xCurrent, h - padding);
+            boltzCtx.stroke();
+            boltzCtx.setLineDash([]);
+
+            // 50% line
+            const y50 = padding + 0.5 * (h - 2 * padding);
+            boltzCtx.strokeStyle = '#4b5563';
+            boltzCtx.lineWidth = 1;
+            boltzCtx.setLineDash([2, 4]);
+            boltzCtx.beginPath();
+            boltzCtx.moveTo(padding, y50);
+            boltzCtx.lineTo(w - padding, y50);
+            boltzCtx.stroke();
+            boltzCtx.setLineDash([]);
+
+            // Axes labels
+            boltzCtx.fillStyle = '#e8e6e3';
+            boltzCtx.font = '14px Inter';
+            boltzCtx.textAlign = 'center';
+            boltzCtx.fillText('Temperature (K)', w / 2, h - 15);
+
+            boltzCtx.save();
+            boltzCtx.translate(18, h / 2);
+            boltzCtx.rotate(-Math.PI / 2);
+            boltzCtx.fillText('Population', 0, 0);
+            boltzCtx.restore();
+
+            // X-axis ticks
+            boltzCtx.font = '11px JetBrains Mono';
+            for (let T = 500; T <= 2000; T += 500) {
+                const x = padding + (T - Tmin) / (Tmax - Tmin) * (w - 2 * padding);
+                boltzCtx.fillText(T, x, h - padding + 20);
+            }
+        }
+
+        // ========== Maxwell-Boltzmann ==========
+        const mbCanvas = document.getElementById('mbCanvas');
+        const mbCtx = mbCanvas.getContext('2d');
+
+        function updateMB() {
+            const T = parseFloat(document.getElementById('tempMB').value);
+            const M = parseFloat(document.getElementById('moleculeSelect').value) / 1000; // kg/mol
+
+            document.getElementById('tempMBValue').textContent = T;
+
+            const R = 8.314;
+            const vmp = Math.sqrt(2 * R * T / M);
+            const vmean = Math.sqrt(8 * R * T / (Math.PI * M));
+            const vrms = Math.sqrt(3 * R * T / M);
+
+            document.getElementById('vmpValue').textContent = Math.round(vmp);
+            document.getElementById('vmeanValue').textContent = Math.round(vmean);
+            document.getElementById('vrmsValue').textContent = Math.round(vrms);
+
+            drawMB(T, M, vmp, vmean, vrms);
+        }
+
+        function drawMB(T, M, vmp, vmean, vrms) {
+            resizeCanvas(mbCanvas);
+            const w = mbCanvas.width;
+            const h = mbCanvas.height;
+            const padding = 60;
+
+            mbCtx.fillStyle = '#0a0a0f';
+            mbCtx.fillRect(0, 0, w, h);
+
+            const R = 8.314;
+            const a = M / (2 * R * T);
+
+            // Maxwell-Boltzmann function
+            function fMB(v) {
+                return 4 * Math.PI * Math.pow(a / Math.PI, 1.5) * v * v * Math.exp(-a * v * v);
+            }
+
+            // Find max for scaling
+            const vMax = 2000;
+            let fMax = 0;
+            for (let v = 0; v <= vMax; v += 10) {
+                fMax = Math.max(fMax, fMB(v));
+            }
+
+            // Draw filled curve
+            mbCtx.fillStyle = 'rgba(139, 92, 246, 0.3)';
+            mbCtx.beginPath();
+            mbCtx.moveTo(padding, h - padding);
+            for (let i = 0; i <= 200; i++) {
+                const v = (i / 200) * vMax;
+                const f = fMB(v);
+                const x = padding + (v / vMax) * (w - 2 * padding);
+                const y = padding + (1 - f / (fMax * 1.1)) * (h - 2 * padding);
+                mbCtx.lineTo(x, y);
+            }
+            mbCtx.lineTo(w - padding, h - padding);
+            mbCtx.closePath();
+            mbCtx.fill();
+
+            // Draw curve outline
+            mbCtx.strokeStyle = '#8b5cf6';
+            mbCtx.lineWidth = 3;
+            mbCtx.beginPath();
+            for (let i = 0; i <= 200; i++) {
+                const v = (i / 200) * vMax;
+                const f = fMB(v);
+                const x = padding + (v / vMax) * (w - 2 * padding);
+                const y = padding + (1 - f / (fMax * 1.1)) * (h - 2 * padding);
+                if (i === 0) mbCtx.moveTo(x, y);
+                else mbCtx.lineTo(x, y);
+            }
+            mbCtx.stroke();
+
+            // Characteristic speeds
+            const speeds = [
+                { v: vmp, color: '#ef4444', label: 'vmp' },
+                { v: vmean, color: '#10b981', label: '⟨v⟩' },
+                { v: vrms, color: '#3b82f6', label: 'vrms' }
+            ];
+
+            speeds.forEach(s => {
+                if (s.v < vMax) {
+                    const x = padding + (s.v / vMax) * (w - 2 * padding);
+                    mbCtx.strokeStyle = s.color;
+                    mbCtx.lineWidth = 2;
+                    mbCtx.setLineDash([5, 5]);
+                    mbCtx.beginPath();
+                    mbCtx.moveTo(x, padding);
+                    mbCtx.lineTo(x, h - padding);
+                    mbCtx.stroke();
+                    mbCtx.setLineDash([]);
+                }
+            });
+
+            // Axes
+            mbCtx.fillStyle = '#e8e6e3';
+            mbCtx.font = '14px Inter';
+            mbCtx.textAlign = 'center';
+            mbCtx.fillText('Speed (m/s)', w / 2, h - 15);
+
+            mbCtx.save();
+            mbCtx.translate(18, h / 2);
+            mbCtx.rotate(-Math.PI / 2);
+            mbCtx.fillText('f(v)', 0, 0);
+            mbCtx.restore();
+
+            // X-axis ticks
+            mbCtx.font = '11px JetBrains Mono';
+            for (let v = 0; v <= 2000; v += 500) {
+                const x = padding + (v / vMax) * (w - 2 * padding);
+                mbCtx.fillText(v, x, h - padding + 20);
+            }
+        }
+
+        // ========== Gaussian ==========
+        const gaussCanvas = document.getElementById('gaussCanvas');
+        const gaussCtx = gaussCanvas.getContext('2d');
+
+        function updateGauss() {
+            const mu = parseFloat(document.getElementById('muGauss').value);
+            const sigma = parseFloat(document.getElementById('sigmaGauss').value);
+
+            document.getElementById('muValue').textContent = mu;
+            document.getElementById('sigmaValue').textContent = sigma;
+
+            drawGauss(mu, sigma);
+        }
+
+        function drawGauss(mu, sigma) {
+            resizeCanvas(gaussCanvas);
+            const w = gaussCanvas.width;
+            const h = gaussCanvas.height;
+            const padding = 60;
+
+            gaussCtx.fillStyle = '#0a0a0f';
+            gaussCtx.fillRect(0, 0, w, h);
+
+            const xMin = -6, xMax = 6;
+
+            function fGauss(x) {
+                return Math.exp(-Math.pow(x - mu, 2) / (2 * sigma * sigma)) / (sigma * Math.sqrt(2 * Math.PI));
+            }
+
+            const fMax = 1 / (sigma * Math.sqrt(2 * Math.PI));
+
+            // Fill 1σ region
+            gaussCtx.fillStyle = 'rgba(20, 184, 166, 0.3)';
+            gaussCtx.beginPath();
+            const x1s_l = padding + ((mu - sigma) - xMin) / (xMax - xMin) * (w - 2 * padding);
+            const x1s_r = padding + ((mu + sigma) - xMin) / (xMax - xMin) * (w - 2 * padding);
+            gaussCtx.moveTo(x1s_l, h - padding);
+            for (let px = x1s_l; px <= x1s_r; px += 2) {
+                const x = xMin + (px - padding) / (w - 2 * padding) * (xMax - xMin);
+                const f = fGauss(x);
+                const py = padding + (1 - f / (fMax * 1.2)) * (h - 2 * padding);
+                gaussCtx.lineTo(px, py);
+            }
+            gaussCtx.lineTo(x1s_r, h - padding);
+            gaussCtx.closePath();
+            gaussCtx.fill();
+
+            // Draw curve
+            gaussCtx.strokeStyle = '#14b8a6';
+            gaussCtx.lineWidth = 3;
+            gaussCtx.beginPath();
+            for (let i = 0; i <= 300; i++) {
+                const x = xMin + (i / 300) * (xMax - xMin);
+                const f = fGauss(x);
+                const px = padding + (i / 300) * (w - 2 * padding);
+                const py = padding + (1 - f / (fMax * 1.2)) * (h - 2 * padding);
+                if (i === 0) gaussCtx.moveTo(px, py);
+                else gaussCtx.lineTo(px, py);
+            }
+            gaussCtx.stroke();
+
+            // Mark μ
+            const xMu = padding + (mu - xMin) / (xMax - xMin) * (w - 2 * padding);
+            gaussCtx.strokeStyle = '#ef4444';
+            gaussCtx.lineWidth = 2;
+            gaussCtx.beginPath();
+            gaussCtx.moveTo(xMu, padding);
+            gaussCtx.lineTo(xMu, h - padding);
+            gaussCtx.stroke();
+
+            // Mark μ±σ
+            gaussCtx.strokeStyle = '#f59e0b';
+            gaussCtx.setLineDash([5, 5]);
+            [mu - sigma, mu + sigma].forEach(val => {
+                const x = padding + (val - xMin) / (xMax - xMin) * (w - 2 * padding);
+                gaussCtx.beginPath();
+                gaussCtx.moveTo(x, padding);
+                gaussCtx.lineTo(x, h - padding);
+                gaussCtx.stroke();
+            });
+
+            // Mark μ±2σ
+            gaussCtx.strokeStyle = '#10b981';
+            [mu - 2*sigma, mu + 2*sigma].forEach(val => {
+                const x = padding + (val - xMin) / (xMax - xMin) * (w - 2 * padding);
+                gaussCtx.beginPath();
+                gaussCtx.moveTo(x, padding);
+                gaussCtx.lineTo(x, h - padding);
+                gaussCtx.stroke();
+            });
+            gaussCtx.setLineDash([]);
+
+            // Labels
+            gaussCtx.fillStyle = '#e8e6e3';
+            gaussCtx.font = '14px Inter';
+            gaussCtx.textAlign = 'center';
+            gaussCtx.fillText('x', w / 2, h - 15);
+
+            // 68% label
+            gaussCtx.fillStyle = '#14b8a6';
+            gaussCtx.font = '12px Inter';
+            gaussCtx.fillText('68%', xMu, padding + (h - 2*padding) * 0.6);
+        }
+
+        // ========== Rotational Distribution ==========
+        const rotCanvas = document.getElementById('rotCanvas');
+        const rotCtx = rotCanvas.getContext('2d');
+
+        function updateRot() {
+            const B = parseFloat(document.getElementById('rotB').value);
+            const T = parseFloat(document.getElementById('rotT').value);
+
+            document.getElementById('rotBValue').textContent = B;
+            document.getElementById('rotTValue').textContent = T;
+
+            const kBT = kB_cm * T;
+            const Jmp = Math.max(0, Math.round(Math.sqrt(kBT / (2 * B)) - 0.5));
+
+            document.getElementById('jmpValue').textContent = Jmp;
+            document.getElementById('kbtRotValue').textContent = Math.round(kBT);
+
+            drawRot(B, T, kBT, Jmp);
+        }
+
+        function drawRot(B, T, kBT, Jmp) {
+            resizeCanvas(rotCanvas);
+            rotCanvas.height = 350;
+            const w = rotCanvas.width;
+            const h = rotCanvas.height;
+            const padding = 50;
+
+            rotCtx.fillStyle = '#0a0a0f';
+            rotCtx.fillRect(0, 0, w, h);
+
+            const Jmax = 25;
+
+            // Calculate populations
+            let pops = [];
+            for (let J = 0; J <= Jmax; J++) {
+                pops.push((2*J + 1) * Math.exp(-B * J * (J + 1) / kBT));
+            }
+            const Z = pops.reduce((a, b) => a + b, 0);
+            pops = pops.map(p => p / Z);
+
+            const maxPop = Math.max(...pops);
+            const barWidth = (w - 2 * padding) / (Jmax + 1) * 0.8;
+            const gap = (w - 2 * padding) / (Jmax + 1) * 0.2;
+
+            // Draw bars
+            for (let J = 0; J <= Jmax; J++) {
+                const barHeight = (pops[J] / maxPop) * (h - 2 * padding - 30);
+                const x = padding + J * (barWidth + gap);
+                const y = h - padding - barHeight;
+
+                rotCtx.fillStyle = J === Jmp ? '#ef4444' : '#14b8a6';
+                rotCtx.fillRect(x, y, barWidth, barHeight);
+            }
+
+            // X-axis labels
+            rotCtx.fillStyle = '#a0a0a0';
+            rotCtx.font = '10px JetBrains Mono';
+            rotCtx.textAlign = 'center';
+            for (let J = 0; J <= Jmax; J += 5) {
+                const x = padding + J * (barWidth + gap) + barWidth / 2;
+                rotCtx.fillText(J, x, h - padding + 15);
+            }
+
+            rotCtx.fillStyle = '#e8e6e3';
+            rotCtx.font = '14px Inter';
+            rotCtx.fillText('J', w / 2, h - 10);
+
+            rotCtx.save();
+            rotCtx.translate(18, h / 2);
+            rotCtx.rotate(-Math.PI / 2);
+            rotCtx.fillText('Population', 0, 0);
+            rotCtx.restore();
+        }
+
+        // Event listeners
+        ['epsilon', 'tempBoltz'].forEach(id => {
+            document.getElementById(id).addEventListener('input', updateBoltzmann);
+        });
+
+        ['tempMB', 'moleculeSelect'].forEach(id => {
+            document.getElementById(id).addEventListener('input', updateMB);
+            document.getElementById(id).addEventListener('change', updateMB);
+        });
+
+        ['muGauss', 'sigmaGauss'].forEach(id => {
+            document.getElementById(id).addEventListener('input', updateGauss);
+        });
+
+        ['rotB', 'rotT'].forEach(id => {
+            document.getElementById(id).addEventListener('input', updateRot);
+        });
+
+        window.addEventListener('resize', function() {
+            updateBoltzmann();
+            updateMB();
+            updateGauss();
+            updateRot();
+        });
+
+        // Initialize
+        updateBoltzmann();
+        updateMB();
+        updateGauss();
+        updateRot();
+    </script>
+</body>
+</html>
