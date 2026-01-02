@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HW 1: Vectors & Direction | CHEM 291</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a24;
+            --bg-card: #16161f;
+            --text-primary: #e8e6e3;
+            --text-secondary: #a0a0a0;
+            --text-muted: #6b6b6b;
+            --accent-teal: #14b8a6;
+            --accent-cyan: #06b6d4;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --accent-orange: #f59e0b;
+            --accent-purple: #8b5cf6;
+            --border-subtle: #2a2a35;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Navigation */
+        .nav {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 0.75rem 1.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .nav a:hover { color: var(--accent-teal); }
+
+        .nav-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--accent-orange);
+            background: rgba(245, 158, 11, 0.15);
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+        }
+
+        /* Header */
+        header {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem 2rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .hw-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-orange);
+            margin-bottom: 0.5rem;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .hw-meta {
+            display: flex;
+            gap: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .hw-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .hw-resources {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .resource-link {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.4rem 0.8rem;
+            background: var(--bg-tertiary);
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .resource-link:hover {
+            color: var(--accent-teal);
+            background: rgba(20, 184, 166, 0.1);
+        }
+
+        /* Progress bar */
+        .progress-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .progress-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .progress-count {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-teal);
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: var(--bg-tertiary);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-teal), var(--accent-cyan));
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        /* Main content */
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 1rem 1.5rem 4rem;
+        }
+
+        /* Problem card */
+        .problem {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: border-color 0.3s;
+        }
+
+        .problem.correct {
+            border-color: var(--accent-green);
+        }
+
+        .problem.incorrect {
+            border-color: var(--accent-red);
+        }
+
+        .problem-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .problem-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-teal);
+            background: rgba(20, 184, 166, 0.1);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .problem-points {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .problem-status {
+            font-size: 0.85rem;
+            padding: 0.25rem 0.6rem;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        .status-correct {
+            color: var(--accent-green);
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .status-incorrect {
+            color: var(--accent-red);
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .problem-question {
+            font-size: 1.05rem;
+            margin-bottom: 1.25rem;
+            line-height: 1.7;
+        }
+
+        .problem-context {
+            background: var(--bg-tertiary);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.25rem;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            border-left: 3px solid var(--accent-purple);
+        }
+
+        /* Input styles */
+        .input-group {
+            margin-bottom: 1rem;
+        }
+
+        .input-label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .text-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .text-input:focus {
+            outline: none;
+            border-color: var(--accent-teal);
+        }
+
+        .text-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        textarea.text-input {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        /* Multiple choice */
+        .choices {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .choice {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .choice:hover {
+            border-color: var(--accent-teal);
+        }
+
+        .choice.selected {
+            border-color: var(--accent-teal);
+            background: rgba(20, 184, 166, 0.1);
+        }
+
+        .choice input {
+            display: none;
+        }
+
+        .choice-indicator {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border-subtle);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .choice.selected .choice-indicator {
+            border-color: var(--accent-teal);
+            background: var(--accent-teal);
+        }
+
+        .choice.selected .choice-indicator::after {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        /* Check button */
+        .check-btn {
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, var(--accent-teal), var(--accent-cyan));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .check-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(20, 184, 166, 0.3);
+        }
+
+        .check-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Feedback */
+        .feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            display: none;
+        }
+
+        .feedback.show { display: block; }
+
+        .feedback.correct {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: var(--accent-green);
+        }
+
+        .feedback.incorrect {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+        }
+
+        .feedback-header {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Hint */
+        .hint-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            cursor: pointer;
+            padding: 0.5rem 0;
+            transition: color 0.2s;
+        }
+
+        .hint-btn:hover { color: var(--accent-orange); }
+
+        .hint {
+            margin-top: 0.5rem;
+            padding: 1rem;
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: var(--accent-orange);
+            display: none;
+        }
+
+        .hint.show { display: block; }
+
+        /* Submit section */
+        .submit-section {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .submit-section h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .submit-section p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .canvas-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            background: var(--accent-purple);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .canvas-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(139, 92, 246, 0.3);
+        }
+
+        /* Loading spinner */
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.8s linear infinite;
+            margin-right: 0.5rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .hw-meta { flex-direction: column; gap: 0.5rem; }
+            .problem { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="../chem291/">← CHEM 291</a>
+            <span class="nav-badge">HOMEWORK</span>
+        </div>
+    </nav>
+
+    <header>
+        <div class="hw-label">HOMEWORK 1</div>
+        <h1>Vectors & Direction</h1>
+        <div class="hw-meta">
+            <span>5 Problems</span>
+            <span>~30 min</span>
+            <span>Due: [Canvas deadline]</span>
+        </div>
+        <div class="hw-resources">
+            <a href="../lectures/04-direction/" class="resource-link">Lecture 4: Bonds Point</a>
+            <a href="../primitives/direction.html" class="resource-link">DIRECTION Primitive</a>
+        </div>
+    </header>
+
+    <div class="progress-container">
+        <div class="progress-header">
+            <span class="progress-label">Progress</span>
+            <span class="progress-count"><span id="completed">0</span> / 5 completed</span>
+        </div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+        </div>
+    </div>
+
+    <main>
+        <!-- Problem 1: Multiple Choice -->
+        <div class="problem" data-problem="1">
+            <div class="problem-header">
+                <span class="problem-number">Problem 1</span>
+                <span class="problem-points">1 point</span>
+            </div>
+            <div class="problem-question">
+                Water (H₂O) has a bond angle of approximately 104.5°. What does this tell us about the molecule's geometry?
+            </div>
+            <div class="choices">
+                <label class="choice">
+                    <input type="radio" name="q1" value="a">
+                    <span class="choice-indicator"></span>
+                    <span>The molecule is linear</span>
+                </label>
+                <label class="choice">
+                    <input type="radio" name="q1" value="b">
+                    <span class="choice-indicator"></span>
+                    <span>The molecule is bent (angular)</span>
+                </label>
+                <label class="choice">
+                    <input type="radio" name="q1" value="c">
+                    <span class="choice-indicator"></span>
+                    <span>The molecule is tetrahedral</span>
+                </label>
+                <label class="choice">
+                    <input type="radio" name="q1" value="d">
+                    <span class="choice-indicator"></span>
+                    <span>The bond angle tells us nothing about geometry</span>
+                </label>
+            </div>
+            <button class="check-btn" onclick="checkMultipleChoice(1, 'b')">Check Answer</button>
+            <button class="hint-btn" onclick="toggleHint(1)">Show Hint</button>
+            <div class="hint" id="hint-1">
+                A linear molecule would have a bond angle of 180°. What does an angle less than this indicate?
+            </div>
+            <div class="feedback" id="feedback-1"></div>
+        </div>
+
+        <!-- Problem 2: Numerical -->
+        <div class="problem" data-problem="2">
+            <div class="problem-header">
+                <span class="problem-number">Problem 2</span>
+                <span class="problem-points">2 points</span>
+            </div>
+            <div class="problem-context">
+                The dipole moment of a bond depends on both the bond length and the difference in electronegativity. For a diatomic molecule, the dipole moment μ = q × d, where q is the partial charge and d is the bond length.
+            </div>
+            <div class="problem-question">
+                If two vectors \(\vec{a} = (3, 4)\) and \(\vec{b} = (1, 0)\) represent bond dipoles in a molecule, calculate the dot product \(\vec{a} \cdot \vec{b}\).
+            </div>
+            <div class="input-group">
+                <label class="input-label">Your answer:</label>
+                <input type="text" class="text-input" id="answer-2" placeholder="Enter a number...">
+            </div>
+            <button class="check-btn" onclick="checkNumerical(2, 3)">Check Answer</button>
+            <button class="hint-btn" onclick="toggleHint(2)">Show Hint</button>
+            <div class="hint" id="hint-2">
+                The dot product formula: \(\vec{a} \cdot \vec{b} = a_x b_x + a_y b_y\)
+            </div>
+            <div class="feedback" id="feedback-2"></div>
+        </div>
+
+        <!-- Problem 3: Short Answer with LLM -->
+        <div class="problem" data-problem="3">
+            <div class="problem-header">
+                <span class="problem-number">Problem 3</span>
+                <span class="problem-points">2 points</span>
+            </div>
+            <div class="problem-question">
+                Explain why CO₂ is nonpolar even though each C=O bond is polar. Use the concept of vector addition in your explanation.
+            </div>
+            <div class="input-group">
+                <label class="input-label">Your explanation:</label>
+                <textarea class="text-input" id="answer-3" placeholder="Type your explanation here..."></textarea>
+            </div>
+            <button class="check-btn" onclick="checkWithLLM(3)">Check Answer</button>
+            <button class="hint-btn" onclick="toggleHint(3)">Show Hint</button>
+            <div class="hint" id="hint-3">
+                Think about the geometry of CO₂ (linear) and what happens when you add two vectors pointing in opposite directions.
+            </div>
+            <div class="feedback" id="feedback-3"></div>
+        </div>
+
+        <!-- Problem 4: Multiple Choice -->
+        <div class="problem" data-problem="4">
+            <div class="problem-header">
+                <span class="problem-number">Problem 4</span>
+                <span class="problem-points">1 point</span>
+            </div>
+            <div class="problem-question">
+                Two vectors are orthogonal (perpendicular) when their dot product equals:
+            </div>
+            <div class="choices">
+                <label class="choice">
+                    <input type="radio" name="q4" value="a">
+                    <span class="choice-indicator"></span>
+                    <span>1</span>
+                </label>
+                <label class="choice">
+                    <input type="radio" name="q4" value="b">
+                    <span class="choice-indicator"></span>
+                    <span>0</span>
+                </label>
+                <label class="choice">
+                    <input type="radio" name="q4" value="c">
+                    <span class="choice-indicator"></span>
+                    <span>-1</span>
+                </label>
+                <label class="choice">
+                    <input type="radio" name="q4" value="d">
+                    <span class="choice-indicator"></span>
+                    <span>The product of their magnitudes</span>
+                </label>
+            </div>
+            <button class="check-btn" onclick="checkMultipleChoice(4, 'b')">Check Answer</button>
+            <button class="hint-btn" onclick="toggleHint(4)">Show Hint</button>
+            <div class="hint" id="hint-4">
+                Recall that \(\vec{a} \cdot \vec{b} = |\vec{a}||\vec{b}|\cos\theta\). What is \(\cos(90°)\)?
+            </div>
+            <div class="feedback" id="feedback-4"></div>
+        </div>
+
+        <!-- Problem 5: Numerical -->
+        <div class="problem" data-problem="5">
+            <div class="problem-header">
+                <span class="problem-number">Problem 5</span>
+                <span class="problem-points">2 points</span>
+            </div>
+            <div class="problem-question">
+                Calculate the magnitude of the vector \(\vec{v} = (3, 4, 0)\) representing a bond in 3D space. Give your answer as a whole number.
+            </div>
+            <div class="input-group">
+                <label class="input-label">Your answer:</label>
+                <input type="text" class="text-input" id="answer-5" placeholder="Enter magnitude...">
+            </div>
+            <button class="check-btn" onclick="checkNumerical(5, 5)">Check Answer</button>
+            <button class="hint-btn" onclick="toggleHint(5)">Show Hint</button>
+            <div class="hint" id="hint-5">
+                Magnitude formula: \(|\vec{v}| = \sqrt{v_x^2 + v_y^2 + v_z^2}\)
+            </div>
+            <div class="feedback" id="feedback-5"></div>
+        </div>
+
+        <!-- Submit to Canvas -->
+        <div class="submit-section">
+            <h3>Ready to Submit?</h3>
+            <p>Once you've practiced and are confident with your answers, submit the official quiz on Canvas.</p>
+            <a href="#" class="canvas-btn">
+                Open Canvas Quiz →
+            </a>
+        </div>
+    </main>
+
+    <script>
+        // Render KaTeX
+        document.addEventListener('DOMContentLoaded', function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: '\\(', right: '\\)', display: false},
+                    {left: '\\[', right: '\\]', display: true}
+                ]
+            });
+
+            // Initialize choice selection
+            document.querySelectorAll('.choice').forEach(choice => {
+                choice.addEventListener('click', function() {
+                    const name = this.querySelector('input').name;
+                    document.querySelectorAll(`input[name="${name}"]`).forEach(input => {
+                        input.closest('.choice').classList.remove('selected');
+                    });
+                    this.classList.add('selected');
+                    this.querySelector('input').checked = true;
+                });
+            });
+        });
+
+        // Track completed problems
+        let completed = new Set();
+        const totalProblems = 5;
+
+        function updateProgress() {
+            const count = completed.size;
+            document.getElementById('completed').textContent = count;
+            document.getElementById('progress-fill').style.width = `${(count / totalProblems) * 100}%`;
+        }
+
+        function showFeedback(problemNum, isCorrect, message) {
+            const feedback = document.getElementById(`feedback-${problemNum}`);
+            const problem = document.querySelector(`[data-problem="${problemNum}"]`);
+
+            feedback.className = `feedback show ${isCorrect ? 'correct' : 'incorrect'}`;
+            feedback.innerHTML = `
+                <div class="feedback-header">${isCorrect ? '✓ Correct!' : '✗ Not quite'}</div>
+                <div>${message}</div>
+            `;
+
+            problem.classList.remove('correct', 'incorrect');
+            problem.classList.add(isCorrect ? 'correct' : 'incorrect');
+
+            if (isCorrect) {
+                completed.add(problemNum);
+                updateProgress();
+            }
+        }
+
+        function toggleHint(problemNum) {
+            const hint = document.getElementById(`hint-${problemNum}`);
+            hint.classList.toggle('show');
+        }
+
+        // Multiple choice checker
+        function checkMultipleChoice(problemNum, correctAnswer) {
+            const selected = document.querySelector(`input[name="q${problemNum}"]:checked`);
+            if (!selected) {
+                alert('Please select an answer');
+                return;
+            }
+
+            const isCorrect = selected.value === correctAnswer;
+            const messages = {
+                1: isCorrect
+                    ? 'The bond angle of 104.5° indicates a bent geometry. Linear molecules have 180° angles.'
+                    : 'Think about what angle a linear molecule would have. 104.5° is less than 180°.',
+                4: isCorrect
+                    ? 'Correct! When θ = 90°, cos(θ) = 0, so the dot product is zero.'
+                    : 'Remember: a·b = |a||b|cos(θ). For perpendicular vectors, θ = 90°.'
+            };
+
+            showFeedback(problemNum, isCorrect, messages[problemNum]);
+        }
+
+        // Numerical checker
+        function checkNumerical(problemNum, correctAnswer, tolerance = 0.01) {
+            const input = document.getElementById(`answer-${problemNum}`);
+            const userAnswer = parseFloat(input.value);
+
+            if (isNaN(userAnswer)) {
+                alert('Please enter a valid number');
+                return;
+            }
+
+            const isCorrect = Math.abs(userAnswer - correctAnswer) <= tolerance;
+            const messages = {
+                2: isCorrect
+                    ? 'Correct! (3)(1) + (4)(0) = 3 + 0 = 3'
+                    : `The dot product is: (3)(1) + (4)(0) = 3. You entered ${userAnswer}.`,
+                5: isCorrect
+                    ? 'Correct! √(9 + 16 + 0) = √25 = 5'
+                    : `The magnitude is √(3² + 4² + 0²) = √25 = 5. You entered ${userAnswer}.`
+            };
+
+            showFeedback(problemNum, isCorrect, messages[problemNum]);
+        }
+
+        // LLM-powered checker for open-ended questions
+        async function checkWithLLM(problemNum) {
+            const input = document.getElementById(`answer-${problemNum}`);
+            const answer = input.value.trim();
+
+            if (!answer) {
+                alert('Please enter your answer');
+                return;
+            }
+
+            const btn = event.target;
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span>Checking...';
+
+            try {
+                // Try to connect to your Ollama backend
+                const response = await fetch('https://api.thebeakers.com/check-answer', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        problem: `Explain why CO₂ is nonpolar even though each C=O bond is polar.`,
+                        answer: answer,
+                        rubric: `Key points: 1) CO₂ is linear (180° bond angle), 2) The two C=O bond dipoles point in opposite directions, 3) Vector addition: when two equal vectors point opposite, they cancel to zero, 4) Net dipole moment is zero = nonpolar`
+                    })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    showFeedback(problemNum, data.correct, data.feedback);
+                } else {
+                    // Fallback: simple keyword check
+                    fallbackCheck(problemNum, answer);
+                }
+            } catch (error) {
+                // Fallback if API unavailable
+                fallbackCheck(problemNum, answer);
+            }
+
+            btn.disabled = false;
+            btn.textContent = 'Check Answer';
+        }
+
+        function fallbackCheck(problemNum, answer) {
+            const lower = answer.toLowerCase();
+            const hasLinear = lower.includes('linear') || lower.includes('180');
+            const hasOpposite = lower.includes('opposite') || lower.includes('cancel');
+            const hasVector = lower.includes('vector') || lower.includes('dipole');
+
+            const score = (hasLinear ? 1 : 0) + (hasOpposite ? 1 : 0) + (hasVector ? 1 : 0);
+            const isCorrect = score >= 2;
+
+            let message = '';
+            if (isCorrect) {
+                message = 'Good explanation! CO₂ is linear, so the two polar C=O bonds point in exactly opposite directions. When you add these vectors, they cancel out, giving a net dipole of zero.';
+            } else {
+                message = 'Your answer is missing some key concepts. Remember: CO₂ is linear (180° angle), the bond dipoles point in opposite directions, and opposite vectors cancel when added.';
+                if (!hasLinear) message += ' Mention the linear geometry.';
+                if (!hasOpposite) message += ' Explain how the dipoles cancel.';
+            }
+
+            showFeedback(problemNum, isCorrect, message);
+        }
+    </script>
+</body>
+</html>

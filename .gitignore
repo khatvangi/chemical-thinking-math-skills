@@ -44,6 +44,7 @@ site/.quarto/
 !site/index.html
 !site/chem291/*.html
 !site/chem361/*.html
+!site/homework/*.html
 
 # IDE
 .vscode/

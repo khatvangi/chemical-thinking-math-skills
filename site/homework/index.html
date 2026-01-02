@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homework | CHEM 291</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a24;
+            --text-primary: #e8e6e3;
+            --text-secondary: #a0a0a0;
+            --text-muted: #6b6b6b;
+            --accent-teal: #14b8a6;
+            --accent-orange: #f59e0b;
+            --accent-green: #10b981;
+            --accent-purple: #8b5cf6;
+            --border-subtle: #2a2a35;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Navigation */
+        .nav {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 0.75rem 1.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .nav a:hover { color: var(--accent-teal); }
+
+        .nav-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--accent-teal);
+            background: rgba(20, 184, 166, 0.15);
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+        }
+
+        /* Header */
+        header {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem 2rem;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            background: linear-gradient(135deg, var(--accent-orange), var(--accent-teal));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Main */
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+        }
+
+        /* Info box */
+        .info-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-box h3 {
+            font-size: 1rem;
+            color: var(--accent-teal);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-box p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .info-box ol {
+            margin: 1rem 0 0 1.5rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .info-box li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Homework list */
+        .hw-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .hw-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .hw-card:hover {
+            border-color: var(--accent-orange);
+            transform: translateX(4px);
+        }
+
+        .hw-card.locked {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .hw-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-orange);
+            background: rgba(245, 158, 11, 0.1);
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+        }
+
+        .hw-info h3 {
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .hw-info p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .hw-meta {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.25rem;
+        }
+
+        .hw-status {
+            font-size: 0.8rem;
+            padding: 0.25rem 0.6rem;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        .status-live {
+            color: var(--accent-green);
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .status-upcoming {
+            color: var(--text-muted);
+            background: var(--bg-tertiary);
+        }
+
+        .hw-due {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .hw-card {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            .hw-number {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+            .hw-meta {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="../chem291/">← CHEM 291</a>
+            <span class="nav-badge">CHEM 291</span>
+        </div>
+    </nav>
+
+    <header>
+        <h1>Homework</h1>
+        <p>Practice problems with instant feedback. When you're ready, submit the official quiz on Canvas.</p>
+    </header>
+
+    <main>
+        <div class="info-box">
+            <h3>How Homework Works</h3>
+            <p>Each homework has two parts:</p>
+            <ol>
+                <li><strong>Practice here</strong> — Work through problems with hints and instant feedback</li>
+                <li><strong>Submit on Canvas</strong> — When confident, complete the graded Canvas quiz</li>
+            </ol>
+            <p style="margin-top: 1rem;">Practice as many times as you want. Only the Canvas submission counts for your grade.</p>
+        </div>
+
+        <div class="hw-list">
+            <a href="hw01-vectors.html" class="hw-card">
+                <div class="hw-number">1</div>
+                <div class="hw-info">
+                    <h3>Vectors & Direction</h3>
+                    <p>Bond angles, dot products, molecular geometry</p>
+                </div>
+                <div class="hw-meta">
+                    <span class="hw-status status-live">Live</span>
+                    <span class="hw-due">Lectures 4-6</span>
+                </div>
+            </a>
+
+            <div class="hw-card locked">
+                <div class="hw-number">2</div>
+                <div class="hw-info">
+                    <h3>Matrices & Transformations</h3>
+                    <p>Matrix operations, linear maps, symmetry</p>
+                </div>
+                <div class="hw-meta">
+                    <span class="hw-status status-upcoming">Coming Soon</span>
+                    <span class="hw-due">Lectures 7-8</span>
+                </div>
+            </div>
+
+            <div class="hw-card locked">
+                <div class="hw-number">3</div>
+                <div class="hw-info">
+                    <h3>Eigenvalues & Symmetry</h3>
+                    <p>Eigenvalues, eigenvectors, molecular symmetry</p>
+                </div>
+                <div class="hw-meta">
+                    <span class="hw-status status-upcoming">Coming Soon</span>
+                    <span class="hw-due">Lectures 9-10</span>
+                </div>
+            </div>
+
+            <div class="hw-card locked">
+                <div class="hw-number">4</div>
+                <div class="hw-info">
+                    <h3>Derivatives & Change</h3>
+                    <p>Derivatives, rates, optimization</p>
+                </div>
+                <div class="hw-meta">
+                    <span class="hw-status status-upcoming">Coming Soon</span>
+                    <span class="hw-due">Lectures 11-14</span>
+                </div>
+            </div>
+
+            <div class="hw-card locked">
+                <div class="hw-number">5</div>
+                <div class="hw-info">
+                    <h3>Integrals & Accumulation</h3>
+                    <p>Integration, work, total energy</p>
+                </div>
+                <div class="hw-meta">
+                    <span class="hw-status status-upcoming">Coming Soon</span>
+                    <span class="hw-due">Lectures 17-18</span>
+                </div>
+            </div>
+
+            <div class="hw-card locked">
+                <div class="hw-number">6</div>
+                <div class="hw-info">
+                    <h3>Probability & Distributions</h3>
+                    <p>Probability, Boltzmann, error analysis</p>
+                </div>
+                <div class="hw-meta">
+                    <span class="hw-status status-upcoming">Coming Soon</span>
+                    <span class="hw-due">Lectures 20-23</span>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
