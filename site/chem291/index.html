@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHEM 291: Math for Chemistry | The Beakers</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a24;
+            --bg-card: #16161f;
+            --text-primary: #e8e6e3;
+            --text-secondary: #a0a0a0;
+            --text-muted: #6b6b6b;
+            --accent-teal: #14b8a6;
+            --accent-cyan: #06b6d4;
+            --accent-blue: #4a9eff;
+            --accent-purple: #8b5cf6;
+            --accent-green: #10b981;
+            --accent-orange: #f59e0b;
+            --accent-red: #ef4444;
+            --accent-pink: #ec4899;
+            --accent-yellow: #eab308;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Animated background */
+        .bg-animation {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: -1;
+            background:
+                radial-gradient(ellipse at 20% 20%, rgba(20, 184, 166, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(6, 182, 212, 0.08) 0%, transparent 50%);
+        }
+
+        /* Header */
+        header {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--bg-tertiary);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover { color: var(--accent-teal); }
+
+        .header-nav {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--text-primary);
+            background: var(--bg-tertiary);
+        }
+
+        .nav-link.active {
+            color: var(--accent-teal);
+            background: rgba(20, 184, 166, 0.1);
+        }
+
+        .course-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent-teal);
+            background: rgba(20, 184, 166, 0.15);
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+        }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 4rem 2rem 3rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--accent-teal), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero .subtitle {
+            font-size: 1.4rem;
+            color: var(--text-secondary);
+            font-style: italic;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero .description {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            line-height: 1.8;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .hero-stat {
+            text-align: center;
+        }
+
+        .hero-stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-teal);
+        }
+
+        .hero-stat-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Quick nav */
+        .quick-nav {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .quick-nav-btn {
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--bg-tertiary);
+            color: var(--text-primary);
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .quick-nav-btn:hover {
+            border-color: var(--accent-teal);
+            background: rgba(20, 184, 166, 0.1);
+        }
+
+        /* Main content */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Sections */
+        .section {
+            margin-bottom: 4rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--bg-tertiary);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .section-link {
+            color: var(--accent-teal);
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .section-link:hover { text-decoration: underline; }
+
+        /* Primitives Grid */
+        .primitives-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .primitive-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--bg-tertiary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-decoration: none;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .primitive-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: var(--primitive-color);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .primitive-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--primitive-color);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .primitive-card:hover::before { opacity: 1; }
+
+        .primitive-name {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--primitive-color);
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.1em;
+        }
+
+        .primitive-perception {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .primitive-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* Modules */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .module-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--bg-tertiary);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+
+        .module-card:hover {
+            border-color: var(--module-color);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .module-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--module-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .module-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .module-question {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-style: italic;
+            margin-bottom: 1.5rem;
+        }
+
+        .module-lectures {
+            list-style: none;
+        }
+
+        .module-lectures li {
+            margin-bottom: 0.5rem;
+        }
+
+        .module-lectures a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .module-lectures a:hover {
+            color: var(--text-primary);
+            background: var(--bg-tertiary);
+        }
+
+        .lecture-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--module-color);
+            width: 24px;
+        }
+
+        .module-primitives {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--bg-tertiary);
+        }
+
+        .module-primitive-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            padding: 0.3rem 0.6rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+            color: var(--text-muted);
+        }
+
+        /* The Method */
+        .method-section {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 3rem;
+            text-align: center;
+        }
+
+        .method-flow {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+        }
+
+        .method-step {
+            background: var(--bg-tertiary);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+
+        .method-arrow {
+            color: var(--accent-teal);
+            font-size: 1.5rem;
+        }
+
+        .method-tagline {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--bg-tertiary);
+        }
+
+        footer a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        footer a:hover { color: var(--accent-teal); }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-nav { display: none; }
+            .hero-stats { gap: 1.5rem; }
+            .hero-stat-value { font-size: 2rem; }
+            .modules-grid { grid-template-columns: 1fr; }
+            .method-flow { flex-direction: column; }
+            .method-arrow { transform: rotate(90deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <header>
+        <div class="header-content">
+            <a href="../landing.html" class="back-link">← All Courses</a>
+            <nav class="header-nav">
+                <a href="#primitives" class="nav-link">Primitives</a>
+                <a href="#modules" class="nav-link">Modules</a>
+                <a href="../lectures/all-lectures.html" class="nav-link">All Lectures</a>
+            </nav>
+            <span class="course-badge">CHEM 291</span>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>Math for Chemistry</h1>
+        <p class="subtitle">The Grammar of Reality</p>
+        <p class="description">
+            A mathematics course that inverts traditional pedagogy: start with perception,
+            recognize the pattern, then summon the tool. You'll learn to see reality first —
+            the math follows naturally.
+        </p>
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <div class="hero-stat-value">24</div>
+                <div class="hero-stat-label">Lectures</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-value">9</div>
+                <div class="hero-stat-label">Primitives</div>
+            </div>
+            <div class="hero-stat">
+                <div class="hero-stat-value">3</div>
+                <div class="hero-stat-label">Modules</div>
+            </div>
+        </div>
+        <div class="quick-nav">
+            <a href="../lectures/01-orientation/" class="quick-nav-btn">Start Course →</a>
+            <a href="../lectures/all-lectures.html" class="quick-nav-btn">Browse Lectures</a>
+            <a href="#primitives" class="quick-nav-btn">View Primitives</a>
+        </div>
+    </section>
+
+    <main>
+        <!-- The Method -->
+        <section class="section method-section">
+            <h2 class="section-title">The Method</h2>
+            <div class="method-flow">
+                <div class="method-step">REALITY</div>
+                <span class="method-arrow">→</span>
+                <div class="method-step">RECOGNITION</div>
+                <span class="method-arrow">→</span>
+                <div class="method-step">TOOL</div>
+                <span class="method-arrow">→</span>
+                <div class="method-step">SOLUTION</div>
+            </div>
+            <p class="method-tagline">
+                "See the pattern in reality, then summon the mathematics."
+            </p>
+        </section>
+
+        <!-- Primitives -->
+        <section id="primitives" class="section">
+            <div class="section-header">
+                <h2 class="section-title">The Nine Primitives</h2>
+            </div>
+            <div class="primitives-grid">
+                <a href="../primitives/collection.html" class="primitive-card" style="--primitive-color: #4a9eff;">
+                    <div class="primitive-name">COLLECTION</div>
+                    <div class="primitive-perception">"There are many"</div>
+                    <div class="primitive-desc">Sets, counting, factorial, combinations. How many electrons? How many isomers?</div>
+                </a>
+                <a href="../primitives/arrangement.html" class="primitive-card" style="--primitive-color: #10b981;">
+                    <div class="primitive-name">ARRANGEMENT</div>
+                    <div class="primitive-perception">"Order matters"</div>
+                    <div class="primitive-desc">Permutations, matrices, determinants. Stereoisomers, crystal structures.</div>
+                </a>
+                <a href="../primitives/direction.html" class="primitive-card" style="--primitive-color: #ef4444;">
+                    <div class="primitive-name">DIRECTION</div>
+                    <div class="primitive-perception">"It points"</div>
+                    <div class="primitive-desc">Vectors, dot product, cross product. Bond angles, dipole moments, orbital orientation.</div>
+                </a>
+                <a href="../primitives/proximity.html" class="primitive-card" style="--primitive-color: #f59e0b;">
+                    <div class="primitive-name">PROXIMITY</div>
+                    <div class="primitive-perception">"Near vs far"</div>
+                    <div class="primitive-desc">Functions, limits, continuity. Potential energy curves, interaction ranges.</div>
+                </a>
+                <a href="../primitives/sameness.html" class="primitive-card" style="--primitive-color: #8b5cf6;">
+                    <div class="primitive-name">SAMENESS</div>
+                    <div class="primitive-perception">"Unchanged"</div>
+                    <div class="primitive-desc">Eigenvalues, symmetry, invariants. Molecular orbitals, normal modes, point groups.</div>
+                </a>
+                <a href="../primitives/change.html" class="primitive-card" style="--primitive-color: #14b8a6;">
+                    <div class="primitive-name">CHANGE</div>
+                    <div class="primitive-perception">"Becoming"</div>
+                    <div class="primitive-desc">Derivatives, partial derivatives, gradient. Reaction rates, Maxwell relations.</div>
+                </a>
+                <a href="../primitives/rate.html" class="primitive-card" style="--primitive-color: #a855f7;">
+                    <div class="primitive-name">RATE</div>
+                    <div class="primitive-perception">"How fast"</div>
+                    <div class="primitive-desc">Differential equations, first-order, second-order. Rate laws, radioactive decay.</div>
+                </a>
+                <a href="../primitives/accumulation.html" class="primitive-card" style="--primitive-color: #ec4899;">
+                    <div class="primitive-name">ACCUMULATION</div>
+                    <div class="primitive-perception">"All together"</div>
+                    <div class="primitive-desc">Integrals, definite integrals, techniques. Work (∫PdV), heat (∫CdT), total yield.</div>
+                </a>
+                <a href="../primitives/spread.html" class="primitive-card" style="--primitive-color: #06b6d4;">
+                    <div class="primitive-name">SPREAD</div>
+                    <div class="primitive-perception">"Distributed"</div>
+                    <div class="primitive-desc">Probability, distributions, variance. Boltzmann, Maxwell-Boltzmann, quantum averages.</div>
+                </a>
+            </div>
+        </section>
+
+        <!-- Modules -->
+        <section id="modules" class="section">
+            <div class="section-header">
+                <h2 class="section-title">Three Modules</h2>
+                <a href="../lectures/all-lectures.html" class="section-link">View all lectures →</a>
+            </div>
+            <div class="modules-grid">
+                <!-- Module 1: Structure -->
+                <div class="module-card" style="--module-color: #4a9eff;">
+                    <div class="module-number">MODULE 1</div>
+                    <h3 class="module-title">Structure</h3>
+                    <p class="module-question">"What is a molecule?"</p>
+                    <ul class="module-lectures">
+                        <li><a href="../lectures/01-orientation/"><span class="lecture-num">01</span> Orientation — Seeing</a></li>
+                        <li><a href="../lectures/02-existence/"><span class="lecture-num">02</span> Existence — What Kinds of Numbers?</a></li>
+                        <li><a href="../lectures/03-collection/"><span class="lecture-num">03</span> Counting Things</a></li>
+                        <li><a href="../lectures/04-direction/"><span class="lecture-num">04</span> Bonds Point</a></li>
+                        <li><a href="../lectures/05-arrangement/"><span class="lecture-num">05</span> Angles & Projections</a></li>
+                        <li><a href="../lectures/06-coordinates/"><span class="lecture-num">06</span> Coordinates & Basis</a></li>
+                        <li><a href="../lectures/07-matrices/"><span class="lecture-num">07</span> Grids of Numbers</a></li>
+                        <li><a href="../lectures/08-transformations/"><span class="lecture-num">08</span> Transformations</a></li>
+                        <li><a href="../lectures/09-invariance/"><span class="lecture-num">09</span> Invariance & Symmetry</a></li>
+                        <li><a href="../lectures/10-eigenvalues/"><span class="lecture-num">10</span> Eigenvalues</a></li>
+                    </ul>
+                    <div class="module-primitives">
+                        <span class="module-primitive-tag">COLLECTION</span>
+                        <span class="module-primitive-tag">ARRANGEMENT</span>
+                        <span class="module-primitive-tag">DIRECTION</span>
+                        <span class="module-primitive-tag">SAMENESS</span>
+                    </div>
+                </div>
+
+                <!-- Module 2: Change -->
+                <div class="module-card" style="--module-color: #14b8a6;">
+                    <div class="module-number">MODULE 2</div>
+                    <h3 class="module-title">Change</h3>
+                    <p class="module-question">"How do things transform?"</p>
+                    <ul class="module-lectures">
+                        <li><a href="../lectures/11-functions-limits/"><span class="lecture-num">11</span> Functions & Limits</a></li>
+                        <li><a href="../lectures/12-derivative/"><span class="lecture-num">12</span> The Derivative</a></li>
+                        <li><a href="../lectures/13-rules/"><span class="lecture-num">13</span> Rules of Differentiation</a></li>
+                        <li><a href="../lectures/14-extrema/"><span class="lecture-num">14</span> Extrema & Optimization</a></li>
+                        <li><a href="../lectures/15-partial/"><span class="lecture-num">15</span> Partial Derivatives</a></li>
+                        <li><a href="../lectures/16-taylor-lagrange/"><span class="lecture-num">16</span> Taylor Series</a></li>
+                        <li><a href="../lectures/17-integrals/"><span class="lecture-num">17</span> The Integral</a></li>
+                        <li><a href="../lectures/18-integration-techniques/"><span class="lecture-num">18</span> Integration Techniques</a></li>
+                        <li><a href="../lectures/19-diff-eq/"><span class="lecture-num">19</span> Differential Equations</a></li>
+                    </ul>
+                    <div class="module-primitives">
+                        <span class="module-primitive-tag">PROXIMITY</span>
+                        <span class="module-primitive-tag">CHANGE</span>
+                        <span class="module-primitive-tag">RATE</span>
+                        <span class="module-primitive-tag">ACCUMULATION</span>
+                    </div>
+                </div>
+
+                <!-- Module 3: Probability -->
+                <div class="module-card" style="--module-color: #8b5cf6;">
+                    <div class="module-number">MODULE 3</div>
+                    <h3 class="module-title">Probability</h3>
+                    <p class="module-question">"What happens with many particles?"</p>
+                    <ul class="module-lectures">
+                        <li><a href="../lectures/20-probability/"><span class="lecture-num">20</span> Probability Fundamentals</a></li>
+                        <li><a href="../lectures/21-distributions/"><span class="lecture-num">21</span> Distributions</a></li>
+                        <li><a href="../lectures/22-error/"><span class="lecture-num">22</span> Error Analysis</a></li>
+                        <li><a href="../lectures/23-dimensions/"><span class="lecture-num">23</span> Dimensional Analysis</a></li>
+                        <li><a href="../lectures/24-synthesis/"><span class="lecture-num">24</span> Synthesis</a></li>
+                    </ul>
+                    <div class="module-primitives">
+                        <span class="module-primitive-tag">SPREAD</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bonus -->
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">Bonus Content</h2>
+            </div>
+            <div class="primitives-grid">
+                <a href="../lectures/bonus-fourier/" class="primitive-card" style="--primitive-color: #f59e0b;">
+                    <div class="primitive-name">BONUS</div>
+                    <div class="primitive-perception">Fourier Analysis</div>
+                    <div class="primitive-desc">Transform between conjugate domains. FT-IR, NMR, time ↔ frequency, uncertainty principle.</div>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>The Beakers | course.thebeakers.com</p>
+        <p style="margin-top: 0.5rem;">
+            <a href="https://github.com/khatvangi/chemical-thinking-math-skills" target="_blank">GitHub</a>
+            &nbsp;·&nbsp;
+            <a href="../protein-raga.html">Protein Raga</a>
+        </p>
+    </footer>
+</body>
+</html>

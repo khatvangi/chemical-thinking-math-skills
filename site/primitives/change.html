@@ -318,9 +318,72 @@
             .container { padding: 0 1rem; }
             .visual-container { padding: 1rem; }
         }
+    
+        /* Course Navigation */
+        .course-nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(10, 10, 15, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-subtle, rgba(255,255,255,0.08));
+            padding: 0.75rem 1.5rem;
+        }
+        .course-nav-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+        .course-nav a {
+            color: var(--text-secondary, #8B949E);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.2s;
+        }
+        .course-nav a:hover {
+            color: #14b8a6;
+        }
+        .nav-breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .nav-breadcrumb .sep {
+            color: var(--text-muted, #6e7681);
+        }
+        .nav-primitive-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
     </style>
 </head>
 <body>
+    <nav class="course-nav">
+        <div class="course-nav-inner">
+            <div class="nav-breadcrumb">
+                <a href="../chem291/">CHEM 291</a>
+                <span class="sep">/</span>
+                <a href="../chem291/#primitives">Primitives</a>
+                <span class="sep">/</span>
+                <span class="nav-primitive-badge" style="color: #14b8a6; background: #14b8a622;">CHANGE</span>
+            </div>
+            <div class="nav-links">
+                <a href="../lectures/all-lectures.html">All Lectures</a>
+            </div>
+        </div>
+    </nav>
+
     <header class="header">
         <div class="header-label">Primitive VI</div>
         <h1>CHANGE</h1>
