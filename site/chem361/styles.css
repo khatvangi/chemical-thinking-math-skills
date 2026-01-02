@@ -1,15 +1,19 @@
 :root {
-  color-scheme: light;
-  --bg: #f2efe9;
-  --bg-deep: #e6ded1;
-  --ink: #1c1b1a;
-  --muted: #5e5a55;
-  --accent: #d66b2d;
-  --accent-dark: #a54c1c;
-  --cool: #0f3d3e;
-  --panel: #fbfaf7;
-  --panel-shadow: 0 30px 60px -40px rgba(0, 0, 0, 0.35);
-  --stroke: rgba(28, 27, 26, 0.12);
+  color-scheme: dark;
+  --bg: #0a0a0f;
+  --bg-deep: #12121a;
+  --ink: #e8e6e3;
+  --muted: #a8a5a0;
+  --accent: #e07a3d;
+  --accent-dark: #c55a20;
+  --cool: #4a9eff;
+  --panel: #1a1a24;
+  --panel-shadow: 0 30px 60px -40px rgba(0, 0, 0, 0.8);
+  --stroke: rgba(255, 255, 255, 0.1);
+  --success-bg: #0d2818;
+  --success-text: #4ade80;
+  --error-bg: #2d1215;
+  --error-text: #f87171;
 }
 
 * {
@@ -20,17 +24,46 @@ body {
   margin: 0;
   font-family: "Space Grotesk", sans-serif;
   color: var(--ink);
-  background: radial-gradient(circle at top, #ffffff, var(--bg));
+  background: var(--bg);
   min-height: 100vh;
 }
 
 .noise {
   position: fixed;
   inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg width='120' height='120' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg width='120' height='120' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
   pointer-events: none;
   z-index: -1;
 }
+
+/* Navigation */
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 8vw;
+  border-bottom: 1px solid var(--stroke);
+}
+
+.nav-back {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.2s;
+}
+
+.nav-back:hover { color: var(--accent); }
+
+.nav-course {
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 0.85rem;
+}
+
+.nav-course:hover { text-decoration: underline; }
 
 .hero {
   display: grid;
@@ -337,7 +370,7 @@ body {
   margin: 0 auto;
   border-radius: 24px;
   border: 1px dashed var(--stroke);
-  background: radial-gradient(circle, #fff, var(--bg));
+  background: radial-gradient(circle, var(--bg-deep), var(--bg));
 }
 
 .diagram-actions {
@@ -358,7 +391,7 @@ body {
   padding: 16px;
   border-radius: 20px;
   border: 1px solid var(--stroke);
-  background: #fff;
+  background: var(--bg-deep);
 }
 
 .viewer-header {
@@ -385,7 +418,7 @@ body {
   height: 260px;
   border-radius: 16px;
   border: 1px solid var(--stroke);
-  background: radial-gradient(circle at top, #ffffff, var(--bg));
+  background: #1e1e2a;
 }
 
 .viewer-note {
@@ -415,11 +448,11 @@ body {
   width: 70px;
   padding: 6px 8px;
   border-radius: 16px;
-  background: #fff;
+  background: var(--panel);
   border: 1px solid var(--stroke);
   text-align: center;
   font-size: 0.9rem;
-  box-shadow: 0 10px 20px -16px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 10px 20px -16px rgba(0, 0, 0, 0.6);
 }
 
 .ligand.top {
@@ -449,13 +482,15 @@ body {
 .ligand.front {
   left: 24px;
   top: 24px;
-  background: #fef3e9;
+  background: rgba(224, 122, 61, 0.15);
+  border-color: rgba(224, 122, 61, 0.3);
 }
 
 .ligand.back {
   right: 24px;
   bottom: 24px;
-  background: #eef6f6;
+  background: rgba(74, 158, 255, 0.15);
+  border-color: rgba(74, 158, 255, 0.3);
 }
 
 .answer-label {
@@ -473,6 +508,14 @@ body {
   border: 1px solid var(--stroke);
   font-size: 1rem;
   font-family: inherit;
+  background: var(--bg-deep);
+  color: var(--ink);
+}
+
+#answerInput:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(224, 122, 61, 0.2);
 }
 
 .answer-actions {
@@ -484,19 +527,19 @@ body {
   margin-top: 14px;
   padding: 12px 14px;
   border-radius: 16px;
-  background: #f7f6f2;
+  background: var(--bg-deep);
   color: var(--muted);
   min-height: 54px;
 }
 
 .feedback.success {
-  background: #e9f7f0;
-  color: #215c3b;
+  background: var(--success-bg);
+  color: var(--success-text);
 }
 
 .feedback.error {
-  background: #fff1f0;
-  color: #8a1f15;
+  background: var(--error-bg);
+  color: var(--error-text);
 }
 
 .progress {
@@ -549,14 +592,14 @@ body {
 }
 
 .option-button.correct {
-  background: #e9f7f0;
-  color: #215c3b;
+  background: var(--success-bg);
+  color: var(--success-text);
   border-color: transparent;
 }
 
 .option-button.wrong {
-  background: #fff1f0;
-  color: #8a1f15;
+  background: var(--error-bg);
+  color: var(--error-text);
   border-color: transparent;
 }
 
@@ -571,6 +614,8 @@ body {
   border-radius: 14px;
   border: 1px solid var(--stroke);
   font-family: inherit;
+  background: var(--bg-deep);
+  color: var(--ink);
 }
 
 .hint-chip {
@@ -648,18 +693,18 @@ body {
   border: 1px solid var(--stroke);
   display: grid;
   place-items: center;
-  background: #fff;
+  background: var(--bg-deep);
 }
 
 .orbital-slot[data-spin="up"]::after {
   content: "U";
-  color: rgba(28, 27, 26, 0.3);
+  color: rgba(255, 255, 255, 0.2);
   font-weight: 700;
 }
 
 .orbital-slot[data-spin="down"]::after {
   content: "D";
-  color: rgba(28, 27, 26, 0.3);
+  color: rgba(255, 255, 255, 0.2);
   font-weight: 700;
 }
 
@@ -676,7 +721,7 @@ body {
   padding: 12px;
   border-radius: 16px;
   border: 1px dashed var(--stroke);
-  background: #fff;
+  background: var(--bg-deep);
 }
 
 .cfse-panel {
@@ -724,7 +769,7 @@ body {
   border-radius: 16px;
   border: 1px solid var(--stroke);
   padding: 12px;
-  background: #fff;
+  background: var(--bg-deep);
 }
 
 .mo-column.overlap {
@@ -814,7 +859,8 @@ body {
   padding: 8px 14px;
   border-radius: 999px;
   border: 1px solid var(--stroke);
-  background: #fff;
+  background: var(--panel);
+  color: var(--ink);
   cursor: grab;
   font-weight: 600;
 }
@@ -830,8 +876,12 @@ body {
   padding: 22px;
   border-radius: 20px;
   border: 1px solid var(--stroke);
-  background: #fff;
+  background: var(--panel);
   color: var(--muted);
+}
+
+.info-card h3 {
+  color: var(--ink);
 }
 
 .footer {

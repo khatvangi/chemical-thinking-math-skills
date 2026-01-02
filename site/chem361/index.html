@@ -1,220 +1,437 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Coordination Nomenclature Sprint</title>
-    <link rel="stylesheet" href="styles.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;700&family=Space+Grotesk:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <div class="noise"></div>
-    <header class="hero">
-      <div class="hero-content">
-        <p class="eyebrow">Coordination Chemistry I - Chapter 1</p>
-        <h1>Coordination Nomenclature Sprint</h1>
-        <p class="subhead">
-          Master IUPAC naming with structure-first challenges. Build precision,
-          not guesses.
-        </p>
-        <div class="hero-actions">
-          <button id="startBtn" class="primary">Start Sprint</button>
-          <button id="howBtn" class="ghost">How it works</button>
-          <a class="ghost" href="coordination.html">Chapter 2: Structures</a>
-          <a class="ghost" href="isomerism.html">Chapter 3: Isomerism</a>
-          <a class="ghost" href="bonding.html">Chapter 4: Bonding + LFT</a>
-          <a class="ghost" href="reactions.html">Chapter 12: Reactions</a>
-          <a class="ghost" href="solids.html">Chapter 7: Solids</a>
-          <a class="ghost" href="lectures/index.html">Lectures</a>
-        </div>
-      </div>
-      <div class="hero-panel">
-        <div class="panel-card">
-          <p class="panel-label">Session mode</p>
-          <div class="panel-row">
-            <span>Streak target</span>
-            <strong id="targetDisplay">10</strong>
-          </div>
-          <div class="panel-row">
-            <span>Timer</span>
-            <strong id="timerDisplay">Off</strong>
-          </div>
-          <div class="panel-row">
-            <span>Geometry cues</span>
-            <strong id="geometryDisplay">On</strong>
-          </div>
-          <div class="panel-row">
-            <span>Adaptive mode</span>
-            <button id="adaptiveToggle" class="toggle">On</button>
-          </div>
-          <div class="panel-row">
-            <span>Rigor mode</span>
-            <button id="rigorToggle" class="toggle">Off</button>
-          </div>
-        </div>
-        <div class="panel-card">
-          <p class="panel-label">Difficulty</p>
-          <div class="difficulty">
-            <button class="chip active" data-difficulty="all">All</button>
-            <button class="chip" data-difficulty="intro">Intro</button>
-            <button class="chip" data-difficulty="core">Core</button>
-            <button class="chip" data-difficulty="advanced">Advanced</button>
-          </div>
-        </div>
-        <div class="panel-card">
-          <p class="panel-label">Skill focus</p>
-          <ul>
-            <li>Ligand ordering and prefixes</li>
-            <li>Oxidation state inference</li>
-            <li>Charge balance and counter ions</li>
-            <li>Geometry recognition</li>
-          </ul>
-        </div>
-      </div>
-    </header>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHEM 361: Inorganic Chemistry | The Beakers</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a24;
+            --text-primary: #e8e6e3;
+            --text-secondary: #a8a5a0;
+            --text-muted: #6b6966;
+            --accent-orange: #e07a3d;
+            --accent-purple: #8b5cf6;
+            --accent-blue: #4a9eff;
+            --accent-green: #10b981;
+            --border: rgba(255,255,255,0.08);
+        }
 
-    <main class="game">
-      <section class="chapter-intro">
-        <div class="intro-card">
-          <h3>Nomenclature rules at a glance</h3>
-          <ul class="rule-list">
-            <li>List ligands alphabetically by ligand name (ignore prefixes).</li>
-            <li>Neutral ligands keep name; anionic ligands end in -o.</li>
-            <li>Anionic complexes use metal name with -ate ending.</li>
-            <li>Metal oxidation state in Roman numerals.</li>
-            <li>Use cis/trans, fac/mer, kappa, and mu for structure when needed.</li>
-          </ul>
-        </div>
-        <div class="chart-grid">
-          <div class="chart-card">
-            <p class="panel-label">Naming workflow</p>
-            <img
-              src="assets/nomenclature/fig-079.png"
-              alt="IUPAC naming workflow for coordination compounds"
-              class="chart-image"
-            />
-          </div>
-          <div class="chart-card">
-            <p class="panel-label">Ligand denticity</p>
-            <img
-              src="assets/nomenclature/fig-005.png"
-              alt="Examples of bi-, tri-, tetra-, penta-, hexa-, hepta-, and octadentate ligands"
-              class="chart-image"
-            />
-          </div>
-        </div>
-      </section>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-      <section class="game-board" aria-live="polite">
-        <div class="question-card">
-          <div class="question-header">
-            <span class="badge" id="questionType">2D structure</span>
-            <span class="badge muted" id="difficultyBadge">Core</span>
-            <span class="badge muted" id="geometryHint">Octahedral</span>
-          </div>
-          <h2 id="questionPrompt">[Cr(NH3)4Cl2]Cl</h2>
-          <p class="question-note" id="questionNote">
-            Provide the full IUPAC name. Include oxidation state, ligand order,
-            and counter ion.
-          </p>
-          <div class="diagram" id="diagram">
-            <div class="central">Cr</div>
-            <div class="ligand top">NH3</div>
-            <div class="ligand bottom">NH3</div>
-            <div class="ligand left">NH3</div>
-            <div class="ligand right">NH3</div>
-            <div class="ligand front">Cl-</div>
-            <div class="ligand back">Cl-</div>
-          </div>
-          <div class="diagram-actions">
-            <button id="compareBtn" class="ghost small">Compare isomer</button>
-            <span id="compareLabel" class="diagram-label"></span>
-          </div>
-          <div class="viewer-card">
-            <div class="viewer-header">
-              <span class="badge muted">3D model</span>
-              <div class="viewer-controls">
-                <button id="labelToggle" class="chip small active">Labels</button>
-                <button id="colorToggle" class="chip small" data-color-mode="donor">
-                  Color: donor
-                </button>
-              </div>
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Navigation */
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 3rem;
+        }
+
+        .nav-back {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .nav-back:hover { color: var(--accent-orange); }
+
+        .nav-title {
+            font-family: 'Fraunces', serif;
+            font-size: 1.1rem;
+            color: var(--text-muted);
+        }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 3rem 0 4rem;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(74, 158, 255, 0.15));
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--accent-purple);
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.05em;
+        }
+
+        .hero h1 {
+            font-family: 'Fraunces', serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 600;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Section Headers */
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 3rem 0 1.5rem;
+        }
+
+        .section-header h2 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .section-line {
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        /* Game Cards Grid */
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .game-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-orange), var(--accent-purple));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .game-card:hover {
+            border-color: rgba(224, 122, 61, 0.3);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -20px rgba(0,0,0,0.5);
+        }
+
+        .game-card:hover::before { opacity: 1; }
+
+        .game-chapter {
+            font-size: 0.75rem;
+            color: var(--accent-orange);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+        }
+
+        .game-title {
+            font-family: 'Fraunces', serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .game-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .game-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .game-feature {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.6rem;
+            background: var(--bg-tertiary);
+            border-radius: 12px;
+            color: var(--text-muted);
+        }
+
+        /* Lectures Section */
+        .lectures-card {
+            background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .lectures-card h3 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .lecture-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .lecture-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--bg-primary);
+            border-radius: 12px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.2s;
+        }
+
+        .lecture-item:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .lecture-number {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-tertiary);
+            border-radius: 10px;
+            font-weight: 600;
+            color: var(--accent-blue);
+            font-size: 0.9rem;
+        }
+
+        .lecture-info h4 {
+            font-size: 0.95rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .lecture-info span {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 3rem 0;
+            margin-top: 4rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .footer a {
+            color: var(--accent-orange);
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 1rem; }
+            .games-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="nav">
+            <a href="https://course.thebeakers.com" class="nav-back">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M15 18l-6-6 6-6"/>
+                </svg>
+                Back to Course Hub
+            </a>
+            <span class="nav-title">The Beakers</span>
+        </nav>
+
+        <header class="hero">
+            <span class="hero-badge">Coordination Chemistry</span>
+            <h1>CHEM 361: Inorganic Chemistry</h1>
+            <p>Master coordination compounds through interactive games and visual lectures. From nomenclature to ligand field theory.</p>
+        </header>
+
+        <section>
+            <div class="section-header">
+                <h2>Interactive Games</h2>
+                <div class="section-line"></div>
             </div>
-            <div id="viewer3d" class="viewer3d"></div>
-            <p class="viewer-note" id="viewerNote">
-              3D view shows coordination geometry and ligand positions.
-            </p>
-          </div>
-        </div>
-        <div class="answer-card">
-          <label class="answer-label" for="answerInput">IUPAC name</label>
-          <input
-            id="answerInput"
-            type="text"
-            placeholder="e.g., tetraammine dichlorochromium(III) chloride"
-            autocomplete="off"
-            spellcheck="false"
-          />
-          <div class="answer-actions">
-            <button id="submitBtn" class="primary">Check</button>
-            <button id="skipBtn" class="ghost">Skip</button>
-          </div>
-          <div class="feedback" id="feedback"></div>
-          <div class="progress">
-            <div>
-              <span class="progress-label">Streak</span>
-              <span id="streak">0</span>
-            </div>
-            <div>
-              <span class="progress-label">Accuracy</span>
-              <span id="accuracy">0%</span>
-            </div>
-            <div>
-              <span class="progress-label">Questions</span>
-              <span id="questionCount">0</span>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      <section class="info" id="howItWorks">
-        <div class="info-card">
-          <h3>How the sprint works</h3>
-          <p>
-            Each prompt gives a coordination formula and a visual cue. Type the
-            IUPAC name following ligand ordering, multiplicative prefixes, and
-            oxidation state in parentheses. Adaptive mode queues a similar
-            prompt after a miss.
-          </p>
-        </div>
-        <div class="info-card">
-          <h3>Scoring</h3>
-          <p>
-            The grader checks ligand order, ligand identity, metal name,
-            oxidation state, and counter ion. Small punctuation differences are
-            forgiven; ordering mistakes are not.
-          </p>
-        </div>
-        <div class="info-card">
-          <h3>Next upgrades</h3>
-          <p>
-            Add the "Build It" mode: drag ligands onto a geometry scaffold and
-            earn points for correct coordination number and naming.
-          </p>
-        </div>
-      </section>
-    </main>
+            <div class="games-grid">
+                <a href="nomenclature.html" class="game-card">
+                    <div class="game-chapter">Chapter 9.3</div>
+                    <div class="game-title">Nomenclature Sprint</div>
+                    <div class="game-desc">Master IUPAC naming with structure-first challenges. 3D models and adaptive learning.</div>
+                    <div class="game-features">
+                        <span class="game-feature">50+ compounds</span>
+                        <span class="game-feature">3D viewer</span>
+                        <span class="game-feature">Adaptive</span>
+                    </div>
+                </a>
 
-    <footer class="footer">
-      <p>Coordination Chemistry - Undergraduate rigor - IUPAC aligned</p>
-    </footer>
+                <a href="coordination.html" class="game-card">
+                    <div class="game-chapter">Chapter 9.5</div>
+                    <div class="game-title">Coordination Structures</div>
+                    <div class="game-desc">Explore coordination numbers 2-8. Build geometries and resolve ambiguities.</div>
+                    <div class="game-features">
+                        <span class="game-feature">CN 2-8</span>
+                        <span class="game-feature">Geometry match</span>
+                        <span class="game-feature">Build mode</span>
+                    </div>
+                </a>
 
-    <script src="https://cdn.jsdelivr.net/npm/3dmol@2.0.4/build/3Dmol-min.js"></script>
-    <script src="app.js"></script>
-  </body>
+                <a href="isomerism.html" class="game-card">
+                    <div class="game-chapter">Chapter 9.4</div>
+                    <div class="game-title">Isomerism Lab</div>
+                    <div class="game-desc">Geometric, optical, and structural isomers. Mirror views for chirality.</div>
+                    <div class="game-features">
+                        <span class="game-feature">cis/trans</span>
+                        <span class="game-feature">fac/mer</span>
+                        <span class="game-feature">Lambda/Delta</span>
+                    </div>
+                </a>
+
+                <a href="bonding.html" class="game-card">
+                    <div class="game-chapter">Chapter 10</div>
+                    <div class="game-title">Bonding & LFT</div>
+                    <div class="game-desc">Ligand Field Theory, orbital diagrams, spectrochemical series, CFSE calculations.</div>
+                    <div class="game-features">
+                        <span class="game-feature">MO builder</span>
+                        <span class="game-feature">CFSE calc</span>
+                        <span class="game-feature">Spectra</span>
+                    </div>
+                </a>
+
+                <a href="reactions.html" class="game-card">
+                    <div class="game-chapter">Chapter 12</div>
+                    <div class="game-title">Reactions & Mechanisms</div>
+                    <div class="game-desc">D, I, A mechanisms. Rate laws, pathway prediction, stereochemical outcomes.</div>
+                    <div class="game-features">
+                        <span class="game-feature">Mechanisms</span>
+                        <span class="game-feature">Kinetics</span>
+                        <span class="game-feature">Stereo</span>
+                    </div>
+                </a>
+
+                <a href="solids.html" class="game-card">
+                    <div class="game-chapter">Chapter 7</div>
+                    <div class="game-title">Crystalline Solids</div>
+                    <div class="game-desc">Lattice structures, band theory, ionic crystals. Unit cells and packing.</div>
+                    <div class="game-features">
+                        <span class="game-feature">Lattices</span>
+                        <span class="game-feature">Band theory</span>
+                        <span class="game-feature">Ionic</span>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <section>
+            <div class="section-header">
+                <h2>Lecture Series</h2>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="lectures-card">
+                <h3>75-Minute Interactive Lectures</h3>
+                <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Each lecture includes micro-demos, reveal animations, and interactive sorters.</p>
+
+                <div class="lecture-list">
+                    <a href="lectures/lecture-9-3-nomenclature.html" class="lecture-item">
+                        <div class="lecture-number">9.3</div>
+                        <div class="lecture-info">
+                            <h4>Nomenclature & Ligands</h4>
+                            <span>IUPAC naming conventions</span>
+                        </div>
+                    </a>
+                    <a href="lectures/lecture-9-4-isomerism.html" class="lecture-item">
+                        <div class="lecture-number">9.4</div>
+                        <div class="lecture-info">
+                            <h4>Isomerism</h4>
+                            <span>Geometric & optical isomers</span>
+                        </div>
+                    </a>
+                    <a href="lectures/lecture-9-5-coordination.html" class="lecture-item">
+                        <div class="lecture-number">9.5</div>
+                        <div class="lecture-info">
+                            <h4>Coordination Structures</h4>
+                            <span>CN and geometries</span>
+                        </div>
+                    </a>
+                    <a href="lectures/lecture-10-bonding.html" class="lecture-item">
+                        <div class="lecture-number">10</div>
+                        <div class="lecture-info">
+                            <h4>Bonding & LFT</h4>
+                            <span>Ligand field theory</span>
+                        </div>
+                    </a>
+                    <a href="lectures/lecture-12-reactions.html" class="lecture-item">
+                        <div class="lecture-number">12</div>
+                        <div class="lecture-info">
+                            <h4>Reactions & Mechanisms</h4>
+                            <span>Substitution kinetics</span>
+                        </div>
+                    </a>
+                    <a href="lectures/lecture-7-solids.html" class="lecture-item">
+                        <div class="lecture-number">7</div>
+                        <div class="lecture-info">
+                            <h4>Crystalline Solids</h4>
+                            <span>Structure & bonding</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <p>CHEM 361: Inorganic Chemistry | <a href="https://course.thebeakers.com">The Beakers</a></p>
+            <p style="margin-top: 0.5rem;">Based on LibreTexts Inorganic Chemistry</p>
+        </footer>
+    </div>
+</body>
 </html>
