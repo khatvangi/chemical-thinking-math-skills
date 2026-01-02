@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Crystalline Solids Lab</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;700&family=Space+Grotesk:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="noise"></div>
+    <header class="hero">
+      <div class="hero-content">
+        <p class="eyebrow">Solid State - Chapter 7</p>
+        <h1>Crystalline Solids Lab</h1>
+        <p class="subhead">
+          Identify unit cells, packing efficiencies, and lattice systems through
+          interactive drills.
+        </p>
+        <div class="hero-actions">
+          <a class="primary" href="index.html">Back to Chapter 1</a>
+          <a class="ghost" href="lectures/lecture-7-solids.html">Lecture 7</a>
+        </div>
+      </div>
+      <div class="hero-panel">
+        <div class="panel-card">
+          <p class="panel-label">Session mode</p>
+          <div class="panel-row">
+            <span>Adaptive mode</span>
+            <button id="adaptiveToggle" class="toggle">On</button>
+          </div>
+          <div class="panel-row">
+            <span>Rigor mode</span>
+            <button id="rigorToggle" class="toggle">Off</button>
+          </div>
+        </div>
+        <div class="panel-card">
+          <p class="panel-label">Focus</p>
+          <ul>
+            <li>Unit cell identification</li>
+            <li>Atom counting per cell</li>
+            <li>Packing efficiency</li>
+            <li>Bravais lattice families</li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <main class="game">
+      <section class="chapter-intro">
+        <div class="intro-card">
+          <h3>Rules of the lattice</h3>
+          <ul class="rule-list">
+            <li>Simple cubic: 1 atom, CN 6, 52% packing.</li>
+            <li>Body-centered cubic: 2 atoms, CN 8, 68% packing.</li>
+            <li>Face-centered cubic: 4 atoms, CN 12, 74% packing.</li>
+          </ul>
+        </div>
+        <div class="chart-grid">
+          <div class="chart-card">
+            <p class="panel-label">Cubic unit cells</p>
+            <img
+              src="assets/solids/lattice-013.png"
+              alt="Cubic unit cell types"
+              class="chart-image"
+            />
+          </div>
+          <div class="chart-card">
+            <p class="panel-label">Close packing</p>
+            <img
+              src="assets/solids/lattice-017.png"
+              alt="Cubic close packing"
+              class="chart-image"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section class="mode-tabs">
+        <button class="chip active" data-mode="identify">Unit Cell ID</button>
+        <button class="chip" data-mode="count">Atom Counting</button>
+        <button class="chip" data-mode="packing">Packing Efficiency</button>
+        <button class="chip" data-mode="lattice">Lattice Systems</button>
+      </section>
+
+      <section class="game-board" aria-live="polite">
+        <div class="question-card">
+          <div class="question-header">
+            <span class="badge" id="modeBadge">Unit Cell ID</span>
+            <span class="badge muted" id="promptBadge">Cubic</span>
+          </div>
+          <h2 id="promptTitle">Identify the unit cell</h2>
+          <p class="question-note" id="promptNote">Use the figure to decide the lattice.</p>
+          <div class="viewer-card" id="diagramPanel"></div>
+        </div>
+
+        <div class="answer-card">
+          <div id="answerZone"></div>
+          <div class="answer-actions">
+            <button id="checkBtn" class="primary">Check</button>
+            <button id="nextBtn" class="ghost">Next</button>
+          </div>
+          <div class="feedback" id="feedback"></div>
+          <div class="progress">
+            <div>
+              <span class="progress-label">Streak</span>
+              <span id="streak">0</span>
+            </div>
+            <div>
+              <span class="progress-label">Accuracy</span>
+              <span id="accuracy">0%</span>
+            </div>
+            <div>
+              <span class="progress-label">Questions</span>
+              <span id="questionCount">0</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>Crystalline solids - unit cells and packing</p>
+    </footer>
+
+    <script src="solids.js"></script>
+  </body>
+</html>

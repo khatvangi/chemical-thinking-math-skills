@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Coordination Numbers and Structures</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;700&family=Space+Grotesk:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="noise"></div>
+    <header class="hero">
+      <div class="hero-content">
+        <p class="eyebrow">Coordination Chemistry I - Chapter 2</p>
+        <h1>Coordination Numbers and Structures</h1>
+        <p class="subhead">
+          Geometry recognition, coordination number inference, and structure
+          reasoning with 3D models.
+        </p>
+        <div class="hero-actions">
+          <a class="primary" href="index.html">Back to Nomenclature Sprint</a>
+          <button id="resetBtn" class="ghost">Reset session</button>
+          <a class="ghost" href="isomerism.html">Chapter 3: Isomerism</a>
+          <a class="ghost" href="bonding.html">Chapter 4: Bonding + LFT</a>
+        </div>
+      </div>
+      <div class="hero-panel">
+        <div class="panel-card">
+          <p class="panel-label">Session mode</p>
+          <div class="panel-row">
+            <span>Adaptive mode</span>
+            <button id="adaptiveToggle" class="toggle">On</button>
+          </div>
+          <div class="panel-row">
+            <span>Rigor mode</span>
+            <button id="rigorToggle" class="toggle">Off</button>
+          </div>
+          <div class="panel-row">
+            <span>Label helper</span>
+            <button id="labelToggle" class="toggle">On</button>
+          </div>
+        </div>
+        <div class="panel-card">
+          <p class="panel-label">Skill focus</p>
+          <ul>
+            <li>Coordination number from denticity</li>
+            <li>Geometry mapping and ambiguity</li>
+            <li>Rare structures (CN 5-8)</li>
+            <li>3D recognition under pressure</li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <main class="game">
+      <section class="chapter-intro">
+        <div class="intro-card">
+          <h3>Coordination numbers and structures</h3>
+          <ul class="rule-list">
+            <li>Coordination number equals total donor atoms bound.</li>
+            <li>CN 2, 4, 6 dominate; 5, 7, 8, 9 are less common but important.</li>
+            <li>Square planar vs tetrahedral depends on metal and ligand field.</li>
+            <li>Use 3D geometry to distinguish TBP vs square pyramidal.</li>
+          </ul>
+        </div>
+        <div class="chart-grid">
+          <div class="chart-card">
+            <p class="panel-label">Geometry by coordination number</p>
+            <img
+              src="assets/coordination/fig-004.png"
+              alt="Lowest repulsion geometries for coordination numbers 2 through 9"
+              class="chart-image"
+            />
+          </div>
+          <div class="chart-card">
+            <p class="panel-label">Kepert preferred geometries</p>
+            <img
+              src="assets/coordination/fig-006.png"
+              alt="Kepert preferred and accessible geometries"
+              class="chart-image"
+            />
+          </div>
+          <div class="chart-card">
+            <p class="panel-label">Metal preferences</p>
+            <img
+              src="assets/coordination/fig-002.png"
+              alt="Coordination numbers by metal and oxidation state"
+              class="chart-image"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section class="mode-tabs">
+        <button class="chip active" data-mode="match">Geometry Match</button>
+        <button class="chip" data-mode="build">Build the Sphere</button>
+        <button class="chip" data-mode="ambiguity">Ambiguity Challenge</button>
+        <button class="chip" data-mode="rare">Rare Structures Lab</button>
+      </section>
+
+      <section class="game-board" aria-live="polite">
+        <div class="question-card">
+          <div class="question-header">
+            <span class="badge" id="modeBadge">Geometry Match</span>
+            <span class="badge muted" id="cnBadge">CN 6</span>
+            <span class="badge muted" id="geometryBadge">Octahedral</span>
+          </div>
+          <h2 id="promptTitle">[Co(en)2Cl2]+</h2>
+          <p class="question-note" id="promptNote">
+            Determine coordination number and geometry.
+          </p>
+          <div class="viewer-card">
+            <div class="viewer-header">
+              <span class="badge muted">3D model</span>
+              <div class="viewer-controls">
+                <button id="colorToggle" class="chip small" data-color-mode="donor">
+                  Color: donor
+                </button>
+              </div>
+            </div>
+            <div id="viewer3d" class="viewer3d"></div>
+            <p class="viewer-note" id="viewerNote">
+              3D view shows coordination geometry and ligand positions.
+            </p>
+          </div>
+        </div>
+
+        <div class="answer-card">
+          <div id="answerZone"></div>
+          <div class="answer-actions">
+            <button id="checkBtn" class="primary">Check</button>
+            <button id="nextBtn" class="ghost">Next</button>
+          </div>
+          <div class="feedback" id="feedback"></div>
+          <div class="progress">
+            <div>
+              <span class="progress-label">Streak</span>
+              <span id="streak">0</span>
+            </div>
+            <div>
+              <span class="progress-label">Accuracy</span>
+              <span id="accuracy">0%</span>
+            </div>
+            <div>
+              <span class="progress-label">Questions</span>
+              <span id="questionCount">0</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>Coordination Chemistry - Structures and coordination numbers</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/3dmol@2.0.4/build/3Dmol-min.js"></script>
+    <script src="coordination.js"></script>
+  </body>
+</html>

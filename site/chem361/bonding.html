@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bonding and Ligand Field Theory</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;700&family=Space+Grotesk:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="noise"></div>
+    <header class="hero">
+      <div class="hero-content">
+        <p class="eyebrow">Coordination Chemistry II - Chapter 4</p>
+        <h1>Bonding and Ligand Field Theory</h1>
+        <p class="subhead">
+          Build orbital diagrams, predict spin states, and connect ligand types
+          to splitting and spectra.
+        </p>
+        <div class="hero-actions">
+          <a class="primary" href="index.html">Back to Chapter 1</a>
+          <a class="ghost" href="coordination.html">Chapter 2: Structures</a>
+          <a class="ghost" href="isomerism.html">Chapter 3: Isomerism</a>
+        </div>
+      </div>
+      <div class="hero-panel">
+        <div class="panel-card">
+          <p class="panel-label">Session mode</p>
+          <div class="panel-row">
+            <span>Adaptive mode</span>
+            <button id="adaptiveToggle" class="toggle">On</button>
+          </div>
+          <div class="panel-row">
+            <span>Rigor mode</span>
+            <button id="rigorToggle" class="toggle">Off</button>
+          </div>
+        </div>
+        <div class="panel-card">
+          <p class="panel-label">Focus</p>
+          <ul>
+            <li>Crystal-field splitting and CFSE</li>
+            <li>High vs low spin decisions</li>
+            <li>Ligand types and MO effects</li>
+            <li>Spectrochemical series</li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <main class="game">
+      <section class="chapter-intro">
+        <div class="intro-card">
+          <h3>Rules and cues</h3>
+          <ul class="rule-list">
+            <li>Octahedral splitting: t2g below eg; tetrahedral is inverted.</li>
+            <li>Strong-field ligands favor low spin, large Delta.</li>
+            <li>Square planar d8 often low spin with large splitting.</li>
+            <li>Use spectrochemical series to rank ligand strength.</li>
+          </ul>
+        </div>
+        <div class="chart-grid">
+          <div class="chart-card">
+            <p class="panel-label">Orbital splitting (octahedral)</p>
+            <img
+              src="assets/bonding/fig-10-3-2-018.png"
+              alt="Crystal field splitting and electron spin"
+              class="chart-image"
+            />
+          </div>
+          <div class="chart-card">
+            <p class="panel-label">Ligand field overview</p>
+            <img
+              src="assets/bonding/fig-10-3-1-016.png"
+              alt="Metal and ligand energy level matching"
+              class="chart-image"
+            />
+          </div>
+          <div class="chart-card">
+            <p class="panel-label">Spectrochemical series</p>
+            <img
+              src="assets/bonding/fig-10-4-4-008.png"
+              alt="Spectrochemical series with strong and weak field ligands"
+              class="chart-image"
+            />
+          </div>
+          <div class="chart-card">
+            <p class="panel-label">Tetrahedral field</p>
+            <img
+              src="assets/bonding/fig-10-3-4-001.png"
+              alt="Tetrahedral ligand field splitting"
+              class="chart-image"
+            />
+          </div>
+          <div class="chart-card">
+            <p class="panel-label">Square planar field</p>
+            <img
+              src="assets/bonding/fig-10-3-5-001.png"
+              alt="Square planar splitting diagram"
+              class="chart-image"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section class="mode-tabs">
+        <button class="chip active" data-mode="builder">Orbital Builder</button>
+        <button class="chip" data-mode="series">Spectrochemical Sprint</button>
+        <button class="chip" data-mode="mo">MO Match Lab</button>
+        <button class="chip" data-mode="spectra">Spectra Challenge</button>
+      </section>
+
+      <section class="game-board" aria-live="polite">
+        <div class="question-card">
+          <div class="question-header">
+            <span class="badge" id="modeBadge">Orbital Builder</span>
+            <span class="badge muted" id="promptBadge">d6 octahedral</span>
+          </div>
+          <h2 id="promptTitle">[Fe(H2O)6]2+</h2>
+          <p class="question-note" id="promptNote">
+            Place electrons and identify high/low spin.
+          </p>
+          <div class="diagram-toolbar">
+            <button id="overlapToggle" class="chip small">Show overlap</button>
+          </div>
+          <div class="viewer-card" id="diagramPanel"></div>
+        </div>
+
+        <div class="answer-card">
+          <div id="answerZone"></div>
+          <div class="answer-actions">
+            <button id="checkBtn" class="primary">Check</button>
+            <button id="nextBtn" class="ghost">Next</button>
+          </div>
+          <div class="feedback" id="feedback"></div>
+          <div class="progress">
+            <div>
+              <span class="progress-label">Streak</span>
+              <span id="streak">0</span>
+            </div>
+            <div>
+              <span class="progress-label">Accuracy</span>
+              <span id="accuracy">0%</span>
+            </div>
+            <div>
+              <span class="progress-label">Questions</span>
+              <span id="questionCount">0</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>Bonding and LFT - from CFT to MO reasoning</p>
+    </footer>
+
+    <script src="bonding.js"></script>
+  </body>
+</html>

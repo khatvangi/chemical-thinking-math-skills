@@ -49,7 +49,11 @@ jobs:
 
           # Copy course hub pages
           cp site/chem291/index.html site/_site/chem291/index.html
-          cp site/chem361/index.html site/_site/chem361/index.html
+
+          # Copy CHEM361 inorganic chemistry course (full directory)
+          cp -r site/chem361/* site/_site/chem361/
+          echo "=== CHEM361 copied ==="
+          ls -la site/_site/chem361/
 
           # Copy homework pages
           cp site/homework/*.html site/_site/homework/

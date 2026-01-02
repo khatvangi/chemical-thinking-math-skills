@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Isomerism Lab</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;700&family=Space+Grotesk:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="noise"></div>
+    <header class="hero">
+      <div class="hero-content">
+        <p class="eyebrow">Coordination Chemistry I - Chapter 3</p>
+        <h1>Isomerism Lab</h1>
+        <p class="subhead">
+          Visualize stereochemistry, decode charts, and classify isomers with
+          3D-guided training.
+        </p>
+        <div class="hero-actions">
+          <a class="primary" href="index.html">Back to Chapter 1</a>
+          <a class="ghost" href="coordination.html">Chapter 2: Structures</a>
+          <a class="ghost" href="bonding.html">Chapter 4: Bonding + LFT</a>
+        </div>
+      </div>
+      <div class="hero-panel">
+        <div class="panel-card">
+          <p class="panel-label">Session mode</p>
+          <div class="panel-row">
+            <span>Adaptive mode</span>
+            <button id="adaptiveToggle" class="toggle">On</button>
+          </div>
+          <div class="panel-row">
+            <span>Rigor mode</span>
+            <button id="rigorToggle" class="toggle">Off</button>
+          </div>
+          <div class="panel-row">
+            <span>Label helper</span>
+            <button id="labelToggle" class="toggle">On</button>
+          </div>
+        </div>
+        <div class="panel-card">
+          <p class="panel-label">Focus</p>
+          <ul>
+            <li>Structural vs stereoisomerism</li>
+            <li>Cis/trans and fac/mer</li>
+            <li>Lambda/Delta enantiomers</li>
+            <li>Linkage and coordination isomers</li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <main class="game">
+      <section class="chapter-intro">
+        <div class="intro-card">
+          <h3>Isomerism essentials</h3>
+          <ul class="rule-list">
+            <li>Structural isomers differ by connectivity.</li>
+            <li>Stereoisomers differ by spatial arrangement.</li>
+            <li>Geometric: cis/trans (square planar, octahedral), fac/mer (octahedral).</li>
+            <li>Optical: Lambda/Delta in tris-chelates and bis-chelates.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="chart-grid">
+        <div class="chart-card">
+          <p class="panel-label">Figure 9.4.1 - Isomerism Map</p>
+          <img
+            src="assets/isomerism/fig-002.png"
+            alt="Isomerism classification chart"
+            class="chart-image"
+          />
+        </div>
+        <div class="chart-card">
+          <p class="panel-label">Lambda/Delta primer</p>
+          <img
+            src="assets/isomerism/fig-018.png"
+            alt="Lambda and Delta enantiomers"
+            class="chart-image"
+          />
+        </div>
+      </section>
+
+      <section class="mode-tabs">
+        <button class="chip active" data-mode="geometric">Geometric</button>
+        <button class="chip" data-mode="optical">Optical</button>
+        <button class="chip" data-mode="structural">Structural</button>
+      </section>
+
+      <section class="game-board" aria-live="polite">
+        <div class="question-card">
+          <div class="question-header">
+            <span class="badge" id="modeBadge">Geometric</span>
+            <span class="badge muted" id="topicBadge">cis/trans</span>
+          </div>
+          <h2 id="promptTitle">Identify the isomer</h2>
+          <p class="question-note" id="promptNote">
+            Use the 3D model and the formula to classify the isomer.
+          </p>
+          <div class="viewer-card">
+            <div class="viewer-header">
+              <span class="badge muted">3D model</span>
+              <div class="viewer-controls">
+                <button id="compareBtn" class="chip small">Compare</button>
+                <button id="mirrorBtn" class="chip small">Mirror view</button>
+                <button id="colorToggle" class="chip small" data-color-mode="donor">
+                  Color: donor
+                </button>
+              </div>
+            </div>
+            <div id="viewer3d" class="viewer3d"></div>
+            <p class="viewer-note" id="viewerNote">
+              Rotate to inspect ligand positions.
+            </p>
+          </div>
+        </div>
+
+        <div class="answer-card">
+          <div id="answerZone"></div>
+          <div class="answer-actions">
+            <button id="checkBtn" class="primary">Check</button>
+            <button id="nextBtn" class="ghost">Next</button>
+          </div>
+          <div class="feedback" id="feedback"></div>
+          <div class="progress">
+            <div>
+              <span class="progress-label">Streak</span>
+              <span id="streak">0</span>
+            </div>
+            <div>
+              <span class="progress-label">Accuracy</span>
+              <span id="accuracy">0%</span>
+            </div>
+            <div>
+              <span class="progress-label">Questions</span>
+              <span id="questionCount">0</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>Isomerism - Structure, geometry, and optical stereochemistry</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/3dmol@2.0.4/build/3Dmol-min.js"></script>
+    <script src="isomerism.js"></script>
+  </body>
+</html>

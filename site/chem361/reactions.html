@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Reactions and Mechanisms Lab</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;700&family=Space+Grotesk:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="noise"></div>
+    <header class="hero">
+      <div class="hero-content">
+        <p class="eyebrow">Coordination Chemistry IV - Chapter 12</p>
+        <h1>Reactions and Mechanisms Lab</h1>
+        <p class="subhead">
+          Diagnose substitution mechanisms, interpret rate laws, and predict
+          stereochemical outcomes.
+        </p>
+        <div class="hero-actions">
+          <a class="primary" href="index.html">Back to Chapter 1</a>
+          <a class="ghost" href="bonding.html">Chapter 4: Bonding + LFT</a>
+          <a class="ghost" href="lectures/lecture-12-reactions.html">Lecture 12</a>
+        </div>
+      </div>
+      <div class="hero-panel">
+        <div class="panel-card">
+          <p class="panel-label">Session mode</p>
+          <div class="panel-row">
+            <span>Adaptive mode</span>
+            <button id="adaptiveToggle" class="toggle">On</button>
+          </div>
+          <div class="panel-row">
+            <span>Rigor mode</span>
+            <button id="rigorToggle" class="toggle">Off</button>
+          </div>
+        </div>
+        <div class="panel-card">
+          <p class="panel-label">Focus</p>
+          <ul>
+            <li>Rate laws and mechanism fingerprints</li>
+            <li>D / I / A pathways</li>
+            <li>Octahedral vs square planar stereochemistry</li>
+            <li>Experimental clues</li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <main class="game">
+      <section class="chapter-intro">
+        <div class="intro-card">
+          <h3>Mechanism rules</h3>
+          <ul class="rule-list">
+            <li>D: rate independent of entering ligand, 5-coordinate intermediate.</li>
+            <li>A: rate depends on entering ligand, 7-coordinate transition state.</li>
+            <li>I: partial dependence, no full intermediate.</li>
+            <li>Square planar substitutions are typically associative.</li>
+          </ul>
+        </div>
+        <div class="chart-grid">
+          <div class="chart-card">
+            <p class="panel-label">Square planar associative TS</p>
+            <img
+              src="assets/reactions/sq-004.png"
+              alt="Square planar associative mechanism"
+              class="chart-image"
+            />
+          </div>
+          <div class="chart-card">
+            <p class="panel-label">Octahedral stereochemistry</p>
+            <img
+              src="assets/reactions/oct-001.png"
+              alt="Octahedral stereochemistry outcomes"
+              class="chart-image"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section class="mode-tabs">
+        <button class="chip active" data-mode="rate">Rate Law Detective</button>
+        <button class="chip" data-mode="path">Pathway Predictor</button>
+        <button class="chip" data-mode="stereo">Stereo Outcome</button>
+      </section>
+
+      <section class="game-board" aria-live="polite">
+        <div class="question-card">
+          <div class="question-header">
+            <span class="badge" id="modeBadge">Rate Law Detective</span>
+            <span class="badge muted" id="promptBadge">D / I / A</span>
+          </div>
+          <h2 id="promptTitle">Rate = k[ML5X]</h2>
+          <p class="question-note" id="promptNote">
+            Determine the dominant substitution mechanism.
+          </p>
+          <div class="viewer-card" id="diagramPanel"></div>
+        </div>
+
+        <div class="answer-card">
+          <div id="answerZone"></div>
+          <div class="answer-actions">
+            <button id="checkBtn" class="primary">Check</button>
+            <button id="nextBtn" class="ghost">Next</button>
+          </div>
+          <div class="feedback" id="feedback"></div>
+          <div class="progress">
+            <div>
+              <span class="progress-label">Streak</span>
+              <span id="streak">0</span>
+            </div>
+            <div>
+              <span class="progress-label">Accuracy</span>
+              <span id="accuracy">0%</span>
+            </div>
+            <div>
+              <span class="progress-label">Questions</span>
+              <span id="questionCount">0</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>Reactions and mechanisms - coordination chemistry kinetics</p>
+    </footer>
+
+    <script src="reactions.js"></script>
+  </body>
+</html>

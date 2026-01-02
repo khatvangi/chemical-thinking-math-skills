@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lecture - Coordination Numbers and Structures</title>
+    <link rel="stylesheet" href="lecture.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;700&family=Space+Grotesk:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="noise"></div>
+    <header>
+      <p class="eyebrow">Lecture 9.5</p>
+      <h1>Coordination Numbers and Structures</h1>
+      <p class="subhead">
+        Connect coordination number to geometry and recognize exceptions driven
+        by ligand field effects.
+      </p>
+      <div class="nav">
+        <a class="primary" href="index.html">Lecture Index</a>
+        <a href="../coordination.html">Games</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="section reveal">
+        <h2>Learning goals</h2>
+        <ul class="rule-list">
+          <li>Identify coordination number from denticity and formula.</li>
+          <li>Match CN to lowest-repulsion geometry.</li>
+          <li>Recognize square planar vs tetrahedral preferences.</li>
+        </ul>
+      </section>
+
+      <section class="section reveal">
+        <h2>Geometry map</h2>
+        <div class="grid">
+          <div class="chart">
+            <img
+              src="../assets/coordination/fig-004.png"
+              alt="Coordination number geometry map"
+            />
+            <p class="caption">Lowest repulsion geometries by CN.</p>
+          </div>
+          <div class="chart">
+            <img
+              src="../assets/coordination/fig-006.png"
+              alt="Kepert preferred geometries"
+            />
+            <p class="caption">Kepert preferred and accessible geometries.</p>
+          </div>
+          <div class="chart">
+            <img
+              src="../assets/coordination/fig-002.png"
+              alt="Metal preferences by coordination number"
+            />
+            <p class="caption">Common coordination numbers by metal.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section reveal">
+        <h2>Interactive: CN to geometry</h2>
+        <div class="toggle-row" data-toggle-group>
+          <button class="toggle active" data-toggle="cn4">CN 4</button>
+          <button class="toggle" data-toggle="cn5">CN 5</button>
+          <button class="toggle" data-toggle="cn6">CN 6</button>
+        </div>
+        <div data-toggle-target="cn4">
+          <p class="caption">CN 4: tetrahedral or square planar depending on metal and ligand field.</p>
+        </div>
+        <div data-toggle-target="cn5" style="display: none">
+          <p class="caption">CN 5: trigonal bipyramidal vs square pyramidal.</p>
+        </div>
+        <div data-toggle-target="cn6" style="display: none">
+          <p class="caption">CN 6: octahedral dominates, with trigonal prismatic as an alternative.</p>
+        </div>
+      </section>
+
+      <section class="section reveal">
+        <h2>Micro-demo: CN to geometry</h2>
+        <div class="demo" data-demo>
+          <div class="demo-frame active">
+            CN 4: d8 strong field -> square planar (Ni, Pd, Pt).
+          </div>
+          <div class="demo-frame">
+            CN 4: main-group or d10 -> tetrahedral (Zn, Cd).
+          </div>
+          <div class="demo-frame">
+            CN 6: octahedral dominates unless ligand field favors trigonal prismatic.
+          </div>
+          <div class="demo-progress">
+            <div class="demo-dot active"></div>
+            <div class="demo-dot"></div>
+            <div class="demo-dot"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section reveal">
+        <h2>Exit check</h2>
+        <p class="caption">Predict geometry for [Ni(CN)4]2- (d8 strong field).</p>
+      </section>
+    </main>
+
+    <script src="lecture.js"></script>
+  </body>
+</html>

@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lecture - Isomerism</title>
+    <link rel="stylesheet" href="lecture.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;700&family=Space+Grotesk:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="noise"></div>
+    <header>
+      <p class="eyebrow">Lecture 9.4</p>
+      <h1>Isomerism</h1>
+      <p class="subhead">
+        Classify structural vs stereoisomers and visualize cis/trans, fac/mer,
+        and optical isomerism.
+      </p>
+      <div class="nav">
+        <a class="primary" href="index.html">Lecture Index</a>
+        <a href="../isomerism.html">Games</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="section reveal">
+        <h2>Learning goals</h2>
+        <ul class="rule-list">
+          <li>Distinguish structural from stereoisomerism.</li>
+          <li>Identify cis/trans and fac/mer patterns.</li>
+          <li>Assign Lambda/Delta to tris-chelates.</li>
+        </ul>
+      </section>
+
+      <section class="section reveal">
+        <h2>Isomerism map</h2>
+        <div class="grid">
+          <div class="chart">
+            <img src="../assets/isomerism/fig-002.png" alt="Isomerism chart" />
+            <p class="caption">Figure 9.4.1 overview of isomerism types.</p>
+          </div>
+          <div class="chart">
+            <img src="../assets/isomerism/fig-018.png" alt="Lambda and Delta" />
+            <p class="caption">Lambda/Delta helicity for tris-chelates.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section reveal">
+        <h2>Interactive: classify the pair</h2>
+        <div class="toggle-row" data-toggle-group>
+          <button class="toggle active" data-toggle="pair1">Pair 1</button>
+          <button class="toggle" data-toggle="pair2">Pair 2</button>
+          <button class="toggle" data-toggle="pair3">Pair 3</button>
+        </div>
+        <div data-toggle-target="pair1">
+          <p class="caption">[Co(NH3)5(NO2)]Cl2 vs [Co(NH3)5(ONO)]Cl2</p>
+          <p class="caption">Answer: linkage isomers.</p>
+        </div>
+        <div data-toggle-target="pair2" style="display: none">
+          <p class="caption">[Co(NH3)6][Cr(CN)6] vs [Cr(NH3)6][Co(CN)6]</p>
+          <p class="caption">Answer: coordination isomers.</p>
+        </div>
+        <div data-toggle-target="pair3" style="display: none">
+          <p class="caption">cis-[Pt(NH3)2Cl2] vs trans-[Pt(NH3)2Cl2]</p>
+          <p class="caption">Answer: geometric isomers.</p>
+        </div>
+      </section>
+
+      <section class="section reveal">
+        <h2>Micro-demo: stereoisomer map</h2>
+        <div class="demo" data-demo>
+          <div class="demo-frame active">
+            Square planar MA2B2 -> cis vs trans.
+          </div>
+          <div class="demo-frame">
+            Octahedral MA3B3 -> fac vs mer.
+          </div>
+          <div class="demo-frame">
+            Tris-chelate M(en)3 -> Lambda vs Delta.
+          </div>
+          <div class="demo-progress">
+            <div class="demo-dot active"></div>
+            <div class="demo-dot"></div>
+            <div class="demo-dot"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section reveal">
+        <h2>Exit check</h2>
+        <p class="caption">Assign Lambda or Delta to [Co(en)3]3+.</p>
+      </section>
+    </main>
+
+    <script src="lecture.js"></script>
+  </body>
+</html>

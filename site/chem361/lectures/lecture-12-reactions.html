@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lecture - Coordination Reactions and Mechanisms</title>
+    <link rel="stylesheet" href="lecture.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;700&family=Space+Grotesk:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="noise"></div>
+    <header>
+      <p class="eyebrow">Lecture 12</p>
+      <h1>Coordination Reactions and Mechanisms</h1>
+      <p class="subhead">
+        Substitution pathways, rate laws, and stereochemical outcomes for
+        octahedral and square planar complexes.
+      </p>
+      <div class="nav">
+        <a class="primary" href="index.html">Lecture Index</a>
+        <a href="../index.html">Games</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="section reveal">
+        <h2>Learning goals</h2>
+        <ul class="rule-list">
+          <li>Distinguish associative, dissociative, and interchange pathways.</li>
+          <li>Use rate laws to infer mechanisms.</li>
+          <li>Predict stereochemical outcomes for octahedral and square planar complexes.</li>
+        </ul>
+      </section>
+
+      <section class="section reveal">
+        <h2>Key visuals</h2>
+        <div class="grid">
+          <div class="chart">
+            <img src="../assets/reactions/sq-004.png" alt="Square planar associative mechanism" />
+            <p class="caption">Square planar substitution with associative transition state.</p>
+          </div>
+          <div class="chart">
+            <img src="../assets/reactions/oct-001.png" alt="Octahedral stereochemical pathways" />
+            <p class="caption">Five-coordinate intermediates can retain or invert stereochemistry.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section reveal">
+        <h2>Micro-demo: mechanism fingerprints</h2>
+        <div class="demo" data-demo>
+          <div class="demo-frame active">
+            Dissociative (D): rate independent of entering ligand; 5-coordinate intermediate.
+          </div>
+          <div class="demo-frame">
+            Associative (A): rate depends on entering ligand; 7-coordinate transition state.
+          </div>
+          <div class="demo-frame">
+            Interchange (I): no distinct intermediate; rate partially depends on entering ligand.
+          </div>
+          <div class="demo-progress">
+            <div class="demo-dot active"></div>
+            <div class="demo-dot"></div>
+            <div class="demo-dot"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section reveal">
+        <h2>Interactive: rate law to mechanism</h2>
+        <div class="toggle-row" data-toggle-group>
+          <button class="toggle active" data-toggle="case1">Case 1</button>
+          <button class="toggle" data-toggle="case2">Case 2</button>
+          <button class="toggle" data-toggle="case3">Case 3</button>
+        </div>
+        <div data-toggle-target="case1">
+          <p class="caption">Rate = k[ML5X]</p>
+          <p class="caption">Mechanism: dissociative.</p>
+        </div>
+        <div data-toggle-target="case2" style="display: none">
+          <p class="caption">Rate = k[ML4X][Y]</p>
+          <p class="caption">Mechanism: associative or interchange (Ia).</p>
+        </div>
+        <div data-toggle-target="case3" style="display: none">
+          <p class="caption">Rate = k[ML5X][Y]^0.5</p>
+          <p class="caption">Mechanism: interchange with partial dependence.</p>
+        </div>
+      </section>
+
+      <section class="section reveal">
+        <h2>Interactive: stereochemical outcome</h2>
+        <div class="sorter" data-sorter data-answer="retention,intermediate,alteration">
+          <div class="sort-item">alteration</div>
+          <div class="sort-item">retention</div>
+          <div class="sort-item">intermediate</div>
+          <button class="btn check">Check order</button>
+          <div class="result"></div>
+        </div>
+      </section>
+
+      <section class="section reveal">
+        <h2>Exit check</h2>
+        <p class="caption">A square planar Pt(II) complex shows rate = k[complex][Y]. Which pathway dominates?</p>
+      </section>
+    </main>
+
+    <script src="lecture.js"></script>
+  </body>
+</html>

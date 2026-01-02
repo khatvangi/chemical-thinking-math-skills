@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lecture - The Crystalline Solid State</title>
+    <link rel="stylesheet" href="lecture.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;700&family=Space+Grotesk:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="noise"></div>
+    <header>
+      <p class="eyebrow">Lecture 7</p>
+      <h1>The Crystalline Solid State</h1>
+      <p class="subhead">
+        Build intuition for unit cells, packing, and lattice types, then connect
+        structure to properties.
+      </p>
+      <div class="nav">
+        <a class="primary" href="index.html">Lecture Index</a>
+        <a href="../index.html">Games</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="section reveal">
+        <h2>Learning goals</h2>
+        <ul class="rule-list">
+          <li>Recognize simple, body-centered, and face-centered cubic cells.</li>
+          <li>Interpret close packing and layer sequences.</li>
+          <li>Connect lattice system to unit cell parameters.</li>
+        </ul>
+      </section>
+
+      <section class="section reveal">
+        <h2>Key visuals</h2>
+        <div class="grid">
+          <div class="chart">
+            <img src="../assets/solids/lattice-013.png" alt="Cubic unit cells" />
+            <p class="caption">Simple, body-centered, and face-centered cubic cells.</p>
+          </div>
+          <div class="chart">
+            <img src="../assets/solids/lattice-017.png" alt="Cubic close packed" />
+            <p class="caption">Cubic close packing and ABC stacking.</p>
+          </div>
+          <div class="chart">
+            <img src="../assets/solids/lattice-026.png" alt="Lattice system table" />
+            <p class="caption">Lattice systems and unit cell parameters.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section reveal">
+        <h2>Micro-demo: unit cell counting</h2>
+        <div class="demo" data-demo>
+          <div class="demo-frame active">Simple cubic: 1 atom per unit cell.</div>
+          <div class="demo-frame">Body-centered: 2 atoms per unit cell.</div>
+          <div class="demo-frame">Face-centered: 4 atoms per unit cell.</div>
+          <div class="demo-progress">
+            <div class="demo-dot active"></div>
+            <div class="demo-dot"></div>
+            <div class="demo-dot"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section reveal">
+        <h2>Interactive: lattice selector</h2>
+        <div class="toggle-row" data-toggle-group>
+          <button class="toggle active" data-toggle="sc">Simple cubic</button>
+          <button class="toggle" data-toggle="bcc">Body-centered</button>
+          <button class="toggle" data-toggle="fcc">Face-centered</button>
+        </div>
+        <div data-toggle-target="sc">
+          <p class="caption">Coordination number 6, packing efficiency 52%.</p>
+        </div>
+        <div data-toggle-target="bcc" style="display: none">
+          <p class="caption">Coordination number 8, packing efficiency 68%.</p>
+        </div>
+        <div data-toggle-target="fcc" style="display: none">
+          <p class="caption">Coordination number 12, packing efficiency 74%.</p>
+        </div>
+      </section>
+
+      <section class="section reveal">
+        <h2>Exit check</h2>
+        <p class="caption">Identify the lattice and number of atoms per cell for NaCl.</p>
+      </section>
+    </main>
+
+    <script src="lecture.js"></script>
+  </body>
+</html>

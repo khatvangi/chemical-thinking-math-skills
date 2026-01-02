@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lecture - Bonding and Ligand Field Theory</title>
+    <link rel="stylesheet" href="lecture.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;700&family=Space+Grotesk:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="noise"></div>
+    <header>
+      <p class="eyebrow">Lecture 10</p>
+      <h1>Bonding and Ligand Field Theory</h1>
+      <p class="subhead">
+        Build CFT diagrams, connect ligand type to splitting, and predict spin
+        and spectral behavior.
+      </p>
+      <div class="nav">
+        <a class="primary" href="index.html">Lecture Index</a>
+        <a href="../bonding.html">Games</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="section reveal">
+        <h2>Learning goals</h2>
+        <ul class="rule-list">
+          <li>Construct octahedral, tetrahedral, and square planar splitting.</li>
+          <li>Link ligand type to Delta and spin state.</li>
+          <li>Use the spectrochemical series to predict trends.</li>
+        </ul>
+      </section>
+
+      <section class="section reveal">
+        <h2>Key visuals</h2>
+        <div class="grid">
+          <div class="chart">
+            <img src="../assets/bonding/fig-10-3-2-018.png" alt="Orbital splitting" />
+            <p class="caption">Orbital splitting and electron spin.</p>
+          </div>
+          <div class="chart">
+            <img src="../assets/bonding/fig-10-3-1-016.png" alt="Metal and ligand energy match" />
+            <p class="caption">Metal and ligand energy matching for bonding.</p>
+          </div>
+          <div class="chart">
+            <img src="../assets/bonding/fig-10-4-4-008.png" alt="Spectrochemical series" />
+            <p class="caption">Spectrochemical series with strong vs weak field ligands.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section reveal">
+        <h2>Interactive: spectrochemical order</h2>
+        <div class="sorter" data-sorter data-answer="CO,PPh3,en,NO2-,F-">
+          <div class="sort-item">F-</div>
+          <div class="sort-item">CO</div>
+          <div class="sort-item">PPh3</div>
+          <div class="sort-item">NO2-</div>
+          <div class="sort-item">en</div>
+          <button class="btn check">Check order</button>
+          <div class="result"></div>
+        </div>
+      </section>
+
+      <section class="section reveal">
+        <h2>Interactive: MO reasoning</h2>
+        <div class="toggle-row" data-toggle-group>
+          <button class="toggle active" data-toggle="sigma">Sigma donor</button>
+          <button class="toggle" data-toggle="pi-donor">Pi donor</button>
+          <button class="toggle" data-toggle="pi-acceptor">Pi acceptor</button>
+        </div>
+        <div data-toggle-target="sigma">
+          <p class="caption">t2g remains nonbonding; eg is antibonding.</p>
+        </div>
+        <div data-toggle-target="pi-donor" style="display: none">
+          <p class="caption">t2g is raised; Delta decreases.</p>
+        </div>
+        <div data-toggle-target="pi-acceptor" style="display: none">
+          <p class="caption">t2g is stabilized; Delta increases.</p>
+        </div>
+      </section>
+
+      <section class="section reveal">
+        <h2>Micro-demo: ligand field effects</h2>
+        <div class="demo" data-demo>
+          <div class="demo-frame active">
+            Sigma donor: t2g nonbonding, eg antibonding.
+          </div>
+          <div class="demo-frame">
+            Pi donor: t2g raised -> Delta decreases -> high spin more likely.
+          </div>
+          <div class="demo-frame">
+            Pi acceptor: t2g stabilized -> Delta increases -> low spin favored.
+          </div>
+          <div class="demo-progress">
+            <div class="demo-dot active"></div>
+            <div class="demo-dot"></div>
+            <div class="demo-dot"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section reveal">
+        <h2>Exit check</h2>
+        <p class="caption">Predict spin state for [Fe(CN)6]4-.</p>
+      </section>
+    </main>
+
+    <script src="lecture.js"></script>
+  </body>
+</html>

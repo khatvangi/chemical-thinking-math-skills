@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lecture - Nomenclature and Ligands</title>
+    <link rel="stylesheet" href="lecture.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;700&family=Space+Grotesk:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="noise"></div>
+    <header>
+      <p class="eyebrow">Lecture 9.3</p>
+      <h1>Nomenclature and Ligands</h1>
+      <p class="subhead">
+        Learn the IUPAC workflow for naming coordination compounds and connect
+        ligand denticity to naming choices.
+      </p>
+      <div class="nav">
+        <a class="primary" href="index.html">Lecture Index</a>
+        <a href="../index.html">Games</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="section reveal">
+        <h2>Learning goals</h2>
+        <ul class="rule-list">
+          <li>Order ligands alphabetically and apply correct prefixes.</li>
+          <li>Distinguish neutral vs anionic ligands in naming.</li>
+          <li>Assign oxidation state and use -ate for anionic complexes.</li>
+        </ul>
+      </section>
+
+      <section class="section reveal">
+        <h2>Lecture flow</h2>
+        <div class="stepper" data-stepper>
+          <div class="step">1. Identify ligands and denticity.</div>
+          <div class="step">2. Order ligands alphabetically by name.</div>
+          <div class="step">3. Apply prefixes and kappa or mu if needed.</div>
+          <div class="step">4. Name the metal and oxidation state.</div>
+          <div class="step">5. Append counter ions.</div>
+          <div class="step-actions">
+            <button class="btn step-prev">Prev</button>
+            <button class="btn primary step-next">Next</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="section reveal">
+        <h2>Micro-demo: naming pipeline</h2>
+        <div class="demo" data-demo>
+          <div class="demo-frame active">
+            Identify ligands: NH3 (ammine) x5, Cl- x1.
+          </div>
+          <div class="demo-frame">
+            Order alphabetically: ammine before chloro.
+          </div>
+          <div class="demo-frame">
+            Metal + oxidation state: cobalt(III) -> pentaamminechlorocobalt(III) chloride.
+          </div>
+          <div class="demo-progress">
+            <div class="demo-dot active"></div>
+            <div class="demo-dot"></div>
+            <div class="demo-dot"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section reveal">
+        <h2>Key charts</h2>
+        <div class="grid">
+          <div class="chart">
+            <img
+              src="../assets/nomenclature/fig-079.png"
+              alt="Nomenclature workflow"
+            />
+            <p class="caption">Workflow for naming coordination compounds.</p>
+          </div>
+          <div class="chart">
+            <img
+              src="../assets/nomenclature/fig-005.png"
+              alt="Ligand denticity examples"
+            />
+            <p class="caption">Denticity categories that drive naming prefixes.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section reveal">
+        <h2>Interactive: ligand ordering</h2>
+        <div class="sorter" data-sorter data-answer="ammine,bromo,chloro,ethylenediamine">
+          <div class="sort-item">chloro</div>
+          <div class="sort-item">ethylenediamine</div>
+          <div class="sort-item">ammine</div>
+          <div class="sort-item">bromo</div>
+          <button class="btn check">Check order</button>
+          <div class="result"></div>
+        </div>
+      </section>
+
+      <section class="section reveal">
+        <h2>Exit check</h2>
+        <p class="caption">Name: [Co(NH3)5Cl]Cl2</p>
+        <p class="caption">Target: pentaamminechlorocobalt(III) chloride</p>
+      </section>
+    </main>
+
+    <script src="lecture.js"></script>
+  </body>
+</html>
