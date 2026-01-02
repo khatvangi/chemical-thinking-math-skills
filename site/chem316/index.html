@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHEM 316: Inorganic Chemistry | The Beakers</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a24;
+            --text-primary: #e8e6e3;
+            --text-secondary: #a0a0a0;
+            --text-muted: #6b6b6b;
+            --accent-purple: #8b5cf6;
+            --accent-violet: #a855f7;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+            background:
+                radial-gradient(ellipse at 30% 30%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 70%, rgba(168, 85, 247, 0.08) 0%, transparent 50%);
+        }
+
+        header {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--bg-tertiary);
+        }
+
+        .header-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--accent-purple);
+        }
+
+        .course-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent-purple);
+            background: rgba(139, 92, 246, 0.15);
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .icon {
+            font-size: 4rem;
+            margin-bottom: 2rem;
+            opacity: 0.8;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-violet));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .coming-message {
+            max-width: 500px;
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 3rem;
+        }
+
+        .topics {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            justify-content: center;
+            max-width: 600px;
+            margin-bottom: 3rem;
+        }
+
+        .topic-tag {
+            padding: 0.5rem 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--bg-tertiary);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+        }
+
+        .topic-tag:hover {
+            border-color: var(--accent-purple);
+            color: var(--text-primary);
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: 1px solid var(--bg-tertiary);
+            color: var(--text-primary);
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .back-btn:hover {
+            border-color: var(--accent-purple);
+            background: rgba(139, 92, 246, 0.1);
+        }
+
+        footer {
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--bg-tertiary);
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <header>
+        <div class="header-content">
+            <a href="../landing.html" class="back-link">← All Courses</a>
+            <span class="course-badge">CHEM 316</span>
+        </div>
+    </header>
+
+    <main>
+        <div class="icon">🔬</div>
+        <h1>Inorganic Chemistry</h1>
+        <p class="subtitle">Structure, Bonding & Reactivity</p>
+
+        <p class="coming-message">
+            This course is currently under development. Check back soon for lectures on
+            coordination chemistry, symmetry, spectroscopy, and organometallic compounds.
+        </p>
+
+        <div class="topics">
+            <span class="topic-tag">Coordination Chemistry</span>
+            <span class="topic-tag">Crystal Field Theory</span>
+            <span class="topic-tag">Molecular Symmetry</span>
+            <span class="topic-tag">Point Groups</span>
+            <span class="topic-tag">Electronic Spectroscopy</span>
+            <span class="topic-tag">Organometallics</span>
+            <span class="topic-tag">Bioinorganic</span>
+            <span class="topic-tag">Catalysis</span>
+        </div>
+
+        <a href="../landing.html" class="back-btn">← Return to Course Selection</a>
+    </main>
+
+    <footer>
+        <p>The Beakers | course.thebeakers.com</p>
+    </footer>
+</body>
+</html>

@@ -42,6 +42,7 @@ site/.quarto/
 !site/lectures/all-lectures.html
 !site/protein-raga.html
 !site/landing.html
+!site/chem316/*.html
 
 # IDE
 .vscode/
