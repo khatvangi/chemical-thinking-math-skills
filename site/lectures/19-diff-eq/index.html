@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 19: Differential Equations | Chemical Thinking</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a24;
+            --bg-card: #16161f;
+            --text-primary: #e8e6e3;
+            --text-secondary: #a0a0a0;
+            --text-muted: #6b6b6b;
+            --accent-red: #ef4444;
+            --accent-orange: #f59e0b;
+            --accent-blue: #4a9eff;
+            --accent-purple: #8b5cf6;
+            --accent-green: #10b981;
+            --accent-cyan: #06b6d4;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 17px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Navigation */
+        .lecture-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--bg-tertiary);
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover { color: var(--accent-blue); }
+
+        .primitive-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(74, 158, 255, 0.1), rgba(6, 182, 212, 0.1));
+            border: 1px solid rgba(74, 158, 255, 0.3);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .primitive-link:hover {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 20px rgba(74, 158, 255, 0.2);
+        }
+
+        .primitive-badge {
+            background: var(--accent-blue);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .primitive-text {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 3rem 0;
+        }
+
+        .lecture-number {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-blue);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            letter-spacing: 0.1em;
+        }
+
+        h1 {
+            font-family: 'Fraunces', serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        /* Sections */
+        section {
+            margin-bottom: 4rem;
+        }
+
+        h2 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.8rem;
+            color: var(--accent-blue);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--bg-tertiary);
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            color: var(--accent-cyan);
+            margin: 1.5rem 0 0.75rem;
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        strong { color: var(--text-primary); }
+
+        /* Hook Box */
+        .hook-box {
+            background: linear-gradient(135deg, rgba(74, 158, 255, 0.1), rgba(6, 182, 212, 0.05));
+            border: 1px solid rgba(74, 158, 255, 0.3);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .hook-box p:last-child { margin-bottom: 0; }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--bg-tertiary);
+        }
+
+        th {
+            background: var(--bg-tertiary);
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        td { color: var(--text-secondary); }
+
+        tr:last-child td { border-bottom: none; }
+
+        /* Definition boxes */
+        .definition-box {
+            background: var(--bg-secondary);
+            border-left: 4px solid var(--accent-blue);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .definition-box .term {
+            font-weight: 600;
+            color: var(--accent-blue);
+        }
+
+        /* Formula box */
+        .formula-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--accent-cyan);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+
+        .formula-box h4 {
+            color: var(--accent-cyan);
+            margin-bottom: 1rem;
+            margin-top: 0;
+        }
+
+        /* Key insight */
+        .key-insight {
+            background: linear-gradient(135deg, rgba(74, 158, 255, 0.1), rgba(6, 182, 212, 0.1));
+            border: 1px solid rgba(74, 158, 255, 0.3);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .key-insight p {
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        /* Case boxes */
+        .case-box {
+            background: var(--bg-card);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-left: 3px solid var(--accent-green);
+        }
+
+        .case-box.underdamped { border-left-color: var(--accent-blue); }
+        .case-box.overdamped { border-left-color: var(--accent-red); }
+        .case-box.critical { border-left-color: var(--accent-orange); }
+
+        .case-box h4 {
+            margin-top: 0;
+        }
+
+        /* Interactive visualizations */
+        .visualization {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .viz-title {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .canvas-container {
+            background: var(--bg-primary);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            border-radius: 4px;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .control-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .control-group label {
+            display: block;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            accent-color: var(--accent-blue);
+        }
+
+        select {
+            width: 100%;
+            padding: 0.5rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--bg-card);
+            color: var(--text-primary);
+            border-radius: 4px;
+        }
+
+        .value-display {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-blue);
+            font-size: 0.9rem;
+        }
+
+        /* Info box */
+        .info-box {
+            background: var(--bg-card);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-row:last-child { margin-bottom: 0; }
+
+        .info-label { color: var(--text-muted); }
+        .info-value { color: var(--accent-green); }
+        .info-value.warning { color: var(--accent-orange); }
+
+        /* Lists */
+        ul, ol {
+            margin: 1rem 0 1.5rem 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        li { margin-bottom: 0.5rem; }
+
+        /* Code */
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-tertiary);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--bg-tertiary);
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        footer a {
+            color: var(--accent-blue);
+            text-decoration: none;
+        }
+
+        footer a:hover { text-decoration: underline; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .container { padding: 1rem; }
+            .controls { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="lecture-nav">
+            <a href="../all-lectures.html" class="nav-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+                All Lectures
+            </a>
+            <a href="../../primitives/dynamics.html" class="primitive-link">
+                <span class="primitive-badge">DYNAMICS</span>
+                <span class="primitive-text">Explore the Primitive</span>
+            </a>
+        </nav>
+
+        <header>
+            <div class="lecture-number">LECTURE 19</div>
+            <h1>Differential Equations</h1>
+            <p class="subtitle">Laws of change — equations that describe how systems evolve</p>
+        </header>
+
+        <!-- THE HOOK -->
+        <section>
+            <div class="hook-box">
+                <p><strong>Uranium-238 decays to thorium-234, which decays to protactinium-234:</strong></p>
+                <p style="text-align: center; font-size: 1.1rem;">$^{238}\text{U} \xrightarrow{k_1} {}^{234}\text{Th} \xrightarrow{k_2} {}^{234}\text{Pa}$</p>
+                <p>The amount of thorium depends on:</p>
+                <ul>
+                    <li>How fast uranium produces it (+k₁[U])</li>
+                    <li>How fast thorium decays (-k₂[Th])</li>
+                </ul>
+                <p style="text-align: center; font-size: 1.2rem;">$$\frac{d[\text{Th}]}{dt} = k_1[\text{U}] - k_2[\text{Th}]$$</p>
+                <p>This is a <strong>differential equation</strong> — an equation relating a function to its derivatives.</p>
+                <p style="text-align: center;"><strong>Solving it tells us how [Th] changes over time.</strong></p>
+            </div>
+        </section>
+
+        <!-- RECOGNITION -->
+        <section>
+            <h2>Recognition</h2>
+
+            <div class="key-insight">
+                <p>Differential equations combine our primitives:<br>
+                <strong>CHANGE</strong> (dy/dt) + <strong>RATE</strong> (how fast) + <strong>ACCUMULATION</strong> (integration to solve)</p>
+                <p style="margin-top: 1rem;">A DE is a statement about rates. Solving it reveals the function.</p>
+            </div>
+
+            <h3>Classification</h3>
+            <table>
+                <tr>
+                    <th>Property</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td><strong>Order</strong></td>
+                    <td>Highest derivative (1st, 2nd, etc.)</td>
+                </tr>
+                <tr>
+                    <td><strong>Linearity</strong></td>
+                    <td>y and derivatives to first power only</td>
+                </tr>
+                <tr>
+                    <td><strong>ODE vs PDE</strong></td>
+                    <td>One vs multiple independent variables</td>
+                </tr>
+            </table>
+        </section>
+
+        <!-- FIRST ORDER KINETICS -->
+        <section>
+            <h2>First-Order Kinetics</h2>
+
+            <div class="formula-box">
+                <h4>The Fundamental Equation</h4>
+                <p style="font-size: 1.3rem;">$$\frac{d[A]}{dt} = -k[A]$$</p>
+                <p>Solution: $[A] = [A]_0 e^{-kt}$</p>
+            </div>
+
+            <div class="visualization">
+                <div class="viz-title">Interactive: First-Order Decay</div>
+                <div class="canvas-container">
+                    <canvas id="firstOrderCanvas" width="800" height="400"></canvas>
+                </div>
+                <div class="controls">
+                    <div class="control-group">
+                        <label>Rate constant k (s⁻¹): <span class="value-display" id="kValue">0.10</span></label>
+                        <input type="range" id="kSlider" min="0.05" max="0.5" step="0.05" value="0.1">
+                    </div>
+                </div>
+                <div class="info-box">
+                    <div class="info-row">
+                        <span class="info-label">Half-life t₁/₂ = ln(2)/k:</span>
+                        <span class="info-value" id="halfLifeValue">6.93 s</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Key property:</span>
+                        <span class="info-value">Half-life is constant!</span>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Solution Method (Separation of Variables)</h3>
+            <p>$$\frac{d[A]}{[A]} = -k \, dt$$</p>
+            <p>$$\int \frac{d[A]}{[A]} = -k \int dt$$</p>
+            <p>$$\ln[A] = -kt + C \quad \Rightarrow \quad [A] = [A]_0 e^{-kt}$$</p>
+        </section>
+
+        <!-- CONSECUTIVE REACTIONS -->
+        <section>
+            <h2>Consecutive Reactions: A → B → C</h2>
+
+            <p>B is produced from A and consumed to form C:</p>
+            <p style="text-align: center;">$$\frac{d[B]}{dt} = k_1[A] - k_2[B]$$</p>
+
+            <div class="visualization">
+                <div class="viz-title">Interactive: Consecutive Reactions</div>
+                <div class="canvas-container">
+                    <canvas id="consecutiveCanvas" width="800" height="400"></canvas>
+                </div>
+                <div class="controls">
+                    <div class="control-group">
+                        <label>k₁ (s⁻¹): <span class="value-display" id="k1Value">0.10</span></label>
+                        <input type="range" id="k1Slider" min="0.05" max="0.3" step="0.05" value="0.1">
+                    </div>
+                    <div class="control-group">
+                        <label>k₂ (s⁻¹): <span class="value-display" id="k2Value">0.05</span></label>
+                        <input type="range" id="k2Slider" min="0.02" max="0.2" step="0.02" value="0.05">
+                    </div>
+                </div>
+                <div class="info-box">
+                    <div class="info-row">
+                        <span class="info-label">[B]ₘₐₓ at t =</span>
+                        <span class="info-value" id="tMaxValue">13.86 s</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Maximum [B]:</span>
+                        <span class="info-value" id="bMaxValue">0.500 M</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="formula-box">
+                <h4>Solutions</h4>
+                <p>$[A] = [A]_0 e^{-k_1 t}$</p>
+                <p>$[B] = \frac{k_1[A]_0}{k_2 - k_1}\left(e^{-k_1 t} - e^{-k_2 t}\right)$</p>
+                <p>$[C] = [A]_0 - [A] - [B]$</p>
+            </div>
+        </section>
+
+        <!-- SECOND ORDER -->
+        <section>
+            <h2>Second-Order Linear ODEs</h2>
+
+            <div class="formula-box">
+                <h4>Standard Form (Constant Coefficients)</h4>
+                <p style="font-size: 1.2rem;">$$ay'' + by' + cy = 0$$</p>
+                <p>Method: Try $y = e^{rx}$ → Characteristic equation: $ar^2 + br + c = 0$</p>
+            </div>
+
+            <h3>Three Cases</h3>
+
+            <div class="case-box">
+                <h4>Case 1: Two Distinct Real Roots r₁, r₂</h4>
+                <p>$$y = C_1 e^{r_1 x} + C_2 e^{r_2 x}$$</p>
+            </div>
+
+            <div class="case-box critical">
+                <h4>Case 2: Repeated Root r</h4>
+                <p>$$y = (C_1 + C_2 x)e^{rx}$$</p>
+            </div>
+
+            <div class="case-box underdamped">
+                <h4>Case 3: Complex Roots α ± βi</h4>
+                <p>$$y = e^{\alpha x}(C_1 \cos\beta x + C_2 \sin\beta x)$$</p>
+                <p style="color: var(--accent-blue);">This gives oscillatory solutions!</p>
+            </div>
+        </section>
+
+        <!-- DAMPED OSCILLATOR -->
+        <section>
+            <h2>Damped Harmonic Oscillator</h2>
+
+            <p>$$m\frac{d^2x}{dt^2} + \gamma\frac{dx}{dt} + kx = 0$$</p>
+            <p>Divide by m: $x'' + 2\beta x' + \omega_0^2 x = 0$</p>
+
+            <div class="visualization">
+                <div class="viz-title">Interactive: Damped Oscillator</div>
+                <div class="canvas-container">
+                    <canvas id="dampedCanvas" width="800" height="400"></canvas>
+                </div>
+                <div class="controls">
+                    <div class="control-group">
+                        <label>Natural frequency ω₀: <span class="value-display" id="w0Value">3.0</span></label>
+                        <input type="range" id="w0Slider" min="1" max="5" step="0.5" value="3">
+                    </div>
+                    <div class="control-group">
+                        <label>Damping β: <span class="value-display" id="betaValue">0.5</span></label>
+                        <input type="range" id="betaSlider" min="0" max="5" step="0.2" value="0.5">
+                    </div>
+                </div>
+                <div class="info-box">
+                    <div class="info-row">
+                        <span class="info-label">Regime:</span>
+                        <span class="info-value" id="regimeValue">Underdamped</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">β² - ω₀² =</span>
+                        <span class="info-value" id="discriminantValue">-8.75</span>
+                    </div>
+                </div>
+            </div>
+
+            <table>
+                <tr>
+                    <th>Condition</th>
+                    <th>Regime</th>
+                    <th>Behavior</th>
+                </tr>
+                <tr>
+                    <td>β < ω₀</td>
+                    <td><strong>Underdamped</strong></td>
+                    <td>Oscillates with decay</td>
+                </tr>
+                <tr>
+                    <td>β = ω₀</td>
+                    <td><strong>Critical</strong></td>
+                    <td>Fastest decay, no oscillation</td>
+                </tr>
+                <tr>
+                    <td>β > ω₀</td>
+                    <td><strong>Overdamped</strong></td>
+                    <td>Slow exponential decay</td>
+                </tr>
+            </table>
+        </section>
+
+        <!-- QUANTUM: PARTICLE IN BOX -->
+        <section>
+            <h2>Quantum: Particle in a Box</h2>
+
+            <p>Time-independent Schrödinger equation with V = 0 inside:</p>
+            <p style="text-align: center;">$$-\frac{\hbar^2}{2m}\frac{d^2\psi}{dx^2} = E\psi$$</p>
+
+            <div class="visualization">
+                <div class="viz-title">Interactive: Wavefunctions and Probability</div>
+                <div class="canvas-container">
+                    <canvas id="quantumCanvas" width="800" height="450"></canvas>
+                </div>
+                <div class="controls">
+                    <div class="control-group">
+                        <label>Quantum number n: <span class="value-display" id="nValue">1</span></label>
+                        <input type="range" id="nSlider" min="1" max="6" value="1">
+                    </div>
+                </div>
+                <div class="info-box">
+                    <div class="info-row">
+                        <span class="info-label">Energy Eₙ ∝</span>
+                        <span class="info-value" id="energyValue">n² = 1</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Internal nodes:</span>
+                        <span class="info-value" id="nodesValue">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="formula-box">
+                <h4>Solutions</h4>
+                <p>$$\psi_n(x) = \sqrt{\frac{2}{L}}\sin\left(\frac{n\pi x}{L}\right)$$</p>
+                <p>$$E_n = \frac{n^2 h^2}{8mL^2}$$</p>
+                <p style="color: var(--text-secondary);">Boundary conditions + DE → quantized energy!</p>
+            </div>
+        </section>
+
+        <!-- NUMERICAL METHODS -->
+        <section>
+            <h2>Numerical Methods: Euler's Method</h2>
+
+            <p>When analytical solutions fail, step forward numerically:</p>
+            <p style="text-align: center;">$$y_{n+1} = y_n + h \cdot f(x_n, y_n)$$</p>
+
+            <div class="visualization">
+                <div class="viz-title">Interactive: Euler vs Exact for dy/dx = -y</div>
+                <div class="canvas-container">
+                    <canvas id="eulerCanvas" width="800" height="350"></canvas>
+                </div>
+                <div class="controls">
+                    <div class="control-group">
+                        <label>Step size h: <span class="value-display" id="hValue">0.20</span></label>
+                        <select id="hSelect">
+                            <option value="0.5">h = 0.5 (coarse)</option>
+                            <option value="0.2" selected>h = 0.2</option>
+                            <option value="0.1">h = 0.1</option>
+                            <option value="0.05">h = 0.05</option>
+                            <option value="0.02">h = 0.02 (fine)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="info-box">
+                    <div class="info-row">
+                        <span class="info-label">Exact y(3) = e⁻³:</span>
+                        <span class="info-value">0.0498</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Euler y(3):</span>
+                        <span class="info-value" id="eulerResult">0.0574</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Relative error:</span>
+                        <span class="info-value warning" id="eulerError">15.3%</span>
+                    </div>
+                </div>
+            </div>
+
+            <p><strong>For serious work:</strong> Use Runge-Kutta (RK4) or adaptive methods (Julia's DifferentialEquations.jl, Python's scipy.integrate).</p>
+        </section>
+
+        <!-- SUMMARY -->
+        <section>
+            <h2>Summary: DE Toolkit</h2>
+
+            <h3>First-Order</h3>
+            <table>
+                <tr>
+                    <th>Type</th>
+                    <th>Form</th>
+                    <th>Method</th>
+                </tr>
+                <tr>
+                    <td>Separable</td>
+                    <td>dy/dx = g(x)h(y)</td>
+                    <td>Separate, integrate</td>
+                </tr>
+                <tr>
+                    <td>Linear</td>
+                    <td>dy/dx + Py = Q</td>
+                    <td>Integrating factor μ = e^(∫Pdx)</td>
+                </tr>
+            </table>
+
+            <h3>Second-Order (Constant Coefficients)</h3>
+            <table>
+                <tr>
+                    <th>Roots</th>
+                    <th>Solution Form</th>
+                </tr>
+                <tr>
+                    <td>r₁, r₂ distinct real</td>
+                    <td>C₁e^(r₁x) + C₂e^(r₂x)</td>
+                </tr>
+                <tr>
+                    <td>r repeated</td>
+                    <td>(C₁ + C₂x)e^(rx)</td>
+                </tr>
+                <tr>
+                    <td>α ± βi complex</td>
+                    <td>e^(αx)(C₁cos βx + C₂sin βx)</td>
+                </tr>
+            </table>
+
+            <h3>Chemistry Applications</h3>
+            <table>
+                <tr>
+                    <th>System</th>
+                    <th>Equation</th>
+                    <th>Solution</th>
+                </tr>
+                <tr>
+                    <td>1st-order kinetics</td>
+                    <td>d[A]/dt = -k[A]</td>
+                    <td>[A]₀e^(-kt)</td>
+                </tr>
+                <tr>
+                    <td>2nd-order kinetics</td>
+                    <td>d[A]/dt = -k[A]²</td>
+                    <td>[A]₀/(1+kt[A]₀)</td>
+                </tr>
+                <tr>
+                    <td>Harmonic oscillator</td>
+                    <td>x'' + ω²x = 0</td>
+                    <td>A cos(ωt + φ)</td>
+                </tr>
+            </table>
+        </section>
+
+        <footer>
+            <p>Chemical Thinking: The Grammar of Reality</p>
+            <p><a href="../18-integration-techniques/">← Lecture 18: Integration Techniques</a> · <a href="../20-probability/">Lecture 20: Probability Basics →</a></p>
+        </footer>
+    </div>
+
+    <script>
+        // Initialize KaTeX
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "$$", right: "$$", display: true},
+                    {left: "$", right: "$", display: false}
+                ]
+            });
+
+            initFirstOrderViz();
+            initConsecutiveViz();
+            initDampedViz();
+            initQuantumViz();
+            initEulerViz();
+        });
+
+        // ===== FIRST ORDER KINETICS =====
+        function initFirstOrderViz() {
+            const canvas = document.getElementById('firstOrderCanvas');
+            const ctx = canvas.getContext('2d');
+            const slider = document.getElementById('kSlider');
+
+            function draw() {
+                const k = parseFloat(slider.value);
+                document.getElementById('kValue').textContent = k.toFixed(2);
+
+                const tHalf = Math.log(2) / k;
+                document.getElementById('halfLifeValue').textContent = tHalf.toFixed(2) + ' s';
+
+                const width = canvas.width;
+                const height = canvas.height;
+                const padding = 50;
+
+                ctx.clearRect(0, 0, width, height);
+
+                const A0 = 1;
+                const A = t => A0 * Math.exp(-k * t);
+                const tMax = Math.min(50, 5 * tHalf);
+
+                const xScale = (width - 2*padding) / tMax;
+                const yScale = (height - 2*padding) / (A0 * 1.1);
+
+                const toCanvasX = t => padding + t * xScale;
+                const toCanvasY = a => height - padding - a * yScale;
+
+                // Axes
+                ctx.strokeStyle = '#6b6b6b';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(padding, height - padding);
+                ctx.lineTo(width - padding, height - padding);
+                ctx.moveTo(padding, height - padding);
+                ctx.lineTo(padding, padding);
+                ctx.stroke();
+
+                // Decay curve
+                ctx.strokeStyle = '#4a9eff';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                for (let t = 0; t <= tMax; t += tMax/200) {
+                    const y = A(t);
+                    if (t === 0) ctx.moveTo(toCanvasX(t), toCanvasY(y));
+                    else ctx.lineTo(toCanvasX(t), toCanvasY(y));
+                }
+                ctx.stroke();
+
+                // Half-life markers
+                ctx.strokeStyle = '#ef4444';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([5, 5]);
+                ctx.beginPath();
+                ctx.moveTo(toCanvasX(0), toCanvasY(A0/2));
+                ctx.lineTo(toCanvasX(tHalf), toCanvasY(A0/2));
+                ctx.lineTo(toCanvasX(tHalf), toCanvasY(0));
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Half-life point
+                ctx.fillStyle = '#ef4444';
+                ctx.beginPath();
+                ctx.arc(toCanvasX(tHalf), toCanvasY(A0/2), 8, 0, 2*Math.PI);
+                ctx.fill();
+
+                // Labels
+                ctx.fillStyle = '#e8e6e3';
+                ctx.font = '14px Inter';
+                ctx.textAlign = 'center';
+                ctx.fillText('Time (s)', width/2, height - 10);
+
+                ctx.save();
+                ctx.translate(15, height/2);
+                ctx.rotate(-Math.PI/2);
+                ctx.fillText('[A] (M)', 0, 0);
+                ctx.restore();
+
+                ctx.fillStyle = '#4a9eff';
+                ctx.textAlign = 'left';
+                ctx.fillText('[A] = [A]₀e^(-kt)', padding + 10, padding + 20);
+            }
+
+            slider.addEventListener('input', draw);
+            draw();
+        }
+
+        // ===== CONSECUTIVE REACTIONS =====
+        function initConsecutiveViz() {
+            const canvas = document.getElementById('consecutiveCanvas');
+            const ctx = canvas.getContext('2d');
+            const k1Slider = document.getElementById('k1Slider');
+            const k2Slider = document.getElementById('k2Slider');
+
+            function draw() {
+                const k1 = parseFloat(k1Slider.value);
+                const k2 = parseFloat(k2Slider.value);
+                document.getElementById('k1Value').textContent = k1.toFixed(2);
+                document.getElementById('k2Value').textContent = k2.toFixed(2);
+
+                const A0 = 1;
+                const A = t => A0 * Math.exp(-k1 * t);
+                const B = t => {
+                    if (Math.abs(k1 - k2) < 0.001) return A0 * k1 * t * Math.exp(-k1 * t);
+                    return (k1 * A0 / (k2 - k1)) * (Math.exp(-k1 * t) - Math.exp(-k2 * t));
+                };
+                const C = t => A0 - A(t) - B(t);
+
+                // Time of max B
+                let tMax;
+                if (Math.abs(k1 - k2) < 0.001) tMax = 1 / k1;
+                else tMax = Math.log(k1 / k2) / (k1 - k2);
+
+                const BMax = B(tMax);
+                document.getElementById('tMaxValue').textContent = tMax.toFixed(2) + ' s';
+                document.getElementById('bMaxValue').textContent = BMax.toFixed(3) + ' M';
+
+                const width = canvas.width;
+                const height = canvas.height;
+                const padding = 50;
+
+                ctx.clearRect(0, 0, width, height);
+
+                const tEnd = 80;
+                const xScale = (width - 2*padding) / tEnd;
+                const yScale = (height - 2*padding) / (A0 * 1.1);
+
+                const toCanvasX = t => padding + t * xScale;
+                const toCanvasY = c => height - padding - c * yScale;
+
+                // Axes
+                ctx.strokeStyle = '#6b6b6b';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(padding, height - padding);
+                ctx.lineTo(width - padding, height - padding);
+                ctx.moveTo(padding, height - padding);
+                ctx.lineTo(padding, padding);
+                ctx.stroke();
+
+                // A curve
+                ctx.strokeStyle = '#4a9eff';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                for (let t = 0; t <= tEnd; t += 0.5) {
+                    if (t === 0) ctx.moveTo(toCanvasX(t), toCanvasY(A(t)));
+                    else ctx.lineTo(toCanvasX(t), toCanvasY(A(t)));
+                }
+                ctx.stroke();
+
+                // B curve
+                ctx.strokeStyle = '#10b981';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                for (let t = 0; t <= tEnd; t += 0.5) {
+                    if (t === 0) ctx.moveTo(toCanvasX(t), toCanvasY(B(t)));
+                    else ctx.lineTo(toCanvasX(t), toCanvasY(B(t)));
+                }
+                ctx.stroke();
+
+                // C curve
+                ctx.strokeStyle = '#ef4444';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                for (let t = 0; t <= tEnd; t += 0.5) {
+                    if (t === 0) ctx.moveTo(toCanvasX(t), toCanvasY(C(t)));
+                    else ctx.lineTo(toCanvasX(t), toCanvasY(C(t)));
+                }
+                ctx.stroke();
+
+                // B max marker
+                if (tMax > 0 && tMax < tEnd) {
+                    ctx.fillStyle = '#10b981';
+                    ctx.beginPath();
+                    ctx.arc(toCanvasX(tMax), toCanvasY(BMax), 8, 0, 2*Math.PI);
+                    ctx.fill();
+                }
+
+                // Legend
+                ctx.font = '14px Inter';
+                ctx.textAlign = 'left';
+                ctx.fillStyle = '#4a9eff';
+                ctx.fillText('[A]', width - padding - 40, padding + 20);
+                ctx.fillStyle = '#10b981';
+                ctx.fillText('[B]', width - padding - 40, padding + 40);
+                ctx.fillStyle = '#ef4444';
+                ctx.fillText('[C]', width - padding - 40, padding + 60);
+
+                // Axis labels
+                ctx.fillStyle = '#e8e6e3';
+                ctx.textAlign = 'center';
+                ctx.fillText('Time (s)', width/2, height - 10);
+            }
+
+            k1Slider.addEventListener('input', draw);
+            k2Slider.addEventListener('input', draw);
+            draw();
+        }
+
+        // ===== DAMPED OSCILLATOR =====
+        function initDampedViz() {
+            const canvas = document.getElementById('dampedCanvas');
+            const ctx = canvas.getContext('2d');
+            const w0Slider = document.getElementById('w0Slider');
+            const betaSlider = document.getElementById('betaSlider');
+
+            function draw() {
+                const w0 = parseFloat(w0Slider.value);
+                const beta = parseFloat(betaSlider.value);
+                document.getElementById('w0Value').textContent = w0.toFixed(1);
+                document.getElementById('betaValue').textContent = beta.toFixed(1);
+
+                const disc = beta*beta - w0*w0;
+                document.getElementById('discriminantValue').textContent = disc.toFixed(2);
+
+                let regime, color;
+                let x;
+
+                if (Math.abs(disc) < 0.1) {
+                    regime = 'Critically Damped';
+                    color = '#f59e0b';
+                    x = t => (1 + beta*t) * Math.exp(-beta*t);
+                } else if (disc < 0) {
+                    regime = 'Underdamped';
+                    color = '#4a9eff';
+                    const wd = Math.sqrt(-disc);
+                    x = t => Math.exp(-beta*t) * Math.cos(wd*t);
+                } else {
+                    regime = 'Overdamped';
+                    color = '#ef4444';
+                    const r1 = -beta + Math.sqrt(disc);
+                    const r2 = -beta - Math.sqrt(disc);
+                    const C1 = -r2 / (r1 - r2);
+                    const C2 = 1 - C1;
+                    x = t => C1*Math.exp(r1*t) + C2*Math.exp(r2*t);
+                }
+
+                document.getElementById('regimeValue').textContent = regime;
+
+                const width = canvas.width;
+                const height = canvas.height;
+                const padding = 50;
+
+                ctx.clearRect(0, 0, width, height);
+
+                const tEnd = 15;
+                const xScale = (width - 2*padding) / tEnd;
+                const yScale = (height - 2*padding) / 2.4;
+
+                const toCanvasX = t => padding + t * xScale;
+                const toCanvasY = val => height/2 - val * yScale;
+
+                // Axes
+                ctx.strokeStyle = '#6b6b6b';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(padding, height/2);
+                ctx.lineTo(width - padding, height/2);
+                ctx.stroke();
+
+                // Envelope for underdamped
+                if (disc < -0.1) {
+                    ctx.strokeStyle = '#6b6b6b';
+                    ctx.lineWidth = 1;
+                    ctx.setLineDash([3, 3]);
+                    ctx.beginPath();
+                    for (let t = 0; t <= tEnd; t += 0.1) {
+                        const env = Math.exp(-beta*t);
+                        if (t === 0) ctx.moveTo(toCanvasX(t), toCanvasY(env));
+                        else ctx.lineTo(toCanvasX(t), toCanvasY(env));
+                    }
+                    ctx.stroke();
+                    ctx.beginPath();
+                    for (let t = 0; t <= tEnd; t += 0.1) {
+                        const env = -Math.exp(-beta*t);
+                        if (t === 0) ctx.moveTo(toCanvasX(t), toCanvasY(env));
+                        else ctx.lineTo(toCanvasX(t), toCanvasY(env));
+                    }
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+                }
+
+                // Solution curve
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                for (let t = 0; t <= tEnd; t += 0.02) {
+                    const val = x(t);
+                    if (t === 0) ctx.moveTo(toCanvasX(t), toCanvasY(val));
+                    else ctx.lineTo(toCanvasX(t), toCanvasY(val));
+                }
+                ctx.stroke();
+
+                // Labels
+                ctx.fillStyle = '#e8e6e3';
+                ctx.font = '14px Inter';
+                ctx.textAlign = 'center';
+                ctx.fillText('Time', width/2, height - 15);
+
+                ctx.fillStyle = color;
+                ctx.textAlign = 'left';
+                ctx.fillText(regime, padding + 10, padding + 20);
+            }
+
+            w0Slider.addEventListener('input', draw);
+            betaSlider.addEventListener('input', draw);
+            draw();
+        }
+
+        // ===== QUANTUM BOX =====
+        function initQuantumViz() {
+            const canvas = document.getElementById('quantumCanvas');
+            const ctx = canvas.getContext('2d');
+            const slider = document.getElementById('nSlider');
+
+            function draw() {
+                const n = parseInt(slider.value);
+                document.getElementById('nValue').textContent = n;
+                document.getElementById('energyValue').textContent = `n² = ${n*n}`;
+                document.getElementById('nodesValue').textContent = n - 1;
+
+                const width = canvas.width;
+                const height = canvas.height;
+                const padding = 50;
+                const midY = height / 2;
+
+                ctx.clearRect(0, 0, width, height);
+
+                const L = 1;
+                const xScale = (width - 2*padding) / L;
+                const yScaleTop = (midY - padding - 20) / 2;
+                const yScaleBottom = (height - midY - padding - 20) / 2.5;
+
+                const toCanvasX = x => padding + x * xScale;
+
+                // Box walls
+                ctx.strokeStyle = '#6b6b6b';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(padding, padding);
+                ctx.lineTo(padding, height - padding);
+                ctx.moveTo(width - padding, padding);
+                ctx.lineTo(width - padding, height - padding);
+                ctx.stroke();
+
+                // Top: Wavefunction
+                const psi = x => Math.sqrt(2/L) * Math.sin(n * Math.PI * x / L);
+
+                ctx.strokeStyle = '#4a9eff';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                for (let x = 0; x <= L; x += 0.005) {
+                    const y = psi(x);
+                    const cy = midY - 30 - y * yScaleTop;
+                    if (x === 0) ctx.moveTo(toCanvasX(x), cy);
+                    else ctx.lineTo(toCanvasX(x), cy);
+                }
+                ctx.stroke();
+
+                // Zero line top
+                ctx.strokeStyle = '#6b6b6b';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(padding, midY - 30);
+                ctx.lineTo(width - padding, midY - 30);
+                ctx.stroke();
+
+                // Node markers
+                ctx.fillStyle = '#ef4444';
+                for (let i = 1; i < n; i++) {
+                    const nodeX = i / n;
+                    ctx.beginPath();
+                    ctx.arc(toCanvasX(nodeX), midY - 30, 5, 0, 2*Math.PI);
+                    ctx.fill();
+                }
+
+                // Bottom: Probability density
+                const prob = x => psi(x) * psi(x);
+
+                ctx.fillStyle = 'rgba(168, 85, 247, 0.3)';
+                ctx.beginPath();
+                ctx.moveTo(toCanvasX(0), height - padding);
+                for (let x = 0; x <= L; x += 0.005) {
+                    const y = prob(x);
+                    const cy = height - padding - y * yScaleBottom;
+                    ctx.lineTo(toCanvasX(x), cy);
+                }
+                ctx.lineTo(toCanvasX(L), height - padding);
+                ctx.closePath();
+                ctx.fill();
+
+                ctx.strokeStyle = '#a855f7';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                for (let x = 0; x <= L; x += 0.005) {
+                    const y = prob(x);
+                    const cy = height - padding - y * yScaleBottom;
+                    if (x === 0) ctx.moveTo(toCanvasX(x), cy);
+                    else ctx.lineTo(toCanvasX(x), cy);
+                }
+                ctx.stroke();
+
+                // Labels
+                ctx.fillStyle = '#e8e6e3';
+                ctx.font = '14px Inter';
+                ctx.textAlign = 'center';
+                ctx.fillText('x/L', width/2, height - 10);
+
+                ctx.fillStyle = '#4a9eff';
+                ctx.textAlign = 'left';
+                ctx.fillText(`ψ_${n}(x)`, padding + 10, padding + 15);
+
+                ctx.fillStyle = '#a855f7';
+                ctx.fillText(`|ψ_${n}|²`, padding + 10, midY + 15);
+            }
+
+            slider.addEventListener('input', draw);
+            draw();
+        }
+
+        // ===== EULER'S METHOD =====
+        function initEulerViz() {
+            const canvas = document.getElementById('eulerCanvas');
+            const ctx = canvas.getContext('2d');
+            const select = document.getElementById('hSelect');
+
+            function draw() {
+                const h = parseFloat(select.value);
+                document.getElementById('hValue').textContent = h.toFixed(2);
+
+                const width = canvas.width;
+                const height = canvas.height;
+                const padding = 50;
+
+                ctx.clearRect(0, 0, width, height);
+
+                const xEnd = 3;
+                const xScale = (width - 2*padding) / xEnd;
+                const yScale = (height - 2*padding) / 1.2;
+
+                const toCanvasX = x => padding + x * xScale;
+                const toCanvasY = y => height - padding - y * yScale;
+
+                // Euler's method for dy/dx = -y
+                const nSteps = Math.ceil(xEnd / h);
+                const xEuler = [0];
+                const yEuler = [1];
+
+                for (let i = 0; i < nSteps; i++) {
+                    const xNew = xEuler[i] + h;
+                    const yNew = yEuler[i] + h * (-yEuler[i]);
+                    xEuler.push(xNew);
+                    yEuler.push(yNew);
+                }
+
+                const eulerFinal = yEuler[yEuler.length - 1];
+                const exactFinal = Math.exp(-xEnd);
+                const relError = 100 * Math.abs(eulerFinal - exactFinal) / exactFinal;
+
+                document.getElementById('eulerResult').textContent = eulerFinal.toFixed(4);
+                document.getElementById('eulerError').textContent = relError.toFixed(1) + '%';
+
+                // Axes
+                ctx.strokeStyle = '#6b6b6b';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(padding, height - padding);
+                ctx.lineTo(width - padding, height - padding);
+                ctx.moveTo(padding, height - padding);
+                ctx.lineTo(padding, padding);
+                ctx.stroke();
+
+                // Exact solution
+                ctx.strokeStyle = '#4a9eff';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                for (let x = 0; x <= xEnd; x += 0.02) {
+                    const y = Math.exp(-x);
+                    if (x === 0) ctx.moveTo(toCanvasX(x), toCanvasY(y));
+                    else ctx.lineTo(toCanvasX(x), toCanvasY(y));
+                }
+                ctx.stroke();
+
+                // Euler solution
+                ctx.strokeStyle = '#ef4444';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                for (let i = 0; i < xEuler.length; i++) {
+                    if (i === 0) ctx.moveTo(toCanvasX(xEuler[i]), toCanvasY(yEuler[i]));
+                    else ctx.lineTo(toCanvasX(xEuler[i]), toCanvasY(yEuler[i]));
+                }
+                ctx.stroke();
+
+                // Euler points
+                ctx.fillStyle = '#ef4444';
+                for (let i = 0; i < xEuler.length; i++) {
+                    ctx.beginPath();
+                    ctx.arc(toCanvasX(xEuler[i]), toCanvasY(yEuler[i]), 4, 0, 2*Math.PI);
+                    ctx.fill();
+                }
+
+                // Legend
+                ctx.font = '14px Inter';
+                ctx.textAlign = 'left';
+                ctx.fillStyle = '#4a9eff';
+                ctx.fillText('Exact: y = e⁻ˣ', padding + 10, padding + 20);
+                ctx.fillStyle = '#ef4444';
+                ctx.fillText('Euler', padding + 10, padding + 40);
+            }
+
+            select.addEventListener('change', draw);
+            draw();
+        }
+    </script>
+</body>
+</html>
