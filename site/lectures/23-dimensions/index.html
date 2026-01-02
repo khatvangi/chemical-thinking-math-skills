@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 23: Dimensional Analysis | Chemical Thinking</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a24;
+            --text-primary: #e4e4e7;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+            --accent-spread: #14b8a6;
+            --accent-spread-dim: #0d9488;
+            --accent-cyan: #06b6d4;
+            --accent-green: #10b981;
+            --border-subtle: #27272a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            padding: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .lecture-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-spread);
+        }
+
+        .primitive-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(20, 184, 166, 0.1), rgba(6, 182, 212, 0.1));
+            border: 1px solid rgba(20, 184, 166, 0.3);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .primitive-link:hover {
+            background: linear-gradient(135deg, rgba(20, 184, 166, 0.2), rgba(6, 182, 212, 0.2));
+            border-color: rgba(20, 184, 166, 0.5);
+        }
+
+        .primitive-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--accent-spread);
+            background: rgba(20, 184, 166, 0.15);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .primitive-text {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 3rem 0;
+        }
+
+        .lecture-number {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-spread);
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-family: 'Fraunces', serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-spread), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        h2 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.8rem;
+            color: var(--accent-spread);
+            margin: 3rem 0 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-subtle);
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .hook-box {
+            background: linear-gradient(135deg, rgba(20, 184, 166, 0.1), rgba(6, 182, 212, 0.05));
+            border: 1px solid rgba(20, 184, 166, 0.3);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .hook-box p {
+            color: var(--text-primary);
+        }
+
+        .principle-box {
+            background: var(--bg-tertiary);
+            border-left: 4px solid var(--accent-spread);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .principle-box p {
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        th {
+            background: var(--bg-tertiary);
+            color: var(--accent-spread);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        td {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .visualization-container {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .viz-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-spread);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .viz-canvas {
+            width: 100%;
+            height: 400px;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            display: block;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .control-group label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .control-group input[type="range"] {
+            width: 150px;
+            accent-color: var(--accent-spread);
+        }
+
+        .control-group select {
+            padding: 0.5rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 4px;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+
+        .control-group input[type="number"] {
+            width: 100px;
+            padding: 0.5rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 4px;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+
+        .value-display {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-cyan);
+            font-size: 0.9rem;
+        }
+
+        .result-box {
+            background: rgba(20, 184, 166, 0.1);
+            border: 1px solid rgba(20, 184, 166, 0.3);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .result-label {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        .result-value {
+            color: var(--accent-spread);
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .check-result {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        .check-pass {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+
+        .check-fail {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-tertiary);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-cyan);
+        }
+
+        .formula {
+            background: var(--bg-tertiary);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            text-align: center;
+            overflow-x: auto;
+        }
+
+        .example-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .example-title {
+            color: var(--accent-cyan);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .exercise-box {
+            background: var(--bg-tertiary);
+            border-left: 4px solid var(--accent-cyan);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+
+            .lecture-nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-subtle);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: var(--accent-spread);
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <nav class="lecture-nav">
+        <a href="../all-lectures.html" class="nav-link">← All Lectures</a>
+        <a href="../../primitives/spread.html" class="primitive-link">
+            <span class="primitive-badge">SPREAD</span>
+            <span class="primitive-text">Explore the Primitive →</span>
+        </a>
+    </nav>
+
+    <header>
+        <div class="lecture-number">LECTURE 23</div>
+        <h1>Dimensional Analysis</h1>
+        <p class="subtitle">Units as a reasoning tool — checking, deriving, and transforming equations</p>
+    </header>
+
+    <main>
+        <div class="hook-box">
+            <h3>The Hook</h3>
+            <p>A student derives that the period of a pendulum is \(T = 2\pi\sqrt{g/L}\).</p>
+            <p>Something is wrong. How do you know <strong>without doing any physics</strong>?</p>
+            <p>Check the units: \([g/L] = (m/s^2)/m = 1/s^2\), so \([\sqrt{g/L}] = 1/s\).</p>
+            <p>But period should have units of <em>seconds</em>, not \(1/seconds\)!</p>
+            <p><strong>The correct formula must be \(T = 2\pi\sqrt{L/g}\).</strong></p>
+        </div>
+
+        <div class="principle-box">
+            <p><strong>Physical equations must be dimensionally consistent.</strong> You cannot add meters to seconds. Every term in an equation must have the same dimensions. This is not just a check — it's a constraint that limits what equations are possible.</p>
+        </div>
+
+        <h2>1. Dimension Checker</h2>
+        <p>Enter the dimensions of each side to verify dimensional consistency.</p>
+
+        <div class="visualization-container">
+            <div class="viz-title">Interactive Dimension Checker</div>
+            <div class="two-column">
+                <div class="control-group">
+                    <label><strong>Left Side Exponents</strong></label>
+                    <label>Mass (M): <span class="value-display" id="L_M_val">1</span></label>
+                    <input type="range" id="L_M" min="-3" max="3" value="1" step="1">
+                    <label>Length (L): <span class="value-display" id="L_L_val">2</span></label>
+                    <input type="range" id="L_L" min="-3" max="3" value="2" step="1">
+                    <label>Time (T): <span class="value-display" id="L_T_val">-2</span></label>
+                    <input type="range" id="L_T" min="-3" max="3" value="-2" step="1">
+                </div>
+                <div class="control-group">
+                    <label><strong>Right Side Exponents</strong></label>
+                    <label>Mass (M): <span class="value-display" id="R_M_val">1</span></label>
+                    <input type="range" id="R_M" min="-3" max="3" value="1" step="1">
+                    <label>Length (L): <span class="value-display" id="R_L_val">2</span></label>
+                    <input type="range" id="R_L" min="-3" max="3" value="2" step="1">
+                    <label>Time (T): <span class="value-display" id="R_T_val">-2</span></label>
+                    <input type="range" id="R_T" min="-3" max="3" value="-2" step="1">
+                </div>
+            </div>
+            <div class="result-box">
+                <div><span class="result-label">Left:</span> <span id="left-dims" class="result-value">M¹L²T⁻²</span></div>
+                <div><span class="result-label">Right:</span> <span id="right-dims" class="result-value">M¹L²T⁻²</span></div>
+                <div id="dim-check-result" class="check-result check-pass">✓ Dimensionally Consistent</div>
+            </div>
+        </div>
+
+        <h3>Common Quantity Dimensions</h3>
+        <table>
+            <tr><th>Quantity</th><th>Dimensions</th><th>SI Unit</th></tr>
+            <tr><td>Energy</td><td>M L² T⁻²</td><td>J = kg·m²/s²</td></tr>
+            <tr><td>Force</td><td>M L T⁻²</td><td>N = kg·m/s²</td></tr>
+            <tr><td>Pressure</td><td>M L⁻¹ T⁻²</td><td>Pa = N/m²</td></tr>
+            <tr><td>Velocity</td><td>L T⁻¹</td><td>m/s</td></tr>
+            <tr><td>Acceleration</td><td>L T⁻²</td><td>m/s²</td></tr>
+            <tr><td>Frequency</td><td>T⁻¹</td><td>Hz = 1/s</td></tr>
+            <tr><td>Diffusion coef.</td><td>L² T⁻¹</td><td>m²/s</td></tr>
+            <tr><td>Viscosity</td><td>M L⁻¹ T⁻¹</td><td>Pa·s</td></tr>
+        </table>
+
+        <h2>2. Scaling Laws</h2>
+        <p>Dimensional analysis reveals how quantities scale with size.</p>
+
+        <div class="visualization-container">
+            <div class="viz-title">Surface Area vs Volume Scaling</div>
+            <canvas id="scalingCanvas" class="viz-canvas"></canvas>
+            <div class="controls">
+                <div class="control-group">
+                    <label>Size Range (log₁₀ m)</label>
+                    <input type="range" id="sizeRange" min="-9" max="0" value="-6" step="1">
+                    <span class="value-display" id="sizeRangeVal">10⁻⁶ to 1 m</span>
+                </div>
+            </div>
+            <div class="result-box">
+                <p><strong>Key insight:</strong> Small objects have higher surface-to-volume ratio.</p>
+                <p>• Nanoparticles: more reactive (more surface per volume)</p>
+                <p>• Catalysts: finely divided for maximum surface</p>
+                <p>• Small animals: lose heat faster</p>
+            </div>
+        </div>
+
+        <h2>3. Diffusion Time</h2>
+        <p>Time to diffuse distance \(L\): \(t \sim L^2/D\)</p>
+
+        <div class="visualization-container">
+            <div class="viz-title">Diffusion Time Calculator</div>
+            <canvas id="diffusionCanvas" class="viz-canvas"></canvas>
+            <div class="controls">
+                <div class="control-group">
+                    <label>Diffusion Coefficient</label>
+                    <select id="diffCoef">
+                        <option value="1e-9">Small molecule in water (10⁻⁹ m²/s)</option>
+                        <option value="1e-10">Protein in water (10⁻¹⁰ m²/s)</option>
+                        <option value="1e-11">Large protein (10⁻¹¹ m²/s)</option>
+                        <option value="1e-5">Gas in air (10⁻⁵ m²/s)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="result-box" id="diffusion-results">
+                <!-- Filled by JavaScript -->
+            </div>
+        </div>
+
+        <h2>4. Unit Converter</h2>
+        <p>Convert between common chemistry energy units.</p>
+
+        <div class="visualization-container">
+            <div class="viz-title">Energy Unit Converter</div>
+            <div class="controls">
+                <div class="control-group">
+                    <label>Value</label>
+                    <input type="number" id="energyValue" value="50" min="0.01" step="0.1">
+                </div>
+                <div class="control-group">
+                    <label>From</label>
+                    <select id="energyFrom">
+                        <option value="kJ/mol">kJ/mol</option>
+                        <option value="kcal/mol">kcal/mol</option>
+                        <option value="eV">eV</option>
+                        <option value="cm⁻¹">cm⁻¹</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label>To</label>
+                    <select id="energyTo">
+                        <option value="eV">eV</option>
+                        <option value="kJ/mol">kJ/mol</option>
+                        <option value="kcal/mol">kcal/mol</option>
+                        <option value="cm⁻¹">cm⁻¹</option>
+                    </select>
+                </div>
+            </div>
+            <div class="result-box">
+                <span class="result-label">Result:</span>
+                <span id="conversionResult" class="result-value">0.518 eV</span>
+            </div>
+        </div>
+
+        <h3>Common Chemistry Conversions</h3>
+        <table>
+            <tr><th>Quantity</th><th>Conversion</th></tr>
+            <tr><td>Energy</td><td>1 eV = 96.485 kJ/mol = 8065.5 cm⁻¹</td></tr>
+            <tr><td>Energy</td><td>1 Hartree = 27.21 eV = 627.5 kcal/mol</td></tr>
+            <tr><td>Length</td><td>1 Å = 10⁻¹⁰ m = 100 pm</td></tr>
+            <tr><td>Pressure</td><td>1 atm = 101.325 kPa = 760 Torr</td></tr>
+            <tr><td>Amount</td><td>1 mol = 6.022 × 10²³ particles</td></tr>
+        </table>
+
+        <h2>5. Linearization</h2>
+        <p>Transform nonlinear equations for easier analysis.</p>
+
+        <div class="visualization-container">
+            <div class="viz-title">Linearization Explorer</div>
+            <canvas id="linearCanvas" class="viz-canvas"></canvas>
+            <div class="controls">
+                <div class="control-group">
+                    <label>Equation Type</label>
+                    <select id="eqType">
+                        <option value="arrhenius">Arrhenius: k = A exp(-Eₐ/RT)</option>
+                        <option value="firstorder">First-order: [A] = [A]₀ exp(-kt)</option>
+                        <option value="langmuir">Langmuir: θ = KP/(1+KP)</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label>Parameter</label>
+                    <input type="range" id="linParam" min="0.5" max="2" value="1" step="0.1">
+                    <span class="value-display" id="linParamVal">1.0</span>
+                </div>
+            </div>
+            <div class="result-box" id="linearization-info">
+                <!-- Filled by JavaScript -->
+            </div>
+        </div>
+
+        <h2>6. Fermi Estimation</h2>
+        <p>Combine dimensional analysis with rough estimates.</p>
+
+        <div class="visualization-container">
+            <div class="viz-title">Water Molecules in a Raindrop</div>
+            <canvas id="fermiCanvas" class="viz-canvas" style="height: 300px;"></canvas>
+            <div class="controls">
+                <div class="control-group">
+                    <label>Raindrop radius (mm)</label>
+                    <input type="range" id="rainRadius" min="0.5" max="3" value="1" step="0.5">
+                    <span class="value-display" id="rainRadiusVal">1.0 mm</span>
+                </div>
+            </div>
+            <div class="result-box" id="fermi-results">
+                <!-- Filled by JavaScript -->
+            </div>
+        </div>
+
+        <h2>Summary</h2>
+
+        <div class="two-column">
+            <div>
+                <h3>Dimensional Analysis Uses</h3>
+                <table>
+                    <tr><td>Check equations</td><td>All terms same dimensions</td></tr>
+                    <tr><td>Derive relationships</td><td>Match exponents</td></tr>
+                    <tr><td>Identify scaling</td><td>Form dimensionless groups</td></tr>
+                    <tr><td>Catch errors</td><td>Quick sanity check</td></tr>
+                    <tr><td>Estimate</td><td>Order of magnitude</td></tr>
+                </table>
+            </div>
+            <div>
+                <h3>Formula Manipulation</h3>
+                <table>
+                    <tr><td>Logarithm</td><td>Linearize exponentials</td></tr>
+                    <tr><td>Reciprocal</td><td>Linearize Langmuir, M-M</td></tr>
+                    <tr><td>Rearrange</td><td>Isolate desired variable</td></tr>
+                    <tr><td>Substitute</td><td>Connect different forms</td></tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="principle-box">
+            <p><strong>Key Insight:</strong> Units are not just labels — they carry information. Respecting dimensional consistency is the first line of defense against errors and a powerful tool for discovery.</p>
+        </div>
+
+        <div class="exercise-box">
+            <h3>Exercises</h3>
+            <ol>
+                <li>Verify that \(PV = nRT\) is dimensionally consistent.</li>
+                <li>Derive how the frequency of a vibrating string depends on length, tension, and linear density.</li>
+                <li>How long to diffuse 1 cm in water (\(D \approx 10^{-9}\) m²/s)?</li>
+                <li>Convert 2.5 eV to kJ/mol.</li>
+            </ol>
+        </div>
+    </main>
+
+    <footer>
+        <p>
+            <a href="24-synthesis/">Next: Lecture 24 — Synthesis →</a>
+        </p>
+        <p style="margin-top: 1rem;">Chemical Thinking: The Grammar of Reality</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "\\(", right: "\\)", display: false},
+                    {left: "\\[", right: "\\]", display: true},
+                    {left: "$$", right: "$$", display: true}
+                ]
+            });
+        });
+
+        // Superscript helper
+        function toSuperscript(n) {
+            if (n === 0) return '';
+            const supers = {'0': '⁰', '1': '¹', '2': '²', '3': '³', '4': '⁴',
+                           '5': '⁵', '6': '⁶', '7': '⁷', '8': '⁸', '9': '⁹', '-': '⁻'};
+            return String(n).split('').map(c => supers[c] || c).join('');
+        }
+
+        function formatDims(M, L, T) {
+            let parts = [];
+            if (M !== 0) parts.push('M' + toSuperscript(M));
+            if (L !== 0) parts.push('L' + toSuperscript(L));
+            if (T !== 0) parts.push('T' + toSuperscript(T));
+            return parts.length > 0 ? parts.join(' ') : '1 (dimensionless)';
+        }
+
+        // ============ DIMENSION CHECKER ============
+        const dimInputs = ['L_M', 'L_L', 'L_T', 'R_M', 'R_L', 'R_T'];
+
+        function updateDimCheck() {
+            const L_M = parseInt(document.getElementById('L_M').value);
+            const L_L = parseInt(document.getElementById('L_L').value);
+            const L_T = parseInt(document.getElementById('L_T').value);
+            const R_M = parseInt(document.getElementById('R_M').value);
+            const R_L = parseInt(document.getElementById('R_L').value);
+            const R_T = parseInt(document.getElementById('R_T').value);
+
+            document.getElementById('L_M_val').textContent = L_M;
+            document.getElementById('L_L_val').textContent = L_L;
+            document.getElementById('L_T_val').textContent = L_T;
+            document.getElementById('R_M_val').textContent = R_M;
+            document.getElementById('R_L_val').textContent = R_L;
+            document.getElementById('R_T_val').textContent = R_T;
+
+            document.getElementById('left-dims').textContent = formatDims(L_M, L_L, L_T);
+            document.getElementById('right-dims').textContent = formatDims(R_M, R_L, R_T);
+
+            const consistent = (L_M === R_M) && (L_L === R_L) && (L_T === R_T);
+            const resultEl = document.getElementById('dim-check-result');
+
+            if (consistent) {
+                resultEl.className = 'check-result check-pass';
+                resultEl.textContent = '✓ Dimensionally Consistent';
+            } else {
+                resultEl.className = 'check-result check-fail';
+                resultEl.textContent = '✗ NOT Consistent';
+            }
+        }
+
+        dimInputs.forEach(id => {
+            document.getElementById(id).addEventListener('input', updateDimCheck);
+        });
+
+        // ============ SCALING VISUALIZATION ============
+        const scalingCanvas = document.getElementById('scalingCanvas');
+        const scalingCtx = scalingCanvas.getContext('2d');
+
+        function drawScaling() {
+            const rect = scalingCanvas.getBoundingClientRect();
+            scalingCanvas.width = rect.width * window.devicePixelRatio;
+            scalingCanvas.height = rect.height * window.devicePixelRatio;
+            scalingCtx.scale(window.devicePixelRatio, window.devicePixelRatio);
+
+            const w = rect.width;
+            const h = rect.height;
+
+            scalingCtx.fillStyle = '#1a1a24';
+            scalingCtx.fillRect(0, 0, w, h);
+
+            const minLog = parseInt(document.getElementById('sizeRange').value);
+            const maxLog = 0;
+
+            document.getElementById('sizeRangeVal').textContent = `10${toSuperscript(minLog)} to 1 m`;
+
+            const padding = { left: 70, right: 30, top: 30, bottom: 50 };
+            const plotW = w - padding.left - padding.right;
+            const plotH = h - padding.top - padding.bottom;
+
+            // Draw axes
+            scalingCtx.strokeStyle = '#3f3f46';
+            scalingCtx.lineWidth = 1;
+            scalingCtx.beginPath();
+            scalingCtx.moveTo(padding.left, padding.top);
+            scalingCtx.lineTo(padding.left, h - padding.bottom);
+            scalingCtx.lineTo(w - padding.right, h - padding.bottom);
+            scalingCtx.stroke();
+
+            // Labels
+            scalingCtx.fillStyle = '#a1a1aa';
+            scalingCtx.font = '12px Inter';
+            scalingCtx.textAlign = 'center';
+            scalingCtx.fillText('Size L (m, log scale)', w/2, h - 10);
+
+            scalingCtx.save();
+            scalingCtx.translate(15, h/2);
+            scalingCtx.rotate(-Math.PI/2);
+            scalingCtx.fillText('Normalized Value (log scale)', 0, 0);
+            scalingCtx.restore();
+
+            // X-axis ticks
+            for (let exp = minLog; exp <= maxLog; exp++) {
+                const x = padding.left + (exp - minLog) / (maxLog - minLog) * plotW;
+                scalingCtx.fillStyle = '#71717a';
+                scalingCtx.font = '10px JetBrains Mono';
+                scalingCtx.textAlign = 'center';
+                scalingCtx.fillText(`10${toSuperscript(exp)}`, x, h - padding.bottom + 15);
+            }
+
+            // Draw curves
+            const numPoints = 200;
+            const curves = [
+                { exp: 2, color: '#3b82f6', label: 'SA ∝ L²' },
+                { exp: 3, color: '#ef4444', label: 'V ∝ L³' },
+                { exp: -1, color: '#10b981', label: 'SA/V ∝ 1/L' }
+            ];
+
+            curves.forEach(curve => {
+                scalingCtx.strokeStyle = curve.color;
+                scalingCtx.lineWidth = 3;
+                scalingCtx.beginPath();
+
+                for (let i = 0; i < numPoints; i++) {
+                    const logL = minLog + (maxLog - minLog) * i / (numPoints - 1);
+                    const logY = curve.exp * logL;
+
+                    // Normalize so max value at L=1 is 1
+                    const normalizedLogY = logY - curve.exp * maxLog;
+
+                    const x = padding.left + (logL - minLog) / (maxLog - minLog) * plotW;
+                    // Map log values from [-9*3, 0] to [plotH, 0]
+                    const yRange = Math.abs(curve.exp) * Math.abs(minLog);
+                    const y = padding.top + plotH - (normalizedLogY + yRange) / yRange * plotH;
+
+                    if (i === 0) scalingCtx.moveTo(x, y);
+                    else scalingCtx.lineTo(x, y);
+                }
+                scalingCtx.stroke();
+            });
+
+            // Legend
+            let legendY = padding.top + 20;
+            curves.forEach(curve => {
+                scalingCtx.fillStyle = curve.color;
+                scalingCtx.fillRect(w - padding.right - 100, legendY - 8, 20, 3);
+                scalingCtx.fillStyle = '#e4e4e7';
+                scalingCtx.font = '12px JetBrains Mono';
+                scalingCtx.textAlign = 'left';
+                scalingCtx.fillText(curve.label, w - padding.right - 75, legendY);
+                legendY += 25;
+            });
+        }
+
+        document.getElementById('sizeRange').addEventListener('input', drawScaling);
+
+        // ============ DIFFUSION VISUALIZATION ============
+        const diffCanvas = document.getElementById('diffusionCanvas');
+        const diffCtx = diffCanvas.getContext('2d');
+
+        function formatTime(t) {
+            if (t < 1e-9) return (t * 1e12).toFixed(1) + ' ps';
+            if (t < 1e-6) return (t * 1e9).toFixed(1) + ' ns';
+            if (t < 1e-3) return (t * 1e6).toFixed(1) + ' μs';
+            if (t < 1) return (t * 1e3).toFixed(1) + ' ms';
+            if (t < 60) return t.toFixed(1) + ' s';
+            if (t < 3600) return (t / 60).toFixed(1) + ' min';
+            if (t < 86400) return (t / 3600).toFixed(1) + ' hr';
+            if (t < 3.15e7) return (t / 86400).toFixed(1) + ' days';
+            return (t / 3.15e7).toFixed(1) + ' yr';
+        }
+
+        function drawDiffusion() {
+            const rect = diffCanvas.getBoundingClientRect();
+            diffCanvas.width = rect.width * window.devicePixelRatio;
+            diffCanvas.height = rect.height * window.devicePixelRatio;
+            diffCtx.scale(window.devicePixelRatio, window.devicePixelRatio);
+
+            const w = rect.width;
+            const h = rect.height;
+
+            diffCtx.fillStyle = '#1a1a24';
+            diffCtx.fillRect(0, 0, w, h);
+
+            const D = parseFloat(document.getElementById('diffCoef').value);
+
+            // Draw distance scale with times
+            const distances = [
+                { L: 1e-9, label: '1 nm\n(molecule)' },
+                { L: 1e-7, label: '100 nm\n(virus)' },
+                { L: 1e-6, label: '1 μm\n(bacterium)' },
+                { L: 1e-5, label: '10 μm\n(cell)' },
+                { L: 1e-3, label: '1 mm' },
+                { L: 1e-2, label: '1 cm' },
+                { L: 1, label: '1 m' }
+            ];
+
+            const barHeight = 40;
+            const startY = 60;
+            const padding = { left: 50, right: 50 };
+            const plotW = w - padding.left - padding.right;
+
+            // Title
+            diffCtx.fillStyle = '#e4e4e7';
+            diffCtx.font = '14px Inter';
+            diffCtx.textAlign = 'center';
+            diffCtx.fillText(`Diffusion Time: t = L²/D (D = ${D.toExponential(0)} m²/s)`, w/2, 30);
+
+            distances.forEach((d, i) => {
+                const y = startY + i * (barHeight + 15);
+                const t = d.L * d.L / D;
+
+                // Bar length proportional to log of time
+                const logT = Math.log10(t);
+                const minLogT = -12;
+                const maxLogT = 10;
+                const barW = Math.max(10, (logT - minLogT) / (maxLogT - minLogT) * plotW * 0.8);
+
+                // Color based on time
+                let color;
+                if (t < 1e-3) color = '#10b981';      // Green: fast
+                else if (t < 1) color = '#06b6d4';    // Cyan: medium
+                else if (t < 3600) color = '#f59e0b'; // Orange: slow
+                else color = '#ef4444';               // Red: very slow
+
+                // Draw bar
+                diffCtx.fillStyle = color;
+                diffCtx.fillRect(padding.left, y, barW, barHeight);
+
+                // Label
+                diffCtx.fillStyle = '#a1a1aa';
+                diffCtx.font = '11px JetBrains Mono';
+                diffCtx.textAlign = 'right';
+                const lines = d.label.split('\n');
+                lines.forEach((line, li) => {
+                    diffCtx.fillText(line, padding.left - 5, y + barHeight/2 + (li - 0.5) * 12);
+                });
+
+                // Time
+                diffCtx.fillStyle = '#e4e4e7';
+                diffCtx.font = '12px JetBrains Mono';
+                diffCtx.textAlign = 'left';
+                diffCtx.fillText(formatTime(t), padding.left + barW + 10, y + barHeight/2 + 4);
+            });
+
+            // Update results box
+            document.getElementById('diffusion-results').innerHTML = `
+                <p><strong>Key insight:</strong> t ∝ L². Doubling distance → 4× time!</p>
+                <p>This is why diffusion works for small scales but fails for large ones.</p>
+                <p>A neuron (1 m) would take ~30 years by diffusion alone — hence active transport!</p>
+            `;
+        }
+
+        document.getElementById('diffCoef').addEventListener('change', drawDiffusion);
+
+        // ============ UNIT CONVERTER ============
+        function updateConversion() {
+            const value = parseFloat(document.getElementById('energyValue').value);
+            const from = document.getElementById('energyFrom').value;
+            const to = document.getElementById('energyTo').value;
+
+            // Conversion factors to kJ/mol
+            const toKJmol = {
+                'kJ/mol': 1.0,
+                'kcal/mol': 4.184,
+                'eV': 96.485,
+                'cm⁻¹': 0.01196
+            };
+
+            const kJmol = value * toKJmol[from];
+            const result = kJmol / toKJmol[to];
+
+            document.getElementById('conversionResult').textContent =
+                result.toPrecision(4) + ' ' + to;
+        }
+
+        document.getElementById('energyValue').addEventListener('input', updateConversion);
+        document.getElementById('energyFrom').addEventListener('change', updateConversion);
+        document.getElementById('energyTo').addEventListener('change', updateConversion);
+
+        // ============ LINEARIZATION ============
+        const linearCanvas = document.getElementById('linearCanvas');
+        const linearCtx = linearCanvas.getContext('2d');
+
+        function drawLinearization() {
+            const rect = linearCanvas.getBoundingClientRect();
+            linearCanvas.width = rect.width * window.devicePixelRatio;
+            linearCanvas.height = rect.height * window.devicePixelRatio;
+            linearCtx.scale(window.devicePixelRatio, window.devicePixelRatio);
+
+            const w = rect.width;
+            const h = rect.height;
+
+            linearCtx.fillStyle = '#1a1a24';
+            linearCtx.fillRect(0, 0, w, h);
+
+            const eqType = document.getElementById('eqType').value;
+            const param = parseFloat(document.getElementById('linParam').value);
+            document.getElementById('linParamVal').textContent = param.toFixed(1);
+
+            const padding = { left: 60, right: 40, top: 40, bottom: 50 };
+            const halfW = (w - padding.left - padding.right) / 2 - 20;
+            const plotH = h - padding.top - padding.bottom;
+
+            let origFunc, linFunc, xLabel, yLabelOrig, yLabelLin, info;
+
+            if (eqType === 'arrhenius') {
+                // k = A * exp(-Ea/RT), param = Ea/R
+                origFunc = x => Math.exp(-param / x); // x = T (arbitrary units)
+                linFunc = x => -param * x;            // y = ln(k), x = 1/T
+                xLabel = ['T', '1/T'];
+                yLabelOrig = 'k';
+                yLabelLin = 'ln(k)';
+                info = `<strong>Arrhenius:</strong> k = A exp(-Eₐ/RT)<br>
+                        <strong>Linear form:</strong> ln k = ln A - (Eₐ/R)(1/T)<br>
+                        <strong>Plot:</strong> ln k vs 1/T → Slope = -Eₐ/R`;
+            } else if (eqType === 'firstorder') {
+                // [A] = [A]0 * exp(-kt), param = k
+                origFunc = x => Math.exp(-param * x); // x = t
+                linFunc = x => -param * x;            // y = ln[A], x = t
+                xLabel = ['t', 't'];
+                yLabelOrig = '[A]';
+                yLabelLin = 'ln[A]';
+                info = `<strong>First-order:</strong> [A] = [A]₀ exp(-kt)<br>
+                        <strong>Linear form:</strong> ln[A] = ln[A]₀ - kt<br>
+                        <strong>Plot:</strong> ln[A] vs t → Slope = -k`;
+            } else {
+                // Langmuir: θ = KP/(1+KP), param = K
+                origFunc = x => param * x / (1 + param * x); // x = P
+                linFunc = x => 1 + x / param;                 // y = 1/θ, x = 1/P
+                xLabel = ['P', '1/P'];
+                yLabelOrig = 'θ';
+                yLabelLin = '1/θ';
+                info = `<strong>Langmuir:</strong> θ = KP/(1+KP)<br>
+                        <strong>Linear form:</strong> 1/θ = 1 + (1/K)(1/P)<br>
+                        <strong>Plot:</strong> 1/θ vs 1/P → Slope = 1/K`;
+            }
+
+            document.getElementById('linearization-info').innerHTML = info;
+
+            // Draw two plots side by side
+            const plots = [
+                { xMin: 0.1, xMax: 5, func: origFunc, xLab: xLabel[0], yLab: yLabelOrig, title: 'Original (Nonlinear)', offsetX: 0 },
+                { xMin: 0.1, xMax: 5, func: linFunc, xLab: xLabel[1], yLab: yLabelLin, title: 'Linearized', offsetX: halfW + 40 }
+            ];
+
+            plots.forEach(plot => {
+                const baseX = padding.left + plot.offsetX;
+
+                // Title
+                linearCtx.fillStyle = '#e4e4e7';
+                linearCtx.font = '13px Inter';
+                linearCtx.textAlign = 'center';
+                linearCtx.fillText(plot.title, baseX + halfW/2, padding.top - 15);
+
+                // Axes
+                linearCtx.strokeStyle = '#3f3f46';
+                linearCtx.lineWidth = 1;
+                linearCtx.beginPath();
+                linearCtx.moveTo(baseX, padding.top);
+                linearCtx.lineTo(baseX, padding.top + plotH);
+                linearCtx.lineTo(baseX + halfW, padding.top + plotH);
+                linearCtx.stroke();
+
+                // Labels
+                linearCtx.fillStyle = '#a1a1aa';
+                linearCtx.font = '11px Inter';
+                linearCtx.textAlign = 'center';
+                linearCtx.fillText(plot.xLab, baseX + halfW/2, h - padding.bottom + 25);
+
+                linearCtx.save();
+                linearCtx.translate(baseX - 35, padding.top + plotH/2);
+                linearCtx.rotate(-Math.PI/2);
+                linearCtx.fillText(plot.yLab, 0, 0);
+                linearCtx.restore();
+
+                // Compute y range
+                const numPoints = 100;
+                let yMin = Infinity, yMax = -Infinity;
+                for (let i = 0; i < numPoints; i++) {
+                    const x = plot.xMin + (plot.xMax - plot.xMin) * i / (numPoints - 1);
+                    const y = plot.func(x);
+                    if (isFinite(y)) {
+                        yMin = Math.min(yMin, y);
+                        yMax = Math.max(yMax, y);
+                    }
+                }
+                const yPad = (yMax - yMin) * 0.1 || 0.5;
+                yMin -= yPad;
+                yMax += yPad;
+
+                // Draw curve
+                linearCtx.strokeStyle = '#14b8a6';
+                linearCtx.lineWidth = 3;
+                linearCtx.beginPath();
+
+                for (let i = 0; i < numPoints; i++) {
+                    const xVal = plot.xMin + (plot.xMax - plot.xMin) * i / (numPoints - 1);
+                    const yVal = plot.func(xVal);
+
+                    const px = baseX + (xVal - plot.xMin) / (plot.xMax - plot.xMin) * halfW;
+                    const py = padding.top + (1 - (yVal - yMin) / (yMax - yMin)) * plotH;
+
+                    if (i === 0 || !isFinite(yVal)) linearCtx.moveTo(px, py);
+                    else linearCtx.lineTo(px, py);
+                }
+                linearCtx.stroke();
+            });
+        }
+
+        document.getElementById('eqType').addEventListener('change', drawLinearization);
+        document.getElementById('linParam').addEventListener('input', drawLinearization);
+
+        // ============ FERMI ESTIMATION ============
+        const fermiCanvas = document.getElementById('fermiCanvas');
+        const fermiCtx = fermiCanvas.getContext('2d');
+
+        function drawFermi() {
+            const rect = fermiCanvas.getBoundingClientRect();
+            fermiCanvas.width = rect.width * window.devicePixelRatio;
+            fermiCanvas.height = rect.height * window.devicePixelRatio;
+            fermiCtx.scale(window.devicePixelRatio, window.devicePixelRatio);
+
+            const w = rect.width;
+            const h = rect.height;
+
+            fermiCtx.fillStyle = '#1a1a24';
+            fermiCtx.fillRect(0, 0, w, h);
+
+            const r_mm = parseFloat(document.getElementById('rainRadius').value);
+            document.getElementById('rainRadiusVal').textContent = r_mm.toFixed(1) + ' mm';
+
+            const r_m = r_mm * 1e-3;
+            const V_m3 = (4/3) * Math.PI * Math.pow(r_m, 3);
+            const V_mL = V_m3 * 1e6;
+            const mass_g = V_mL * 1.0;
+            const moles = mass_g / 18.015;
+            const molecules = moles * 6.022e23;
+
+            // Draw raindrop
+            const maxRadius = 80;
+            const displayRadius = (r_mm / 3) * maxRadius;
+            const centerX = w / 4;
+            const centerY = h / 2;
+
+            // Gradient for water droplet
+            const gradient = fermiCtx.createRadialGradient(
+                centerX - displayRadius * 0.3, centerY - displayRadius * 0.3, 0,
+                centerX, centerY, displayRadius
+            );
+            gradient.addColorStop(0, '#67e8f9');
+            gradient.addColorStop(0.5, '#06b6d4');
+            gradient.addColorStop(1, '#0891b2');
+
+            fermiCtx.beginPath();
+            fermiCtx.arc(centerX, centerY, displayRadius, 0, Math.PI * 2);
+            fermiCtx.fillStyle = gradient;
+            fermiCtx.fill();
+
+            // Highlight
+            fermiCtx.beginPath();
+            fermiCtx.arc(centerX - displayRadius * 0.3, centerY - displayRadius * 0.3, displayRadius * 0.2, 0, Math.PI * 2);
+            fermiCtx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+            fermiCtx.fill();
+
+            // Calculation steps
+            const steps = [
+                `V = (4/3)πr³ = ${V_mL.toFixed(3)} mL`,
+                `m = ρV ≈ ${mass_g.toFixed(3)} g`,
+                `n = m/M = ${moles.toExponential(2)} mol`,
+                `N = n × Nₐ ≈ ${molecules.toExponential(2)}`
+            ];
+
+            fermiCtx.fillStyle = '#e4e4e7';
+            fermiCtx.font = '13px JetBrains Mono';
+            fermiCtx.textAlign = 'left';
+
+            const startX = w / 2 + 20;
+            steps.forEach((step, i) => {
+                fermiCtx.fillText(step, startX, 60 + i * 30);
+            });
+
+            // Result
+            const logMol = Math.log10(molecules);
+            fermiCtx.fillStyle = '#14b8a6';
+            fermiCtx.font = 'bold 16px Inter';
+            fermiCtx.fillText(`≈ 10^${Math.round(logMol)} molecules!`, startX, 60 + steps.length * 30 + 20);
+
+            // Update results
+            document.getElementById('fermi-results').innerHTML = `
+                <p><strong>Result:</strong> ~10<sup>${Math.round(logMol)}</sup> water molecules in a ${r_mm.toFixed(1)} mm raindrop</p>
+                <p>That's ${molecules.toExponential(1)} molecules — an inconceivably large number!</p>
+            `;
+        }
+
+        document.getElementById('rainRadius').addEventListener('input', drawFermi);
+
+        // Initialize all
+        function init() {
+            updateDimCheck();
+            drawScaling();
+            drawDiffusion();
+            updateConversion();
+            drawLinearization();
+            drawFermi();
+        }
+
+        window.addEventListener('resize', () => {
+            drawScaling();
+            drawDiffusion();
+            drawLinearization();
+            drawFermi();
+        });
+
+        init();
+    </script>
+</body>
+</html>
