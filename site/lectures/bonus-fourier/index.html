@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bonus: Fourier Analysis | Chemical Thinking</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a24;
+            --text-primary: #e4e4e7;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+            --accent-gold: #f59e0b;
+            --accent-gold-dim: #d97706;
+            --accent-amber: #fbbf24;
+            --accent-orange: #fb923c;
+            --border-subtle: #27272a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            padding: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .lecture-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-gold);
+        }
+
+        .bonus-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(251, 191, 36, 0.1));
+            border: 1px solid rgba(245, 158, 11, 0.4);
+        }
+
+        .bonus-badge span {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent-gold);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 3rem 0;
+        }
+
+        .lecture-number {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-gold);
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-family: 'Fraunces', serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-amber));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        h2 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.8rem;
+            color: var(--accent-gold);
+            margin: 3rem 0 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-subtle);
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .hook-box {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(251, 191, 36, 0.05));
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .hook-box p {
+            color: var(--text-primary);
+        }
+
+        .principle-box {
+            background: var(--bg-tertiary);
+            border-left: 4px solid var(--accent-gold);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .principle-box p {
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        th {
+            background: var(--bg-tertiary);
+            color: var(--accent-gold);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        td {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .visualization-container {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .viz-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .viz-canvas {
+            width: 100%;
+            height: 350px;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            display: block;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .control-group label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .control-group input[type="range"] {
+            width: 180px;
+            accent-color: var(--accent-gold);
+        }
+
+        .control-group select {
+            padding: 0.5rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 4px;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+
+        .value-display {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-amber);
+            font-size: 0.9rem;
+        }
+
+        .result-box {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .result-label {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        .result-value {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-gold);
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-tertiary);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-amber);
+        }
+
+        .formula {
+            background: var(--bg-tertiary);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            text-align: center;
+            overflow-x: auto;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .canvas-row {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .canvas-half {
+            flex: 1;
+            height: 200px;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+        }
+
+        .exercise-box {
+            background: var(--bg-tertiary);
+            border-left: 4px solid var(--accent-amber);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        @media (max-width: 768px) {
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+
+            .canvas-row {
+                flex-direction: column;
+            }
+
+            .lecture-nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-subtle);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: var(--accent-gold);
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <nav class="lecture-nav">
+        <a href="../all-lectures.html" class="nav-link">← All Lectures</a>
+        <div class="bonus-badge">
+            <span>BONUS LECTURE</span>
+        </div>
+    </nav>
+
+    <header>
+        <div class="lecture-number">BONUS</div>
+        <h1>Fourier Analysis</h1>
+        <p class="subtitle">Decomposing signals into frequencies — the mathematics of spectroscopy</p>
+    </header>
+
+    <main>
+        <div class="hook-box">
+            <h3>The Hook</h3>
+            <p>Your FT-IR spectrometer doesn't measure absorbance vs frequency directly.</p>
+            <p>It measures an <strong>interferogram</strong> — intensity vs mirror position. A wiggly, complicated signal.</p>
+            <p>Then it computes the Fourier transform. Out comes the spectrum.</p>
+            <p><strong>How does mathematics convert position information into frequency information?</strong></p>
+        </div>
+
+        <div class="principle-box">
+            <p><strong>The Core Idea:</strong> Any periodic function can be written as a sum of sines and cosines. Sines and cosines form a complete basis for periodic functions.</p>
+        </div>
+
+        <h2>1. Building Waveforms from Harmonics</h2>
+        <p>A square wave is a sum of odd harmonics with decreasing amplitudes.</p>
+
+        <div class="visualization-container">
+            <div class="viz-title">Fourier Series: Square Wave</div>
+            <canvas id="squareCanvas" class="viz-canvas"></canvas>
+            <div class="controls">
+                <div class="control-group">
+                    <label>Number of harmonics</label>
+                    <input type="range" id="nHarmonics" min="1" max="25" value="1" step="2">
+                    <span class="value-display" id="nHarmonicsVal">1</span>
+                </div>
+                <div class="control-group">
+                    <label>Waveform</label>
+                    <select id="waveformType">
+                        <option value="square">Square Wave</option>
+                        <option value="sawtooth">Sawtooth Wave</option>
+                        <option value="triangle">Triangle Wave</option>
+                    </select>
+                </div>
+            </div>
+            <div class="result-box">
+                <p><strong>Square wave:</strong> \(f(x) = \frac{4}{\pi}\sum_{n=1,3,5,...} \frac{1}{n}\sin(nx)\)</p>
+                <p>Notice the <strong>Gibbs phenomenon</strong> — the overshoot near discontinuities!</p>
+            </div>
+        </div>
+
+        <h2>2. The Uncertainty Principle</h2>
+        <p>A Gaussian transforms to a Gaussian. Narrow in time → wide in frequency.</p>
+
+        <div class="visualization-container">
+            <div class="viz-title">Time-Frequency Uncertainty</div>
+            <div class="canvas-row">
+                <canvas id="timeCanvas" class="canvas-half"></canvas>
+                <canvas id="freqCanvas" class="canvas-half"></canvas>
+            </div>
+            <div class="controls">
+                <div class="control-group">
+                    <label>Width in time (σₜ)</label>
+                    <input type="range" id="sigmaT" min="0.2" max="2" value="0.5" step="0.1">
+                    <span class="value-display" id="sigmaTVal">0.5</span>
+                </div>
+            </div>
+            <div class="result-box" id="uncertainty-result">
+                <!-- Filled by JavaScript -->
+            </div>
+        </div>
+
+        <div class="formula">
+            \[\Delta t \cdot \Delta \omega \geq \frac{1}{2}\]
+            <p style="margin-top: 1rem; color: var(--text-secondary);">This is why ultrashort laser pulses have broad spectra!</p>
+        </div>
+
+        <h2>3. Spectral Lineshapes</h2>
+        <p>Different decay mechanisms produce different lineshapes.</p>
+
+        <div class="visualization-container">
+            <div class="viz-title">Lineshape Explorer</div>
+            <canvas id="lineshapeCanvas" class="viz-canvas" style="height: 300px;"></canvas>
+            <div class="controls">
+                <div class="control-group">
+                    <label>Lineshape Type</label>
+                    <select id="lineshapeType">
+                        <option value="lorentzian">Lorentzian (lifetime)</option>
+                        <option value="gaussian">Gaussian (Doppler)</option>
+                        <option value="voigt">Voigt (both)</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label>Width</label>
+                    <input type="range" id="lineWidth" min="0.2" max="2" value="0.5" step="0.1">
+                    <span class="value-display" id="lineWidthVal">0.5</span>
+                </div>
+            </div>
+            <div class="result-box">
+                <table>
+                    <tr><th>Lineshape</th><th>Origin</th><th>Time Domain</th></tr>
+                    <tr><td>Lorentzian</td><td>Lifetime/natural</td><td>Exponential decay</td></tr>
+                    <tr><td>Gaussian</td><td>Doppler/inhomogeneous</td><td>Gaussian distribution</td></tr>
+                    <tr><td>Voigt</td><td>Both mechanisms</td><td>Convolution</td></tr>
+                </table>
+            </div>
+        </div>
+
+        <h2>4. FT-IR: Interferogram to Spectrum</h2>
+        <p>The Fourier transform converts mirror position data to frequency spectrum.</p>
+
+        <div class="visualization-container">
+            <div class="viz-title">FT-IR Simulation</div>
+            <canvas id="ftirCanvas" class="viz-canvas" style="height: 400px;"></canvas>
+            <div class="controls">
+                <div class="control-group">
+                    <label>Peak 1 (cm⁻¹)</label>
+                    <input type="range" id="peak1" min="500" max="2000" value="1000" step="100">
+                    <span class="value-display" id="peak1Val">1000</span>
+                </div>
+                <div class="control-group">
+                    <label>Peak 2 (cm⁻¹)</label>
+                    <input type="range" id="peak2" min="500" max="2000" value="1500" step="100">
+                    <span class="value-display" id="peak2Val">1500</span>
+                </div>
+            </div>
+            <div class="result-box">
+                <p><strong>FT-IR Advantages:</strong></p>
+                <p>• <strong>Fellgett:</strong> All frequencies measured simultaneously → better S/N</p>
+                <p>• <strong>Jacquinot:</strong> No slits needed → higher throughput</p>
+                <p>• <strong>Connes:</strong> Internal laser calibration → precise frequency scale</p>
+            </div>
+        </div>
+
+        <h2>5. Sampling and Aliasing</h2>
+        <p>Undersampling causes high frequencies to appear as low frequencies.</p>
+
+        <div class="visualization-container">
+            <div class="viz-title">Nyquist Theorem Demonstration</div>
+            <canvas id="aliasingCanvas" class="viz-canvas" style="height: 300px;"></canvas>
+            <div class="controls">
+                <div class="control-group">
+                    <label>True frequency (Hz)</label>
+                    <input type="range" id="fTrue" min="1" max="20" value="5" step="1">
+                    <span class="value-display" id="fTrueVal">5</span>
+                </div>
+                <div class="control-group">
+                    <label>Sampling rate (Hz)</label>
+                    <input type="range" id="fSample" min="5" max="50" value="20" step="5">
+                    <span class="value-display" id="fSampleVal">20</span>
+                </div>
+            </div>
+            <div class="result-box" id="aliasing-result">
+                <!-- Filled by JavaScript -->
+            </div>
+        </div>
+
+        <h2>Summary</h2>
+
+        <div class="two-column">
+            <div>
+                <h3>Transform Pairs</h3>
+                <table>
+                    <tr><th>Time Domain</th><th>Frequency Domain</th></tr>
+                    <tr><td>Narrow</td><td>Wide</td></tr>
+                    <tr><td>Wide</td><td>Narrow</td></tr>
+                    <tr><td>Convolution</td><td>Multiplication</td></tr>
+                    <tr><td>Exp. decay</td><td>Lorentzian</td></tr>
+                    <tr><td>Gaussian</td><td>Gaussian</td></tr>
+                    <tr><td>Delta</td><td>Constant</td></tr>
+                </table>
+            </div>
+            <div>
+                <h3>Chemistry Applications</h3>
+                <table>
+                    <tr><th>Technique</th><th>FT converts</th></tr>
+                    <tr><td>FT-IR</td><td>Interferogram → Spectrum</td></tr>
+                    <tr><td>FT-NMR</td><td>FID → Spectrum</td></tr>
+                    <tr><td>Ultrafast</td><td>E(t) → E(ω)</td></tr>
+                    <tr><td>QM</td><td>ψ(x) ↔ φ(p)</td></tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="principle-box">
+            <p><strong>The Core Message:</strong> Fourier analysis decomposes signals into frequencies. Time and frequency are conjugate domains — narrow in one means wide in the other.</p>
+        </div>
+
+        <div class="exercise-box">
+            <h3>Exercises</h3>
+            <ol>
+                <li>A laser pulse has Δt = 50 fs. Estimate its spectral width in nm (around 800 nm).</li>
+                <li>An excited state has lifetime τ = 10 ns. What is the natural linewidth (FWHM)?</li>
+                <li>What sampling rate is needed to measure up to 4000 cm⁻¹ in FT-IR?</li>
+                <li>The convolution of two Gaussians with widths σ₁ and σ₂ gives width = ?</li>
+            </ol>
+        </div>
+    </main>
+
+    <footer>
+        <p>
+            <a href="../all-lectures.html">← Back to All Lectures</a>
+        </p>
+        <p style="margin-top: 1rem;">Chemical Thinking: The Grammar of Reality</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "\\(", right: "\\)", display: false},
+                    {left: "\\[", right: "\\]", display: true},
+                    {left: "$$", right: "$$", display: true}
+                ]
+            });
+        });
+
+        // ============ FOURIER SERIES (SQUARE WAVE) ============
+        const squareCanvas = document.getElementById('squareCanvas');
+        const squareCtx = squareCanvas.getContext('2d');
+
+        function squareWave(x) {
+            return Math.sign(Math.sin(x));
+        }
+
+        function sawtoothWave(x) {
+            return 2 * (x / (2 * Math.PI) - Math.floor(x / (2 * Math.PI) + 0.5));
+        }
+
+        function triangleWave(x) {
+            return 2 * Math.abs(sawtoothWave(x)) - 1;
+        }
+
+        function fourierApprox(x, N, type) {
+            let result = 0;
+            if (type === 'square') {
+                for (let n = 1; n <= N; n += 2) {
+                    result += Math.sin(n * x) / n;
+                }
+                return (4 / Math.PI) * result;
+            } else if (type === 'sawtooth') {
+                for (let n = 1; n <= N; n++) {
+                    result += Math.pow(-1, n + 1) * Math.sin(n * x) / n;
+                }
+                return (2 / Math.PI) * result;
+            } else { // triangle
+                for (let n = 1; n <= N; n += 2) {
+                    result += Math.pow(-1, (n - 1) / 2) * Math.sin(n * x) / (n * n);
+                }
+                return (8 / (Math.PI * Math.PI)) * result;
+            }
+        }
+
+        function drawSquareWave() {
+            const rect = squareCanvas.getBoundingClientRect();
+            squareCanvas.width = rect.width * window.devicePixelRatio;
+            squareCanvas.height = rect.height * window.devicePixelRatio;
+            squareCtx.scale(window.devicePixelRatio, window.devicePixelRatio);
+
+            const w = rect.width;
+            const h = rect.height;
+
+            squareCtx.fillStyle = '#1a1a24';
+            squareCtx.fillRect(0, 0, w, h);
+
+            const N = parseInt(document.getElementById('nHarmonics').value);
+            const type = document.getElementById('waveformType').value;
+            document.getElementById('nHarmonicsVal').textContent = N;
+
+            const padding = { left: 50, right: 30, top: 30, bottom: 40 };
+            const plotW = w - padding.left - padding.right;
+            const plotH = h - padding.top - padding.bottom;
+
+            // Axes
+            squareCtx.strokeStyle = '#3f3f46';
+            squareCtx.lineWidth = 1;
+            squareCtx.beginPath();
+            squareCtx.moveTo(padding.left, padding.top + plotH / 2);
+            squareCtx.lineTo(w - padding.right, padding.top + plotH / 2);
+            squareCtx.stroke();
+
+            // X-axis labels
+            squareCtx.fillStyle = '#71717a';
+            squareCtx.font = '11px JetBrains Mono';
+            squareCtx.textAlign = 'center';
+            squareCtx.fillText('-π', padding.left, h - padding.bottom + 15);
+            squareCtx.fillText('0', padding.left + plotW / 2, h - padding.bottom + 15);
+            squareCtx.fillText('π', w - padding.right, h - padding.bottom + 15);
+
+            // True wave
+            const trueFunc = type === 'square' ? squareWave : (type === 'sawtooth' ? sawtoothWave : triangleWave);
+
+            squareCtx.strokeStyle = 'rgba(113, 113, 122, 0.5)';
+            squareCtx.lineWidth = 1;
+            squareCtx.setLineDash([5, 5]);
+            squareCtx.beginPath();
+
+            const numPoints = 500;
+            for (let i = 0; i < numPoints; i++) {
+                const xVal = -Math.PI + (2 * Math.PI) * i / (numPoints - 1);
+                const yVal = trueFunc(xVal);
+                const px = padding.left + (i / (numPoints - 1)) * plotW;
+                const py = padding.top + plotH / 2 - yVal * (plotH / 2 - 10);
+
+                if (i === 0) squareCtx.moveTo(px, py);
+                else squareCtx.lineTo(px, py);
+            }
+            squareCtx.stroke();
+            squareCtx.setLineDash([]);
+
+            // Fourier approximation
+            squareCtx.strokeStyle = '#f59e0b';
+            squareCtx.lineWidth = 3;
+            squareCtx.beginPath();
+
+            for (let i = 0; i < numPoints; i++) {
+                const xVal = -Math.PI + (2 * Math.PI) * i / (numPoints - 1);
+                const yVal = fourierApprox(xVal, N, type);
+                const px = padding.left + (i / (numPoints - 1)) * plotW;
+                const py = padding.top + plotH / 2 - yVal * (plotH / 2 - 10);
+
+                if (i === 0) squareCtx.moveTo(px, py);
+                else squareCtx.lineTo(px, py);
+            }
+            squareCtx.stroke();
+
+            // Legend
+            squareCtx.fillStyle = '#e4e4e7';
+            squareCtx.font = '12px Inter';
+            squareCtx.textAlign = 'left';
+            squareCtx.fillText(`${N} harmonic${N > 1 ? 's' : ''}`, padding.left + 10, padding.top + 20);
+        }
+
+        document.getElementById('nHarmonics').addEventListener('input', drawSquareWave);
+        document.getElementById('waveformType').addEventListener('change', drawSquareWave);
+
+        // ============ UNCERTAINTY PRINCIPLE ============
+        const timeCanvas = document.getElementById('timeCanvas');
+        const freqCanvas = document.getElementById('freqCanvas');
+        const timeCtx = timeCanvas.getContext('2d');
+        const freqCtx = freqCanvas.getContext('2d');
+
+        function drawUncertainty() {
+            const sigmaT = parseFloat(document.getElementById('sigmaT').value);
+            document.getElementById('sigmaTVal').textContent = sigmaT.toFixed(1);
+
+            const sigmaOmega = 1 / sigmaT;
+
+            // Update result
+            document.getElementById('uncertainty-result').innerHTML = `
+                <p><strong>σₜ = ${sigmaT.toFixed(2)}</strong> (time width) | <strong>σω = ${sigmaOmega.toFixed(2)}</strong> (frequency width)</p>
+                <p>Product: σₜ × σω = ${(sigmaT * sigmaOmega).toFixed(2)} (minimum = 1 for Gaussian)</p>
+                <p>${sigmaT < 0.5 ? 'Narrow pulse → broad spectrum (like ultrafast lasers)' : sigmaT > 1.5 ? 'Wide pulse → narrow spectrum (like CW lasers)' : 'Intermediate pulse width'}</p>
+            `;
+
+            [timeCanvas, freqCanvas].forEach((canvas, idx) => {
+                const ctx = idx === 0 ? timeCtx : freqCtx;
+                const rect = canvas.getBoundingClientRect();
+                canvas.width = rect.width * window.devicePixelRatio;
+                canvas.height = rect.height * window.devicePixelRatio;
+                ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+
+                const w = rect.width;
+                const h = rect.height;
+
+                ctx.fillStyle = '#1a1a24';
+                ctx.fillRect(0, 0, w, h);
+
+                const padding = 30;
+                const plotW = w - 2 * padding;
+                const plotH = h - 2 * padding;
+
+                // Axis
+                ctx.strokeStyle = '#3f3f46';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(padding, h - padding);
+                ctx.lineTo(w - padding, h - padding);
+                ctx.stroke();
+
+                // Label
+                ctx.fillStyle = '#a1a1aa';
+                ctx.font = '11px Inter';
+                ctx.textAlign = 'center';
+                ctx.fillText(idx === 0 ? 'Time t' : 'Frequency ω', w / 2, h - 8);
+
+                // Gaussian
+                const sigma = idx === 0 ? sigmaT : sigmaOmega;
+                const color = idx === 0 ? '#3b82f6' : '#ef4444';
+                const range = 5;
+
+                ctx.fillStyle = color + '33';
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+
+                const numPts = 200;
+                for (let i = 0; i <= numPts; i++) {
+                    const x = -range + (2 * range) * i / numPts;
+                    const y = Math.exp(-x * x / (2 * sigma * sigma));
+                    const px = padding + (i / numPts) * plotW;
+                    const py = h - padding - y * (plotH - 10);
+
+                    if (i === 0) {
+                        ctx.moveTo(px, h - padding);
+                        ctx.lineTo(px, py);
+                    } else {
+                        ctx.lineTo(px, py);
+                    }
+                }
+                ctx.lineTo(w - padding, h - padding);
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
+
+                // Title
+                ctx.fillStyle = '#e4e4e7';
+                ctx.font = 'bold 12px Inter';
+                ctx.textAlign = 'center';
+                ctx.fillText(idx === 0 ? `Time Domain (σₜ = ${sigmaT.toFixed(1)})` : `Frequency Domain (σω = ${sigmaOmega.toFixed(1)})`, w / 2, 18);
+            });
+        }
+
+        document.getElementById('sigmaT').addEventListener('input', drawUncertainty);
+
+        // ============ LINESHAPES ============
+        const lineshapeCanvas = document.getElementById('lineshapeCanvas');
+        const lineshapeCtx = lineshapeCanvas.getContext('2d');
+
+        function lorentzian(x, gamma) {
+            return (gamma / Math.PI) / (x * x + gamma * gamma);
+        }
+
+        function gaussian(x, sigma) {
+            return Math.exp(-x * x / (2 * sigma * sigma)) / (sigma * Math.sqrt(2 * Math.PI));
+        }
+
+        function drawLineshape() {
+            const rect = lineshapeCanvas.getBoundingClientRect();
+            lineshapeCanvas.width = rect.width * window.devicePixelRatio;
+            lineshapeCanvas.height = rect.height * window.devicePixelRatio;
+            lineshapeCtx.scale(window.devicePixelRatio, window.devicePixelRatio);
+
+            const w = rect.width;
+            const h = rect.height;
+
+            lineshapeCtx.fillStyle = '#1a1a24';
+            lineshapeCtx.fillRect(0, 0, w, h);
+
+            const type = document.getElementById('lineshapeType').value;
+            const width = parseFloat(document.getElementById('lineWidth').value);
+            document.getElementById('lineWidthVal').textContent = width.toFixed(1);
+
+            const padding = { left: 50, right: 30, top: 30, bottom: 40 };
+            const plotW = w - padding.left - padding.right;
+            const plotH = h - padding.top - padding.bottom;
+
+            // Axis
+            lineshapeCtx.strokeStyle = '#3f3f46';
+            lineshapeCtx.lineWidth = 1;
+            lineshapeCtx.beginPath();
+            lineshapeCtx.moveTo(padding.left, h - padding.bottom);
+            lineshapeCtx.lineTo(w - padding.right, h - padding.bottom);
+            lineshapeCtx.stroke();
+
+            lineshapeCtx.fillStyle = '#a1a1aa';
+            lineshapeCtx.font = '11px Inter';
+            lineshapeCtx.textAlign = 'center';
+            lineshapeCtx.fillText('Frequency (ν - ν₀)', w / 2, h - 8);
+
+            // Calculate lineshape
+            const range = 5;
+            const numPts = 300;
+            let maxVal = 0;
+            const values = [];
+
+            for (let i = 0; i < numPts; i++) {
+                const x = -range + (2 * range) * i / (numPts - 1);
+                let y;
+
+                if (type === 'lorentzian') {
+                    y = lorentzian(x, width);
+                } else if (type === 'gaussian') {
+                    y = gaussian(x, width);
+                } else { // Voigt (simplified)
+                    y = 0.5 * lorentzian(x, width) + 0.5 * gaussian(x, width);
+                }
+
+                values.push({ x, y });
+                if (y > maxVal) maxVal = y;
+            }
+
+            // Colors
+            const colors = {
+                lorentzian: '#ef4444',
+                gaussian: '#3b82f6',
+                voigt: '#8b5cf6'
+            };
+
+            const color = colors[type];
+
+            // Draw
+            lineshapeCtx.fillStyle = color + '33';
+            lineshapeCtx.strokeStyle = color;
+            lineshapeCtx.lineWidth = 3;
+            lineshapeCtx.beginPath();
+
+            values.forEach((pt, i) => {
+                const px = padding.left + (i / (numPts - 1)) * plotW;
+                const py = h - padding.bottom - (pt.y / maxVal) * (plotH - 10);
+
+                if (i === 0) {
+                    lineshapeCtx.moveTo(px, h - padding.bottom);
+                    lineshapeCtx.lineTo(px, py);
+                } else {
+                    lineshapeCtx.lineTo(px, py);
+                }
+            });
+            lineshapeCtx.lineTo(w - padding.right, h - padding.bottom);
+            lineshapeCtx.closePath();
+            lineshapeCtx.fill();
+            lineshapeCtx.stroke();
+
+            // Title
+            const titles = {
+                lorentzian: 'Lorentzian (Lifetime Broadening)',
+                gaussian: 'Gaussian (Doppler Broadening)',
+                voigt: 'Voigt (Combined)'
+            };
+
+            lineshapeCtx.fillStyle = '#e4e4e7';
+            lineshapeCtx.font = 'bold 13px Inter';
+            lineshapeCtx.textAlign = 'center';
+            lineshapeCtx.fillText(titles[type], w / 2, padding.top - 5);
+        }
+
+        document.getElementById('lineshapeType').addEventListener('change', drawLineshape);
+        document.getElementById('lineWidth').addEventListener('input', drawLineshape);
+
+        // ============ FT-IR ============
+        const ftirCanvas = document.getElementById('ftirCanvas');
+        const ftirCtx = ftirCanvas.getContext('2d');
+
+        function drawFTIR() {
+            const rect = ftirCanvas.getBoundingClientRect();
+            ftirCanvas.width = rect.width * window.devicePixelRatio;
+            ftirCanvas.height = rect.height * window.devicePixelRatio;
+            ftirCtx.scale(window.devicePixelRatio, window.devicePixelRatio);
+
+            const w = rect.width;
+            const h = rect.height;
+
+            ftirCtx.fillStyle = '#1a1a24';
+            ftirCtx.fillRect(0, 0, w, h);
+
+            const peak1 = parseInt(document.getElementById('peak1').value);
+            const peak2 = parseInt(document.getElementById('peak2').value);
+            document.getElementById('peak1Val').textContent = peak1;
+            document.getElementById('peak2Val').textContent = peak2;
+
+            const padding = { left: 60, right: 30, top: 40, bottom: 50 };
+            const halfH = (h - padding.top - padding.bottom) / 2 - 20;
+
+            // ---- TOP: Interferogram ----
+            ftirCtx.fillStyle = '#e4e4e7';
+            ftirCtx.font = 'bold 12px Inter';
+            ftirCtx.textAlign = 'left';
+            ftirCtx.fillText('Interferogram I(x)', padding.left, padding.top - 10);
+
+            const numPts = 500;
+            const xRange = 0.01; // cm
+
+            // Generate interferogram
+            const interferogram = [];
+            for (let i = 0; i < numPts; i++) {
+                const x = -xRange + (2 * xRange) * i / (numPts - 1);
+                const decay = Math.exp(-Math.abs(x) / 0.005);
+                const signal = (Math.cos(2 * Math.PI * peak1 * x) + 0.7 * Math.cos(2 * Math.PI * peak2 * x)) * decay;
+                interferogram.push({ x, y: signal });
+            }
+
+            const maxI = Math.max(...interferogram.map(p => Math.abs(p.y)));
+
+            ftirCtx.strokeStyle = '#3b82f6';
+            ftirCtx.lineWidth = 1.5;
+            ftirCtx.beginPath();
+
+            interferogram.forEach((pt, i) => {
+                const px = padding.left + (i / (numPts - 1)) * (w - padding.left - padding.right);
+                const py = padding.top + halfH / 2 - (pt.y / maxI) * (halfH / 2 - 10);
+
+                if (i === 0) ftirCtx.moveTo(px, py);
+                else ftirCtx.lineTo(px, py);
+            });
+            ftirCtx.stroke();
+
+            // X-axis label
+            ftirCtx.fillStyle = '#a1a1aa';
+            ftirCtx.font = '10px Inter';
+            ftirCtx.textAlign = 'center';
+            ftirCtx.fillText('Mirror position (cm)', w / 2, padding.top + halfH + 15);
+
+            // ---- BOTTOM: Spectrum ----
+            const specY = padding.top + halfH + 50;
+
+            ftirCtx.fillStyle = '#e4e4e7';
+            ftirCtx.font = 'bold 12px Inter';
+            ftirCtx.textAlign = 'left';
+            ftirCtx.fillText('Spectrum B(ν̃) — Fourier Transform', padding.left, specY - 10);
+
+            // Simulate spectrum (two Lorentzian peaks)
+            const specRange = [0, 3000];
+            const spectrum = [];
+
+            for (let i = 0; i < numPts; i++) {
+                const nu = specRange[0] + (specRange[1] - specRange[0]) * i / (numPts - 1);
+                const gamma = 30;
+                const peak1Val = 1 / (1 + Math.pow((nu - peak1) / gamma, 2));
+                const peak2Val = 0.7 / (1 + Math.pow((nu - peak2) / gamma, 2));
+                spectrum.push({ nu, y: peak1Val + peak2Val });
+            }
+
+            const maxS = Math.max(...spectrum.map(p => p.y));
+
+            ftirCtx.fillStyle = '#f59e0b33';
+            ftirCtx.strokeStyle = '#f59e0b';
+            ftirCtx.lineWidth = 2;
+            ftirCtx.beginPath();
+
+            spectrum.forEach((pt, i) => {
+                const px = padding.left + (i / (numPts - 1)) * (w - padding.left - padding.right);
+                const py = specY + halfH - (pt.y / maxS) * (halfH - 20);
+
+                if (i === 0) {
+                    ftirCtx.moveTo(px, specY + halfH);
+                    ftirCtx.lineTo(px, py);
+                } else {
+                    ftirCtx.lineTo(px, py);
+                }
+            });
+            ftirCtx.lineTo(w - padding.right, specY + halfH);
+            ftirCtx.closePath();
+            ftirCtx.fill();
+            ftirCtx.stroke();
+
+            // Peak labels
+            ftirCtx.fillStyle = '#f59e0b';
+            ftirCtx.font = '11px JetBrains Mono';
+            ftirCtx.textAlign = 'center';
+
+            const peak1X = padding.left + (peak1 / 3000) * (w - padding.left - padding.right);
+            const peak2X = padding.left + (peak2 / 3000) * (w - padding.left - padding.right);
+
+            ftirCtx.fillText(`${peak1}`, peak1X, specY + 15);
+            ftirCtx.fillText(`${peak2}`, peak2X, specY + 15);
+
+            // X-axis label
+            ftirCtx.fillStyle = '#a1a1aa';
+            ftirCtx.font = '10px Inter';
+            ftirCtx.fillText('Wavenumber (cm⁻¹)', w / 2, h - 10);
+
+            // Arrow between plots
+            ftirCtx.fillStyle = '#f59e0b';
+            ftirCtx.font = '16px Inter';
+            ftirCtx.textAlign = 'center';
+            ftirCtx.fillText('↓ Fourier Transform ↓', w / 2, padding.top + halfH + 32);
+        }
+
+        document.getElementById('peak1').addEventListener('input', drawFTIR);
+        document.getElementById('peak2').addEventListener('input', drawFTIR);
+
+        // ============ ALIASING ============
+        const aliasingCanvas = document.getElementById('aliasingCanvas');
+        const aliasingCtx = aliasingCanvas.getContext('2d');
+
+        function drawAliasing() {
+            const rect = aliasingCanvas.getBoundingClientRect();
+            aliasingCanvas.width = rect.width * window.devicePixelRatio;
+            aliasingCanvas.height = rect.height * window.devicePixelRatio;
+            aliasingCtx.scale(window.devicePixelRatio, window.devicePixelRatio);
+
+            const w = rect.width;
+            const h = rect.height;
+
+            aliasingCtx.fillStyle = '#1a1a24';
+            aliasingCtx.fillRect(0, 0, w, h);
+
+            const fTrue = parseInt(document.getElementById('fTrue').value);
+            const fSample = parseInt(document.getElementById('fSample').value);
+            document.getElementById('fTrueVal').textContent = fTrue;
+            document.getElementById('fSampleVal').textContent = fSample;
+
+            const fNyquist = fSample / 2;
+            const isAliased = fTrue > fNyquist;
+            const fApparent = isAliased ? Math.abs(fTrue - fSample * Math.round(fTrue / fSample)) : fTrue;
+
+            // Update result
+            document.getElementById('aliasing-result').innerHTML = `
+                <p><strong>Nyquist frequency:</strong> ${fNyquist} Hz (half of sampling rate)</p>
+                <p>${isAliased ?
+                    `<span style="color: #ef4444;">⚠️ ALIASED!</span> True frequency ${fTrue} Hz > Nyquist ${fNyquist} Hz. <strong>Appears as ${fApparent.toFixed(1)} Hz.</strong>` :
+                    `<span style="color: #10b981;">✓ Properly sampled.</span> f = ${fTrue} Hz < Nyquist = ${fNyquist} Hz.`
+                }</p>
+            `;
+
+            const padding = { left: 50, right: 30, top: 30, bottom: 40 };
+            const plotW = w - padding.left - padding.right;
+            const plotH = h - padding.top - padding.bottom;
+
+            // Axis
+            aliasingCtx.strokeStyle = '#3f3f46';
+            aliasingCtx.lineWidth = 1;
+            aliasingCtx.beginPath();
+            aliasingCtx.moveTo(padding.left, padding.top + plotH / 2);
+            aliasingCtx.lineTo(w - padding.right, padding.top + plotH / 2);
+            aliasingCtx.stroke();
+
+            aliasingCtx.fillStyle = '#a1a1aa';
+            aliasingCtx.font = '10px Inter';
+            aliasingCtx.textAlign = 'center';
+            aliasingCtx.fillText('Time (s)', w / 2, h - 10);
+
+            const duration = 2;
+            const numPts = 1000;
+
+            // True signal
+            aliasingCtx.strokeStyle = 'rgba(59, 130, 246, 0.4)';
+            aliasingCtx.lineWidth = 2;
+            aliasingCtx.beginPath();
+
+            for (let i = 0; i < numPts; i++) {
+                const t = duration * i / (numPts - 1);
+                const y = Math.sin(2 * Math.PI * fTrue * t);
+                const px = padding.left + (i / (numPts - 1)) * plotW;
+                const py = padding.top + plotH / 2 - y * (plotH / 2 - 10);
+
+                if (i === 0) aliasingCtx.moveTo(px, py);
+                else aliasingCtx.lineTo(px, py);
+            }
+            aliasingCtx.stroke();
+
+            // Sample points
+            const dt = 1 / fSample;
+            const samples = [];
+            for (let t = 0; t <= duration; t += dt) {
+                samples.push({ t, y: Math.sin(2 * Math.PI * fTrue * t) });
+            }
+
+            aliasingCtx.fillStyle = '#ef4444';
+            samples.forEach(pt => {
+                const px = padding.left + (pt.t / duration) * plotW;
+                const py = padding.top + plotH / 2 - pt.y * (plotH / 2 - 10);
+                aliasingCtx.beginPath();
+                aliasingCtx.arc(px, py, 5, 0, Math.PI * 2);
+                aliasingCtx.fill();
+            });
+
+            // Aliased signal (if applicable)
+            if (isAliased) {
+                aliasingCtx.strokeStyle = '#f59e0b';
+                aliasingCtx.lineWidth = 2;
+                aliasingCtx.setLineDash([5, 5]);
+                aliasingCtx.beginPath();
+
+                for (let i = 0; i < numPts; i++) {
+                    const t = duration * i / (numPts - 1);
+                    const y = Math.sin(2 * Math.PI * fApparent * t);
+                    const px = padding.left + (i / (numPts - 1)) * plotW;
+                    const py = padding.top + plotH / 2 - y * (plotH / 2 - 10);
+
+                    if (i === 0) aliasingCtx.moveTo(px, py);
+                    else aliasingCtx.lineTo(px, py);
+                }
+                aliasingCtx.stroke();
+                aliasingCtx.setLineDash([]);
+            }
+
+            // Legend
+            aliasingCtx.font = '11px Inter';
+            aliasingCtx.textAlign = 'left';
+
+            aliasingCtx.fillStyle = 'rgba(59, 130, 246, 0.7)';
+            aliasingCtx.fillRect(w - padding.right - 150, padding.top, 15, 3);
+            aliasingCtx.fillStyle = '#a1a1aa';
+            aliasingCtx.fillText(`True (${fTrue} Hz)`, w - padding.right - 130, padding.top + 5);
+
+            aliasingCtx.fillStyle = '#ef4444';
+            aliasingCtx.beginPath();
+            aliasingCtx.arc(w - padding.right - 143, padding.top + 20, 4, 0, Math.PI * 2);
+            aliasingCtx.fill();
+            aliasingCtx.fillStyle = '#a1a1aa';
+            aliasingCtx.fillText('Samples', w - padding.right - 130, padding.top + 23);
+
+            if (isAliased) {
+                aliasingCtx.fillStyle = '#f59e0b';
+                aliasingCtx.fillRect(w - padding.right - 150, padding.top + 35, 15, 3);
+                aliasingCtx.fillStyle = '#a1a1aa';
+                aliasingCtx.fillText(`Aliased (${fApparent.toFixed(1)} Hz)`, w - padding.right - 130, padding.top + 40);
+            }
+        }
+
+        document.getElementById('fTrue').addEventListener('input', drawAliasing);
+        document.getElementById('fSample').addEventListener('input', drawAliasing);
+
+        // Initialize all
+        function init() {
+            drawSquareWave();
+            drawUncertainty();
+            drawLineshape();
+            drawFTIR();
+            drawAliasing();
+        }
+
+        window.addEventListener('resize', () => {
+            drawSquareWave();
+            drawUncertainty();
+            drawLineshape();
+            drawFTIR();
+            drawAliasing();
+        });
+
+        init();
+    </script>
+</body>
+</html>
