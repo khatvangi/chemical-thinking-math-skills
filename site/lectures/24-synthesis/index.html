@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 24: Synthesis | Chemical Thinking</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a24;
+            --text-primary: #e4e4e7;
+            --text-secondary: #a1a1aa;
+            --text-muted: #71717a;
+            --border-subtle: #27272a;
+            /* Primitive colors */
+            --color-collection: #3b82f6;
+            --color-arrangement: #10b981;
+            --color-direction: #ef4444;
+            --color-proximity: #f97316;
+            --color-sameness: #8b5cf6;
+            --color-change: #14b8a6;
+            --color-rate: #a855f7;
+            --color-accumulation: #ec4899;
+            --color-spread: #06b6d4;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            padding: 2rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .lecture-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover {
+            color: var(--text-primary);
+        }
+
+        .synthesis-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            background: linear-gradient(135deg,
+                rgba(59, 130, 246, 0.15),
+                rgba(139, 92, 246, 0.15),
+                rgba(20, 184, 166, 0.15));
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        .synthesis-badge span {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6, #14b8a6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 3rem 0;
+        }
+
+        .lecture-number {
+            font-family: 'JetBrains Mono', monospace;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6, #14b8a6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-family: 'Fraunces', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899, #14b8a6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        h2 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 3rem 0 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-subtle);
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .hook-box {
+            background: linear-gradient(135deg,
+                rgba(59, 130, 246, 0.08),
+                rgba(139, 92, 246, 0.08),
+                rgba(20, 184, 166, 0.08));
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .hook-box p {
+            color: var(--text-primary);
+        }
+
+        .principle-box {
+            background: var(--bg-tertiary);
+            border-left: 4px solid;
+            border-image: linear-gradient(180deg, #3b82f6, #8b5cf6, #14b8a6) 1;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .principle-box p {
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        /* Primitive Grid */
+        .primitive-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .primitive-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 1.25rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .primitive-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(139, 92, 246, 0.5);
+        }
+
+        .primitive-card.active {
+            border-color: var(--card-color);
+            box-shadow: 0 0 20px var(--card-color-dim);
+        }
+
+        .primitive-name {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .primitive-perception {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        /* Detail Panel */
+        .detail-panel {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            min-height: 300px;
+        }
+
+        .detail-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .detail-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .detail-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .detail-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .detail-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-section h4 {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
+        }
+
+        /* Decision Tree */
+        .decision-tree {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .decision-step {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .decision-step:hover {
+            transform: translateX(5px);
+        }
+
+        .decision-step.selected {
+            border-left: 3px solid var(--color-sameness);
+        }
+
+        .step-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--bg-secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-question {
+            font-weight: 500;
+            margin-bottom: 0.3rem;
+        }
+
+        .step-answer {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .step-result {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            white-space: nowrap;
+        }
+
+        /* Tool Reference */
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .tool-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .tool-name {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .tool-use {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Course Map */
+        .course-map {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .module-block {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border-top: 3px solid;
+        }
+
+        .module-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .module-lectures {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .module-primitives {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.3rem;
+        }
+
+        .mini-tag {
+            font-size: 0.7rem;
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            background: var(--bg-tertiary);
+        }
+
+        /* Summary Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        th {
+            background: var(--bg-tertiary);
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        td {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* Method Flow */
+        .method-flow {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            padding: 2rem;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            margin: 2rem 0;
+        }
+
+        .flow-step {
+            padding: 1rem 1.5rem;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .flow-step-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .flow-step-desc {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .flow-arrow {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+        }
+
+        .final-message {
+            text-align: center;
+            padding: 3rem;
+            background: linear-gradient(135deg,
+                rgba(59, 130, 246, 0.05),
+                rgba(139, 92, 246, 0.05),
+                rgba(20, 184, 166, 0.05));
+            border-radius: 12px;
+            margin: 3rem 0;
+        }
+
+        .final-message h2 {
+            border: none;
+            margin-bottom: 1rem;
+        }
+
+        .final-message p {
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            max-width: 600px;
+            margin: 0 auto 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .primitive-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .tool-grid, .course-map {
+                grid-template-columns: 1fr;
+            }
+
+            .method-flow {
+                flex-direction: column;
+            }
+
+            .flow-arrow {
+                transform: rotate(90deg);
+            }
+        }
+
+        footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-subtle);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <nav class="lecture-nav">
+        <a href="../all-lectures.html" class="nav-link">← All Lectures</a>
+        <div class="synthesis-badge">
+            <span>SYNTHESIS</span>
+        </div>
+    </nav>
+
+    <header>
+        <div class="lecture-number">LECTURE 24</div>
+        <h1>Synthesis</h1>
+        <p class="subtitle">The complete map — seeing the whole</p>
+    </header>
+
+    <main>
+        <div class="hook-box">
+            <h3>The Promise Fulfilled</h3>
+            <p>Lecture 1 promised: "By course end, you'll look at any chemical phenomenon and see what kind of thing it is. The math will follow."</p>
+            <p><strong>You've built that skill.</strong></p>
+            <p>Not memorizing tools. <strong>Seeing patterns.</strong></p>
+        </div>
+
+        <h2>The Nine Primitives</h2>
+        <p>Click any primitive to explore its tools and chemistry connections.</p>
+
+        <div class="primitive-grid" id="primitiveGrid">
+            <!-- Filled by JavaScript -->
+        </div>
+
+        <div class="detail-panel" id="detailPanel">
+            <div class="detail-header">
+                <div class="detail-icon" id="detailIcon">?</div>
+                <div>
+                    <div class="detail-title" id="detailTitle">Select a Primitive</div>
+                    <div class="detail-subtitle" id="detailSubtitle">Click above to explore</div>
+                </div>
+            </div>
+            <div id="detailContent">
+                <p>Choose a primitive from the grid above to see its associated tools, chemistry applications, and lecture connections.</p>
+            </div>
+        </div>
+
+        <h2>The Decision Tree</h2>
+        <p>When you encounter a problem, ask these questions:</p>
+
+        <div class="decision-tree" id="decisionTree">
+            <!-- Filled by JavaScript -->
+        </div>
+
+        <div class="principle-box" id="decisionResult">
+            <p>Select problem characteristics above to get primitive recommendations.</p>
+        </div>
+
+        <h2>Quick Tool Reference</h2>
+        <p>"When do I use...?"</p>
+
+        <div class="tool-grid">
+            <div class="tool-card">
+                <div class="tool-name" style="color: var(--color-direction);">Dot Product</div>
+                <div class="tool-use">Finding angles, projections, "how much in this direction"</div>
+            </div>
+            <div class="tool-card">
+                <div class="tool-name" style="color: var(--color-direction);">Cross Product</div>
+                <div class="tool-use">Finding perpendicular vectors, areas, torques</div>
+            </div>
+            <div class="tool-card">
+                <div class="tool-name" style="color: var(--color-sameness);">Eigenvalues</div>
+                <div class="tool-use">Finding what's preserved under transformation</div>
+            </div>
+            <div class="tool-card">
+                <div class="tool-name" style="color: var(--color-change);">Derivative</div>
+                <div class="tool-use">Finding instantaneous rate of change</div>
+            </div>
+            <div class="tool-card">
+                <div class="tool-name" style="color: var(--color-accumulation);">Integral</div>
+                <div class="tool-use">Finding total accumulation</div>
+            </div>
+            <div class="tool-card">
+                <div class="tool-name" style="color: var(--color-rate);">Differential Equation</div>
+                <div class="tool-use">Relating a quantity to its rate of change</div>
+            </div>
+            <div class="tool-card">
+                <div class="tool-name" style="color: var(--color-spread);">Probability Distribution</div>
+                <div class="tool-use">Describing uncertain outcomes, populations</div>
+            </div>
+            <div class="tool-card">
+                <div class="tool-name" style="color: #f59e0b;">Dimensional Analysis</div>
+                <div class="tool-use">Checking equations, deriving relationships, estimating</div>
+            </div>
+        </div>
+
+        <h2>The Course Map</h2>
+
+        <div class="course-map">
+            <div class="module-block" style="border-color: var(--color-direction);">
+                <div class="module-title" style="color: var(--color-direction);">Module 1: Structure</div>
+                <div class="module-lectures">Lectures 1-10</div>
+                <div class="module-primitives">
+                    <span class="mini-tag" style="color: var(--color-collection);">COLLECTION</span>
+                    <span class="mini-tag" style="color: var(--color-arrangement);">ARRANGEMENT</span>
+                    <span class="mini-tag" style="color: var(--color-direction);">DIRECTION</span>
+                    <span class="mini-tag" style="color: var(--color-sameness);">SAMENESS</span>
+                </div>
+            </div>
+            <div class="module-block" style="border-color: var(--color-change);">
+                <div class="module-title" style="color: var(--color-change);">Module 2: Change</div>
+                <div class="module-lectures">Lectures 11-19</div>
+                <div class="module-primitives">
+                    <span class="mini-tag" style="color: var(--color-proximity);">PROXIMITY</span>
+                    <span class="mini-tag" style="color: var(--color-change);">CHANGE</span>
+                    <span class="mini-tag" style="color: var(--color-rate);">RATE</span>
+                    <span class="mini-tag" style="color: var(--color-accumulation);">ACCUMULATION</span>
+                </div>
+            </div>
+            <div class="module-block" style="border-color: var(--color-spread);">
+                <div class="module-title" style="color: var(--color-spread);">Module 3: Probability</div>
+                <div class="module-lectures">Lectures 20-24</div>
+                <div class="module-primitives">
+                    <span class="mini-tag" style="color: var(--color-spread);">SPREAD</span>
+                    <span class="mini-tag">Error Analysis</span>
+                    <span class="mini-tag">Dimensions</span>
+                </div>
+            </div>
+        </div>
+
+        <h2>The Method</h2>
+
+        <div class="method-flow">
+            <div class="flow-step">
+                <div class="flow-step-title">REALITY</div>
+                <div class="flow-step-desc">The phenomenon</div>
+            </div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-step">
+                <div class="flow-step-title">RECOGNITION</div>
+                <div class="flow-step-desc">What primitive?</div>
+            </div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-step">
+                <div class="flow-step-title">TOOL</div>
+                <div class="flow-step-desc">What math?</div>
+            </div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-step">
+                <div class="flow-step-title">SOLUTION</div>
+                <div class="flow-step-desc">Calculate</div>
+            </div>
+            <span class="flow-arrow">→</span>
+            <div class="flow-step">
+                <div class="flow-step-title">INTERPRET</div>
+                <div class="flow-step-desc">Back to chemistry</div>
+            </div>
+        </div>
+
+        <h2>Complete Reference</h2>
+
+        <table>
+            <tr>
+                <th>Primitive</th>
+                <th>Core Tools</th>
+                <th>Key Chemistry</th>
+            </tr>
+            <tr>
+                <td style="color: var(--color-collection);">COLLECTION</td>
+                <td>Sets, factorial, combinations</td>
+                <td>Moles, configurations, isomers</td>
+            </tr>
+            <tr>
+                <td style="color: var(--color-arrangement);">ARRANGEMENT</td>
+                <td>Permutations, matrices</td>
+                <td>Stereochemistry, crystal structure</td>
+            </tr>
+            <tr>
+                <td style="color: var(--color-direction);">DIRECTION</td>
+                <td>Vectors, dot product</td>
+                <td>Bonds, dipoles, orbitals</td>
+            </tr>
+            <tr>
+                <td style="color: var(--color-proximity);">PROXIMITY</td>
+                <td>Functions, limits</td>
+                <td>Potentials, titrations</td>
+            </tr>
+            <tr>
+                <td style="color: var(--color-sameness);">SAMENESS</td>
+                <td>Eigenvalues, symmetry</td>
+                <td>Conservation, molecular symmetry</td>
+            </tr>
+            <tr>
+                <td style="color: var(--color-change);">CHANGE</td>
+                <td>Derivatives</td>
+                <td>Rates, optimization</td>
+            </tr>
+            <tr>
+                <td style="color: var(--color-rate);">RATE</td>
+                <td>Differential equations</td>
+                <td>Kinetics, transport</td>
+            </tr>
+            <tr>
+                <td style="color: var(--color-accumulation);">ACCUMULATION</td>
+                <td>Integrals</td>
+                <td>Work, heat, yield</td>
+            </tr>
+            <tr>
+                <td style="color: var(--color-spread);">SPREAD</td>
+                <td>Probability, distributions</td>
+                <td>Boltzmann, quantum, error</td>
+            </tr>
+        </table>
+
+        <div class="final-message">
+            <h2>You Learned to See</h2>
+            <p>Not just to calculate — to <strong>see</strong>.</p>
+            <p>The patterns were always there. In the molecules, in the equations, in reality.</p>
+            <p><strong>Now you can see them too.</strong></p>
+        </div>
+    </main>
+
+    <footer>
+        <p>
+            <a href="../all-lectures.html">← Back to All Lectures</a>
+        </p>
+        <p style="margin-top: 1rem;">Chemical Thinking: The Grammar of Reality</p>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "\\(", right: "\\)", display: false},
+                    {left: "\\[", right: "\\]", display: true}
+                ]
+            });
+        });
+
+        // Primitive data
+        const primitives = {
+            COLLECTION: {
+                perception: "There are many",
+                question: "How many? What's in the set?",
+                icon: "∑",
+                color: "#3b82f6",
+                tools: ["Sets", "Counting", "Factorial", "Combinations", "Permutations"],
+                chemistry: ["Moles", "Electron configurations", "Isomer counting", "Statistical weights"],
+                lectures: [3]
+            },
+            ARRANGEMENT: {
+                perception: "Order matters",
+                question: "How are they organized?",
+                icon: "⊞",
+                color: "#10b981",
+                tools: ["Permutations", "Matrices", "Determinants"],
+                chemistry: ["Stereoisomers", "Crystal structures", "MO diagrams"],
+                lectures: [7, 8]
+            },
+            DIRECTION: {
+                perception: "It points",
+                question: "Where does it point? What angle?",
+                icon: "→",
+                color: "#ef4444",
+                tools: ["Vectors", "Dot product", "Cross product", "Basis"],
+                chemistry: ["Bond angles", "Dipole moments", "Orbital orientation"],
+                lectures: [4, 5, 6]
+            },
+            PROXIMITY: {
+                perception: "Near vs far",
+                question: "How close? What happens as we approach?",
+                icon: "↔",
+                color: "#f97316",
+                tools: ["Functions", "Limits", "Continuity"],
+                chemistry: ["Potential energy curves", "Titration curves", "Interaction ranges"],
+                lectures: [11]
+            },
+            SAMENESS: {
+                perception: "Unchanged",
+                question: "What stays the same? What's conserved?",
+                icon: "≡",
+                color: "#8b5cf6",
+                tools: ["Eigenvalues", "Eigenvectors", "Symmetry operations"],
+                chemistry: ["Molecular orbitals", "Normal modes", "Point groups"],
+                lectures: [9, 10]
+            },
+            CHANGE: {
+                perception: "Becoming",
+                question: "How is it transforming?",
+                icon: "Δ",
+                color: "#14b8a6",
+                tools: ["Derivatives", "Partial derivatives", "Gradient", "Optimization"],
+                chemistry: ["Reaction rates", "Maxwell relations", "Equilibrium finding"],
+                lectures: [12, 13, 14, 15, 16]
+            },
+            RATE: {
+                perception: "How fast",
+                question: "At what speed?",
+                icon: "⏱",
+                color: "#a855f7",
+                tools: ["Differential equations", "First-order ODEs", "Numerical methods"],
+                chemistry: ["Rate laws", "Radioactive decay", "Coupled reactions"],
+                lectures: [19]
+            },
+            ACCUMULATION: {
+                perception: "All together",
+                question: "What's the total?",
+                icon: "∫",
+                color: "#ec4899",
+                tools: ["Integrals", "Integration techniques", "Improper integrals"],
+                chemistry: ["Work (∫PdV)", "Heat (∫CdT)", "Normalization"],
+                lectures: [17, 18]
+            },
+            SPREAD: {
+                perception: "Distributed",
+                question: "How is probability spread?",
+                icon: "📊",
+                color: "#06b6d4",
+                tools: ["Probability", "Distributions", "Expectation", "Variance"],
+                chemistry: ["Boltzmann distribution", "Quantum averages", "Error analysis"],
+                lectures: [20, 21, 22]
+            }
+        };
+
+        // Build primitive grid
+        const grid = document.getElementById('primitiveGrid');
+        Object.entries(primitives).forEach(([name, data]) => {
+            const card = document.createElement('div');
+            card.className = 'primitive-card';
+            card.style.setProperty('--card-color', data.color);
+            card.style.setProperty('--card-color-dim', data.color + '40');
+            card.innerHTML = `
+                <div class="primitive-name" style="color: ${data.color};">${name}</div>
+                <div class="primitive-perception">"${data.perception}"</div>
+            `;
+            card.onclick = () => showPrimitiveDetail(name, data);
+            grid.appendChild(card);
+        });
+
+        function showPrimitiveDetail(name, data) {
+            // Update active state
+            document.querySelectorAll('.primitive-card').forEach(c => c.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+
+            document.getElementById('detailIcon').textContent = data.icon;
+            document.getElementById('detailIcon').style.background = data.color + '30';
+            document.getElementById('detailIcon').style.color = data.color;
+            document.getElementById('detailTitle').textContent = name;
+            document.getElementById('detailTitle').style.color = data.color;
+            document.getElementById('detailSubtitle').textContent = `"${data.perception}"`;
+
+            document.getElementById('detailContent').innerHTML = `
+                <div class="detail-section">
+                    <h4>You Ask</h4>
+                    <p style="color: var(--text-primary);">${data.question}</p>
+                </div>
+                <div class="detail-section">
+                    <h4>Tools</h4>
+                    <div class="tag-list">
+                        ${data.tools.map(t => `<span class="tag">${t}</span>`).join('')}
+                    </div>
+                </div>
+                <div class="detail-section">
+                    <h4>Chemistry Applications</h4>
+                    <div class="tag-list">
+                        ${data.chemistry.map(c => `<span class="tag">${c}</span>`).join('')}
+                    </div>
+                </div>
+                <div class="detail-section">
+                    <h4>Covered In</h4>
+                    <p style="color: var(--text-primary);">Lecture(s) ${data.lectures.join(', ')}</p>
+                </div>
+            `;
+        }
+
+        // Decision tree
+        const decisions = [
+            {
+                icon: "📦",
+                question: "Counting or sets involved?",
+                answer: "How many things, what's in the collection",
+                primitive: "COLLECTION",
+                color: "#3b82f6"
+            },
+            {
+                icon: "🔢",
+                question: "Does order or arrangement matter?",
+                answer: "Organization, stereochemistry, matrices",
+                primitive: "ARRANGEMENT",
+                color: "#10b981"
+            },
+            {
+                icon: "➡️",
+                question: "Something points or has direction?",
+                answer: "Angles, vectors, orientation",
+                primitive: "DIRECTION",
+                color: "#ef4444"
+            },
+            {
+                icon: "📍",
+                question: "Distance or approaching behavior?",
+                answer: "Near vs far, limits, potential curves",
+                primitive: "PROXIMITY",
+                color: "#f97316"
+            },
+            {
+                icon: "⚖️",
+                question: "What stays the same?",
+                answer: "Conservation, symmetry, eigenvalues",
+                primitive: "SAMENESS",
+                color: "#8b5cf6"
+            },
+            {
+                icon: "🔄",
+                question: "Something is transforming?",
+                answer: "Rates, derivatives, optimization",
+                primitive: "CHANGE + RATE",
+                color: "#14b8a6"
+            },
+            {
+                icon: "∫",
+                question: "Need a total or accumulation?",
+                answer: "Integrals, work, heat, yield",
+                primitive: "ACCUMULATION",
+                color: "#ec4899"
+            },
+            {
+                icon: "🎲",
+                question: "Uncertainty or probability?",
+                answer: "Distributions, averages, errors",
+                primitive: "SPREAD",
+                color: "#06b6d4"
+            }
+        ];
+
+        const treeContainer = document.getElementById('decisionTree');
+        decisions.forEach((d, i) => {
+            const step = document.createElement('div');
+            step.className = 'decision-step';
+            step.innerHTML = `
+                <div class="step-icon">${d.icon}</div>
+                <div class="step-content">
+                    <div class="step-question">${d.question}</div>
+                    <div class="step-answer">${d.answer}</div>
+                </div>
+                <div class="step-result" style="background: ${d.color}20; color: ${d.color};">${d.primitive}</div>
+            `;
+            step.onclick = () => {
+                document.querySelectorAll('.decision-step').forEach(s => s.classList.remove('selected'));
+                step.classList.add('selected');
+                document.getElementById('decisionResult').innerHTML = `
+                    <p><strong>Recommended:</strong> ${d.primitive}</p>
+                    <p>Look for tools: ${primitives[d.primitive.split(' + ')[0]]?.tools.slice(0, 3).join(', ') || 'various'}</p>
+                `;
+            };
+            treeContainer.appendChild(step);
+        });
+    </script>
+</body>
+</html>
