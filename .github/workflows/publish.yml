@@ -67,6 +67,13 @@ jobs:
           # Copy lecture index
           cp site/lectures/all-lectures.html site/_site/lectures/all-lectures.html
 
+          # Copy games directory (Godot web exports)
+          if [ -d "site/games" ]; then
+            cp -r site/games site/_site/games
+            echo "=== Games copied ==="
+            ls -la site/_site/games/
+          fi
+
           echo "=== Build complete ==="
           ls -la site/_site/
           ls -la site/_site/lectures/
