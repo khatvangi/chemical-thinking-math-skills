@@ -31,7 +31,10 @@ jobs:
 
       - name: Copy standalone pages and CNAME
         run: |
+          # Create directories
           mkdir -p site/_site/primitives
+          mkdir -p site/_site/chem291
+          mkdir -p site/_site/chem316
           mkdir -p site/_site/lectures/01-orientation
           mkdir -p site/_site/lectures/02-existence
           mkdir -p site/_site/lectures/03-collection
@@ -40,15 +43,37 @@ jobs:
           mkdir -p site/_site/lectures/06-coordinates
           mkdir -p site/_site/lectures/07-matrices
           mkdir -p site/_site/lectures/08-transformations
-          cp site/primitives/collection.html site/_site/primitives/collection.html
-          cp site/primitives/direction.html site/_site/primitives/direction.html
-          cp site/primitives/arrangement.html site/_site/primitives/arrangement.html
-          cp site/primitives/sameness.html site/_site/primitives/sameness.html
-          cp site/primitives/proximity.html site/_site/primitives/proximity.html
-          cp site/primitives/change.html site/_site/primitives/change.html
-          cp site/primitives/rate.html site/_site/primitives/rate.html
-          cp site/primitives/accumulation.html site/_site/primitives/accumulation.html
-          cp site/primitives/spread.html site/_site/primitives/spread.html
+          mkdir -p site/_site/lectures/09-invariance
+          mkdir -p site/_site/lectures/10-eigenvalues
+          mkdir -p site/_site/lectures/11-functions-limits
+          mkdir -p site/_site/lectures/12-derivative
+          mkdir -p site/_site/lectures/13-rules
+          mkdir -p site/_site/lectures/14-extrema
+          mkdir -p site/_site/lectures/15-partial
+          mkdir -p site/_site/lectures/16-taylor-lagrange
+          mkdir -p site/_site/lectures/17-integrals
+          mkdir -p site/_site/lectures/18-integration-techniques
+          mkdir -p site/_site/lectures/19-diff-eq
+          mkdir -p site/_site/lectures/20-probability
+          mkdir -p site/_site/lectures/21-distributions
+          mkdir -p site/_site/lectures/22-error
+          mkdir -p site/_site/lectures/23-dimensions
+          mkdir -p site/_site/lectures/24-synthesis
+          mkdir -p site/_site/lectures/bonus-fourier
+
+          # Copy root files - index.html is the landing page
+          cp site/index.html site/_site/index.html
+          cp site/protein-raga.html site/_site/protein-raga.html
+          cp site/CNAME site/_site/CNAME
+
+          # Copy course hub pages
+          cp site/chem291/index.html site/_site/chem291/index.html
+          cp site/chem316/index.html site/_site/chem316/index.html
+
+          # Copy all primitive pages
+          cp site/primitives/*.html site/_site/primitives/
+
+          # Copy all lecture pages
           cp -r site/lectures/01-orientation/*.html site/_site/lectures/01-orientation/ 2>/dev/null || true
           cp -r site/lectures/02-existence/*.html site/_site/lectures/02-existence/ 2>/dev/null || true
           cp -r site/lectures/03-collection/*.html site/_site/lectures/03-collection/ 2>/dev/null || true
@@ -57,10 +82,24 @@ jobs:
           cp -r site/lectures/06-coordinates/*.html site/_site/lectures/06-coordinates/ 2>/dev/null || true
           cp -r site/lectures/07-matrices/*.html site/_site/lectures/07-matrices/ 2>/dev/null || true
           cp -r site/lectures/08-transformations/*.html site/_site/lectures/08-transformations/ 2>/dev/null || true
+          cp -r site/lectures/09-invariance/*.html site/_site/lectures/09-invariance/ 2>/dev/null || true
+          cp -r site/lectures/10-eigenvalues/*.html site/_site/lectures/10-eigenvalues/ 2>/dev/null || true
+          cp -r site/lectures/11-functions-limits/*.html site/_site/lectures/11-functions-limits/ 2>/dev/null || true
+          cp -r site/lectures/12-derivative/*.html site/_site/lectures/12-derivative/ 2>/dev/null || true
+          cp -r site/lectures/13-rules/*.html site/_site/lectures/13-rules/ 2>/dev/null || true
+          cp -r site/lectures/14-extrema/*.html site/_site/lectures/14-extrema/ 2>/dev/null || true
+          cp -r site/lectures/15-partial/*.html site/_site/lectures/15-partial/ 2>/dev/null || true
+          cp -r site/lectures/16-taylor-lagrange/*.html site/_site/lectures/16-taylor-lagrange/ 2>/dev/null || true
+          cp -r site/lectures/17-integrals/*.html site/_site/lectures/17-integrals/ 2>/dev/null || true
+          cp -r site/lectures/18-integration-techniques/*.html site/_site/lectures/18-integration-techniques/ 2>/dev/null || true
+          cp -r site/lectures/19-diff-eq/*.html site/_site/lectures/19-diff-eq/ 2>/dev/null || true
+          cp -r site/lectures/20-probability/*.html site/_site/lectures/20-probability/ 2>/dev/null || true
+          cp -r site/lectures/21-distributions/*.html site/_site/lectures/21-distributions/ 2>/dev/null || true
+          cp -r site/lectures/22-error/*.html site/_site/lectures/22-error/ 2>/dev/null || true
+          cp -r site/lectures/23-dimensions/*.html site/_site/lectures/23-dimensions/ 2>/dev/null || true
+          cp -r site/lectures/24-synthesis/*.html site/_site/lectures/24-synthesis/ 2>/dev/null || true
+          cp -r site/lectures/bonus-fourier/*.html site/_site/lectures/bonus-fourier/ 2>/dev/null || true
           cp site/lectures/all-lectures.html site/_site/lectures/all-lectures.html
-          cp site/protein-raga.html site/_site/protein-raga.html
-          cp site/landing.html site/_site/landing.html
-          cp site/CNAME site/_site/CNAME
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

@@ -41,7 +41,7 @@ site/.quarto/
 !site/lectures/24-synthesis/*.html
 !site/lectures/all-lectures.html
 !site/protein-raga.html
-!site/landing.html
+!site/index.html
 !site/chem291/*.html
 !site/chem316/*.html
 
