@@ -1439,57 +1439,68 @@ const chargeColorMap = {
 };
 
 const render3DModel = (question, diagramData) => {
-  if (!viewerElement || !window.$3Dmol) {
-    if (viewerNote) {
-      viewerNote.textContent = "3D viewer not available.";
-    }
+  if (!viewerElement) {
+    console.error("3D viewer element not found");
+    if (viewerNote) viewerNote.textContent = "3D viewer element not found.";
     return;
   }
-  if (!viewer3d) {
-    viewer3d = window.$3Dmol.createViewer(viewerElement, {
-      backgroundColor: "#1e1e2a",
-    });
-  }
-  viewer3d.clear();
-
-  const modelData = buildXYZModel(question, diagramData);
-  if (!modelData) {
-    viewerNote.textContent = "3D model not available for this geometry.";
-    viewer3d.render();
+  if (typeof $3Dmol === "undefined") {
+    console.error("3Dmol library not loaded");
+    if (viewerNote) viewerNote.textContent = "3D library loading...";
+    // Retry after a delay
+    setTimeout(() => render3DModel(question, diagramData), 500);
     return;
   }
-
-  viewerNote.textContent = "Idealized 3D geometry model. Rotate and zoom for spatial orientation.";
-  viewer3d.addModel(modelData.xyz, "xyz");
-  viewer3d.setStyle({}, { stick: { radius: 0.12 }, sphere: { scale: 0.45 } });
-  const model = viewer3d.getModel();
-  const atoms = model.selectedAtoms({});
-  atoms.forEach((atom, index) => {
-    const meta = modelData.atoms[index];
-    if (!meta) {
-      return;
-    }
-    let color = elementColorMap[meta.element] || elementColorMap.M;
-    if (state.colorMode === "charge") {
-      color = chargeColorMap[meta.role] || chargeColorMap.neutral;
-    }
-    const selector = atom.serial ? { serial: atom.serial } : { index };
-    viewer3d.setStyle(selector, {
-      stick: { radius: 0.12, color },
-      sphere: { scale: meta.role === "metal" ? 0.55 : 0.45, color },
-    });
-    if (state.showLabels) {
-      viewer3d.addLabel(meta.label, {
-        position: { x: meta.x, y: meta.y, z: meta.z },
-        backgroundColor: "rgba(26, 26, 36, 0.9)",
-        fontColor: "#e8e6e3",
-        fontSize: 11,
-        borderColor: "rgba(255,255,255,0.15)",
+  try {
+    if (!viewer3d) {
+      viewer3d = $3Dmol.createViewer(viewerElement, {
+        backgroundColor: "#1e1e2a",
       });
     }
-  });
-  viewer3d.zoomTo();
-  viewer3d.render();
+    viewer3d.clear();
+
+    const modelData = buildXYZModel(question, diagramData);
+    if (!modelData) {
+      viewerNote.textContent = "3D model not available for this geometry.";
+      viewer3d.render();
+      return;
+    }
+
+    viewerNote.textContent = "Idealized 3D geometry model. Rotate and zoom for spatial orientation.";
+    viewer3d.addModel(modelData.xyz, "xyz");
+    viewer3d.setStyle({}, { stick: { radius: 0.12 }, sphere: { scale: 0.45 } });
+    const model = viewer3d.getModel();
+    const atoms = model.selectedAtoms({});
+    atoms.forEach((atom, index) => {
+      const meta = modelData.atoms[index];
+      if (!meta) {
+        return;
+      }
+      let color = elementColorMap[meta.element] || elementColorMap.M;
+      if (state.colorMode === "charge") {
+        color = chargeColorMap[meta.role] || chargeColorMap.neutral;
+      }
+      const selector = atom.serial ? { serial: atom.serial } : { index };
+      viewer3d.setStyle(selector, {
+        stick: { radius: 0.12, color },
+        sphere: { scale: meta.role === "metal" ? 0.55 : 0.45, color },
+      });
+      if (state.showLabels) {
+        viewer3d.addLabel(meta.label, {
+          position: { x: meta.x, y: meta.y, z: meta.z },
+          backgroundColor: "rgba(26, 26, 36, 0.9)",
+          fontColor: "#e8e6e3",
+          fontSize: 11,
+          borderColor: "rgba(255,255,255,0.15)",
+        });
+      }
+    });
+    viewer3d.zoomTo();
+    viewer3d.render();
+  } catch (err) {
+    console.error("3D viewer error:", err);
+    if (viewerNote) viewerNote.textContent = "3D viewer error: " + err.message;
+  }
 };
 
 const enqueueAdaptiveQuestion = (question) => {
