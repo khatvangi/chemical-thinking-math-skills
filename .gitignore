@@ -43,7 +43,7 @@ site/.quarto/
 !site/protein-raga.html
 !site/index.html
 !site/chem291/*.html
-!site/chem316/*.html
+!site/chem361/*.html
 
 # IDE
 .vscode/

@@ -38,7 +38,7 @@ jobs:
           # Create subdirectories
           mkdir -p site/_site/primitives
           mkdir -p site/_site/chem291
-          mkdir -p site/_site/chem316
+          mkdir -p site/_site/chem361
           mkdir -p site/_site/lectures
 
           # Copy root files
@@ -48,7 +48,7 @@ jobs:
 
           # Copy course hub pages
           cp site/chem291/index.html site/_site/chem291/index.html
-          cp site/chem316/index.html site/_site/chem316/index.html
+          cp site/chem361/index.html site/_site/chem361/index.html
 
           # Copy all primitive pages
           cp site/primitives/*.html site/_site/primitives/
