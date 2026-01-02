@@ -29,6 +29,16 @@ jobs:
           cd site
           quarto render
 
+      - name: Debug file listing
+        run: |
+          echo "=== Root directory ==="
+          ls -la
+          echo "=== site/ directory ==="
+          ls -la site/
+          echo "=== Check for index.html ==="
+          ls -la site/index.html || echo "index.html not found!"
+          ls -la site/*.html || echo "No HTML files in site/"
+
       - name: Copy standalone pages and CNAME
         run: |
           # Create directories
