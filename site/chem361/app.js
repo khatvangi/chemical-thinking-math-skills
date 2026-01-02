@@ -1447,7 +1447,7 @@ const render3DModel = (question, diagramData) => {
   }
   if (!viewer3d) {
     viewer3d = window.$3Dmol.createViewer(viewerElement, {
-      backgroundColor: "white",
+      backgroundColor: "#1e1e2a",
     });
   }
   viewer3d.clear();
@@ -1481,10 +1481,10 @@ const render3DModel = (question, diagramData) => {
     if (state.showLabels) {
       viewer3d.addLabel(meta.label, {
         position: { x: meta.x, y: meta.y, z: meta.z },
-        backgroundColor: "rgba(255,255,255,0.8)",
-        fontColor: "#1c1b1a",
+        backgroundColor: "rgba(26, 26, 36, 0.9)",
+        fontColor: "#e8e6e3",
         fontSize: 11,
-        borderColor: "rgba(28,27,26,0.12)",
+        borderColor: "rgba(255,255,255,0.15)",
       });
     }
   });
