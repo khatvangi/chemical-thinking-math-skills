@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture 20: Probability Basics | Chemical Thinking</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a24;
+            --bg-card: #16161f;
+            --text-primary: #e8e6e3;
+            --text-secondary: #a0a0a0;
+            --text-muted: #6b6b6b;
+            --accent-teal: #14b8a6;
+            --accent-cyan: #06b6d4;
+            --accent-purple: #8b5cf6;
+            --accent-green: #10b981;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        /* Navigation */
+        .lecture-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--bg-tertiary);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover { color: var(--accent-teal); }
+
+        .primitive-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(20, 184, 166, 0.1), rgba(139, 92, 246, 0.1));
+            border: 1px solid rgba(20, 184, 166, 0.3);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .primitive-link:hover {
+            background: linear-gradient(135deg, rgba(20, 184, 166, 0.2), rgba(139, 92, 246, 0.2));
+            border-color: var(--accent-teal);
+        }
+
+        .primitive-badge {
+            background: var(--accent-teal);
+            color: var(--bg-primary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .primitive-text {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Header */
+        .lecture-header {
+            text-align: center;
+            padding: 4rem 2rem 3rem;
+            background: linear-gradient(180deg, var(--bg-secondary), var(--bg-primary));
+        }
+
+        .lecture-number {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-teal);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .lecture-title {
+            font-family: 'Fraunces', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-teal), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .lecture-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.25rem;
+            font-style: italic;
+        }
+
+        /* Main content */
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        section {
+            margin-bottom: 4rem;
+        }
+
+        h2 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.75rem;
+            color: var(--accent-teal);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--bg-tertiary);
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            color: var(--accent-cyan);
+            margin: 1.5rem 0 0.75rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        strong { color: var(--text-primary); }
+
+        /* Hook section */
+        .hook-section {
+            background: linear-gradient(135deg, rgba(20, 184, 166, 0.1), rgba(6, 182, 212, 0.05));
+            border: 1px solid rgba(20, 184, 166, 0.3);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .hook-question {
+            font-size: 1.2rem;
+            color: var(--accent-cyan);
+            font-weight: 600;
+            margin: 1rem 0;
+        }
+
+        .hook-answer {
+            font-size: 1.1rem;
+            color: var(--accent-teal);
+            font-weight: 600;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--bg-tertiary);
+        }
+
+        th {
+            background: var(--bg-secondary);
+            color: var(--accent-teal);
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: rgba(20, 184, 166, 0.05);
+        }
+
+        td { color: var(--text-secondary); }
+
+        /* Visualizations */
+        .visual-container {
+            background: var(--bg-secondary);
+            border: 1px solid var(--bg-tertiary);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .visual-title {
+            font-size: 1rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .visual-canvas {
+            width: 100%;
+            height: 400px;
+            background: var(--bg-primary);
+            border-radius: 8px;
+            display: block;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--bg-tertiary);
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .control-group label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .control-group input[type="range"] {
+            width: 150px;
+            accent-color: var(--accent-teal);
+        }
+
+        .control-group button {
+            padding: 0.5rem 1rem;
+            background: var(--accent-teal);
+            color: var(--bg-primary);
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .control-group button:hover {
+            background: var(--accent-cyan);
+        }
+
+        .value-display {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-teal);
+            font-size: 0.9rem;
+        }
+
+        /* Formula boxes */
+        .formula-box {
+            background: var(--bg-secondary);
+            border-left: 4px solid var(--accent-teal);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .formula-box .katex { font-size: 1.2rem; }
+
+        /* Definition blocks */
+        .definition {
+            background: rgba(20, 184, 166, 0.1);
+            border: 1px solid rgba(20, 184, 166, 0.3);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+        }
+
+        .definition-term {
+            color: var(--accent-teal);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Examples */
+        .example {
+            background: var(--bg-card);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+        }
+
+        .example-title {
+            color: var(--accent-cyan);
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
+        }
+
+        /* Key insight */
+        .key-insight {
+            background: linear-gradient(135deg, rgba(20, 184, 166, 0.15), rgba(139, 92, 246, 0.1));
+            border: 1px solid var(--accent-teal);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .key-insight::before {
+            content: "Key Insight";
+            display: block;
+            color: var(--accent-teal);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin: 1rem 0 1rem 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        li { margin-bottom: 0.5rem; }
+
+        /* Stats display */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.5rem;
+            color: var(--accent-teal);
+            font-weight: 600;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        /* Misconception callout */
+        .misconception {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+        }
+
+        .misconception::before {
+            content: "Common Misconception";
+            display: block;
+            color: #ef4444;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .truth {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin: 1.5rem 0;
+        }
+
+        .truth::before {
+            content: "The Truth";
+            display: block;
+            color: var(--accent-green);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            border-top: 1px solid var(--bg-tertiary);
+            color: var(--text-muted);
+        }
+
+        .notebook-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--accent-teal);
+            color: var(--bg-primary);
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .notebook-link:hover {
+            background: var(--accent-cyan);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .lecture-title { font-size: 2rem; }
+            .controls { flex-direction: column; }
+            main { padding: 2rem 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="lecture-nav">
+        <a href="../all-lectures.html" class="nav-link">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            All Lectures
+        </a>
+        <a href="../../primitives/spread.html" class="primitive-link">
+            <span class="primitive-badge">SPREAD</span>
+            <span class="primitive-text">Explore the Primitive</span>
+        </a>
+    </nav>
+
+    <header class="lecture-header">
+        <div class="lecture-number">LECTURE 20</div>
+        <h1 class="lecture-title">Probability Basics</h1>
+        <p class="lecture-subtitle">The mathematics of uncertainty</p>
+    </header>
+
+    <main>
+        <!-- Hook -->
+        <div class="hook-section">
+            <h2 style="border: none; padding: 0; margin-bottom: 1rem;">The Hook</h2>
+            <p>You flip a fair coin 5 times and get: <strong>H H H H H</strong></p>
+            <p class="hook-question">What's the probability the next flip is heads?</p>
+            <p>Most people feel it "should" be tails - the coin is "due."</p>
+            <p class="hook-answer">Answer: Still 50%. The coin has no memory.</p>
+            <p>This is the <strong>gambler's fallacy</strong> - one of many probability misconceptions we'll confront today.</p>
+        </div>
+
+        <!-- Common Misconceptions -->
+        <section>
+            <h2>Common Misconceptions</h2>
+            <p>Before we build the mathematics, let's name what we're fighting:</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Misconception</th>
+                        <th>The Error</th>
+                        <th>The Truth</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Gambler's fallacy</strong></td>
+                        <td>Past outcomes affect future independent events</td>
+                        <td>Independent events have no memory</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Hot hand fallacy</strong></td>
+                        <td>Streaks indicate changed probability</td>
+                        <td>Random processes produce streaks naturally</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Law of averages (wrong)</strong></td>
+                        <td>Things "even out" in the short run</td>
+                        <td>Convergence only happens in the long run</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Base rate neglect</strong></td>
+                        <td>Ignoring prior probabilities</td>
+                        <td>Must account for how common something is</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Confusion of inverse</strong></td>
+                        <td>P(A|B) = P(B|A)</td>
+                        <td>These are generally different!</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p><strong>This lecture will make these errors impossible.</strong></p>
+        </section>
+
+        <!-- Interactive: Gambler's Fallacy Demo -->
+        <section>
+            <h2>Interactive: The Gambler's Fallacy</h2>
+
+            <div class="visual-container">
+                <div class="visual-title">Coin Flip Simulator - Law of Large Numbers</div>
+                <canvas id="coinFlipCanvas" class="visual-canvas"></canvas>
+                <div class="stats-grid" id="coinStats">
+                    <div class="stat-card">
+                        <div class="stat-value" id="headsCount">0</div>
+                        <div class="stat-label">Heads</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="tailsCount">0</div>
+                        <div class="stat-label">Tails</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="headsPct">50%</div>
+                        <div class="stat-label">Heads %</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="longestStreak">0</div>
+                        <div class="stat-label">Longest Streak</div>
+                    </div>
+                </div>
+                <div class="controls">
+                    <div class="control-group">
+                        <label>Number of flips:</label>
+                        <input type="range" id="numFlips" min="10" max="1000" value="100">
+                        <span class="value-display" id="numFlipsValue">100</span>
+                    </div>
+                    <div class="control-group">
+                        <button id="flipBtn">Flip Coins</button>
+                    </div>
+                    <div class="control-group">
+                        <button id="resetBtn" style="background: var(--bg-tertiary); color: var(--text-secondary);">Reset</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="key-insight">
+                <p>Streaks are <strong>normal</strong> in random data! A streak of 5+ heads doesn't mean the coin is biased or that tails is "due." The proportion converges to 50% over many trials, but the absolute difference can keep growing.</p>
+            </div>
+        </section>
+
+        <!-- The SPREAD Primitive -->
+        <section>
+            <h2>Recognition: The SPREAD Primitive</h2>
+            <p><strong>SPREAD:</strong> "Distributed across possibilities"</p>
+            <p>When outcomes are uncertain, we describe them by how probability is <strong>spread</strong> across the possibilities.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Chemistry Context</th>
+                        <th>What's Spread</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Boltzmann distribution</td><td>Probability across energy states</td></tr>
+                    <tr><td>Orbital shapes</td><td>Electron probability in space</td></tr>
+                    <tr><td>Reaction outcomes</td><td>Products from competing pathways</td></tr>
+                    <tr><td>Measurement uncertainty</td><td>Error across possible values</td></tr>
+                    <tr><td>Molecular speeds</td><td>Probability across velocities</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Sample Spaces and Events -->
+        <section>
+            <h2>Sample Spaces and Events</h2>
+
+            <div class="definition">
+                <div class="definition-term">Experiment</div>
+                <p style="margin: 0;">A process with uncertain outcome (flip coin, measure bond length, observe reaction)</p>
+            </div>
+
+            <div class="definition">
+                <div class="definition-term">Sample Space (Ω)</div>
+                <p style="margin: 0;">The set of ALL possible outcomes</p>
+            </div>
+
+            <div class="definition">
+                <div class="definition-term">Event</div>
+                <p style="margin: 0;">A subset of the sample space (a collection of outcomes)</p>
+            </div>
+
+            <div class="example">
+                <div class="example-title">Example: Roll a Die</div>
+                <p><strong>Sample space:</strong> Ω = {1, 2, 3, 4, 5, 6}</p>
+                <p><strong>Events:</strong></p>
+                <ul style="margin-top: 0.5rem;">
+                    <li>A = "roll even" = {2, 4, 6}</li>
+                    <li>B = "roll > 4" = {5, 6}</li>
+                    <li>A ∩ B = "even AND > 4" = {6}</li>
+                    <li>A ∪ B = "even OR > 4" = {2, 4, 5, 6}</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Probability Axioms -->
+        <section>
+            <h2>Probability: The Axioms</h2>
+            <h3>Kolmogorov's Axioms</h3>
+            <p>For any event A in sample space Ω:</p>
+
+            <div class="formula-box">
+                <p><strong>Axiom 1:</strong> $P(A) \geq 0$ (probabilities are non-negative)</p>
+                <p><strong>Axiom 2:</strong> $P(\Omega) = 1$ (something happens)</p>
+                <p><strong>Axiom 3:</strong> For mutually exclusive events: $P(A_1 \cup A_2 \cup \cdots) = P(A_1) + P(A_2) + \cdots$</p>
+            </div>
+
+            <p><strong>Everything else follows from these three axioms.</strong></p>
+
+            <h4>Immediate Consequences</h4>
+            <ul>
+                <li>$P(\emptyset) = 0$ (impossible event has probability 0)</li>
+                <li>$P(A^c) = 1 - P(A)$ (complement rule)</li>
+                <li>$P(A) \leq 1$ (probabilities bounded by 1)</li>
+                <li>$P(A \cup B) = P(A) + P(B) - P(A \cap B)$ (inclusion-exclusion)</li>
+            </ul>
+        </section>
+
+        <!-- Independence -->
+        <section>
+            <h2>Independence</h2>
+
+            <div class="definition">
+                <div class="definition-term">Independent Events</div>
+                <p style="margin: 0;">Events A and B are <strong>independent</strong> if: $P(A \cap B) = P(A) \cdot P(B)$</p>
+                <p style="margin: 0.5rem 0 0 0;">Equivalently: knowing B occurred doesn't change the probability of A.</p>
+            </div>
+
+            <div class="key-insight">
+                <p><strong>Independence is a property of how events relate, not of the events themselves.</strong></p>
+                <p>Two events from the same experiment can be dependent. Two events from different experiments are typically independent.</p>
+            </div>
+
+            <div class="example">
+                <div class="example-title">Example: Two Coin Flips (Independent)</div>
+                <p>A = "first flip is heads", B = "second flip is heads"</p>
+                <p>P(A) = 1/2, P(B) = 1/2</p>
+                <p>P(A ∩ B) = P(both heads) = 1/4 = P(A) × P(B) ✓</p>
+            </div>
+
+            <div class="example">
+                <div class="example-title">Example: Dependent Events</div>
+                <p>A = "roll is 6", B = "roll is even"</p>
+                <p>P(A) = 1/6, P(B) = 1/2</p>
+                <p>P(A ∩ B) = P(A) = 1/6 (if it's 6, it's automatically even)</p>
+                <p>Is 1/6 = (1/6)(1/2) = 1/12? <strong>No!</strong> These are <strong>dependent</strong>.</p>
+            </div>
+
+            <div class="misconception">
+                <p><strong>Independence ≠ Mutual Exclusivity</strong></p>
+                <p>Mutually exclusive events are <em>highly dependent</em> - if A happens, B definitely doesn't!</p>
+            </div>
+        </section>
+
+        <!-- Conditional Probability -->
+        <section>
+            <h2>Conditional Probability</h2>
+
+            <div class="formula-box">
+                <p>The probability of A <strong>given that</strong> B has occurred:</p>
+                $$P(A|B) = \frac{P(A \cap B)}{P(B)}$$
+            </div>
+
+            <p>We restrict our sample space to B and ask: what fraction is also in A?</p>
+
+            <div class="example">
+                <div class="example-title">Example: Die Roll</div>
+                <p>P(roll is 6 | roll is even) = P({6}) / P({2,4,6}) = (1/6) / (1/2) = <strong>1/3</strong></p>
+                <p>Given that it's even, 6 is one of three equally likely outcomes.</p>
+            </div>
+
+            <h4>The Multiplication Rule</h4>
+            <div class="formula-box">
+                $$P(A \cap B) = P(A|B) \cdot P(B) = P(B|A) \cdot P(A)$$
+            </div>
+
+            <div class="misconception">
+                <p><strong>The Confusion of the Inverse:</strong> P(A|B) ≠ P(B|A) in general!</p>
+                <ul>
+                    <li>P(wet sidewalk | rain) ≈ 1.0</li>
+                    <li>P(rain | wet sidewalk) ≈ 0.3 (could be sprinklers!)</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Bayes' Theorem -->
+        <section>
+            <h2>Bayes' Theorem</h2>
+
+            <div class="formula-box">
+                $$P(A|B) = \frac{P(B|A) \cdot P(A)}{P(B)}$$
+                <p style="margin-top: 0.5rem; font-size: 0.9rem; color: var(--text-muted);">This lets us "reverse" conditional probabilities.</p>
+            </div>
+
+            <h3>Interactive: Medical Testing & Base Rate Neglect</h3>
+
+            <div class="visual-container">
+                <div class="visual-title">Bayes' Theorem in Action</div>
+                <canvas id="bayesCanvas" class="visual-canvas" style="height: 350px;"></canvas>
+                <div class="stats-grid" id="bayesStats">
+                    <div class="stat-card">
+                        <div class="stat-value" id="truePos">-</div>
+                        <div class="stat-label">True Positives</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="falsePos">-</div>
+                        <div class="stat-label">False Positives</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="ppv">-</div>
+                        <div class="stat-label">P(disease|+)</div>
+                    </div>
+                </div>
+                <div class="controls">
+                    <div class="control-group">
+                        <label>Disease Prevalence (%):</label>
+                        <input type="range" id="prevalence" min="0.1" max="20" step="0.1" value="1">
+                        <span class="value-display" id="prevalenceValue">1%</span>
+                    </div>
+                    <div class="control-group">
+                        <label>Test Sensitivity (%):</label>
+                        <input type="range" id="sensitivity" min="80" max="99" value="95">
+                        <span class="value-display" id="sensitivityValue">95%</span>
+                    </div>
+                    <div class="control-group">
+                        <label>Test Specificity (%):</label>
+                        <input type="range" id="specificity" min="80" max="99" value="95">
+                        <span class="value-display" id="specificityValue">95%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="truth">
+                <p>With a 1% prevalence and 95% accuracy, a positive test only means ~16% chance of disease!</p>
+                <p><strong>Most positive tests are false positives</strong> because the disease is rare.</p>
+            </div>
+        </section>
+
+        <!-- Chemistry Applications -->
+        <section>
+            <h2>Chemistry Applications</h2>
+
+            <h3>Reaction Branching</h3>
+            <p>A molecule can react via two pathways with rate constants k₁ and k₂:</p>
+
+            <div class="formula-box">
+                $$P(\text{pathway } i) = \frac{k_i}{k_1 + k_2 + \cdots}$$
+            </div>
+
+            <div class="visual-container">
+                <div class="visual-title">Reaction Pathway Branching</div>
+                <canvas id="branchingCanvas" class="visual-canvas" style="height: 300px;"></canvas>
+                <div class="controls">
+                    <div class="control-group">
+                        <label>k₁ (s⁻¹):</label>
+                        <input type="range" id="k1" min="10" max="100" value="50">
+                        <span class="value-display" id="k1Value">50</span>
+                    </div>
+                    <div class="control-group">
+                        <label>k₂ (s⁻¹):</label>
+                        <input type="range" id="k2" min="10" max="100" value="30">
+                        <span class="value-display" id="k2Value">30</span>
+                    </div>
+                    <div class="control-group">
+                        <label>k₃ (s⁻¹):</label>
+                        <input type="range" id="k3" min="10" max="100" value="20">
+                        <span class="value-display" id="k3Value">20</span>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Quantum Measurement</h3>
+            <p>In quantum mechanics, |ψ|² gives probability density:</p>
+            <div class="formula-box">
+                $$P(a \leq x \leq b) = \int_a^b |\psi(x)|^2 \, dx$$
+            </div>
+            <p>The wavefunction encodes how probability is <strong>spread</strong> across positions.</p>
+        </section>
+
+        <!-- What Random Looks Like -->
+        <section>
+            <h2>What "Random" Actually Looks Like</h2>
+
+            <div class="misconception">
+                <p><strong>"Random data should look uniform, evenly spread."</strong></p>
+            </div>
+
+            <div class="truth">
+                <p>Random data has clusters, gaps, and apparent patterns. If you see perfectly uniform spacing, that's evidence of NON-randomness!</p>
+            </div>
+
+            <div class="visual-container">
+                <div class="visual-title">100 Random Points - Notice the Clusters!</div>
+                <canvas id="randomCanvas" class="visual-canvas" style="height: 400px;"></canvas>
+                <div class="controls">
+                    <div class="control-group">
+                        <button id="regenerateBtn">Generate New Random Points</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Summary -->
+        <section>
+            <h2>Summary: Probability Rules</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rule</th>
+                        <th>Formula</th>
+                        <th>Condition</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Complement</td><td>P(Aᶜ) = 1 - P(A)</td><td>Always</td></tr>
+                    <tr><td>Addition</td><td>P(A ∪ B) = P(A) + P(B) - P(A ∩ B)</td><td>Always</td></tr>
+                    <tr><td>Addition (exclusive)</td><td>P(A ∪ B) = P(A) + P(B)</td><td>If A ∩ B = ∅</td></tr>
+                    <tr><td>Multiplication</td><td>P(A ∩ B) = P(A|B)P(B)</td><td>Always</td></tr>
+                    <tr><td>Multiplication (indep.)</td><td>P(A ∩ B) = P(A)P(B)</td><td>If independent</td></tr>
+                    <tr><td>Bayes</td><td>P(A|B) = P(B|A)P(A)/P(B)</td><td>Always</td></tr>
+                </tbody>
+            </table>
+
+            <h3>Misconception Remedies</h3>
+            <table>
+                <thead>
+                    <tr><th>If you think...</th><th>Remember...</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>"It's due to happen"</td><td>Independent events have no memory</td></tr>
+                    <tr><td>"P(A|B) = P(B|A)"</td><td>Bayes' theorem shows they differ</td></tr>
+                    <tr><td>"P = 0.9 means certain"</td><td>It means 9/10 times, not THIS time</td></tr>
+                    <tr><td>"Random = uniform"</td><td>Random processes have clusters</td></tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <footer>
+        <p>Chemical Thinking | Lecture 20: Probability Basics</p>
+        <p style="margin-top: 0.5rem; font-size: 0.85rem;">SPREAD Primitive — The mathematics of uncertainty</p>
+        <a href="../../notebooks/Lecture_20_Probability.jl" class="notebook-link">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+            </svg>
+            Open Pluto Notebook
+        </a>
+    </footer>
+
+    <script>
+        // Render KaTeX
+        document.addEventListener('DOMContentLoaded', function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false}
+                ]
+            });
+        });
+
+        // ========== Coin Flip Simulator ==========
+        const coinCanvas = document.getElementById('coinFlipCanvas');
+        const coinCtx = coinCanvas.getContext('2d');
+        let flips = [];
+        let runningProportion = [];
+
+        function resizeCanvas(canvas) {
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width - 48;
+            canvas.height = 400;
+        }
+
+        function simulateFlips(n) {
+            flips = [];
+            runningProportion = [];
+            let heads = 0;
+            let currentStreak = 1;
+            let maxStreak = 1;
+            let lastFlip = null;
+
+            for (let i = 0; i < n; i++) {
+                const isHeads = Math.random() < 0.5;
+                flips.push(isHeads);
+                if (isHeads) heads++;
+                runningProportion.push(heads / (i + 1));
+
+                // Track streaks
+                if (lastFlip !== null && isHeads === lastFlip) {
+                    currentStreak++;
+                    maxStreak = Math.max(maxStreak, currentStreak);
+                } else {
+                    currentStreak = 1;
+                }
+                lastFlip = isHeads;
+            }
+
+            // Update stats
+            document.getElementById('headsCount').textContent = heads;
+            document.getElementById('tailsCount').textContent = n - heads;
+            document.getElementById('headsPct').textContent = (100 * heads / n).toFixed(1) + '%';
+            document.getElementById('longestStreak').textContent = maxStreak;
+
+            drawCoinChart();
+        }
+
+        function drawCoinChart() {
+            resizeCanvas(coinCanvas);
+            const w = coinCanvas.width;
+            const h = coinCanvas.height;
+            const padding = 50;
+
+            coinCtx.fillStyle = '#0a0a0f';
+            coinCtx.fillRect(0, 0, w, h);
+
+            const n = runningProportion.length;
+            if (n === 0) return;
+
+            // Draw grid
+            coinCtx.strokeStyle = '#1a1a24';
+            coinCtx.lineWidth = 1;
+            for (let y = 0; y <= 1; y += 0.25) {
+                const py = padding + (1 - y) * (h - 2 * padding);
+                coinCtx.beginPath();
+                coinCtx.moveTo(padding, py);
+                coinCtx.lineTo(w - padding, py);
+                coinCtx.stroke();
+
+                coinCtx.fillStyle = '#6b6b6b';
+                coinCtx.font = '12px JetBrains Mono';
+                coinCtx.textAlign = 'right';
+                coinCtx.fillText((y * 100).toFixed(0) + '%', padding - 10, py + 4);
+            }
+
+            // Draw 50% line
+            coinCtx.strokeStyle = '#ef4444';
+            coinCtx.lineWidth = 2;
+            coinCtx.setLineDash([5, 5]);
+            const y50 = padding + 0.5 * (h - 2 * padding);
+            coinCtx.beginPath();
+            coinCtx.moveTo(padding, y50);
+            coinCtx.lineTo(w - padding, y50);
+            coinCtx.stroke();
+            coinCtx.setLineDash([]);
+
+            // Draw running proportion
+            coinCtx.strokeStyle = '#14b8a6';
+            coinCtx.lineWidth = 2;
+            coinCtx.beginPath();
+            for (let i = 0; i < n; i++) {
+                const x = padding + (i / (n - 1)) * (w - 2 * padding);
+                const y = padding + (1 - runningProportion[i]) * (h - 2 * padding);
+                if (i === 0) coinCtx.moveTo(x, y);
+                else coinCtx.lineTo(x, y);
+            }
+            coinCtx.stroke();
+
+            // Labels
+            coinCtx.fillStyle = '#e8e6e3';
+            coinCtx.font = '14px Inter';
+            coinCtx.textAlign = 'center';
+            coinCtx.fillText('Flip Number', w / 2, h - 10);
+
+            coinCtx.save();
+            coinCtx.translate(15, h / 2);
+            coinCtx.rotate(-Math.PI / 2);
+            coinCtx.fillText('Proportion Heads', 0, 0);
+            coinCtx.restore();
+
+            // Legend
+            coinCtx.fillStyle = '#14b8a6';
+            coinCtx.fillRect(w - 150, 20, 20, 3);
+            coinCtx.fillStyle = '#a0a0a0';
+            coinCtx.font = '12px Inter';
+            coinCtx.textAlign = 'left';
+            coinCtx.fillText('Running proportion', w - 125, 25);
+
+            coinCtx.fillStyle = '#ef4444';
+            coinCtx.fillRect(w - 150, 40, 20, 2);
+            coinCtx.fillStyle = '#a0a0a0';
+            coinCtx.fillText('True probability (50%)', w - 125, 45);
+        }
+
+        document.getElementById('numFlips').addEventListener('input', function() {
+            document.getElementById('numFlipsValue').textContent = this.value;
+        });
+
+        document.getElementById('flipBtn').addEventListener('click', function() {
+            const n = parseInt(document.getElementById('numFlips').value);
+            simulateFlips(n);
+        });
+
+        document.getElementById('resetBtn').addEventListener('click', function() {
+            flips = [];
+            runningProportion = [];
+            document.getElementById('headsCount').textContent = '0';
+            document.getElementById('tailsCount').textContent = '0';
+            document.getElementById('headsPct').textContent = '50%';
+            document.getElementById('longestStreak').textContent = '0';
+            drawCoinChart();
+        });
+
+        // ========== Bayes' Theorem Visualization ==========
+        const bayesCanvas = document.getElementById('bayesCanvas');
+        const bayesCtx = bayesCanvas.getContext('2d');
+
+        function updateBayes() {
+            const prevalence = parseFloat(document.getElementById('prevalence').value) / 100;
+            const sensitivity = parseFloat(document.getElementById('sensitivity').value) / 100;
+            const specificity = parseFloat(document.getElementById('specificity').value) / 100;
+
+            document.getElementById('prevalenceValue').textContent = (prevalence * 100).toFixed(1) + '%';
+            document.getElementById('sensitivityValue').textContent = (sensitivity * 100) + '%';
+            document.getElementById('specificityValue').textContent = (specificity * 100) + '%';
+
+            // Calculate
+            const N = 10000;
+            const nDiseased = Math.round(N * prevalence);
+            const nHealthy = N - nDiseased;
+            const truePos = Math.round(nDiseased * sensitivity);
+            const falsePos = Math.round(nHealthy * (1 - specificity));
+            const totalPos = truePos + falsePos;
+            const ppv = truePos / totalPos;
+
+            document.getElementById('truePos').textContent = truePos;
+            document.getElementById('falsePos').textContent = falsePos;
+            document.getElementById('ppv').textContent = (ppv * 100).toFixed(1) + '%';
+
+            drawBayesChart(nDiseased, nHealthy, truePos, falsePos, ppv);
+        }
+
+        function drawBayesChart(nDiseased, nHealthy, truePos, falsePos, ppv) {
+            resizeCanvas(bayesCanvas);
+            bayesCanvas.height = 350;
+            const w = bayesCanvas.width;
+            const h = bayesCanvas.height;
+
+            bayesCtx.fillStyle = '#0a0a0f';
+            bayesCtx.fillRect(0, 0, w, h);
+
+            const centerX = w / 2;
+            const centerY = h / 2 - 20;
+            const maxRadius = 120;
+
+            // Draw population pie
+            const diseaseAngle = (nDiseased / 10000) * 2 * Math.PI;
+
+            // Healthy (large slice)
+            bayesCtx.fillStyle = '#10b981';
+            bayesCtx.beginPath();
+            bayesCtx.moveTo(centerX - 150, centerY);
+            bayesCtx.arc(centerX - 150, centerY, maxRadius, diseaseAngle, 2 * Math.PI);
+            bayesCtx.closePath();
+            bayesCtx.fill();
+
+            // Diseased (small slice)
+            bayesCtx.fillStyle = '#ef4444';
+            bayesCtx.beginPath();
+            bayesCtx.moveTo(centerX - 150, centerY);
+            bayesCtx.arc(centerX - 150, centerY, maxRadius, 0, diseaseAngle);
+            bayesCtx.closePath();
+            bayesCtx.fill();
+
+            // Label
+            bayesCtx.fillStyle = '#e8e6e3';
+            bayesCtx.font = '14px Inter';
+            bayesCtx.textAlign = 'center';
+            bayesCtx.fillText('Population (10,000)', centerX - 150, centerY + maxRadius + 30);
+
+            // Draw positive tests bar
+            const barWidth = 80;
+            const barHeight = 200;
+            const barX = centerX + 100;
+            const barY = centerY - barHeight / 2;
+
+            const truePosHeight = (truePos / (truePos + falsePos)) * barHeight;
+            const falsePosHeight = barHeight - truePosHeight;
+
+            // False positives (bottom)
+            bayesCtx.fillStyle = '#f59e0b';
+            bayesCtx.fillRect(barX, barY + truePosHeight, barWidth, falsePosHeight);
+
+            // True positives (top)
+            bayesCtx.fillStyle = '#ef4444';
+            bayesCtx.fillRect(barX, barY, barWidth, truePosHeight);
+
+            // Labels
+            bayesCtx.fillStyle = '#e8e6e3';
+            bayesCtx.font = '12px Inter';
+            bayesCtx.textAlign = 'left';
+            if (truePosHeight > 20) {
+                bayesCtx.fillText('True +', barX + barWidth + 10, barY + truePosHeight / 2 + 4);
+            }
+            if (falsePosHeight > 20) {
+                bayesCtx.fillText('False +', barX + barWidth + 10, barY + truePosHeight + falsePosHeight / 2 + 4);
+            }
+
+            bayesCtx.textAlign = 'center';
+            bayesCtx.fillText('Positive Tests', barX + barWidth / 2, barY + barHeight + 30);
+
+            // PPV annotation
+            bayesCtx.fillStyle = ppv < 0.5 ? '#ef4444' : '#10b981';
+            bayesCtx.font = 'bold 16px Inter';
+            bayesCtx.fillText(`P(disease|+) = ${(ppv * 100).toFixed(1)}%`, barX + barWidth / 2, barY - 20);
+
+            // Legend
+            bayesCtx.font = '11px Inter';
+            bayesCtx.textAlign = 'left';
+
+            bayesCtx.fillStyle = '#ef4444';
+            bayesCtx.fillRect(20, h - 50, 12, 12);
+            bayesCtx.fillStyle = '#a0a0a0';
+            bayesCtx.fillText('Diseased / True Positive', 38, h - 40);
+
+            bayesCtx.fillStyle = '#10b981';
+            bayesCtx.fillRect(20, h - 30, 12, 12);
+            bayesCtx.fillStyle = '#a0a0a0';
+            bayesCtx.fillText('Healthy', 38, h - 20);
+
+            bayesCtx.fillStyle = '#f59e0b';
+            bayesCtx.fillRect(180, h - 50, 12, 12);
+            bayesCtx.fillStyle = '#a0a0a0';
+            bayesCtx.fillText('False Positive', 198, h - 40);
+        }
+
+        ['prevalence', 'sensitivity', 'specificity'].forEach(id => {
+            document.getElementById(id).addEventListener('input', updateBayes);
+        });
+
+        // ========== Reaction Branching ==========
+        const branchCanvas = document.getElementById('branchingCanvas');
+        const branchCtx = branchCanvas.getContext('2d');
+
+        function updateBranching() {
+            const k1 = parseFloat(document.getElementById('k1').value);
+            const k2 = parseFloat(document.getElementById('k2').value);
+            const k3 = parseFloat(document.getElementById('k3').value);
+
+            document.getElementById('k1Value').textContent = k1;
+            document.getElementById('k2Value').textContent = k2;
+            document.getElementById('k3Value').textContent = k3;
+
+            const total = k1 + k2 + k3;
+            const p1 = k1 / total;
+            const p2 = k2 / total;
+            const p3 = k3 / total;
+
+            drawBranchingChart([p1, p2, p3], [k1, k2, k3]);
+        }
+
+        function drawBranchingChart(probs, ks) {
+            resizeCanvas(branchCanvas);
+            branchCanvas.height = 300;
+            const w = branchCanvas.width;
+            const h = branchCanvas.height;
+            const padding = 60;
+
+            branchCtx.fillStyle = '#0a0a0f';
+            branchCtx.fillRect(0, 0, w, h);
+
+            const barWidth = 80;
+            const gap = 40;
+            const totalBarWidth = 3 * barWidth + 2 * gap;
+            const startX = (w - totalBarWidth) / 2;
+            const maxBarHeight = h - 2 * padding - 40;
+
+            const colors = ['#14b8a6', '#8b5cf6', '#f59e0b'];
+
+            for (let i = 0; i < 3; i++) {
+                const x = startX + i * (barWidth + gap);
+                const barHeight = probs[i] * maxBarHeight;
+                const y = padding + maxBarHeight - barHeight;
+
+                // Bar
+                branchCtx.fillStyle = colors[i];
+                branchCtx.fillRect(x, y, barWidth, barHeight);
+
+                // Percentage label
+                branchCtx.fillStyle = '#e8e6e3';
+                branchCtx.font = 'bold 16px JetBrains Mono';
+                branchCtx.textAlign = 'center';
+                branchCtx.fillText((probs[i] * 100).toFixed(1) + '%', x + barWidth / 2, y - 10);
+
+                // Pathway label
+                branchCtx.font = '14px Inter';
+                branchCtx.fillText(`Pathway ${i + 1}`, x + barWidth / 2, h - padding + 20);
+                branchCtx.font = '12px JetBrains Mono';
+                branchCtx.fillStyle = '#6b6b6b';
+                branchCtx.fillText(`k = ${ks[i]} s⁻¹`, x + barWidth / 2, h - padding + 38);
+            }
+
+            // Y-axis label
+            branchCtx.save();
+            branchCtx.translate(20, h / 2);
+            branchCtx.rotate(-Math.PI / 2);
+            branchCtx.fillStyle = '#a0a0a0';
+            branchCtx.font = '14px Inter';
+            branchCtx.textAlign = 'center';
+            branchCtx.fillText('Probability', 0, 0);
+            branchCtx.restore();
+        }
+
+        ['k1', 'k2', 'k3'].forEach(id => {
+            document.getElementById(id).addEventListener('input', updateBranching);
+        });
+
+        // ========== Random Points ==========
+        const randomCanvas = document.getElementById('randomCanvas');
+        const randomCtx = randomCanvas.getContext('2d');
+
+        function drawRandomPoints() {
+            resizeCanvas(randomCanvas);
+            const w = randomCanvas.width;
+            const h = randomCanvas.height;
+            const padding = 40;
+            const size = Math.min(w, h) - 2 * padding;
+
+            randomCtx.fillStyle = '#0a0a0f';
+            randomCtx.fillRect(0, 0, w, h);
+
+            const offsetX = (w - size) / 2;
+            const offsetY = (h - size) / 2;
+
+            // Draw border
+            randomCtx.strokeStyle = '#1a1a24';
+            randomCtx.lineWidth = 2;
+            randomCtx.strokeRect(offsetX, offsetY, size, size);
+
+            // Generate and draw 100 random points
+            randomCtx.fillStyle = '#14b8a6';
+            for (let i = 0; i < 100; i++) {
+                const x = offsetX + Math.random() * size;
+                const y = offsetY + Math.random() * size;
+                randomCtx.beginPath();
+                randomCtx.arc(x, y, 5, 0, 2 * Math.PI);
+                randomCtx.fill();
+            }
+        }
+
+        document.getElementById('regenerateBtn').addEventListener('click', drawRandomPoints);
+
+        // Initialize all visualizations
+        window.addEventListener('resize', function() {
+            if (runningProportion.length > 0) drawCoinChart();
+            updateBayes();
+            updateBranching();
+            drawRandomPoints();
+        });
+
+        // Initial draw
+        simulateFlips(100);
+        updateBayes();
+        updateBranching();
+        drawRandomPoints();
+    </script>
+</body>
+</html>
