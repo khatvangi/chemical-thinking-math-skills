@@ -35,6 +35,7 @@ site/.quarto/
 !site/lectures/19-diff-eq/*.html
 !site/lectures/20-probability/*.html
 !site/lectures/21-distributions/*.html
+!site/lectures/22-error/*.html
 !site/lectures/all-lectures.html
 !site/protein-raga.html
 !site/landing.html
