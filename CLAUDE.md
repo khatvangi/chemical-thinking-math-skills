@@ -118,6 +118,42 @@ SAMENESS and DIRECTION are dual/twin primitives:
 
 ---
 
+## Protein-Rāga: Scientific Sonification
+
+**Live URL:** https://course.thebeakers.com/protein-raga.html
+
+An artistic sonification tool that converts protein sequences into Indian classical music (rāga).
+
+### Features
+- **Built-in Database:** 17 proteins (EGFR, p53, Hemoglobin, Insulin, Lysozyme, etc.)
+- **UniProt Fetch:** Enter any UniProt ID and fetch live from UniProt API
+- **Rāga Selection:** Algorithm maps protein properties to appropriate rāga:
+  - Hydrophobic-rich → Bhairav (dawn, grave)
+  - Charged-rich → Mārwā (dusk, restless)
+  - Polar/mixed → Yaman (evening, serene)
+  - Aromatic-rich → Darbārī (midnight, deep)
+- **Signature Motifs:** Detects conserved patterns (HIGH, KMSKS, RGD, etc.) and plays as mantras
+- **Audio Engine:** Web Audio API with gamaka (ornaments), drone (tanpura), reverb
+- **Visualization:** Real-time melody visualizer with note tracking
+
+### Sanskrit-Chemistry Mapping (Varṇamālā)
+| Articulation | Sanskrit | Property | Amino Acids |
+|--------------|----------|----------|-------------|
+| Kaṇṭhya | कण्ठ्य (Guttural) | Hydrophobic | A, V, L, I, M, F, W |
+| Tālavya | तालव्य (Palatal) | Polar | S, T, N, Q, Y |
+| Mūrdhanya | मूर्धन्य (Retroflex) | Charged (+) | K, R, H |
+| Dantya | दन्त्य (Dental) | Charged (−) | D, E |
+| Oṣṭhya | ओष्ठ्य (Labial) | Special | C, G, P |
+
+### Input Modes
+1. **Protein ID:** Load from built-in database
+2. **UniProt:** Fetch any protein live from UniProt API
+3. **Paste:** Paste raw sequence
+4. **Upload:** FASTA file upload
+5. **Random:** Load random protein from database
+
+---
+
 ## Course Structure (24 Lectures, 3 Modules)
 
 ```
@@ -186,7 +222,7 @@ chem-math-course/
 │   ├── _quarto.yml              # Site configuration
 │   ├── index.qmd                # Homepage (Quarto)
 │   ├── landing.html             # Beautiful standalone landing page
-│   ├── protein-raga.html        # Protein music visualization
+│   ├── protein-raga.html        # Protein music visualization (with UniProt fetch)
 │   ├── CNAME                    # Custom domain config
 │   │
 │   ├── primitives/              # Primitive concept pages
@@ -439,6 +475,7 @@ When developing a primitive:
 - [x] **Primitive concept pages** (9 pages in primitives/)
 - [x] **DIRECTION visualizations** (12 interactive canvas animations)
 - [x] **Navigation system** (all lectures link to primitives and index)
+- [x] **Protein-Rāga** with UniProt live fetch (Jan 2026)
 
 ### Planned
 - [ ] Module 2: CHANGE primitives (Lectures 9-18)
