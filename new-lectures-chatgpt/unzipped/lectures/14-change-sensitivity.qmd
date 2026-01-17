@@ -1,0 +1,201 @@
+---
+title: "CHANGE: Instantaneous Sensitivity"
+format:
+  html:
+    toc: true
+execute: false
+---
+
+Primary primitive: **CHANGE**
+
+## Scenes
+
+A. Chemistry
+
+![Chem scene](../assets/lessons/14-change-sensitivity/scene_A_chem.png)
+
+*A tiny change in bond length changes energy; the slope is 'force'.*
+
+B. Math
+
+![Math scene](../assets/lessons/14-change-sensitivity/scene_B_math.png)
+
+*Tangent line: local slope at a point.*
+
+C. World
+
+![World scene](../assets/lessons/14-change-sensitivity/scene_C_world.png)
+
+*Small steering input changes car path; sensitivity is local.*
+
+## Diagnosis
+
+Recognition sentence:
+- **If you care about how output responds to an infinitesimal input change → therefore CHANGE.**
+
+Fast checks:
+
+- [ ] I can distinguish average change (Δy/Δx) from instantaneous change.
+- [ ] I know what variable is changing and what is held fixed.
+- [ ] I can interpret sign and units of the derivative.
+
+## The object
+
+Object: derivative as local sensitivity. In chemistry: gradients (forces), response coefficients.
+
+## The tool
+
+Operations you can do:
+
+- Compute slope from a limiting process.
+- Interpret derivative units (output units / input units).
+- Use derivative sign to predict direction of change.
+
+## Chemistry anchors
+
+- Force is minus gradient of potential energy: F = −dU/dx.
+- Rate laws: instantaneous rate v = d[Product]/dt.
+- Thermo response: (∂G/∂T)_P = −S (preview of partial derivatives).
+
+## Verification habit
+
+Before you accept a result, run one of these:
+- Change the description (units/coordinates/basis) and confirm the *invariant* claim.
+- Push a parameter toward a boundary (very small / very large) and see if your rule still makes sense.
+
+## Exercises (with solutions)
+
+**1.** For y=x^3, compute dy/dx.
+
+<details>
+<summary>Solution</summary>
+
+**3x^2**.
+
+</details>
+
+**2.** At x=2 for y=x^3, what is slope?
+
+<details>
+<summary>Solution</summary>
+
+**12**.
+
+</details>
+
+**3.** If U(x)=x^2, what is force F(x) = −dU/dx?
+
+<details>
+<summary>Solution</summary>
+
+**−2x**.
+
+</details>
+
+**4.** What does a negative derivative mean?
+
+<details>
+<summary>Solution</summary>
+
+Increasing x decreases y locally.
+
+</details>
+
+**5.** Units: if [A] in M and t in s, units of d[A]/dt?
+
+<details>
+<summary>Solution</summary>
+
+**M/s**.
+
+</details>
+
+**6.** Compute derivative of y=sin x.
+
+<details>
+<summary>Solution</summary>
+
+**cos x**.
+
+</details>
+
+**7.** Average slope of y=x^2 from x=1 to 2?
+
+<details>
+<summary>Solution</summary>
+
+(4−1)/(2−1)=**3**.
+
+</details>
+
+**8.** Why is 'instantaneous' not the same as 'small finite'?
+
+<details>
+<summary>Solution</summary>
+
+Because it is a limit; finite steps can hide curvature.
+
+</details>
+
+**9.** If y decreases with x but curvature positive, what does that mean?
+
+<details>
+<summary>Solution</summary>
+
+Slope negative; slope becoming less negative (increasing).
+
+</details>
+
+**10.** Compute d/dx (1/x).
+
+<details>
+<summary>Solution</summary>
+
+**−1/x^2**.
+
+</details>
+
+**11.** At x=1, compare average slope from 1 to 1.1 vs derivative.
+
+<details>
+<summary>Solution</summary>
+
+Average ≈ (1.21−1)/0.1=2.1; derivative =2.
+
+</details>
+
+**12.** In chemistry, what is the derivative that gives force?
+
+<details>
+<summary>Solution</summary>
+
+Negative spatial derivative of potential energy.
+
+</details>
+
+**13.** Define sensitivity in one line.
+
+<details>
+<summary>Solution</summary>
+
+Output change per input change (local).
+
+</details>
+
+**14.** If a rate doubles when concentration doubles, what does that hint?
+
+<details>
+<summary>Solution</summary>
+
+First-order dependence (linear sensitivity).
+
+</details>
+
+**15.** State recognition sentence in your words.
+
+<details>
+<summary>Solution</summary>
+
+Equivalent paraphrase acceptable.
+
+</details>

@@ -1,0 +1,18 @@
+Front	Back
+Recognition: What is a characteristic direction?	A direction v that comes back parallel after applying A: Av = λv.
+One line: eigenvalue meaning.	Scale factor along an eigenvector direction.
+For A=diag(2,5), eigenvectors are…	(1,1) only / any nonzero vector / (1,0) and (0,1) / none
+Answer: (1,0) and (0,1)
+Diagonal matrices scale coordinate axes independently.
+2×2 symmetric characteristic polynomial for [[a,b],[b,c]]?	(a−λ)(c−λ) − b².
+Invariant check: trace(A) equals what in terms of eigenvalues?	Sum of eigenvalues.
+Invariant check: det(A) equals what in terms of eigenvalues?	Product of eigenvalues.
+Chem: principal axes are eigenvectors of what kind of matrix?	A symmetric matrix (e.g., inertia tensor, covariance, force constants).
+Numeric: For A=[[3,1],[1,1]], trace=? det=?	trace=4; det=2.
+Why do eigenvectors matter geometrically?	They define axes where the transformation acts as pure scaling (no mixing).
+When are eigenvectors orthogonal (simple condition)?	When A is symmetric (distinct eigenvalues).
+World: PCA finds eigenvectors of what matrix?	Covariance matrix.
+Normal modes in vibrations are eigenvectors of what?	Force-constant (Hessian) matrix (approx).
+Under rotation of coordinates, do eigenvectors themselves stay fixed?	No; they rotate with the basis, but eigenvalues stay invariant.
+Data file for this lesson?	assets/lessons/10-characteristic-directions/data/eigen_toy.csv.
+Quick test for 'is v an eigenvector'?	Compute Av and check if it is a scalar multiple of v.

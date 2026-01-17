@@ -1,0 +1,154 @@
+---
+title: "01 | Orientation: Seeing"
+subtitle: "Before math: identify the primitive reality is forcing."
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+---
+
+Primary PRIMITIVE: SEEING (setup; map of all primitives)
+Neighbors to contrast: (none — this is the map)
+One-line thesis:
+- After this lesson, students can name the *kind* of constraint they are facing (primitive) and run a quick verification gate before doing algebra.
+
+## 0) Scenes (no explanation)
+
+A. Chemistry: **Diffusion + reaction in a beaker** (a gradient becomes a flow; totals are conserved; randomness matters).  
+B. Math: **The primitive map** (the order we will follow).  
+C. World: **Packing + routing** (counting objects, arranging them, moving them with direction, and dealing with uncertainty).
+
+Assets:
+- `assets/lessons/01-orientation/scene_A_chem.png`
+- `assets/lessons/01-orientation/scene_B_math.png`
+- `assets/lessons/01-orientation/scene_C_world.png`
+
+## 1) The nine primitives (one-line definitions)
+
+The course is not “topics.” It is **nine repeatable patterns**.
+
+- **COLLECTION:** only amount/membership matter; rearrangements don’t change meaning.
+- **ARRANGEMENT:** positions/adjacency matter; rearrangements change meaning.
+- **DIRECTION:** sign and orientation matter; arrows add, not just numbers.
+- **PROXIMITY:** closeness to a target/threshold; “approach” and “limit.”
+- **SAMENESS:** what counts as unchanged under allowed redescriptions/operations.
+- **CHANGE:** how a state responds when you turn a knob.
+- **RATE:** how fast change happens; sensitivity per unit time (or per unit input).
+- **ACCUMULATION:** totals built from tiny contributions; bookkeeping across steps.
+- **SPREAD:** variability + many-particle thinking; distributions replace single numbers.
+
+## 2) Recognition gates (the non-negotiables)
+
+Before you compute, run a gate. If a gate fails, stop.
+
+### Gate 1 — Units
+If units don’t match, the step is wrong.
+
+### Gate 2 — Sign / direction
+If you change the reference direction, the sign should flip *systematically*.
+
+### Gate 3 — Rearrangement test
+If you reorder labels and the “amount” changes, you were not in **COLLECTION**.
+
+### Gate 4 — Limiting case
+Push a knob to 0, large, or symmetric. If the expression behaves absurdly, it’s wrong.
+
+## 3) The course workflow (what you do every lesson)
+
+1. **Name the primitive** (choose one; don’t mix unless you say why).
+2. **Write the object + allowed moves** (specification).
+3. **Declare “same” vs “different.”**
+4. **Only then** compute with the tool.
+
+## 4) Mini-map: one phenomenon, multiple primitives
+
+A single chemical setup often contains multiple primitives. You must separate them.
+
+Example: gas in a box
+- **COLLECTION:** how many molecules (moles).
+- **SPREAD:** velocity distribution; where molecules are at a given time.
+- **DIRECTION:** net flux (arrows).
+- **PROXIMITY:** approach to equilibrium.
+
+The skill is: **know which question you are answering.**
+
+## 5) The tool you take away today: the primitive checklist
+
+When stuck, ask:
+
+- What is being **counted**? (COLLECTION)
+- What **pattern** matters? (ARRANGEMENT)
+- Where do arrows/signs matter? (DIRECTION)
+- Is this about “near” or “approach”? (PROXIMITY)
+- What must remain unchanged? (SAMENESS)
+- What knob is being turned? (CHANGE)
+- Is speed/sensitivity central? (RATE)
+- Are we adding tiny pieces? (ACCUMULATION)
+- Is variability unavoidable? (SPREAD)
+
+## 6) Exercises (15) + solutions
+
+### 1. Primitive identification (chem)
+You mix 2.0 g H₂ with 16.0 g O₂ and ask “how many moles of water can form?”
+- **Answer:** COLLECTION (amount bookkeeping).
+
+### 2. Primitive identification (chem)
+You ask why water’s dipole is not zero even though it has two O–H bonds.
+- **Answer:** DIRECTION (vector addition).
+
+### 3. Primitive identification (chem)
+You compare two resonance forms and ask whether they represent different molecules.
+- **Answer:** SAMENESS-A (same state, different description).
+
+### 4. Primitive identification (chem)
+You ask what happens to concentration as time increases in a first-order decay.
+- **Answer:** CHANGE (with time as knob) and RATE (speed is central).
+
+### 5. Primitive identification (math)
+You reorder the rows of a data table and the meaning changes.
+- **Answer:** ARRANGEMENT (order mattered).
+
+### 6. Primitive identification (world)
+You estimate “minutes to arrive” from remaining distance and current speed.
+- **Answer:** PROXIMITY (to destination) and RATE.
+
+### 7. Gate check (units)
+You compute energy and get units of kg·m/s.
+- **Answer:** Fail Gate 1. That’s momentum units, not energy.
+
+### 8. Gate check (limit)
+Your formula for probability becomes > 1 when T → ∞.
+- **Answer:** Fail Gate 4. A probability must stay in [0,1].
+
+### 9. “Same vs different”
+Two vectors have the same magnitude but different directions. Same or different?
+- **Answer:** Different for DIRECTION; same for a pure magnitude question.
+
+### 10. Rearrangement test
+You shuffle molecules among labeled boxes but keep the total count fixed. What must remain unchanged?
+- **Answer:** The total count (COLLECTION invariant).
+
+### 11. Numeric (sign)
+You define “east” as positive. A walk of 3 m west is what number?
+- **Answer:** −3 m.
+
+### 12. Numeric (magnitude)
+Vector (3,4) has magnitude?
+- **Answer:** 5.
+
+### 13. Numeric (limit intuition)
+If a reaction rate constant k doubles, what happens to the half-life for first-order decay?
+- **Answer:** It halves.
+
+### 14. Primitive boundary
+Explain in one line: ARRANGEMENT vs COLLECTION.
+- **Answer:** ARRANGEMENT cares about where/adjacency; COLLECTION cares only about how many/what.
+
+### 15. Primitive boundary
+Explain in one line: CHANGE vs RATE.
+- **Answer:** CHANGE describes variation; RATE quantifies “per unit input/time.”
+
+## 7) Assets and provenance
+
+See `assets/lessons/01-orientation/sources.md`.

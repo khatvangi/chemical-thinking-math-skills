@@ -1,0 +1,20 @@
+Front	Back
+Recognition: When are you in COORDINATES (DIRECTION)?	When you have a directional object (vector) and you describe it by components after choosing axes.
+Rotate the axes by 90° but keep the arrow fixed in space. What changes?	The arrow in space / The coordinates / The arrow’s length / All physical distances
+Answer: The coordinates
+Coordinates depend on the chosen basis; the geometric object does not.
+One line: what is a bond vector r_AB?	r_AB = r_B − r_A (an arrow from A to B).
+Which quantity is basis-dependent?	Bond length |r_AB| / Angle between two bonds / The coordinate list (v_x,v_y,v_z) / Distance between atoms
+Answer: The coordinate list (v_x,v_y,v_z)
+The components change with axes; distances/angles do not.
+Numeric: |(3,4)| = ?	5.
+Numeric: unit vector along (6,8) = ?	(0.6, 0.8).
+Sanity rule: what must not change under a coordinate re-description?	Any physical prediction: distances, angles, and derived chemistry conclusions.
+Point vs vector: what extra info turns (x,y) into a displacement?	The choice of origin/reference and the basis (what the axes mean).
+If H and O coordinates are identical, what is |r_OH|?	0.
+What is the operation that extracts coordinates from a vector?	Projection onto basis directions.
+What’s the single fastest check that a 'rotation matrix' is a pure rotation?	RᵀR = I (orthogonal).
+Chem: why store molecules as coordinate tables?	Because geometry operations (distances/angles/transforms) become computable.
+World: what is a coordinate pair (lon,lat) *not* telling you?	Any distance/geometry unless you also specify the map metric/projection.
+Why does the Pythagorean formula require an orthonormal basis?	Because it assumes unit, perpendicular axes so cross-terms vanish.
+Data file for this lesson’s real computation?	assets/lessons/06-coordinates/data/water_coords.csv.

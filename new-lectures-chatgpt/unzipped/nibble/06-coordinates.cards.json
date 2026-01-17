@@ -1,0 +1,160 @@
+{
+  "deck": "Lecture 06 \u00b7 DIRECTION \u00b7 Coordinates",
+  "version": "0.1",
+  "cards": [
+    {
+      "id": "af69a398",
+      "type": "qa",
+      "prompt": "Recognition: When are you in COORDINATES (DIRECTION)?",
+      "answer": "When you have a directional object (vector) and you describe it by components after choosing axes.",
+      "tags": [
+        "primitive",
+        "direction"
+      ]
+    },
+    {
+      "id": "3f95ba2e",
+      "type": "mcq",
+      "prompt": "Rotate the axes by 90\u00b0 but keep the arrow fixed in space. What changes?",
+      "choices": [
+        "The arrow in space",
+        "The coordinates",
+        "The arrow\u2019s length",
+        "All physical distances"
+      ],
+      "answer_index": 1,
+      "explain": "Coordinates depend on the chosen basis; the geometric object does not.",
+      "tags": [
+        "coordinates",
+        "invariance"
+      ]
+    },
+    {
+      "id": "1c1b446a",
+      "type": "qa",
+      "prompt": "One line: what is a bond vector r_AB?",
+      "answer": "r_AB = r_B \u2212 r_A (an arrow from A to B).",
+      "tags": [
+        "chem",
+        "vectors"
+      ]
+    },
+    {
+      "id": "40271152",
+      "type": "mcq",
+      "prompt": "Which quantity is basis-dependent?",
+      "choices": [
+        "Bond length |r_AB|",
+        "Angle between two bonds",
+        "The coordinate list (v_x,v_y,v_z)",
+        "Distance between atoms"
+      ],
+      "answer_index": 2,
+      "explain": "The components change with axes; distances/angles do not.",
+      "tags": [
+        "coordinates"
+      ]
+    },
+    {
+      "id": "576381cc",
+      "type": "qa",
+      "prompt": "Numeric: |(3,4)| = ?",
+      "answer": "5.",
+      "tags": [
+        "numeric",
+        "magnitude"
+      ]
+    },
+    {
+      "id": "52402272",
+      "type": "qa",
+      "prompt": "Numeric: unit vector along (6,8) = ?",
+      "answer": "(0.6, 0.8).",
+      "tags": [
+        "numeric",
+        "unit-vector"
+      ]
+    },
+    {
+      "id": "e17f5fee",
+      "type": "qa",
+      "prompt": "Sanity rule: what must not change under a coordinate re-description?",
+      "answer": "Any physical prediction: distances, angles, and derived chemistry conclusions.",
+      "tags": [
+        "invariance"
+      ]
+    },
+    {
+      "id": "a62fe138",
+      "type": "qa",
+      "prompt": "Point vs vector: what extra info turns (x,y) into a displacement?",
+      "answer": "The choice of origin/reference and the basis (what the axes mean).",
+      "tags": [
+        "review"
+      ]
+    },
+    {
+      "id": "d48b912e",
+      "type": "qa",
+      "prompt": "If H and O coordinates are identical, what is |r_OH|?",
+      "answer": "0.",
+      "tags": [
+        "review"
+      ]
+    },
+    {
+      "id": "47cd50f8",
+      "type": "qa",
+      "prompt": "What is the operation that extracts coordinates from a vector?",
+      "answer": "Projection onto basis directions.",
+      "tags": [
+        "review"
+      ]
+    },
+    {
+      "id": "983d3028",
+      "type": "qa",
+      "prompt": "What\u2019s the single fastest check that a 'rotation matrix' is a pure rotation?",
+      "answer": "R\u1d40R = I (orthogonal).",
+      "tags": [
+        "review"
+      ]
+    },
+    {
+      "id": "87a9d213",
+      "type": "qa",
+      "prompt": "Chem: why store molecules as coordinate tables?",
+      "answer": "Because geometry operations (distances/angles/transforms) become computable.",
+      "tags": [
+        "review"
+      ]
+    },
+    {
+      "id": "d64baa50",
+      "type": "qa",
+      "prompt": "World: what is a coordinate pair (lon,lat) *not* telling you?",
+      "answer": "Any distance/geometry unless you also specify the map metric/projection.",
+      "tags": [
+        "review"
+      ]
+    },
+    {
+      "id": "6c22adca",
+      "type": "qa",
+      "prompt": "Why does the Pythagorean formula require an orthonormal basis?",
+      "answer": "Because it assumes unit, perpendicular axes so cross-terms vanish.",
+      "tags": [
+        "review"
+      ]
+    },
+    {
+      "id": "39f090c9",
+      "type": "qa",
+      "prompt": "Data file for this lesson\u2019s real computation?",
+      "answer": "assets/lessons/06-coordinates/data/water_coords.csv.",
+      "tags": [
+        "review"
+      ]
+    }
+  ]
+}

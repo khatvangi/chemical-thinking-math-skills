@@ -1,0 +1,226 @@
+---
+title: "DIRECTION: Coordinates"
+lesson: 6
+format:
+  html:
+    toc: true
+    number-sections: true
+execute:
+  echo: true
+  eval: false
+---
+
+# Lecture 06 — Coordinates
+Primary PRIMITIVE: **DIRECTION**  
+Neighbors to contrast: **COLLECTION**, **ARRANGEMENT**
+
+One-line thesis:
+- After this, students can move between **geometry** and **numbers** without changing the object.
+
+## 0) Scenes (label only)
+A. Chemistry: water as coordinates  
+![](../assets/lessons/06-coordinates/scene_A_chem.png)
+
+B. Math: a vector and its coordinates  
+![](../assets/lessons/06-coordinates/scene_B_math.png)
+
+C. World: a location as coordinates  
+![](../assets/lessons/06-coordinates/scene_C_world.png)
+
+## 1) Diagnosis
+Recognition sentence:
+- **“The object has direction, but I can describe it with numbers once I pick axes.”**
+
+Fast checks:
+- [ ] If I rotate the axes, the coordinate numbers change but the arrow in space does not.
+- [ ] A sign matters (left vs right).
+- [ ] Two coordinate lists can represent the same geometric arrow (in different bases).
+
+Boundary line:
+- **ARRANGEMENT** is about grids/tables of numbers.
+- **DIRECTION** is about arrows and how we describe them.
+
+## 2) What exists here (spec)
+- Object: a **vector** (displacement, bond vector, dipole direction).
+- Allowed descriptions: coordinates in a chosen basis (e.g., \((x,y,z)\)).
+- “Same” means: same geometric arrow in space, even if the coordinate list changes because the axes change.
+- “Different” means: the arrow changes (direction and/or length), not just the description.
+
+Sanity rule:
+- If I change only the basis, all **physical predictions** must stay the same.
+
+## 3) What you compute
+Primary quantity:
+- Name: **components**
+- Formula: \(\vec v = v_x \hat i + v_y \hat j (+ v_z \hat k)\)
+- Units: same as \(\vec v\) (meters, Å, Debye, …)
+- Interpretation: “how much of \(\vec v\) points along each axis.”
+
+Secondary quantity:
+- Name: **magnitude**
+- Formula: \(|\vec v|=\sqrt{v_x^2+v_y^2(+v_z^2)}\)
+- Meaning: length of the arrow.
+
+## 4) Operation
+Operation: **coordinate extraction** = “project onto basis directions.”
+- Input: \(\vec v\)
+- Output: numbers \((v_x, v_y, v_z)\)
+
+## 5) Tool ladder
+**L0:** draw the arrow; drop perpendiculars to axes.  
+**L1:** \(\vec v=(v_x,v_y,v_z)\) depends on chosen axes.  
+**L2:** changing axes is a **transformation** of coordinates (next lessons).  
+**L3:** chemistry stores geometry as coordinate tables (XYZ files, PDB, quantum outputs).
+
+## 6) One theorem that matters
+**Theorem:** In an orthonormal basis, \(|\vec v|^2 = v_x^2+v_y^2+v_z^2\).
+
+Proof sketch:
+- Write \(\vec v = v_x\hat i + v_y\hat j + v_z\hat k\).
+- Compute \(\vec v\cdot\vec v\).
+- Cross-terms vanish because \(\hat i\cdot\hat j=0\), etc.
+- \(\hat i\cdot\hat i=1\), etc.
+- So \(\vec v\cdot\vec v=v_x^2+v_y^2+v_z^2\).
+- Take square root.
+
+What it buys you:
+- You can compute geometric length from coordinates and **check invariance** later.
+
+## 7) One real computation (from shipped data)
+Dataset:
+- File: `assets/lessons/06-coordinates/data/water_coords.csv`
+
+Task: compute the two O–H bond vectors and their lengths.
+
+Sanity checks:
+- Order of magnitude: O–H should be ~1 Å.
+- Extreme case: if H = O, length = 0.
+
+## 8) Invariance test (anti-float)
+Change of description: rotate the coordinate axes.
+Quantity claimed invariant: bond length \(|\vec r_{OH}|\).
+Demonstration idea: compute length before/after rotation; it must match.
+
+## 9) Chemistry anchors
+### Anchor A — Bond vectors from coordinates
+- You see: XYZ/PDB coordinates.
+- You compute: \(\vec r_{AB}\) and \(|\vec r_{AB}|\).
+- You conclude: bond lengths/angles are geometric invariants.
+
+### Anchor B — Dipole direction
+- You see: partial charges separated in space.
+- You compute: direction of \(\sum_i q_i \vec r_i\) (up to conventions).
+- You conclude: polarity depends on vector addition, not scalar counts.
+
+### Anchor C — Gradients point “uphill”
+- You see: potential energy as a surface.
+- You compute: gradient direction (conceptual).
+- You conclude: “steepest increase” is a direction object.
+
+## 10) Notebook spec (Pluto)
+Notebook: `notebooks/Lecture_06_Coordinates.jl`
+- Sliders: angle \(\theta\) for rotating axes; a point’s coordinates; length display.
+- Visual 1: rotate basis vs rotate object (contrast).
+- Visual 2: compute bond vectors from `water_coords.csv`.
+
+## 11) Misconceptions (tests)
+- If you think “coordinates are the object,” rotate axes and watch the coordinates change while the arrow stays.
+- If you think “signs don’t matter,” flip an axis; watch a component change sign.
+
+## 12) Code interpretation
+- Code blocks exist only to **verify arithmetic** and **load the shipped CSV**.
+- Nothing depends on software. The math is the source of truth.
+
+## Exercises (15)
+
+### 1) Diagnosis: object vs description
+You are given \((3,2)\) in some coordinate system. Is this a *vector* or a *point description*? Write one sentence that disambiguates.
+
+### 2) Diagnosis: changing axes
+If you rotate the axes by 90°, do the coordinates of the same arrow change? Yes/no + one sentence why.
+
+### 3) Compute: magnitude
+Compute \(|(3,4)|\).
+
+### 4) Compute: bond vector
+O at (0,0), H at (0.9584,0). Compute \(ec r_{OH}\) and its length (Å).
+
+### 5) Compute: difference of coordinates
+A at (1,2,0), B at (4,0,0). Compute \(ec r_{AB}\).
+
+### 6) Compute: unit vector
+Find the unit vector in the direction of \((6,8)\).
+
+### 7) Compute: component sign
+A displacement is \((-2,5)\). Which component is negative? What does that mean geometrically?
+
+### 8) Model: pick axes
+You measure a molecule in a tilted coordinate frame. What operation converts to your lab frame? Name it.
+
+### 9) Explain: invariance
+Why must bond length be invariant under a coordinate change? One sentence.
+
+### 10) Quick magnitude 1
+Compute \(|(1,1,1)|\).
+
+### 11) Quick magnitude 2
+Compute \(|(2,0,0)|\).
+
+### 12) Quick magnitude 3
+Compute \(|(0,-5)|\).
+
+### 13) Quick magnitude 4
+Compute \(|(3,-4)|\).
+
+### 14) Quick magnitude 5
+Compute \(|(0,0,0)|\).
+
+### 15) Quick magnitude 6
+Compute \(|(-1,-1)|\).
+
+## Solutions (key)
+
+### 1)
+It is a coordinate description; it becomes a vector only after you specify the basis/origin (what the axes mean).
+
+### 2)
+Yes. Coordinates depend on the chosen basis; the geometric arrow does not.
+
+### 3)
+\(|(3,4)|=\sqrt{3^2+4^2}=5\).
+
+### 4)
+\(ec r_{OH}=(0.9584,0)\), length = 0.9584 Å.
+
+### 5)
+\(ec r_{AB}=(3,-2,0)\).
+
+### 6)
+Magnitude = 10, unit = (0.6,0.8).
+
+### 7)
+x-component negative: the arrow points to decreasing x while increasing y.
+
+### 8)
+A change of basis (rotation) represented by a transformation matrix.
+
+### 9)
+Bond length is a physical distance; coordinate changes only re-label the same geometry.
+
+### 10)
+sqrt(3).
+
+### 11)
+2.
+
+### 12)
+5.
+
+### 13)
+5.
+
+### 14)
+0.
+
+### 15)
+sqrt(2).

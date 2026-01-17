@@ -1,0 +1,86 @@
+---
+title: "Lesson 01 — Orientation (Seeing)"
+subtitle: "Reality → Recognition → Tool"
+format:
+  html:
+    toc: true
+    number-sections: false
+---
+
+This lesson fixes the operating grammar for the course. The ordering is strict: a physical statement comes first, the primitive is named second, and the tool is introduced last. The order is operational, not rhetorical. It prevents the tool from drifting away from the perception that requires it.
+
+We make the scope explicit. The course treats chemistry as state and transformation. A chemical state is a structured description of what exists. A chemical transformation is a rule that changes that description. The main primitive in this lesson is **ARRANGEMENT**: a state is a list of quantities in a fixed order. Without a fixed order, the same numbers describe different states, and the representation collapses.
+
+**Definition (State vector).** A chemical state is represented by a <span title="An ordered list of species amounts; the order is part of the definition.">state vector</span> \(x \in \mathbb{R}^n\), where each component is the amount of a species in a fixed ordering.
+
+**Definition (Stoichiometric matrix).** A reaction network on \(n\) species and \(r\) reactions is represented by a <span title="A matrix whose columns encode net species changes for each reaction.">stoichiometric matrix</span> \(S \in \mathbb{R}^{n\times r}\). Each column encodes the net change in species for one reaction.
+
+These definitions force a specific algebra. A reaction progress vector \(r\) updates state by
+
+\[
+\Delta x = S r.
+\]
+
+This is **ARRANGEMENT** (the fixed ordering of components), **CHANGE** (the update), and **SAMENESS** (conserved totals).
+
+**Proposition (Conservation by left null space).** If \(\ell^T S = 0\), then \(\ell^T x\) is an <span title="A quantity that remains unchanged under the update rule.">invariant</span> under the update \(x \mapsto x + S r\).
+
+**Proof.** \(\ell^T (x + S r) = \ell^T x + \ell^T S r = \ell^T x\). \(\square\)
+
+The proposition is the formal location of conservation laws: any linear conservation law is a <span title="Vectors ℓ with ℓ^T S = 0; they encode conserved totals.">left‑null vector</span> of the stoichiometric matrix. This is the first rigorous instance of **SAMENESS**.
+
+The same ordering governs differential descriptions. If the state evolves in time, then the minimal dynamical statement is
+
+\[
+\dot{x} = S r(x).
+\]
+
+The derivative is not a tool selected in isolation; it is forced by the demand to represent change continuously.
+
+We also need a minimal continuous spatial model. Diffusion is the simplest instance of **PROXIMITY** + **CHANGE**. For a concentration field \(c(x,t)\), the model
+
+\[
+\frac{\partial c}{\partial t} = D\,\frac{\partial^2 c}{\partial x^2}
+\]
+
+states that curvature in space controls change in time. This is not a metaphor. It is the minimal operator that respects locality.
+
+Finally, the course treats uncertainty as a primitive, not a defect. If a state is distributed, the correct representation is a distribution, not a single number. This is **SPREAD**, and it is treated as a structural feature of the state description rather than a measurement error.
+
+The companion Pluto notebook encodes the algebra directly: state update by \(S r\), conservation via left null space, diffusion profiles, and a first‑order decay model.
+
+## Glossary (fallback for mobile)
+
+**State vector:** Ordered list of species amounts; order is part of the definition.
+
+**Stoichiometric matrix:** Matrix whose columns encode net reaction changes.
+
+**Left null space:** Set of vectors \(\ell\) with \(\ell^T S = 0\), encoding conserved totals.
+
+**Invariant:** Quantity that remains unchanged under the update rule.
+
+### Exercises
+
+**Exercise 1 — State update**
+
+Let
+\[
+S = \begin{bmatrix}-1 & 0\\ 1 & -1\\ 0 & 1\end{bmatrix},\quad x_0 = \begin{bmatrix}2\\0\\0\end{bmatrix},\quad r = \begin{bmatrix}0.4\\0.1\end{bmatrix}.
+\]
+Compute \(x_1 = x_0 + S r\). Identify the primitive that fixes the ordering.
+
+**Exercise 2 — Conservation**
+
+Find a nonzero vector \(\ell\) such that \(\ell^T S = 0\). Interpret \(\ell\) as a conservation law.
+
+**Exercise 3 — Diffusion scaling**
+
+A Gaussian profile with initial width \(\sigma_0\) evolves under diffusion as \(\sigma^2(t) = \sigma_0^2 + 2Dt\). Identify the primitives and state which quantity represents SPREAD.
+
+**Exercise 4 — Rate law**
+
+Suppose \(A \rightarrow B\) with \(\dot{A} = -kA\). Solve for \(A(t)\) and name the primitive that justifies the derivative.
+
+**Exercise 5 — A → B framing**
+
+Choose a chemical process (equilibrium shift, phase change, isomerization). Write \(x\), \(S\), and a minimal rate law \(\dot{x} = S r(x)\). Identify the primitives and their tools.

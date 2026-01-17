@@ -1,0 +1,125 @@
+---
+title: "Lesson 22 — SPREAD: Distributions (Boltzmann)"
+format:
+  html:
+    toc: true
+    number-sections: true
+execute: false
+---
+
+## Scenes (assets)
+- Chemistry: `assets/lessons/22-spread-boltzmann/scene_A_chem.png`
+- Math: `assets/lessons/22-spread-boltzmann/scene_B_math.png`
+- World: `assets/lessons/22-spread-boltzmann/scene_C_world.png`
+
+## Recognition
+**A system occupies many microstates; you need a distribution, not a single value.** Therefore: **SPREAD**.
+
+## What exists here
+- Objects: energy levels (or microstates) and their probabilities.
+- Same means: same energies up to a common shift (E→E+C).
+- Different means: different temperature T (changes the spread).
+
+## Load-bearing theorem (shift invariance)
+If \(p_i \propto e^{-E_i/kT}\), then shifting all energies by C multiplies every weight by \(e^{-C/kT}\), which cancels after normalization. Probabilities are unchanged.
+
+## One real computation (dataset)
+Dataset: `assets/lessons/22-spread-boltzmann/data/energy_levels.csv`
+
+Compute: weights → Z → probabilities \(p_i\).
+
+Sanity checks:
+- \(p_i\ge 0\), \(\sum_i p_i=1\)
+- higher T ⇒ flatter distribution
+## Exercises (with solutions)
+
+**1.** State the Boltzmann weight for energy E at temperature T.
+
+::: {.callout-note collapse="true"}
+**Solution.** w∝exp(-E/(kT)).
+:::
+
+**2.** Given E={0,1,2} in units of kT, compute weights and probabilities.
+
+::: {.callout-note collapse="true"}
+**Solution.** w={1,e^-1,e^-2}; Z=sum; p=w/Z.
+:::
+
+**3.** Define partition function Z for discrete states.
+
+::: {.callout-note collapse="true"}
+**Solution.** Z=∑_i exp(-E_i/kT).
+:::
+
+**4.** Show probabilities sum to 1 for p_i=exp(-E_i/kT)/Z.
+
+::: {.callout-note collapse="true"}
+**Solution.** Sum gives Z/Z=1.
+:::
+
+**5.** As T→∞ over finite levels, what happens?
+
+::: {.callout-note collapse="true"}
+**Solution.** Distribution → uniform.
+:::
+
+**6.** As T→0+?
+
+::: {.callout-note collapse="true"}
+**Solution.** Collapse onto lowest-energy state.
+:::
+
+**7.** Using `energy_levels.csv` (E={0,1,2,3} in kT units), compute p(E=0).
+
+::: {.callout-note collapse="true"}
+**Solution.** ≈0.644.
+:::
+
+**8.** Interpret “lower energy ⇒ higher probability” chemically.
+
+::: {.callout-note collapse="true"}
+**Solution.** Equilibrium favors low-energy microstates exponentially.
+:::
+
+**9.** Conformer populations: how estimate p2/p1 from ΔE?
+
+::: {.callout-note collapse="true"}
+**Solution.** p2/p1=exp(-ΔE/kT).
+:::
+
+**10.** Given ΔE=2kT, compute p2/p1.
+
+::: {.callout-note collapse="true"}
+**Solution.** exp(-2)=0.1353.
+:::
+
+**11.** Why is Z a normalizer?
+
+::: {.callout-note collapse="true"}
+**Solution.** It rescales weights so total probability mass =1.
+:::
+
+**12.** State link to free energy.
+
+::: {.callout-note collapse="true"}
+**Solution.** F=-kT ln Z.
+:::
+
+**13.** If two states have same energy, probability ratio?
+
+::: {.callout-note collapse="true"}
+**Solution.** 1.
+:::
+
+**14.** If E_i→E_i+C for all i, what happens to p_i?
+
+::: {.callout-note collapse="true"}
+**Solution.** Nothing; common factor cancels.
+:::
+
+**15.** Which primitive is central here and why?
+
+::: {.callout-note collapse="true"}
+**Solution.** SPREAD: distribution over microstates.
+:::
+

@@ -1,0 +1,11 @@
+primitive,question
+COLLECTION,How many?
+ARRANGEMENT,How arranged?
+DIRECTION,Which way?
+PROXIMITY,How close?
+SAMENESS-A,Same state?
+SAMENESS-B,Invariant?
+CHANGE,How sensitive?
+RATE,How fast?
+ACCUMULATION,Total over time?
+SPREAD,How variable?

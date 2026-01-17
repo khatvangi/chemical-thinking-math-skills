@@ -1,0 +1,159 @@
+{
+  "deck": "Lecture 07 \u00b7 ARRANGEMENT \u00b7 Grids of Numbers",
+  "version": "0.1",
+  "cards": [
+    {
+      "id": "15b408e6",
+      "type": "qa",
+      "prompt": "Recognition: When are you in ARRANGEMENT (grids)?",
+      "answer": "When position (row/column/adjacency) carries meaning, not just the multiset of values.",
+      "tags": [
+        "primitive",
+        "arrangement"
+      ]
+    },
+    {
+      "id": "e106d8b3",
+      "type": "mcq",
+      "prompt": "If swapping two columns changes the interpretation, which primitive is active?",
+      "choices": [
+        "COLLECTION",
+        "ARRANGEMENT",
+        "DIRECTION",
+        "SAMENESS"
+      ],
+      "answer_index": 1,
+      "explain": "Meaning attached to positions \u2192 ARRANGEMENT.",
+      "tags": [
+        "borderline"
+      ]
+    },
+    {
+      "id": "8fa8475c",
+      "type": "qa",
+      "prompt": "Define A_{ij} in one line.",
+      "answer": "Entry in row i, column j of matrix A.",
+      "tags": [
+        "matrix",
+        "definition"
+      ]
+    },
+    {
+      "id": "2e37a765",
+      "type": "qa",
+      "prompt": "Dimension rule: If A is m\u00d7n and x is length n, then Ax has length ___.",
+      "answer": "m.",
+      "tags": [
+        "matrix",
+        "dimensions"
+      ]
+    },
+    {
+      "id": "092a2cef",
+      "type": "qa",
+      "prompt": "Numeric: A=[[1,2],[3,4]], x=(10,1). Ax = ?",
+      "answer": "(12, 34).",
+      "tags": [
+        "numeric",
+        "matrix-vector"
+      ]
+    },
+    {
+      "id": "2b40e6f0",
+      "type": "qa",
+      "prompt": "Interpretation: What is Ax in column language?",
+      "answer": "A weighted sum of A\u2019s columns using weights from x.",
+      "tags": [
+        "intuition"
+      ]
+    },
+    {
+      "id": "5f3e6edf",
+      "type": "mcq",
+      "prompt": "In an absorbance grid, rows are usually\u2026",
+      "choices": [
+        "samples",
+        "wavelengths (or time)",
+        "molecules",
+        "temperatures"
+      ],
+      "answer_index": 1,
+      "explain": "Rows index the scanning axis (wavelength/time).",
+      "tags": [
+        "chem"
+      ]
+    },
+    {
+      "id": "5df9b514",
+      "type": "qa",
+      "prompt": "What does a heatmap of a matrix show you instantly?",
+      "answer": "Where high/low regions sit in the grid (structure, not just values).",
+      "tags": [
+        "review"
+      ]
+    },
+    {
+      "id": "eaaa78a2",
+      "type": "qa",
+      "prompt": "Give one reason 'mean of all entries' can be misleading.",
+      "answer": "It ignores spatial/axis structure; strong gradients can cancel.",
+      "tags": [
+        "review"
+      ]
+    },
+    {
+      "id": "807da7e9",
+      "type": "qa",
+      "prompt": "Chem: Beer\u2013Lambert mixture idea in one line.",
+      "answer": "Mixture spectra approximately add as linear combinations of component spectra.",
+      "tags": [
+        "review"
+      ]
+    },
+    {
+      "id": "24359676",
+      "type": "qa",
+      "prompt": "What is a 'slice' of a matrix?",
+      "answer": "A row, a column, or a sub-block extracted for analysis.",
+      "tags": [
+        "review"
+      ]
+    },
+    {
+      "id": "773891bd",
+      "type": "qa",
+      "prompt": "If you permute columns but keep labels consistent, what happens?",
+      "answer": "You changed the description; the underlying mapping label\u2192column stayed consistent.",
+      "tags": [
+        "review"
+      ]
+    },
+    {
+      "id": "0231d6fd",
+      "type": "qa",
+      "prompt": "Fast check: what must you state before doing math on a table?",
+      "answer": "What rows/columns represent + units.",
+      "tags": [
+        "review"
+      ]
+    },
+    {
+      "id": "2062f028",
+      "type": "qa",
+      "prompt": "Data file for this lesson\u2019s real computation?",
+      "answer": "assets/lessons/07-grids/data/absorbance_grid.csv.",
+      "tags": [
+        "review"
+      ]
+    },
+    {
+      "id": "671382e7",
+      "type": "qa",
+      "prompt": "What is the smallest meaningful block in many lab datasets?",
+      "answer": "A row/column corresponding to a specific condition or wavelength.",
+      "tags": [
+        "review"
+      ]
+    }
+  ]
+}

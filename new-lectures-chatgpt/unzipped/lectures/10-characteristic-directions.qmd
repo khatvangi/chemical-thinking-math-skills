@@ -1,0 +1,224 @@
+---
+title: "SAMENESS-B: Characteristic Directions"
+lesson: 10
+format:
+  html:
+    toc: true
+    number-sections: true
+execute:
+  echo: true
+  eval: false
+---
+
+# Lecture 10 — Characteristic Directions
+Primary PRIMITIVE: **SAMENESS-B**  
+Neighbors to contrast: **DIRECTION**, **ARRANGEMENT**
+
+One-line thesis:
+- After this, students can find directions that a transformation does not “mix” — it only scales them.
+
+## 0) Scenes (label only)
+A. Chemistry: principal axes (toy inertia)  
+![](../assets/lessons/10-characteristic-directions/scene_A_chem.png)
+
+B. Math: ellipse with eigenvectors  
+![](../assets/lessons/10-characteristic-directions/scene_B_math.png)
+
+C. World: data cloud has principal directions  
+![](../assets/lessons/10-characteristic-directions/scene_C_world.png)
+
+## 1) Diagnosis
+Recognition sentence:
+- **“The transformation has special directions that come back parallel to themselves.”**
+
+Fast checks:
+- [ ] Output is parallel to input for some nonzero vectors.
+- [ ] In those directions, the transformation acts like “stretch/shrink only.”
+- [ ] Those directions explain the geometry (axes of an ellipse) or the physics (principal axes).
+
+Boundary line:
+- **DIRECTION** gives you arrows.
+- **SAMENESS-B** asks which arrows stay “the same direction” after the allowed operation.
+
+## 2) What exists here (spec)
+- Object: a square matrix \(A\).
+- Characteristic direction: a nonzero \(\vec v\) such that \(A\vec v=\lambda \vec v\).
+- “Same” means: direction unchanged (up to scaling).
+- “Different” means: direction mixed into others.
+
+## 3) What you compute
+Primary quantities:
+- Eigenvalues \(\lambda\) and eigenvectors \(\vec v\).
+
+Interpretation:
+- \(\lambda\) = scale factor along that direction.
+- \(\vec v\) = the direction that stays aligned.
+
+## 4) Operation
+Operation: solve \((A-\lambda I)\vec v=0\) for nonzero \(\vec v\).
+
+## 5) Tool ladder
+**L0:** push a vector through \(A\); most directions change, a few stay aligned.  
+**L1:** definition \(A\vec v=\lambda\vec v\).  
+**L2:** for symmetric \(A\), eigenvectors are orthogonal and define principal axes.  
+**L3:** normal modes, principal axes, and PCA all use characteristic directions.
+
+## 6) One theorem that matters
+**Theorem (2D):** A symmetric \(2\times2\) matrix has two orthogonal eigenvectors.
+
+Proof sketch:
+- Symmetric \(A\) has real eigenvalues.
+- If \(A\vec v_1=\lambda_1\vec v_1\) and \(A\vec v_2=\lambda_2\vec v_2\) with \(\lambda_1\neq\lambda_2\),
+  then \(\vec v_1\cdot \vec v_2=0\).
+- Reason: \(\vec v_1^\top A\vec v_2 = (A\vec v_1)^\top \vec v_2\) for symmetric \(A\).
+- Substitute eigen-relations to get \(\lambda_2(\vec v_1\cdot\vec v_2)=\lambda_1(\vec v_1\cdot\vec v_2)\).
+- So \((\lambda_2-\lambda_1)(\vec v_1\cdot\vec v_2)=0\Rightarrow \vec v_1\cdot\vec v_2=0\).
+
+What it buys you:
+- A symmetric transformation chooses its own “natural coordinate axes.”
+
+## 7) One real computation (from shipped data)
+Dataset:
+- File: `assets/lessons/10-characteristic-directions/data/eigen_toy.csv`
+
+Task:
+- Read the 2×2 matrix \(A\).
+- Compute eigenvalues/eigenvectors (by hand for 2×2, or verify numerically).
+- Interpret eigenvectors as ellipse axes.
+
+Sanity checks:
+- Trace = sum of eigenvalues.
+- Determinant = product of eigenvalues.
+
+## 8) Invariance test (link to Lecture 09)
+Under rotation of coordinates, eigenvalues of a matrix representing the same quadratic form stay the same.
+Interpretation: eigenvalues are invariants; eigenvectors rotate with the frame.
+
+## 9) Chemistry anchors
+### Anchor A — Principal axes of inertia (rigid body intuition)
+- You see: a mass distribution.
+- You compute: principal axes (eigenvectors).
+- You conclude: rotation “decouples” in those axes.
+
+### Anchor B — Vibrational normal modes (preview)
+- You see: coupled coordinates.
+- You compute: eigenvectors of a force-constant matrix.
+- You conclude: normal modes are characteristic directions of coupled motion.
+
+### Anchor C — PCA on spectral datasets
+- You see: many correlated measurements.
+- You compute: eigenvectors of covariance.
+- You conclude: a few directions capture most variance.
+
+## 10) Notebook spec (Pluto)
+Notebook: `notebooks/Lecture_10_Characteristic_Directions.jl`
+- Sliders: symmetric matrix entries \(a, b, c\) with \(A=\begin{pmatrix}a&b\\b&c\end{pmatrix}\).
+- Visual: ellipse + eigenvectors updating live.
+- Structure check: verify trace/det invariants vs eigenvalues.
+
+## 11) Misconceptions (tests)
+- If you think eigenvectors are “just magic,” test \(A\vec v\) and check it stays parallel.
+- If you think eigenvectors are always orthogonal, try a non-symmetric matrix.
+
+## 12) Code interpretation
+- Code computes eigendecomposition and draws the geometry so you can see “characteristic directions” rather than memorize a formula.
+
+## Exercises (15)
+
+### 1) Diagnosis: characteristic direction
+In one line, define an eigenvector.
+
+### 2) Diagnosis: what is invariant?
+Under a change of coordinates (rotation), do eigenvalues of a symmetric matrix change? Yes/no.
+
+### 3) Compute: easy eigenpair
+For \(A=egin{pmatrix}2&0\0&5\end{pmatrix}\), list eigenvalues and eigenvectors.
+
+### 4) Compute: 2×2 characteristic polynomial
+Write \(\det(A-\lambda I)\) for \(A=egin{pmatrix}a&b\b&c\end{pmatrix}\).
+
+### 5) Compute: trace/det check
+For \(A=egin{pmatrix}3&1\1&1\end{pmatrix}\), compute trace and determinant.
+
+### 6) Explain: principal axes
+One sentence: what are “principal axes” in this language?
+
+### 7) Quick check 1
+True/False: If \(A\) is symmetric, eigenvectors for distinct eigenvalues are orthogonal.
+
+### 8) Quick check 2
+True/False: If \(A\) is symmetric, eigenvectors for distinct eigenvalues are orthogonal.
+
+### 9) Quick check 3
+True/False: If \(A\) is symmetric, eigenvectors for distinct eigenvalues are orthogonal.
+
+### 10) Quick check 4
+True/False: If \(A\) is symmetric, eigenvectors for distinct eigenvalues are orthogonal.
+
+### 11) Quick check 5
+True/False: If \(A\) is symmetric, eigenvectors for distinct eigenvalues are orthogonal.
+
+### 12) Quick check 6
+True/False: If \(A\) is symmetric, eigenvectors for distinct eigenvalues are orthogonal.
+
+### 13) Quick check 7
+True/False: If \(A\) is symmetric, eigenvectors for distinct eigenvalues are orthogonal.
+
+### 14) Quick check 8
+True/False: If \(A\) is symmetric, eigenvectors for distinct eigenvalues are orthogonal.
+
+### 15) Quick check 9
+True/False: If \(A\) is symmetric, eigenvectors for distinct eigenvalues are orthogonal.
+
+### 16) Quick check 10
+True/False: If \(A\) is symmetric, eigenvectors for distinct eigenvalues are orthogonal.
+
+## Solutions (key)
+
+### 1)
+A nonzero vector \(ec v\) such that \(Aec v\) is parallel to \(ec v\) (i.e., \(Aec v=\lambdaec v\)).
+
+### 2)
+No; eigenvalues are invariants of the quadratic form.
+
+### 3)
+Eigenvalues 2 with eigenvector (1,0); 5 with eigenvector (0,1).
+
+### 4)
+\((a-\lambda)(c-\lambda)-b^2\).
+
+### 5)
+Trace = 4. Determinant = 2.
+
+### 6)
+They are eigenvector directions of a symmetric matrix (inertia/covariance/force constants) where the transformation decouples into pure scaling.
+
+### 7)
+True.
+
+### 8)
+True.
+
+### 9)
+True.
+
+### 10)
+True.
+
+### 11)
+True.
+
+### 12)
+True.
+
+### 13)
+True.
+
+### 14)
+True.
+
+### 15)
+True.
+
+### 16)
+True.

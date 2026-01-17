@@ -1,0 +1,221 @@
+---
+title: "SAMENESS-B: What Doesn’t Change?"
+lesson: 9
+format:
+  html:
+    toc: true
+    number-sections: true
+execute:
+  echo: true
+  eval: false
+---
+
+# Lecture 09 — What Doesn’t Change?
+Primary PRIMITIVE: **SAMENESS-B (Transformational invariance)**  
+Neighbors to contrast: **SAMENESS-A**, **ARRANGEMENT**
+
+One-line thesis:
+- After this, students can state “these two situations are the same” *because a specific computed quantity is invariant*.
+
+## 0) Scenes (label only)
+A. Chemistry: bond length unchanged by rotation  
+![](../assets/lessons/09-invariants/scene_A_chem.png)
+
+B. Math: a rotating vector traces a circle (constant length)  
+![](../assets/lessons/09-invariants/scene_B_math.png)
+
+C. World: wind direction changes, speed stays  
+![](../assets/lessons/09-invariants/scene_C_world.png)
+
+## 1) Diagnosis
+Recognition sentence:
+- **“I allow a transformation, and I care about what stays fixed.”**
+
+Fast checks:
+- [ ] I can name the allowed transformation set (e.g., rotations).
+- [ ] I can name the invariant (e.g., length, dot product).
+- [ ] I can test invariance by computing before/after.
+
+Boundary line:
+- **ARRANGEMENT** builds transformations.
+- **SAMENESS-B** asks which quantities survive them.
+
+## 2) What exists here (spec)
+- Object: a transformation class (rotations, translations, scalings).
+- “Same” means: related by an allowed transformation.
+- Invariants: numbers/functions unchanged by that transformation.
+
+Sanity rule:
+- Never say “same” without stating: “same under **which** transformations?”
+
+## 3) What you compute
+Primary invariant (this lecture):
+- **Dot product / norm** under rotations (orthogonal transforms).
+
+## 4) Operation
+Operation: apply transformation \(R\) and then compute invariant:
+- \(\vec v \mapsto R\vec v\)
+- test: \(|R\vec v|\stackrel{?}{=}|\vec v|\)
+
+## 5) Tool ladder
+**L0:** spin the arrow; its length does not change.  
+**L1:** represent rotation by an orthogonal matrix \(R\).  
+**L2:** prove \(R^\top R=I \Rightarrow\) dot products preserved.  
+**L3:** geometry in chemistry is coordinate-frame invariant.
+
+## 6) One theorem that matters
+**Theorem:** If \(R^\top R=I\), then \((R\vec u)\cdot(R\vec v)=\vec u\cdot\vec v\). In particular, \(|R\vec v|=|\vec v|\).
+
+Proof sketch:
+- \((R\vec u)\cdot(R\vec v) = (R\vec u)^\top(R\vec v)\).
+- \(= \vec u^\top R^\top R \vec v\).
+- If \(R^\top R=I\), then this equals \(\vec u^\top \vec v = \vec u\cdot\vec v\).
+- Set \(\vec u=\vec v\) to get norm invariance.
+
+What it buys you:
+- You can change coordinate frames without changing measured distances/angles.
+
+## 7) One real computation (from shipped data)
+Dataset:
+- File: `assets/lessons/09-invariants/data/rotation_invariants.csv`
+
+Task:
+- Verify numerically that \(\|\vec v\| = \|R\vec v\|\) for several vectors and angles.
+
+Sanity checks:
+- Difference should be ~0 up to rounding.
+- If you use a non-orthogonal matrix, the invariant fails (by design).
+
+## 8) Invariance test (anti-float)
+Change of description: rotate frame.
+Invariant: bond lengths, angles, dot products.
+
+## 9) Chemistry anchors
+### Anchor A — Bond lengths
+- You see: a molecule in different orientations.
+- You compute: pairwise distances.
+- You conclude: geometry is frame-invariant.
+
+### Anchor B — Energy depends on relative orientation
+- You see: dipoles.
+- You compute: dot products / projections.
+- You conclude: energy can depend on angles, but not on how you label axes.
+
+### Anchor C — Tensor invariants (preview)
+- You see: inertia or covariance matrices.
+- You compute: traces/determinants/eigenvalues later.
+- You conclude: some invariants live at the matrix level.
+
+## 10) Notebook spec (Pluto)
+Notebook: `notebooks/Lecture_09_Invariants.jl`
+- Sliders: rotation angle \(\theta\), vector components.
+- Visual: rotate vector and plot \(|\vec v|\) vs \(\theta\) (flat line).
+- Structure check: compare orthogonal vs non-orthogonal transforms.
+
+## 11) Misconceptions (tests)
+- If you think “rotation changes distances,” compute \(|R\vec v|\) directly.
+- If you think “any matrix is a rotation,” test \(R^\top R=I\).
+
+## 12) Code interpretation
+- Code computes norms before/after and plots the difference so you can see invariance fail/succeed.
+
+## Exercises (15)
+
+### 1) Diagnosis: what is an invariant?
+Give a one-line definition of an invariant under a transformation.
+
+### 2) Diagnosis: specify sameness
+Complete: “These two configurations are the same **under** ____.”
+
+### 3) Compute: dot product preserved
+Let \(R=egin{pmatrix}0&-1\1&0\end{pmatrix}\), \(u=(1,2)\), \(v=(3,0)\). Compute \(u\cdot v\) and \((Ru)\cdot(Rv)\).
+
+### 4) Compute: norm check
+For \(v=(3,4)\) and the same \(R\), compute \(|v|\) and \(|Rv|\).
+
+### 5) Test: is it orthogonal?
+Is \(A=egin{pmatrix}2&0\0&1\end{pmatrix}\) orthogonal? Compute \(A^	op A\).
+
+### 6) Explain: why length matters
+One sentence: why is length invariance non-negotiable for molecular geometry?
+
+### 7) Quick check 1
+True/False: If \(R^	op R=I\), then \(\det(R)=\pm 1\).
+
+### 8) Quick check 2
+True/False: If \(R^	op R=I\), then \(\det(R)=\pm 1\).
+
+### 9) Quick check 3
+True/False: If \(R^	op R=I\), then \(\det(R)=\pm 1\).
+
+### 10) Quick check 4
+True/False: If \(R^	op R=I\), then \(\det(R)=\pm 1\).
+
+### 11) Quick check 5
+True/False: If \(R^	op R=I\), then \(\det(R)=\pm 1\).
+
+### 12) Quick check 6
+True/False: If \(R^	op R=I\), then \(\det(R)=\pm 1\).
+
+### 13) Quick check 7
+True/False: If \(R^	op R=I\), then \(\det(R)=\pm 1\).
+
+### 14) Quick check 8
+True/False: If \(R^	op R=I\), then \(\det(R)=\pm 1\).
+
+### 15) Quick check 9
+True/False: If \(R^	op R=I\), then \(\det(R)=\pm 1\).
+
+### 16) Quick check 10
+True/False: If \(R^	op R=I\), then \(\det(R)=\pm 1\).
+
+## Solutions (key)
+
+### 1)
+A quantity that remains unchanged when the allowed transformation is applied.
+
+### 2)
+…under the allowed transformation group (e.g., rotations/rigid motions).
+
+### 3)
+\(u\cdot v=3\). \(Ru=(-2,1)\), \(Rv=(0,3)\), dot = 3.
+
+### 4)
+\(|v|=5\). \(Rv=(-4,3)\), \(|Rv|=5\).
+
+### 5)
+No. \(A^	op A=egin{pmatrix}4&0\0&1\end{pmatrix}
+eq I\).
+
+### 6)
+Because measured bond lengths/distances cannot depend on how you orient your coordinate axes.
+
+### 7)
+True.
+
+### 8)
+True.
+
+### 9)
+True.
+
+### 10)
+True.
+
+### 11)
+True.
+
+### 12)
+True.
+
+### 13)
+True.
+
+### 14)
+True.
+
+### 15)
+True.
+
+### 16)
+True.

@@ -1,0 +1,201 @@
+---
+title: "PROXIMITY: As x Approaches…"
+format:
+  html:
+    toc: true
+execute: false
+---
+
+Primary primitive: **PROXIMITY**
+
+## Scenes
+
+A. Chemistry
+
+![Chem scene](../assets/lessons/12-proximity-approach/scene_A_chem.png)
+
+*In chemistry you tune a knob (T, concentration) and watch behavior approach a regime.*
+
+B. Math
+
+![Math scene](../assets/lessons/12-proximity-approach/scene_B_math.png)
+
+*A function near a point: approach can be well-behaved or wild.*
+
+C. World
+
+![World scene](../assets/lessons/12-proximity-approach/scene_C_world.png)
+
+*Physical approach: you get arbitrarily close without being equal.*
+
+## Diagnosis
+
+Recognition sentence:
+- **If what matters is behavior 'near' a point, not at the point → therefore PROXIMITY.**
+
+Fast checks:
+
+- [ ] I care about 'close to' more than 'equal to'.
+- [ ] Tiny changes in input can cause bounded changes in output (or not).
+- [ ] I can state what 'close' means (tolerance/scale).
+
+## The object
+
+Object: limit behavior. A statement about what happens as input approaches a value.
+
+## The tool
+
+Operations you can do:
+
+- Evaluate limits numerically/graphically to test hypotheses.
+- Use 'tolerance language' (within ε) to avoid handwaving.
+- Separate value-at-point from behavior-near-point.
+
+## Chemistry anchors
+
+- Infinite dilution: activity ≈ concentration (approach ideality).
+- Low-pressure gases: Z→1 as P→0 (ideal-gas regime).
+- Approach equilibrium: deviations shrink as t increases (qualitative).
+
+## Verification habit
+
+Before you accept a result, run one of these:
+- Change the description (units/coordinates/basis) and confirm the *invariant* claim.
+- Push a parameter toward a boundary (very small / very large) and see if your rule still makes sense.
+
+## Exercises (with solutions)
+
+**1.** Compute lim_{x→0} x·sin(1/x).
+
+<details>
+<summary>Solution</summary>
+
+**0** (bounded sin(1/x) times x→0).
+
+</details>
+
+**2.** Explain: why 'value at x=0' can differ from the limit as x→0.
+
+<details>
+<summary>Solution</summary>
+
+Limit is about nearby behavior; point value can be assigned independently.
+
+</details>
+
+**3.** Using 1 atm≈101.3 kPa, what is P→0.1 atm in kPa?
+
+<details>
+<summary>Solution</summary>
+
+≈**10.13 kPa**.
+
+</details>
+
+**4.** If Z(P)=1+0.02P (P in atm), what is lim_{P→0} Z?
+
+<details>
+<summary>Solution</summary>
+
+**1**.
+
+</details>
+
+**5.** Does approaching a point guarantee reaching it?
+
+<details>
+<summary>Solution</summary>
+
+No. Approach is about getting arbitrarily close.
+
+</details>
+
+**6.** Give a chemistry example of a 'boundary' you approach.
+
+<details>
+<summary>Solution</summary>
+
+Examples: infinite dilution, low-pressure, high-temperature limit.
+
+</details>
+
+**7.** If f(x)=1/x, what happens as x→0+ ?
+
+<details>
+<summary>Solution</summary>
+
+It **diverges to +∞**.
+
+</details>
+
+**8.** Why do we like dimensionless small parameters in proximity arguments?
+
+<details>
+<summary>Solution</summary>
+
+They define what 'close' means on a scale.
+
+</details>
+
+**9.** Evaluate lim_{x→∞} 1/x.
+
+<details>
+<summary>Solution</summary>
+
+**0**.
+
+</details>
+
+**10.** If a model is valid for x<0.1, what is your 'proximity' statement?
+
+<details>
+<summary>Solution</summary>
+
+Stay within that regime; do not extrapolate.
+
+</details>
+
+**11.** Compute lim_{x→0} (sin x)/x.
+
+<details>
+<summary>Solution</summary>
+
+**1**.
+
+</details>
+
+**12.** What is the main failure mode in proximity reasoning?
+
+<details>
+<summary>Solution</summary>
+
+Assuming behavior at the boundary equals behavior near it (or ignoring scale).
+
+</details>
+
+**13.** If g(x)= (1-cos x)/x^2 near 0, what does it approach?
+
+<details>
+<summary>Solution</summary>
+
+**1/2** (standard limit).
+
+</details>
+
+**14.** In ideal solution limit, what tends to 1?
+
+<details>
+<summary>Solution</summary>
+
+Activity coefficient γ → **1**.
+
+</details>
+
+**15.** State the recognition sentence in your own words.
+
+<details>
+<summary>Solution</summary>
+
+Equivalent paraphrase acceptable.
+
+</details>

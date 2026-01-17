@@ -1,0 +1,78 @@
+{
+  "deck_id": "14",
+  "title": "CHANGE: Instantaneous Sensitivity",
+  "version": "0.1",
+  "cards": [
+    {
+      "type": "qa",
+      "front": "Derivative means:",
+      "back": "Instantaneous sensitivity (limit of secant slopes).",
+      "tags": []
+    },
+    {
+      "type": "qa",
+      "front": "d/dx x^3?",
+      "back": "3x^2.",
+      "tags": []
+    },
+    {
+      "type": "qa",
+      "front": "Slope at x=2 for x^3?",
+      "back": "12.",
+      "tags": []
+    },
+    {
+      "type": "qa",
+      "front": "If U=x^2, force F=-dU/dx?",
+      "back": "-2x.",
+      "tags": []
+    },
+    {
+      "type": "mcq",
+      "prompt": "Units of d[A]/dt if [A] in M and t in s:",
+      "choices": [
+        "M",
+        "M/s",
+        "s/M"
+      ],
+      "answer_index": 1,
+      "explain": "M/s.",
+      "tags": []
+    },
+    {
+      "type": "qa",
+      "front": "d/dx (1/x)?",
+      "back": "-1/x^2.",
+      "tags": []
+    },
+    {
+      "type": "qa",
+      "front": "Negative derivative indicates:",
+      "back": "Increasing x decreases y locally.",
+      "tags": []
+    },
+    {
+      "type": "qa",
+      "front": "Average slope of x^2 from 1 to 2?",
+      "back": "3.",
+      "tags": []
+    },
+    {
+      "type": "mcq",
+      "prompt": "Instantaneous vs small finite:",
+      "choices": [
+        "same",
+        "different"
+      ],
+      "answer_index": 1,
+      "explain": "Instantaneous is a limit.",
+      "tags": []
+    },
+    {
+      "type": "qa",
+      "front": "Derivative of sin x?",
+      "back": "cos x.",
+      "tags": []
+    }
+  ]
+}

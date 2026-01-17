@@ -1,0 +1,15 @@
+Course spine	COLLECTION→ARRANGEMENT→DIRECTION→PROXIMITY→SAMENESS→CHANGE→RATE→ACCUMULATION→SPREAD.
+Universal solving rule	Choose object → choose “same” → compute → verify.
+SAMENESS-A vs SAMENESS-B	Same state different description vs invariant under transformations.
+RATE vs CHANGE boundary	RATE is change w.r.t time; CHANGE is sensitivity to input.
+Verification habit	Relabel/units/basis/bins then check correct behavior.
+Equilibrium energy populations: (A)CHANGE (B)SPREAD (C)DIRECTION	B
+Total product from rate: (A)ACCUMULATION (B)SAMENESS (C)PROXIMITY	A
+Limiting reagent primitive	COLLECTION.
+Projection operation	Dot product / projection (DIRECTION).
+Histogram minimal check	Total area/count correct; units labeled.
+Anti-pattern	Confusing representation artifacts with the object.
+Why detail can reduce truth	Overfitting; robustness matters.
+Map use	Question → primitive → operation.
+Unit discipline	Units must be explicit; converting units must change numbers predictably.
+When models tie	Prefer predictive performance and simpler assumptions; test on new data.

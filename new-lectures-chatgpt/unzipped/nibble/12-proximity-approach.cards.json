@@ -1,0 +1,77 @@
+{
+  "deck_id": "12",
+  "title": "PROXIMITY: As x Approaches\u2026",
+  "version": "0.1",
+  "cards": [
+    {
+      "type": "qa",
+      "front": "PROXIMITY recognition sentence?",
+      "back": "What matters is behavior near a point/regime, not exact equality.",
+      "tags": []
+    },
+    {
+      "type": "qa",
+      "front": "lim_{x\u21920} x\u00b7sin(1/x)?",
+      "back": "0.",
+      "tags": []
+    },
+    {
+      "type": "mcq",
+      "prompt": "Value at point vs limit:",
+      "choices": [
+        "must match",
+        "can differ"
+      ],
+      "answer_index": 1,
+      "explain": "Limit is about nearby behavior.",
+      "tags": []
+    },
+    {
+      "type": "qa",
+      "front": "lim_{x\u2192\u221e} 1/x?",
+      "back": "0.",
+      "tags": []
+    },
+    {
+      "type": "qa",
+      "front": "lim_{x\u21920} (sin x)/x?",
+      "back": "1.",
+      "tags": []
+    },
+    {
+      "type": "qa",
+      "front": "Ideal solution limit: \u03b3 \u2192 ?",
+      "back": "1.",
+      "tags": []
+    },
+    {
+      "type": "mcq",
+      "prompt": "Approach implies reach?",
+      "choices": [
+        "Yes",
+        "No"
+      ],
+      "answer_index": 1,
+      "explain": "Approach means arbitrarily close.",
+      "tags": []
+    },
+    {
+      "type": "qa",
+      "front": "0.2 atm in kPa (1 atm\u2248101.3 kPa)?",
+      "back": "\u224820.3 kPa.",
+      "tags": []
+    },
+    {
+      "type": "qa",
+      "front": "If Z(P)=1+0.02P, lim_{P\u21920} Z?",
+      "back": "1.",
+      "tags": []
+    },
+    {
+      "type": "qa",
+      "front": "Main failure mode in proximity reasoning?",
+      "back": "Ignoring scale/validity; treating boundary as regular point.",
+      "tags": []
+    }
+  ]
+}

@@ -1,0 +1,201 @@
+---
+title: "SAMENESS-B: Symmetry (Preview)"
+format:
+  html:
+    toc: true
+execute: false
+---
+
+Primary primitive: **SAMENESS-B**
+
+## Scenes
+
+A. Chemistry
+
+![Chem scene](../assets/lessons/11-symmetry/scene_A_chem.png)
+
+*Symmetric molecule as 'same after rotation' (preview, not group theory).*
+
+B. Math
+
+![Math scene](../assets/lessons/11-symmetry/scene_B_math.png)
+
+*Rotate a square: after 90° it matches itself.*
+
+C. World
+
+![World scene](../assets/lessons/11-symmetry/scene_C_world.png)
+
+*Key idea: some moves change appearance but not identity.*
+
+## Diagnosis
+
+Recognition sentence:
+- **If a move changes the picture but leaves the object unchanged → symmetry is the invariant move-set → therefore SAMENESS-B.**
+
+Fast checks:
+
+- [ ] After a rotation/reflection, I can superimpose the object exactly.
+- [ ] The quantity I care about is unchanged under that move.
+- [ ] I can list the moves that preserve the object (even informally).
+
+## The object
+
+Object: a transformation that maps the object onto itself (symmetry). Invariants: quantities unchanged under those transformations.
+
+## The tool
+
+Operations you can do:
+
+- Test invariance by applying a move (rotate/reflect) and comparing.
+- Use symmetry to reduce work (compute once, copy by symmetry).
+- Predict zero-components: symmetry can force cancellations.
+
+## Chemistry anchors
+
+- Molecular symmetry and dipole: some symmetries force net dipole to 0.
+- Spectra selection rules (preview): symmetry controls what can couple.
+- Crystal symmetry: repeating unit + invariance under translation.
+
+## Verification habit
+
+Before you accept a result, run one of these:
+- Change the description (units/coordinates/basis) and confirm the *invariant* claim.
+- Push a parameter toward a boundary (very small / very large) and see if your rule still makes sense.
+
+## Exercises (with solutions)
+
+**1.** A perfect square: how many 90° rotations return it to itself?
+
+<details>
+<summary>Solution</summary>
+
+**4** (0°,90°,180°,270°).
+
+</details>
+
+**2.** A molecule has an inversion center. What often happens to its dipole?
+
+<details>
+<summary>Solution</summary>
+
+Dipole is often **0** because vectors cancel under inversion symmetry.
+
+</details>
+
+**3.** If a quantity changes sign under reflection, what can symmetry force its average to be?
+
+<details>
+<summary>Solution</summary>
+
+**0** (cancellation).
+
+</details>
+
+**4.** Is symmetry a re-description (A) or a real invariance under transformation (B)?
+
+<details>
+<summary>Solution</summary>
+
+**B**.
+
+</details>
+
+**5.** Name one symmetry operation common in chemistry.
+
+<details>
+<summary>Solution</summary>
+
+Rotation, reflection, inversion, improper rotation, translation.
+
+</details>
+
+**6.** A linear molecule CO2: why is dipole 0 but bonds are polar?
+
+<details>
+<summary>Solution</summary>
+
+Bond dipoles cancel due to symmetry (opposite directions).
+
+</details>
+
+**7.** If you rotate axes, is that symmetry or re-description?
+
+<details>
+<summary>Solution</summary>
+
+As physics: re-description (A). As object-level: if molecule maps to itself, symmetry (B).
+
+</details>
+
+**8.** Water: why does it have a dipole but CO2 does not?
+
+<details>
+<summary>Solution</summary>
+
+Bent geometry breaks cancellation; CO2 is linear and cancels.
+
+</details>
+
+**9.** A regular hexagon: smallest rotation that maps to itself?
+
+<details>
+<summary>Solution</summary>
+
+**60°**.
+
+</details>
+
+**10.** What is the 'verification habit' for symmetry claims?
+
+<details>
+<summary>Solution</summary>
+
+Apply the transformation; check invariants.
+
+</details>
+
+**11.** Does chirality matter for mirror symmetry?
+
+<details>
+<summary>Solution</summary>
+
+Yes; chiral objects are not superimposable on mirrors.
+
+</details>
+
+**12.** If an operation changes the object, is it in the symmetry set?
+
+<details>
+<summary>Solution</summary>
+
+No.
+
+</details>
+
+**13.** Give one example where symmetry reduces computation.
+
+<details>
+<summary>Solution</summary>
+
+Compute field in one quadrant; replicate by symmetry.
+
+</details>
+
+**14.** How can symmetry predict 'forbidden' transitions (preview)?
+
+<details>
+<summary>Solution</summary>
+
+If initial×operator×final doesn't contain totally symmetric representation, coupling vanishes.
+
+</details>
+
+**15.** State the recognition sentence in 1 line.
+
+<details>
+<summary>Solution</summary>
+
+Any equivalent statement about moves that change appearance but not identity.
+
+</details>

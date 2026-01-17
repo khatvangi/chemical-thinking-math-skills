@@ -1,0 +1,120 @@
+---
+title: "Lesson 24 — Synthesis: The Complete Map"
+format:
+  html:
+    toc: true
+    number-sections: true
+execute: false
+---
+
+## Scenes (assets)
+- Chemistry: `assets/lessons/24-synthesis-map/scene_A_chem.png`
+- Math: `assets/lessons/24-synthesis-map/scene_B_math.png`
+- World: `assets/lessons/24-synthesis-map/scene_C_world.png`
+
+## The single rule
+Every problem is: **choose the object, choose what “same” means, compute, then verify.**
+
+## Map (dataset)
+Dataset: `assets/lessons/24-synthesis-map/data/primitive_map.csv`
+
+Use it as a diagnostic: *What question am I asking?* → *Which primitive?* → *Which operation?*
+
+## Invariance habit (non-negotiable)
+Before trusting a result, do one controlled change of description:
+- relabeling
+- unit conversion
+- basis rotation
+- binning change
+## Exercises (with solutions)
+
+**1.** Same molecule drawn in two coordinate systems: which primitive enforces sameness?
+
+::: {.callout-note collapse="true"}
+**Solution.** SAMENESS-A (representation invariance).
+:::
+
+**2.** Rotate a vector field: which primitive and what remains invariant?
+
+::: {.callout-note collapse="true"}
+**Solution.** SAMENESS-B; dot products/lengths/angles invariant under rotation.
+:::
+
+**3.** Rate law d[A]/dt=-k[A]: central primitive?
+
+::: {.callout-note collapse="true"}
+**Solution.** RATE.
+:::
+
+**4.** Integrate a rate to get total product formed: primitive?
+
+::: {.callout-note collapse="true"}
+**Solution.** ACCUMULATION.
+:::
+
+**5.** Equilibrium energy populations: primitive?
+
+::: {.callout-note collapse="true"}
+**Solution.** SPREAD.
+:::
+
+**6.** Limiting reagent: primitive + key operation.
+
+::: {.callout-note collapse="true"}
+**Solution.** COLLECTION; compute min(nA/a, nB/b).
+:::
+
+**7.** Projection of dipole on axis: primitive + operation.
+
+::: {.callout-note collapse="true"}
+**Solution.** DIRECTION; dot product/projection.
+:::
+
+**8.** One universal verification habit.
+
+::: {.callout-note collapse="true"}
+**Solution.** Change description (labels/units/basis/binning) and verify correct behavior.
+:::
+
+**9.** From `primitive_map.csv`, write one boundary line for two adjacent primitives.
+
+::: {.callout-note collapse="true"}
+**Solution.** Example: CHANGE is sensitivity to input; RATE is change w.r.t time.
+:::
+
+**10.** Name one anti-pattern rejected by this course.
+
+::: {.callout-note collapse="true"}
+**Solution.** Confusing representation artifacts with the underlying object.
+:::
+
+**11.** Minimal check before interpreting a histogram.
+
+::: {.callout-note collapse="true"}
+**Solution.** Total count/area correct; axes/units labeled; bin choice stated.
+:::
+
+**12.** Why “more detail” can reduce truth.
+
+::: {.callout-note collapse="true"}
+**Solution.** Overfitting; robustness matters.
+:::
+
+**13.** Write the spine in one line.
+
+::: {.callout-note collapse="true"}
+**Solution.** COLLECTION→ARRANGEMENT→DIRECTION→PROXIMITY→SAMENESS→CHANGE→RATE→ACCUMULATION→SPREAD.
+:::
+
+**14.** Assign one chemistry problem you teach to a primary primitive.
+
+::: {.callout-note collapse="true"}
+**Solution.** Example: equilibrium populations → SPREAD.
+:::
+
+**15.** Pick one earlier quantity and state its units.
+
+::: {.callout-note collapse="true"}
+**Solution.** Example: rate constant k has units 1/time.
+:::
+

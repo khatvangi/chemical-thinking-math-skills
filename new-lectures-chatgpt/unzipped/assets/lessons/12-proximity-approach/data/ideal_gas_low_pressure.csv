@@ -1,0 +1,4 @@
+P_atm,Z_ideal,comment
+0.1,1.0,ideal regime
+1.0,1.0,still close
+10.0,1.0,ideal would fail in reality

@@ -1,0 +1,18 @@
+Front	Back
+Recognition: When are you in TRANSFORMATIONS?	When you apply the same rule to many vectors/points, often encoded as a matrix.
+Which rule is linear?	(x,y)→(x+1,y) / (x,y)→(2x,3y) / (x,y)→(x^2,y) / (x,y)→(sin x, y)
+Answer: (x,y)→(2x,3y)
+Scaling is linear; adding a constant or squaring is not.
+Two linearity tests (names only).	Additivity and homogeneity.
+Column meaning: what is A(1,0) for a 2×2 matrix A?	The first column of A.
+Numeric: A=[[2,0],[0,3]], v=(1,-2). Av=?	(2, -6).
+Build A: if e1→(3,1), e2→(-2,4), then A=?	[[3, -2],[1, 4]] (columns are images).
+One line: what does det(A) measure in 2D?	Signed area scaling under the transformation.
+Why does 'basis determines transform' matter operationally?	You can test/construct A by seeing what it does to basis vectors.
+Chem: rotating coordinates of every atom is what kind of operation?	Apply a rotation matrix to each coordinate vector.
+What feature signals 'mixing' between coordinates?	Off-diagonal entries in A.
+If A is 2×2 and v is in R^2, what is Av?	A vector in R^2.
+Preview: which matrices preserve lengths?	Orthogonal matrices with AᵀA=I.
+Data file for this lesson?	assets/lessons/08-transformations/data/transforms_2d.csv.
+What’s the difference between 'rotate object' and 'rotate axes'?	Object rotation is a physical transform; axis rotation is a re-description.
+In calibration, why are matrices natural?	Many sensor channels mix linearly; calibration unmixes via linear transforms.

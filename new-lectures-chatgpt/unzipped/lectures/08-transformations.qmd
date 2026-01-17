@@ -1,0 +1,221 @@
+---
+title: "ARRANGEMENT: Transformations"
+lesson: 8
+format:
+  html:
+    toc: true
+    number-sections: true
+execute:
+  echo: true
+  eval: false
+---
+
+# Lecture 08 — Transformations
+Primary PRIMITIVE: **ARRANGEMENT**  
+Neighbors to contrast: **DIRECTION**, **SAMENESS-B**
+
+One-line thesis:
+- After this, students can encode “do the same move to every vector” as a matrix.
+
+## 0) Scenes (label only)
+A. Chemistry: same molecule, rotated coordinates  
+![](../assets/lessons/08-transformations/scene_A_chem.png)
+
+B. Math: a square transformed  
+![](../assets/lessons/08-transformations/scene_B_math.png)
+
+C. World: same shape, different scale  
+![](../assets/lessons/08-transformations/scene_C_world.png)
+
+## 1) Diagnosis
+Recognition sentence:
+- **“I apply the same rule to many vectors/points.”**
+
+Fast checks:
+- [ ] Input and output are both vectors (or points).
+- [ ] The rule respects addition and scaling (linear).
+- [ ] The rule is fully determined by what it does to basis vectors.
+
+Boundary line:
+- **DIRECTION** names the arrow.
+- **ARRANGEMENT** builds a machine that transforms arrows.
+
+## 2) What exists here (spec)
+- Object: a **linear transformation** \(T:\mathbb{R}^n\to\mathbb{R}^n\).
+- Allowed descriptions: a matrix \(A\) such that \(T(\vec v)=A\vec v\).
+- “Same” means: two matrices represent the same \(T\) if they produce the same outputs for all inputs (in the same basis).
+- “Different” means: outputs differ for at least one input.
+
+## 3) What you compute
+Primary quantity:
+- Output vector \(A\vec v\).
+
+Secondary quantities:
+- Determinant (area/volume scale) — used next lecture for invariants.
+
+## 4) Operation
+Operation: **matrix–vector multiplication**.
+- Input: \(A\) and \(\vec v\)
+- Output: \(\vec w=A\vec v\)
+
+## 5) Tool ladder
+**L0:** push a shape through a “machine.”  
+**L1:** \(A\vec v\) is computed entrywise with dot-products of rows with \(\vec v\).  
+**L2:** columns interpretation (from Lecture 07): \(A\vec v\) is a weighted sum of columns.  
+**L3:** coordinate changes, rotations, scalings, and coupling between coordinates.
+
+## 6) One theorem that matters
+**Theorem:** A linear transformation is determined by its action on a basis.
+
+Proof sketch:
+- Any \(\vec v\) can be written as \(\vec v=\sum_i v_i \hat e_i\).
+- By linearity, \(T(\vec v)=\sum_i v_i T(\hat e_i)\).
+- So knowing \(T(\hat e_i)\) for each basis vector determines \(T(\vec v)\) for all \(\vec v\).
+
+What it buys you:
+- You can build \(A\) by stacking transformed basis vectors as columns.
+
+## 7) One real computation (from shipped data)
+Dataset:
+- File: `assets/lessons/08-transformations/data/transforms_2d.csv`
+
+Task:
+- Pick a named transform and apply it to \((1,0)\), \((0,1)\), and \((1,1)\).
+- Interpret the result as “what happened to the axes and to a diagonal.”
+
+Sanity checks:
+- For a pure rotation, lengths should be preserved (next lecture).
+- For a scaling, lengths scale by the factor.
+
+## 8) Invariance test (preview)
+Change of description: rotate coordinates vs rotate object.
+Claim: a *coordinate change* should not change physical distances; a *physical transform* can.
+
+## 9) Chemistry anchors
+### Anchor A — Rotating molecular coordinates
+- You see: the same geometry written in different frames.
+- You compute: apply a rotation matrix to every atom coordinate.
+- You conclude: the molecule is the same; only the description changed.
+
+### Anchor B — Coupled coordinates (normal modes preview)
+- You see: one coordinate “mixes into” another.
+- You compute: a matrix with off-diagonal terms.
+- You conclude: transformations can create coupled motion.
+
+### Anchor C — Imaging and instrumentation
+- You see: a detector grid.
+- You compute: linear transforms (gain, mixing) applied to measurement vectors.
+- You conclude: calibration is a matrix.
+
+## 10) Notebook spec (Pluto)
+Notebook: `notebooks/Lecture_08_Transformations.jl`
+- Sliders: rotation angle \(\theta\), scale \(s_x, s_y\), and shear \(k\).
+- Visual: transform a set of points + show the matrix.
+- Structure check: verify “basis determines transform.”
+
+## 11) Misconceptions (tests)
+- If you think “a matrix is just a table,” apply it to \((1,0)\) and \((0,1)\) and interpret columns.
+- If you think “rotation = just changing coordinates,” compare transforming the object vs transforming the axes.
+
+## 12) Code interpretation
+- Code implements \(A\vec v\) and draws the transformed shape so you can see the rule.
+
+## Exercises (15)
+
+### 1) Diagnosis: is it a transformation?
+Is the rule \((x,y)\mapsto(x+1,y)\) linear? Yes/no + one reason.
+
+### 2) Diagnosis: linear test
+State the two tests for linearity.
+
+### 3) Compute: apply matrix
+Let \(A=egin{pmatrix}2&0\0&3\end{pmatrix}\). Compute \(A(1,-2)\).
+
+### 4) Compute: columns meaning
+For \(A=egin{pmatrix}1&4\2&5\end{pmatrix}\), what is \(A(1,0)\) and \(A(0,1)\)?
+
+### 5) Compute: build A from basis images
+A transform sends \(\hat e_1	o(3,1)\) and \(\hat e_2	o(-2,4)\). Write its matrix.
+
+### 6) Compute: rotation 90°
+Write the 2D rotation-by-90° matrix and apply to (1,2).
+
+### 7) Explain: determinant meaning (one sentence)
+What does \(\det(A)\) measure in 2D?
+
+### 8) Quick check 1
+If \(A\) is 2×2, what is the shape of \(Aec v\) when \(ec v\in\mathbb{R}^2\)?
+
+### 9) Quick check 2
+If \(A\) is 2×2, what is the shape of \(Aec v\) when \(ec v\in\mathbb{R}^2\)?
+
+### 10) Quick check 3
+If \(A\) is 2×2, what is the shape of \(Aec v\) when \(ec v\in\mathbb{R}^2\)?
+
+### 11) Quick check 4
+If \(A\) is 2×2, what is the shape of \(Aec v\) when \(ec v\in\mathbb{R}^2\)?
+
+### 12) Quick check 5
+If \(A\) is 2×2, what is the shape of \(Aec v\) when \(ec v\in\mathbb{R}^2\)?
+
+### 13) Quick check 6
+If \(A\) is 2×2, what is the shape of \(Aec v\) when \(ec v\in\mathbb{R}^2\)?
+
+### 14) Quick check 7
+If \(A\) is 2×2, what is the shape of \(Aec v\) when \(ec v\in\mathbb{R}^2\)?
+
+### 15) Quick check 8
+If \(A\) is 2×2, what is the shape of \(Aec v\) when \(ec v\in\mathbb{R}^2\)?
+
+### 16) Quick check 9
+If \(A\) is 2×2, what is the shape of \(Aec v\) when \(ec v\in\mathbb{R}^2\)?
+
+## Solutions (key)
+
+### 1)
+No. It does not send the zero vector to zero.
+
+### 2)
+Additivity \(T(u+v)=T(u)+T(v)\) and homogeneity \(T(cu)=cT(u)\).
+
+### 3)
+\((2,-6)\).
+
+### 4)
+\(A(1,0)=(1,2)\) (col 1), \(A(0,1)=(4,5)\) (col 2).
+
+### 5)
+Columns are images: \(A=egin{pmatrix}3&-2\1&4\end{pmatrix}\).
+
+### 6)
+\(R=egin{pmatrix}0&-1\1&0\end{pmatrix}\), \(R(1,2)=(-2,1)\).
+
+### 7)
+The signed area scaling factor under the transformation.
+
+### 8)
+A 2D vector in \(\mathbb{R}^2\).
+
+### 9)
+A 2D vector in \(\mathbb{R}^2\).
+
+### 10)
+A 2D vector in \(\mathbb{R}^2\).
+
+### 11)
+A 2D vector in \(\mathbb{R}^2\).
+
+### 12)
+A 2D vector in \(\mathbb{R}^2\).
+
+### 13)
+A 2D vector in \(\mathbb{R}^2\).
+
+### 14)
+A 2D vector in \(\mathbb{R}^2\).
+
+### 15)
+A 2D vector in \(\mathbb{R}^2\).
+
+### 16)
+A 2D vector in \(\mathbb{R}^2\).

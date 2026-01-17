@@ -1,0 +1,77 @@
+{
+  "deck_id": "15",
+  "title": "CHANGE: Rules of Change",
+  "version": "0.1",
+  "cards": [
+    {
+      "type": "qa",
+      "front": "Chain rule statement?",
+      "back": "d/dx f(g(x)) = f'(g(x))\u00b7g'(x).",
+      "tags": []
+    },
+    {
+      "type": "qa",
+      "front": "d/dx (3x+1)^5?",
+      "back": "15(3x+1)^4.",
+      "tags": []
+    },
+    {
+      "type": "qa",
+      "front": "d/dx (x e^x)?",
+      "back": "e^x + x e^x.",
+      "tags": []
+    },
+    {
+      "type": "qa",
+      "front": "\u2202A/\u2202c for A=\u03b5lc?",
+      "back": "\u03b5l.",
+      "tags": []
+    },
+    {
+      "type": "mcq",
+      "prompt": "d(ln(abc)) =",
+      "choices": [
+        "da+db+dc",
+        "dln a + dln b + dln c"
+      ],
+      "answer_index": 1,
+      "explain": "Log-derivative turns products into sums.",
+      "tags": []
+    },
+    {
+      "type": "qa",
+      "front": "If y=exp(-1/x), sign of dy/dx for x>0?",
+      "back": "Positive (it increases with x).",
+      "tags": []
+    },
+    {
+      "type": "qa",
+      "front": "Quotient rule result for x/(1+x) derivative?",
+      "back": "1/(1+x)^2.",
+      "tags": []
+    },
+    {
+      "type": "qa",
+      "front": "Arrhenius: d(ln k)/d(1/T) equals?",
+      "back": "-E/R.",
+      "tags": []
+    },
+    {
+      "type": "mcq",
+      "prompt": "Beer\u2013Lambert dependence on c:",
+      "choices": [
+        "nonlinear",
+        "linear"
+      ],
+      "answer_index": 1,
+      "explain": "A scales linearly with c.",
+      "tags": []
+    },
+    {
+      "type": "qa",
+      "front": "Quick check for derivative errors:",
+      "back": "Units and limiting behavior.",
+      "tags": []
+    }
+  ]
+}

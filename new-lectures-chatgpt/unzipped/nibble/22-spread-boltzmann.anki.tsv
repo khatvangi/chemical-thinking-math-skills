@@ -1,0 +1,15 @@
+Boltzmann weight	w∝exp(-E/kT).
+Partition function Z	Z=∑ exp(-E_i/kT).
+Probability p_i	p_i=exp(-E_i/kT)/Z.
+ΔE=2kT ⇒ p2/p1	0.1353
+T→∞ limit	Uniform over finite states.
+T→0+ limit	All mass on ground state.
+Energy shift invariance	E→E+C leaves probabilities unchanged.
+E={0,1,2,3} (kT units). p(E=0)	0.644
+Conformer ratios	p2/p1=exp(-ΔE/kT).
+Free energy link	F=-kT ln Z.
+Same energy ⇒ ratio (A)0 (B)1 (C)∞	B
+Sanity check	p_i≥0 and ∑p_i=1.
+Primitive	SPREAD.
+What flattens distribution?	Higher T.
+Lower E implies…	Exponentially higher probability at equilibrium.

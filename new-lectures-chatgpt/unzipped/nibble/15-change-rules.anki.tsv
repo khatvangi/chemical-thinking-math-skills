@@ -1,0 +1,16 @@
+Chain rule statement?	d/dx f(g(x)) = f'(g(x))·g'(x).
+d/dx (3x+1)^5?	15(3x+1)^4.
+d/dx (x e^x)?	e^x + x e^x.
+∂A/∂c for A=εlc?	εl.
+d(ln(abc)) =
+A. da+db+dc
+B. dln a + dln b + dln c	Answer: B
+Log-derivative turns products into sums.
+If y=exp(-1/x), sign of dy/dx for x>0?	Positive (it increases with x).
+Quotient rule result for x/(1+x) derivative?	1/(1+x)^2.
+Arrhenius: d(ln k)/d(1/T) equals?	-E/R.
+Beer–Lambert dependence on c:
+A. nonlinear
+B. linear	Answer: B
+A scales linearly with c.
+Quick check for derivative errors:	Units and limiting behavior.

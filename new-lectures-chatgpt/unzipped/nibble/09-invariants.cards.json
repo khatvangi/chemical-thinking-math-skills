@@ -1,0 +1,149 @@
+{
+  "deck": "Lecture 09 \u00b7 SAMENESS-B \u00b7 What Doesn\u2019t Change?",
+  "version": "0.1",
+  "cards": [
+    {
+      "id": "57aa40f6",
+      "type": "qa",
+      "prompt": "Recognition: When are you in SAMENESS-B?",
+      "answer": "When you declare two situations 'the same' because an invariant stays unchanged under an allowed transformation.",
+      "tags": [
+        "primitive",
+        "sameness-b"
+      ]
+    },
+    {
+      "id": "7abca3ce",
+      "type": "qa",
+      "prompt": "Complete the sentence: 'Same under ____'.",
+      "answer": "\u2026a specified set of allowed transformations (e.g., rotations, translations).",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "id": "bd36267f",
+      "type": "mcq",
+      "prompt": "Which invariant is preserved by pure rotations?",
+      "choices": [
+        "Vector components",
+        "Dot product",
+        "Column order",
+        "Index labels"
+      ],
+      "answer_index": 1,
+      "explain": "Rotations (orthogonal transforms) preserve dot products/norms.",
+      "tags": [
+        "invariance"
+      ]
+    },
+    {
+      "id": "53d6c785",
+      "type": "qa",
+      "prompt": "Orthogonal test in one line.",
+      "answer": "R\u1d40R = I.",
+      "tags": [
+        "rotation"
+      ]
+    },
+    {
+      "id": "4cbd246e",
+      "type": "qa",
+      "prompt": "Numeric: v=(3,4). After a 90\u00b0 rotation, |v| = ?",
+      "answer": "Still 5.",
+      "tags": [
+        "numeric"
+      ]
+    },
+    {
+      "id": "3c35bcfc",
+      "type": "qa",
+      "prompt": "Theorem: If R\u1d40R=I, then (Ru)\u00b7(Rv) = ?",
+      "answer": "u\u00b7v.",
+      "tags": [
+        "theorem"
+      ]
+    },
+    {
+      "id": "af69ef43",
+      "type": "qa",
+      "prompt": "Chem: why is bond length invariant?",
+      "answer": "Because it is a physical distance, independent of coordinate frame.",
+      "tags": [
+        "chem"
+      ]
+    },
+    {
+      "id": "ba63cd75",
+      "type": "qa",
+      "prompt": "What breaks invariance of length?",
+      "answer": "Non-orthogonal transforms like scaling/shear.",
+      "tags": [
+        "review"
+      ]
+    },
+    {
+      "id": "3ecfb805",
+      "type": "qa",
+      "prompt": "What is an 'allowed transformation' in a physical model?",
+      "answer": "A change you treat as symmetry (does not alter the state).",
+      "tags": [
+        "review"
+      ]
+    },
+    {
+      "id": "159a31f4",
+      "type": "qa",
+      "prompt": "Give one world example of invariance.",
+      "answer": "Speed invariant under changing compass direction representation.",
+      "tags": [
+        "review"
+      ]
+    },
+    {
+      "id": "d137b230",
+      "type": "qa",
+      "prompt": "In data analysis, what is an invariant of a square matrix often used?",
+      "answer": "Trace or determinant (depending on context).",
+      "tags": [
+        "review"
+      ]
+    },
+    {
+      "id": "69caa9e4",
+      "type": "qa",
+      "prompt": "Data file for this lesson?",
+      "answer": "assets/lessons/09-invariants/data/rotation_invariants.csv.",
+      "tags": [
+        "review"
+      ]
+    },
+    {
+      "id": "38d1bc47",
+      "type": "qa",
+      "prompt": "If two vectors have dot product 0, what does that mean?",
+      "answer": "They are orthogonal (90\u00b0 angle).",
+      "tags": [
+        "review"
+      ]
+    },
+    {
+      "id": "ca12f346",
+      "type": "qa",
+      "prompt": "True/False: Any matrix with det=1 is a rotation.",
+      "answer": "False (shears can have det=1).",
+      "tags": [
+        "review"
+      ]
+    },
+    {
+      "id": "5ebfdfc0",
+      "type": "qa",
+      "prompt": "Why does 'state the invariant' prevent hand-waving?",
+      "answer": "It forces a checkable computation before/after the transformation.",
+      "tags": [
+        "review"
+      ]
+    }
+  ]
+}

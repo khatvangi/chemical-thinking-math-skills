@@ -1,0 +1,149 @@
+{
+  "deck": "Lecture 10 \u00b7 SAMENESS-B \u00b7 Characteristic Directions",
+  "version": "0.1",
+  "cards": [
+    {
+      "id": "da1e282c",
+      "type": "qa",
+      "prompt": "Recognition: What is a characteristic direction?",
+      "answer": "A direction v that comes back parallel after applying A: Av = \u03bbv.",
+      "tags": [
+        "primitive",
+        "sameness-b"
+      ]
+    },
+    {
+      "id": "caa4ea0a",
+      "type": "qa",
+      "prompt": "One line: eigenvalue meaning.",
+      "answer": "Scale factor along an eigenvector direction.",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "id": "8b29f0ac",
+      "type": "mcq",
+      "prompt": "For A=diag(2,5), eigenvectors are\u2026",
+      "choices": [
+        "(1,1) only",
+        "any nonzero vector",
+        "(1,0) and (0,1)",
+        "none"
+      ],
+      "answer_index": 2,
+      "explain": "Diagonal matrices scale coordinate axes independently.",
+      "tags": [
+        "numeric"
+      ]
+    },
+    {
+      "id": "826fd9ad",
+      "type": "qa",
+      "prompt": "2\u00d72 symmetric characteristic polynomial for [[a,b],[b,c]]?",
+      "answer": "(a\u2212\u03bb)(c\u2212\u03bb) \u2212 b\u00b2.",
+      "tags": [
+        "formula"
+      ]
+    },
+    {
+      "id": "1ca98e86",
+      "type": "qa",
+      "prompt": "Invariant check: trace(A) equals what in terms of eigenvalues?",
+      "answer": "Sum of eigenvalues.",
+      "tags": [
+        "invariants"
+      ]
+    },
+    {
+      "id": "07472eaa",
+      "type": "qa",
+      "prompt": "Invariant check: det(A) equals what in terms of eigenvalues?",
+      "answer": "Product of eigenvalues.",
+      "tags": [
+        "invariants"
+      ]
+    },
+    {
+      "id": "7f9ceecf",
+      "type": "qa",
+      "prompt": "Chem: principal axes are eigenvectors of what kind of matrix?",
+      "answer": "A symmetric matrix (e.g., inertia tensor, covariance, force constants).",
+      "tags": [
+        "chem"
+      ]
+    },
+    {
+      "id": "6cb9078d",
+      "type": "qa",
+      "prompt": "Numeric: For A=[[3,1],[1,1]], trace=? det=?",
+      "answer": "trace=4; det=2.",
+      "tags": [
+        "numeric"
+      ]
+    },
+    {
+      "id": "6b4e10a2",
+      "type": "qa",
+      "prompt": "Why do eigenvectors matter geometrically?",
+      "answer": "They define axes where the transformation acts as pure scaling (no mixing).",
+      "tags": [
+        "review"
+      ]
+    },
+    {
+      "id": "bb2b453d",
+      "type": "qa",
+      "prompt": "When are eigenvectors orthogonal (simple condition)?",
+      "answer": "When A is symmetric (distinct eigenvalues).",
+      "tags": [
+        "review"
+      ]
+    },
+    {
+      "id": "fbdbbe3f",
+      "type": "qa",
+      "prompt": "World: PCA finds eigenvectors of what matrix?",
+      "answer": "Covariance matrix.",
+      "tags": [
+        "review"
+      ]
+    },
+    {
+      "id": "034c4d5e",
+      "type": "qa",
+      "prompt": "Normal modes in vibrations are eigenvectors of what?",
+      "answer": "Force-constant (Hessian) matrix (approx).",
+      "tags": [
+        "review"
+      ]
+    },
+    {
+      "id": "7cb04752",
+      "type": "qa",
+      "prompt": "Under rotation of coordinates, do eigenvectors themselves stay fixed?",
+      "answer": "No; they rotate with the basis, but eigenvalues stay invariant.",
+      "tags": [
+        "review"
+      ]
+    },
+    {
+      "id": "faf22b3c",
+      "type": "qa",
+      "prompt": "Data file for this lesson?",
+      "answer": "assets/lessons/10-characteristic-directions/data/eigen_toy.csv.",
+      "tags": [
+        "review"
+      ]
+    },
+    {
+      "id": "0741b3df",
+      "type": "qa",
+      "prompt": "Quick test for 'is v an eigenvector'?",
+      "answer": "Compute Av and check if it is a scalar multiple of v.",
+      "tags": [
+        "review"
+      ]
+    }
+  ]
+}

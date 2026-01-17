@@ -1,0 +1,225 @@
+---
+title: "ARRANGEMENT: Grids of Numbers"
+lesson: 7
+format:
+  html:
+    toc: true
+    number-sections: true
+execute:
+  echo: true
+  eval: false
+---
+
+# Lecture 07 — Grids of Numbers
+Primary PRIMITIVE: **ARRANGEMENT**  
+Neighbors to contrast: **COLLECTION**, **DIRECTION**
+
+One-line thesis:
+- After this, students can treat a matrix as a *structured object* (not “a pile of numbers”).
+
+## 0) Scenes (label only)
+A. Chemistry: an absorbance table as a grid  
+![](../assets/lessons/07-grids/scene_A_chem.png)
+
+B. Math: a matrix as a grid  
+![](../assets/lessons/07-grids/scene_B_math.png)
+
+C. World: pixels are a grid  
+![](../assets/lessons/07-grids/scene_C_world.png)
+
+## 1) Diagnosis
+Recognition sentence:
+- **“I have many numbers, but their *position* carries meaning.”**
+
+Fast checks:
+- [ ] Swapping rows/columns changes interpretation.
+- [ ] “Neighboring entries” are related (wavelength grid, time grid, spatial grid).
+- [ ] I care about slices: a row, a column, a block.
+
+Boundary line:
+- **COLLECTION** counts items.
+- **ARRANGEMENT** gives the counts a *layout*.
+
+## 2) What exists here (spec)
+- Object: a **matrix** \(A\in\mathbb{R}^{m\times n}\).
+- Allowed descriptions: indices \((i,j)\), row/column names, units per axis.
+- “Same” means: same mapping from \((i,j)\) to values (even if displayed differently).
+- “Different” means: values moved to different positions, or axes changed.
+
+Sanity rule:
+- Never compute with a matrix without stating what rows/cols mean.
+
+## 3) What you compute
+Primary quantities:
+- **Row/column summaries** (mean, max, slope across wavelength, etc.)
+- **Linear combinations** of columns (next lecture uses this as matrix–vector multiplication)
+
+## 4) Operation
+Operation: **index / slice / summarize**
+- Take \(A_{ij}\), a row \(A_{i:}\), a column \(A_{:j}\), or a block \(A_{i_1:i_2, j_1:j_2}\).
+
+## 5) Tool ladder
+**L0:** treat the table like a map: “where is the hot spot?”  
+**L1:** indexing \(A_{ij}\); row/column vectors.  
+**L2:** matrix–vector multiplication as “weighted column sum.”  
+**L3:** chemistry stores spectra, time-series, and images as grids.
+
+## 6) One theorem that matters
+**Theorem:** Matrix–vector multiplication is a weighted sum of columns:
+\[
+A\vec x = x_1 \,A_{:1} + x_2 \,A_{:2} + \cdots + x_n \,A_{:n}.
+\]
+
+Proof sketch:
+- Write \((A\vec x)_i=\sum_{j=1}^n A_{ij}x_j\).
+- Group terms by \(j\).
+- The contribution of \(x_j\) to all \(i\) is exactly the column \(A_{:j}\) scaled by \(x_j\).
+- Sum columns.
+
+What it buys you:
+- You can interpret linear models and mixtures as “adding spectra.”
+
+## 7) One real computation (from shipped data)
+Dataset:
+- File: `assets/lessons/07-grids/data/absorbance_grid.csv`
+
+Task:
+- Pick one wavelength (row) and compare samples.
+- Pick one sample (column) and see how it changes with wavelength.
+
+Sanity checks:
+- Units: absorbance is dimensionless; wavelength is nm.
+- Extreme case: if all entries equal, no sample differs.
+
+## 8) Invariance test
+Change of description: reorder columns (rename samples).
+Invariant: the *set* of column values is unchanged, but their association to labels changes.
+Takeaway: invariance depends on what you claim “sameness” means.
+
+## 9) Chemistry anchors
+### Anchor A — Beer–Lambert mixture intuition
+- You see: absorbance vs wavelength for several samples.
+- You compute: column sums / differences.
+- You conclude: mixtures add (approximately) as linear combinations.
+
+### Anchor B — Stoichiometry as a grid
+- You see: coefficients arranged by species/reaction.
+- You compute: nullspace constraints later.
+- You conclude: conservation laws appear as structured rows.
+
+### Anchor C — Pixels and density maps
+- You see: a 2D field.
+- You compute: local averages and gradients later.
+- You conclude: matrices are the “native format” of spatial chemistry.
+
+## 10) Notebook spec (Pluto)
+Notebook: `notebooks/Lecture_07_Grids.jl`
+- Sliders: choose row/column; choose weights \(x_1,x_2\) to form column mixtures.
+- Visual: heatmap + highlighted slice.
+
+## 11) Misconceptions (tests)
+- If you think “a table is just numbers,” shuffle rows and watch the meaning break.
+- If you think “mean is always meaningful,” test on data with strong gradients.
+
+## 12) Code interpretation
+- Code here reads the CSV and computes summaries you can check by hand on a few entries.
+
+## Exercises (15)
+
+### 1) Diagnosis: when is it ARRANGEMENT?
+You have 20 numbers. What extra structure makes it a matrix instead of a list?
+
+### 2) Diagnosis: axis meaning
+In an absorbance grid, what do rows and columns represent (typical)?
+
+### 3) Indexing
+If \(A\) is \(3	imes 4\), what does \(A_{2,4}\) mean?
+
+### 4) Dimensions
+If \(A\) is \(m	imes n\) and \(ec x\) is length \(n\), what is the length of \(Aec x\)?
+
+### 5) Column-sum view
+Explain in one sentence what \(Aec x\) does.
+
+### 6) Compute
+Let \(A=egin{pmatrix}1&2\3&4\end{pmatrix}\), \(ec x=(10,1)\). Compute \(Aec x\).
+
+### 7) Row sum
+Compute the sum of row 1 of \(A=egin{pmatrix}5&0&1\2&2&2\end{pmatrix}\).
+
+### 8) Column mean
+Compute the mean of column 2 of \(A=egin{pmatrix}0&4\2&6\4&8\end{pmatrix}\).
+
+### 9) Quick check 1
+State whether swapping two columns changes the set of entries. (Yes/no).
+
+### 10) Quick check 2
+State whether swapping two columns changes the set of entries. (Yes/no).
+
+### 11) Quick check 3
+State whether swapping two columns changes the set of entries. (Yes/no).
+
+### 12) Quick check 4
+State whether swapping two columns changes the set of entries. (Yes/no).
+
+### 13) Quick check 5
+State whether swapping two columns changes the set of entries. (Yes/no).
+
+### 14) Quick check 6
+State whether swapping two columns changes the set of entries. (Yes/no).
+
+### 15) Quick check 7
+State whether swapping two columns changes the set of entries. (Yes/no).
+
+### 16) Quick check 8
+State whether swapping two columns changes the set of entries. (Yes/no).
+
+## Solutions (key)
+
+### 1)
+A rule that assigns each value to a position (row/column) with meaning (two axes).
+
+### 2)
+Rows: wavelength (or time). Columns: samples/conditions (or replicates).
+
+### 3)
+Row 2, column 4 entry (a single number).
+
+### 4)
+Length \(m\).
+
+### 5)
+It forms a weighted sum of the columns of \(A\) using weights from \(ec x\).
+
+### 6)
+\((1*10+2*1,\;3*10+4*1)=(12,34)\).
+
+### 7)
+Row 1 sum = 6.
+
+### 8)
+Column 2 mean = (4+6+8)/3 = 6.
+
+### 9)
+No; it permutes them but does not change the multiset of values.
+
+### 10)
+No; it permutes them but does not change the multiset of values.
+
+### 11)
+No; it permutes them but does not change the multiset of values.
+
+### 12)
+No; it permutes them but does not change the multiset of values.
+
+### 13)
+No; it permutes them but does not change the multiset of values.
+
+### 14)
+No; it permutes them but does not change the multiset of values.
+
+### 15)
+No; it permutes them but does not change the multiset of values.
+
+### 16)
+No; it permutes them but does not change the multiset of values.

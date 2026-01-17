@@ -1,0 +1,118 @@
+---
+title: "Lesson 23 — SPREAD: Expectation & Variance"
+format:
+  html:
+    toc: true
+    number-sections: true
+execute: false
+---
+
+## Scenes (assets)
+- Chemistry: `assets/lessons/23-spread-moments/scene_A_chem.png`
+- Math: `assets/lessons/23-spread-moments/scene_B_math.png`
+- World: `assets/lessons/23-spread-moments/scene_C_world.png`
+
+## Recognition
+**You need one number for center and one for typical deviation.** Therefore: **SPREAD**.
+
+## Load-bearing identity (shift/scale)
+If \(Y=aX+c\), then:
+- \(E[Y]=aE[X]+c\)
+- \(\mathrm{Var}(Y)=a^2\mathrm{Var}(X)\)
+
+## One real computation (dataset)
+Dataset: `assets/lessons/23-spread-moments/data/measurement_noise.csv`
+
+Compute: sample mean and sample variance. Verify invariance under reordering.
+## Exercises (with solutions)
+
+**1.** Define expectation E[X] (discrete).
+
+::: {.callout-note collapse="true"}
+**Solution.** E[X]=∑ x p(x).
+:::
+
+**2.** Define variance Var(X).
+
+::: {.callout-note collapse="true"}
+**Solution.** Var(X)=E[(X-μ)^2]=E[X^2]-μ^2.
+:::
+
+**3.** Bernoulli mean/variance.
+
+::: {.callout-note collapse="true"}
+**Solution.** μ=p, Var=p(1-p).
+:::
+
+**4.** From `measurement_noise.csv`, estimate mean and variance. Why mean can be ~0 but variance nonzero?
+
+::: {.callout-note collapse="true"}
+**Solution.** Unbiased noise: mean ~0; variance measures spread.
+:::
+
+**5.** Interpret μ as balance point.
+
+::: {.callout-note collapse="true"}
+**Solution.** Probabilities act like weights; mean balances torque.
+:::
+
+**6.** Y=X+c: what happens to mean/variance?
+
+::: {.callout-note collapse="true"}
+**Solution.** Mean shifts by c; variance unchanged.
+:::
+
+**7.** Y=aX: what happens?
+
+::: {.callout-note collapse="true"}
+**Solution.** Mean scales by a; variance scales by a^2.
+:::
+
+**8.** Chem: bias vs precision.
+
+::: {.callout-note collapse="true"}
+**Solution.** Bias ↔ mean offset; precision ↔ variance.
+:::
+
+**9.** Compute μ for X={1,2,3}, p={0.2,0.5,0.3}.
+
+::: {.callout-note collapse="true"}
+**Solution.** μ=2.1.
+:::
+
+**10.** Compute variance for same.
+
+::: {.callout-note collapse="true"}
+**Solution.** Var=0.49.
+:::
+
+**11.** Why squared deviations?
+
+::: {.callout-note collapse="true"}
+**Solution.** Gives workable algebra and penalizes large deviations.
+:::
+
+**12.** Mixture means: state formula.
+
+::: {.callout-note collapse="true"}
+**Solution.** μ=wμ1+(1-w)μ2.
+:::
+
+**13.** Chem: isotope mixture average mass.
+
+::: {.callout-note collapse="true"}
+**Solution.** Use expectation over isotope masses and abundances.
+:::
+
+**14.** Why Var≥0?
+
+::: {.callout-note collapse="true"}
+**Solution.** Expectation of a square.
+:::
+
+**15.** Which primitive? Why not CHANGE?
+
+::: {.callout-note collapse="true"}
+**Solution.** SPREAD summarizes variability across outcomes; CHANGE is sensitivity to inputs.
+:::
+

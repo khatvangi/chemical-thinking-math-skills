@@ -1,0 +1,78 @@
+{
+  "deck_id": "13",
+  "title": "PROXIMITY: Regimes & Limits",
+  "version": "0.1",
+  "cards": [
+    {
+      "type": "qa",
+      "front": "Regime thinking is about:",
+      "back": "Which terms dominate at a given scale.",
+      "tags": []
+    },
+    {
+      "type": "qa",
+      "front": "Small-x approx: log(1+0.01)\u2248?",
+      "back": "0.01.",
+      "tags": []
+    },
+    {
+      "type": "mcq",
+      "prompt": "As x\u2192\u221e, (x^3+2x)/(x^3+1) \u2192",
+      "choices": [
+        "0",
+        "1",
+        "\u221e"
+      ],
+      "answer_index": 1,
+      "explain": "x^3 dominates.",
+      "tags": []
+    },
+    {
+      "type": "qa",
+      "front": "Small-x: (1+x)^5 \u2248 ?",
+      "back": "1+5x (first order).",
+      "tags": []
+    },
+    {
+      "type": "qa",
+      "front": "Large-x: 1/(1+x) \u2248 ?",
+      "back": "1/x.",
+      "tags": []
+    },
+    {
+      "type": "mcq",
+      "prompt": "Danger of expansions:",
+      "choices": [
+        "always safe",
+        "can fail outside window"
+      ],
+      "answer_index": 1,
+      "explain": "Must state validity.",
+      "tags": []
+    },
+    {
+      "type": "qa",
+      "front": "exp(0.02)\u2248?",
+      "back": "1.02.",
+      "tags": []
+    },
+    {
+      "type": "qa",
+      "front": "Dominant balance means:",
+      "back": "Keep comparable-magnitude terms; drop much smaller.",
+      "tags": []
+    },
+    {
+      "type": "qa",
+      "front": "\u0394G=\u0394H\u2212T\u0394S shows competing terms controlled by:",
+      "back": "Temperature regime.",
+      "tags": []
+    },
+    {
+      "type": "qa",
+      "front": "Arrhenius linearization variable?",
+      "back": "ln k vs 1/T.",
+      "tags": []
+    }
+  ]
+}

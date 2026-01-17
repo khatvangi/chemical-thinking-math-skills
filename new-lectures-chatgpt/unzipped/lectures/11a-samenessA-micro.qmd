@@ -1,0 +1,201 @@
+---
+title: "SAMENESS-A Micro: Same State, Different Description"
+format:
+  html:
+    toc: true
+execute: false
+---
+
+Primary primitive: **SAMENESS-A**
+
+## Scenes
+
+A. Chemistry
+
+![Chem scene](../assets/lessons/11a-samenessA-micro/scene_A_chem.png)
+
+*Benzene: two drawings, one state. You are seeing re-description.*
+
+B. Math
+
+![Math scene](../assets/lessons/11a-samenessA-micro/scene_B_math.png)
+
+*A shape rotated: looks different, same object.*
+
+C. World
+
+![World scene](../assets/lessons/11a-samenessA-micro/scene_C_world.png)
+
+*Same melody transposed: different notes, same pattern.*
+
+## Diagnosis
+
+Recognition sentence:
+- **Two descriptions differ, but every predicted measurement is the same → therefore SAMENESS-A.**
+
+Fast checks:
+
+- [ ] If I rewrite in new units (or a new coordinate frame), the physical prediction stays identical.
+- [ ] If two diagrams give the same observables, the difference is representation, not reality.
+- [ ] I can name the *allowed* re-descriptions (units, basis, coordinates, resonance form).
+
+## The object
+
+Object: an underlying state plus a set of *equivalent* descriptions (an equivalence class).
+
+## The tool
+
+Operations you can do:
+
+- Convert units without changing meaning (e.g., M ↔ mM).
+- Change coordinates/basis (vector components change; vector does not).
+- Swap resonance drawings (electron delocalization is the state).
+
+## Chemistry anchors
+
+- Resonance drawings: nitrate/benzene forms are not different molecules.
+- Concentration: 0.10 M = 100 mM (same state, different description).
+- Dipole moment components depend on axes; dipole magnitude does not.
+
+## Verification habit
+
+Before you accept a result, run one of these:
+- Change the description (units/coordinates/basis) and confirm the *invariant* claim.
+- Push a parameter toward a boundary (very small / very large) and see if your rule still makes sense.
+
+## Exercises (with solutions)
+
+**1.** Convert 0.025 M to mM.
+
+<details>
+<summary>Solution</summary>
+
+**25 mM.** Multiply by 1000.
+
+</details>
+
+**2.** A vector has components (3,4) in one frame. What is invariant under rotation?
+
+<details>
+<summary>Solution</summary>
+
+**Its magnitude.** Here √(3²+4²)=5.
+
+</details>
+
+**3.** Two resonance drawings predict identical bond lengths experimentally. What does that imply?
+
+<details>
+<summary>Solution</summary>
+
+They are **descriptions of the same state**, not two states.
+
+</details>
+
+**4.** 0.5 L = ? mL
+
+<details>
+<summary>Solution</summary>
+
+**500 mL.**
+
+</details>
+
+**5.** If you shift energy zero by +10 kJ/mol, does ΔE for a reaction change?
+
+<details>
+<summary>Solution</summary>
+
+**No.** Differences are invariant; absolute reference can change.
+
+</details>
+
+**6.** Write one example of a *bad* re-description (changes reality).
+
+<details>
+<summary>Solution</summary>
+
+Example: changing temperature is not re-description; it changes state.
+
+</details>
+
+**7.** Is switching from Cartesian to polar coordinates SAMENESS-A or SAMENESS-B?
+
+<details>
+<summary>Solution</summary>
+
+**SAMENESS-A.** Same point described differently.
+
+</details>
+
+**8.** If you permute labels on identical atoms, do observables change?
+
+<details>
+<summary>Solution</summary>
+
+No; that's re-description/symmetry (representation-level).
+
+</details>
+
+**9.** 0.2 atm = ? kPa (use 1 atm≈101.3 kPa)
+
+<details>
+<summary>Solution</summary>
+
+≈**20.3 kPa**.
+
+</details>
+
+**10.** Explain in one line: why 'units' matter but shouldn't change physics.
+
+<details>
+<summary>Solution</summary>
+
+Units change numbers, not the underlying quantity.
+
+</details>
+
+**11.** A molecule drawn flipped left-right: same or different?
+
+<details>
+<summary>Solution</summary>
+
+Same if the flip is an allowed symmetry operation for the question asked.
+
+</details>
+
+**12.** Convert 3.0×10⁻³ mol to mmol.
+
+<details>
+<summary>Solution</summary>
+
+**3.0 mmol**.
+
+</details>
+
+**13.** If concentration doubles but volume halves, moles?
+
+<details>
+<summary>Solution</summary>
+
+moles = cV; here unchanged.
+
+</details>
+
+**14.** Which is SAMENESS-A: changing basis or taking a derivative?
+
+<details>
+<summary>Solution</summary>
+
+Changing basis. Derivative changes the object (new quantity).
+
+</details>
+
+**15.** State the recognition sentence in your own words.
+
+<details>
+<summary>Solution</summary>
+
+Any equivalent paraphrase that preserves: different description, same predictions.
+
+</details>

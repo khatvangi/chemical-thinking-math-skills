@@ -1,0 +1,81 @@
+{
+  "lesson": 24,
+  "slug": "synthesis-map",
+  "cards": [
+    {
+      "type": "qa",
+      "front": "Course spine",
+      "back": "COLLECTION\u2192ARRANGEMENT\u2192DIRECTION\u2192PROXIMITY\u2192SAMENESS\u2192CHANGE\u2192RATE\u2192ACCUMULATION\u2192SPREAD."
+    },
+    {
+      "type": "qa",
+      "front": "Universal solving rule",
+      "back": "Choose object \u2192 choose \u201csame\u201d \u2192 compute \u2192 verify."
+    },
+    {
+      "type": "qa",
+      "front": "SAMENESS-A vs SAMENESS-B",
+      "back": "Same state different description vs invariant under transformations."
+    },
+    {
+      "type": "qa",
+      "front": "RATE vs CHANGE boundary",
+      "back": "RATE is change w.r.t time; CHANGE is sensitivity to input."
+    },
+    {
+      "type": "qa",
+      "front": "Verification habit",
+      "back": "Relabel/units/basis/bins then check correct behavior."
+    },
+    {
+      "type": "mcq",
+      "front": "Equilibrium energy populations: (A)CHANGE (B)SPREAD (C)DIRECTION",
+      "back": "B"
+    },
+    {
+      "type": "mcq",
+      "front": "Total product from rate: (A)ACCUMULATION (B)SAMENESS (C)PROXIMITY",
+      "back": "A"
+    },
+    {
+      "type": "qa",
+      "front": "Limiting reagent primitive",
+      "back": "COLLECTION."
+    },
+    {
+      "type": "qa",
+      "front": "Projection operation",
+      "back": "Dot product / projection (DIRECTION)."
+    },
+    {
+      "type": "qa",
+      "front": "Histogram minimal check",
+      "back": "Total area/count correct; units labeled."
+    },
+    {
+      "type": "qa",
+      "front": "Anti-pattern",
+      "back": "Confusing representation artifacts with the object."
+    },
+    {
+      "type": "qa",
+      "front": "Why detail can reduce truth",
+      "back": "Overfitting; robustness matters."
+    },
+    {
+      "type": "qa",
+      "front": "Map use",
+      "back": "Question \u2192 primitive \u2192 operation."
+    },
+    {
+      "type": "qa",
+      "front": "Unit discipline",
+      "back": "Units must be explicit; converting units must change numbers predictably."
+    },
+    {
+      "type": "qa",
+      "front": "When models tie",
+      "back": "Prefer predictive performance and simpler assumptions; test on new data."
+    }
+  ]
+}

@@ -1,0 +1,150 @@
+{
+  "deck": "Lecture 08 \u00b7 ARRANGEMENT \u00b7 Transformations",
+  "version": "0.1",
+  "cards": [
+    {
+      "id": "e8ad4e71",
+      "type": "qa",
+      "prompt": "Recognition: When are you in TRANSFORMATIONS?",
+      "answer": "When you apply the same rule to many vectors/points, often encoded as a matrix.",
+      "tags": [
+        "primitive",
+        "arrangement"
+      ]
+    },
+    {
+      "id": "c2ce2d0e",
+      "type": "mcq",
+      "prompt": "Which rule is linear?",
+      "choices": [
+        "(x,y)\u2192(x+1,y)",
+        "(x,y)\u2192(2x,3y)",
+        "(x,y)\u2192(x^2,y)",
+        "(x,y)\u2192(sin x, y)"
+      ],
+      "answer_index": 1,
+      "explain": "Scaling is linear; adding a constant or squaring is not.",
+      "tags": [
+        "linearity"
+      ]
+    },
+    {
+      "id": "c08ee4d7",
+      "type": "qa",
+      "prompt": "Two linearity tests (names only).",
+      "answer": "Additivity and homogeneity.",
+      "tags": [
+        "definition"
+      ]
+    },
+    {
+      "id": "25e733f5",
+      "type": "qa",
+      "prompt": "Column meaning: what is A(1,0) for a 2\u00d72 matrix A?",
+      "answer": "The first column of A.",
+      "tags": [
+        "intuition"
+      ]
+    },
+    {
+      "id": "b54d36f8",
+      "type": "qa",
+      "prompt": "Numeric: A=[[2,0],[0,3]], v=(1,-2). Av=?",
+      "answer": "(2, -6).",
+      "tags": [
+        "numeric"
+      ]
+    },
+    {
+      "id": "cb6ea980",
+      "type": "qa",
+      "prompt": "Build A: if e1\u2192(3,1), e2\u2192(-2,4), then A=?",
+      "answer": "[[3, -2],[1, 4]] (columns are images).",
+      "tags": [
+        "numeric",
+        "construction"
+      ]
+    },
+    {
+      "id": "933af8b9",
+      "type": "qa",
+      "prompt": "One line: what does det(A) measure in 2D?",
+      "answer": "Signed area scaling under the transformation.",
+      "tags": [
+        "determinant"
+      ]
+    },
+    {
+      "id": "2b18f352",
+      "type": "qa",
+      "prompt": "Why does 'basis determines transform' matter operationally?",
+      "answer": "You can test/construct A by seeing what it does to basis vectors.",
+      "tags": [
+        "review"
+      ]
+    },
+    {
+      "id": "7d6be592",
+      "type": "qa",
+      "prompt": "Chem: rotating coordinates of every atom is what kind of operation?",
+      "answer": "Apply a rotation matrix to each coordinate vector.",
+      "tags": [
+        "review"
+      ]
+    },
+    {
+      "id": "7cb8cb9b",
+      "type": "qa",
+      "prompt": "What feature signals 'mixing' between coordinates?",
+      "answer": "Off-diagonal entries in A.",
+      "tags": [
+        "review"
+      ]
+    },
+    {
+      "id": "579e1407",
+      "type": "qa",
+      "prompt": "If A is 2\u00d72 and v is in R^2, what is Av?",
+      "answer": "A vector in R^2.",
+      "tags": [
+        "review"
+      ]
+    },
+    {
+      "id": "d980ddad",
+      "type": "qa",
+      "prompt": "Preview: which matrices preserve lengths?",
+      "answer": "Orthogonal matrices with A\u1d40A=I.",
+      "tags": [
+        "review"
+      ]
+    },
+    {
+      "id": "33c7d12c",
+      "type": "qa",
+      "prompt": "Data file for this lesson?",
+      "answer": "assets/lessons/08-transformations/data/transforms_2d.csv.",
+      "tags": [
+        "review"
+      ]
+    },
+    {
+      "id": "d372fc8e",
+      "type": "qa",
+      "prompt": "What\u2019s the difference between 'rotate object' and 'rotate axes'?",
+      "answer": "Object rotation is a physical transform; axis rotation is a re-description.",
+      "tags": [
+        "review"
+      ]
+    },
+    {
+      "id": "ba35334d",
+      "type": "qa",
+      "prompt": "In calibration, why are matrices natural?",
+      "answer": "Many sensor channels mix linearly; calibration unmixes via linear transforms.",
+      "tags": [
+        "review"
+      ]
+    }
+  ]
+}

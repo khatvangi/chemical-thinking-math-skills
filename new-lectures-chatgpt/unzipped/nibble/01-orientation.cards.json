@@ -1,0 +1,156 @@
+{
+  "deck": "01-orientation-seeing",
+  "version": "1.0",
+  "cards": [
+    {
+      "id": "012f71a6",
+      "type": "qa",
+      "prompt": "What is the course method in three words?",
+      "answer": "Reality \u2192 Recognition \u2192 Tool.",
+      "tags": [
+        "orientation",
+        "method"
+      ]
+    },
+    {
+      "id": "786fc960",
+      "type": "qa",
+      "prompt": "Define COLLECTION in one line.",
+      "answer": "Only amount/membership matter; rearrangements don\u2019t change meaning.",
+      "tags": [
+        "primitive",
+        "collection"
+      ]
+    },
+    {
+      "id": "d0033d6e",
+      "type": "qa",
+      "prompt": "Define ARRANGEMENT in one line.",
+      "answer": "Pattern/adjacency/position matter; rearrangements change meaning.",
+      "tags": [
+        "primitive",
+        "arrangement"
+      ]
+    },
+    {
+      "id": "0abc4475",
+      "type": "qa",
+      "prompt": "Define DIRECTION in one line.",
+      "answer": "Magnitude + orientation; sign is a choice of reference direction.",
+      "tags": [
+        "primitive",
+        "direction"
+      ]
+    },
+    {
+      "id": "2e41e97c",
+      "type": "qa",
+      "prompt": "Define PROXIMITY in one line.",
+      "answer": "Closeness to a target/threshold; approach and limits.",
+      "tags": [
+        "primitive",
+        "proximity"
+      ]
+    },
+    {
+      "id": "54afa57b",
+      "type": "qa",
+      "prompt": "Define SAMENESS in one line.",
+      "answer": "What counts as unchanged under allowed redescriptions/operations.",
+      "tags": [
+        "primitive",
+        "sameness"
+      ]
+    },
+    {
+      "id": "954ab7c9",
+      "type": "qa",
+      "prompt": "Define CHANGE in one line.",
+      "answer": "How a state varies when you turn a knob.",
+      "tags": [
+        "primitive",
+        "change"
+      ]
+    },
+    {
+      "id": "2a119798",
+      "type": "qa",
+      "prompt": "Define RATE in one line.",
+      "answer": "How fast change happens; sensitivity per unit time/input.",
+      "tags": [
+        "primitive",
+        "rate"
+      ]
+    },
+    {
+      "id": "2bd67438",
+      "type": "qa",
+      "prompt": "Define ACCUMULATION in one line.",
+      "answer": "Totals built from small pieces; bookkeeping across steps.",
+      "tags": [
+        "primitive",
+        "accumulation"
+      ]
+    },
+    {
+      "id": "6f622353",
+      "type": "qa",
+      "prompt": "Define SPREAD in one line.",
+      "answer": "Variability/many-particle thinking; distributions replace single numbers.",
+      "tags": [
+        "primitive",
+        "spread"
+      ]
+    },
+    {
+      "id": "dc0367a1",
+      "type": "qa",
+      "prompt": "Gate: you got kg\u00b7m/s for \u2018energy\u2019. What happened?",
+      "answer": "Units gate failed: kg\u00b7m/s is momentum, not energy.",
+      "tags": [
+        "gate",
+        "units"
+      ]
+    },
+    {
+      "id": "1cd1bec7",
+      "type": "qa",
+      "prompt": "Gate: your probability becomes 1.3. What happened?",
+      "answer": "Limit/definition gate failed: probabilities must stay in [0,1].",
+      "tags": [
+        "gate",
+        "spread"
+      ]
+    },
+    {
+      "id": "3f2e5fe9",
+      "type": "qa",
+      "prompt": "Numeric: east is positive. What is 3 m west?",
+      "answer": "\u22123 m.",
+      "tags": [
+        "numeric",
+        "direction"
+      ]
+    },
+    {
+      "id": "4efe43d9",
+      "type": "qa",
+      "prompt": "Numeric: magnitude of vector (3,4)?",
+      "answer": "5.",
+      "tags": [
+        "numeric",
+        "direction"
+      ]
+    },
+    {
+      "id": "788d3969",
+      "type": "qa",
+      "prompt": "Borderline: You reorder rows in a matrix and results change. Which primitive?",
+      "answer": "ARRANGEMENT (order mattered).",
+      "tags": [
+        "borderline",
+        "arrangement"
+      ]
+    }
+  ]
+}

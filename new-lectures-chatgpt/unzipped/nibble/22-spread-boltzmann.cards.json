@@ -1,0 +1,81 @@
+{
+  "lesson": 22,
+  "slug": "spread-boltzmann",
+  "cards": [
+    {
+      "type": "qa",
+      "front": "Boltzmann weight",
+      "back": "w\u221dexp(-E/kT)."
+    },
+    {
+      "type": "qa",
+      "front": "Partition function Z",
+      "back": "Z=\u2211 exp(-E_i/kT)."
+    },
+    {
+      "type": "qa",
+      "front": "Probability p_i",
+      "back": "p_i=exp(-E_i/kT)/Z."
+    },
+    {
+      "type": "numeric",
+      "front": "\u0394E=2kT \u21d2 p2/p1",
+      "back": "0.1353"
+    },
+    {
+      "type": "qa",
+      "front": "T\u2192\u221e limit",
+      "back": "Uniform over finite states."
+    },
+    {
+      "type": "qa",
+      "front": "T\u21920+ limit",
+      "back": "All mass on ground state."
+    },
+    {
+      "type": "qa",
+      "front": "Energy shift invariance",
+      "back": "E\u2192E+C leaves probabilities unchanged."
+    },
+    {
+      "type": "numeric",
+      "front": "E={0,1,2,3} (kT units). p(E=0)",
+      "back": "0.644"
+    },
+    {
+      "type": "qa",
+      "front": "Conformer ratios",
+      "back": "p2/p1=exp(-\u0394E/kT)."
+    },
+    {
+      "type": "qa",
+      "front": "Free energy link",
+      "back": "F=-kT ln Z."
+    },
+    {
+      "type": "mcq",
+      "front": "Same energy \u21d2 ratio (A)0 (B)1 (C)\u221e",
+      "back": "B"
+    },
+    {
+      "type": "qa",
+      "front": "Sanity check",
+      "back": "p_i\u22650 and \u2211p_i=1."
+    },
+    {
+      "type": "qa",
+      "front": "Primitive",
+      "back": "SPREAD."
+    },
+    {
+      "type": "qa",
+      "front": "What flattens distribution?",
+      "back": "Higher T."
+    },
+    {
+      "type": "qa",
+      "front": "Lower E implies\u2026",
+      "back": "Exponentially higher probability at equilibrium."
+    }
+  ]
+}

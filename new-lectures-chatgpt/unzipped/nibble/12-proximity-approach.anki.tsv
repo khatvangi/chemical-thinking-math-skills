@@ -1,0 +1,16 @@
+PROXIMITY recognition sentence?	What matters is behavior near a point/regime, not exact equality.
+lim_{x→0} x·sin(1/x)?	0.
+Value at point vs limit:
+A. must match
+B. can differ	Answer: B
+Limit is about nearby behavior.
+lim_{x→∞} 1/x?	0.
+lim_{x→0} (sin x)/x?	1.
+Ideal solution limit: γ → ?	1.
+Approach implies reach?
+A. Yes
+B. No	Answer: B
+Approach means arbitrarily close.
+0.2 atm in kPa (1 atm≈101.3 kPa)?	≈20.3 kPa.
+If Z(P)=1+0.02P, lim_{P→0} Z?	1.
+Main failure mode in proximity reasoning?	Ignoring scale/validity; treating boundary as regular point.

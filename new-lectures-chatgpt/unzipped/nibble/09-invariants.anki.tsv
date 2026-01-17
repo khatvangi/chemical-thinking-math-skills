@@ -1,0 +1,18 @@
+Front	Back
+Recognition: When are you in SAMENESS-B?	When you declare two situations 'the same' because an invariant stays unchanged under an allowed transformation.
+Complete the sentence: 'Same under ____'.	…a specified set of allowed transformations (e.g., rotations, translations).
+Which invariant is preserved by pure rotations?	Vector components / Dot product / Column order / Index labels
+Answer: Dot product
+Rotations (orthogonal transforms) preserve dot products/norms.
+Orthogonal test in one line.	RᵀR = I.
+Numeric: v=(3,4). After a 90° rotation, |v| = ?	Still 5.
+Theorem: If RᵀR=I, then (Ru)·(Rv) = ?	u·v.
+Chem: why is bond length invariant?	Because it is a physical distance, independent of coordinate frame.
+What breaks invariance of length?	Non-orthogonal transforms like scaling/shear.
+What is an 'allowed transformation' in a physical model?	A change you treat as symmetry (does not alter the state).
+Give one world example of invariance.	Speed invariant under changing compass direction representation.
+In data analysis, what is an invariant of a square matrix often used?	Trace or determinant (depending on context).
+Data file for this lesson?	assets/lessons/09-invariants/data/rotation_invariants.csv.
+If two vectors have dot product 0, what does that mean?	They are orthogonal (90° angle).
+True/False: Any matrix with det=1 is a rotation.	False (shears can have det=1).
+Why does 'state the invariant' prevent hand-waving?	It forces a checkable computation before/after the transformation.

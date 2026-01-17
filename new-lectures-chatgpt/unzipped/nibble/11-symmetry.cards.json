@@ -1,0 +1,82 @@
+{
+  "deck_id": "11",
+  "title": "SAMENESS-B: Symmetry (Preview)",
+  "version": "0.1",
+  "cards": [
+    {
+      "type": "qa",
+      "front": "Symmetry (1 line)?",
+      "back": "A transformation that leaves the object unchanged.",
+      "tags": []
+    },
+    {
+      "type": "qa",
+      "front": "Square: number of 90\u00b0 rotations that map to itself?",
+      "back": "4.",
+      "tags": []
+    },
+    {
+      "type": "mcq",
+      "prompt": "CO2 dipole is zero because:",
+      "choices": [
+        "bonds nonpolar",
+        "bond dipoles cancel by symmetry"
+      ],
+      "answer_index": 1,
+      "explain": "Linear symmetry cancels.",
+      "tags": []
+    },
+    {
+      "type": "qa",
+      "front": "If a quantity flips sign under a symmetry, what can be forced?",
+      "back": "Average/allowed value may be 0 by cancellation.",
+      "tags": []
+    },
+    {
+      "type": "mcq",
+      "prompt": "Chiral object vs mirror:",
+      "choices": [
+        "superimposable",
+        "not superimposable"
+      ],
+      "answer_index": 1,
+      "explain": "Chirality breaks mirror superposition.",
+      "tags": []
+    },
+    {
+      "type": "qa",
+      "front": "Smallest rotation of regular hexagon mapping to itself?",
+      "back": "60\u00b0.",
+      "tags": []
+    },
+    {
+      "type": "qa",
+      "front": "Symmetry helps computation by:",
+      "back": "Compute once; replicate by symmetry.",
+      "tags": []
+    },
+    {
+      "type": "qa",
+      "front": "Water dipole vs CO2 dipole?",
+      "back": "Water nonzero (bent); CO2 zero (linear).",
+      "tags": []
+    },
+    {
+      "type": "mcq",
+      "prompt": "Is symmetry SAMENESS-B?",
+      "choices": [
+        "Yes",
+        "No"
+      ],
+      "answer_index": 0,
+      "explain": "It is invariance under allowed transformations.",
+      "tags": []
+    },
+    {
+      "type": "qa",
+      "front": "Verification habit for symmetry claims?",
+      "back": "Apply the move; check invariants.",
+      "tags": []
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+Expectation	E[X]=∑ x p(x).
+Variance	Var=E[X^2]-μ^2.
+Shift rule	Var(X+c)=Var(X).
+Scale rule	Var(aX)=a^2 Var(X).
+X={1,2,3}, p={0.2,0.5,0.3}. Mean	2.1
+Same. Variance	0.49
+Bias vs precision	Mean offset vs variance size.
+Variance ≥0 because…	Expectation of square.
+Symmetric about 0 ⇒ mean (A)0 (B)1 (C)depends	A
+Mixture mean formula	μ=wμ1+(1-w)μ2.
+Units of variance	(units of X)^2.
+Order invariance	Reordering data doesn’t change moments.
+Mean as balance point	Weighted average where torques cancel.
+Chem: isotope mean mass	Expectation over isotope masses.
+Primitive	SPREAD.

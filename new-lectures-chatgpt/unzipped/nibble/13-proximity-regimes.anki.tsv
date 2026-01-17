@@ -1,0 +1,17 @@
+Regime thinking is about:	Which terms dominate at a given scale.
+Small-x approx: log(1+0.01)≈?	0.01.
+As x→∞, (x^3+2x)/(x^3+1) →
+A. 0
+B. 1
+C. ∞	Answer: B
+x^3 dominates.
+Small-x: (1+x)^5 ≈ ?	1+5x (first order).
+Large-x: 1/(1+x) ≈ ?	1/x.
+Danger of expansions:
+A. always safe
+B. can fail outside window	Answer: B
+Must state validity.
+exp(0.02)≈?	1.02.
+Dominant balance means:	Keep comparable-magnitude terms; drop much smaller.
+ΔG=ΔH−TΔS shows competing terms controlled by:	Temperature regime.
+Arrhenius linearization variable?	ln k vs 1/T.

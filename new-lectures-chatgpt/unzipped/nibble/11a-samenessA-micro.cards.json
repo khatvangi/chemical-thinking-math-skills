@@ -1,0 +1,93 @@
+{
+  "deck_id": "11",
+  "title": "SAMENESS-A Micro: Same State, Different Description",
+  "version": "0.1",
+  "cards": [
+    {
+      "type": "qa",
+      "front": "SAMENESS-A recognition sentence?",
+      "back": "Different description, same predictions/observables.",
+      "tags": []
+    },
+    {
+      "type": "qa",
+      "front": "0.025 M in mM?",
+      "back": "25 mM.",
+      "tags": []
+    },
+    {
+      "type": "qa",
+      "front": "Invariant of a vector under rotation?",
+      "back": "Magnitude (and direction as an abstract object).",
+      "tags": []
+    },
+    {
+      "type": "qa",
+      "front": "Why resonance drawings are not different molecules?",
+      "back": "They are different representations of the same delocalized state.",
+      "tags": []
+    },
+    {
+      "type": "qa",
+      "front": "0.5 L in mL?",
+      "back": "500 mL.",
+      "tags": []
+    },
+    {
+      "type": "mcq",
+      "prompt": "Changing temperature (T) is:",
+      "choices": [
+        "re-description",
+        "state change"
+      ],
+      "answer_index": 1,
+      "explain": "T changes the state; not SAMENESS-A.",
+      "tags": []
+    },
+    {
+      "type": "mcq",
+      "prompt": "Switching from Cartesian to polar is:",
+      "choices": [
+        "SAMENESS-A",
+        "CHANGE"
+      ],
+      "answer_index": 0,
+      "explain": "Same point/state described differently.",
+      "tags": []
+    },
+    {
+      "type": "mcq",
+      "prompt": "Shifting energy zero affects \u0394E?",
+      "choices": [
+        "Yes",
+        "No"
+      ],
+      "answer_index": 1,
+      "explain": "Differences are invariant.",
+      "tags": []
+    },
+    {
+      "type": "qa",
+      "front": "3\u00d710\u207b\u00b3 mol in mmol?",
+      "back": "3 mmol.",
+      "tags": []
+    },
+    {
+      "type": "qa",
+      "front": "c doubles, V halves; moles?",
+      "back": "Unchanged (n=cV).",
+      "tags": []
+    },
+    {
+      "type": "mcq",
+      "prompt": "Units should:",
+      "choices": [
+        "change physics",
+        "change numbers only"
+      ],
+      "answer_index": 1,
+      "explain": "Units are representation.",
+      "tags": []
+    }
+  ]
+}

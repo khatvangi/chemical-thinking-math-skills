@@ -1,0 +1,17 @@
+Derivative means:	Instantaneous sensitivity (limit of secant slopes).
+d/dx x^3?	3x^2.
+Slope at x=2 for x^3?	12.
+If U=x^2, force F=-dU/dx?	-2x.
+Units of d[A]/dt if [A] in M and t in s:
+A. M
+B. M/s
+C. s/M	Answer: B
+M/s.
+d/dx (1/x)?	-1/x^2.
+Negative derivative indicates:	Increasing x decreases y locally.
+Average slope of x^2 from 1 to 2?	3.
+Instantaneous vs small finite:
+A. same
+B. different	Answer: B
+Instantaneous is a limit.
+Derivative of sin x?	cos x.

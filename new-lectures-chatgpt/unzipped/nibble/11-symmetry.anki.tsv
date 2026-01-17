@@ -1,0 +1,19 @@
+Symmetry (1 line)?	A transformation that leaves the object unchanged.
+Square: number of 90° rotations that map to itself?	4.
+CO2 dipole is zero because:
+A. bonds nonpolar
+B. bond dipoles cancel by symmetry	Answer: B
+Linear symmetry cancels.
+If a quantity flips sign under a symmetry, what can be forced?	Average/allowed value may be 0 by cancellation.
+Chiral object vs mirror:
+A. superimposable
+B. not superimposable	Answer: B
+Chirality breaks mirror superposition.
+Smallest rotation of regular hexagon mapping to itself?	60°.
+Symmetry helps computation by:	Compute once; replicate by symmetry.
+Water dipole vs CO2 dipole?	Water nonzero (bent); CO2 zero (linear).
+Is symmetry SAMENESS-B?
+A. Yes
+B. No	Answer: A
+It is invariance under allowed transformations.
+Verification habit for symmetry claims?	Apply the move; check invariants.

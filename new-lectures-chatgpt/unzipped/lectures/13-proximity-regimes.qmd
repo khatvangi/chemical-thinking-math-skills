@@ -1,0 +1,201 @@
+---
+title: "PROXIMITY: Regimes & Limits"
+format:
+  html:
+    toc: true
+execute: false
+---
+
+Primary primitive: **PROXIMITY**
+
+## Scenes
+
+A. Chemistry
+
+![Chem scene](../assets/lessons/13-proximity-regimes/scene_A_chem.png)
+
+*One chemical law splits into different approximations depending on regime (dilute vs concentrated).*
+
+B. Math
+
+![Math scene](../assets/lessons/13-proximity-regimes/scene_B_math.png)
+
+*Same expression behaves differently for small vs large inputs.*
+
+C. World
+
+![World scene](../assets/lessons/13-proximity-regimes/scene_C_world.png)
+
+*Driving in city vs highway: same car, different dominant terms.*
+
+## Diagnosis
+
+Recognition sentence:
+- **If different scales make different terms dominate → therefore PROXIMITY (regimes).**
+
+Fast checks:
+
+- [ ] I can name the small/large parameter that defines the regime.
+- [ ] I can justify dropping/keeping terms by comparing magnitudes.
+- [ ] I can state where the approximation fails.
+
+## The object
+
+Object: asymptotic / regime-based approximations (Taylor, dominant balance).
+
+## The tool
+
+Operations you can do:
+
+- Use series expansions for small parameters.
+- Use leading-order scaling for large parameters.
+- State validity window (inequalities).
+
+## Chemistry anchors
+
+- Ideal gas: good at low density; real-gas terms matter at higher density.
+- Arrhenius: ln k vs 1/T becomes linear in an appropriate regime.
+- Debye–Hückel: works at low ionic strength; breaks at higher I.
+
+## Verification habit
+
+Before you accept a result, run one of these:
+- Change the description (units/coordinates/basis) and confirm the *invariant* claim.
+- Push a parameter toward a boundary (very small / very large) and see if your rule still makes sense.
+
+## Exercises (with solutions)
+
+**1.** Use log(1+x)≈x for small x. Estimate log(1+0.01).
+
+<details>
+<summary>Solution</summary>
+
+≈**0.01**.
+
+</details>
+
+**2.** What is the dominant term of (x^3+2x)/(x^3+1) as x→∞?
+
+<details>
+<summary>Solution</summary>
+
+→**1** (x^3 dominates).
+
+</details>
+
+**3.** For small x, approximate (1+x)^5.
+
+<details>
+<summary>Solution</summary>
+
+≈**1+5x** (first order).
+
+</details>
+
+**4.** If k(T)=A exp(-E/RT), what variable makes it linear?
+
+<details>
+<summary>Solution</summary>
+
+ln k vs **1/T**.
+
+</details>
+
+**5.** State one danger of regime thinking.
+
+<details>
+<summary>Solution</summary>
+
+Using an approximation outside its validity window.
+
+</details>
+
+**6.** As x→0, compare x and x^2. Which dominates?
+
+<details>
+<summary>Solution</summary>
+
+**x** dominates.
+
+</details>
+
+**7.** If y=1/(1+x), give small-x approximation.
+
+<details>
+<summary>Solution</summary>
+
+≈**1-x**.
+
+</details>
+
+**8.** If y=1/(1+x), give large-x approximation.
+
+<details>
+<summary>Solution</summary>
+
+≈**1/x**.
+
+</details>
+
+**9.** Given ionic strength I=0.001 vs 0.5, which is 'dilute'?
+
+<details>
+<summary>Solution</summary>
+
+0.001 is dilute; 0.5 is not.
+
+</details>
+
+**10.** Use exp(x)≈1+x for small x. Estimate exp(0.02).
+
+<details>
+<summary>Solution</summary>
+
+≈**1.02**.
+
+</details>
+
+**11.** What is 'dominant balance'?
+
+<details>
+<summary>Solution</summary>
+
+Keep terms of comparable magnitude; drop much smaller ones.
+
+</details>
+
+**12.** As x→∞, what happens to log x / x ?
+
+<details>
+<summary>Solution</summary>
+
+→**0** (x grows faster).
+
+</details>
+
+**13.** If a function changes sign near a boundary, what should you do?
+
+<details>
+<summary>Solution</summary>
+
+Check regime and verify numerically; avoid blind expansion.
+
+</details>
+
+**14.** Give one chemical example of competing terms.
+
+<details>
+<summary>Solution</summary>
+
+Enthalpy vs entropy term in ΔG=ΔH−TΔS depending on T.
+
+</details>
+
+**15.** State recognition sentence in your words.
+
+<details>
+<summary>Solution</summary>
+
+Equivalent paraphrase acceptable.
+
+</details>

@@ -1,0 +1,146 @@
+---
+title: "Lesson 21 — SPREAD: Probability Basics"
+format:
+  html:
+    toc: true
+    number-sections: true
+execute: false
+---
+
+## Scenes (assets)
+- Chemistry: `assets/lessons/21-spread-probability/scene_A_chem.png`
+- Math: `assets/lessons/21-spread-probability/scene_B_math.png`
+- World: `assets/lessons/21-spread-probability/scene_C_world.png`
+
+## Recognition
+**Repeated trials do not give identical outcomes, even when the setup is fixed.** Therefore: **SPREAD**.
+
+Boundary lines:
+- **COLLECTION** counts one outcome.
+- **SPREAD** models variability across many outcomes.
+
+## What exists here
+- Object: a random variable (a rule mapping outcomes → numbers/labels).
+- “Same” means: same underlying setup/model parameter(s) (e.g., the coin’s p).
+- “Different” means: different realized outcomes across repeats.
+
+## Core tool: the binomial model
+If \(X\sim\mathrm{Binomial}(n,p)\),
+\[
+P(X=k)=\binom{n}{k}p^k(1-p)^{n-k}.
+\]
+
+**Proof sketch (checkable):** choose which \(k\) trials are successes: \(\binom{n}{k}\). Each such sequence has probability \(p^k(1-p)^{n-k}\). Multiply.
+
+## One real computation (dataset)
+Dataset: `assets/lessons/21-spread-probability/data/coin_trials.csv`
+
+Compute:
+- empirical success fraction \(\hat p\)
+- compare a binomial prediction to observed counts
+
+Sanity checks:
+- \(0\le \hat p\le 1\)
+- shuffle trial order: \(\hat p\) unchanged (representation invariance)
+
+## Chemistry anchors
+### Anchor A — Binding occupancy (two-state)
+Bound/unbound fluctuates across repeats → estimate occupancy \(p\); spread \(p(1-p)\).
+
+### Anchor B — Yield variability
+Separate process spread from measurement spread using standards and replication.
+
+### Anchor C — Tiny-volume counting
+Particle counts fluctuate; Poisson is a first approximation for rare-event counts.
+## Exercises (with solutions)
+
+**1.** You flip a biased coin 10 times. What is the sample space? What is the event “exactly 7 heads”?
+
+::: {.callout-note collapse="true"}
+**Solution.** Sample space: all length-10 sequences of H/T. Event: subset with exactly 7 H.
+:::
+
+**2.** If P(H)=0.6, compute P(exactly 2 heads in 3 flips).
+
+::: {.callout-note collapse="true"}
+**Solution.** Binomial: C(3,2)(0.6)^2(0.4) = 0.432.
+:::
+
+**3.** Define independence in one line. Give a falsifiable test using frequencies.
+
+::: {.callout-note collapse="true"}
+**Solution.** Independence: P(A∩B)=P(A)P(B). Test: empirical joint ≈ product of marginals (within error).
+:::
+
+**4.** From `coin_trials.csv`, compute the empirical fraction of successes. Why is it not “the probability”?
+
+::: {.callout-note collapse="true"}
+**Solution.** It’s an estimate p̂ from finite data; probability is a model parameter p.
+:::
+
+**5.** You observe 18 successes in 20 trials. Give a rough uncertainty band for p.
+
+::: {.callout-note collapse="true"}
+**Solution.** SE≈sqrt(p̂(1-p̂)/n)=sqrt(0.09/20)=0.067; rough band ~0.9±0.13.
+:::
+
+**6.** Recognition sentence for this lesson?
+
+::: {.callout-note collapse="true"}
+**Solution.** Repeated trials vary even when setup is fixed → SPREAD.
+:::
+
+**7.** A reaction yield is 78%±4% over repeats. Give two causes and a control to separate them.
+
+::: {.callout-note collapse="true"}
+**Solution.** Process variability vs measurement noise; run standards/calibration to quantify measurement noise.
+:::
+
+**8.** Compute C(10,3). Interpret it.
+
+::: {.callout-note collapse="true"}
+**Solution.** 120; number of ways to choose 3 success positions among 10 trials.
+:::
+
+**9.** Why normalize a PMF so probabilities sum to 1?
+
+::: {.callout-note collapse="true"}
+**Solution.** Total probability mass must be 1; relabeling outcomes cannot change total mass.
+:::
+
+**10.** Extreme-case check: p=0 or p=1 in Binomial(n,p).
+
+::: {.callout-note collapse="true"}
+**Solution.** p=0 → always k=0; p=1 → always k=n.
+:::
+
+**11.** Given independent events P(A)=0.2, P(B)=0.3, compute P(A∪B).
+
+::: {.callout-note collapse="true"}
+**Solution.** 0.2+0.3-0.2·0.3=0.44.
+:::
+
+**12.** Two students bin the same data differently and get different histograms. What must be the same?
+
+::: {.callout-note collapse="true"}
+**Solution.** Total count (and underlying data); binning is representation.
+:::
+
+**13.** Define Bernoulli variable and give mean/variance.
+
+::: {.callout-note collapse="true"}
+**Solution.** X∈{0,1}, P(X=1)=p. Mean=p, Var=p(1-p).
+:::
+
+**14.** Chem anchor: binding site occupancy. Map to Bernoulli.
+
+::: {.callout-note collapse="true"}
+**Solution.** X=1 bound, 0 unbound; p=occupancy; repeats vary.
+:::
+
+**15.** Given p=0.5, n=20, give mean and SD of Binomial.
+
+::: {.callout-note collapse="true"}
+**Solution.** Mean=10; SD=sqrt(5)=2.236.
+:::
+

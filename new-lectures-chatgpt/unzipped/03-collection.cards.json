@@ -1,0 +1,174 @@
+{
+  "deck": "Lecture 03 \u00b7 COLLECTION",
+  "version": "0.1",
+  "cards": [
+    {
+      "id": "8ad70530",
+      "type": "qa",
+      "prompt": "Recognition: When are you in COLLECTION?",
+      "answer": "When only membership and amount matter; rearrangements don\u2019t change meaning.",
+      "tags": [
+        "primitive",
+        "collection"
+      ]
+    },
+    {
+      "id": "3793ea1a",
+      "type": "mcq",
+      "prompt": "Borderline: You shuffle a list of species labels in a table, but the chemistry result changes. Which primitive did you actually invoke?",
+      "choices": [
+        "COLLECTION",
+        "ARRANGEMENT",
+        "DIRECTION",
+        "PROXIMITY"
+      ],
+      "answer_index": 1,
+      "explain": "If shuffling changes meaning, order/adjacency mattered \u2192 ARRANGEMENT.",
+      "tags": [
+        "primitive",
+        "borderline"
+      ]
+    },
+    {
+      "id": "ba2e4a81",
+      "type": "qa",
+      "prompt": "Define mole in one line.",
+      "answer": "A mole is a counting unit for amount of substance (like a dozen), not a material object.",
+      "tags": [
+        "mole",
+        "definition"
+      ]
+    },
+    {
+      "id": "0aac5ec6",
+      "type": "mcq",
+      "prompt": "0.10 mol of CO\u2082 contains how many molecules (closest)?",
+      "choices": [
+        "6.0\u00d710^21",
+        "6.0\u00d710^22",
+        "6.0\u00d710^23",
+        "6.0\u00d710^24"
+      ],
+      "answer_index": 1,
+      "explain": "N = n N_A = 0.10\u00d76.022\u00d710^23 \u2248 6\u00d710^22.",
+      "tags": [
+        "mole",
+        "avogadro"
+      ]
+    },
+    {
+      "id": "56a73cf5",
+      "type": "qa",
+      "prompt": "Counting by weighing: give the formula.",
+      "answer": "n (mol) = mass (g) / molar mass (g\u00b7mol\u207b\u00b9).",
+      "tags": [
+        "unit-conversion"
+      ]
+    },
+    {
+      "id": "f829bb3c",
+      "type": "mcq",
+      "prompt": "18.0 g of water is closest to:",
+      "choices": [
+        "0.10 mol",
+        "0.50 mol",
+        "1.0 mol",
+        "10 mol"
+      ],
+      "answer_index": 2,
+      "explain": "18 g is ~1 mol because M(H\u2082O)\u224818 g\u00b7mol\u207b\u00b9.",
+      "tags": [
+        "unit-conversion"
+      ]
+    },
+    {
+      "id": "d0106351",
+      "type": "qa",
+      "prompt": "Ideal gas as counting machine: write the chain.",
+      "answer": "(P,V,T) \u2192 n via PV=nRT \u2192 N via N=n N_A.",
+      "tags": [
+        "gas",
+        "counting"
+      ]
+    },
+    {
+      "id": "1645ac09",
+      "type": "mcq",
+      "prompt": "At fixed P and V, increasing T does what to n in PV=nRT?",
+      "choices": [
+        "Increases n",
+        "Decreases n",
+        "Leaves n unchanged",
+        "Depends on the gas identity"
+      ],
+      "answer_index": 1,
+      "explain": "n = PV/(RT): T\u2191 \u2192 n\u2193 at fixed P,V.",
+      "tags": [
+        "gas",
+        "intuition"
+      ]
+    },
+    {
+      "id": "01038baf",
+      "type": "qa",
+      "prompt": "Limiting reagent test in one line.",
+      "answer": "Compare n_A/a vs n_B/b; smaller ratio limits.",
+      "tags": [
+        "stoichiometry"
+      ]
+    },
+    {
+      "id": "2975491f",
+      "type": "mcq",
+      "prompt": "For 2H\u2082 + O\u2082 \u2192 2H\u2082O with n(H\u2082)=0.50, n(O\u2082)=0.10, limiting reagent is:",
+      "choices": [
+        "H\u2082",
+        "O\u2082",
+        "Neither (tie)",
+        "Can\u2019t tell without masses"
+      ],
+      "answer_index": 1,
+      "explain": "0.50/2=0.25 vs 0.10/1=0.10 \u2192 O\u2082 limits.",
+      "tags": [
+        "stoichiometry"
+      ]
+    },
+    {
+      "id": "3a22707c",
+      "type": "qa",
+      "prompt": "Why is stoichiometry still COLLECTION?",
+      "answer": "It\u2019s constrained counting: species counts must satisfy reaction ratios; geometry/order are irrelevant.",
+      "tags": [
+        "stoichiometry",
+        "primitive"
+      ]
+    },
+    {
+      "id": "494acd06",
+      "type": "mcq",
+      "prompt": "You have C=0.200 mol\u00b7L\u207b\u00b9 and V=75.0 mL. n is:",
+      "choices": [
+        "0.00150 mol",
+        "0.0150 mol",
+        "0.150 mol",
+        "1.50 mol"
+      ],
+      "answer_index": 1,
+      "explain": "Convert V=0.0750 L; n=CV=0.200\u00d70.0750=0.0150 mol.",
+      "tags": [
+        "solutions",
+        "unit-conversion"
+      ]
+    },
+    {
+      "id": "4fae3239",
+      "type": "qa",
+      "prompt": "One-sentence bridge to the next primitive DIRECTION.",
+      "answer": "Once you can count atoms reliably, the next task is describing where they are and how bonds point\u2014direction (vectors).",
+      "tags": [
+        "bridge",
+        "direction"
+      ]
+    }
+  ]
+}

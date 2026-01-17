@@ -1,0 +1,13 @@
+Recognition: When are you in COLLECTION?	When only membership and amount matter; rearrangements don’t change meaning.
+Borderline: You shuffle a list of species labels in a table, but the chemistry result changes. Which primitive did you actually invoke? 1) COLLECTION / 2) ARRANGEMENT / 3) DIRECTION / 4) PROXIMITY	Answer: ARRANGEMENT — If shuffling changes meaning, order/adjacency mattered → ARRANGEMENT.
+Define mole in one line.	A mole is a counting unit for amount of substance (like a dozen), not a material object.
+0.10 mol of CO₂ contains how many molecules (closest)? 1) 6.0×10^21 / 2) 6.0×10^22 / 3) 6.0×10^23 / 4) 6.0×10^24	Answer: 6.0×10^22 — N = n N_A = 0.10×6.022×10^23 ≈ 6×10^22.
+Counting by weighing: give the formula.	n (mol) = mass (g) / molar mass (g·mol⁻¹).
+18.0 g of water is closest to: 1) 0.10 mol / 2) 0.50 mol / 3) 1.0 mol / 4) 10 mol	Answer: 1.0 mol — 18 g is ~1 mol because M(H₂O)≈18 g·mol⁻¹.
+Ideal gas as counting machine: write the chain.	(P,V,T) → n via PV=nRT → N via N=n N_A.
+At fixed P and V, increasing T does what to n in PV=nRT? 1) Increases n / 2) Decreases n / 3) Leaves n unchanged / 4) Depends on the gas identity	Answer: Decreases n — n = PV/(RT): T↑ → n↓ at fixed P,V.
+Limiting reagent test in one line.	Compare n_A/a vs n_B/b; smaller ratio limits.
+For 2H₂ + O₂ → 2H₂O with n(H₂)=0.50, n(O₂)=0.10, limiting reagent is: 1) H₂ / 2) O₂ / 3) Neither (tie) / 4) Can’t tell without masses	Answer: O₂ — 0.50/2=0.25 vs 0.10/1=0.10 → O₂ limits.
+Why is stoichiometry still COLLECTION?	It’s constrained counting: species counts must satisfy reaction ratios; geometry/order are irrelevant.
+You have C=0.200 mol·L⁻¹ and V=75.0 mL. n is: 1) 0.00150 mol / 2) 0.0150 mol / 3) 0.150 mol / 4) 1.50 mol	Answer: 0.0150 mol — Convert V=0.0750 L; n=CV=0.200×0.0750=0.0150 mol.
+One-sentence bridge to the next primitive DIRECTION.	Once you can count atoms reliably, the next task is describing where they are and how bonds point—direction (vectors).

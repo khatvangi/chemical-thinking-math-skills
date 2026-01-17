@@ -1,0 +1,81 @@
+{
+  "lesson": 23,
+  "slug": "spread-moments",
+  "cards": [
+    {
+      "type": "qa",
+      "front": "Expectation",
+      "back": "E[X]=\u2211 x p(x)."
+    },
+    {
+      "type": "qa",
+      "front": "Variance",
+      "back": "Var=E[X^2]-\u03bc^2."
+    },
+    {
+      "type": "qa",
+      "front": "Shift rule",
+      "back": "Var(X+c)=Var(X)."
+    },
+    {
+      "type": "qa",
+      "front": "Scale rule",
+      "back": "Var(aX)=a^2 Var(X)."
+    },
+    {
+      "type": "numeric",
+      "front": "X={1,2,3}, p={0.2,0.5,0.3}. Mean",
+      "back": "2.1"
+    },
+    {
+      "type": "numeric",
+      "front": "Same. Variance",
+      "back": "0.49"
+    },
+    {
+      "type": "qa",
+      "front": "Bias vs precision",
+      "back": "Mean offset vs variance size."
+    },
+    {
+      "type": "qa",
+      "front": "Variance \u22650 because\u2026",
+      "back": "Expectation of square."
+    },
+    {
+      "type": "mcq",
+      "front": "Symmetric about 0 \u21d2 mean (A)0 (B)1 (C)depends",
+      "back": "A"
+    },
+    {
+      "type": "qa",
+      "front": "Mixture mean formula",
+      "back": "\u03bc=w\u03bc1+(1-w)\u03bc2."
+    },
+    {
+      "type": "qa",
+      "front": "Units of variance",
+      "back": "(units of X)^2."
+    },
+    {
+      "type": "qa",
+      "front": "Order invariance",
+      "back": "Reordering data doesn\u2019t change moments."
+    },
+    {
+      "type": "qa",
+      "front": "Mean as balance point",
+      "back": "Weighted average where torques cancel."
+    },
+    {
+      "type": "qa",
+      "front": "Chem: isotope mean mass",
+      "back": "Expectation over isotope masses."
+    },
+    {
+      "type": "qa",
+      "front": "Primitive",
+      "back": "SPREAD."
+    }
+  ]
+}

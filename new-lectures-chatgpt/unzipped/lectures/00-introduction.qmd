@@ -1,0 +1,54 @@
+---
+title: "Introduction"
+subtitle: "Chemical Thinking: The Grammar of Reality"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    number-sections: false
+---
+
+This course treats mathematics as **grammar** for chemical reality.
+
+We will not start from definitions. We will start from **phenomena** and the **moves** they force you to make.
+
+## The method we will use every time
+
+**Reality → Recognition → Tool**
+
+1. **Reality:** a situation that refuses to be described cleanly with your current “number language.”
+2. **Recognition:** you learn to spot what is *actually happening* (the primitive), and you learn the quick tests that catch wrong reasoning.
+3. **Tool:** we introduce the smallest mathematical object that supports the operations the phenomenon demands.
+
+## The nine primitives (the course spine)
+
+**COLLECTION → ARRANGEMENT → DIRECTION → PROXIMITY → SAMENESS → CHANGE → RATE → ACCUMULATION → SPREAD**
+
+A primitive is not a topic. It is a *type of constraint*.
+
+- **COLLECTION:** amount/membership; rearrangement does not matter.
+- **ARRANGEMENT:** pattern/adjacency; rearrangement changes meaning.
+- **DIRECTION:** magnitude + orientation; sign is a direction choice.
+- **PROXIMITY:** “how close”; limits and thresholds.
+- **SAMENESS:** what counts as unchanged under allowed redescriptions/operations.
+- **CHANGE:** how a state varies with a knob you can turn.
+- **RATE:** how fast change happens; sensitivity and kinetics.
+- **ACCUMULATION:** totals built from small pieces; integration and bookkeeping.
+- **SPREAD:** many‑particle thinking; uncertainty and distributions.
+
+## What you will do (not what you will memorize)
+
+You will repeatedly answer four questions:
+
+1. **What exists here?** (objects you manipulate)
+2. **What are the allowed moves?** (operations you can do)
+3. **What is the invariance test?** (what must not change)
+4. **What would make the answer obviously wrong?** (unit/sign/limit checks)
+
+## How to use the materials
+
+- **Lecture notes (.qmd):** the argument and the checks.
+- **Pluto notebooks (.jl):** sliders that let you vary reality and watch invariants survive or fail.
+- **Nibble cards:** short recognition drills + a few numerics to keep precision sharp between lectures.
+
+If you do the recognition checks, the “math” stops feeling like authority and starts feeling like a dependable machine.

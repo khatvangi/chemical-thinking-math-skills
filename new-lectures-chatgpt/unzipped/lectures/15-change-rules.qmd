@@ -1,0 +1,201 @@
+---
+title: "CHANGE: Rules of Change"
+format:
+  html:
+    toc: true
+execute: false
+---
+
+Primary primitive: **CHANGE**
+
+## Scenes
+
+A. Chemistry
+
+![Chem scene](../assets/lessons/15-change-rules/scene_A_chem.png)
+
+*k(T) depends on T through an exponential; changing T changes k by chain rule.*
+
+B. Math
+
+![Math scene](../assets/lessons/15-change-rules/scene_B_math.png)
+
+*Rules let you differentiate complicated expressions cleanly.*
+
+C. World
+
+![World scene](../assets/lessons/15-change-rules/scene_C_world.png)
+
+*Complex systems: output depends on many inputs (preview partials).*
+
+## Diagnosis
+
+Recognition sentence:
+- **If a quantity depends on x through other quantities, you need rules to propagate change → therefore CHANGE (rules).**
+
+Fast checks:
+
+- [ ] I can spot a product/composition and choose the correct rule.
+- [ ] I can keep track of 'inside' and 'outside' variables.
+- [ ] I can sanity-check by units or limiting behavior.
+
+## The object
+
+Object: derivative rules (sum, product, quotient, chain) and log-derivatives.
+
+## The tool
+
+Operations you can do:
+
+- Chain rule: d/dx f(g(x)) = f'(g(x))·g'(x).
+- Product/quotient rules for coupled factors.
+- Log-derivative for multiplicative laws (common in chemistry).
+
+## Chemistry anchors
+
+- Arrhenius: ln k = ln A − E/(RT) → derivative links sensitivity to 1/T.
+- Beer–Lambert: A=εlc → derivatives show linear sensitivity in c and l.
+- Equilibrium: ΔG=−RT ln K → d(ln K)/dT relates to enthalpy (preview).
+
+## Verification habit
+
+Before you accept a result, run one of these:
+- Change the description (units/coordinates/basis) and confirm the *invariant* claim.
+- Push a parameter toward a boundary (very small / very large) and see if your rule still makes sense.
+
+## Exercises (with solutions)
+
+**1.** Differentiate y=(3x+1)^5.
+
+<details>
+<summary>Solution</summary>
+
+**15(3x+1)^4** (chain rule).
+
+</details>
+
+**2.** Differentiate y=x·e^x.
+
+<details>
+<summary>Solution</summary>
+
+**e^x + x e^x** (product rule).
+
+</details>
+
+**3.** Differentiate y=1/x.
+
+<details>
+<summary>Solution</summary>
+
+**−1/x^2**.
+
+</details>
+
+**4.** Use log-derivative: if y = a b c, what is d(ln y)?
+
+<details>
+<summary>Solution</summary>
+
+d(ln y)=d(ln a)+d(ln b)+d(ln c).
+
+</details>
+
+**5.** If A=εlc, what is ∂A/∂c?
+
+<details>
+<summary>Solution</summary>
+
+**εl**.
+
+</details>
+
+**6.** If k(T)=exp(-1/T), find dk/dT.
+
+<details>
+<summary>Solution</summary>
+
+k·(1/T^2).
+
+</details>
+
+**7.** Differentiate y=ln x.
+
+<details>
+<summary>Solution</summary>
+
+**1/x**.
+
+</details>
+
+**8.** Differentiate y=sin(2x).
+
+<details>
+<summary>Solution</summary>
+
+**2cos(2x)**.
+
+</details>
+
+**9.** Quotient rule for y=x/(1+x). Compute dy/dx.
+
+<details>
+<summary>Solution</summary>
+
+(1+x - x)/ (1+x)^2 = **1/(1+x)^2**.
+
+</details>
+
+**10.** If y=x^n, dy/dx?
+
+<details>
+<summary>Solution</summary>
+
+**n x^{n-1}**.
+
+</details>
+
+**11.** Arrhenius: ln k = ln A − E/(RT). What is d(ln k)/d(1/T)?
+
+<details>
+<summary>Solution</summary>
+
+**−E/R**.
+
+</details>
+
+**12.** Check: derivative of constant?
+
+<details>
+<summary>Solution</summary>
+
+**0**.
+
+</details>
+
+**13.** Differentiate y=exp(3x^2).
+
+<details>
+<summary>Solution</summary>
+
+exp(3x^2)·6x.
+
+</details>
+
+**14.** If y=(x^2+1)/(x), simplify then differentiate quickly.
+
+<details>
+<summary>Solution</summary>
+
+y=x + 1/x; dy/dx=1 − 1/x^2.
+
+</details>
+
+**15.** State recognition sentence in your words.
+
+<details>
+<summary>Solution</summary>
+
+Equivalent paraphrase acceptable.
+
+</details>

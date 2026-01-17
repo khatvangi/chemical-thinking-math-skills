@@ -1,0 +1,20 @@
+Front	Back
+Recognition: When are you in ARRANGEMENT (grids)?	When position (row/column/adjacency) carries meaning, not just the multiset of values.
+If swapping two columns changes the interpretation, which primitive is active?	COLLECTION / ARRANGEMENT / DIRECTION / SAMENESS
+Answer: ARRANGEMENT
+Meaning attached to positions → ARRANGEMENT.
+Define A_{ij} in one line.	Entry in row i, column j of matrix A.
+Dimension rule: If A is m×n and x is length n, then Ax has length ___.	m.
+Numeric: A=[[1,2],[3,4]], x=(10,1). Ax = ?	(12, 34).
+Interpretation: What is Ax in column language?	A weighted sum of A’s columns using weights from x.
+In an absorbance grid, rows are usually…	samples / wavelengths (or time) / molecules / temperatures
+Answer: wavelengths (or time)
+Rows index the scanning axis (wavelength/time).
+What does a heatmap of a matrix show you instantly?	Where high/low regions sit in the grid (structure, not just values).
+Give one reason 'mean of all entries' can be misleading.	It ignores spatial/axis structure; strong gradients can cancel.
+Chem: Beer–Lambert mixture idea in one line.	Mixture spectra approximately add as linear combinations of component spectra.
+What is a 'slice' of a matrix?	A row, a column, or a sub-block extracted for analysis.
+If you permute columns but keep labels consistent, what happens?	You changed the description; the underlying mapping label→column stayed consistent.
+Fast check: what must you state before doing math on a table?	What rows/columns represent + units.
+Data file for this lesson’s real computation?	assets/lessons/07-grids/data/absorbance_grid.csv.
+What is the smallest meaningful block in many lab datasets?	A row/column corresponding to a specific condition or wavelength.

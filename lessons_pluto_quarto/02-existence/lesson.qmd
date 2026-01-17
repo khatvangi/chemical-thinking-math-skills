@@ -1,0 +1,82 @@
+---
+title: "Lesson 02 — Existence (Number Systems)"
+subtitle: "What kinds of numbers are allowed?"
+format:
+  html:
+    toc: true
+    number-sections: false
+---
+
+This lesson fixes the numeric objects that may appear in a chemical description. The question is not stylistic. A state description is a map from a set of physical quantities into a number system. If the codomain is too small, statements you need to make are not even well‑formed. If the codomain is too large, you may lose physical meaning unless you track units and representations explicitly.
+
+The ordering stays strict. A physical statement comes first. Then the primitive that is doing the work. Then the minimal tool that captures it. Here the primitive is **COLLECTION** (how many, how much). The tool is the family of number systems, plus their representations and units. The sources for this lesson are the books indexed in `extraced-books-toc-conectin-to-lecutres.md`, with direct exercises from `STRUCTURE_02_EXISTENCE_MORT_ch1_all.pdf`.
+
+We begin with the ladder of number systems as a sequence of repairs. Each extension exists because the previous system cannot express a required chemical statement. The statement “two molecules of A react with one of B” is properly encoded in \(\mathbb{N}\), and the same statement cannot be written without loss in \(\mathbb{N}\) if you need a deficit. Charges require signed integers. Concentrations require ratios. Dynamics require limits. Phases require complex numbers. This is not pedagogy; it is a minimal expressibility condition.
+
+**Definition (Number system ladder).** We use the inclusions \(\mathbb{N} \subset \mathbb{Z} \subset \mathbb{Q} \subset \mathbb{R} \subset \mathbb{C}\). Each inclusion introduces a new algebraic operation or limit process that is required by a chemical representation.
+
+The lesson is not a course in axioms, but rigor still matters. When you move from \(\mathbb{Q}\) to \(\mathbb{R}\), you are not just “adding more numbers.” You are demanding <span title="Completeness: every Cauchy sequence converges to a limit within the same number system.">completeness</span>: every <span title="A sequence (x_n) where for every ε>0 there exists N such that m,n≥N implies |x_m-x_n|<ε.">Cauchy sequence</span> of rationals must converge. Without completeness, differential equations are ill‑posed as statements about states evolving in time. This is the reason real analysis appears in the foundation texts listed in the course library.
+
+Representation is the second constraint. A number is not a measurement. A measurement is a number together with a unit system, and that unit system is part of the mathematical object. You cannot add quantities of different dimensions, and you cannot compare magnitudes unless they live in the same unit system. The Mortimer exercises are not drills; they are the first enforcement of dimensional well‑formedness.
+
+**Definition (Dimensional type).** A physical quantity has a <span title="An integer exponent vector over base units (e.g., M, L, T) that encodes how a quantity scales under unit changes.">dimension vector</span> \(d \in \mathbb{Z}^k\), where the entries represent powers of base units (e.g., \(M, L, T\)). Two quantities are comparable only if their dimension vectors are equal.
+
+The complex plane is introduced as coordinate geometry, following Barrante’s presentation of coordinate systems. A complex number \(z = x + i y\) is a two‑component state. The magnitude \(|z|\) and phase \(\arg z\) are not ornaments; they are the physically measurable quantities in oscillatory phenomena and spectroscopy. The algebra is secondary to the coordinate interpretation.
+
+Finally, representation error must be treated as part of existence. A rational number has a repeating decimal expansion, but any finite floating representation is a truncation. A real number such as \(\sqrt{2}\) has no finite decimal expansion at all. If you do not track this distinction, you will confuse numerical precision with physical truth. This lesson therefore puts exact rational arithmetic next to floating approximations and forces you to quantify the gap.
+
+**Proposition (Repeating decimals).** A rational number \(p/q\) in lowest terms has a terminating decimal expansion if and only if \(q\) has no prime factors other than \(2\) and \(5\). Otherwise the decimal expansion is repeating, and the period length is the <span title="The smallest k>0 such that 10^k ≡ 1 (mod m), where m is coprime to 10.">multiplicative order</span> of \(10\) modulo the part of \(q\) that is coprime to \(10\).
+
+This proposition explains why \(2/3\), \(4/9\), and \(3/7\) repeat, and it gives an exact way to compute the cycle length without ever writing down the decimals.
+
+**Proof (sketch).** Write \(q = 2^a 5^b m\) with \(\gcd(m,10)=1\). Then \(p/q = p/(2^a 5^b m)\). Multiply numerator and denominator by \(2^b 5^a\) to obtain \(p'/(10^{\max(a,b)} m)\). If \(m=1\), the denominator is a power of \(10\) and the decimal terminates. If \(m>1\), the sequence \(10^k \bmod m\) is periodic because \(\gcd(10,m)=1\); the smallest \(k\) with \(10^k \equiv 1 \pmod m\) is the period length. \(\square\)
+
+## Dimensional analysis as a typing system
+
+Numbers used in chemistry are not untyped. Each quantity has a **dimension vector** \(d \in \mathbb{Z}^k\) over base units (mass \(M\), length \(L\), time \(T\), etc.). A unit system assigns a scale to each base unit, but the dimension vector is invariant under unit changes. This allows you to treat dimensional consistency as a type system: algebraic operations are permitted only when types match.
+
+**Definition (Dimension vector).** A quantity \(Q\) has dimension vector \(d(Q) = (a,b,c,\dots)\) if \(Q\) scales as \(M^a L^b T^c\cdots\). Two quantities are addable only if their dimension vectors are equal. If \(Q_1\) and \(Q_2\) are multiplied, then \(d(Q_1 Q_2) = d(Q_1) + d(Q_2)\).
+
+**Proposition (Dimensional homogeneity).** If a physical equation is correct, every term has the same dimension vector. In particular, in an equation of the form \(Q_1 + Q_2 = Q_3\), we must have \(d(Q_1)=d(Q_2)=d(Q_3)\).
+
+**Proof.** Rescale base units by \(\lambda_M, \lambda_L, \lambda_T\). Each term scales by \(\lambda_M^{a}\lambda_L^{b}\lambda_T^{c}\) according to its dimension vector. If the equation is to remain valid under arbitrary rescalings, the exponents must match term‑by‑term. \(\square\)
+
+**Example.** Energy has dimension \(ML^2T^{-2}\). Dividing by time yields \(ML^2T^{-3}\), the dimension of power. No other dimension can appear in a rate of energy transfer without introducing a new physical constant.
+
+The companion Pluto notebook enforces all of the above: exact rationals alongside floating approximations, precision control for irrationals, explicit SI conversions, and complex numbers as coordinates.
+
+## Glossary (fallback for mobile)
+
+**Cauchy sequence:** A sequence \((x_n)\) such that for every \(\varepsilon>0\) there exists \(N\) with \(m,n\ge N\) implying \(|x_m-x_n|<\varepsilon\).
+
+**Completeness:** Every Cauchy sequence converges to a limit within the same number system.
+
+**Multiplicative order:** For \(m\) coprime to 10, the smallest \(k>0\) such that \(10^k \equiv 1 \pmod m\).
+
+**Dimension vector:** Integer exponent vector over base units (e.g., \(M, L, T\)) encoding how a quantity scales.
+
+**Dimensional homogeneity:** Every term in a physical equation has the same dimension vector.
+
+### Exercises
+
+The following exercises are taken or adapted directly from `STRUCTURE_02_EXISTENCE_MORT_ch1_all.pdf`, and they form the minimum competency for the course.
+
+**Exercise 1 — Repeating decimals (Mortimer 1.1)**
+
+Represent \(2/3\), \(4/9\), and \(3/7\) as decimals. Identify the repeating cycle, and state explicitly the difference between the exact rational and its floating approximation.
+
+**Exercise 2 — SI conversions (Mortimer 1.2)**
+
+Convert \(13.6\,\mathrm{eV}\), \(24.17\,\mathrm{mi}\), \(55\,\mathrm{mi\,h^{-1}}\), and \(7.53\,\mathrm{nm\,ps^{-1}}\) to SI base units. Your final answers must include units.
+
+**Exercise 3 — Dimensional consistency**
+
+Let \(E\) be energy and \(t\) time. Determine the dimension vector of \(E/t\). Give one chemical context where this quantity is meaningful.
+
+**Exercise 4 — Complex amplitude**
+
+Write a two‑component oscillation as \(z = x + i y\). Interpret \(|z|\) and \(\arg z\) as magnitude and phase, and describe one chemical context where that phase is measurable.
+
+**Exercise 5 — Precision**
+
+Compute \(\sqrt{2}\) at three different precisions. Compare the representations and quantify the error relative to a high‑precision reference.

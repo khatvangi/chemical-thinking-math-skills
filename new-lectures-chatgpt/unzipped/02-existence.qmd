@@ -1,0 +1,261 @@
+---
+title: "02 | Existence: What Kinds of Numbers?"
+subtitle: "Representation must support the operations reality demands."
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+---
+
+Primary PRIMITIVE: EXISTENCE (setup)
+Neighbors to contrast: SAMENESS-A (same state, different description), PROXIMITY (limits/approach), CHANGE (rules of variation)
+
+One-line thesis:
+- You can only model a chemical phenomenon with a number system that is **closed under the operations** the phenomenon forces you to perform.
+
+## 0) Scenes (no explanation)
+
+A. Chemistry: **NMR FID** as an oscillation with amplitude and phase (signal is naturally complex).  
+B. Physics/Chemistry: **quantum phase** in a wavefunction (you cannot delete *i* without changing interference).  
+C. Everyday: **debt / deficits** (you cannot describe “below zero” with ℕ).
+
+1-minute prompt:
+- What breaks if you restrict yourself to “only positive counting numbers”?
+- What operation do you *need* to do here?
+- What does the phenomenon force you to represent?
+
+Assets (suggested):
+- `assets/lessons/02-existence/scene_A_fid.png`
+- `assets/lessons/02-existence/scene_B_phase.png`
+- `assets/lessons/02-existence/scene_C_debt.png`
+
+---
+
+## 1) Diagnosis (when you’re in “Existence of a number system”)
+
+Recognition sentence:
+- **“My current numbers cannot represent the state, or cannot survive the operation I must perform.”** → therefore you must **extend** the number system.
+
+Fast checks:
+- [ ] Subtraction produces something “not allowed” (e.g., 3 − 7).
+- [ ] Division produces something “not allowed” (e.g., 1 ÷ 2).
+- [ ] A limit/measurement produces something “not allowed” (e.g., √2 as a length).
+- [ ] A model equation has no solution in the current system (e.g., x² + 1 = 0 in ℝ).
+
+Boundary lines (don’t mix):
+- **SAMENESS-A**: same object, different description (1/2 = 0.5 = 50%).
+- **EXISTENCE**: the *set of allowed states* is wrong until you enlarge it.
+
+---
+
+## 2) What exists here (object + equivalence)
+
+Specification:
+- Objects: number systems as **sets with operations** (+, −, ×, ÷ when defined).
+- Allowed descriptions: symbols, decimals, fractions, coordinates on a line/plane.
+- “Same” means: equal value (two representations denote the same element).
+- “Different” means: cannot be made equal without changing the system/axioms.
+
+Sanity rule:
+- If two forms denote the same number, every valid operation must give the same result (representation must not change the chemistry).
+
+---
+
+## 3) What you compute (quantities + units)
+
+Primary quantities:
+- **State variable**: can this phenomenon be represented as a scalar? (count, charge, energy, phase)
+- **Closure test**: does the system remain closed under required operations?
+
+Units:
+- Many chemical quantities carry units; the number system concerns the **numerical** part.
+- Dimensionless quantities (activities, probabilities, phase angles) often expose the needed structure fastest.
+
+---
+
+## 4) What you do (operation)
+
+Operation:
+- Start with a number system \(S\).
+- Identify a required operation \(⊙\) such that \(S\) is **not closed** under \(⊙\).
+- Extend to a minimal \(S' \supset S\) that is closed under the needed operations.
+
+Interpretation:
+- The extension is not “mathematical luxury.” It is a **representation requirement** imposed by the phenomenon.
+
+---
+
+## 5) Tool ladder (L0 → L3)
+
+**L0 (concrete):** You try to compute something physically meaningful and the answer “doesn’t exist” in your current numbers.  
+**L1 (formal):** Define closure: \(S\) is closed under \(⊙\) if \(a,b\in S \Rightarrow a⊙b \in S\).  
+**L2 (structure):** Build the minimal extension that restores closure and solves the model equations.  
+**L3 (chemistry-grade):** Use the correct number system to represent phase, oscillations, spectra, equilibrium constraints, and linear algebra states later.
+
+---
+
+## 6) The chain of extensions (the course spine)
+
+We use this ladder repeatedly:
+
+| System | What it represents cleanly | What forced it into existence |
+|---|---|---|
+| \( \mathbb{N} \) | counting | COLLECTION only; no deficits |
+| \( \mathbb{Z} \) | signed counts | subtraction must always work |
+| \( \mathbb{Q} \) | ratios | division must always work (except by 0) |
+| \( \mathbb{R} \) | measured continua | lengths/energies/limits are not always rational |
+| \( \mathbb{C} \) | phase + oscillation + eigen-structure | equations like \(x^2+1=0\); Fourier/quantum phase |
+
+---
+
+## 7) One theorem that matters (short proof sketch)
+
+**Theorem (Irrationality of \( \sqrt{2} \)):** There is no rational number \(p/q\) (in lowest terms) such that \((p/q)^2 = 2\).
+
+Proof sketch (checkable):
+1. Assume \(\sqrt{2} = p/q\) with integers \(p,q\) and \(\gcd(p,q)=1\).
+2. Then \(2 = p^2/q^2 \Rightarrow p^2 = 2q^2\).
+3. So \(p^2\) is even → \(p\) is even → \(p=2k\).
+4. Substitute: \(4k^2 = 2q^2 \Rightarrow q^2 = 2k^2\).
+5. Thus \(q\) is even.
+6. Both \(p\) and \(q\) even contradict \(\gcd(p,q)=1\).
+7. Therefore \(\sqrt{2}\notin \mathbb{Q}\).
+
+What it buys you:
+- Even simple geometry forces you out of \(\mathbb{Q}\) into \(\mathbb{R}\).
+
+---
+
+## 8) One real computation (data, not invented)
+
+### Example: complex sinusoid as a measurement model (FID / AC response)
+
+Measured signal (one channel):
+\[
+s(t) = A\cos(\omega t + \varphi)
+\]
+
+Complex representation:
+\[
+s(t) = \Re\left( A e^{i(\omega t + \varphi)} \right)
+\]
+
+What students compute:
+- Given \(A,\omega,\varphi\), generate \(s(t)\) and the rotating phasor \(A e^{i(\omega t+\varphi)}\).
+
+Interpretation:
+- The real signal is a **shadow** of a rotating complex quantity.
+- Phase \(\varphi\) is not optional; it changes interference, peak shapes, and fitted parameters.
+
+Sanity checks:
+- If \(\varphi\) changes, \(s(t)\) shifts in time (same amplitude, different alignment).
+- If \(A=0\), signal is identically zero regardless of phase.
+
+(If you have an actual FID vector file later, replace this section with a short CSV-driven example.)
+
+---
+
+## 9) Invariance test (anti-float requirement)
+
+Claim:
+- The *measurable* real signal is invariant under changing representation from cosine form to complex-exponential form.
+
+Test:
+- Compute \(s(t)\) two ways:
+  1) \(A\cos(\omega t+\varphi)\)
+  2) \(\Re(Ae^{i(\omega t+\varphi)})\)
+- Verify equality over a grid of \(t\) values (numerically in Pluto).
+
+If it fails:
+- Your complex arithmetic or “take real part” step is wrong; the physics didn’t change.
+
+---
+
+## 10) Chemistry anchors (≥3)
+
+### Anchor A — NMR / spectroscopy phase
+- You see: an oscillatory signal with phase shifts across experiments.
+- You diagnose: EXISTENCE because ℝ-only numbers cannot represent phase naturally.
+- You compute: phasor \(Ae^{i(\omega t+\varphi)}\), then take real part.
+- You conclude: phase must be represented explicitly to model signals and fit parameters.
+
+### Anchor B — quantum mechanics (phase is physical in interference)
+- You see: interference depends on relative phase.
+- You diagnose: EXISTENCE because removing \(i\) destroys the structure of the model.
+- You compute: complex amplitudes and their superposition.
+- You conclude: complex numbers are required by the theory’s predictions, not by taste.
+
+### Anchor C — equilibrium / log scales (preview only)
+- You see: quantities like \(\log K\), \(\Delta G = -RT\ln K\).
+- You diagnose: EXISTENCE because chemistry often moves between multiplicative and additive worlds.
+- You compute: \(K\) vs \(\ln K\) transformations.
+- You conclude: representation choice changes tractability, not the underlying chemistry (links to SAMENESS-A later).
+
+---
+
+## 11) Notebook spec (Pluto) — required
+
+Visual 1 (phasor + real signal):
+- `@bind A` range `0:0.1:5` units (arb.)
+- `@bind ϕ` range `-π:0.01:π` units (rad)
+- Fixed (or slider): `ω` range `0.5:0.1:10` units (rad/s)
+- Output:
+  - plot of \(s(t)\) over \(t\in[0,T]\)
+  - complex-plane point tracing \(Ae^{i(\omega t+\varphi)}\)
+- Must notice:
+  - changing \(ϕ\) shifts alignment; changing \(A\) scales magnitude
+
+Visual 2 (closure ladder quick test):
+- `@bind system` dropdown: `ℕ, ℤ, ℚ, ℝ, ℂ`
+- `@bind operation` dropdown: `subtract, divide, sqrt, solve x²+1=0`
+- Output: “allowed / not allowed” + minimal counterexample (e.g., 3−7, 1/2, √2)
+
+---
+
+## 12) Misconceptions (falsifiable tests)
+
+- If you think “complex numbers are imaginary so they aren’t physical,” test whether your spectroscopy model still fits when you delete phase.
+- If you think “ℚ is enough for measurements,” test whether any rational squared equals 2 (use the theorem).
+- If you think “extensions are arbitrary,” test closure: try to do required operations inside the smaller system.
+
+---
+
+## 13) Exercises (15; first two are diagnosis-only)
+
+1) **Diagnosis:** Which number system is required to represent a deficit of 3 electrons relative to neutrality? Why?  
+2) **Diagnosis:** A model requires solving \(x^2+1=0\). Where does the solution live?  
+3) Show explicitly: \( \mathbb{N} \) is not closed under subtraction (give a counterexample).  
+4) Show explicitly: \( \mathbb{Z} \) is not closed under division (give a counterexample).  
+5) Convert: \(0.125\) to a fraction in lowest terms. What system is it in?  
+6) Prove (sketch): if \(p^2\) is even, then \(p\) is even.  
+7) Use the theorem structure to prove \(\sqrt{3}\notin\mathbb{Q}\) (outline is enough).  
+8) Explain: why does “measurement with arbitrary precision” push you toward \(\mathbb{R}\) rather than \(\mathbb{Q}\)?  
+9) Compute: for \(A=2\), \(\omega=3\), \(\varphi=\pi/4\), write \(s(t)=A\cos(\omega t+\varphi)\) and its complex form.  
+10) Verify numerically (small table): \(A\cos(\omega t+\varphi) = \Re(Ae^{i(\omega t+\varphi)})\) for 3 values of \(t\).  
+11) Solve in \(\mathbb{R}\): \(x^2-2=0\). Explain why this is a “number system” issue.  
+12) Solve in \(\mathbb{C}\): \(x^2+1=0\). Write both solutions.  
+13) If \(z = 3-4i\), compute \(|z|\). Interpret geometrically.  
+14) Give one chemical context where “phase” matters and cannot be ignored.  
+15) Short essay (6–8 lines): “A number system is a set of allowed states plus allowed operations.” Give one chemistry example where the wrong set breaks the model.
+
+### Solutions (brief)
+
+1) \( \mathbb{Z} \): deficits require negatives.  
+2) \( \mathbb{C} \): \(x=\pm i\).  
+3) Example: \(3-7=-4\notin \mathbb{N}\).  
+4) Example: \(1/2\notin \mathbb{Z}\).  
+5) \(0.125=125/1000=1/8\in\mathbb{Q}\).  
+6) If \(p\) odd, \(p=2k+1\Rightarrow p^2=4k(k+1)+1\) odd; contrapositive gives result.  
+7) Same structure as \(\sqrt2\): assume \(p^2=3q^2\), show \(p,q\) divisible by 3 → contradiction.  
+8) Because not all limits/lengths are rational; rationals are dense but incomplete (preview for PROXIMITY).  
+9) \(s(t)=2\cos(3t+\pi/4)\); complex: \(\Re(2e^{i(3t+\pi/4)})\).  
+10) Direct substitution; equality holds by Euler formula.  
+11) \(x=\pm\sqrt2\), not rational in general → needs \(\mathbb{R}\).  
+12) \(x=\pm i\).  
+13) \(|z|=\sqrt{3^2+(-4)^2}=5\).  
+14) NMR phasing / interferometry / QM superposition; phase affects observable interference.  
+15) Must mention closure + example (e.g., equilibrium uses logs; oscillations use complex phasors).
+
+---
+

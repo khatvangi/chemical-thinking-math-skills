@@ -1,0 +1,205 @@
+---
+title: "03 · COLLECTION — Counting Things"
+subtitle: "Reality as a bag: membership and amount"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+execute:
+  echo: false
+---
+
+## 0. You see this
+
+> No explanation. Just show.
+
+**Chem:** Two sealed flasks running the *same* reaction at different scale: **0.10 mol** vs **1.00 mol**.  
+**Math:** A multiset shown as dots: `{1,1,2,3,3,3}` (no order).  
+**World:** A jar of identical screws: “How many are there?”
+
+**1-minute prompt:** What changes? What stays fixed? What is the “handle” you can grab?
+
+---
+
+## 1. Recognition
+
+### The recognition sentence
+If you can honestly say: **“Only what is present (and how much) matters; arrangement doesn’t.”**, you are in **COLLECTION**.
+
+### Fast recognition checks (clicker-ready)
+- [ ] If I shuffle positions, nothing meaningful changes.
+- [ ] The question is “how many / how much / which members?”
+- [ ] I can replace the scene with a *bag* without losing meaning.
+
+### Borderlines (don’t mix these up)
+- **ARRANGEMENT** is about *order/adjacency/structure* (“in what arrangement?”).
+- **COLLECTION** is about *membership and amount* (“what’s in the bag, and how much?”).
+
+---
+
+## 2. The object
+
+One line:
+- **Object:** a collection (set / multiset / “bag”) of items, possibly with labels.
+- **Same:** same members with same multiplicities (counts), regardless of where they are.
+- **Different:** adding/removing items; changing multiplicity; changing *which* items are present.
+
+---
+
+## 3. The measure
+
+- **Primary quantity:** cardinality / amount (count, moles, concentration × volume, etc.).
+- **Secondary quantities:** composition (counts by type), fractions, ratios.
+- **Units:** dimensionless (count), mol, mol·L⁻¹, g (when counting-by-weighing).
+
+---
+
+## 4. The operation
+
+- **Operation:** *count*, *aggregate*, *convert* (units), *sum by type* → a number or a composition vector.
+- **Interpretation:** COLLECTION is **“how much stuff, of which kinds, ignoring order.”**
+
+---
+
+## 5. Tool ladder (0 → 3)
+
+**L0 (concrete):** tally marks, dot pictures, “bag of marbles”, counting 1–10.  
+**L1 (formal):** sets, multisets, cardinality; composition vectors like `(n_H, n_O, n_N, …)`.  
+**L2 (power):** unit conversion graphs; “count by proxy” (mass, volume, pressure).  
+**L3 (chemistry-grade):** mole, stoichiometric accounting, limiting reagent, concentrations.
+
+---
+
+## 6. Invariance test (anti-float requirement)
+
+**Claim:** *Count is invariant under rearrangement.*
+
+Test:
+- **Change of description:** shuffle the same items in space (or reorder a list representation).
+- **Quantity claimed invariant:** total count, and counts-by-type.
+- **Demonstration:** If the bag contains `3 H` and `1 O`, any rearrangement still contains `3 H` and `1 O`.
+
+If it changes:
+- You were not in COLLECTION; you smuggled in **ARRANGEMENT** (order/adjacency mattered).
+
+---
+
+## 7. Tool emergence: counting when direct counting is impossible
+
+### 7.1 The chemistry scale problem
+A “small” droplet contains on the order of **10²¹** molecules. Direct counting is dead on arrival.
+
+So chemistry does this:
+
+1) **Choose a proxy you can measure** (mass, volume, pressure).  
+2) **Convert proxy → moles** (via molar mass, density, or an equation of state).  
+3) **Convert moles → molecules** (Avogadro’s number).  
+4) **Use stoichiometry** to map counts between species.
+
+This is still COLLECTION. It’s just counting through a reliable handle.
+
+### 7.2 The mole is a counting unit, not “a thing”
+- “12 eggs” is a *counting unit*.
+- “1 mole” is a *counting unit*.
+- The object of COLLECTION stays the same: **how many.**
+
+---
+
+## 8. Chemistry anchors (≥3)
+
+### Anchor A — Counting by weighing (moles from grams)
+**You see:** a bottle label says *NaCl*, scale reads *5.85 g*.  
+**You recognize:** COLLECTION because you need “how many formula units (in moles)”.  
+**You summon:** `n = m/M`.  
+**You conclude:** `n = 5.85 g / 58.44 g·mol⁻¹ = 0.100 mol` (a portable count).
+
+### Anchor B — Ideal gas as a counting machine
+**You see:** a gas in a syringe: `P, V, T` are measurable.  
+**You recognize:** COLLECTION because you need number of molecules, not their geometry.  
+**You summon:** `PV = nRT`, then `N = n N_A`.  
+**You conclude:** changing `T` at fixed `P, V` changes `n` (how much gas is *in the bag*).
+
+### Anchor C — Limiting reagent (stoichiometry is bookkeeping)
+**You see:** `a A + b B → products`, with starting amounts `n_A, n_B`.  
+**You recognize:** COLLECTION because the only question is “how many reactant units are available?”  
+**You summon:** ratio check: `n_A/a` vs `n_B/b`.  
+**You conclude:** the smaller ratio limits product formed; leftovers exist even if both were “present.”
+
+---
+
+## 9. Misconceptions (falsifiable tests)
+
+- If you think **“counting always means counting by ones,”** test **counting by weighing**: compute moles from grams and compare to direct counting (impossible).
+- If you think **“mole is mass,”** test **same moles, different masses**: 0.10 mol H₂O vs 0.10 mol CO₂.
+- If you think **“stoichiometry is algebra tricks,”** test **limiting reagent**: change only one initial amount and see product cap sharply.
+
+---
+
+## 10. Notebook
+
+Open: `notebooks/Lecture_03_Collection.jl`
+
+What you will do:
+1) Treat an ideal gas setup as a **counting device** (`P,V,T → n → N`).  
+2) Do **limiting reagent bookkeeping** with sliders.  
+3) Shuffle a dot cloud and verify **count invariance**.
+
+---
+
+## 11. Exercises (15) + solutions
+
+**1) Recognition:** Is “shuffle the same beads on a string” COLLECTION or ARRANGEMENT? One sentence why.  
+**Solution:** ARRANGEMENT if adjacency/order on the string matters; COLLECTION only if you ignore positions and ask “which beads, how many.”
+
+**2) Recognition:** “How many chloride ions are in 0.10 mol NaCl?” Which primitive?  
+**Solution:** COLLECTION. It’s pure counting (amount).
+
+**3) Compute (units):** Convert 18.0 g H₂O to moles.  
+**Solution:** `n = 18.0 / 18.015 ≈ 0.999 mol`.
+
+**4) Compute (units):** How many molecules are in 2.50 mol H₂O?  
+**Solution:** `N = 2.50 N_A ≈ 2.50 × 6.022×10^23 = 1.51×10^24`.
+
+**5) Compute (chem):** 5.00 g NaCl. How many *formula units*?  
+**Solution:** `n = 5.00/58.44 = 0.0856 mol`; `N = 0.0856 N_A ≈ 5.16×10^22`.
+
+**6) Model (choose operation):** You have a solution with `C = 0.200 mol·L⁻¹` and `V = 75.0 mL`. Find moles of solute.  
+**Solution:** Convert `V=0.0750 L`; `n = CV = 0.200×0.0750 = 0.0150 mol`.
+
+**7) Compute (gas):** A gas has `P=1.00 atm`, `V=2.00 L`, `T=298 K`. Find `n`.  
+**Solution:** `n = PV/(RT) = (1.00×2.00)/(0.082057×298) ≈ 0.0818 mol`.
+
+**8) Compute (gas → molecules):** Using #7, find number of molecules.  
+**Solution:** `N = 0.0818 N_A ≈ 4.93×10^22`.
+
+**9) Model (limiting reagent):** For `2 H₂ + O₂ → 2 H₂O`, start with `n(H₂)=0.50 mol`, `n(O₂)=0.10 mol`. Identify limiting reagent and moles of water formed.  
+**Solution:** ratios: `0.50/2 = 0.25`, `0.10/1=0.10` → O₂ limits; extent = 0.10; water = `2×0.10=0.20 mol`.
+
+**10) Compute (leftover):** In #9, how much H₂ remains?  
+**Solution:** used `2×0.10 = 0.20 mol`; leftover `0.50-0.20=0.30 mol`.
+
+**11) Explain (invariance):** Why does “count-by-type” stay invariant under rearrangement?  
+**Solution:** rearrangement is a bijection on positions; membership and multiplicity don’t change.
+
+**12) Compute (percent composition):** A bag has 3 red and 7 blue beads. What fraction are red?  
+**Solution:** `3/10 = 0.30`.
+
+**13) Compute (mixture to moles):** 10.0 g of a 25.0% (w/w) NaCl solution. Moles of NaCl?  
+**Solution:** NaCl mass = 2.50 g; `n = 2.50/58.44 = 0.0428 mol`.
+
+**14) Model (proxy choice):** For counting gas in a sealed tank, which proxy is most direct: mass, volume, or `P,V,T`? Why?  
+**Solution:** `P,V,T` via equation of state gives `n` directly; mass requires composition; volume alone is insufficient.
+
+**15) Explain (bridge):** Give one sentence connecting this lecture to DIRECTION.  
+**Solution:** Once you can *count* atoms/molecules reliably, the next step is to describe *where they are and how bonds point*—that requires direction (vectors).
+
+---
+
+## 12. Minimal glossary
+
+- **Collection / multiset:** items where multiplicity matters but order doesn’t.
+- **Cardinality:** number of items in a collection.
+- **Mole (mol):** a counting unit for amount of substance.
+- **Avogadro’s number (N_A):** molecules per mole.
+- **Limiting reagent:** reactant that runs out first under stoichiometric constraints.
+- **Concentration (C):** moles per liter (mol·L⁻¹).

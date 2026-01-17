@@ -1,0 +1,15 @@
+What is the course method in three words?	Reality → Recognition → Tool.
+Define COLLECTION in one line.	Only amount/membership matter; rearrangements don’t change meaning.
+Define ARRANGEMENT in one line.	Pattern/adjacency/position matter; rearrangements change meaning.
+Define DIRECTION in one line.	Magnitude + orientation; sign is a choice of reference direction.
+Define PROXIMITY in one line.	Closeness to a target/threshold; approach and limits.
+Define SAMENESS in one line.	What counts as unchanged under allowed redescriptions/operations.
+Define CHANGE in one line.	How a state varies when you turn a knob.
+Define RATE in one line.	How fast change happens; sensitivity per unit time/input.
+Define ACCUMULATION in one line.	Totals built from small pieces; bookkeeping across steps.
+Define SPREAD in one line.	Variability/many-particle thinking; distributions replace single numbers.
+Gate: you got kg·m/s for ‘energy’. What happened?	Units gate failed: kg·m/s is momentum, not energy.
+Gate: your probability becomes 1.3. What happened?	Limit/definition gate failed: probabilities must stay in [0,1].
+Numeric: east is positive. What is 3 m west?	−3 m.
+Numeric: magnitude of vector (3,4)?	5.
+Borderline: You reorder rows in a matrix and results change. Which primitive?	ARRANGEMENT (order mattered).

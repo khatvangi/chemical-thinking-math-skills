@@ -1,0 +1,15 @@
+SPREAD recognition sentence	Repeated trials vary even when the setup is fixed → SPREAD.
+Sample space vs event	Sample space = all outcomes; event = subset with a condition.
+Independence	P(A∩B)=P(A)P(B).
+P(exactly 2 heads in 3 flips), p=0.6	0.432
+Binomial PMF	P(X=k)=C(n,k)p^k(1-p)^{n-k}
+Normalization	Probabilities must sum to 1.
+Extreme cases (p=0,1)	Collapse to k=0 or k=n.
+Mean & SD of Binomial(20,0.5)	10; 2.236
+Bernoulli mean/var	p; p(1-p).
+Chem mapping: occupancy	Bound/unbound ↔ Bernoulli; p=occupancy.
+Histogram invariance	Total count/mass invariant; binning is representation.
+Quick SE for p-hat	SE≈sqrt(p̂(1-p̂)/n).
+Shuffle trials changes p̂? A yes B no	B
+Poisson use-case	Rare events; counts per interval/volume.
+Model vs estimate	p is model; p̂ is estimate from data.
