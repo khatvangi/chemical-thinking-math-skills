@@ -73,3 +73,10 @@ node_modules/
 03-linear-algebra/strang-18.06/
 07-visualization/PlutoUI.jl/
 *.db
+
+# Large reference materials (not for deployment)
+02-pedagogical-models/
+01-cognitive-foundations/embodied-cognition/*.pdf
+03-linear-algebra/strang-18.06/.git/
+04-math-for-chemistry/*.pdf
+*.pdf
