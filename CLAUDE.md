@@ -4,11 +4,13 @@
 
 A mathematics course for chemistry undergraduates inverting traditional pedagogy: **Reality → Recognition → Tool** (not Tool → Application).
 
-**Live Site:** https://course.thebeakers.com (pending DNS fix)
+**Live Site:** https://chem291.thebeakers.com
 **API:** https://api.thebeakers.com (Cloudflare Tunnel)
-**Main Domain:** thebeakers.com (reserved for future science blog, Aeon-style)
+**Main Domain:** thebeakers.com (science blog)
+**Sister Course:** https://chem361.thebeakers.com (Inorganic Chemistry)
 
-**⚠️ DNS Action Required:** Update nameservers at Hostinger from `jay/aisha.ns.cloudflare.com` to `ignat.ns.cloudflare.com` and `sonia.ns.cloudflare.com`
+**Deployment:** Cloudflare Pages (auto-deploy from GitHub)
+- Set **Build output directory** to `site` in Cloudflare Pages settings
 
 **Model:** MIT 18.S191 "Computational Thinking"
 **Tech Stack:** Quarto + JavaScript (site), FastAPI + Ollama (backend), SQLite (student data)
@@ -218,10 +220,9 @@ chem-math-course/
 │       ├── database.py          # SQLite student tracking
 │       └── requirements.txt
 │
-├── site/                        # Quarto website
+├── site/                        # Course website
 │   ├── _quarto.yml              # Site configuration
-│   ├── index.qmd                # Homepage (Quarto)
-│   ├── landing.html             # Beautiful standalone landing page
+│   ├── index.html               # Single-card landing page (teal theme)
 │   ├── protein-raga.html        # Protein music visualization (with UniProt fetch)
 │   ├── CNAME                    # Custom domain config
 │   │
