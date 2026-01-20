@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Syllabus | CHEM 291</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a24;
+            --text-primary: #e8e6e3;
+            --text-secondary: #a0a0a0;
+            --text-muted: #6b6b6b;
+            --accent-teal: #14b8a6;
+            --accent-cyan: #06b6d4;
+            --accent-purple: #8b5cf6;
+            --accent-amber: #f59e0b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+        }
+
+        .bg-animation {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: -1;
+            background:
+                radial-gradient(ellipse at 20% 20%, rgba(20, 184, 166, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(139, 92, 246, 0.06) 0%, transparent 50%);
+        }
+
+        /* Header */
+        header {
+            padding: 2rem;
+            border-bottom: 1px solid var(--bg-tertiary);
+            position: sticky;
+            top: 0;
+            background: rgba(10, 10, 15, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-teal), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-teal);
+        }
+
+        /* Main content */
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem 6rem;
+        }
+
+        /* Hero section */
+        .hero {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid var(--bg-tertiary);
+        }
+
+        .course-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-teal);
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+
+        .hero h1 {
+            font-family: 'Fraunces', serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .hero .quote {
+            font-style: italic;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            padding: 1.5rem;
+            border-left: 3px solid var(--accent-purple);
+            background: var(--bg-secondary);
+            border-radius: 0 8px 8px 0;
+            text-align: left;
+        }
+
+        .hero .quote cite {
+            display: block;
+            margin-top: 0.75rem;
+            font-style: normal;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Info grid */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--bg-tertiary);
+            border-radius: 12px;
+            padding: 1.25rem;
+        }
+
+        .info-card .label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.25rem;
+        }
+
+        .info-card .value {
+            font-weight: 500;
+        }
+
+        .info-card a {
+            color: var(--accent-teal);
+            text-decoration: none;
+        }
+
+        .info-card a:hover {
+            text-decoration: underline;
+        }
+
+        /* Section styling */
+        section {
+            margin-bottom: 3rem;
+        }
+
+        h2 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        h2::before {
+            content: '';
+            width: 4px;
+            height: 1.5rem;
+            background: linear-gradient(180deg, var(--accent-teal), var(--accent-purple));
+            border-radius: 2px;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 1.5rem 0 1rem;
+            color: var(--text-primary);
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* Tables */
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--bg-tertiary);
+        }
+
+        th {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        td {
+            color: var(--text-secondary);
+        }
+
+        tr:hover td {
+            background: rgba(20, 184, 166, 0.05);
+        }
+
+        .primitive-badge {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            background: rgba(139, 92, 246, 0.2);
+            color: var(--accent-purple);
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+        }
+
+        .tool-badge {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            background: rgba(20, 184, 166, 0.2);
+            color: var(--accent-teal);
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin: 1rem 0 1rem 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        li::marker {
+            color: var(--accent-teal);
+        }
+
+        /* Callout boxes */
+        .callout {
+            background: var(--bg-secondary);
+            border: 1px solid var(--bg-tertiary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .callout.insight {
+            border-left: 4px solid var(--accent-purple);
+        }
+
+        .callout.important {
+            border-left: 4px solid var(--accent-amber);
+        }
+
+        .callout.success {
+            border-left: 4px solid var(--accent-teal);
+        }
+
+        .callout-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Schedule */
+        .module-header {
+            background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0 1rem;
+            font-weight: 600;
+        }
+
+        .module-header .module-num {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--accent-teal);
+            margin-right: 0.5rem;
+        }
+
+        .module-header .module-question {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 400;
+            font-style: italic;
+            margin-top: 0.25rem;
+        }
+
+        /* FAQ */
+        .faq-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .faq-q {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .faq-a {
+            color: var(--text-secondary);
+            padding-left: 1rem;
+            border-left: 2px solid var(--bg-tertiary);
+        }
+
+        /* Jokes section */
+        .jokes {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .jokes h3 {
+            margin-top: 0;
+            color: var(--accent-amber);
+        }
+
+        .joke {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .joke strong {
+            color: var(--text-primary);
+        }
+
+        /* Footer quote */
+        .closing-quote {
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-top: 3rem;
+            border-top: 1px solid var(--bg-tertiary);
+        }
+
+        .closing-quote blockquote {
+            font-style: italic;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 1rem;
+            font-size: 1.1rem;
+        }
+
+        .closing-quote cite {
+            color: var(--text-muted);
+        }
+
+        .closing-message {
+            margin-top: 2rem;
+            color: var(--text-secondary);
+        }
+
+        .closing-message .signature {
+            color: var(--accent-teal);
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        .final-joke {
+            margin-top: 2rem;
+            color: var(--text-muted);
+            font-style: italic;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            th, td {
+                padding: 0.5rem;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="logo">CHEM 291</a>
+            <nav class="nav-links">
+                <a href="lectures/all-lectures.html">Lectures</a>
+                <a href="primitives/direction.html">Primitives</a>
+                <a href="protein-raga.html">Protein Raga</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero -->
+        <div class="hero">
+            <div class="course-badge">MCNEESE STATE UNIVERSITY | SPRING 2026</div>
+            <h1>Mathematical Methods for Chemistry</h1>
+            <p class="subtitle">The Grammar of Reality</p>
+            <div class="quote">
+                "I learned very early the difference between knowing the name of something and knowing something."
+                <cite>— Richard Feynman</cite>
+            </div>
+        </div>
+
+        <!-- Instructor Info -->
+        <div class="info-grid">
+            <div class="info-card">
+                <div class="label">Instructor</div>
+                <div class="value">Kiran Boggavarapu, Ph.D.</div>
+            </div>
+            <div class="info-card">
+                <div class="label">Email</div>
+                <div class="value"><a href="mailto:kiran@mcneese.edu">kiran@mcneese.edu</a></div>
+            </div>
+            <div class="info-card">
+                <div class="label">Office</div>
+                <div class="value">Kirkman 224E</div>
+            </div>
+            <div class="info-card">
+                <div class="label">Phone</div>
+                <div class="value">(337) 475-5768</div>
+            </div>
+            <div class="info-card">
+                <div class="label">Class Time</div>
+                <div class="value">TR 9:00–10:15 AM</div>
+            </div>
+            <div class="info-card">
+                <div class="label">Location</div>
+                <div class="value">Kirkman 202</div>
+            </div>
+        </div>
+
+        <div class="info-card" style="margin-bottom: 2rem;">
+            <div class="label">Office Hours</div>
+            <div class="value">MWF 8–9 AM, 10–11 AM &nbsp;|&nbsp; TR 10:30 AM–12 PM &nbsp;|&nbsp; or by appointment</div>
+        </div>
+
+        <!-- Course Description -->
+        <section>
+            <h2>Course Description</h2>
+            <p><strong>Mathematics is the language of chemistry.</strong> This course teaches you to see the mathematical patterns hidden in chemical phenomena—and to summon the right tools when you recognize them.</p>
+            <p>Traditional math courses say: "Here's a tool. Find applications." This course inverts the pedagogy: <strong>"See the phenomenon. Recognize the pattern. The tool follows."</strong></p>
+            <p>You will learn to perceive reality through nine cognitive primitives—fundamental patterns that appear across all of chemistry. Once you recognize these patterns, the mathematics becomes obvious: it's just notation for what you already see.</p>
+
+            <div class="callout insight">
+                <div class="callout-title">Prerequisites</div>
+                <p style="margin-bottom: 0;"><strong>MATH 155</strong> (College Algebra) with minimum grade of C<br>
+                <strong>Corequisite:</strong> CHEM 101 or CHEM 107 (may be taken concurrently)</p>
+            </div>
+        </section>
+
+        <!-- The Nine Primitives -->
+        <section>
+            <h2>The Nine Primitives</h2>
+            <p>Before "mathematics" or "chemistry," there is perception. Humans perceive reality through fundamental patterns:</p>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Primitive</th>
+                            <th>The Perception</th>
+                            <th>Tools Summoned</th>
+                            <th>Chemistry Examples</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="primitive-badge">COLLECTION</span></td>
+                            <td>"There are many"</td>
+                            <td><span class="tool-badge">Sets, counting, factorial</span></td>
+                            <td>Moles, electron shells</td>
+                        </tr>
+                        <tr>
+                            <td><span class="primitive-badge">ARRANGEMENT</span></td>
+                            <td>"Order matters"</td>
+                            <td><span class="tool-badge">Permutations, matrices</span></td>
+                            <td>Isomers, configurations</td>
+                        </tr>
+                        <tr>
+                            <td><span class="primitive-badge">DIRECTION</span></td>
+                            <td>"It points"</td>
+                            <td><span class="tool-badge">Vectors, dot product</span></td>
+                            <td>Bond angles, dipoles</td>
+                        </tr>
+                        <tr>
+                            <td><span class="primitive-badge">PROXIMITY</span></td>
+                            <td>"Near vs. far"</td>
+                            <td><span class="tool-badge">Functions, limits</span></td>
+                            <td>Potential energy, equilibrium</td>
+                        </tr>
+                        <tr>
+                            <td><span class="primitive-badge">SAMENESS</span></td>
+                            <td>"Unchanged"</td>
+                            <td><span class="tool-badge">Symmetry, eigenvalues</span></td>
+                            <td>Conservation, resonance</td>
+                        </tr>
+                        <tr>
+                            <td><span class="primitive-badge">CHANGE</span></td>
+                            <td>"Becoming"</td>
+                            <td><span class="tool-badge">Derivatives, operators</span></td>
+                            <td>Reactions, transitions</td>
+                        </tr>
+                        <tr>
+                            <td><span class="primitive-badge">RATE</span></td>
+                            <td>"How fast"</td>
+                            <td><span class="tool-badge">Derivatives, diff eq</span></td>
+                            <td>Kinetics, half-life</td>
+                        </tr>
+                        <tr>
+                            <td><span class="primitive-badge">ACCUMULATION</span></td>
+                            <td>"All together"</td>
+                            <td><span class="tool-badge">Integrals</span></td>
+                            <td>Work, total yield</td>
+                        </tr>
+                        <tr>
+                            <td><span class="primitive-badge">SPREAD</span></td>
+                            <td>"Distributed"</td>
+                            <td><span class="tool-badge">Probability</span></td>
+                            <td>Boltzmann, entropy</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="callout insight">
+                <div class="callout-title">Key Insight</div>
+                <p style="margin-bottom: 0;">Mathematics and chemistry are the same thought wearing different clothes.</p>
+            </div>
+        </section>
+
+        <!-- Required Materials -->
+        <section>
+            <h2>Required Materials</h2>
+            <ul>
+                <li><strong>Textbook:</strong> <em>Mathematics for Physical Chemistry</em>, 5th Ed., R.G. Mortimer (Elsevier)</li>
+                <li><strong>Calculator:</strong> Scientific calculator (TI-30X IIS recommended)</li>
+                <li><strong>Software:</strong> Julia + Pluto notebooks (free, installation guide provided)</li>
+            </ul>
+        </section>
+
+        <!-- Learning Outcomes -->
+        <section>
+            <h2>Student Learning Outcomes</h2>
+            <p>Upon successful completion of this course, students will be able to:</p>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Learning Outcome</th>
+                            <th>Level</th>
+                            <th>Assess</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Identify which cognitive primitive(s) are operating in a given chemical phenomenon</td>
+                            <td>Recognize</td>
+                            <td>E, Q, P</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Perform vector operations and apply them to molecular geometry and bonding</td>
+                            <td>Apply</td>
+                            <td>E, Q</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Use matrices to represent transformations and solve systems of linear equations</td>
+                            <td>Apply</td>
+                            <td>E, Q</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>Calculate derivatives and interpret them as rates of change in chemical contexts</td>
+                            <td>Apply</td>
+                            <td>E, Q</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>Evaluate integrals and interpret them as accumulated quantities in chemistry</td>
+                            <td>Apply</td>
+                            <td>E, Q</td>
+                        </tr>
+                        <tr>
+                            <td>6</td>
+                            <td>Set up and solve first-order differential equations for kinetic systems</td>
+                            <td>Apply</td>
+                            <td>E, P</td>
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td>Apply probability concepts to interpret distributions in chemical systems</td>
+                            <td>Apply</td>
+                            <td>E, Q</td>
+                        </tr>
+                        <tr>
+                            <td>8</td>
+                            <td>Select appropriate mathematical tools based on primitive recognition</td>
+                            <td>Analyze</td>
+                            <td>E, P</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p><em>Assessment key: E = Exam, Q = Quiz, P = Primitive Recognition Portfolio</em></p>
+        </section>
+
+        <!-- Assessment and Grading -->
+        <section>
+            <h2>Assessment and Grading</h2>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Component</th>
+                            <th>Weight</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Midterm Exam 1 (Structure)</td>
+                            <td>20%</td>
+                            <td>Vectors, matrices; SLOs 1–3</td>
+                        </tr>
+                        <tr>
+                            <td>Midterm Exam 2 (Change)</td>
+                            <td>20%</td>
+                            <td>Derivatives, integrals; SLOs 4–5</td>
+                        </tr>
+                        <tr>
+                            <td>Weekly Recognition Quizzes</td>
+                            <td>15%</td>
+                            <td>Best 10/12; 10 min at start of Thursday class</td>
+                        </tr>
+                        <tr>
+                            <td>Primitive Recognition Portfolio</td>
+                            <td>15%</td>
+                            <td>3 entries; See-Recognize-Tool analysis</td>
+                        </tr>
+                        <tr>
+                            <td>Interactive Notebook Assignments</td>
+                            <td>10%</td>
+                            <td>Pluto notebook explorations</td>
+                        </tr>
+                        <tr>
+                            <td>Comprehensive Final Exam</td>
+                            <td>20%</td>
+                            <td>Cumulative; all SLOs</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>Grading Scale</h3>
+            <p><strong>A:</strong> 90–100% &nbsp;|&nbsp; <strong>B:</strong> 80–89% &nbsp;|&nbsp; <strong>C:</strong> 70–79% &nbsp;|&nbsp; <strong>D:</strong> 60–69% &nbsp;|&nbsp; <strong>F:</strong> &lt;60%</p>
+        </section>
+
+        <!-- Portfolio -->
+        <section>
+            <h2>Primitive Recognition Portfolio</h2>
+            <p>Three times during the semester, you will submit a 1–2 page analysis following this structure:</p>
+            <ol>
+                <li><strong>THE PHENOMENON:</strong> Describe a chemical situation (from your other courses, research, or daily life)</li>
+                <li><strong>RECOGNITION:</strong> Identify which primitive(s) are operating and justify your identification</li>
+                <li><strong>THE TOOL:</strong> Explain which mathematical tool(s) correspond to the primitive(s) and why</li>
+                <li><strong>APPLICATION:</strong> Show how the tool illuminates the phenomenon</li>
+            </ol>
+            <p><strong>Rubric:</strong> Primitive identification (30%), Justification (30%), Tool selection (20%), Insight (20%)</p>
+        </section>
+
+        <!-- Class Format -->
+        <section>
+            <h2>Class Format (75 minutes)</h2>
+            <p>Each class follows the <strong>Reality → Recognition → Tool</strong> cycle:</p>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Phase</th>
+                            <th>Activities</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>0–3 min</td>
+                            <td>Settle</td>
+                            <td>Attendance, announcements</td>
+                        </tr>
+                        <tr>
+                            <td>3–12 min</td>
+                            <td>Retrieval</td>
+                            <td>Quiz (Thu) or recall questions + brief discussion</td>
+                        </tr>
+                        <tr>
+                            <td>12–20 min</td>
+                            <td>Hook</td>
+                            <td>Chemical phenomenon: "What do you see?" → Name the primitive</td>
+                        </tr>
+                        <tr>
+                            <td>20–40 min</td>
+                            <td>Tool Build</td>
+                            <td>Mathematical content built step-by-step from the primitive</td>
+                        </tr>
+                        <tr>
+                            <td>40–60 min</td>
+                            <td>Interactive</td>
+                            <td>Pluto notebook exploration; guided practice with partner</td>
+                        </tr>
+                        <tr>
+                            <td>60–72 min</td>
+                            <td>Application</td>
+                            <td>Chemistry connection; problem-solving in pairs</td>
+                        </tr>
+                        <tr>
+                            <td>72–75 min</td>
+                            <td>Close</td>
+                            <td>Muddiest point; preview next phenomenon</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Course Schedule -->
+        <section>
+            <h2>Course Schedule</h2>
+            <p><em>Schedule subject to adjustment. Q = Quiz at start of class. All classes follow: Hook → Recognition → Tool → Interactive.</em></p>
+
+            <div class="module-header">
+                <span class="module-num">MODULE 1:</span> Structure (Weeks 1–5)
+                <span class="module-question">"What is a molecule?"</span>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Wk</th>
+                            <th>Day</th>
+                            <th>Topic</th>
+                            <th>Primitive(s)</th>
+                            <th>Tool(s)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1</td><td>Tue</td><td>Orientation: Seeing Reality</td><td>All (intro)</td><td>—</td></tr>
+                        <tr><td>1</td><td>Thu</td><td>What kinds of numbers? How many?</td><td><span class="primitive-badge">COLLECTION</span></td><td>ℤ→ℚ→ℝ→ℂ, Sets, n!</td></tr>
+                        <tr><td>2</td><td>Tue</td><td>Arrangements: Isomers and configurations</td><td><span class="primitive-badge">ARRANGEMENT</span></td><td>Permutations, combinations</td></tr>
+                        <tr><td>2</td><td>Thu Q1</td><td>Bonds point somewhere</td><td><span class="primitive-badge">DIRECTION</span></td><td>Vectors in ℝ³</td></tr>
+                        <tr><td>3</td><td>Tue</td><td>Bond angles and projections</td><td><span class="primitive-badge">DIRECTION</span></td><td>Dot product, cosine</td></tr>
+                        <tr><td>3</td><td>Thu Q2</td><td>Molecular coordinates</td><td><span class="primitive-badge">DIRECTION</span></td><td>Basis, components</td></tr>
+                        <tr><td>4</td><td>Tue</td><td>Grids of numbers: Data and transformations</td><td><span class="primitive-badge">ARRANGEMENT</span></td><td>Matrices, operations</td></tr>
+                        <tr><td>4</td><td>Thu Q3</td><td>What doesn't change?</td><td><span class="primitive-badge">SAMENESS</span></td><td>Determinants, eigenvalues</td></tr>
+                        <tr><td>5</td><td>Tue</td><td>Molecular symmetry preview</td><td><span class="primitive-badge">SAMENESS</span></td><td>Group theory intro</td></tr>
+                        <tr><td>5</td><td>Thu</td><td colspan="3"><strong>MIDTERM EXAM 1</strong> — SLOs 1–3</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="module-header">
+                <span class="module-num">MODULE 2:</span> Change (Weeks 6–10)
+                <span class="module-question">"How do things transform?"</span>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Wk</th>
+                            <th>Day</th>
+                            <th>Topic</th>
+                            <th>Primitive(s)</th>
+                            <th>Tool(s)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>6</td><td>Tue</td><td>As concentration approaches... Limits</td><td><span class="primitive-badge">PROXIMITY</span></td><td>Functions, limits</td></tr>
+                        <tr><td>6</td><td>Thu Q4</td><td>Asymptotes and equilibrium — <em>Portfolio 1 due</em></td><td><span class="primitive-badge">PROXIMITY</span></td><td>Behavior at boundaries</td></tr>
+                        <tr><td>7</td><td>Tue</td><td>How fast right now? The derivative</td><td><span class="primitive-badge">CHANGE</span></td><td>Derivative definition</td></tr>
+                        <tr><td>7</td><td>Thu Q5</td><td>Rules of change</td><td><span class="primitive-badge">CHANGE</span></td><td>Differentiation rules</td></tr>
+                        <tr><td>8</td><td>Tue</td><td>Rates in kinetics</td><td><span class="primitive-badge">RATE</span></td><td>Rate laws, orders</td></tr>
+                        <tr><td>8</td><td>Thu Q6</td><td>Higher derivatives; partial derivatives</td><td><span class="primitive-badge">CHANGE</span></td><td>d²y/dx², ∂f/∂x</td></tr>
+                        <tr><td>9</td><td>Tue</td><td>Adding it all up: The integral</td><td><span class="primitive-badge">ACCUMULATION</span></td><td>Integral definition</td></tr>
+                        <tr><td>9</td><td>Thu Q7</td><td>Integration techniques</td><td><span class="primitive-badge">ACCUMULATION</span></td><td>Methods</td></tr>
+                        <tr><td>10</td><td>Tue</td><td>Work, heat, and total yield</td><td><span class="primitive-badge">ACCUMULATION</span></td><td>∫F·dx, ∫CdT</td></tr>
+                        <tr><td>10</td><td>Thu</td><td colspan="3"><strong>MIDTERM EXAM 2</strong> — SLOs 4–5</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="module-header">
+                <span class="module-num">MODULE 3:</span> Dynamics & Probability (Weeks 11–15)
+                <span class="module-question">"What happens with many particles?"</span>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Wk</th>
+                            <th>Day</th>
+                            <th>Topic</th>
+                            <th>Primitive(s)</th>
+                            <th>Tool(s)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>11</td><td>Tue</td><td>Laws of change: First-order ODEs</td><td><span class="primitive-badge">CHANGE</span> + <span class="primitive-badge">RATE</span></td><td>1st order ODE</td></tr>
+                        <tr><td>11</td><td>Thu Q8</td><td>Radioactive decay; integrated rate laws — <em>Portfolio 2 due</em></td><td><span class="primitive-badge">RATE</span></td><td>Exponential solutions</td></tr>
+                        <tr><td>12</td><td>Tue</td><td>Second-order systems; oscillations</td><td><span class="primitive-badge">CHANGE</span></td><td>2nd order ODE</td></tr>
+                        <tr><td>12</td><td>Thu Q9</td><td>Complex exponentials</td><td><span class="primitive-badge">SAMENESS</span></td><td>Euler's formula</td></tr>
+                        <tr><td>13</td><td>Tue</td><td>Probability: Sample spaces and distributions</td><td><span class="primitive-badge">SPREAD</span></td><td>Basic probability</td></tr>
+                        <tr><td>13</td><td>Thu Q10</td><td>Boltzmann and Gaussian distributions</td><td><span class="primitive-badge">SPREAD</span></td><td>Distribution functions</td></tr>
+                        <tr><td colspan="5" style="text-align: center; color: var(--text-muted);"><em>— THANKSGIVING BREAK —</em></td></tr>
+                        <tr><td>14</td><td>Tue</td><td>Expectation, variance, and error</td><td><span class="primitive-badge">SPREAD</span></td><td>Moments</td></tr>
+                        <tr><td>14</td><td>Thu Q11</td><td>Series and approximations</td><td><span class="primitive-badge">PROXIMITY</span></td><td>Taylor series</td></tr>
+                        <tr><td>15</td><td>Tue</td><td>Synthesis: The complete map — <em>Portfolio 3 due</em></td><td>All</td><td>Full toolkit</td></tr>
+                        <tr><td>15</td><td>Thu Q12</td><td>Review and exam preparation</td><td>—</td><td>—</td></tr>
+                        <tr><td>Final</td><td>TBA</td><td colspan="3"><strong>COMPREHENSIVE FINAL EXAM</strong> — All SLOs</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- How to Succeed -->
+        <section>
+            <h2>How to Succeed in CHEM 291</h2>
+
+            <div class="callout insight">
+                <div class="callout-title">"You do not know anything until you have practiced." — Richard Feynman</div>
+            </div>
+
+            <h3>Before Class</h3>
+            <ul>
+                <li>Read the assigned section; note what confuses you</li>
+                <li>Review notes from previous class—especially the primitive and tool</li>
+                <li>Think: what phenomenon might today's material explain?</li>
+            </ul>
+
+            <h3>During Class</h3>
+            <ul>
+                <li>Engage with the hook: What do YOU notice?</li>
+                <li>Articulate the primitive before the instructor names it</li>
+                <li>In interactive sessions: change parameters, break things, see what happens</li>
+            </ul>
+
+            <h3>After Class</h3>
+            <ul>
+                <li><strong>Same day:</strong> Review for 15 minutes; annotate your notebook with the primitive-tool connection</li>
+                <li><strong>Before next class:</strong> Attempt problems without looking at solutions first</li>
+                <li><strong>Weekly:</strong> Find the same primitive in another context (other courses, news, daily life)</li>
+            </ul>
+
+            <div class="callout important">
+                <div class="callout-title">What Doesn't Work</div>
+                <ul style="margin-bottom: 0;">
+                    <li>Re-reading notes passively (feels productive, isn't)</li>
+                    <li>Memorizing procedures without understanding when to use them</li>
+                    <li>Treating math and chemistry as separate subjects</li>
+                    <li>Looking at solutions before attempting problems (skips the learning)</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Course Policies -->
+        <section>
+            <h2>Course Policies</h2>
+
+            <h3>Attendance and Engagement</h3>
+            <p>Attendance is tracked via PollEverywhere participation. You receive full participation credit with ≥80% attendance—the 20% buffer covers illness, emergencies, and athletics without requiring documentation.</p>
+            <ul>
+                <li><strong>Early support:</strong> After 2 missed classes, I'll reach out to check in</li>
+                <li><strong>Meeting required:</strong> After 4 missed classes, we meet to discuss what's getting in the way</li>
+                <li><strong>Attendance bonus:</strong> ≥90% attendance allows dropping lowest midterm exam score</li>
+            </ul>
+
+            <h3>Late Work and Make-ups</h3>
+            <ul>
+                <li><strong>Quizzes:</strong> No make-ups; lowest 2 scores dropped</li>
+                <li><strong>Portfolio entries:</strong> 10% penalty per day late; not accepted after 3 days</li>
+                <li><strong>Exams:</strong> Make-ups only with documented emergency (thus, the first student to email me the word "eigenvalue" receives 5 bonus points on their first exam); contact instructor BEFORE exam when possible</li>
+            </ul>
+
+            <h3>Technology</h3>
+            <p>Cell phones silenced and out of sight. Laptops permitted only for Pluto notebooks and note-taking.</p>
+
+            <h3>AI Policy</h3>
+            <p>You may use AI tools (ChatGPT, Claude, etc.) for studying and exploring concepts. However, <strong>work submitted for grades must be your own.</strong> Using AI to generate portfolio entries or exam answers violates academic integrity. Think of AI like a tutor: great for explaining concepts, but you still have to do your own homework.</p>
+
+            <h3>Academic Integrity</h3>
+            <p>All work must be your own. Collaboration encouraged for studying; prohibited during exams and quizzes. Portfolio entries must reflect your own recognition and analysis. Violations result in zero for that assessment and are reported to the Dean of Students.</p>
+        </section>
+
+        <!-- University Policies -->
+        <section>
+            <h2>University Policies</h2>
+
+            <h3>Americans with Disabilities Act</h3>
+            <p>Students requiring accommodations should register with the Office of Accessibility Services (Burton Business Center 205A, 337-475-5916, <a href="mailto:ssd@mcneese.edu">ssd@mcneese.edu</a>). Contact me within the first two weeks to arrange accommodations.</p>
+
+            <h3>Title IX</h3>
+            <p>McNeese is committed to an environment free from discrimination and harassment. Report concerns to the Title IX Coordinator or confidentially to the Counseling Center.</p>
+
+            <h3>Mental Health Resources</h3>
+            <p>The Counseling Center (337-475-5956) offers free, confidential support. If you're struggling or concerned about a classmate, please reach out.</p>
+
+            <h3>Emergency Procedures</h3>
+            <p>Exit via posted routes in emergencies. See mcneese.edu/policy for complete procedures.</p>
+        </section>
+
+        <!-- FAQ -->
+        <section>
+            <h2>Frequently Asked Questions</h2>
+            <p><em>(Yes, you really should read this section. There may be rewards for those who do.)</em></p>
+
+            <div class="faq-item">
+                <div class="faq-q">Q: I'm not a "math person." Should I be worried?</div>
+                <div class="faq-a">A: There's no such thing as a "math person." There are people who've had good math experiences and people who haven't—yet. This course is designed to give you a new relationship with mathematics by connecting it to phenomena you can see. Give it a real try before deciding you can't do it.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-q">Q: How is this different from my calculus class?</div>
+                <div class="faq-a">A: Your calculus class taught you HOW to take derivatives. This course teaches you WHEN to take derivatives—and WHY they're the right tool. We start with the chemistry, not the math.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-q">Q: Do I need to know Julia programming?</div>
+                <div class="faq-a">A: No prior programming experience needed. Julia is designed to look like math, and Pluto notebooks are reactive—you change a number, everything updates. We'll learn together.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-q">Q: What if I miss a class?</div>
+                <div class="faq-a">A: Get notes from a classmate, review the posted materials, and come to office hours if confused. The 20% attendance buffer exists because life happens. Use it wisely.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-q">Q: Can I use ChatGPT/Claude for homework?</div>
+                <div class="faq-a">A: For learning and exploration? Absolutely. For submitted work? That's your brain's job. If you outsource the struggle, you outsource the learning. (Besides, AIs are bad at recognizing primitives—they don't actually see.)</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-q">Q: Will there be curves?</div>
+                <div class="faq-a">A: I don't grade on a curve. You're not competing against your classmates—you're collaborating with them. Everyone who earns an A gets one.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-q">Q: What's a "muddiest point"?</div>
+                <div class="faq-a">A: At the end of each class, you write down what's still confusing. I read these and adjust the next class accordingly. It's anonymous feedback that helps everyone.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-q">Q: Is there extra credit?</div>
+                <div class="faq-a">A: The attendance bonus is the extra credit. Attend, engage, and your lowest midterm gets dropped. That's significant.</div>
+            </div>
+        </section>
+
+        <!-- Jokes -->
+        <div class="jokes">
+            <h3>A Few Chemistry Jokes (Because Math Isn't Always Serious)</h3>
+            <div class="joke"><strong>Q:</strong> Why do chemists like nitrates so much?<br><strong>A:</strong> Because they're cheaper than day rates.</div>
+            <div class="joke"><strong>Q:</strong> What do you do with a dead chemist?<br><strong>A:</strong> Barium.</div>
+            <div class="joke"><strong>Q:</strong> Why did the physics teacher break up with the biology teacher?<br><strong>A:</strong> There was no chemistry.</div>
+            <div class="joke" style="margin-bottom: 0;"><em>The name's Bond. Ionic Bond. Taken, not shared.</em></div>
+        </div>
+
+        <!-- Closing -->
+        <div class="closing-quote">
+            <blockquote>
+                "To those who do not know mathematics it is difficult to get across a real feeling as to the beauty, the deepest beauty, of nature... If you want to learn about nature, to appreciate nature, it is necessary to understand the language that she speaks in."
+            </blockquote>
+            <cite>— Richard Feynman</cite>
+
+            <p style="margin-top: 2rem; color: var(--text-muted); font-style: italic;">This syllabus is a guide and may be modified as needed. Changes will be announced in class and on Canvas.</p>
+
+            <div class="closing-message">
+                <p>By course end, you will look at any chemical phenomenon and see what kind of thing it is. The math will follow.</p>
+                <p>I'm looking forward to teaching you to see differently.</p>
+                <p class="signature">— Dr. B</p>
+            </div>
+
+            <p class="final-joke">"Never trust an atom. They make up everything."</p>
+        </div>
+    </main>
+</body>
+</html>
