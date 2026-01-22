@@ -518,8 +518,8 @@
     </header>
 
     <main>
-        <h1>Adaptive Quiz</h1>
-        <p class="subtitle">Master each primitive through adaptive practice. 3 correct → difficulty increases. Mastery at 85%.</p>
+        <h1>Lecture Quizzes</h1>
+        <p class="subtitle">Master each lecture through adaptive practice. 3 correct → difficulty increases. Mastery at 85%.</p>
 
         <div id="error-container"></div>
 
@@ -538,9 +538,9 @@
                     <h3>Start Quiz</h3>
                     <label for="student-id">Student ID</label>
                     <input type="number" id="student-id" placeholder="Enter your ID">
-                    <label for="primitive-select">Select Primitive</label>
-                    <select id="primitive-select">
-                        <option value="">Loading primitives...</option>
+                    <label for="lecture-select">Select Lecture</label>
+                    <select id="lecture-select">
+                        <option value="">Loading lectures...</option>
                     </select>
                     <button id="start-quiz-btn">Start Practice</button>
                     <div class="connection-status">
@@ -607,7 +607,7 @@
                 </div>
             </div>
 
-            <button id="back-to-setup-btn" class="btn-secondary">← Choose Different Primitive</button>
+            <button id="back-to-setup-btn" class="btn-secondary">← Choose Different Lecture</button>
         </div>
     </main>
 
@@ -627,7 +627,7 @@
         const setupSection = document.getElementById('setup-section');
         const quizSection = document.getElementById('quiz-section');
         const errorContainer = document.getElementById('error-container');
-        const primitiveSelect = document.getElementById('primitive-select');
+        const lectureSelect = document.getElementById('lecture-select');
         const studentIdInput = document.getElementById('student-id');
         const studentNameInput = document.getElementById('student-name');
         const studentResult = document.getElementById('student-result');
@@ -656,28 +656,26 @@
             return false;
         }
 
-        // Load primitives
-        async function loadPrimitives() {
+        // Load lectures
+        async function loadLectures() {
             try {
                 const res = await fetch(`${API_BASE}/concepts`);
                 const concepts = await res.json();
 
-                primitiveSelect.innerHTML = '<option value="">Select a primitive...</option>';
+                lectureSelect.innerHTML = '<option value="">Select a lecture...</option>';
 
-                // Filter to only CHEM 291 primitives (the 9 we seeded)
-                const chem291Primitives = ['COLLECTION', 'ARRANGEMENT', 'DIRECTION', 'PROXIMITY',
-                                           'SAMENESS', 'CHANGE', 'RATE', 'ACCUMULATION', 'SPREAD'];
-
+                // Filter to only lectures (names starting with "L")
                 concepts
-                    .filter(c => chem291Primitives.includes(c.name))
+                    .filter(c => c.name.startsWith('L'))
+                    .sort((a, b) => a.name.localeCompare(b.name))
                     .forEach(concept => {
                         const option = document.createElement('option');
                         option.value = concept.id;
                         option.textContent = concept.name;
-                        primitiveSelect.appendChild(option);
+                        lectureSelect.appendChild(option);
                     });
             } catch (e) {
-                showError('Could not load primitives. Is the quiz server running?');
+                showError('Could not load lectures. Is the quiz server running?');
             }
         }
 
@@ -712,10 +710,10 @@
         // Start quiz
         async function startQuiz() {
             studentId = parseInt(studentIdInput.value);
-            conceptId = parseInt(primitiveSelect.value);
+            conceptId = parseInt(lectureSelect.value);
 
             if (!studentId || !conceptId) {
-                showError('Please enter your Student ID and select a primitive');
+                showError('Please enter your Student ID and select a lecture');
                 return;
             }
 
@@ -746,8 +744,8 @@
             currentQuestion = question;
 
             // Update badges
-            const primitiveName = primitiveSelect.options[primitiveSelect.selectedIndex].text;
-            document.getElementById('q-primitive').textContent = primitiveName;
+            const lectureName = lectureSelect.options[lectureSelect.selectedIndex].text;
+            document.getElementById('q-primitive').textContent = lectureName;
 
             const diffBadge = document.getElementById('q-difficulty');
             diffBadge.textContent = question.difficulty.toUpperCase();
@@ -923,7 +921,7 @@
 
         // Initialize
         checkConnection().then(connected => {
-            if (connected) loadPrimitives();
+            if (connected) loadLectures();
         });
     </script>
 </body>
