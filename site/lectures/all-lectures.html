@@ -92,6 +92,37 @@
             border-radius: 6px;
         }
 
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .quiz-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1.25rem;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+        }
+
+        .quiz-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(139, 92, 246, 0.4);
+        }
+
+        .quiz-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
         /* Main content */
         main {
             max-width: 1200px;
@@ -288,7 +319,16 @@
                 <a href="../chem291/#primitives" class="back-link">Primitives</a>
             </div>
             <div class="header-title">All Lectures</div>
-            <span class="course-badge">CHEM 291</span>
+            <div class="header-actions">
+                <a href="../quiz.html" class="quiz-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 11l3 3L22 4"/>
+                        <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+                    </svg>
+                    Quizzes
+                </a>
+                <span class="course-badge">CHEM 291</span>
+            </div>
         </div>
     </header>
 
