@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adaptive Quiz | CHEM 291</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-tertiary: #1a1a24;
+            --bg-card: #161620;
+            --text-primary: #e8e6e3;
+            --text-secondary: #a0a0a0;
+            --text-muted: #6b6b6b;
+            --accent-teal: #14b8a6;
+            --accent-cyan: #06b6d4;
+            --accent-purple: #8b5cf6;
+            --accent-green: #22c55e;
+            --accent-red: #ef4444;
+            --accent-amber: #f59e0b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .bg-animation {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: -1;
+            background:
+                radial-gradient(ellipse at 20% 20%, rgba(20, 184, 166, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(139, 92, 246, 0.06) 0%, transparent 50%);
+        }
+
+        /* Header */
+        header {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--bg-tertiary);
+            background: rgba(10, 10, 15, 0.95);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-teal), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-teal);
+        }
+
+        /* Main content */
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        h1 {
+            font-family: 'Fraunces', serif;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        /* Setup section */
+        .setup-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 600px) {
+            .setup-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--bg-tertiary);
+            border-radius: 16px;
+            padding: 1.5rem;
+        }
+
+        .card h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--accent-teal);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--bg-tertiary);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--accent-teal);
+        }
+
+        select {
+            cursor: pointer;
+        }
+
+        button {
+            width: 100%;
+            padding: 0.875rem 1.5rem;
+            background: linear-gradient(135deg, var(--accent-teal), var(--accent-cyan));
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(20, 184, 166, 0.3);
+        }
+
+        button:disabled {
+            background: var(--bg-tertiary);
+            color: var(--text-muted);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(20, 184, 166, 0.2);
+            box-shadow: none;
+        }
+
+        .result {
+            margin-top: 0.75rem;
+            padding: 0.75rem;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Progress bar */
+        .progress-section {
+            margin-bottom: 2rem;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .progress-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-teal);
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: var(--bg-tertiary);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-teal), var(--accent-cyan));
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .stats-row {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-teal);
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        /* Question card */
+        .question-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--bg-tertiary);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .difficulty-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            text-transform: uppercase;
+        }
+
+        .difficulty-easy {
+            background: rgba(34, 197, 94, 0.2);
+            color: var(--accent-green);
+        }
+
+        .difficulty-medium {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--accent-amber);
+        }
+
+        .difficulty-difficult {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--accent-red);
+        }
+
+        .primitive-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            background: rgba(139, 92, 246, 0.2);
+            color: var(--accent-purple);
+        }
+
+        .question-stem {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Options */
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.25rem;
+            background: var(--bg-tertiary);
+            border: 2px solid transparent;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .option:hover {
+            background: rgba(20, 184, 166, 0.1);
+            border-color: rgba(20, 184, 166, 0.3);
+        }
+
+        .option.selected {
+            background: rgba(20, 184, 166, 0.15);
+            border-color: var(--accent-teal);
+        }
+
+        .option.correct {
+            background: rgba(34, 197, 94, 0.15);
+            border-color: var(--accent-green);
+        }
+
+        .option.incorrect {
+            background: rgba(239, 68, 68, 0.15);
+            border-color: var(--accent-red);
+        }
+
+        .option input {
+            width: auto;
+            margin: 0;
+        }
+
+        .option-text {
+            flex: 1;
+        }
+
+        /* Text input for non-MCQ */
+        .text-input {
+            width: 100%;
+            padding: 1rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--bg-tertiary);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            resize: vertical;
+            min-height: 100px;
+            margin-bottom: 1.5rem;
+        }
+
+        .text-input:focus {
+            outline: none;
+            border-color: var(--accent-teal);
+        }
+
+        /* Feedback */
+        .feedback {
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-top: 1.5rem;
+        }
+
+        .feedback.correct {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .feedback.incorrect {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .feedback-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .feedback.correct .feedback-header {
+            color: var(--accent-green);
+        }
+
+        .feedback.incorrect .feedback-header {
+            color: var(--accent-red);
+        }
+
+        .feedback-text {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Mastery banner */
+        .mastery-banner {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(20, 184, 166, 0.2));
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .mastery-banner h2 {
+            font-family: 'Fraunces', serif;
+            color: var(--accent-green);
+            margin-bottom: 0.5rem;
+        }
+
+        .mastery-banner p {
+            color: var(--text-secondary);
+        }
+
+        /* Hidden */
+        .hidden {
+            display: none !important;
+        }
+
+        /* Loading spinner */
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--bg-tertiary);
+            border-top-color: var(--accent-teal);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Error message */
+        .error-msg {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: var(--accent-red);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        /* Connection status */
+        .connection-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-red);
+        }
+
+        .status-dot.connected {
+            background: var(--accent-green);
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="logo">CHEM 291</a>
+            <nav class="nav-links">
+                <a href="lectures/all-lectures.html">Lectures</a>
+                <a href="syllabus.html">Syllabus</a>
+                <a href="primitives/direction.html">Primitives</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <h1>Adaptive Quiz</h1>
+        <p class="subtitle">Master each primitive through adaptive practice. 3 correct → difficulty increases. Mastery at 85%.</p>
+
+        <div id="error-container"></div>
+
+        <!-- Setup Section -->
+        <div id="setup-section">
+            <div class="setup-grid">
+                <div class="card">
+                    <h3>New Student</h3>
+                    <label for="student-name">Your Name</label>
+                    <input type="text" id="student-name" placeholder="Enter your name">
+                    <button id="create-student-btn">Create Account</button>
+                    <div id="student-result" class="result hidden"></div>
+                </div>
+
+                <div class="card">
+                    <h3>Start Quiz</h3>
+                    <label for="student-id">Student ID</label>
+                    <input type="number" id="student-id" placeholder="Enter your ID">
+                    <label for="primitive-select">Select Primitive</label>
+                    <select id="primitive-select">
+                        <option value="">Loading primitives...</option>
+                    </select>
+                    <button id="start-quiz-btn">Start Practice</button>
+                    <div class="connection-status">
+                        <span class="status-dot" id="status-dot"></span>
+                        <span id="status-text">Checking connection...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quiz Section -->
+        <div id="quiz-section" class="hidden">
+            <!-- Progress -->
+            <div class="progress-section">
+                <div class="progress-header">
+                    <span class="progress-label">Mastery Progress</span>
+                    <span class="progress-value" id="mastery-percent">0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="mastery-fill" style="width: 0%"></div>
+                </div>
+                <div class="stats-row">
+                    <div class="stat">
+                        <div class="stat-value" id="stat-correct">0</div>
+                        <div class="stat-label">Correct</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="stat-streak">0</div>
+                        <div class="stat-label">Streak</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value" id="stat-difficulty">easy</div>
+                        <div class="stat-label">Difficulty</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mastery Banner -->
+            <div id="mastery-banner" class="mastery-banner hidden">
+                <h2>Concept Mastered!</h2>
+                <p>You've demonstrated mastery of this primitive. Try another one!</p>
+                <button id="try-another-btn" style="margin-top: 1rem; width: auto; padding: 0.75rem 2rem;">Choose Another Primitive</button>
+            </div>
+
+            <!-- Question Card -->
+            <div id="question-card" class="question-card">
+                <div class="question-header">
+                    <span class="primitive-badge" id="q-primitive">DIRECTION</span>
+                    <span class="difficulty-badge difficulty-easy" id="q-difficulty">EASY</span>
+                </div>
+                <div class="question-stem" id="q-stem">Loading question...</div>
+
+                <div id="options-container" class="options"></div>
+                <textarea id="text-response" class="text-input hidden" placeholder="Type your answer..."></textarea>
+
+                <button id="submit-answer-btn">Submit Answer</button>
+
+                <div id="feedback" class="feedback hidden">
+                    <div class="feedback-header">
+                        <span id="feedback-icon"></span>
+                        <span id="feedback-title"></span>
+                    </div>
+                    <div class="feedback-text" id="feedback-text"></div>
+                </div>
+            </div>
+
+            <button id="back-to-setup-btn" class="btn-secondary">← Choose Different Primitive</button>
+        </div>
+    </main>
+
+    <script>
+        // Configuration - uses Cloudflare tunnel for production
+        const API_BASE = window.location.hostname === 'localhost'
+            ? 'http://localhost:8001'
+            : 'https://quiz.thebeakers.com';
+
+        // State
+        let currentQuestion = null;
+        let studentId = null;
+        let conceptId = null;
+        let stats = { correct: 0, streak: 0 };
+
+        // DOM Elements
+        const setupSection = document.getElementById('setup-section');
+        const quizSection = document.getElementById('quiz-section');
+        const errorContainer = document.getElementById('error-container');
+        const primitiveSelect = document.getElementById('primitive-select');
+        const studentIdInput = document.getElementById('student-id');
+        const studentNameInput = document.getElementById('student-name');
+        const studentResult = document.getElementById('student-result');
+        const questionCard = document.getElementById('question-card');
+        const masteryBanner = document.getElementById('mastery-banner');
+        const optionsContainer = document.getElementById('options-container');
+        const textResponse = document.getElementById('text-response');
+        const feedback = document.getElementById('feedback');
+        const statusDot = document.getElementById('status-dot');
+        const statusText = document.getElementById('status-text');
+
+        // Check API connection
+        async function checkConnection() {
+            try {
+                const res = await fetch(`${API_BASE}/concepts`, { method: 'GET' });
+                if (res.ok) {
+                    statusDot.classList.add('connected');
+                    statusText.textContent = 'Connected to quiz server';
+                    return true;
+                }
+            } catch (e) {
+                console.error('Connection check failed:', e);
+            }
+            statusDot.classList.remove('connected');
+            statusText.textContent = 'Quiz server offline - start with: cd /storage/quizzes && uvicorn app.main:app --port 8001';
+            return false;
+        }
+
+        // Load primitives
+        async function loadPrimitives() {
+            try {
+                const res = await fetch(`${API_BASE}/concepts`);
+                const concepts = await res.json();
+
+                primitiveSelect.innerHTML = '<option value="">Select a primitive...</option>';
+
+                // Filter to only CHEM 291 primitives (the 9 we seeded)
+                const chem291Primitives = ['COLLECTION', 'ARRANGEMENT', 'DIRECTION', 'PROXIMITY',
+                                           'SAMENESS', 'CHANGE', 'RATE', 'ACCUMULATION', 'SPREAD'];
+
+                concepts
+                    .filter(c => chem291Primitives.includes(c.name))
+                    .forEach(concept => {
+                        const option = document.createElement('option');
+                        option.value = concept.id;
+                        option.textContent = concept.name;
+                        primitiveSelect.appendChild(option);
+                    });
+            } catch (e) {
+                showError('Could not load primitives. Is the quiz server running?');
+            }
+        }
+
+        // Create student
+        async function createStudent() {
+            const name = studentNameInput.value.trim();
+            if (!name) {
+                showError('Please enter your name');
+                return;
+            }
+
+            try {
+                const res = await fetch(`${API_BASE}/students`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name })
+                });
+                const data = await res.json();
+
+                studentResult.textContent = `Account created! Your Student ID is: ${data.id}`;
+                studentResult.classList.remove('hidden');
+                studentIdInput.value = data.id;
+
+                // Save to localStorage
+                localStorage.setItem('quizStudentId', data.id);
+                localStorage.setItem('quizStudentName', name);
+            } catch (e) {
+                showError('Could not create student account');
+            }
+        }
+
+        // Start quiz
+        async function startQuiz() {
+            studentId = parseInt(studentIdInput.value);
+            conceptId = parseInt(primitiveSelect.value);
+
+            if (!studentId || !conceptId) {
+                showError('Please enter your Student ID and select a primitive');
+                return;
+            }
+
+            try {
+                const res = await fetch(`${API_BASE}/session/start`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ student_id: studentId, concept_id: conceptId })
+                });
+                const data = await res.json();
+
+                if (data.mastered) {
+                    showMastery();
+                } else {
+                    setupSection.classList.add('hidden');
+                    quizSection.classList.remove('hidden');
+                    stats = { correct: 0, streak: 0 };
+                    updateStats(0, 'easy');
+                    renderQuestion(data.question);
+                }
+            } catch (e) {
+                showError('Could not start quiz session');
+            }
+        }
+
+        // Render question
+        function renderQuestion(question) {
+            currentQuestion = question;
+
+            // Update badges
+            const primitiveName = primitiveSelect.options[primitiveSelect.selectedIndex].text;
+            document.getElementById('q-primitive').textContent = primitiveName;
+
+            const diffBadge = document.getElementById('q-difficulty');
+            diffBadge.textContent = question.difficulty.toUpperCase();
+            diffBadge.className = `difficulty-badge difficulty-${question.difficulty}`;
+
+            // Stem
+            document.getElementById('q-stem').textContent = question.stem;
+
+            // Options or text input
+            optionsContainer.innerHTML = '';
+            textResponse.classList.add('hidden');
+
+            if (question.type === 'mcq' && question.options) {
+                question.options.forEach((opt, idx) => {
+                    const div = document.createElement('div');
+                    div.className = 'option';
+                    div.innerHTML = `
+                        <input type="radio" name="answer" value="${opt}" id="opt-${idx}" ${idx === 0 ? 'checked' : ''}>
+                        <label for="opt-${idx}" class="option-text">${opt}</label>
+                    `;
+                    div.addEventListener('click', () => {
+                        document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+                        div.classList.add('selected');
+                        div.querySelector('input').checked = true;
+                    });
+                    optionsContainer.appendChild(div);
+                });
+                if (optionsContainer.children.length > 0) {
+                    optionsContainer.children[0].classList.add('selected');
+                }
+            } else {
+                textResponse.classList.remove('hidden');
+                textResponse.value = '';
+            }
+
+            // Hide feedback
+            feedback.classList.add('hidden');
+            questionCard.classList.remove('hidden');
+            masteryBanner.classList.add('hidden');
+        }
+
+        // Get selected answer
+        function getAnswer() {
+            if (currentQuestion.type === 'mcq') {
+                const checked = document.querySelector('input[name="answer"]:checked');
+                return checked ? checked.value : '';
+            }
+            return textResponse.value.trim();
+        }
+
+        // Submit answer
+        async function submitAnswer() {
+            const answer = getAnswer();
+            if (!answer) {
+                showError('Please select or enter an answer');
+                return;
+            }
+
+            try {
+                const res = await fetch(`${API_BASE}/session/submit`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        student_id: studentId,
+                        concept_id: conceptId,
+                        question_id: currentQuestion.question_id,
+                        response: answer,
+                        response_time_ms: null
+                    })
+                });
+                const data = await res.json();
+
+                // Show feedback
+                showFeedback(data.was_correct, data.explanation);
+
+                // Update stats
+                if (data.was_correct) {
+                    stats.correct++;
+                    stats.streak++;
+                } else {
+                    stats.streak = 0;
+                }
+                updateStats(data.mastery_level, data.current_difficulty);
+
+                // Highlight correct/incorrect options
+                if (currentQuestion.type === 'mcq') {
+                    document.querySelectorAll('.option').forEach(opt => {
+                        const input = opt.querySelector('input');
+                        if (input.value === currentQuestion.correct_answer) {
+                            opt.classList.add('correct');
+                        } else if (input.checked && !data.was_correct) {
+                            opt.classList.add('incorrect');
+                        }
+                    });
+                }
+
+                // Check mastery or load next question
+                if (data.mastered) {
+                    setTimeout(showMastery, 2000);
+                } else {
+                    setTimeout(loadNextQuestion, 2500);
+                }
+            } catch (e) {
+                showError('Could not submit answer');
+            }
+        }
+
+        // Load next question
+        async function loadNextQuestion() {
+            try {
+                const res = await fetch(`${API_BASE}/session/next-question?student_id=${studentId}&concept_id=${conceptId}`);
+                const data = await res.json();
+
+                if (data.mastered) {
+                    showMastery();
+                } else {
+                    renderQuestion(data.question);
+                }
+            } catch (e) {
+                showError('Could not load next question');
+            }
+        }
+
+        // Show feedback
+        function showFeedback(correct, explanation) {
+            feedback.className = `feedback ${correct ? 'correct' : 'incorrect'}`;
+            document.getElementById('feedback-icon').textContent = correct ? '✓' : '✗';
+            document.getElementById('feedback-title').textContent = correct ? 'Correct!' : 'Not quite';
+            document.getElementById('feedback-text').textContent = explanation;
+            feedback.classList.remove('hidden');
+        }
+
+        // Update stats display
+        function updateStats(mastery, difficulty) {
+            const masteryPct = Math.round(mastery * 100);
+            document.getElementById('mastery-percent').textContent = `${masteryPct}%`;
+            document.getElementById('mastery-fill').style.width = `${masteryPct}%`;
+            document.getElementById('stat-correct').textContent = stats.correct;
+            document.getElementById('stat-streak').textContent = stats.streak;
+            document.getElementById('stat-difficulty').textContent = difficulty;
+        }
+
+        // Show mastery
+        function showMastery() {
+            questionCard.classList.add('hidden');
+            masteryBanner.classList.remove('hidden');
+        }
+
+        // Back to setup
+        function backToSetup() {
+            quizSection.classList.add('hidden');
+            setupSection.classList.remove('hidden');
+        }
+
+        // Show error
+        function showError(msg) {
+            errorContainer.innerHTML = `<div class="error-msg">${msg}</div>`;
+            setTimeout(() => errorContainer.innerHTML = '', 5000);
+        }
+
+        // Event listeners
+        document.getElementById('create-student-btn').addEventListener('click', createStudent);
+        document.getElementById('start-quiz-btn').addEventListener('click', startQuiz);
+        document.getElementById('submit-answer-btn').addEventListener('click', submitAnswer);
+        document.getElementById('back-to-setup-btn').addEventListener('click', backToSetup);
+        document.getElementById('try-another-btn').addEventListener('click', backToSetup);
+
+        // Load saved student ID
+        const savedId = localStorage.getItem('quizStudentId');
+        if (savedId) {
+            studentIdInput.value = savedId;
+        }
+
+        // Initialize
+        checkConnection().then(connected => {
+            if (connected) loadPrimitives();
+        });
+    </script>
+</body>
+</html>

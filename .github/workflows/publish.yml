@@ -45,6 +45,7 @@ jobs:
           # Copy root files
           cp site/index.html site/_site/index.html
           cp site/syllabus.html site/_site/syllabus.html
+          cp site/quiz.html site/_site/quiz.html
           cp site/protein-raga.html site/_site/protein-raga.html
           cp site/CNAME site/_site/CNAME
 
