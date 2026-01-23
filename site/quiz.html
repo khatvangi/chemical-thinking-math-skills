@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adaptive Quiz | CHEM 291</title>
+    <title>Adaptive Quiz | The Beakers</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&display=swap" rel="stylesheet">
@@ -72,6 +72,18 @@
             text-decoration: none;
         }
 
+        .logo.chem291 {
+            background: linear-gradient(135deg, var(--accent-teal), var(--accent-cyan));
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
+        .logo.chem361 {
+            background: linear-gradient(135deg, var(--accent-purple), #a855f7);
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
         .nav-links {
             display: flex;
             gap: 1.5rem;
@@ -88,22 +100,164 @@
             color: var(--accent-teal);
         }
 
+        .back-btn {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.2s;
+        }
+
+        .back-btn:hover {
+            color: var(--accent-teal);
+        }
+
         /* Main content */
         main {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             padding: 2rem;
         }
 
         h1 {
             font-family: 'Fraunces', serif;
-            font-size: 2rem;
+            font-size: 2.5rem;
             margin-bottom: 0.5rem;
+            text-align: center;
         }
 
         .subtitle {
             color: var(--text-secondary);
+            margin-bottom: 3rem;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        /* Course Selection */
+        .course-selection {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
             margin-bottom: 2rem;
+        }
+
+        @media (max-width: 700px) {
+            .course-selection {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .course-card {
+            background: var(--bg-secondary);
+            border: 2px solid var(--bg-tertiary);
+            border-radius: 20px;
+            padding: 2.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .course-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .course-card.chem291::before {
+            background: linear-gradient(90deg, var(--accent-teal), var(--accent-cyan));
+        }
+
+        .course-card.chem361::before {
+            background: linear-gradient(90deg, var(--accent-purple), #a855f7);
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .course-card:hover::before {
+            opacity: 1;
+        }
+
+        .course-card.chem291:hover {
+            border-color: var(--accent-teal);
+        }
+
+        .course-card.chem361:hover {
+            border-color: var(--accent-purple);
+        }
+
+        .course-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+        }
+
+        .course-card.chem291 .course-badge {
+            background: rgba(20, 184, 166, 0.15);
+            color: var(--accent-teal);
+        }
+
+        .course-card.chem361 .course-badge {
+            background: rgba(139, 92, 246, 0.15);
+            color: var(--accent-purple);
+        }
+
+        .course-title {
+            font-family: 'Fraunces', serif;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .course-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .course-stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .course-stat {
+            text-align: center;
+        }
+
+        .course-stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .course-card.chem291 .course-stat-value {
+            color: var(--accent-teal);
+        }
+
+        .course-card.chem361 .course-stat-value {
+            color: var(--accent-purple);
+        }
+
+        .course-stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
         /* Setup section */
@@ -136,6 +290,10 @@
             letter-spacing: 0.05em;
         }
 
+        .card.chem361 h3 {
+            color: var(--accent-purple);
+        }
+
         label {
             display: block;
             font-size: 0.85rem;
@@ -160,6 +318,10 @@
             border-color: var(--accent-teal);
         }
 
+        .chem361 input:focus, .chem361 select:focus {
+            border-color: var(--accent-purple);
+        }
+
         select {
             cursor: pointer;
         }
@@ -180,6 +342,14 @@
         button:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(20, 184, 166, 0.3);
+        }
+
+        button.chem361 {
+            background: linear-gradient(135deg, var(--accent-purple), #a855f7);
+        }
+
+        button.chem361:hover {
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
         }
 
         button:disabled {
@@ -246,6 +416,10 @@
             transition: width 0.5s ease;
         }
 
+        .progress-fill.chem361 {
+            background: linear-gradient(90deg, var(--accent-purple), #a855f7);
+        }
+
         .stats-row {
             display: flex;
             gap: 1.5rem;
@@ -308,7 +482,7 @@
             color: var(--accent-red);
         }
 
-        .primitive-badge {
+        .lecture-badge {
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.75rem;
             padding: 0.25rem 0.75rem;
@@ -501,6 +675,23 @@
         .status-dot.connected {
             background: var(--accent-green);
         }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        footer a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: var(--accent-teal);
+        }
     </style>
 </head>
 <body>
@@ -508,25 +699,68 @@
 
     <header>
         <div class="header-content">
-            <a href="index.html" class="logo">CHEM 291</a>
-            <nav class="nav-links">
-                <a href="lectures/all-lectures.html">Lectures</a>
-                <a href="syllabus.html">Syllabus</a>
-                <a href="primitives/direction.html">Primitives</a>
+            <a href="#" class="logo" id="header-logo">The Beakers</a>
+            <nav class="nav-links" id="nav-links">
+                <a href="https://thebeakers.com">Home</a>
             </nav>
         </div>
     </header>
 
     <main>
-        <h1>Lecture Quizzes</h1>
-        <p class="subtitle">Master each lecture through adaptive practice. 3 correct → difficulty increases. Mastery at 85%.</p>
-
         <div id="error-container"></div>
 
+        <!-- Course Selection Section -->
+        <div id="course-section">
+            <h1>Choose Your Course</h1>
+            <p class="subtitle">Select a course to start your adaptive quiz practice</p>
+
+            <div class="course-selection">
+                <div class="course-card chem291" onclick="selectCourse('chem291')">
+                    <span class="course-badge">CHEM 291</span>
+                    <h2 class="course-title">Math for Chemistry</h2>
+                    <p class="course-desc">The Grammar of Reality — master mathematical thinking through chemical intuition</p>
+                    <div class="course-stats">
+                        <div class="course-stat">
+                            <div class="course-stat-value">24</div>
+                            <div class="course-stat-label">Lectures</div>
+                        </div>
+                        <div class="course-stat">
+                            <div class="course-stat-value">9</div>
+                            <div class="course-stat-label">Primitives</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="course-card chem361" onclick="selectCourse('chem361')">
+                    <span class="course-badge">CHEM 361</span>
+                    <h2 class="course-title">Inorganic Chemistry</h2>
+                    <p class="course-desc">From atoms to materials — explore the chemistry of the periodic table</p>
+                    <div class="course-stats">
+                        <div class="course-stat">
+                            <div class="course-stat-value">20</div>
+                            <div class="course-stat-label">Lectures</div>
+                        </div>
+                        <div class="course-stat">
+                            <div class="course-stat-value">5</div>
+                            <div class="course-stat-label">Modules</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="connection-status" style="justify-content: center;">
+                <span class="status-dot" id="status-dot"></span>
+                <span id="status-text">Checking connection...</span>
+            </div>
+        </div>
+
         <!-- Setup Section -->
-        <div id="setup-section">
+        <div id="setup-section" class="hidden">
+            <h1 id="setup-title">Lecture Quizzes</h1>
+            <p class="subtitle">Master each lecture through adaptive practice. 3 correct → difficulty increases. Mastery at 85%.</p>
+
             <div class="setup-grid">
-                <div class="card">
+                <div class="card" id="new-student-card">
                     <h3>New Student</h3>
                     <label for="student-name">Your Name</label>
                     <input type="text" id="student-name" placeholder="Enter your name">
@@ -534,7 +768,7 @@
                     <div id="student-result" class="result hidden"></div>
                 </div>
 
-                <div class="card">
+                <div class="card" id="start-quiz-card">
                     <h3>Start Quiz</h3>
                     <label for="student-id">Student ID</label>
                     <input type="number" id="student-id" placeholder="Enter your ID">
@@ -543,12 +777,10 @@
                         <option value="">Loading lectures...</option>
                     </select>
                     <button id="start-quiz-btn">Start Practice</button>
-                    <div class="connection-status">
-                        <span class="status-dot" id="status-dot"></span>
-                        <span id="status-text">Checking connection...</span>
-                    </div>
                 </div>
             </div>
+
+            <button id="back-to-courses-btn" class="btn-secondary" style="max-width: 300px; margin: 0 auto;">← Choose Different Course</button>
         </div>
 
         <!-- Quiz Section -->
@@ -580,15 +812,15 @@
 
             <!-- Mastery Banner -->
             <div id="mastery-banner" class="mastery-banner hidden">
-                <h2>Concept Mastered!</h2>
-                <p>You've demonstrated mastery of this primitive. Try another one!</p>
-                <button id="try-another-btn" style="margin-top: 1rem; width: auto; padding: 0.75rem 2rem;">Choose Another Primitive</button>
+                <h2>Lecture Mastered!</h2>
+                <p>You've demonstrated mastery of this lecture. Try another one!</p>
+                <button id="try-another-btn" style="margin-top: 1rem; width: auto; padding: 0.75rem 2rem;">Choose Another Lecture</button>
             </div>
 
             <!-- Question Card -->
             <div id="question-card" class="question-card">
                 <div class="question-header">
-                    <span class="primitive-badge" id="q-primitive">DIRECTION</span>
+                    <span class="lecture-badge" id="q-lecture">LECTURE</span>
                     <span class="difficulty-badge difficulty-easy" id="q-difficulty">EASY</span>
                 </div>
                 <div class="question-stem" id="q-stem">Loading question...</div>
@@ -611,19 +843,47 @@
         </div>
     </main>
 
+    <footer>
+        <a href="https://thebeakers.com">The Beakers</a> ·
+        <a href="https://chem291.thebeakers.com">CHEM 291</a> ·
+        <a href="https://chem361.thebeakers.com">CHEM 361</a>
+    </footer>
+
     <script>
-        // Configuration - uses Cloudflare tunnel for production
+        // Configuration
         const API_BASE = window.location.hostname === 'localhost'
             ? 'http://localhost:8001'
             : 'https://quiz.thebeakers.com';
 
+        // Course configurations
+        const COURSES = {
+            chem291: {
+                name: 'CHEM 291',
+                title: 'Math for Chemistry',
+                lecturePrefix: 'L',
+                accentColor: 'teal',
+                homeUrl: 'https://chem291.thebeakers.com',
+                lecturesUrl: 'https://chem291.thebeakers.com/lectures/all-lectures.html'
+            },
+            chem361: {
+                name: 'CHEM 361',
+                title: 'Inorganic Chemistry',
+                lecturePrefix: 'IC',  // or whatever prefix CHEM 361 uses
+                accentColor: 'purple',
+                homeUrl: 'https://chem361.thebeakers.com',
+                lecturesUrl: 'https://chem361.thebeakers.com/lectures/'
+            }
+        };
+
         // State
+        let currentCourse = null;
         let currentQuestion = null;
         let studentId = null;
         let conceptId = null;
         let stats = { correct: 0, streak: 0 };
 
         // DOM Elements
+        const courseSection = document.getElementById('course-section');
         const setupSection = document.getElementById('setup-section');
         const quizSection = document.getElementById('quiz-section');
         const errorContainer = document.getElementById('error-container');
@@ -638,6 +898,8 @@
         const feedback = document.getElementById('feedback');
         const statusDot = document.getElementById('status-dot');
         const statusText = document.getElementById('status-text');
+        const headerLogo = document.getElementById('header-logo');
+        const navLinks = document.getElementById('nav-links');
 
         // Check API connection
         async function checkConnection() {
@@ -652,11 +914,65 @@
                 console.error('Connection check failed:', e);
             }
             statusDot.classList.remove('connected');
-            statusText.textContent = 'Quiz server offline - start with: cd /storage/quizzes && uvicorn app.main:app --port 8001';
+            statusText.textContent = 'Quiz server offline';
             return false;
         }
 
-        // Load lectures
+        // Select course
+        function selectCourse(courseId) {
+            currentCourse = COURSES[courseId];
+
+            // Update UI theme
+            document.getElementById('setup-title').textContent = `${currentCourse.name} Quizzes`;
+            headerLogo.textContent = currentCourse.name;
+            headerLogo.className = `logo ${courseId}`;
+            headerLogo.href = currentCourse.homeUrl;
+
+            // Update nav links
+            navLinks.innerHTML = `
+                <a href="${currentCourse.lecturesUrl}">Lectures</a>
+                <a href="${currentCourse.homeUrl}">Course Home</a>
+            `;
+
+            // Update button colors
+            const createBtn = document.getElementById('create-student-btn');
+            const startBtn = document.getElementById('start-quiz-btn');
+            const submitBtn = document.getElementById('submit-answer-btn');
+
+            if (courseId === 'chem361') {
+                createBtn.classList.add('chem361');
+                startBtn.classList.add('chem361');
+                submitBtn.classList.add('chem361');
+                document.getElementById('new-student-card').classList.add('chem361');
+                document.getElementById('start-quiz-card').classList.add('chem361');
+            } else {
+                createBtn.classList.remove('chem361');
+                startBtn.classList.remove('chem361');
+                submitBtn.classList.remove('chem361');
+                document.getElementById('new-student-card').classList.remove('chem361');
+                document.getElementById('start-quiz-card').classList.remove('chem361');
+            }
+
+            // Show setup section
+            courseSection.classList.add('hidden');
+            setupSection.classList.remove('hidden');
+
+            // Load lectures for this course
+            loadLectures();
+        }
+
+        // Back to course selection
+        function backToCourses() {
+            setupSection.classList.add('hidden');
+            courseSection.classList.remove('hidden');
+            headerLogo.textContent = 'The Beakers';
+            headerLogo.className = 'logo';
+            headerLogo.href = '#';
+            navLinks.innerHTML = '<a href="https://thebeakers.com">Home</a>';
+            currentCourse = null;
+        }
+
+        // Load lectures for current course
         async function loadLectures() {
             try {
                 const res = await fetch(`${API_BASE}/concepts`);
@@ -664,9 +980,10 @@
 
                 lectureSelect.innerHTML = '<option value="">Select a lecture...</option>';
 
-                // Filter to only lectures (names starting with "L")
+                // Filter lectures based on course prefix
+                const prefix = currentCourse.lecturePrefix;
                 concepts
-                    .filter(c => c.name.startsWith('L'))
+                    .filter(c => c.name.startsWith(prefix))
                     .sort((a, b) => a.name.localeCompare(b.name))
                     .forEach(concept => {
                         const option = document.createElement('option');
@@ -674,6 +991,19 @@
                         option.textContent = concept.name;
                         lectureSelect.appendChild(option);
                     });
+
+                // If no lectures found with prefix, show all L* lectures (fallback for CHEM 291)
+                if (lectureSelect.options.length === 1 && prefix !== 'L') {
+                    concepts
+                        .filter(c => c.name.startsWith('L'))
+                        .sort((a, b) => a.name.localeCompare(b.name))
+                        .forEach(concept => {
+                            const option = document.createElement('option');
+                            option.value = concept.id;
+                            option.textContent = concept.name;
+                            lectureSelect.appendChild(option);
+                        });
+                }
             } catch (e) {
                 showError('Could not load lectures. Is the quiz server running?');
             }
@@ -745,7 +1075,7 @@
 
             // Update badges
             const lectureName = lectureSelect.options[lectureSelect.selectedIndex].text;
-            document.getElementById('q-primitive').textContent = lectureName;
+            document.getElementById('q-lecture').textContent = lectureName;
 
             const diffBadge = document.getElementById('q-difficulty');
             diffBadge.textContent = question.difficulty.toUpperCase();
@@ -912,6 +1242,7 @@
         document.getElementById('submit-answer-btn').addEventListener('click', submitAnswer);
         document.getElementById('back-to-setup-btn').addEventListener('click', backToSetup);
         document.getElementById('try-another-btn').addEventListener('click', backToSetup);
+        document.getElementById('back-to-courses-btn').addEventListener('click', backToCourses);
 
         // Load saved student ID
         const savedId = localStorage.getItem('quizStudentId');
@@ -920,9 +1251,7 @@
         }
 
         // Initialize
-        checkConnection().then(connected => {
-            if (connected) loadLectures();
-        });
+        checkConnection();
     </script>
 </body>
 </html>
