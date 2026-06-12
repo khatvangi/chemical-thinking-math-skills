@@ -384,17 +384,31 @@ const observer = new IntersectionObserver(entries => {
 document.querySelectorAll('.part').forEach(p => observer.observe(p));
 ```
 
-### For Tool Pages (Math)
-- Hook with chemical phenomenon
-- Minimal prose, maximal visualization
-- Tables for structured information
-- Show don't tell
-- Practice problems with feedback
+### For Lecture Pages (Math) — Textbook Register
+
+Lectures are textbook chapters, not slide decks. Style reference: `site/primitives/direction.html` (connected prose, 3–6 sentence paragraphs). NO word budgets — length emerges naturally from the topic.
+
+**Chapter skeleton:**
+1. **The Problem** — a narrated laboratory scene ending in a question the chapter answers
+2. **Development** — every equation gets three things in connected prose:
+   - *motivation before* (why the obvious approach fails, so the definition feels forced upon us)
+   - *derivation as narration* (equations interleaved with sentences explaining each move)
+   - *interpretation after* (what the result says in chemical terms)
+3. **Worked examples** — Problem → Setting it up (the chemist's pre-algebra thinking) → Solution (steps with prose between) → Check (units, limiting cases, magnitude). The Check paragraph is non-negotiable.
+4. **Interactive widgets — kept, but framed** — prediction prompt before ("decide, then test"), debrief after
+5. **Remarks and Cautions** — the graded-exams voice: common mistakes, sign errors, scope of validity
+6. **Summary as a paragraph** (not bullets) + exercises
+
+**Register rules:**
+- Paragraphs of 3–6 sentences; one idea each; transitions live in prose, not headings
+- Declarative one-liners allowed only inside callout boxes, max 1–2 per chapter
+- Stat-boxes demoted: content moves into sentences; boxes only for genuinely tabular data
 
 ### What NOT to Do
 - Don't start with definitions
 - Don't present tools before phenomena
-- Don't over-explain — trust the visualization
+- Don't write caption-length paragraphs — declarations are not exposition
+- Don't pad to a length target — completeness is judged by motivation/derivation/interpretation coverage, not word count
 - Don't use "math anxiety" language — treat students as capable
 
 ### Lecture Navigation Pattern

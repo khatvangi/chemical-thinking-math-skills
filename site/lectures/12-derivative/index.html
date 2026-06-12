@@ -441,16 +441,15 @@
 
     <!-- Hook -->
     <div class="hook-box">
-        <p><strong>The Problem:</strong> You're running a reaction. You measure concentration every 10 seconds. Your advisor asks: "What's the reaction rate at t = 25 seconds?"</p>
-        <p>You don't have a measurement at t = 25. And even if you did — the rate is <em>changing</em>. It's not the same at t = 25 as at t = 30.</p>
-        <p><strong>How do you answer?</strong></p>
-        <p>This is not a calculus exercise. This is your actual problem in the lab.</p>
+        <p><strong>The Problem.</strong> You are running a kinetics experiment. A reactant A is being consumed, and every ten seconds the spectrometer logs its concentration: 0.500 M at the start, 0.409 M at ten seconds, 0.335 M at twenty, 0.274 M at thirty. Your advisor looks over your shoulder and asks a question that sounds innocent: <em>"What's the rate at t = 25 seconds?"</em></p>
+        <p>You pause. You have no measurement at t = 25 — the instrument recorded at 20 and at 30. But the difficulty runs deeper than a missing data point. Even if you had a reading at exactly 25 seconds, a single concentration is not a rate. A rate is about <em>change</em>, and change needs two points to compare. Yet the moment you pick two points, you are describing an <em>interval</em> — and your advisor asked about an <em>instant</em>. The reaction is slowing down the whole time, so the rate at t = 25 is genuinely different from the rate at t = 20 or t = 30. There seems to be no honest way to answer.</p>
+        <p>Somehow you must extract "how fast, right now" from data that only ever tells you "how much, at this time." This chapter builds the tool that does exactly that — the <strong>derivative</strong> — and by the end we will answer the advisor's question two independent ways and watch the answers agree.</p>
     </div>
 
     <!-- Section 1: The Real Question -->
     <h2>1. The Real Question</h2>
 
-    <p>Chemistry is full of "how fast?" questions:</p>
+    <p>Before attacking the advisor's problem, it is worth noticing how often this exact situation arises. The question "how fast?" is arguably the most common quantitative question in all of chemistry, and it always has the same hidden structure: some quantity depends on time (or on position, or on temperature), and we want to know how rapidly it is changing at one particular moment. Consider how many familiar measurements are secretly this question in disguise:</p>
 
     <table>
         <tr>
@@ -475,20 +474,24 @@
         </tr>
     </table>
 
-    <p><strong>The pattern:</strong> You have a quantity that depends on time (or position, or something else). You want to know how fast it's changing <em>at a specific instant</em>.</p>
-
-    <p>This is the <strong>derivative</strong>.</p>
+    <p>Every row of this table names a different instrument and a different laboratory, but mathematically they are one question. In each case there is a function — concentration as a function of time, charge as a function of time, energy as a function of time — and what we are asking for is the <em>instantaneous rate of change</em> of that function. If we can solve the problem once, in the abstract, we solve it everywhere at once. That is the economy of mathematics: one tool, built carefully, serves every column of the table. The tool is the derivative, and to build it we should first understand precisely why the obvious approach falls short.</p>
 
     <!-- Section 2: Average vs Instantaneous -->
-    <h2>2. The Problem with Average Rate</h2>
+    <h2>2. The Average Rate, and What It Costs Us</h2>
 
-    <h3>2.1 Average Rate of Change</h3>
+    <p>The obvious first answer to the advisor is to take the two measurements that bracket t = 25 and divide the change in concentration by the change in time. Between t = 20 s and t = 30 s the concentration fell from 0.335 M to 0.274 M, a drop of 0.061 M over 10 seconds. So the concentration is changing at about −0.0061 M per second, and we might report a rate of roughly 6.1 × 10⁻³ M/s. This quantity has a name and a precise definition:</p>
 
     <div class="definition-box">
         <strong>Definition:</strong> The <em>average rate of change</em> of f over [a, b] is:
         <p style="text-align: center; margin: 1rem 0; font-size: 1.2rem;">$$\text{Average rate} = \frac{f(b) - f(a)}{b - a} = \frac{\Delta f}{\Delta x}$$</p>
         <p>This is the slope of the <strong>secant line</strong> connecting (a, f(a)) and (b, f(b)).</p>
     </div>
+
+    <p>For many purposes the average rate is good enough, and it has the great virtue of being computable directly from data. But notice what we had to give up to compute it. The average rate is a property of an <em>interval</em>, not of a moment. It tells us what happened between 20 and 30 seconds, smearing together the faster chemistry near the start of the interval with the slower chemistry near the end. Our advisor asked about t = 25 exactly. If the rate is changing within the interval — and in any real reaction it is — then no choice of interval gives us precisely what was asked.</p>
+
+    <p>The natural response is to shrink the interval. An average over [24, 26] would smear less than an average over [20, 30]; an average over [24.9, 25.1] would smear less still. Geometrically, each shrinking of the interval tilts the secant line — the straight line through the two endpoints — closer and closer to a limiting position: the <em>tangent line</em>, the straight line that just grazes the curve at t = 25 and matches its steepness there. The slope of that tangent line is the number we are after. The interactive below lets you watch this convergence happen.</p>
+
+    <p><em>Before you touch the slider:</em> the secant slope and the true derivative are displayed below the graph, along with their difference. Predict — as you drag h toward zero, does the error shrink steadily, or does it suddenly jump to zero at some point? Decide, then test.</p>
 
     <!-- Secant to Tangent Visualizer -->
     <div class="visual-container">
@@ -531,12 +534,14 @@
         </div>
     </div>
 
-    <p><strong>As h → 0, the secant line approaches the tangent line, and the average rate approaches the instantaneous rate.</strong></p>
+    <p>You should have seen the error shrink <em>gradually</em> — there is no magic value of h where the secant suddenly becomes the tangent. At h = 0.05, the smallest the slider allows, the secant slope is close to the true derivative but still not equal to it. This observation is the crux of the whole chapter: no single secant line ever gives the exact answer, yet the sequence of secant slopes is clearly <em>heading somewhere</em>. The question is how to lay hands on the destination.</p>
 
     <!-- Section 3: The Derivative -->
     <h2>3. The Derivative: Definition</h2>
 
-    <h3>3.1 Limit Definition</h3>
+    <p>Why not simply finish the job and set h = 0? Because the average rate is a ratio, $\frac{f(a+h) - f(a)}{h}$, and at h = 0 both the numerator and the denominator vanish. The expression becomes 0/0, which is not a number — it is the absence of an answer. An interval of width zero contains no change to measure. This is the impasse: we need the interval to be zero, and we cannot allow the interval to be zero.</p>
+
+    <p>The escape is the idea from Lecture 11: the <strong>limit</strong>. Instead of asking "what is the ratio <em>at</em> h = 0?" — a question with no answer — we ask "what value does the ratio <em>approach</em> as h shrinks toward 0?" That is a different question, and it does have an answer. You watched it have an answer in the interactive above: as h marched toward zero, the secant slope marched toward a definite number and stabilized. The limit names that number without ever requiring us to divide by zero. The derivative is defined as exactly this limit:</p>
 
     <div class="definition-box">
         <strong>Definition:</strong> The derivative of f at x = a is:
@@ -544,7 +549,11 @@
         <p>if this limit exists.</p>
     </div>
 
-    <h3>3.2 Notation</h3>
+    <p>Read the definition from the inside out, because every piece of it earns its place. The inner fraction $\frac{f(a+h)-f(a)}{h}$ is just the average rate over the small interval from a to a + h — the secant slope, the thing we can always compute. The limit then asks where those secant slopes are heading as the interval shrinks. The result, f′(a), is a single number attached to the single point a: the instantaneous rate of change, the slope of the tangent line, the answer to the advisor's kind of question. Note also the caveat "if this limit exists" — it is not decoration. For some functions, at some points, the secant slopes refuse to settle on any destination, and then there simply is no derivative there. Section 8 shows what that failure looks like.</p>
+
+    <h3>3.1 Notation</h3>
+
+    <p>The derivative was invented more or less simultaneously by Newton and Leibniz, and their notational descendants both survive. You will need to read all of the following fluently, because chemistry texts switch between them without warning:</p>
 
     <div class="notation-box">
         <table>
@@ -576,17 +585,39 @@
         </table>
     </div>
 
-    <p><strong>Leibniz notation</strong> df/dx is powerful because it reminds you: the derivative is a ratio of infinitesimal changes.</p>
+    <p>Lagrange's prime notation f′(x) is the most compact, and we use it when the variable is obvious. But Leibniz's notation df/dx is the one chemists live with, and it deserves a moment of reflection. It is built to <em>look like</em> a fraction — an infinitesimally small change in f divided by an infinitesimally small change in x — because that is how Leibniz thought of it. Strictly speaking it is not a fraction; it is the limit of fractions, a single indivisible symbol. But the notation is engineered so well that treating it like a fraction usually gives correct results, and in Lecture 19 we will exploit this shamelessly when separating variables in differential equations. A second virtue: df/dx displays its own units. If f is a concentration in M and x is a time in seconds, then df/dx is in M/s — the units of the numerator divided by the units of the denominator. A derivative always carries units, and checking them is the fastest way to catch an error.</p>
 
     <!-- Section 4: Computing Derivatives -->
     <h2>4. Computing Derivatives from the Definition</h2>
 
-    <h3>Example 1: f(x) = x²</h3>
-    <p>$$f'(x) = \lim_{h \to 0} \frac{(x+h)^2 - x^2}{h} = \lim_{h \to 0} \frac{2xh + h^2}{h} = \lim_{h \to 0} (2x + h) = 2x$$</p>
+    <p>The definition is not only a conceptual statement — it is a recipe you can actually run. The pattern is always the same three moves: write the difference quotient, do algebra until the troublesome h in the denominator cancels away, and then let h → 0 in what remains. Watch the pattern work on the simplest interesting function, f(x) = x².</p>
 
-    <h3>Example 2: f(x) = eˣ</h3>
-    <p>$$f'(x) = \lim_{h \to 0} \frac{e^{x+h} - e^x}{h} = e^x \cdot \lim_{h \to 0} \frac{e^h - 1}{h} = e^x \cdot 1 = e^x$$</p>
-    <p><strong>The exponential function is its own derivative!</strong> This is why eˣ is special.</p>
+    <p>First, the difference quotient. We need f(x + h), which is (x + h)² = x² + 2xh + h², so:</p>
+    <p>$$\frac{f(x+h) - f(x)}{h} = \frac{(x^2 + 2xh + h^2) - x^2}{h} = \frac{2xh + h^2}{h}$$</p>
+    <p>Here is the crucial move. The x² terms cancel — the numerator keeps only terms that contain h. That is no accident: f(x+h) − f(x) measures the <em>change</em> in f, and the change must vanish as h does. Because every surviving term carries a factor of h, we may divide it out:</p>
+    <p>$$\frac{2xh + h^2}{h} = 2x + h$$</p>
+    <p>And now the expression is harmless at h = 0. The division by zero that blocked us in Section 3 has been algebraically dissolved, and the limit is found by simply letting h go:</p>
+    <p>$$f'(x) = \lim_{h \to 0}\,(2x + h) = 2x$$</p>
+    <p>Pause on what kind of object we obtained. We asked for the slope at a point and received a <em>function</em>: f′(x) = 2x hands us the slope at every point at once. At x = 1 the parabola climbs with slope 2; at x = 3 it climbs steeply with slope 6; at x = −2 it descends with slope −4; and at x = 0, the bottom of the bowl, the slope is exactly zero. One computation, infinitely many tangent lines.</p>
+
+    <div class="exercise-box">
+        <h4>Worked Example 1: f(x) = 1/x from the definition</h4>
+        <p><strong>Problem.</strong> Find f′(x) for f(x) = 1/x.</p>
+        <p><strong>Setting it up.</strong> Same recipe: difference quotient, algebra until h cancels, then h → 0. The new wrinkle is that f(x+h) − f(x) is a difference of fractions, so the algebra step will be "combine over a common denominator" rather than "expand a square." We should expect trouble only where the function itself is in trouble, namely x = 0.</p>
+        <p><strong>Solution.</strong> The difference quotient is:</p>
+        <p>$$\frac{1}{h}\left(\frac{1}{x+h} - \frac{1}{x}\right) = \frac{1}{h}\cdot\frac{x - (x+h)}{x(x+h)} = \frac{1}{h}\cdot\frac{-h}{x(x+h)} = \frac{-1}{x(x+h)}$$</p>
+        <p>Once again the change in f produced a factor of h in the numerator, and dividing by h removed it. Letting h → 0:</p>
+        <p>$$f'(x) = \lim_{h\to 0} \frac{-1}{x(x+h)} = -\frac{1}{x^2}$$</p>
+        <p><strong>Check.</strong> The sign is right: for x &gt; 0, the function 1/x is falling, and our derivative is negative everywhere. The behavior is right: near x = 0 the hyperbola plunges almost vertically and indeed −1/x² blows up there; far from the origin the curve flattens and −1/x² duly shrinks toward zero. And the answer agrees with the power rule of Lecture 13 — write 1/x as x⁻¹, and nxⁿ⁻¹ gives −x⁻² — so the general rule we adopt later is consistent with the definition we sweated through here.</p>
+    </div>
+
+    <p>One more computation from the definition, because its result organizes half of physical chemistry. Take f(x) = eˣ. The difference quotient factors cleanly, since e^(x+h) = eˣ·eʰ:</p>
+    <p>$$f'(x) = \lim_{h \to 0} \frac{e^{x+h} - e^x}{h} = e^x \cdot \lim_{h \to 0} \frac{e^h - 1}{h}$$</p>
+    <p>Everything depending on x has been pulled outside the limit; what remains inside is a pure number, the slope of eˣ at the origin. For the base e — and this is precisely what makes e the natural base, the reason it is worth singling out 2.71828… from all possible bases — that limiting value is exactly 1. Therefore:</p>
+    <p>$$f'(x) = e^x$$</p>
+    <p>The exponential function is its own derivative: at every point, its slope equals its height. This is why eˣ appears wherever a quantity changes at a rate proportional to itself — first-order kinetics, radioactive decay, the Boltzmann distribution, RC circuits. Nature keeps posing the equation "rate of change ∝ current amount," and eˣ is its built-in solution. We will lean on this constantly, starting in Section 6.</p>
+
+    <p><em>Before the next interactive:</em> it plots f(x) = x² on the left and f′(x) = 2x on the right, with a movable point. Predict — when the point sits exactly at the bottom of the parabola, where is the corresponding point on the right-hand graph? And as you slide from left of the minimum to right of it, what single feature of the right-hand graph records the moment you pass the bottom? Decide, then drag.</p>
 
     <!-- Derivative Explorer -->
     <div class="visual-container">
@@ -615,17 +646,14 @@
         </div>
     </div>
 
+    <p>You should have found that the bottom of the parabola corresponds to the point where the right-hand graph <em>crosses zero</em>. That is the debrief in one sentence: the derivative converts a geometric feature (the bottom of a valley) into an algebraic one (f′ = 0), which a computer — or a tired student during an exam — can find without ever drawing the curve. Notice too that f′ is negative everywhere the parabola descends and positive everywhere it climbs; the sign of the derivative is a running commentary on the function's behavior.</p>
+
     <!-- Section 5: What the Derivative Tells You -->
     <h2>5. What the Derivative Tells You</h2>
 
-    <h3>5.1 Geometric Meaning</h3>
-    <ul>
-        <li><strong>f'(a) > 0:</strong> function is <em>increasing</em> at a</li>
-        <li><strong>f'(a) < 0:</strong> function is <em>decreasing</em> at a</li>
-        <li><strong>f'(a) = 0:</strong> horizontal tangent (possible extremum)</li>
-    </ul>
+    <p>It is worth collecting these readings of f′ in one place, because using the derivative fluently means translating between them without conscious effort. Geometrically, the sign of f′(a) classifies the local behavior: where f′(a) &gt; 0 the function is increasing — the tangent line tilts uphill; where f′(a) &lt; 0 it is decreasing; and where f′(a) = 0 the tangent is horizontal, marking a point where the function has momentarily stopped changing. These zero-slope points are where maxima and minima hide, which is why Lecture 14 will turn "find the extremum" into "solve f′ = 0." A word of caution that we will sharpen there: f′ = 0 marks a <em>candidate</em> extremum, not a guaranteed one — the function f(x) = x³ has zero slope at the origin yet keeps right on climbing through it.</p>
 
-    <h3>5.2 Physical Meaning</h3>
+    <p>Physically, the derivative of any quantity with a name usually has a name of its own. Many quantities you have treated as independent concepts are secretly derivative pairs:</p>
     <table>
         <tr>
             <th>If f(t) represents...</th>
@@ -653,11 +681,33 @@
         </tr>
     </table>
 
+    <p>Each row is the same mathematical relationship wearing different laboratory clothes. Velocity does not merely <em>relate to</em> position — it <em>is</em> the derivative of position with respect to time; current <em>is</em> the derivative of charge. Once you see the pattern, the units become self-explanatory: every derivative inherits the units "numerator per denominator," so concentration in M differentiated with respect to time in s must yield M/s, and energy in J differentiated with respect to time yields J/s — which we long ago renamed the watt.</p>
+
+    <p>There is a third reading of the derivative, alongside the geometric and the physical, that working scientists use most of all: the derivative is the function's <em>best linear stand-in</em>. The tangent line at a point hugs the curve so closely that, for small excursions h away from the point, the line is an excellent substitute for the function itself:</p>
+    <p style="text-align: center; font-size: 1.1rem;">$$f(a + h) \approx f(a) + f'(a)\,h$$</p>
+    <p>Read it as a recipe: new value ≈ old value plus (rate of change) × (how far you moved). This <strong>linear approximation</strong> is how you estimate without computing — e^0.1 must be close to 1 + 0.1 = 1.1, because eˣ has value 1 and slope 1 at the origin (the true value is 1.105). It is also the first word of a longer story: keeping more terms beyond the linear one yields the Taylor series of Lecture 16, and the harmonic approximation that underlies all of vibrational spectroscopy is exactly this idea applied to a potential well. For now, internalize the slogan: <em>zoom in far enough on any differentiable function, and it looks like a straight line whose slope is the derivative.</em></p>
+
     <!-- Section 6: Chemistry - Reaction Rates -->
     <h2>6. Chemistry Connection: Reaction Rates</h2>
 
-    <p>For a reaction A → Products:</p>
+    <p>Now we can give the advisor's question a precise meaning. For a reaction A → Products, the concentration [A] is a function of time, and the instantaneous rate of the reaction is defined through its derivative:</p>
     <p style="text-align: center; font-size: 1.2rem;">$$\text{Rate} = -\frac{d[A]}{dt}$$</p>
+
+    <p>The minus sign deserves a sentence rather than a footnote, because dropped minus signs are the leading cause of death on kinetics exams. Since A is being <em>consumed</em>, [A] is a decreasing function, so its derivative d[A]/dt is negative. But chemists insist, by convention, that a reaction proceeding forward has a <em>positive</em> rate. The minus sign reconciles the two: it flips the negative derivative into the positive number we report. If we instead tracked a product P, its concentration grows, d[P]/dt is already positive, and the rate is +d[P]/dt with no sign correction. (When stoichiometry is not one-to-one — say 2A → P — one also divides by the stoichiometric coefficient, defining Rate = −(1/2) d[A]/dt, so that every species in the reaction reports the same rate. For this chapter, our reactions are all A → Products and the coefficient is 1.)</p>
+
+    <div class="exercise-box">
+        <h4>Worked Example 2: Answering the advisor</h4>
+        <p><strong>Problem.</strong> Using the data from the opening — [A] = 0.500, 0.409, 0.335, 0.274 M at t = 0, 10, 20, 30 s — find the rate at t = 25 s.</p>
+        <p><strong>Setting it up.</strong> We will answer twice, by two independent routes, and let the agreement between them be our verification. Route one uses only the raw data: the best estimate of an instantaneous rate from discrete measurements is the average rate over the smallest interval <em>centered</em> on the time of interest — here, [20 s, 30 s], whose midpoint is exactly 25 s. Route two uses a model: this data is consistent with first-order decay, [A](t) = (0.500 M)·e^(−kt) with k = 0.020 s⁻¹ (check: at t = 10, 0.500·e^(−0.2) = 0.409 ✓), and a model can be differentiated exactly.</p>
+        <p><strong>Solution, route one (from data).</strong> The centered average rate is:</p>
+        <p>$$\frac{\Delta[A]}{\Delta t} = \frac{0.274 - 0.335}{30 - 20} = \frac{-0.061}{10} = -6.1 \times 10^{-3}\ \text{M/s}$$</p>
+        <p>so Rate ≈ 6.1 × 10⁻³ M/s.</p>
+        <p><strong>Solution, route two (from the model).</strong> Differentiating the exponential — using d(eˣ)/dx = eˣ from Section 4 together with the chain rule we will justify properly in Lecture 13 — gives d[A]/dt = −k·(0.500)·e^(−kt). At t = 25 s:</p>
+        <p>$$-\frac{d[A]}{dt}\bigg|_{t=25} = (0.020)(0.500)\,e^{-0.5} = (0.010)(0.6065) = 6.07 \times 10^{-3}\ \text{M/s}$$</p>
+        <p><strong>Check.</strong> Units first: M/s on both routes, as a rate of concentration change must be. Sign: both rates come out positive after the convention's minus sign, as a forward reaction demands. And the two routes agree to within half a percent — 6.1 versus 6.07 × 10⁻³ M/s — which tells us the centered difference over a 10-second window was an excellent stand-in for the true derivative here. The agreement is not luck: the centered secant errs symmetrically, overestimating on one side of t = 25 what it underestimates on the other. This, finally, is the honest answer to the advisor — and the reasoning behind it is the entire content of this chapter.</p>
+    </div>
+
+    <p><em>Before the next interactive:</em> it plots first-order decay with adjustable k and a movable time marker, displaying both the measured slope −d[A]/dt and the quantity k[A]. Predict — if you double k, does the rate at t = 10 s double as well, or change by some other factor? (Careful: k appears twice, once in front and once in the exponent.) Decide, then test.</p>
 
     <!-- Reaction Rate Visualizer -->
     <div class="visual-container">
@@ -691,13 +741,19 @@
         </div>
     </div>
 
-    <p><strong>First-order kinetics:</strong> Rate = k[A]. The rate <em>is</em> the derivative!</p>
+    <p>The debrief: doubling k <em>less</em> than doubles the rate at t = 10 s, because the larger k has already consumed more reactant by then — the prefactor doubles, but e^(−kt) shrinks. More importantly, compare the two displayed numbers as you slide: −d[A]/dt and k[A] track each other exactly, at every k and every t. That identity, Rate = k[A], is the defining equation of first-order kinetics, and you should now read it with new eyes. It says the derivative of the concentration is proportional to the concentration itself — which, as Section 4 promised, is precisely the situation that exponentials are born to describe. The decay curve is exponential <em>because</em> the rate is proportional to the amount; in Lecture 19 we will run this logic forward and derive the curve from the rate law.</p>
 
     <!-- Section 7: Force from Potential -->
     <h2>7. Chemistry Connection: Force from Potential</h2>
 
-    <p>If V(x) is the potential energy as a function of position:</p>
+    <p>The derivative's domain is not only time. Whenever a quantity varies with <em>position</em>, its derivative with respect to position is equally meaningful, and the most important example in chemistry is the potential energy V(x) — for instance, the energy of a diatomic molecule as a function of its bond length. The relationship between energy and force is:</p>
     <p style="text-align: center; font-size: 1.2rem;">$$F = -\frac{dV}{dx}$$</p>
+
+    <p>To feel why this is true rather than memorize it, picture a ball resting on a hillside whose height profile is V(x). The ball rolls downhill — always toward lower potential energy. Where the hill slopes upward to the right (dV/dx &gt; 0), "downhill" is to the left, so the force must be negative; where the hill slopes downward to the right (dV/dx &lt; 0), the ball is pushed rightward and the force is positive. In both cases the force is opposite in sign to the slope, which is exactly what the minus sign encodes: <em>force pushes down the energy gradient</em>. The magnitude matters too — a steep slope means a large derivative and hence a strong force, a gentle slope a weak one. And where the slope vanishes, dV/dx = 0, there is no force at all: the system is at <em>equilibrium</em>. A bond sits at the bottom of its potential well precisely because that is where the derivative of the energy is zero.</p>
+
+    <p>The harmonic potential V = ½kx² makes this concrete. Differentiating (by the power rule pattern you saw for x²) gives dV/dx = kx, so F = −kx: a restoring force proportional to displacement, pointing back toward the origin. You have met this before as Hooke's law — and now you can see it is not an independent law at all, but the derivative of a parabolic energy. This is the mathematical heart of why molecules vibrate: near the bottom of any smooth well, the potential looks parabolic, so the force looks like Hooke's law, so the motion is oscillation.</p>
+
+    <p><em>Before the next interactive:</em> select the double-well potential, V = x⁴ − 2x². Predict — at how many positions is the force exactly zero, and at which of them would a particle, nudged slightly, return rather than run away? Decide, then explore with the slider.</p>
 
     <!-- Force from Potential Visualizer -->
     <div class="visual-container">
@@ -734,10 +790,14 @@
         </div>
     </div>
 
+    <p>You should have found three equilibria: the two well bottoms at x = ±1, where a nudged particle rolls back (stable), and the central hump at x = 0, where the force is also zero but any nudge sends the particle accelerating away (unstable). Both kinds satisfy dV/dx = 0; what distinguishes them is whether the slope <em>around</em> the equilibrium pushes back or pushes away — a question about how the derivative itself is changing, which is the business of the second derivative and of Lecture 14. Double wells like this one are not a textbook curiosity: they are the energy landscape of any molecule with two stable conformations, and the hump between the wells is the barrier that reaction rates fight against.</p>
+
     <!-- Section 8: Differentiability -->
     <h2>8. When the Derivative Doesn't Exist</h2>
 
-    <p>The derivative f'(a) exists only if the limit exists (finite, same from both sides).</p>
+    <p>The definition in Section 3 ended with a quiet condition — "if this limit exists" — and we owe it an honest look. The limit defining f′(a) can fail, and when it fails the function simply has no derivative at that point, no matter how much we might want one. The failure has a clear geometric signature. Approaching the point from the left, the secant slopes settle toward one value; approaching from the right, toward another; the derivative exists only when the two sides agree on a single, finite answer. The classic offender is f(x) = |x| at the origin: from the left every secant has slope −1, from the right every secant has slope +1, and no amount of shrinking h reconciles them. The graph has a <em>corner</em>, and a corner has no single tangent line.</p>
+
+    <p><em>Before the interactive:</em> it offers three different failures — a corner, a cusp, and a vertical tangent. Predict which of the three has left and right secant slopes that <em>do</em> agree with each other, yet still fails to have a derivative. Then check yourself.</p>
 
     <!-- Non-differentiable visualizer -->
     <div class="visual-container">
@@ -764,10 +824,12 @@
         </div>
     </div>
 
-    <p><strong>Key theorem:</strong> Differentiable ⟹ Continuous (but not vice versa)</p>
+    <p>The answer is the vertical tangent, x^(1/3): both one-sided slopes head to +∞ together, agreeing perfectly — but +∞ is not a number, and the definition demands a finite limit. Agreement is necessary, not sufficient. One general fact is worth carrying away from these pathologies: <strong>differentiability implies continuity, but not the reverse.</strong> If a function has a derivative at a point, it cannot jump there — you cannot draw a tangent line to a gap. But the converse fails, and |x| is the standing counterexample: perfectly continuous through the origin, yet not differentiable there. Smoothness is a strictly stronger demand than unbrokenness. Nor are these failures merely mathematical curiosities for a chemist: potential energy surfaces develop cusp-like features where electronic states cross (the conical intersections of photochemistry), and at such points the force, −dV/dx, is genuinely ill-defined — the molecule's fate becomes a question the classical picture cannot answer.</p>
 
     <!-- Section 9: Basic Derivatives Table -->
-    <h2>9. Basic Derivatives Table</h2>
+    <h2>9. A Starter Table of Derivatives</h2>
+
+    <p>Running the limit definition is illuminating, but nobody does it twice for the same function. Sections 4's computations — and others like them — get done once, in general, and recorded. The short table below covers the functions that account for nearly every derivative in this course; Lecture 13 adds the combination rules (product, quotient, chain) that let you differentiate anything built from these parts without ever touching a limit again.</p>
 
     <table class="derivative-table">
         <tr>
@@ -807,8 +869,24 @@
         </tr>
     </table>
 
-    <!-- Section 10: Exercises -->
-    <h2>10. Exercises</h2>
+    <!-- Section 10: Remarks -->
+    <h2>10. Remarks and Cautions</h2>
+
+    <p><strong>Remark 1 — the sign of the rate.</strong> The most common kinetics error is writing Rate = d[A]/dt for a reactant. For anything being consumed, d[A]/dt is negative; the defined rate carries the compensating minus sign. A quick self-test before submitting any answer: a forward-running reaction must have a positive rate, and a derivative must have the sign of the actual trend (falling concentration ⇒ negative derivative). If your two signs don't reconcile through the definition, one of them is wrong.</p>
+
+    <p><strong>Remark 2 — derivatives have units.</strong> f′ inherits the units of f divided by the units of the independent variable. A rate in M/s, a force in J/m (which is a newton), a heat capacity dU/dT in J/K. If a computed derivative comes out with impossible units, the setup was wrong before the calculus started. Checking units takes ten seconds and catches a remarkable fraction of errors.</p>
+
+    <p><strong>Remark 3 — df/dx is not a fraction, but it plays one convincingly.</strong> The Leibniz symbol is a limit, a single object; the "df" and "dx" have no independent meaning at this stage. Treating them as separable quantities happens to work in many manipulations (and we will use it when solving differential equations), but it is a notational courtesy, not an algebraic right. When in doubt, fall back on the limit definition — it is the contract everything else must honor.</p>
+
+    <p><strong>Remark 4 — every measured rate is an average.</strong> No instrument measures an instantaneous rate; every device averages over its response time, just as our spectrometer averaged over 10-second windows. The derivative is the idealization that these averages approach as the window shrinks. In practice this is a feature: as Worked Example 2 showed, a centered average over a modest window can approximate the true derivative astonishingly well. Knowing <em>when</em> it does — and when noisy data makes shrinking the window counterproductive — is the art of numerical differentiation, which we will revisit with error analysis in Lecture 22.</p>
+
+    <!-- Section 11: Summary -->
+    <h2>11. Summary</h2>
+
+    <p>We began with a question the laboratory forces on every chemist — what is the rate <em>right now?</em> — and found that the obvious tool, the average rate Δf/Δx, answers a subtly different question about an interval rather than an instant. Shrinking the interval improved the answer but could never finish the job, because at zero width the ratio collapses to the meaningless 0/0. The limit broke the impasse: the derivative f′(a) is defined as the value the average rates <em>approach</em>, and it exists wherever the one-sided approaches agree on a finite number. Computed from the definition, the derivative of x² is 2x and the derivative of eˣ is itself — the second fact being the seed of all exponential behavior in chemistry. The derivative reads out geometrically as the tangent slope, physically as the instantaneous rate, and chemically as the reaction rate −d[A]/dt and the force −dV/dx; its zeros locate equilibria, and its sign tells you which way things are heading. What it does not yet give us is an efficient calculus — running a limit for every new function would be unbearable — and supplying that machinery, the rules of differentiation, is the work of Lecture 13.</p>
+
+    <!-- Section 12: Exercises -->
+    <h2>12. Exercises</h2>
 
     <div class="exercise-box">
         <h4>Exercise 1: From the Definition</h4>
@@ -838,12 +916,13 @@
         </ol>
         <button class="solution-toggle" onclick="toggleSolution('sol2')">Show Solution</button>
         <div class="solution" id="sol2">
-            <p>d[A]/dt = -0.05e^(-0.1t), so Rate = |d[A]/dt| = 0.05e^(-0.1t)</p>
+            <p>d[A]/dt = -0.05e^(-0.1t), so Rate = -d[A]/dt = 0.05e^(-0.1t)</p>
             <ol>
                 <li>At t = 0: Rate = 0.05e^0 = <strong>0.05 M/s</strong></li>
                 <li>At t = 10: Rate = 0.05e^(-1) = <strong>0.0184 M/s</strong></li>
                 <li>0.01 = 0.05e^(-0.1t) → t = <strong>16.1 s</strong></li>
             </ol>
+            <p><em>Check:</em> units are M/s throughout; the rate is positive and decreasing with time, as a first-order decay demands; and Rate = k[A] holds at every answer (e.g., at t = 0: 0.1 × 0.5 = 0.05 ✓).</p>
         </div>
     </div>
 
@@ -862,6 +941,7 @@
                 <li>F = 0: 4x(1-x²) = 0 → <strong>x = 0, ±1</strong></li>
                 <li>d²V/dx² = 12x² - 4. At x=0: -4 < 0 (<strong>unstable</strong>). At x=±1: 8 > 0 (<strong>stable</strong>)</li>
             </ol>
+            <p><em>Check:</em> this is the double-well from Section 7's interactive — two stable wells at x = ±1 separated by an unstable hump at x = 0, exactly what you observed with the slider.</p>
         </div>
     </div>
 
