@@ -291,6 +291,33 @@
             margin-top: 0;
         }
 
+        .diff-badge {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            margin-left: 0.6rem;
+            vertical-align: middle;
+        }
+        .diff-easy   { background: rgba(16, 185, 129, 0.18); color: var(--accent-green); }
+        .diff-medium { background: rgba(245, 158, 11, 0.18); color: var(--accent-orange); }
+        .diff-hard   { background: rgba(239, 68, 68, 0.18);  color: var(--accent-red); }
+
+        .field-tag {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            margin-left: 0.4rem;
+            vertical-align: middle;
+            background: var(--bg-tertiary);
+            color: var(--accent-cyan);
+        }
+
         .solution {
             background: var(--bg-tertiary);
             border-radius: 6px;
@@ -792,8 +819,84 @@
 
     <p>You should have found three equilibria: the two well bottoms at x = ±1, where a nudged particle rolls back (stable), and the central hump at x = 0, where the force is also zero but any nudge sends the particle accelerating away (unstable). Both kinds satisfy dV/dx = 0; what distinguishes them is whether the slope <em>around</em> the equilibrium pushes back or pushes away — a question about how the derivative itself is changing, which is the business of the second derivative and of Lecture 14. Double wells like this one are not a textbook curiosity: they are the energy landscape of any molecule with two stable conformations, and the hump between the wells is the barrier that reaction rates fight against.</p>
 
-    <!-- Section 8: Differentiability -->
-    <h2>8. When the Derivative Doesn't Exist</h2>
+    <!-- Section 8: Cross-domain -->
+    <h2>8. One Idea, Many Fields</h2>
+
+    <p>It would be a mistake to file the derivative away as a chemistry tool, or even a science tool. The phrase "rate of change" belongs to no single discipline, and the moment a field starts measuring how one quantity responds to another, it has — knowingly or not — started doing calculus. The economist who asks how much an extra unit of production costs, the ecologist who asks how fast a population is expanding, the pharmacologist who asks how quickly a drug clears the bloodstream: each is computing a derivative, and each gives it a different name. This is the central claim of the whole course made concrete — mathematics and its applications are the same thought wearing different clothes.</p>
+
+    <p>Consider three questions from three faculties, set beside the chemistry we just did:</p>
+
+    <table>
+        <tr><th>Field</th><th>The quantity</th><th>Its derivative</th><th>What the field calls it</th></tr>
+        <tr><td>Chemistry</td><td>Concentration [A](t)</td><td>d[A]/dt</td><td>Reaction rate</td></tr>
+        <tr><td>Economics</td><td>Total cost C(q)</td><td>dC/dq</td><td>Marginal cost</td></tr>
+        <tr><td>Ecology</td><td>Population P(t)</td><td>dP/dt</td><td>Growth rate</td></tr>
+        <tr><td>Pharmacology</td><td>Plasma drug level C(t)</td><td>dC/dt</td><td>Elimination rate</td></tr>
+    </table>
+
+    <p>Notice that one row differs in spirit. In economics the independent variable is not time but <em>quantity produced</em> — marginal cost is dC/d<em>q</em>, the slope of total cost against output. The derivative does not care; "per unit of the input" is its only requirement, whether that input is measured in seconds or in units manufactured. The interactive below plots all four cases in a single frame. Switch fields and watch the curve, the units, and the name change while the mathematical object — the slope of the tangent line — stays exactly the same.</p>
+
+    <p><em>Before you switch fields:</em> the chemistry and pharmacology curves both fall, while the economics and ecology curves both rise. Predict — for which of the four will the displayed derivative be <em>negative</em>? And for the S-shaped ecology curve, predict where along it the growth rate is largest: at the start, in the middle, or near the top. Decide, then explore.</p>
+
+    <!-- Cross-domain interactive -->
+    <div class="visual-container">
+        <h4>Interactive: The Same Derivative in Four Fields</h4>
+        <div class="controls" style="margin-bottom: 1rem;">
+            <button class="cd-btn active" data-field="chem">Chemistry</button>
+            <button class="cd-btn" data-field="econ">Economics</button>
+            <button class="cd-btn" data-field="eco">Ecology</button>
+            <button class="cd-btn" data-field="pharma">Pharmacology</button>
+        </div>
+        <canvas id="crossCanvas" width="700" height="380"></canvas>
+        <div class="controls">
+            <div class="control-group">
+                <label id="cdSliderLabel">Position:</label>
+                <input type="range" id="cdMarker" min="0" max="100" step="0.5" value="25">
+                <span class="value-display" id="cdMarkerVal">—</span>
+            </div>
+        </div>
+        <div class="stat-grid">
+            <div class="stat-box">
+                <div class="stat-label" id="cdQuantityLabel">Quantity</div>
+                <div class="stat-value" id="cdQuantityVal">—</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label" id="cdDerivLabel">Derivative</div>
+                <div class="stat-value" id="cdDerivVal">—</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Reading</div>
+                <div class="stat-value" id="cdInterp">—</div>
+            </div>
+        </div>
+    </div>
+
+    <p>The debrief: the two <em>falling</em> curves — chemistry and pharmacology — show negative derivatives, because the quantity is being consumed or cleared; the convention of attaching a minus sign (Section 6) is what lets both fields report a positive "rate." The two <em>rising</em> curves show positive derivatives. And the ecology curve makes a point a straight line never could: its growth rate is not largest at the start (few individuals reproducing) nor near the top (crowding, scarce resources), but exactly in the <em>middle</em>, at the steepest part of the S — the inflection point, where the population is half its carrying capacity. We meet this curve again, and prove the half-capacity claim, when logistic growth returns as a differential equation in Lecture 19.</p>
+
+    <div class="exercise-box">
+        <h4>Worked Example 3 (Economics): The cost of one more unit</h4>
+        <p><strong>Problem.</strong> A small fermentation plant's total cost of producing q liters of ethanol per day is C(q) = 200 + 8q + 0.05q² dollars. What is the marginal cost at q = 100 L/day, and what does it mean?</p>
+        <p><strong>Setting it up.</strong> "Marginal cost" is the economist's name for dC/dq — the rate at which total cost rises as output rises. The function is a polynomial, so we differentiate term by term using the power-rule pattern from Section 4 (a constant differentiates to 0, the linear term to its coefficient, and 0.05q² to 0.10q). Marginal cost answers a decision: is the next liter worth making?</p>
+        <p><strong>Solution.</strong> Differentiate:</p>
+        <p style="text-align:center;">$$\frac{dC}{dq} = 0 + 8 + 0.10\,q$$</p>
+        <p>Evaluate at q = 100: dC/dq = 8 + 0.10(100) = <strong><span class="money">$18</span> per liter</strong>.</p>
+        <p><strong>Check.</strong> Units: dollars per liter — a cost per unit of output, exactly what "marginal" should be. Magnitude by brute force: C(100) = 200 + 800 + 500 = <span class="money">$1500</span>, and C(101) = 200 + 808 + 0.05(10201) = <span class="money">$1518.05</span>, a difference of <span class="money">$18.05</span>. The derivative's <span class="money">$18</span> matches this "one more unit" cost to within a nickel — the small discrepancy is the curvature the tangent line ignores, the same approximation error you watched shrink in Section 2. The marginal cost rises with q (the 0.10q term), which is the economics of strained capacity: the more you already produce, the more the next liter costs.</p>
+    </div>
+
+    <div class="exercise-box">
+        <h4>Worked Example 4 (Ecology): When is the population growing fastest?</h4>
+        <p><strong>Problem.</strong> A population under limited resources follows logistic growth, whose rate is governed by dP/dt = rP(1 − P/K), with intrinsic rate r and carrying capacity K. At what population size is the growth rate dP/dt largest?</p>
+        <p><strong>Setting it up.</strong> Here the derivative dP/dt is itself given to us as a function of P, and we are asked to <em>maximize</em> it. A quantity is largest where <em>its</em> rate of change vanishes — so we differentiate the growth rate with respect to P and set it to zero. This is a derivative of a derivative, a preview of Lecture 14, but the algebra is just the product/power rule on a quadratic in P.</p>
+        <p><strong>Solution.</strong> Expand the growth rate: dP/dt = rP − (r/K)P². Differentiate this with respect to P:</p>
+        <p style="text-align:center;">$$\frac{d}{dP}\!\left(rP - \frac{r}{K}P^2\right) = r - \frac{2r}{K}P$$</p>
+        <p>Set equal to zero: r − (2r/K)P = 0, which gives P = <strong>K/2</strong>, half the carrying capacity.</p>
+        <p><strong>Check.</strong> The result is independent of r, as it should be — r sets <em>how</em> fast, not <em>where</em> the peak sits. At the endpoints the answer is sensible: at P = 0 there is no one to reproduce (rate 0), and at P = K the environment is full (rate 0), so the maximum must lie strictly between — and symmetry of the downward parabola rP(1−P/K) puts it dead center, at K/2. This matches what you saw on the S-curve in the interactive: the steepest point was the middle. Conservation biologists use exactly this fact — a fishery or harvested herd yields the most sustainable surplus when held near half its carrying capacity.</p>
+    </div>
+
+    <p>These are not contrived analogies. The relationships above are the working content of textbooks in our own library — <em>Microeconomics</em> and <em>Macroeconomics</em>, the <em>Environmental Science</em> of Freedman, the <em>Principles of Pharmacology</em> — where marginal cost, logistic growth, and drug half-life are introduced, often without ever using the word "derivative." You now hold the single tool beneath all of them.</p>
+
+    <!-- Section 9: Differentiability -->
+    <h2>9. When the Derivative Doesn't Exist</h2>
 
     <p>The definition in Section 3 ended with a quiet condition — "if this limit exists" — and we owe it an honest look. The limit defining f′(a) can fail, and when it fails the function simply has no derivative at that point, no matter how much we might want one. The failure has a clear geometric signature. Approaching the point from the left, the secant slopes settle toward one value; approaching from the right, toward another; the derivative exists only when the two sides agree on a single, finite answer. The classic offender is f(x) = |x| at the origin: from the left every secant has slope −1, from the right every secant has slope +1, and no amount of shrinking h reconciles them. The graph has a <em>corner</em>, and a corner has no single tangent line.</p>
 
@@ -826,8 +929,8 @@
 
     <p>The answer is the vertical tangent, x^(1/3): both one-sided slopes head to +∞ together, agreeing perfectly — but +∞ is not a number, and the definition demands a finite limit. Agreement is necessary, not sufficient. One general fact is worth carrying away from these pathologies: <strong>differentiability implies continuity, but not the reverse.</strong> If a function has a derivative at a point, it cannot jump there — you cannot draw a tangent line to a gap. But the converse fails, and |x| is the standing counterexample: perfectly continuous through the origin, yet not differentiable there. Smoothness is a strictly stronger demand than unbrokenness. Nor are these failures merely mathematical curiosities for a chemist: potential energy surfaces develop cusp-like features where electronic states cross (the conical intersections of photochemistry), and at such points the force, −dV/dx, is genuinely ill-defined — the molecule's fate becomes a question the classical picture cannot answer.</p>
 
-    <!-- Section 9: Basic Derivatives Table -->
-    <h2>9. A Starter Table of Derivatives</h2>
+    <!-- Section 10: Basic Derivatives Table -->
+    <h2>10. A Starter Table of Derivatives</h2>
 
     <p>Running the limit definition is illuminating, but nobody does it twice for the same function. Sections 4's computations — and others like them — get done once, in general, and recorded. The short table below covers the functions that account for nearly every derivative in this course; Lecture 13 adds the combination rules (product, quotient, chain) that let you differentiate anything built from these parts without ever touching a limit again.</p>
 
@@ -869,8 +972,8 @@
         </tr>
     </table>
 
-    <!-- Section 10: Remarks -->
-    <h2>10. Remarks and Cautions</h2>
+    <!-- Section 11: Remarks -->
+    <h2>11. Remarks and Cautions</h2>
 
     <p><strong>Remark 1 — the sign of the rate.</strong> The most common kinetics error is writing Rate = d[A]/dt for a reactant. For anything being consumed, d[A]/dt is negative; the defined rate carries the compensating minus sign. A quick self-test before submitting any answer: a forward-running reaction must have a positive rate, and a derivative must have the sign of the actual trend (falling concentration ⇒ negative derivative). If your two signs don't reconcile through the definition, one of them is wrong.</p>
 
@@ -880,16 +983,16 @@
 
     <p><strong>Remark 4 — every measured rate is an average.</strong> No instrument measures an instantaneous rate; every device averages over its response time, just as our spectrometer averaged over 10-second windows. The derivative is the idealization that these averages approach as the window shrinks. In practice this is a feature: as Worked Example 2 showed, a centered average over a modest window can approximate the true derivative astonishingly well. Knowing <em>when</em> it does — and when noisy data makes shrinking the window counterproductive — is the art of numerical differentiation, which we will revisit with error analysis in Lecture 22.</p>
 
-    <!-- Section 11: Summary -->
-    <h2>11. Summary</h2>
+    <!-- Section 12: Summary -->
+    <h2>12. Summary</h2>
 
-    <p>We began with a question the laboratory forces on every chemist — what is the rate <em>right now?</em> — and found that the obvious tool, the average rate Δf/Δx, answers a subtly different question about an interval rather than an instant. Shrinking the interval improved the answer but could never finish the job, because at zero width the ratio collapses to the meaningless 0/0. The limit broke the impasse: the derivative f′(a) is defined as the value the average rates <em>approach</em>, and it exists wherever the one-sided approaches agree on a finite number. Computed from the definition, the derivative of x² is 2x and the derivative of eˣ is itself — the second fact being the seed of all exponential behavior in chemistry. The derivative reads out geometrically as the tangent slope, physically as the instantaneous rate, and chemically as the reaction rate −d[A]/dt and the force −dV/dx; its zeros locate equilibria, and its sign tells you which way things are heading. What it does not yet give us is an efficient calculus — running a limit for every new function would be unbearable — and supplying that machinery, the rules of differentiation, is the work of Lecture 13.</p>
+    <p>We began with a question the laboratory forces on every chemist — what is the rate <em>right now?</em> — and found that the obvious tool, the average rate Δf/Δx, answers a subtly different question about an interval rather than an instant. Shrinking the interval improved the answer but could never finish the job, because at zero width the ratio collapses to the meaningless 0/0. The limit broke the impasse: the derivative f′(a) is defined as the value the average rates <em>approach</em>, and it exists wherever the one-sided approaches agree on a finite number. Computed from the definition, the derivative of x² is 2x and the derivative of eˣ is itself — the second fact being the seed of all exponential behavior in chemistry. The derivative reads out geometrically as the tangent slope, physically as the instantaneous rate, and chemically as the reaction rate −d[A]/dt and the force −dV/dx; its zeros locate equilibria, and its sign tells you which way things are heading. The same object is the economist's marginal cost, the ecologist's growth rate, and the pharmacologist's elimination rate — one idea answering "how fast?" in every quantitative field. What it does not yet give us is an efficient calculus — running a limit for every new function would be unbearable — and supplying that machinery, the rules of differentiation, is the work of Lecture 13.</p>
 
-    <!-- Section 12: Exercises -->
-    <h2>12. Exercises</h2>
+    <!-- Section 13: Exercises -->
+    <h2>13. Exercises</h2>
 
     <div class="exercise-box">
-        <h4>Exercise 1: From the Definition</h4>
+        <h4>Exercise 1: From the Definition <span class="diff-badge diff-easy">Easy</span></h4>
         <p>Use the limit definition to find f'(x) for:</p>
         <ol>
             <li>f(x) = 3x + 2</li>
@@ -907,7 +1010,7 @@
     </div>
 
     <div class="exercise-box">
-        <h4>Exercise 2: Reaction Rate</h4>
+        <h4>Exercise 2: Reaction Rate <span class="field-tag">Chemistry</span> <span class="diff-badge diff-medium">Medium</span></h4>
         <p>A reaction has concentration profile [A](t) = 0.5e^(-0.1t) M.</p>
         <ol>
             <li>What is the rate at t = 0?</li>
@@ -927,7 +1030,7 @@
     </div>
 
     <div class="exercise-box">
-        <h4>Exercise 3: Force from Potential</h4>
+        <h4>Exercise 3: Force from Potential <span class="field-tag">Physics</span> <span class="diff-badge diff-hard">Hard</span></h4>
         <p>A particle moves in the potential V(x) = x⁴ - 2x².</p>
         <ol>
             <li>Find F(x) = -dV/dx</li>
@@ -946,7 +1049,7 @@
     </div>
 
     <div class="exercise-box">
-        <h4>Exercise 4: Linear Approximation</h4>
+        <h4>Exercise 4: Linear Approximation <span class="diff-badge diff-medium">Medium</span></h4>
         <ol>
             <li>Use linear approximation to estimate e^(0.1)</li>
             <li>Use linear approximation to estimate sin(0.1)</li>
@@ -957,6 +1060,83 @@
                 <li>f(x) = eˣ, f'(x) = eˣ, f(0) = 1, f'(0) = 1 → e^0.1 ≈ 1 + 0.1 = <strong>1.1</strong> (actual: 1.1052)</li>
                 <li>f(x) = sin x, f'(x) = cos x, f(0) = 0, f'(0) = 1 → sin(0.1) ≈ 0 + 0.1 = <strong>0.1</strong> (actual: 0.0998)</li>
             </ol>
+        </div>
+    </div>
+
+    <div class="exercise-box">
+        <h4>Exercise 5: Marginal Cost <span class="field-tag">Economics</span> <span class="diff-badge diff-easy">Easy</span></h4>
+        <p>A biotech firm's total cost of producing q grams of a reagent is C(q) = 500 + 12q + 0.04q² dollars.</p>
+        <ol>
+            <li>Find the marginal cost function, dC/dq.</li>
+            <li>What is the marginal cost at q = 50 g?</li>
+            <li>At what output is the marginal cost exactly <span class="money">$20</span>/g?</li>
+        </ol>
+        <button class="solution-toggle" onclick="toggleSolution('sol5')">Show Solution</button>
+        <div class="solution" id="sol5">
+            <ol>
+                <li>dC/dq = 12 + 0.08q (the constant 500 differentiates to 0)</li>
+                <li>At q = 50: 12 + 0.08(50) = 12 + 4 = <strong><span class="money">$16</span>/g</strong></li>
+                <li>12 + 0.08q = 20 → 0.08q = 8 → q = <strong>100 g</strong></li>
+            </ol>
+            <p><em>Check:</em> units are dollars/g throughout; marginal cost rises with q, the signature of strained capacity; and the direct estimate C(51) − C(50) = <span class="money">$16.04</span> confirms part 2 to within the curvature term.</p>
+        </div>
+    </div>
+
+    <div class="exercise-box">
+        <h4>Exercise 6: Population Growth <span class="field-tag">Ecology / Environment</span> <span class="diff-badge diff-medium">Medium</span></h4>
+        <p>Early, resource-unlimited growth of a bacterial culture (or a human population) follows P(t) = P₀e^(rt). Take P₀ = 8.0 billion and r = 0.030 yr⁻¹.</p>
+        <ol>
+            <li>Find dP/dt and evaluate it at t = 0.</li>
+            <li>Show that the growth rate is always proportional to the population itself.</li>
+            <li>How long until the population doubles?</li>
+        </ol>
+        <button class="solution-toggle" onclick="toggleSolution('sol6')">Show Solution</button>
+        <div class="solution" id="sol6">
+            <ol>
+                <li>dP/dt = rP₀e^(rt). At t = 0: (0.030)(8.0) = <strong>0.24 billion/yr</strong> (240 million per year)</li>
+                <li>Since P(t) = P₀e^(rt), we have dP/dt = r·(P₀e^(rt)) = <strong>rP</strong> — exactly the same self-proportional structure as first-order kinetics (Section 6)</li>
+                <li>Doubling: e^(rt) = 2 → rt = ln 2 → t = 0.693/0.030 = <strong>23.1 years</strong></li>
+            </ol>
+            <p><em>Check:</em> the doubling time depends only on r, not on P₀ — a hallmark of exponential growth, and the population analogue of a radioactive half-life. The same eˣ that decays in chemistry grows here; only the sign of the exponent differs.</p>
+        </div>
+    </div>
+
+    <div class="exercise-box">
+        <h4>Exercise 7: Drug Elimination <span class="field-tag">Pharmacology</span> <span class="diff-badge diff-medium">Medium</span></h4>
+        <p>After an injection, a drug's plasma concentration is C(t) = 80e^(−0.20t) mg/L, with t in hours.</p>
+        <ol>
+            <li>Find the elimination rate, −dC/dt, at t = 0 and at t = 5 h.</li>
+            <li>What is the drug's half-life?</li>
+            <li>Verify that −dC/dt = kC at t = 5 h, where k = 0.20 h⁻¹.</li>
+        </ol>
+        <button class="solution-toggle" onclick="toggleSolution('sol7')">Show Solution</button>
+        <div class="solution" id="sol7">
+            <p>−dC/dt = (0.20)(80)e^(−0.20t) = 16e^(−0.20t) mg/L/h</p>
+            <ol>
+                <li>At t = 0: 16e⁰ = <strong>16 mg/L/h</strong>. At t = 5: 16e^(−1) = <strong>5.89 mg/L/h</strong></li>
+                <li>Half-life: e^(−0.20t) = 0.5 → t = ln 2 / 0.20 = <strong>3.47 h</strong></li>
+                <li>At t = 5: C = 80e^(−1) = 29.4 mg/L, so kC = 0.20 × 29.4 = <strong>5.89 mg/L/h</strong> ✓ — matches part 1</li>
+            </ol>
+            <p><em>Check:</em> units mg/L/h throughout; the elimination rate falls as the drug clears, just as a reaction rate falls as reactant is consumed. Pharmacologists call k the elimination rate constant — it is the chemist's rate constant under another name.</p>
+        </div>
+    </div>
+
+    <div class="exercise-box">
+        <h4>Exercise 8: Accelerating CO₂ <span class="field-tag">Climate / Environment</span> <span class="diff-badge diff-hard">Hard</span></h4>
+        <p>A simplified model of atmospheric CO₂ (in ppm) since 1960 is C(t) = 315 + 0.8t + 0.015t², where t is years after 1960. (This quadratic is a deliberate simplification of real Mauna Loa data, not an exact fit.)</p>
+        <ol>
+            <li>Find the rate of increase, dC/dt.</li>
+            <li>Compare the rate in 1960 (t = 0) with the rate in 2020 (t = 60).</li>
+            <li>Is the rate of increase <em>itself</em> increasing? Justify with a derivative.</li>
+        </ol>
+        <button class="solution-toggle" onclick="toggleSolution('sol8')">Show Solution</button>
+        <div class="solution" id="sol8">
+            <ol>
+                <li>dC/dt = 0.8 + 0.030t ppm/yr</li>
+                <li>1960: 0.8 ppm/yr. 2020: 0.8 + 0.030(60) = 0.8 + 1.8 = <strong>2.6 ppm/yr</strong> — more than triple the 1960 rate</li>
+                <li>The rate of change of the rate is d/dt(0.8 + 0.030t) = <strong>0.030 ppm/yr²</strong>, a positive constant. Because this second derivative is positive, the rate of increase is itself growing — CO₂ is not merely rising but <strong>accelerating</strong>.</li>
+            </ol>
+            <p><em>Check:</em> the model's outputs are physically sane — about 0.8 ppm/yr in the early 1960s and roughly 2.6 ppm/yr today both sit close to observed values, and C(60) = 315 + 48 + 54 = 417 ppm lands near the real 2020 figure. The positive second derivative is the mathematical content of the phrase "the problem is getting worse faster," and it is the same second-derivative idea that distinguished stable from unstable equilibria in Section 7.</p>
         </div>
     </div>
 
@@ -979,7 +1159,10 @@
                 delimiters: [
                     {left: '$$', right: '$$', display: true},
                     {left: '$', right: '$', display: false}
-                ]
+                ],
+                // currency amounts are wrapped in .money so the $ glyph
+                // is never mistaken for an inline-math delimiter
+                ignoredClasses: ['money']
             });
         });
 
@@ -1489,6 +1672,146 @@
         });
 
         drawNodiff();
+
+        // === Cross-domain: one derivative, four fields ===
+        const crossCanvas = document.getElementById('crossCanvas');
+        const crossCtx = crossCanvas.getContext('2d');
+        const cdMarker = document.getElementById('cdMarker');
+
+        // each field defines its function, derivative, plotting window, names, and units
+        const fields = {
+            chem: {
+                f: t => 1.0 * Math.exp(-0.08 * t),
+                fp: t => -0.08 * Math.exp(-0.08 * t),
+                xmax: 40, ymax: 1.05, start: 10,
+                color: '#4a9eff',
+                xlabel: 'time t (s)', ylabel: '[A] (M)',
+                qLabel: 'Concentration [A]', qUnit: 'M',
+                dLabel: 'Reaction rate −d[A]/dt', dUnit: 'M/s', reportNegated: true
+            },
+            econ: {
+                f: q => 200 + 8 * q + 0.05 * q * q,
+                fp: q => 8 + 0.10 * q,
+                xmax: 120, ymax: 200 + 8 * 120 + 0.05 * 120 * 120, start: 60,
+                color: '#10b981',
+                xlabel: 'quantity q (units)', ylabel: 'total cost C ($)',
+                qLabel: 'Total cost C', qUnit: '$',
+                dLabel: 'Marginal cost dC/dq', dUnit: '$/unit', reportNegated: false
+            },
+            eco: {
+                f: t => 1000 / (1 + 999 * Math.exp(-0.4 * t)),
+                fp: t => { const P = 1000 / (1 + 999 * Math.exp(-0.4 * t)); return 0.4 * P * (1 - P / 1000); },
+                xmax: 30, ymax: 1050, start: 12,
+                color: '#f59e0b',
+                xlabel: 'time t (years)', ylabel: 'population P',
+                qLabel: 'Population P', qUnit: '', dLabel: 'Growth rate dP/dt', dUnit: '/yr', reportNegated: false
+            },
+            pharma: {
+                f: t => 80 * Math.exp(-0.173 * t),
+                fp: t => -0.173 * 80 * Math.exp(-0.173 * t),
+                xmax: 24, ymax: 84, start: 4,
+                color: '#8b5cf6',
+                xlabel: 'time t (h)', ylabel: 'plasma C (mg/L)',
+                qLabel: 'Drug level C', qUnit: 'mg/L',
+                dLabel: 'Elimination rate −dC/dt', dUnit: 'mg/L/h', reportNegated: true
+            }
+        };
+        let cdField = 'chem';
+
+        function drawCross() {
+            const F = fields[cdField];
+            // map slider 0..100 to 0..xmax
+            const xv = (parseFloat(cdMarker.value) / 100) * F.xmax;
+
+            const W = 700, H = 380, ox = 70, oy = 330, top = 30, right = 670;
+            const sx = (right - ox) / F.xmax;
+            const sy = (oy - top) / F.ymax;
+            const toPx = x => ox + x * sx;
+            const toPy = y => oy - y * sy;
+
+            crossCtx.fillStyle = '#1a1a24';
+            crossCtx.fillRect(0, 0, W, H);
+
+            // axes
+            crossCtx.strokeStyle = '#6b7280';
+            crossCtx.lineWidth = 2;
+            crossCtx.beginPath();
+            crossCtx.moveTo(ox, top);
+            crossCtx.lineTo(ox, oy);
+            crossCtx.lineTo(right, oy);
+            crossCtx.stroke();
+
+            // curve
+            crossCtx.strokeStyle = F.color;
+            crossCtx.lineWidth = 3;
+            crossCtx.beginPath();
+            let started = false;
+            for (let px = ox; px <= right; px++) {
+                const x = (px - ox) / sx;
+                const py = toPy(F.f(x));
+                if (py < top - 2 || py > oy + 2) { started = false; continue; }
+                if (!started) { crossCtx.moveTo(px, py); started = true; }
+                else crossCtx.lineTo(px, py);
+            }
+            crossCtx.stroke();
+
+            // tangent line at the marker
+            const y0 = F.f(xv), m = F.fp(xv);
+            const span = F.xmax * 0.18;
+            const xa = Math.max(0, xv - span), xb = Math.min(F.xmax, xv + span);
+            crossCtx.strokeStyle = '#ef4444';
+            crossCtx.lineWidth = 2;
+            crossCtx.setLineDash([6, 4]);
+            crossCtx.beginPath();
+            crossCtx.moveTo(toPx(xa), toPy(y0 + m * (xa - xv)));
+            crossCtx.lineTo(toPx(xb), toPy(y0 + m * (xb - xv)));
+            crossCtx.stroke();
+            crossCtx.setLineDash([]);
+
+            // marker point
+            crossCtx.beginPath();
+            crossCtx.arc(toPx(xv), toPy(y0), 6, 0, Math.PI * 2);
+            crossCtx.fillStyle = '#ef4444';
+            crossCtx.fill();
+
+            // axis labels
+            crossCtx.fillStyle = '#a0a0a0';
+            crossCtx.font = '12px monospace';
+            crossCtx.fillText(F.xlabel, (ox + right) / 2 - 30, oy + 22);
+            crossCtx.save();
+            crossCtx.translate(18, (top + oy) / 2 + 30);
+            crossCtx.rotate(-Math.PI / 2);
+            crossCtx.fillText(F.ylabel, 0, 0);
+            crossCtx.restore();
+
+            // tidy number formatting depending on magnitude
+            const fmt = v => Math.abs(v) >= 100 ? v.toFixed(0) : Math.abs(v) >= 1 ? v.toFixed(2) : v.toFixed(3);
+
+            // slider label + readouts
+            document.getElementById('cdSliderLabel').textContent = F.xlabel.split(' ')[0] + ':';
+            document.getElementById('cdMarkerVal').textContent = fmt(xv);
+            document.getElementById('cdQuantityLabel').textContent = F.qLabel;
+            document.getElementById('cdQuantityVal').textContent = fmt(y0) + (F.qUnit ? ' ' + F.qUnit : '');
+            document.getElementById('cdDerivLabel').textContent = F.dLabel;
+            const reported = F.reportNegated ? -m : m;
+            document.getElementById('cdDerivVal').textContent = fmt(reported) + ' ' + F.dUnit;
+            document.getElementById('cdInterp').textContent =
+                Math.abs(m) < 1e-6 ? 'flat (rate ≈ 0)' : (m > 0 ? 'rising' : 'falling');
+        }
+
+        document.querySelectorAll('.cd-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.cd-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                cdField = btn.dataset.field;
+                // place the slider at this field's natural starting point
+                cdMarker.value = (fields[cdField].start / fields[cdField].xmax) * 100;
+                drawCross();
+            });
+        });
+        cdMarker.addEventListener('input', drawCross);
+        cdMarker.value = (fields.chem.start / fields.chem.xmax) * 100;
+        drawCross();
     </script>
 </body>
 </html>
