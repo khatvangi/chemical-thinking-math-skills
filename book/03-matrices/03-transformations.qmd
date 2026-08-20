@@ -2,6 +2,142 @@
 title: "3.3 Linear Transformations"
 ---
 
-::: {.stub-note}
-This section is being written. The corresponding material is still available in the [lecture pages](/lectures/all-lectures.html).
+Set a water molecule in the plane of the page: oxygen at the origin, the two hydrogens at $(0.76, -0.59)$ and $(-0.76, -0.59)$ Å, the twofold symmetry axis running along $y$. Chemists say water "has $C_2$ symmetry": rotate it half a turn about that axis and the result is indistinguishable from the start — the hydrogens trade places, the oxygen stays put, and no experiment can detect that anything happened. The sentence sounds qualitative, but it is secretly a computation about *every point of the molecule at once*: a rule that sends each position $(x, y)$ to a new position, applied to all atoms simultaneously, whose output configuration coincides with the input. Rules that move all of space — rotations, reflections, scalings — are called *transformations*, and this section shows that the well-behaved ones are precisely the matrices of §3.1 in their true vocation. A matrix is not a data table that happens to multiply; it is a *motion of space*, tabulated.
+
+## What makes a transformation linear
+
+A transformation $T$ assigns to every vector $\mathbf{v}$ an output $T(\mathbf{v})$. The ones matrices can represent share two structural habits, and they are exactly the habits of the matrix–vector product itself (Exercise 7 of §3.1): they respect addition and scaling.
+
+::: {.env .definition}
+**Definition 3.3.1 (Linear transformation).** $T$ is **linear** if for all vectors and scalars
+$$
+T(\mathbf{u} + \mathbf{v}) = T(\mathbf{u}) + T(\mathbf{v}),
+\qquad
+T(c\,\mathbf{v}) = c\, T(\mathbf{v}).
+$$
+Consequences: $T(\mathbf{0}) = \mathbf{0}$ (take $c = 0$), and straight lines map to straight lines with even spacing preserved.
 :::
+
+Rotation about the origin is linear — rotate two arrows and their tip-to-tail sum rotates along with them, since the whole parallelogram of §2.1 turns rigidly. So are reflections through lines containing the origin, and uniform stretches. The instructive *failure* is translation, "shift everything 2 Å along $x$": it moves the origin, violating $T(\mathbf{0}) = \mathbf{0}$, so no matrix will ever represent it. (Crystallography needs translations badly and handles them by a bolt-on — affine transformations — but the symmetry operations of a *molecule about its own center* are exactly the linear kind, which is why matrices run point-group theory.)
+
+## The whole transformation in two columns
+
+Linearity looks like a modest bookkeeping constraint. It is actually a devastating economy: a linear transformation of the plane is completely pinned down by what it does to just two vectors.
+
+::: {.env .theorem}
+**Theorem 3.3.2 (The matrix of a transformation).** Let $T$ be linear on the plane. Form the matrix $M$ whose first column is $T(\hat{\mathbf{x}})$ and whose second column is $T(\hat{\mathbf{y}})$. Then $T(\mathbf{v}) = M\mathbf{v}$ for every vector $\mathbf{v}$.
+:::
+
+::: {.env .proof}
+Any $\mathbf{v} = (v_x, v_y)$ decomposes on the standard basis (§2.2): $\mathbf{v} = v_x \hat{\mathbf{x}} + v_y \hat{\mathbf{y}}$. Apply $T$ and let linearity distribute it:
+$$
+T(\mathbf{v}) = T(v_x \hat{\mathbf{x}}) + T(v_y \hat{\mathbf{y}}) = v_x\, T(\hat{\mathbf{x}}) + v_y\, T(\hat{\mathbf{y}}).
+$$
+The right side is a linear combination of $M$'s columns weighted by $\mathbf{v}$'s entries — which is $M\mathbf{v}$ by the column picture, Theorem 3.1.3. $\square$
+:::
+
+The theorem cuts both ways, and both directions are daily tools. *Building* a matrix: ask where the basis vectors land, write the answers as columns, done. *Reading* a matrix: its columns *are* the fates of $\hat{\mathbf{x}}$ and $\hat{\mathbf{y}}$ — stare at the columns and the motion reveals itself. Build the two workhorses now. A rotation by angle $\theta$ carries $\hat{\mathbf{x}}$ to $(\cos\theta, \sin\theta)$ — that is the definition of sine and cosine on the unit circle — and carries $\hat{\mathbf{y}}$, which starts $90°$ ahead, to $(-\sin\theta, \cos\theta)$. Reflection across the $y$-axis flips $\hat{\mathbf{x}}$ to $-\hat{\mathbf{x}}$ and fixes $\hat{\mathbf{y}}$. Columns in place:
+$$
+R(\theta) = \begin{pmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{pmatrix},
+\qquad
+\sigma_y = \begin{pmatrix} -1 & 0 \\ 0 & 1 \end{pmatrix}.
+$$
+
+::: {.env .example}
+**Example 3.3.3 (Water's $C_2$, executed).** With the axis along $y$, the $C_2$ operation is $\sigma_y$'s cousin: rotation by $180°$ about the $y$-axis in 3D, which acts on in-plane points as $(x, y) \mapsto (-x, y)$ — the matrix $\sigma_y$ above. Apply it to water's three atoms and verify the symmetry claim.
+
+*Setting it up.* Multiply each atomic position by the matrix; compare the output *set* of positions with the input set (atoms of the same element are interchangeable — a §1.2 sentiment).
+
+*Solution.*
+$$
+\sigma_y \begin{pmatrix} 0.76 \\ -0.59 \end{pmatrix} = \begin{pmatrix} -0.76 \\ -0.59 \end{pmatrix},
+\qquad
+\sigma_y \begin{pmatrix} -0.76 \\ -0.59 \end{pmatrix} = \begin{pmatrix} 0.76 \\ -0.59 \end{pmatrix},
+\qquad
+\sigma_y \begin{pmatrix} 0 \\ 0 \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix}.
+$$
+H₁ lands exactly on H₂'s site, H₂ on H₁'s, O stays fixed: the transformed molecule occupies precisely the original sites.
+
+*Check.* Lengths must survive a symmetry operation: each O–H distance is $\sqrt{0.76^2 + 0.59^2} = 0.96$ Å before and after ✓. The atom-swap is not an approximation — the coordinates were chosen symmetric, and the operation exchanges them *exactly*, which is what "the molecule possesses this symmetry" means. Run the same matrix on a hypothetical HOD molecule (one H heavier) and the output no longer matches the input — isotopic substitution genuinely lowers the symmetry, and the arithmetic shows it.
+:::
+
+## Composition, and the promise kept
+
+Section [3.2](02-algebra.qmd) asserted that operations performed in different orders end differently, and promised a molecule to prove it. The matrix product was *engineered* so that applying $B$ then $A$ is the single transformation $AB$ — composition is multiplication. So take a $90°$ rotation $R = R(90°) = \begin{pmatrix} 0 & -1 \\ 1 & 0 \end{pmatrix}$ and the reflection $\sigma_x = \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}$ (across the $x$-axis), and compose both ways:
+$$
+\sigma_x R = \begin{pmatrix} 0 & -1 \\ -1 & 0 \end{pmatrix},
+\qquad
+R\,\sigma_x = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}.
+$$
+Both products are reflections — but across *different* mirror lines ($y = -x$ and $y = x$ respectively; read each matrix's columns to see where $\hat{\mathbf{x}}$ and $\hat{\mathbf{y}}$ go). Track a concrete atom at $(1, 0)$: rotate-then-reflect sends it $ (1,0) \to (0,1) \to (0,-1)$, while reflect-then-rotate sends it $(1,0) \to (1,0) \to (0,1)$. Different final positions, non-commutativity made visible — and this is not a pathology but the arithmetic backbone of group theory, where the multiplication table of a molecule's symmetry operations *is* a fingerprint of its structure.
+
+::: {.widget-frame}
+::: {.widget-predict}
+Predict before pressing: which operations below will leave the water molecule occupying its original sites, and which will visibly move it? Then check whether $C_4$ (a quarter turn) is a symmetry of water — and of anything square.
+:::
+::: {.widget-body}
+<div style="margin-bottom:0.6rem;">
+  <label>operation
+    <select id="tfOp">
+      <option value="c2">C₂ — rotate 180° about the axis</option>
+      <option value="sx">σ — reflect across the x-axis</option>
+      <option value="sy">σᵥ — reflect across the y-axis (the C₂ plane)</option>
+      <option value="c4">C₄ — rotate 90°</option>
+      <option value="scale">stretch ×1.5 along x</option>
+      <option value="shear">shear (x ← x + 0.5y)</option>
+    </select>
+  </label>
+</div>
+<canvas id="tfCanvas" width="640" height="360"></canvas>
+<div class="widget-readout" id="tfReadout"></div>
+:::
+::: {.widget-debrief}
+The operations that return water to its own sites — $C_2$ about the axis and $\sigma_v$ in the plane — are exactly water's point-group operations (with the identity, the group $C_{2v}$). $C_4$ moves the hydrogens somewhere no atom was: a quarter turn is a symmetry of square things, and water is not square. The stretch and shear preserve neither lengths nor the molecule — matrices in general *deform*; the special ones that merely reorient are the next section's aristocracy.
+:::
+:::
+
+## Remarks and cautions
+
+**Read matrices by their columns.** Handed an unfamiliar $2\times2$, resist entry-by-entry staring: column 1 is where $\hat{\mathbf{x}}$ goes, column 2 is where $\hat{\mathbf{y}}$ goes, and Theorem 3.3.2 says that is the whole story. $\begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}$ swaps the basis vectors — it can only be the reflection across $y = x$.
+
+**Symmetry operations are the length-preserving minority.** Every symmetry operation is linear, but most matrices are not symmetry operations: the shear and stretch in the widget mangle bond lengths, which no physical symmetry may do. The matrices that preserve all lengths and angles have orthonormal columns (Exercise 8) — the *orthogonal* matrices, and molecular point groups live entirely inside that aristocratic subset.
+
+**Translation is not linear.** A matrix fixes the origin, always. Moving a molecule bodily across the cell is a different mathematical object (affine), which is why symmetry analysis pins the point group at the molecule's *center* — the one point every operation leaves alone.
+
+**Reflections reverse handedness.** Apply $\sigma_y$ to your right hand and the output is a left hand; no rotation can undo it. Two numbers in the matrix know this — the next section shows that a single computed quantity distinguishes proper rotations from improper reflections, and its sign is exactly the handedness flag chirality has been waiting for.
+
+## Summary
+
+A linear transformation is a motion of all space that respects vector addition and scaling — rotations, reflections, and stretches about the origin, but never translations — and Theorem 3.3.2 compresses any such motion into a matrix whose columns are simply the destinations of the basis vectors, making matrices buildable (write the columns) and readable (read them) in one stroke. Rotation and reflection matrices follow instantly, water's $C_2$ becomes an exact arithmetic identity on its coordinates, and composition of motions *is* the matrix product of §3.2, whose non-commutativity now has geometric flesh: rotate-then-reflect and reflect-then-rotate are different mirrors. The transformations that qualify as physical symmetry operations are the length-preserving orthogonal minority, and one question now stands open with everything staged for it: what single number tells a matrix's effect on area, orientation, and invertibility at a glance? That number is the determinant, next.
+
+::: {.exercises}
+Exercises
+
+1. Write the matrices for: rotation by $270°$; reflection across the line $y = x$; the stretch that doubles $x$ and leaves $y$ alone; and rotation by $120°$ (exact entries, using $\cos 120° = -\tfrac12$, $\sin 120° = \tfrac{\sqrt3}{2}$).
+
+2. Identify each matrix from its columns, in words: $\begin{pmatrix} -1 & 0 \\ 0 & -1 \end{pmatrix}$; $\begin{pmatrix} 0 & 1 \\ -1 & 0 \end{pmatrix}$; $\begin{pmatrix} 3 & 0 \\ 0 & 3 \end{pmatrix}$; $\begin{pmatrix} 1 & 0.4 \\ 0 & 1 \end{pmatrix}$.
+
+3. Ammonia's $C_3$ axis: apply $R(120°)$ (Exercise 1) three times in succession to the point $(1, 0)$ and verify it returns home — algebraically, $R(120°)^3 = I$. Why must every rotation matrix of a molecular symmetry axis satisfy $R^n = I$ for some $n$?
+
+4. Verify by direct multiplication the two compositions of the text, $\sigma_x R(90°)$ and $R(90°)\,\sigma_x$, and confirm the trajectories of the atom at $(1, 0)$ given there.
+
+5. Benzene in the plane: its carbons sit at angles $0°, 60°, \ldots, 300°$ on a circle of radius 1.39 Å. Show that $R(60°)$ maps the carbon set to itself, and find the smallest positive rotation that does the same for the *hydrogens* of a hypothetical C₆H₃ (alternating substitution at carbons 1, 3, 5).
+
+6. Which of these are linear transformations? Justify with the two defining habits or a violated consequence: (a) $T(x, y) = (2x - y, x)$; (b) $T(x, y) = (x + 1, y)$; (c) $T(x, y) = (x^2, y)$; (d) $T(\mathbf{v}) = $ projection of $\mathbf{v}$ onto a fixed line through the origin (§2.3's $\operatorname{proj}$).
+
+7. ★ Prove that rotation about the origin is linear, geometrically: argue that rotating a parallelogram rigidly rotates its diagonal, so $R(\mathbf{u} + \mathbf{v}) = R\mathbf{u} + R\mathbf{v}$, and similarly for scaling. (No components needed — that is the point.)
+
+8. ★ Show that a matrix preserves all lengths if and only if its columns are orthonormal. *Forward direction:* lengths of $M\hat{\mathbf{x}}$, $M\hat{\mathbf{y}}$, and $M(\hat{\mathbf{x}} + \hat{\mathbf{y}})$ pin down the columns' norms and mutual dot product. Confirm that $R(\theta)$ passes for every $\theta$ and the shear fails.
+
+9. ★ The projection matrix onto the $x$-axis is $P = \begin{pmatrix} 1 & 0 \\ 0 & 0 \end{pmatrix}$. Compute $P^2$, explain the answer in words (project twice — then what?), and explain why no inverse of $P$ can exist, first physically (what information is destroyed?) and then via §3.2's cancellation failure: find $\mathbf{u} \neq \mathbf{v}$ with $P\mathbf{u} = P\mathbf{v}$.
+
+10. ★★ Chirality by arithmetic: take the "right-handed" tripod of points $(1,0), (0,1)$ and their sum $(1,1)$, apply $\sigma_y$, and show that no rotation $R(\theta)$ maps the reflected tripod back onto the original (compare, for the images of $(1, 0)$ and $(0, 1)$, the sense — clockwise or counterclockwise — in which one must turn to reach the other). Every chiral molecule is this exercise wearing atoms; the sign that automates the check arrives in §3.4.
+:::
+
+## Practice until it sticks
+
+<div data-skill="transformations"></div>
+
+<script src="../js/widgets/transform-2d.js"></script>
+<script src="../../js/adaptive-engine.js"></script>
+<script src="../../js/skills/transformations.js"></script>

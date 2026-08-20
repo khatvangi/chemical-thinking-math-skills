@@ -77,6 +77,49 @@ ul.task-list li input[type="checkbox"] {
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&amp;family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
 
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -394,8 +437,19 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#what-makes-a-transformation-linear" id="toc-what-makes-a-transformation-linear" class="nav-link active" data-scroll-target="#what-makes-a-transformation-linear">What makes a transformation linear</a></li>
+  <li><a href="#the-whole-transformation-in-two-columns" id="toc-the-whole-transformation-in-two-columns" class="nav-link" data-scroll-target="#the-whole-transformation-in-two-columns">The whole transformation in two columns</a></li>
+  <li><a href="#composition-and-the-promise-kept" id="toc-composition-and-the-promise-kept" class="nav-link" data-scroll-target="#composition-and-the-promise-kept">Composition, and the promise kept</a></li>
+  <li><a href="#remarks-and-cautions" id="toc-remarks-and-cautions" class="nav-link" data-scroll-target="#remarks-and-cautions">Remarks and cautions</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#practice-until-it-sticks" id="toc-practice-until-it-sticks" class="nav-link" data-scroll-target="#practice-until-it-sticks">Practice until it sticks</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -420,11 +474,111 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<div class="stub-note">
-<p>This section is being written. The corresponding material is still available in the <a href="../lectures/all-lectures.html">lecture pages</a>.</p>
+<p>Set a water molecule in the plane of the page: oxygen at the origin, the two hydrogens at <span class="math inline">(0.76, -0.59)</span> and <span class="math inline">(-0.76, -0.59)</span> Å, the twofold symmetry axis running along <span class="math inline">y</span>. Chemists say water “has <span class="math inline">C_2</span> symmetry”: rotate it half a turn about that axis and the result is indistinguishable from the start — the hydrogens trade places, the oxygen stays put, and no experiment can detect that anything happened. The sentence sounds qualitative, but it is secretly a computation about <em>every point of the molecule at once</em>: a rule that sends each position <span class="math inline">(x, y)</span> to a new position, applied to all atoms simultaneously, whose output configuration coincides with the input. Rules that move all of space — rotations, reflections, scalings — are called <em>transformations</em>, and this section shows that the well-behaved ones are precisely the matrices of §3.1 in their true vocation. A matrix is not a data table that happens to multiply; it is a <em>motion of space</em>, tabulated.</p>
+<section id="what-makes-a-transformation-linear" class="level2">
+<h2 class="anchored" data-anchor-id="what-makes-a-transformation-linear">What makes a transformation linear</h2>
+<p>A transformation <span class="math inline">T</span> assigns to every vector <span class="math inline">\mathbf{v}</span> an output <span class="math inline">T(\mathbf{v})</span>. The ones matrices can represent share two structural habits, and they are exactly the habits of the matrix–vector product itself (Exercise 7 of §3.1): they respect addition and scaling.</p>
+<div class="env definition">
+<p><strong>Definition 3.3.1 (Linear transformation).</strong> <span class="math inline">T</span> is <strong>linear</strong> if for all vectors and scalars <span class="math display">
+T(\mathbf{u} + \mathbf{v}) = T(\mathbf{u}) + T(\mathbf{v}),
+\qquad
+T(c\,\mathbf{v}) = c\, T(\mathbf{v}).
+</span> Consequences: <span class="math inline">T(\mathbf{0}) = \mathbf{0}</span> (take <span class="math inline">c = 0</span>), and straight lines map to straight lines with even spacing preserved.</p>
 </div>
+<p>Rotation about the origin is linear — rotate two arrows and their tip-to-tail sum rotates along with them, since the whole parallelogram of §2.1 turns rigidly. So are reflections through lines containing the origin, and uniform stretches. The instructive <em>failure</em> is translation, “shift everything 2 Å along <span class="math inline">x</span>”: it moves the origin, violating <span class="math inline">T(\mathbf{0}) = \mathbf{0}</span>, so no matrix will ever represent it. (Crystallography needs translations badly and handles them by a bolt-on — affine transformations — but the symmetry operations of a <em>molecule about its own center</em> are exactly the linear kind, which is why matrices run point-group theory.)</p>
+</section>
+<section id="the-whole-transformation-in-two-columns" class="level2">
+<h2 class="anchored" data-anchor-id="the-whole-transformation-in-two-columns">The whole transformation in two columns</h2>
+<p>Linearity looks like a modest bookkeeping constraint. It is actually a devastating economy: a linear transformation of the plane is completely pinned down by what it does to just two vectors.</p>
+<div class="env theorem">
+<p><strong>Theorem 3.3.2 (The matrix of a transformation).</strong> Let <span class="math inline">T</span> be linear on the plane. Form the matrix <span class="math inline">M</span> whose first column is <span class="math inline">T(\hat{\mathbf{x}})</span> and whose second column is <span class="math inline">T(\hat{\mathbf{y}})</span>. Then <span class="math inline">T(\mathbf{v}) = M\mathbf{v}</span> for every vector <span class="math inline">\mathbf{v}</span>.</p>
+</div>
+<div class="env proof">
+<p><span class="proof-title"><em>Proof</em>. </span>Any <span class="math inline">\mathbf{v} = (v_x, v_y)</span> decomposes on the standard basis (§2.2): <span class="math inline">\mathbf{v} = v_x \hat{\mathbf{x}} + v_y \hat{\mathbf{y}}</span>. Apply <span class="math inline">T</span> and let linearity distribute it: <span class="math display">
+T(\mathbf{v}) = T(v_x \hat{\mathbf{x}}) + T(v_y \hat{\mathbf{y}}) = v_x\, T(\hat{\mathbf{x}}) + v_y\, T(\hat{\mathbf{y}}).
+</span> The right side is a linear combination of <span class="math inline">M</span>’s columns weighted by <span class="math inline">\mathbf{v}</span>’s entries — which is <span class="math inline">M\mathbf{v}</span> by the column picture, Theorem 3.1.3. <span class="math inline">\square</span></p>
+</div>
+<p>The theorem cuts both ways, and both directions are daily tools. <em>Building</em> a matrix: ask where the basis vectors land, write the answers as columns, done. <em>Reading</em> a matrix: its columns <em>are</em> the fates of <span class="math inline">\hat{\mathbf{x}}</span> and <span class="math inline">\hat{\mathbf{y}}</span> — stare at the columns and the motion reveals itself. Build the two workhorses now. A rotation by angle <span class="math inline">\theta</span> carries <span class="math inline">\hat{\mathbf{x}}</span> to <span class="math inline">(\cos\theta, \sin\theta)</span> — that is the definition of sine and cosine on the unit circle — and carries <span class="math inline">\hat{\mathbf{y}}</span>, which starts <span class="math inline">90°</span> ahead, to <span class="math inline">(-\sin\theta, \cos\theta)</span>. Reflection across the <span class="math inline">y</span>-axis flips <span class="math inline">\hat{\mathbf{x}}</span> to <span class="math inline">-\hat{\mathbf{x}}</span> and fixes <span class="math inline">\hat{\mathbf{y}}</span>. Columns in place: <span class="math display">
+R(\theta) = \begin{pmatrix} \cos\theta &amp; -\sin\theta \\ \sin\theta &amp; \cos\theta \end{pmatrix},
+\qquad
+\sigma_y = \begin{pmatrix} -1 &amp; 0 \\ 0 &amp; 1 \end{pmatrix}.
+</span></p>
+<div class="env example">
+<p><strong>Example 3.3.3 (Water’s <span class="math inline">C_2</span>, executed).</strong> With the axis along <span class="math inline">y</span>, the <span class="math inline">C_2</span> operation is <span class="math inline">\sigma_y</span>’s cousin: rotation by <span class="math inline">180°</span> about the <span class="math inline">y</span>-axis in 3D, which acts on in-plane points as <span class="math inline">(x, y) \mapsto (-x, y)</span> — the matrix <span class="math inline">\sigma_y</span> above. Apply it to water’s three atoms and verify the symmetry claim.</p>
+<p><em>Setting it up.</em> Multiply each atomic position by the matrix; compare the output <em>set</em> of positions with the input set (atoms of the same element are interchangeable — a §1.2 sentiment).</p>
+<p><em>Solution.</em> <span class="math display">
+\sigma_y \begin{pmatrix} 0.76 \\ -0.59 \end{pmatrix} = \begin{pmatrix} -0.76 \\ -0.59 \end{pmatrix},
+\qquad
+\sigma_y \begin{pmatrix} -0.76 \\ -0.59 \end{pmatrix} = \begin{pmatrix} 0.76 \\ -0.59 \end{pmatrix},
+\qquad
+\sigma_y \begin{pmatrix} 0 \\ 0 \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix}.
+</span> H₁ lands exactly on H₂’s site, H₂ on H₁’s, O stays fixed: the transformed molecule occupies precisely the original sites.</p>
+<p><em>Check.</em> Lengths must survive a symmetry operation: each O–H distance is <span class="math inline">\sqrt{0.76^2 + 0.59^2} = 0.96</span> Å before and after ✓. The atom-swap is not an approximation — the coordinates were chosen symmetric, and the operation exchanges them <em>exactly</em>, which is what “the molecule possesses this symmetry” means. Run the same matrix on a hypothetical HOD molecule (one H heavier) and the output no longer matches the input — isotopic substitution genuinely lowers the symmetry, and the arithmetic shows it.</p>
+</div>
+</section>
+<section id="composition-and-the-promise-kept" class="level2">
+<h2 class="anchored" data-anchor-id="composition-and-the-promise-kept">Composition, and the promise kept</h2>
+<p>Section <a href="../03-matrices/02-algebra.html">3.2</a> asserted that operations performed in different orders end differently, and promised a molecule to prove it. The matrix product was <em>engineered</em> so that applying <span class="math inline">B</span> then <span class="math inline">A</span> is the single transformation <span class="math inline">AB</span> — composition is multiplication. So take a <span class="math inline">90°</span> rotation <span class="math inline">R = R(90°) = \begin{pmatrix} 0 &amp; -1 \\ 1 &amp; 0 \end{pmatrix}</span> and the reflection <span class="math inline">\sigma_x = \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; -1 \end{pmatrix}</span> (across the <span class="math inline">x</span>-axis), and compose both ways: <span class="math display">
+\sigma_x R = \begin{pmatrix} 0 &amp; -1 \\ -1 &amp; 0 \end{pmatrix},
+\qquad
+R\,\sigma_x = \begin{pmatrix} 0 &amp; 1 \\ 1 &amp; 0 \end{pmatrix}.
+</span> Both products are reflections — but across <em>different</em> mirror lines (<span class="math inline">y = -x</span> and <span class="math inline">y = x</span> respectively; read each matrix’s columns to see where <span class="math inline">\hat{\mathbf{x}}</span> and <span class="math inline">\hat{\mathbf{y}}</span> go). Track a concrete atom at <span class="math inline">(1, 0)</span>: rotate-then-reflect sends it $ (1,0) (0,1) (0,-1)$, while reflect-then-rotate sends it <span class="math inline">(1,0) \to (1,0) \to (0,1)</span>. Different final positions, non-commutativity made visible — and this is not a pathology but the arithmetic backbone of group theory, where the multiplication table of a molecule’s symmetry operations <em>is</em> a fingerprint of its structure.</p>
+<div class="widget-frame">
+<div class="widget-predict">
+<p>Predict before pressing: which operations below will leave the water molecule occupying its original sites, and which will visibly move it? Then check whether <span class="math inline">C_4</span> (a quarter turn) is a symmetry of water — and of anything square.</p>
+</div>
+<div class="widget-body">
+<div style="margin-bottom:0.6rem;">
+<p><label>operation <select id="tfOp"> <option value="c2">C₂ — rotate 180° about the axis</option> <option value="sx">σ — reflect across the x-axis</option> <option value="sy">σᵥ — reflect across the y-axis (the C₂ plane)</option> <option value="c4">C₄ — rotate 90°</option> <option value="scale">stretch ×1.5 along x</option> <option value="shear">shear (x ← x + 0.5y)</option> </select> </label></p>
+</div>
+<canvas id="tfCanvas" width="640" height="360">
+</canvas>
+<div id="tfReadout" class="widget-readout">
+
+</div>
+</div>
+<div class="widget-debrief">
+<p>The operations that return water to its own sites — <span class="math inline">C_2</span> about the axis and <span class="math inline">\sigma_v</span> in the plane — are exactly water’s point-group operations (with the identity, the group <span class="math inline">C_{2v}</span>). <span class="math inline">C_4</span> moves the hydrogens somewhere no atom was: a quarter turn is a symmetry of square things, and water is not square. The stretch and shear preserve neither lengths nor the molecule — matrices in general <em>deform</em>; the special ones that merely reorient are the next section’s aristocracy.</p>
+</div>
+</div>
+</section>
+<section id="remarks-and-cautions" class="level2">
+<h2 class="anchored" data-anchor-id="remarks-and-cautions">Remarks and cautions</h2>
+<p><strong>Read matrices by their columns.</strong> Handed an unfamiliar <span class="math inline">2\times2</span>, resist entry-by-entry staring: column 1 is where <span class="math inline">\hat{\mathbf{x}}</span> goes, column 2 is where <span class="math inline">\hat{\mathbf{y}}</span> goes, and Theorem 3.3.2 says that is the whole story. <span class="math inline">\begin{pmatrix} 0 &amp; 1 \\ 1 &amp; 0 \end{pmatrix}</span> swaps the basis vectors — it can only be the reflection across <span class="math inline">y = x</span>.</p>
+<p><strong>Symmetry operations are the length-preserving minority.</strong> Every symmetry operation is linear, but most matrices are not symmetry operations: the shear and stretch in the widget mangle bond lengths, which no physical symmetry may do. The matrices that preserve all lengths and angles have orthonormal columns (Exercise 8) — the <em>orthogonal</em> matrices, and molecular point groups live entirely inside that aristocratic subset.</p>
+<p><strong>Translation is not linear.</strong> A matrix fixes the origin, always. Moving a molecule bodily across the cell is a different mathematical object (affine), which is why symmetry analysis pins the point group at the molecule’s <em>center</em> — the one point every operation leaves alone.</p>
+<p><strong>Reflections reverse handedness.</strong> Apply <span class="math inline">\sigma_y</span> to your right hand and the output is a left hand; no rotation can undo it. Two numbers in the matrix know this — the next section shows that a single computed quantity distinguishes proper rotations from improper reflections, and its sign is exactly the handedness flag chirality has been waiting for.</p>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>A linear transformation is a motion of all space that respects vector addition and scaling — rotations, reflections, and stretches about the origin, but never translations — and Theorem 3.3.2 compresses any such motion into a matrix whose columns are simply the destinations of the basis vectors, making matrices buildable (write the columns) and readable (read them) in one stroke. Rotation and reflection matrices follow instantly, water’s <span class="math inline">C_2</span> becomes an exact arithmetic identity on its coordinates, and composition of motions <em>is</em> the matrix product of §3.2, whose non-commutativity now has geometric flesh: rotate-then-reflect and reflect-then-rotate are different mirrors. The transformations that qualify as physical symmetry operations are the length-preserving orthogonal minority, and one question now stands open with everything staged for it: what single number tells a matrix’s effect on area, orientation, and invertibility at a glance? That number is the determinant, next.</p>
+<div class="exercises">
+<p>Exercises</p>
+<ol type="1">
+<li><p>Write the matrices for: rotation by <span class="math inline">270°</span>; reflection across the line <span class="math inline">y = x</span>; the stretch that doubles <span class="math inline">x</span> and leaves <span class="math inline">y</span> alone; and rotation by <span class="math inline">120°</span> (exact entries, using <span class="math inline">\cos 120° = -\tfrac12</span>, <span class="math inline">\sin 120° = \tfrac{\sqrt3}{2}</span>).</p></li>
+<li><p>Identify each matrix from its columns, in words: <span class="math inline">\begin{pmatrix} -1 &amp; 0 \\ 0 &amp; -1 \end{pmatrix}</span>; <span class="math inline">\begin{pmatrix} 0 &amp; 1 \\ -1 &amp; 0 \end{pmatrix}</span>; <span class="math inline">\begin{pmatrix} 3 &amp; 0 \\ 0 &amp; 3 \end{pmatrix}</span>; <span class="math inline">\begin{pmatrix} 1 &amp; 0.4 \\ 0 &amp; 1 \end{pmatrix}</span>.</p></li>
+<li><p>Ammonia’s <span class="math inline">C_3</span> axis: apply <span class="math inline">R(120°)</span> (Exercise 1) three times in succession to the point <span class="math inline">(1, 0)</span> and verify it returns home — algebraically, <span class="math inline">R(120°)^3 = I</span>. Why must every rotation matrix of a molecular symmetry axis satisfy <span class="math inline">R^n = I</span> for some <span class="math inline">n</span>?</p></li>
+<li><p>Verify by direct multiplication the two compositions of the text, <span class="math inline">\sigma_x R(90°)</span> and <span class="math inline">R(90°)\,\sigma_x</span>, and confirm the trajectories of the atom at <span class="math inline">(1, 0)</span> given there.</p></li>
+<li><p>Benzene in the plane: its carbons sit at angles <span class="math inline">0°, 60°, \ldots, 300°</span> on a circle of radius 1.39 Å. Show that <span class="math inline">R(60°)</span> maps the carbon set to itself, and find the smallest positive rotation that does the same for the <em>hydrogens</em> of a hypothetical C₆H₃ (alternating substitution at carbons 1, 3, 5).</p></li>
+<li><p>Which of these are linear transformations? Justify with the two defining habits or a violated consequence: (a) <span class="math inline">T(x, y) = (2x - y, x)</span>; (b) <span class="math inline">T(x, y) = (x + 1, y)</span>; (c) <span class="math inline">T(x, y) = (x^2, y)</span>; (d) $T() = $ projection of <span class="math inline">\mathbf{v}</span> onto a fixed line through the origin (§2.3’s <span class="math inline">\operatorname{proj}</span>).</p></li>
+<li><p>★ Prove that rotation about the origin is linear, geometrically: argue that rotating a parallelogram rigidly rotates its diagonal, so <span class="math inline">R(\mathbf{u} + \mathbf{v}) = R\mathbf{u} + R\mathbf{v}</span>, and similarly for scaling. (No components needed — that is the point.)</p></li>
+<li><p>★ Show that a matrix preserves all lengths if and only if its columns are orthonormal. <em>Forward direction:</em> lengths of <span class="math inline">M\hat{\mathbf{x}}</span>, <span class="math inline">M\hat{\mathbf{y}}</span>, and <span class="math inline">M(\hat{\mathbf{x}} + \hat{\mathbf{y}})</span> pin down the columns’ norms and mutual dot product. Confirm that <span class="math inline">R(\theta)</span> passes for every <span class="math inline">\theta</span> and the shear fails.</p></li>
+<li><p>★ The projection matrix onto the <span class="math inline">x</span>-axis is <span class="math inline">P = \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 0 \end{pmatrix}</span>. Compute <span class="math inline">P^2</span>, explain the answer in words (project twice — then what?), and explain why no inverse of <span class="math inline">P</span> can exist, first physically (what information is destroyed?) and then via §3.2’s cancellation failure: find <span class="math inline">\mathbf{u} \neq \mathbf{v}</span> with <span class="math inline">P\mathbf{u} = P\mathbf{v}</span>.</p></li>
+<li><p>★★ Chirality by arithmetic: take the “right-handed” tripod of points <span class="math inline">(1,0), (0,1)</span> and their sum <span class="math inline">(1,1)</span>, apply <span class="math inline">\sigma_y</span>, and show that no rotation <span class="math inline">R(\theta)</span> maps the reflected tripod back onto the original (compare, for the images of <span class="math inline">(1, 0)</span> and <span class="math inline">(0, 1)</span>, the sense — clockwise or counterclockwise — in which one must turn to reach the other). Every chiral molecule is this exercise wearing atoms; the sign that automates the check arrives in §3.4.</p></li>
+</ol>
+</div>
+</section>
+<section id="practice-until-it-sticks" class="level2">
+<h2 class="anchored" data-anchor-id="practice-until-it-sticks">Practice until it sticks</h2>
+<div data-skill="transformations">
+
+</div>
+<script src="../js/widgets/transform-2d.js"></script>
+<script src="../../js/adaptive-engine.js"></script>
+<script src="../../js/skills/transformations.js"></script>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
