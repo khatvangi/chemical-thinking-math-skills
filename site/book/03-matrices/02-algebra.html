@@ -77,6 +77,49 @@ ul.task-list li input[type="checkbox"] {
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&amp;family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
 
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -394,8 +437,18 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#multiplying-grids" id="toc-multiplying-grids" class="nav-link active" data-scroll-target="#multiplying-grids">Multiplying grids</a></li>
+  <li><a href="#the-identity-and-undoing" id="toc-the-identity-and-undoing" class="nav-link" data-scroll-target="#the-identity-and-undoing">The identity, and undoing</a></li>
+  <li><a href="#remarks-and-cautions" id="toc-remarks-and-cautions" class="nav-link" data-scroll-target="#remarks-and-cautions">Remarks and cautions</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#practice-until-it-sticks" id="toc-practice-until-it-sticks" class="nav-link" data-scroll-target="#practice-until-it-sticks">Practice until it sticks</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -420,11 +473,100 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<div class="stub-note">
-<p>This section is being written. The corresponding material is still available in the <a href="../lectures/all-lectures.html">lecture pages</a>.</p>
+<p>Section <a href="../03-matrices/01-grids.html">3.1</a> left the laboratory hanging. The spectrophotometer measured absorbances <span class="math inline">\mathbf{A} = (0.78, 0.74)</span> for a two-dye mixture, the absorptivity matrix <span class="math inline">E</span> is known from calibration, and the concentrations satisfy <span class="math inline">E\mathbf{c} = \mathbf{A}</span> — an equation whose <em>answer</em> is on the wrong side. In scalar arithmetic the move would be reflexive: divide by <span class="math inline">E</span>. But <span class="math inline">E</span> is a grid, and “divide by a grid” means nothing until we build it meaning. The construction route runs through three ideas that are the algebra of matrices: multiplying matrices <em>by each other</em>, an identity that multiplication cannot alter, and — for the matrices that deserve one — an inverse that undoes. By the end of the section the dye concentrations fall out in two lines, and the one number that decides whether they <em>can</em> fall out will be staring at us, waiting for Section <a href="../03-matrices/04-determinants.html">3.4</a> to give it a name.</p>
+<section id="multiplying-grids" class="level2">
+<h2 class="anchored" data-anchor-id="multiplying-grids">Multiplying grids</h2>
+<p>Why would two matrices multiply? The honest motivation is <em>composition</em>: doing one linear operation after another. Convert feed amounts to monomer totals (<span class="math inline">B</span>), then monomer totals to element totals (<span class="math inline">A</span>) — the net conversion from feeds to elements is some single grid, and it ought to be computable from <span class="math inline">A</span> and <span class="math inline">B</span>. The requirement that “apply <span class="math inline">B</span>, then apply <span class="math inline">A</span>” equal “apply the combined grid” <em>forces</em> the definition: the combined grid’s action on any vector must be <span class="math inline">A(B\mathbf{v})</span>, and working out what grid does that job yields the rule every textbook states.</p>
+<div class="env definition">
+<p><strong>Definition 3.2.1 (Matrix product).</strong> For <span class="math inline">A</span> (<span class="math inline">m \times n</span>) and <span class="math inline">B</span> (<span class="math inline">n \times p</span>), the product <span class="math inline">AB</span> is the <span class="math inline">m \times p</span> matrix with <span class="math display">
+(AB)_{ij} = \text{(row } i \text{ of } A) \cdot \text{(column } j \text{ of } B) = \sum_{k=1}^{n} a_{ik} b_{kj}.
+</span> Equivalently, column by column: the <span class="math inline">j</span>-th column of <span class="math inline">AB</span> is <span class="math inline">A</span> applied to the <span class="math inline">j</span>-th column of <span class="math inline">B</span>. Inner dimensions must match; the outer ones set the answer’s shape.</p>
 </div>
+<p>The column reading shows the definition doing exactly the promised job — <span class="math inline">AB</span>’s columns are <span class="math inline">A</span>’s outputs on <span class="math inline">B</span>’s columns, so <span class="math inline">AB</span> acting on anything reproduces apply-<span class="math inline">B</span>-then-<span class="math inline">A</span>. Two consequences follow, one comforting and one that must be internalized early. The comforting one: the product is <strong>associative</strong>, <span class="math inline">(AB)C = A(BC)</span>, because both sides are the single grid performing “apply <span class="math inline">C</span>, then <span class="math inline">B</span>, then <span class="math inline">A</span>” — grouping the paperwork differently cannot change the pipeline (a direct double-sum verification is Exercise 7). The uncomfortable one:</p>
+<div class="env theorem">
+<p><strong>Theorem 3.2.2 (Multiplication does not commute).</strong> In general <span class="math inline">AB \neq BA</span>.</p>
+</div>
+<div class="env proof">
+<p><span class="proof-title"><em>Proof</em>. </span>One counterexample suffices: <span class="math display">
+\begin{pmatrix} 0 &amp; 1 \\ 0 &amp; 0 \end{pmatrix}
+\begin{pmatrix} 0 &amp; 0 \\ 1 &amp; 0 \end{pmatrix}
+= \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 0 \end{pmatrix},
+\qquad
+\begin{pmatrix} 0 &amp; 0 \\ 1 &amp; 0 \end{pmatrix}
+\begin{pmatrix} 0 &amp; 1 \\ 0 &amp; 0 \end{pmatrix}
+= \begin{pmatrix} 0 &amp; 0 \\ 0 &amp; 1 \end{pmatrix}.
+</span></p>
+</div>
+<p>This is not an algebraic curiosity but a fact about the world that matrices inherit honestly: <em>operations performed in different orders end differently</em>. Rotate a molecule 90° about <span class="math inline">z</span> and then reflect it in the <span class="math inline">xz</span>-plane, or reflect first and rotate second — the atom ends in different places (Section <a href="../03-matrices/03-transformations.html">3.3</a> will compute both). Sequence matters in the lab, and the algebra keeps the books accordingly. Every manipulation below respects it: we will multiply on a <em>chosen side</em> and say which.</p>
+</section>
+<section id="the-identity-and-undoing" class="level2">
+<h2 class="anchored" data-anchor-id="the-identity-and-undoing">The identity, and undoing</h2>
+<p>Scalar algebra’s 1 has a matrix counterpart: the <strong>identity matrix</strong> <span class="math inline">I</span>, with 1s on the diagonal and 0s elsewhere (<span class="math inline">I\mathbf{v} = \mathbf{v}</span> and <span class="math inline">AI = IA = A</span> — the do-nothing operation). With a “1” in hand, “division” can be given its honest form: not dividing, but multiplying by an undoer.</p>
+<div class="env definition">
+<p><strong>Definition 3.2.3 (Inverse).</strong> A square matrix <span class="math inline">A</span> is <strong>invertible</strong> if there exists a matrix <span class="math inline">A^{-1}</span> with <span class="math inline">A^{-1} A = A A^{-1} = I</span>. Then <span class="math inline">A\mathbf{x} = \mathbf{b}</span> is solved in one move: multiply both sides on the left by <span class="math inline">A^{-1}</span>, and associativity gives <span class="math inline">\mathbf{x} = A^{-1}\mathbf{b}</span>.</p>
+</div>
+<p>For <span class="math inline">2 \times 2</span> matrices the inverse has a closed form, and deriving it teaches more than memorizing it. Seek <span class="math inline">A^{-1}</span> for <span class="math inline">A = \begin{pmatrix} a &amp; b \\ c &amp; d \end{pmatrix}</span>. A guess with swapped diagonal and negated off-diagonal, <span class="math inline">M = \begin{pmatrix} d &amp; -b \\ -c &amp; a \end{pmatrix}</span>, is worth auditioning because multiplying it out collapses beautifully: <span class="math display">
+M A = \begin{pmatrix} d &amp; -b \\ -c &amp; a \end{pmatrix}\begin{pmatrix} a &amp; b \\ c &amp; d \end{pmatrix}
+= \begin{pmatrix} da - bc &amp; db - bd \\ -ca + ac &amp; -cb + ad \end{pmatrix}
+= (ad - bc)\, I .
+</span> The off-diagonals cancelled <em>identically</em>, and both diagonal entries came out equal to the same number <span class="math inline">ad - bc</span>. So <span class="math inline">M</span> is almost the inverse — it undoes <span class="math inline">A</span> up to an overall scalar — and dividing by that scalar finishes the job, provided the scalar is not zero.</p>
+<div class="env theorem">
+<p><strong>Theorem 3.2.4 (The 2×2 inverse).</strong> If <span class="math inline">ad - bc \neq 0</span>, <span class="math display">
+\begin{pmatrix} a &amp; b \\ c &amp; d \end{pmatrix}^{-1}
+= \frac{1}{ad - bc} \begin{pmatrix} d &amp; -b \\ -c &amp; a \end{pmatrix},
+</span> and if <span class="math inline">ad - bc = 0</span> no inverse exists.</p>
+</div>
+<p>The quantity <span class="math inline">ad - bc</span> appeared uninvited, decided everything, and will not go away: it is the <strong>determinant</strong>, and §3.4 is devoted to what it <em>means</em>. For now, note the grammar of the theorem — one computable number sorts all <span class="math inline">2\times2</span> matrices into the invertible and the lost causes.</p>
+<div class="env example">
+<p><strong>Example 3.2.5 (The dye assay, solved).</strong> Recover the concentrations from <span class="math inline">E\mathbf{c} = \mathbf{A}</span> with <span class="math inline">E = \begin{pmatrix} 15000 &amp; 3000 \\ 2000 &amp; 11000 \end{pmatrix}</span> M⁻¹cm⁻¹ and measured <span class="math inline">\mathbf{A} = (0.78, 0.74)</span>.</p>
+<p><em>Setting it up.</em> Compute <span class="math inline">ad - bc</span>; if nonzero, apply Theorem 3.2.4 and multiply.</p>
+<p><em>Solution.</em> <span class="math inline">ad - bc = (15000)(11000) - (3000)(2000) = 1.65 \times 10^8 - 6 \times 10^6 = 1.59 \times 10^8</span>. Then <span class="math display">
+\mathbf{c} = E^{-1}\mathbf{A} = \frac{1}{1.59 \times 10^8}
+\begin{pmatrix} 11000 &amp; -3000 \\ -2000 &amp; 15000 \end{pmatrix}
+\begin{pmatrix} 0.78 \\ 0.74 \end{pmatrix}
+= \frac{1}{1.59 \times 10^8}
+\begin{pmatrix} 6360 \\ 9540 \end{pmatrix}
+= \begin{pmatrix} 4.0 \times 10^{-5} \\ 6.0 \times 10^{-5} \end{pmatrix} \text{M}.
+</span></p>
+<p><em>Check.</em> Round trip: these are exactly the concentrations that §3.1’s <em>forward</em> computation turned into <span class="math inline">(0.78, 0.74)</span> — inverse and original compose to the identity in the numbers, not just the notation. Units: <span class="math inline">\mathbf{A}</span> is dimensionless and <span class="math inline">E^{-1}</span> carries M·cm, giving molar concentrations ✓. Magnitude: <span class="math inline">10^{-5}</span> M for dyes with <span class="math inline">\varepsilon \sim 10^4</span> giving <span class="math inline">A \sim 1</span> is textbook-plausible ✓. The negative entries of <span class="math inline">E^{-1}</span> are not errors — they are the algebra subtracting away each dye’s spectral intrusion into the other’s wavelength.</p>
+</div>
+</section>
+<section id="remarks-and-cautions" class="level2">
+<h2 class="anchored" data-anchor-id="remarks-and-cautions">Remarks and cautions</h2>
+<p><strong>Side matters, twice.</strong> Because multiplication does not commute, solving <span class="math inline">A\mathbf{x} = \mathbf{b}</span> requires multiplying both sides <em>on the left</em>: <span class="math inline">\mathbf{x} = A^{-1}\mathbf{b}</span>, never <span class="math inline">\mathbf{b}A^{-1}</span> (which is usually not even defined). Writing <span class="math inline">\mathbf{x} = \mathbf{b}/A</span> is not shorthand — it is ambiguous about the side and therefore about the answer.</p>
+<p><strong>Inverses reverse order.</strong> <span class="math inline">(AB)^{-1} = B^{-1}A^{-1}</span>: to undo “socks, then shoes,” remove shoes first. The proof is one associativity chain — <span class="math inline">(B^{-1}A^{-1})(AB) = B^{-1}(A^{-1}A)B = B^{-1} I B = I</span> — and the exam error it prevents (<span class="math inline">(AB)^{-1} = A^{-1}B^{-1}</span>) survives only in a commuting world, which Theorem 3.2.2 closed.</p>
+<p><strong>Not every square matrix has an inverse.</strong> When <span class="math inline">ad - bc = 0</span>, Theorem 3.2.4’s construction divides by zero and no repair exists. The failure is chemical, not clerical: for the dye assay, <span class="math inline">\det E = 0</span> happens exactly when one dye’s absorptivity column is a multiple of the other’s — spectra of the same <em>shape</em> — and then two wavelengths genuinely cannot tell the dyes apart. No algebra recovers information the measurement never contained; §3.4 turns this into a working design criterion.</p>
+<p><strong><span class="math inline">AB = AC</span> does not imply <span class="math inline">B = C</span>.</strong> Cancellation needs an inverse: only if <span class="math inline">A^{-1}</span> exists may you strike <span class="math inline">A</span> from both sides. With singular <span class="math inline">A</span>, different inputs can produce identical outputs — the algebraic face of the same information loss.</p>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>Matrix multiplication is composition: <span class="math inline">(AB)_{ij}</span> is row-<span class="math inline">i</span>-dot-column-<span class="math inline">j</span>, engineered precisely so that <span class="math inline">AB</span> acts as “apply <span class="math inline">B</span>, then <span class="math inline">A</span>” — hence associative, and hence <em>not</em> commutative, because sequenced operations in the world are not either. The identity <span class="math inline">I</span> plays 1, and an invertible matrix has an undoer <span class="math inline">A^{-1}</span> that solves <span class="math inline">A\mathbf{x} = \mathbf{b}</span> as <span class="math inline">\mathbf{x} = A^{-1}\mathbf{b}</span> in a single left-multiplication; for <span class="math inline">2 \times 2</span> matrices the inverse is explicit, exists exactly when <span class="math inline">ad - bc \neq 0</span>, and delivered the dye concentrations from measured absorbances with a round-trip check against the forward problem. The residue of the section is that one deciding number: it emerged from the algebra unbidden, it separates solvable assays from hopeless ones, and its meaning — geometric, not algebraic — is the business of the determinant section ahead.</p>
+<div class="exercises">
+<p>Exercises</p>
+<ol type="1">
+<li><p>For <span class="math inline">A = \begin{pmatrix} 1 &amp; 2 \\ 3 &amp; 4 \end{pmatrix}</span> and <span class="math inline">B = \begin{pmatrix} 0 &amp; 1 \\ 1 &amp; 0 \end{pmatrix}</span>: compute <span class="math inline">AB</span> and <span class="math inline">BA</span>, confirm they differ, and describe in words what right-multiplication by <span class="math inline">B</span> did to <span class="math inline">A</span> versus left-multiplication.</p></li>
+<li><p>Dimension bookkeeping: for <span class="math inline">P</span> (<span class="math inline">2 \times 3</span>), <span class="math inline">Q</span> (<span class="math inline">3 \times 3</span>), <span class="math inline">R</span> (<span class="math inline">3 \times 2</span>), which of <span class="math inline">PQ</span>, <span class="math inline">QP</span>, <span class="math inline">PR</span>, <span class="math inline">RP</span>, <span class="math inline">PQR</span> are defined, and with what shapes?</p></li>
+<li><p>Verify that <span class="math inline">I</span> earns its name: compute <span class="math inline">IA</span> and <span class="math inline">AI</span> for the <span class="math inline">A</span> of Exercise 1, and <span class="math inline">I\mathbf{v}</span> for <span class="math inline">\mathbf{v} = (5, -2)</span>.</p></li>
+<li><p>Invert <span class="math inline">\begin{pmatrix} 2 &amp; 1 \\ 5 &amp; 3 \end{pmatrix}</span> and <span class="math inline">\begin{pmatrix} 4 &amp; 6 \\ 2 &amp; 3 \end{pmatrix}</span> — or explain, via Theorem 3.2.4’s condition, why one of them refuses.</p></li>
+<li><p>A two-protein assay obeys <span class="math inline">E\mathbf{c} = \mathbf{A}</span> with <span class="math inline">E = \begin{pmatrix} 8000 &amp; 4000 \\ 3000 &amp; 9000 \end{pmatrix}</span> M⁻¹cm⁻¹ and measured <span class="math inline">\mathbf{A} = (0.52, 0.57)</span>. Find both concentrations, and run the round-trip check.</p></li>
+<li><p>Using Exercise 1’s matrices, verify associativity numerically: compute <span class="math inline">(AB)B</span> and <span class="math inline">A(BB)</span> and confirm agreement. Why does this NOT follow from commutativity (which is false)?</p></li>
+<li><p>★ Prove associativity in general: show <span class="math inline">\left((AB)C\right)_{ij} = \sum_k \sum_l a_{ik} b_{kl} c_{lj} = \left(A(BC)\right)_{ij}</span>, noting that only the order of two finite summations is exchanged.</p></li>
+<li><p>★ Prove the socks-shoes law <span class="math inline">(AB)^{-1} = B^{-1}A^{-1}</span> by verifying both defining products, then produce a <span class="math inline">2\times2</span> numerical counterexample showing <span class="math inline">A^{-1}B^{-1}</span> fails.</p></li>
+<li><p>★ Your two “dyes” have absorptivity columns <span class="math inline">(10000, 4000)</span> and <span class="math inline">(5000, 2000)</span> M⁻¹cm⁻¹. Show the assay matrix is singular, explain spectroscopically what property of the two dyes doomed it, and propose the experimental fix (what must be true of a third wavelength for a <span class="math inline">2\times2</span> sub-assay built from it to work?).</p></li>
+<li><p>★★ Matrix powers: for the “relaxation” matrix <span class="math inline">T = \begin{pmatrix} 0.9 &amp; 0.2 \\ 0.1 &amp; 0.8 \end{pmatrix}</span> (columns: where the population of each of two conformers goes in one time step — note each column sums to 1), compute <span class="math inline">T^2</span> and <span class="math inline">T^4 \mathbf{p}_0</span> for <span class="math inline">\mathbf{p}_0 = (1, 0)</span>, and conjecture the population vector as the number of steps grows. (You are watching a Markov chain approach equilibrium; Chapter 6 will catch the limit exactly, and the tool that does it — eigenvalues — lives one chapter past the determinant.)</p></li>
+</ol>
+</div>
+</section>
+<section id="practice-until-it-sticks" class="level2">
+<h2 class="anchored" data-anchor-id="practice-until-it-sticks">Practice until it sticks</h2>
+<div data-skill="matrix-algebra">
+
+</div>
+<script src="../../js/adaptive-engine.js"></script>
+<script src="../../js/skills/matrix-algebra.js"></script>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

@@ -2,6 +2,127 @@
 title: "3.2 Matrix Algebra"
 ---
 
-::: {.stub-note}
-This section is being written. The corresponding material is still available in the [lecture pages](/lectures/all-lectures.html).
+Section [3.1](01-grids.qmd) left the laboratory hanging. The spectrophotometer measured absorbances $\mathbf{A} = (0.78, 0.74)$ for a two-dye mixture, the absorptivity matrix $E$ is known from calibration, and the concentrations satisfy $E\mathbf{c} = \mathbf{A}$ — an equation whose *answer* is on the wrong side. In scalar arithmetic the move would be reflexive: divide by $E$. But $E$ is a grid, and "divide by a grid" means nothing until we build it meaning. The construction route runs through three ideas that are the algebra of matrices: multiplying matrices *by each other*, an identity that multiplication cannot alter, and — for the matrices that deserve one — an inverse that undoes. By the end of the section the dye concentrations fall out in two lines, and the one number that decides whether they *can* fall out will be staring at us, waiting for Section [3.4](04-determinants.qmd) to give it a name.
+
+## Multiplying grids
+
+Why would two matrices multiply? The honest motivation is *composition*: doing one linear operation after another. Convert feed amounts to monomer totals ($B$), then monomer totals to element totals ($A$) — the net conversion from feeds to elements is some single grid, and it ought to be computable from $A$ and $B$. The requirement that "apply $B$, then apply $A$" equal "apply the combined grid" *forces* the definition: the combined grid's action on any vector must be $A(B\mathbf{v})$, and working out what grid does that job yields the rule every textbook states.
+
+::: {.env .definition}
+**Definition 3.2.1 (Matrix product).** For $A$ ($m \times n$) and $B$ ($n \times p$), the product $AB$ is the $m \times p$ matrix with
+$$
+(AB)_{ij} = \text{(row } i \text{ of } A) \cdot \text{(column } j \text{ of } B) = \sum_{k=1}^{n} a_{ik} b_{kj}.
+$$
+Equivalently, column by column: the $j$-th column of $AB$ is $A$ applied to the $j$-th column of $B$. Inner dimensions must match; the outer ones set the answer's shape.
 :::
+
+The column reading shows the definition doing exactly the promised job — $AB$'s columns are $A$'s outputs on $B$'s columns, so $AB$ acting on anything reproduces apply-$B$-then-$A$. Two consequences follow, one comforting and one that must be internalized early. The comforting one: the product is **associative**, $(AB)C = A(BC)$, because both sides are the single grid performing "apply $C$, then $B$, then $A$" — grouping the paperwork differently cannot change the pipeline (a direct double-sum verification is Exercise 7). The uncomfortable one:
+
+::: {.env .theorem}
+**Theorem 3.2.2 (Multiplication does not commute).** In general $AB \neq BA$.
+:::
+
+::: {.env .proof}
+One counterexample suffices:
+$$
+\begin{pmatrix} 0 & 1 \\ 0 & 0 \end{pmatrix}
+\begin{pmatrix} 0 & 0 \\ 1 & 0 \end{pmatrix}
+= \begin{pmatrix} 1 & 0 \\ 0 & 0 \end{pmatrix},
+\qquad
+\begin{pmatrix} 0 & 0 \\ 1 & 0 \end{pmatrix}
+\begin{pmatrix} 0 & 1 \\ 0 & 0 \end{pmatrix}
+= \begin{pmatrix} 0 & 0 \\ 0 & 1 \end{pmatrix}.
+$$
+:::
+
+This is not an algebraic curiosity but a fact about the world that matrices inherit honestly: *operations performed in different orders end differently*. Rotate a molecule 90° about $z$ and then reflect it in the $xz$-plane, or reflect first and rotate second — the atom ends in different places (Section [3.3](03-transformations.qmd) will compute both). Sequence matters in the lab, and the algebra keeps the books accordingly. Every manipulation below respects it: we will multiply on a *chosen side* and say which.
+
+## The identity, and undoing
+
+Scalar algebra's 1 has a matrix counterpart: the **identity matrix** $I$, with 1s on the diagonal and 0s elsewhere ($I\mathbf{v} = \mathbf{v}$ and $AI = IA = A$ — the do-nothing operation). With a "1" in hand, "division" can be given its honest form: not dividing, but multiplying by an undoer.
+
+::: {.env .definition}
+**Definition 3.2.3 (Inverse).** A square matrix $A$ is **invertible** if there exists a matrix $A^{-1}$ with $A^{-1} A = A A^{-1} = I$. Then $A\mathbf{x} = \mathbf{b}$ is solved in one move: multiply both sides on the left by $A^{-1}$, and associativity gives $\mathbf{x} = A^{-1}\mathbf{b}$.
+:::
+
+For $2 \times 2$ matrices the inverse has a closed form, and deriving it teaches more than memorizing it. Seek $A^{-1}$ for $A = \begin{pmatrix} a & b \\ c & d \end{pmatrix}$. A guess with swapped diagonal and negated off-diagonal, $M = \begin{pmatrix} d & -b \\ -c & a \end{pmatrix}$, is worth auditioning because multiplying it out collapses beautifully:
+$$
+M A = \begin{pmatrix} d & -b \\ -c & a \end{pmatrix}\begin{pmatrix} a & b \\ c & d \end{pmatrix}
+= \begin{pmatrix} da - bc & db - bd \\ -ca + ac & -cb + ad \end{pmatrix}
+= (ad - bc)\, I .
+$$
+The off-diagonals cancelled *identically*, and both diagonal entries came out equal to the same number $ad - bc$. So $M$ is almost the inverse — it undoes $A$ up to an overall scalar — and dividing by that scalar finishes the job, provided the scalar is not zero.
+
+::: {.env .theorem}
+**Theorem 3.2.4 (The 2×2 inverse).** If $ad - bc \neq 0$,
+$$
+\begin{pmatrix} a & b \\ c & d \end{pmatrix}^{-1}
+= \frac{1}{ad - bc} \begin{pmatrix} d & -b \\ -c & a \end{pmatrix},
+$$
+and if $ad - bc = 0$ no inverse exists.
+:::
+
+The quantity $ad - bc$ appeared uninvited, decided everything, and will not go away: it is the **determinant**, and §3.4 is devoted to what it *means*. For now, note the grammar of the theorem — one computable number sorts all $2\times2$ matrices into the invertible and the lost causes.
+
+::: {.env .example}
+**Example 3.2.5 (The dye assay, solved).** Recover the concentrations from $E\mathbf{c} = \mathbf{A}$ with $E = \begin{pmatrix} 15000 & 3000 \\ 2000 & 11000 \end{pmatrix}$ M⁻¹cm⁻¹ and measured $\mathbf{A} = (0.78, 0.74)$.
+
+*Setting it up.* Compute $ad - bc$; if nonzero, apply Theorem 3.2.4 and multiply.
+
+*Solution.* $ad - bc = (15000)(11000) - (3000)(2000) = 1.65 \times 10^8 - 6 \times 10^6 = 1.59 \times 10^8$. Then
+$$
+\mathbf{c} = E^{-1}\mathbf{A} = \frac{1}{1.59 \times 10^8}
+\begin{pmatrix} 11000 & -3000 \\ -2000 & 15000 \end{pmatrix}
+\begin{pmatrix} 0.78 \\ 0.74 \end{pmatrix}
+= \frac{1}{1.59 \times 10^8}
+\begin{pmatrix} 6360 \\ 9540 \end{pmatrix}
+= \begin{pmatrix} 4.0 \times 10^{-5} \\ 6.0 \times 10^{-5} \end{pmatrix} \text{M}.
+$$
+
+*Check.* Round trip: these are exactly the concentrations that §3.1's *forward* computation turned into $(0.78, 0.74)$ — inverse and original compose to the identity in the numbers, not just the notation. Units: $\mathbf{A}$ is dimensionless and $E^{-1}$ carries M·cm, giving molar concentrations ✓. Magnitude: $10^{-5}$ M for dyes with $\varepsilon \sim 10^4$ giving $A \sim 1$ is textbook-plausible ✓. The negative entries of $E^{-1}$ are not errors — they are the algebra subtracting away each dye's spectral intrusion into the other's wavelength.
+:::
+
+## Remarks and cautions
+
+**Side matters, twice.** Because multiplication does not commute, solving $A\mathbf{x} = \mathbf{b}$ requires multiplying both sides *on the left*: $\mathbf{x} = A^{-1}\mathbf{b}$, never $\mathbf{b}A^{-1}$ (which is usually not even defined). Writing $\mathbf{x} = \mathbf{b}/A$ is not shorthand — it is ambiguous about the side and therefore about the answer.
+
+**Inverses reverse order.** $(AB)^{-1} = B^{-1}A^{-1}$: to undo "socks, then shoes," remove shoes first. The proof is one associativity chain — $(B^{-1}A^{-1})(AB) = B^{-1}(A^{-1}A)B = B^{-1} I B = I$ — and the exam error it prevents ($(AB)^{-1} = A^{-1}B^{-1}$) survives only in a commuting world, which Theorem 3.2.2 closed.
+
+**Not every square matrix has an inverse.** When $ad - bc = 0$, Theorem 3.2.4's construction divides by zero and no repair exists. The failure is chemical, not clerical: for the dye assay, $\det E = 0$ happens exactly when one dye's absorptivity column is a multiple of the other's — spectra of the same *shape* — and then two wavelengths genuinely cannot tell the dyes apart. No algebra recovers information the measurement never contained; §3.4 turns this into a working design criterion.
+
+**$AB = AC$ does not imply $B = C$.** Cancellation needs an inverse: only if $A^{-1}$ exists may you strike $A$ from both sides. With singular $A$, different inputs can produce identical outputs — the algebraic face of the same information loss.
+
+## Summary
+
+Matrix multiplication is composition: $(AB)_{ij}$ is row-$i$-dot-column-$j$, engineered precisely so that $AB$ acts as "apply $B$, then $A$" — hence associative, and hence *not* commutative, because sequenced operations in the world are not either. The identity $I$ plays 1, and an invertible matrix has an undoer $A^{-1}$ that solves $A\mathbf{x} = \mathbf{b}$ as $\mathbf{x} = A^{-1}\mathbf{b}$ in a single left-multiplication; for $2 \times 2$ matrices the inverse is explicit, exists exactly when $ad - bc \neq 0$, and delivered the dye concentrations from measured absorbances with a round-trip check against the forward problem. The residue of the section is that one deciding number: it emerged from the algebra unbidden, it separates solvable assays from hopeless ones, and its meaning — geometric, not algebraic — is the business of the determinant section ahead.
+
+::: {.exercises}
+Exercises
+
+1. For $A = \begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix}$ and $B = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}$: compute $AB$ and $BA$, confirm they differ, and describe in words what right-multiplication by $B$ did to $A$ versus left-multiplication.
+
+2. Dimension bookkeeping: for $P$ ($2 \times 3$), $Q$ ($3 \times 3$), $R$ ($3 \times 2$), which of $PQ$, $QP$, $PR$, $RP$, $PQR$ are defined, and with what shapes?
+
+3. Verify that $I$ earns its name: compute $IA$ and $AI$ for the $A$ of Exercise 1, and $I\mathbf{v}$ for $\mathbf{v} = (5, -2)$.
+
+4. Invert $\begin{pmatrix} 2 & 1 \\ 5 & 3 \end{pmatrix}$ and $\begin{pmatrix} 4 & 6 \\ 2 & 3 \end{pmatrix}$ — or explain, via Theorem 3.2.4's condition, why one of them refuses.
+
+5. A two-protein assay obeys $E\mathbf{c} = \mathbf{A}$ with $E = \begin{pmatrix} 8000 & 4000 \\ 3000 & 9000 \end{pmatrix}$ M⁻¹cm⁻¹ and measured $\mathbf{A} = (0.52, 0.57)$. Find both concentrations, and run the round-trip check.
+
+6. Using Exercise 1's matrices, verify associativity numerically: compute $(AB)B$ and $A(BB)$ and confirm agreement. Why does this NOT follow from commutativity (which is false)?
+
+7. ★ Prove associativity in general: show $\left((AB)C\right)_{ij} = \sum_k \sum_l a_{ik} b_{kl} c_{lj} = \left(A(BC)\right)_{ij}$, noting that only the order of two finite summations is exchanged.
+
+8. ★ Prove the socks-shoes law $(AB)^{-1} = B^{-1}A^{-1}$ by verifying both defining products, then produce a $2\times2$ numerical counterexample showing $A^{-1}B^{-1}$ fails.
+
+9. ★ Your two "dyes" have absorptivity columns $(10000, 4000)$ and $(5000, 2000)$ M⁻¹cm⁻¹. Show the assay matrix is singular, explain spectroscopically what property of the two dyes doomed it, and propose the experimental fix (what must be true of a third wavelength for a $2\times2$ sub-assay built from it to work?).
+
+10. ★★ Matrix powers: for the "relaxation" matrix $T = \begin{pmatrix} 0.9 & 0.2 \\ 0.1 & 0.8 \end{pmatrix}$ (columns: where the population of each of two conformers goes in one time step — note each column sums to 1), compute $T^2$ and $T^4 \mathbf{p}_0$ for $\mathbf{p}_0 = (1, 0)$, and conjecture the population vector as the number of steps grows. (You are watching a Markov chain approach equilibrium; Chapter 6 will catch the limit exactly, and the tool that does it — eigenvalues — lives one chapter past the determinant.)
+:::
+
+## Practice until it sticks
+
+<div data-skill="matrix-algebra"></div>
+
+<script src="../../js/adaptive-engine.js"></script>
+<script src="../../js/skills/matrix-algebra.js"></script>
