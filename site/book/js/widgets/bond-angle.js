@@ -56,7 +56,7 @@
         // angle arc
         ctx.strokeStyle = p.arc; ctx.lineWidth = 2;
         ctx.beginPath(); ctx.arc(cx, cy, 46, 0, -t, true); ctx.stroke();
-        ctx.fillStyle = p.arc; ctx.font = "600 14px 'JetBrains Mono', monospace";
+        ctx.fillStyle = p.arc; ctx.font = "italic 600 15px 'STIX Two Text', serif";
         ctx.fillText("θ = " + theta.toFixed(1) + "°", cx + 54, cy - 18);
 
         // bonds
@@ -75,11 +75,17 @@
         tips.forEach((tp, i) => atom(tp[0], tp[1], 17, p.outer, mol.sym[i]));
 
         const f = x => x.toFixed(3);
+        // typeset with katex so symbols match the surrounding prose
+        const tex = s => window.katex
+            ? katex.renderToString(s, { throwOnError: false })
+            : s;
         readout.innerHTML =
-            "b₁ = (" + b1.map(f).join(", ") + ") Å    b₂ = (" + b2.map(f).join(", ") + ") Å" +
-            "<br>b₁·b₂ = " + f(d) + " Å²    |b₁| = " + f(m1) + "    |b₂| = " + f(m2) +
-            "<br><b>cos θ = " + f(d) + " / (" + f(m1) + " × " + f(m2) + ") = " + f(cosT) +
-            "   →   θ = " + theta.toFixed(1) + "°</b>";
+            tex("\\mathbf{b}_1 = (" + b1.map(f).join(",\\ ") + ")\\ \\text{Å}, \\quad " +
+                "\\mathbf{b}_2 = (" + b2.map(f).join(",\\ ") + ")\\ \\text{Å}") +
+            "<br>" + tex("\\mathbf{b}_1 \\cdot \\mathbf{b}_2 = " + f(d) + "\\ \\text{Å}^2, \\quad " +
+                "|\\mathbf{b}_1| = " + f(m1) + ", \\quad |\\mathbf{b}_2| = " + f(m2)) +
+            "<br>" + tex("\\cos\\theta = \\dfrac{" + f(d) + "}{(" + f(m1) + ")(" + f(m2) + ")} = " + f(cosT) +
+                "\\ \\Rightarrow\\ \\theta = " + theta.toFixed(1) + "^\\circ");
     }
 
     select.addEventListener("change", draw);

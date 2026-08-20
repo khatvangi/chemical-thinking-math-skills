@@ -61,7 +61,7 @@
         if (Math.abs(projPx) > 4) arrow(ox, oy, ox + projPx, oy, p.proj, 5);
         arrow(ox, oy, ox + vx, oy - vy, p.v, 3);
 
-        ctx.font = "600 15px 'JetBrains Mono', monospace";
+        ctx.font = "italic 700 17px 'STIX Two Text', serif";
         ctx.fillStyle = p.w; ctx.fillText("w", ox + wPx - 6, oy + 24);
         ctx.fillStyle = p.v; ctx.fillText("v", ox + vx + 10, oy - vy - 8);
         if (Math.abs(projPx) > 24) {
@@ -75,10 +75,16 @@
         const dot = vlen * wlen * Math.cos(theta);
         const comp = vlen * Math.cos(theta);
         const sign = dot > 1e-9 ? "positive — acute" : dot < -1e-9 ? "negative — obtuse" : "zero — orthogonal";
+        // typeset with katex so symbols match the surrounding prose
+        const tex = s => window.katex
+            ? katex.renderToString(s, { throwOnError: false })
+            : s;
         readout.innerHTML =
-            "θ = " + (+angleEl.value) + "°   |v| = " + vlen.toFixed(2) + "   |w| = " + wlen.toFixed(2) +
-            "<br>comp<sub>w</sub> v = |v| cos θ = " + comp.toFixed(3) +
-            "<br><b>v · w = |v||w| cos θ = " + dot.toFixed(3) + "</b>   (" + sign + ")";
+            tex("\\theta = " + (+angleEl.value) + "^\\circ, \\quad |\\mathbf{v}| = " + vlen.toFixed(2) +
+                ", \\quad |\\mathbf{w}| = " + wlen.toFixed(2)) +
+            "<br>" + tex("\\text{signed shadow} = |\\mathbf{v}|\\cos\\theta = " + comp.toFixed(3)) +
+            "<br>" + tex("\\mathbf{v} \\cdot \\mathbf{w} = |\\mathbf{v}|\\,|\\mathbf{w}|\\cos\\theta = " + dot.toFixed(3)) +
+            "   (" + sign + ")";
     }
 
     angleEl.addEventListener("input", draw);
