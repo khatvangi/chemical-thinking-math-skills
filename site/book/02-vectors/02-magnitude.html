@@ -77,6 +77,49 @@ ul.task-list li input[type="checkbox"] {
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&amp;family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
 
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -394,8 +437,18 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#from-components-to-length" id="toc-from-components-to-length" class="nav-link active" data-scroll-target="#from-components-to-length">From components to length</a></li>
+  <li><a href="#pure-direction-unit-vectors" id="toc-pure-direction-unit-vectors" class="nav-link" data-scroll-target="#pure-direction-unit-vectors">Pure direction: unit vectors</a></li>
+  <li><a href="#remarks-and-cautions" id="toc-remarks-and-cautions" class="nav-link" data-scroll-target="#remarks-and-cautions">Remarks and cautions</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#practice-until-it-sticks" id="toc-practice-until-it-sticks" class="nav-link" data-scroll-target="#practice-until-it-sticks">Practice until it sticks</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -420,11 +473,87 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<div class="stub-note">
-<p>This section is being written. The corresponding material is still available in the <a href="../lectures/all-lectures.html">lecture pages</a>.</p>
+<p>Open a protein structure file — the kind deposited by the thousands in the Protein Data Bank — and you find atoms as rows of coordinates: a backbone nitrogen at <span class="math inline">(12.4, 8.1, 5.9)</span> Å, a carbonyl oxygen of a neighboring strand at <span class="math inline">(14.1, 9.6, 7.3)</span> Å. The biochemical question hiding in those six numbers is whether this N–H···O pair forms a hydrogen bond, and the standard criterion is blunt: donor–acceptor distance below about <span class="math inline">3.5</span> Å. So the file gives positions, and the chemistry needs a <em>distance</em> — a single number extracted from a vector. Section <a href="../02-vectors/01-direction.html">2.1</a> taught vectors to add; this section teaches them to report their own length, and then to split cleanly into “how long” and “which way.”</p>
+<section id="from-components-to-length" class="level2">
+<h2 class="anchored" data-anchor-id="from-components-to-length">From components to length</h2>
+<p>The displacement from the nitrogen to the oxygen is found by subtraction (a §2.1 operation): <span class="math inline">\mathbf{d} = (14.1 - 12.4,\; 9.6 - 8.1,\; 7.3 - 5.9) = (1.7, 1.5, 1.4)</span> Å. But the <em>length</em> of that displacement is not any of its components, nor — a tempting error — their sum. Walking <span class="math inline">1.7</span> Å east, then <span class="math inline">1.5</span> Å north, then <span class="math inline">1.4</span> Å up covers <span class="math inline">4.6</span> Å of path, but the atoms are closer than that: a straight tunnel is shorter than an axis-aligned detour.</p>
+<p>The straight-line length comes from Pythagoras, applied twice. In the horizontal plane, the diagonal across the first two legs has squared length <span class="math inline">d_x^2 + d_y^2</span> — that is the ordinary right-triangle statement. Now this horizontal diagonal and the vertical leg <span class="math inline">d_z</span> form <em>another</em> right triangle (vertical is perpendicular to everything horizontal), whose hypotenuse is the true straight-line displacement. Applying Pythagoras again: <span class="math display">
+(\text{length})^2 = \left( d_x^2 + d_y^2 \right) + d_z^2 .
+</span> Each axis contributes the square of its component, and perpendicularity is what lets the contributions simply add. The result deserves a name and a symbol.</p>
+<div class="env definition">
+<p><strong>Definition 2.2.1 (Magnitude).</strong> The <strong>magnitude</strong> (or norm) of <span class="math inline">\mathbf{v} = (v_x, v_y, v_z)</span> is <span class="math display">
+|\mathbf{v}| = \sqrt{\,v_x^2 + v_y^2 + v_z^2\,},
+</span> and the <strong>distance</strong> between points <span class="math inline">\mathbf{r}_1</span> and <span class="math inline">\mathbf{r}_2</span> is <span class="math inline">|\mathbf{r}_2 - \mathbf{r}_1|</span>: subtract first, then take the magnitude.</p>
 </div>
+<p>Two structural facts follow immediately from the formula. First, <span class="math inline">|\mathbf{v}| \ge 0</span> always, with zero only for the zero vector — squares cannot conspire to be negative. Second, scaling a vector scales its length by the <em>absolute</em> factor, <span class="math inline">|c\,\mathbf{v}| = |c|\,|\mathbf{v}|</span>: doubling stretches twofold, and reversing (<span class="math inline">c = -1</span>) leaves length untouched, exactly as an arrow flipped end-for-end should. And the magnitude connects straight back to §2.3’s machine: <span class="math inline">\mathbf{v} \cdot \mathbf{v} = |\mathbf{v}|^2</span>, the identity that powered the law-of-cosines proof.</p>
+<div class="env example">
+<p><strong>Example 2.2.2 (Is it a hydrogen bond?).</strong> Decide whether the N at <span class="math inline">(12.4, 8.1, 5.9)</span> Å and the O at <span class="math inline">(14.1, 9.6, 7.3)</span> Å are close enough to hydrogen-bond, against the <span class="math inline">3.5</span> Å criterion.</p>
+<p><em>Setting it up.</em> Distance = magnitude of the difference vector; the subtraction is already done above: <span class="math inline">\mathbf{d} = (1.7, 1.5, 1.4)</span> Å.</p>
+<p><em>Solution.</em> <span class="math display">
+|\mathbf{d}| = \sqrt{1.7^2 + 1.5^2 + 1.4^2} = \sqrt{2.89 + 2.25 + 1.96} = \sqrt{7.10} = 2.66\ \text{Å}.
+</span> Comfortably below <span class="math inline">3.5</span> Å: report the contact as a hydrogen bond.</p>
+<p><em>Check.</em> Units: squaring gives Å², the root returns Å ✓. Bounds: the distance must be at least the largest single component (<span class="math inline">2.66 \ge 1.7</span> ✓) and at most the taxicab sum (<span class="math inline">2.66 \le 4.6</span> ✓). Chemical scale: 2.66 Å sits right in the canonical N···O hydrogen-bond window (2.7–3.1 Å is typical; ours is on the short, strong end) — a number in the right decade, not just the right side of the cutoff.</p>
+</div>
+</section>
+<section id="pure-direction-unit-vectors" class="level2">
+<h2 class="anchored" data-anchor-id="pure-direction-unit-vectors">Pure direction: unit vectors</h2>
+<p>A vector answers two questions at once — how long, which way — and it is constantly useful to take the answers apart. The dipole formula of §2.1 needed only directions until the final step; the projection machinery of §2.3 fed on <span class="math inline">\hat{\mathbf{w}} = \mathbf{w}/|\mathbf{w}|</span>. That hat construction is the general tool.</p>
+<div class="env definition">
+<p><strong>Definition 2.2.3 (Unit vector).</strong> A <strong>unit vector</strong> has magnitude 1. Any nonzero <span class="math inline">\mathbf{v}</span> yields one by <strong>normalization</strong>: <span class="math display">
+\hat{\mathbf{v}} = \frac{\mathbf{v}}{|\mathbf{v}|},
+</span> a dimensionless carrier of pure direction. Every vector then factors as <span class="math inline">\mathbf{v} = |\mathbf{v}|\,\hat{\mathbf{v}}</span>: magnitude times direction.</p>
+</div>
+<p>Normalization is honest division: each component of <span class="math inline">\mathbf{v}</span> divided by the single number <span class="math inline">|\mathbf{v}|</span>. The result truly has length 1 — compute <span class="math inline">|\hat{\mathbf{v}}|</span> and the factor <span class="math inline">1/|\mathbf{v}|</span> comes out of the magnitude by the scaling rule, leaving <span class="math inline">|\mathbf{v}|/|\mathbf{v}| = 1</span>. Note also what normalization does to units: an O–H bond vector in Å, divided by its length in Å, becomes unitless. “Which way” has no meters attached.</p>
+<p>Three unit vectors are so useful they get permanent names: <span class="math inline">\hat{\mathbf{x}} = (1,0,0)</span>, <span class="math inline">\hat{\mathbf{y}} = (0,1,0)</span>, <span class="math inline">\hat{\mathbf{z}} = (0,0,1)</span>, the directions of the axes themselves. They let any vector be written as an explicit recipe, <span class="math display">
+\mathbf{v} = v_x\, \hat{\mathbf{x}} + v_y\, \hat{\mathbf{y}} + v_z\, \hat{\mathbf{z}},
+</span> “walk <span class="math inline">v_x</span> of the <span class="math inline">x</span>-direction, plus <span class="math inline">v_y</span> of the <span class="math inline">y</span>-direction, plus <span class="math inline">v_z</span> of the <span class="math inline">z</span>-direction.” Read that equation twice: it says the components are <em>coefficients</em> — amounts of standard directions, mixed. The idea that a vector is a mixture of chosen ingredient-directions is the seed of Section <a href="../02-vectors/04-basis.html">2.4</a>, where we will earn the right to choose ingredients other than <span class="math inline">\hat{\mathbf{x}}, \hat{\mathbf{y}}, \hat{\mathbf{z}}</span>.</p>
+<div class="env example">
+<p><strong>Example 2.2.4 (A force, factored).</strong> An optical trap pulls a bead with force <span class="math inline">\mathbf{F} = (2, 4, 4)</span> pN. Factor <span class="math inline">\mathbf{F}</span> into magnitude times direction, and give the fraction of the force that acts along each axis direction.</p>
+<p><em>Setting it up.</em> Compute <span class="math inline">|\mathbf{F}|</span>, then divide it out.</p>
+<p><em>Solution.</em> <span class="math display">
+|\mathbf{F}| = \sqrt{4 + 16 + 16} = \sqrt{36} = 6\ \text{pN},
+\qquad
+\hat{\mathbf{F}} = \tfrac{1}{6}(2, 4, 4) = \left( \tfrac13, \tfrac23, \tfrac23 \right).
+</span> So <span class="math inline">\mathbf{F} = 6\ \text{pN} \times (\tfrac13, \tfrac23, \tfrac23)</span>: a 6 pN pull, one-third of whose direction lies along <span class="math inline">x</span> and two-thirds along each of <span class="math inline">y</span> and <span class="math inline">z</span>.</p>
+<p><em>Check.</em> The direction must be unit: <span class="math inline">\left(\tfrac13\right)^2 + \left(\tfrac23\right)^2 + \left(\tfrac23\right)^2 = \tfrac{1 + 4 + 4}{9} = 1</span> ✓. Units: pN divided by pN is dimensionless ✓. And the components of <span class="math inline">\hat{\mathbf{F}}</span> have a §2.3 reading worth noticing: each is the cosine of the angle <span class="math inline">\mathbf{F}</span> makes with that axis (<span class="math inline">\hat{\mathbf{F}} \cdot \hat{\mathbf{x}} = \tfrac13 = \cos 70.5°</span>) — the <em>direction cosines</em>, whose squares summing to 1 is exactly the unit-length check just performed.</p>
+</div>
+</section>
+<section id="remarks-and-cautions" class="level2">
+<h2 class="anchored" data-anchor-id="remarks-and-cautions">Remarks and cautions</h2>
+<p><strong>The square root is not optional.</strong> The single most frequent slip is reporting <span class="math inline">v_x^2 + v_y^2 + v_z^2</span> — a squared length — as the length. Catch it by units: if a distance comes out in Å², the root is still owed. The reverse slip, rooting each term separately, is equally wrong: <span class="math inline">\sqrt{a^2} + \sqrt{b^2}</span> is the taxicab detour, not the tunnel.</p>
+<p><strong>Components add; magnitudes do not.</strong> From §2.1’s triangle inequality, <span class="math inline">|\mathbf{a} + \mathbf{b}| \le |\mathbf{a}| + |\mathbf{b}|</span>. In this section the same warning wears a new face: the magnitude of a vector is not the sum of its components’ absolute values, and a distance is not the sum of coordinate differences. Perpendicular contributions combine <em>in quadrature</em> — squared, summed, rooted — a pattern that will return verbatim as the error-propagation rule for independent uncertainties.</p>
+<p><strong>Normalize nothing that is zero.</strong> <span class="math inline">\hat{\mathbf{v}}</span> divides by <span class="math inline">|\mathbf{v}|</span>; the zero vector, with no direction to extract, makes the recipe divide by zero. Any algorithm that normalizes should test for (near-)zero magnitude first — the numerical cousin of §2.3’s clamp-before-arccos.</p>
+<p><strong>Keep units with the magnitude, never the direction.</strong> In <span class="math inline">\mathbf{v} = |\mathbf{v}|\hat{\mathbf{v}}</span>, the Å or pN or D lives entirely in <span class="math inline">|\mathbf{v}|</span>. A “unit vector in Å” is a contradiction; if one appears in your work, the factorization went wrong.</p>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>The magnitude <span class="math inline">|\mathbf{v}| = \sqrt{v_x^2 + v_y^2 + v_z^2}</span> — Pythagoras applied once per perpendicular axis — turns vectors into lengths and coordinate pairs into distances via subtract-then-magnitude, the operation that converts a structure file’s positions into hydrogen-bond calls. Normalization <span class="math inline">\hat{\mathbf{v}} = \mathbf{v}/|\mathbf{v}|</span> strips length away, leaving dimensionless pure direction, so every vector factors into magnitude times unit direction; the standard directions <span class="math inline">\hat{\mathbf{x}}, \hat{\mathbf{y}}, \hat{\mathbf{z}}</span> then exhibit any vector as a mixture <span class="math inline">v_x\hat{\mathbf{x}} + v_y\hat{\mathbf{y}} + v_z\hat{\mathbf{z}}</span> whose coefficients are the components — and whose normalized coefficients are cosines of the angles to the axes. Squares that add under a root will reappear wherever independent perpendicular contributions combine, from thermal velocities to measurement error; the mixture-of-directions picture is the doorway to bases, one section ahead.</p>
+<div class="exercises">
+<p>Exercises</p>
+<ol type="1">
+<li><p>Compute the magnitudes of <span class="math inline">(3, 4, 0)</span>, <span class="math inline">(1, 2, 2)</span>, <span class="math inline">(2, 3, 6)</span>, and <span class="math inline">(-2, -3, -6)</span>. Two of the answers must coincide — say why before computing.</p></li>
+<li><p>In a crystal structure, carbons sit at <span class="math inline">(1.24, 3.60, 2.11)</span> and <span class="math inline">(2.48, 4.15, 3.05)</span> Å. Find their separation, and classify the contact: C–C single bond (~1.54 Å), aromatic (~1.40 Å), or nonbonded (&gt; 3 Å)?</p></li>
+<li><p>Normalize <span class="math inline">(6, -2, 3)</span> and verify by direct computation that your result has magnitude 1. Then write <span class="math inline">(6, -2, 3)</span> in the factored form <span class="math inline">|\mathbf{v}|\hat{\mathbf{v}}</span>.</p></li>
+<li><p>A dipole of magnitude <span class="math inline">1.85</span> D points along the direction <span class="math inline">(1, 1, 0)</span>. Write the dipole vector in components. (Normalize first — and notice what goes wrong if you skip it.)</p></li>
+<li><p>Verify the scaling rule on <span class="math inline">\mathbf{v} = (1, 2, 2)</span> with <span class="math inline">c = -3</span>: compute <span class="math inline">|c\mathbf{v}|</span> directly and via <span class="math inline">|c||\mathbf{v}|</span>.</p></li>
+<li><p>The three direction cosines of a vector are <span class="math inline">\cos\alpha = \hat{v}_x</span>, <span class="math inline">\cos\beta = \hat{v}_y</span>, <span class="math inline">\cos\gamma = \hat{v}_z</span>. Find the direction cosines of the C–H bond <span class="math inline">(0.63, 0.63, 0.63)</span> and the angles <span class="math inline">\alpha, \beta, \gamma</span>.</p></li>
+<li><p>★ Prove that <span class="math inline">\cos^2\alpha + \cos^2\beta + \cos^2\gamma = 1</span> for any nonzero vector, and use the identity to answer: can a bond simultaneously make <span class="math inline">60°</span> with all three axes? Can it make <span class="math inline">55°</span> with all three?</p></li>
+<li><p>★ An N₂ molecule’s velocity has components drawn independently, each contributing equally on average to the total. Given r.m.s. speed <span class="math inline">\sqrt{\langle v^2 \rangle} = 515</span> m/s at 298 K, find the r.m.s. value of a single component <span class="math inline">\sqrt{\langle v_x^2 \rangle}</span>, explaining which identity of this section you used. (This factor-of-<span class="math inline">\sqrt3</span> is the bridge between speed distributions and their one-dimensional projections.)</p></li>
+<li><p>★ Show that the set of points equidistant from two fixed atoms <span class="math inline">\mathbf{a}</span> and <span class="math inline">\mathbf{b}</span> satisfies a linear equation in the coordinates (expand <span class="math inline">|\mathbf{r} - \mathbf{a}|^2 = |\mathbf{r} - \mathbf{b}|^2</span> using <span class="math inline">|\mathbf{v}|^2 = \mathbf{v}\cdot\mathbf{v}</span>), and identify the geometric object it describes. Crystallographers meet it as the perpendicular bisector plane between lattice neighbors.</p></li>
+<li><p>★★ For a random-walk polymer of <span class="math inline">N</span> bonds each of length <span class="math inline">\ell</span> (Exercise 10 of §2.1 gave <span class="math inline">\langle |\mathbf{R}|^2 \rangle = N\ell^2</span>), the r.m.s. end-to-end distance is <span class="math inline">\ell\sqrt{N}</span>. A polymer of <span class="math inline">10^4</span> bonds of 1.5 Å: find its r.m.s. size, compare with its fully stretched length, and reflect (two sentences) on why “square root of the sum of squares” made a molecule <span class="math inline">10^2</span> times smaller than its contour.</p></li>
+</ol>
+</div>
+</section>
+<section id="practice-until-it-sticks" class="level2">
+<h2 class="anchored" data-anchor-id="practice-until-it-sticks">Practice until it sticks</h2>
+<div data-skill="magnitude">
+
+</div>
+<script src="../../js/adaptive-engine.js"></script>
+<script src="../../js/skills/magnitude.js"></script>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

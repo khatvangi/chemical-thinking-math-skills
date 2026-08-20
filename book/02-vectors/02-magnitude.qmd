@@ -2,6 +2,119 @@
 title: "2.2 Magnitude and Components"
 ---
 
-::: {.stub-note}
-This section is being written. The corresponding material is still available in the [lecture pages](/lectures/all-lectures.html).
+Open a protein structure file — the kind deposited by the thousands in the Protein Data Bank — and you find atoms as rows of coordinates: a backbone nitrogen at $(12.4, 8.1, 5.9)$ Å, a carbonyl oxygen of a neighboring strand at $(14.1, 9.6, 7.3)$ Å. The biochemical question hiding in those six numbers is whether this N–H···O pair forms a hydrogen bond, and the standard criterion is blunt: donor–acceptor distance below about $3.5$ Å. So the file gives positions, and the chemistry needs a *distance* — a single number extracted from a vector. Section [2.1](01-direction.qmd) taught vectors to add; this section teaches them to report their own length, and then to split cleanly into "how long" and "which way."
+
+## From components to length
+
+The displacement from the nitrogen to the oxygen is found by subtraction (a §2.1 operation): $\mathbf{d} = (14.1 - 12.4,\; 9.6 - 8.1,\; 7.3 - 5.9) = (1.7, 1.5, 1.4)$ Å. But the *length* of that displacement is not any of its components, nor — a tempting error — their sum. Walking $1.7$ Å east, then $1.5$ Å north, then $1.4$ Å up covers $4.6$ Å of path, but the atoms are closer than that: a straight tunnel is shorter than an axis-aligned detour.
+
+The straight-line length comes from Pythagoras, applied twice. In the horizontal plane, the diagonal across the first two legs has squared length $d_x^2 + d_y^2$ — that is the ordinary right-triangle statement. Now this horizontal diagonal and the vertical leg $d_z$ form *another* right triangle (vertical is perpendicular to everything horizontal), whose hypotenuse is the true straight-line displacement. Applying Pythagoras again:
+$$
+(\text{length})^2 = \left( d_x^2 + d_y^2 \right) + d_z^2 .
+$$
+Each axis contributes the square of its component, and perpendicularity is what lets the contributions simply add. The result deserves a name and a symbol.
+
+::: {.env .definition}
+**Definition 2.2.1 (Magnitude).** The **magnitude** (or norm) of $\mathbf{v} = (v_x, v_y, v_z)$ is
+$$
+|\mathbf{v}| = \sqrt{\,v_x^2 + v_y^2 + v_z^2\,},
+$$
+and the **distance** between points $\mathbf{r}_1$ and $\mathbf{r}_2$ is $|\mathbf{r}_2 - \mathbf{r}_1|$: subtract first, then take the magnitude.
 :::
+
+Two structural facts follow immediately from the formula. First, $|\mathbf{v}| \ge 0$ always, with zero only for the zero vector — squares cannot conspire to be negative. Second, scaling a vector scales its length by the *absolute* factor, $|c\,\mathbf{v}| = |c|\,|\mathbf{v}|$: doubling stretches twofold, and reversing ($c = -1$) leaves length untouched, exactly as an arrow flipped end-for-end should. And the magnitude connects straight back to §2.3's machine: $\mathbf{v} \cdot \mathbf{v} = |\mathbf{v}|^2$, the identity that powered the law-of-cosines proof.
+
+::: {.env .example}
+**Example 2.2.2 (Is it a hydrogen bond?).** Decide whether the N at $(12.4, 8.1, 5.9)$ Å and the O at $(14.1, 9.6, 7.3)$ Å are close enough to hydrogen-bond, against the $3.5$ Å criterion.
+
+*Setting it up.* Distance = magnitude of the difference vector; the subtraction is already done above: $\mathbf{d} = (1.7, 1.5, 1.4)$ Å.
+
+*Solution.*
+$$
+|\mathbf{d}| = \sqrt{1.7^2 + 1.5^2 + 1.4^2} = \sqrt{2.89 + 2.25 + 1.96} = \sqrt{7.10} = 2.66\ \text{Å}.
+$$
+Comfortably below $3.5$ Å: report the contact as a hydrogen bond.
+
+*Check.* Units: squaring gives Å², the root returns Å ✓. Bounds: the distance must be at least the largest single component ($2.66 \ge 1.7$ ✓) and at most the taxicab sum ($2.66 \le 4.6$ ✓). Chemical scale: 2.66 Å sits right in the canonical N···O hydrogen-bond window (2.7–3.1 Å is typical; ours is on the short, strong end) — a number in the right decade, not just the right side of the cutoff.
+:::
+
+## Pure direction: unit vectors
+
+A vector answers two questions at once — how long, which way — and it is constantly useful to take the answers apart. The dipole formula of §2.1 needed only directions until the final step; the projection machinery of §2.3 fed on $\hat{\mathbf{w}} = \mathbf{w}/|\mathbf{w}|$. That hat construction is the general tool.
+
+::: {.env .definition}
+**Definition 2.2.3 (Unit vector).** A **unit vector** has magnitude 1. Any nonzero $\mathbf{v}$ yields one by **normalization**:
+$$
+\hat{\mathbf{v}} = \frac{\mathbf{v}}{|\mathbf{v}|},
+$$
+a dimensionless carrier of pure direction. Every vector then factors as $\mathbf{v} = |\mathbf{v}|\,\hat{\mathbf{v}}$: magnitude times direction.
+:::
+
+Normalization is honest division: each component of $\mathbf{v}$ divided by the single number $|\mathbf{v}|$. The result truly has length 1 — compute $|\hat{\mathbf{v}}|$ and the factor $1/|\mathbf{v}|$ comes out of the magnitude by the scaling rule, leaving $|\mathbf{v}|/|\mathbf{v}| = 1$. Note also what normalization does to units: an O–H bond vector in Å, divided by its length in Å, becomes unitless. "Which way" has no meters attached.
+
+Three unit vectors are so useful they get permanent names: $\hat{\mathbf{x}} = (1,0,0)$, $\hat{\mathbf{y}} = (0,1,0)$, $\hat{\mathbf{z}} = (0,0,1)$, the directions of the axes themselves. They let any vector be written as an explicit recipe,
+$$
+\mathbf{v} = v_x\, \hat{\mathbf{x}} + v_y\, \hat{\mathbf{y}} + v_z\, \hat{\mathbf{z}},
+$$
+"walk $v_x$ of the $x$-direction, plus $v_y$ of the $y$-direction, plus $v_z$ of the $z$-direction." Read that equation twice: it says the components are *coefficients* — amounts of standard directions, mixed. The idea that a vector is a mixture of chosen ingredient-directions is the seed of Section [2.4](04-basis.qmd), where we will earn the right to choose ingredients other than $\hat{\mathbf{x}}, \hat{\mathbf{y}}, \hat{\mathbf{z}}$.
+
+::: {.env .example}
+**Example 2.2.4 (A force, factored).** An optical trap pulls a bead with force $\mathbf{F} = (2, 4, 4)$ pN. Factor $\mathbf{F}$ into magnitude times direction, and give the fraction of the force that acts along each axis direction.
+
+*Setting it up.* Compute $|\mathbf{F}|$, then divide it out.
+
+*Solution.*
+$$
+|\mathbf{F}| = \sqrt{4 + 16 + 16} = \sqrt{36} = 6\ \text{pN},
+\qquad
+\hat{\mathbf{F}} = \tfrac{1}{6}(2, 4, 4) = \left( \tfrac13, \tfrac23, \tfrac23 \right).
+$$
+So $\mathbf{F} = 6\ \text{pN} \times (\tfrac13, \tfrac23, \tfrac23)$: a 6 pN pull, one-third of whose direction lies along $x$ and two-thirds along each of $y$ and $z$.
+
+*Check.* The direction must be unit: $\left(\tfrac13\right)^2 + \left(\tfrac23\right)^2 + \left(\tfrac23\right)^2 = \tfrac{1 + 4 + 4}{9} = 1$ ✓. Units: pN divided by pN is dimensionless ✓. And the components of $\hat{\mathbf{F}}$ have a §2.3 reading worth noticing: each is the cosine of the angle $\mathbf{F}$ makes with that axis ($\hat{\mathbf{F}} \cdot \hat{\mathbf{x}} = \tfrac13 = \cos 70.5°$) — the *direction cosines*, whose squares summing to 1 is exactly the unit-length check just performed.
+:::
+
+## Remarks and cautions
+
+**The square root is not optional.** The single most frequent slip is reporting $v_x^2 + v_y^2 + v_z^2$ — a squared length — as the length. Catch it by units: if a distance comes out in Å², the root is still owed. The reverse slip, rooting each term separately, is equally wrong: $\sqrt{a^2} + \sqrt{b^2}$ is the taxicab detour, not the tunnel.
+
+**Components add; magnitudes do not.** From §2.1's triangle inequality, $|\mathbf{a} + \mathbf{b}| \le |\mathbf{a}| + |\mathbf{b}|$. In this section the same warning wears a new face: the magnitude of a vector is not the sum of its components' absolute values, and a distance is not the sum of coordinate differences. Perpendicular contributions combine *in quadrature* — squared, summed, rooted — a pattern that will return verbatim as the error-propagation rule for independent uncertainties.
+
+**Normalize nothing that is zero.** $\hat{\mathbf{v}}$ divides by $|\mathbf{v}|$; the zero vector, with no direction to extract, makes the recipe divide by zero. Any algorithm that normalizes should test for (near-)zero magnitude first — the numerical cousin of §2.3's clamp-before-arccos.
+
+**Keep units with the magnitude, never the direction.** In $\mathbf{v} = |\mathbf{v}|\hat{\mathbf{v}}$, the Å or pN or D lives entirely in $|\mathbf{v}|$. A "unit vector in Å" is a contradiction; if one appears in your work, the factorization went wrong.
+
+## Summary
+
+The magnitude $|\mathbf{v}| = \sqrt{v_x^2 + v_y^2 + v_z^2}$ — Pythagoras applied once per perpendicular axis — turns vectors into lengths and coordinate pairs into distances via subtract-then-magnitude, the operation that converts a structure file's positions into hydrogen-bond calls. Normalization $\hat{\mathbf{v}} = \mathbf{v}/|\mathbf{v}|$ strips length away, leaving dimensionless pure direction, so every vector factors into magnitude times unit direction; the standard directions $\hat{\mathbf{x}}, \hat{\mathbf{y}}, \hat{\mathbf{z}}$ then exhibit any vector as a mixture $v_x\hat{\mathbf{x}} + v_y\hat{\mathbf{y}} + v_z\hat{\mathbf{z}}$ whose coefficients are the components — and whose normalized coefficients are cosines of the angles to the axes. Squares that add under a root will reappear wherever independent perpendicular contributions combine, from thermal velocities to measurement error; the mixture-of-directions picture is the doorway to bases, one section ahead.
+
+::: {.exercises}
+Exercises
+
+1. Compute the magnitudes of $(3, 4, 0)$, $(1, 2, 2)$, $(2, 3, 6)$, and $(-2, -3, -6)$. Two of the answers must coincide — say why before computing.
+
+2. In a crystal structure, carbons sit at $(1.24, 3.60, 2.11)$ and $(2.48, 4.15, 3.05)$ Å. Find their separation, and classify the contact: C–C single bond (~1.54 Å), aromatic (~1.40 Å), or nonbonded (> 3 Å)?
+
+3. Normalize $(6, -2, 3)$ and verify by direct computation that your result has magnitude 1. Then write $(6, -2, 3)$ in the factored form $|\mathbf{v}|\hat{\mathbf{v}}$.
+
+4. A dipole of magnitude $1.85$ D points along the direction $(1, 1, 0)$. Write the dipole vector in components. (Normalize first — and notice what goes wrong if you skip it.)
+
+5. Verify the scaling rule on $\mathbf{v} = (1, 2, 2)$ with $c = -3$: compute $|c\mathbf{v}|$ directly and via $|c||\mathbf{v}|$.
+
+6. The three direction cosines of a vector are $\cos\alpha = \hat{v}_x$, $\cos\beta = \hat{v}_y$, $\cos\gamma = \hat{v}_z$. Find the direction cosines of the C–H bond $(0.63, 0.63, 0.63)$ and the angles $\alpha, \beta, \gamma$.
+
+7. ★ Prove that $\cos^2\alpha + \cos^2\beta + \cos^2\gamma = 1$ for any nonzero vector, and use the identity to answer: can a bond simultaneously make $60°$ with all three axes? Can it make $55°$ with all three?
+
+8. ★ An N₂ molecule's velocity has components drawn independently, each contributing equally on average to the total. Given r.m.s. speed $\sqrt{\langle v^2 \rangle} = 515$ m/s at 298 K, find the r.m.s. value of a single component $\sqrt{\langle v_x^2 \rangle}$, explaining which identity of this section you used. (This factor-of-$\sqrt3$ is the bridge between speed distributions and their one-dimensional projections.)
+
+9. ★ Show that the set of points equidistant from two fixed atoms $\mathbf{a}$ and $\mathbf{b}$ satisfies a linear equation in the coordinates (expand $|\mathbf{r} - \mathbf{a}|^2 = |\mathbf{r} - \mathbf{b}|^2$ using $|\mathbf{v}|^2 = \mathbf{v}\cdot\mathbf{v}$), and identify the geometric object it describes. Crystallographers meet it as the perpendicular bisector plane between lattice neighbors.
+
+10. ★★ For a random-walk polymer of $N$ bonds each of length $\ell$ (Exercise 10 of §2.1 gave $\langle |\mathbf{R}|^2 \rangle = N\ell^2$), the r.m.s. end-to-end distance is $\ell\sqrt{N}$. A polymer of $10^4$ bonds of 1.5 Å: find its r.m.s. size, compare with its fully stretched length, and reflect (two sentences) on why "square root of the sum of squares" made a molecule $10^2$ times smaller than its contour.
+:::
+
+## Practice until it sticks
+
+<div data-skill="magnitude"></div>
+
+<script src="../../js/adaptive-engine.js"></script>
+<script src="../../js/skills/magnitude.js"></script>
