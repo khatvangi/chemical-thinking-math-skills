@@ -2,6 +2,119 @@
 title: "1.3 Permutations and Combinations"
 ---
 
-::: {.stub-note}
-This section is being written. The corresponding material is still available in the [lecture pages](/lectures/all-lectures.html).
+A colleague in a peptide lab makes tripeptides — chains of three amino acid residues — drawing on the twenty standard amino acids. Before ordering starting material she asks a planning question: how many *distinct* tripeptides are possible? Your first instinct might be to start listing (Ala–Ala–Ala, Ala–Ala–Arg, …) and your second instinct, a few lines in, is that listing is hopeless. The right move is the one this section develops: stop listing, start *counting the choices*. Sequence space, isomer space, and — by the end of the section — the microstate counts that define entropy are all too large to enumerate and all governed by three formulas, each of which is the multiplication principle of Section [1.2](02-sets.qmd) wearing a different disguise.
+
+## Sequences: order matters, repetition allowed
+
+A tripeptide is an *ordered* triple of residues — Ala–Gly–Ser and Ser–Gly–Ala are different molecules with different chemistry, which is exactly why a set (order-blind by Definition 1.2.1) is the wrong container and the Cartesian product is the right one. The set of tripeptides is $R \times R \times R$ for the residue set $R$ with $|R| = 20$, and Theorem 1.2.5 does the rest:
+$$
+|R \times R \times R| = 20 \times 20 \times 20 = 8000 .
+$$
+Twenty choices for the first slot; for *each* of those, twenty for the second; for each pair, twenty for the third. In general, sequences of length $k$ from an alphabet of $n$ symbols number $n^k$ — the count that makes even short biopolymers astronomically diverse ($20^{100}$ for a modest protein dwarfs the number of atoms in the observable universe, which is why evolution samples rather than enumerates).
+
+## Permutations: order matters, no repetition
+
+Now change the game slightly: six different samples must be loaded into an autosampler that runs them in sequence, each sample used exactly once. Choices still multiply, but they no longer stay at six: the first slot has $6$ candidates, the second only $5$ (one sample is spent), the third $4$, and so on down to $1$. The count is $6 \times 5 \times 4 \times 3 \times 2 \times 1$, and products of this falling shape appear so relentlessly that they get a name and a symbol.
+
+::: {.env .definition}
+**Definition 1.3.1 (Factorial).** For $n \in \mathbb{N}$, the **factorial** is $n! = n \times (n-1) \times \cdots \times 2 \times 1$, the number of ways to arrange $n$ distinct objects in order. By convention $0! = 1$ — the empty arrangement counts as one way, a convention the formulas below will vindicate.
 :::
+
+Often only *some* of the objects get arranged: from $n$ distinct samples, load an autosampler with $k$ ordered slots. The same falling product stops after $k$ factors, $n(n-1)\cdots(n-k+1)$, and dividing factorials writes it compactly:
+$$
+P(n, k) = \frac{n!}{(n-k)!} ,
+$$
+the number of **permutations** of $k$ objects drawn from $n$. The formula is nothing new — it is the multiplication principle with a shrinking option pool — but the factorial notation will let the next, genuinely new idea be stated cleanly.
+
+::: {.env .example}
+**Example 1.3.2 (The morning queue).** An autosampler holds 8 positions; you have 15 distinct samples and will load 8 of them, run order mattering (early positions dodge instrument drift). How many distinct loadings are possible?
+
+*Setting it up.* Order matters and no sample repeats: a permutation, $P(15, 8)$.
+
+*Solution.*
+$$
+P(15,8) = \frac{15!}{7!} = 15 \times 14 \times 13 \times 12 \times 11 \times 10 \times 9 \times 8
+= 259{,}459{,}200 .
+$$
+
+*Check.* Bounds: with repetition allowed the count would be $15^8 \approx 2.6 \times 10^9$; forbidding repeats must give fewer, and $2.6 \times 10^8 < 2.6 \times 10^9$ ✓. The first factor check: if only 1 slot existed the formula must give 15, and $15!/14! = 15$ ✓. Magnitude: a quarter of a billion loadings from a bench of 15 bottles — the combinatorial explosion is not a metaphor.
+:::
+
+## Combinations: order does not matter
+
+The third disguise is the deep one. Choose 3 solvents from a candidate list of 10 to take into a screening study — and now the *order of choosing is irrelevant*: taking {toluene, THF, DMSO} is the same screening panel however you picked them. The permutation count $P(10,3) = 720$ is wrong for this question, and it is wrong in a precisely diagnosable way: it counts every panel more than once. How many times? A panel of 3 solvents can be ordered in $3! = 6$ ways, and $P(10,3)$ counts each ordering separately. Every unordered panel appears exactly $6$ times in the ordered count — so divide the overcount out.
+
+::: {.env .theorem}
+**Theorem 1.3.3 (Combinations).** The number of ways to choose an (unordered) $k$-element subset from $n$ distinct objects is
+$$
+\binom{n}{k} = \frac{P(n,k)}{k!} = \frac{n!}{k!\,(n-k)!} .
+$$
+:::
+
+::: {.env .proof}
+Count ordered selections of $k$ objects in two ways. Directly, there are $P(n,k)$. Alternatively, build an ordered selection by first choosing *which* $k$ objects (this is the unknown count, call it $C$) and then ordering them ($k!$ ways); by the multiplication principle the total is $C \cdot k!$. The two counts describe the same collection of ordered selections, so $C \cdot k! = P(n,k)$, giving $C = P(n,k)/k!$.
+:::
+
+The proof technique — count one thing two ways and set the answers equal — is as valuable as the formula, and the formula itself now explains the $0! = 1$ convention: choosing all $n$ objects can be done exactly one way, and $\binom{n}{n} = \frac{n!}{n!\,0!}$ delivers 1 only if $0! = 1$. The symbol $\binom{n}{k}$ is read "$n$ choose $k$."
+
+::: {.env .example}
+**Example 1.3.4 (Microstates of a p² configuration).** A carbon atom's two 2p electrons occupy the six 2p spin-orbitals (three spatial orbitals × two spins, by the multiplication principle of §1.2). Electrons are indistinguishable and no spin-orbital holds two. How many distinct microstates does p² have?
+
+*Setting it up.* A microstate is a *choice of which 2 of the 6 spin-orbitals are occupied* — unordered, because swapping identical electrons produces literally the same physical state. That is $\binom{6}{2}$.
+
+*Solution.*
+$$
+\binom{6}{2} = \frac{6!}{2!\,4!} = \frac{6 \times 5}{2} = 15 .
+$$
+
+*Check.* Against the ordered count: distinguishable electrons would give $P(6,2) = 30$, and dividing by the $2! = 2$ orderings of the identical pair gives 15 ✓. Against spectroscopy: the 15 microstates of p² are exactly the states atomic spectroscopists sort into the term symbols ³P, ¹D, ¹S — with degeneracies $9 + 5 + 1 = 15$ ✓. Indistinguishability is not bookkeeping taste; the atom agrees with the divided count, not the ordered one.
+:::
+
+## Counting is thermodynamics in disguise
+
+One more scene, because it opens a door we will walk through in Chapter 6. Four gas molecules occupy a two-bulb flask; each molecule is in the left bulb or the right. By the multiplication principle there are $2^4 = 16$ arrangements. Now count arrangements by *how many* molecules sit on the left: all four, $\binom{4}{4} = 1$ way; three, $\binom{4}{3} = 4$; an even split, $\binom{4}{2} = 6$. The even split is the most common kind of arrangement not by any force or preference but by *sheer count* — and with $10^{23}$ molecules instead of 4, the dominance of near-even splits becomes so overwhelming that it acquires a thermodynamic name. Boltzmann's $S = k \ln W$ says that entropy *is* the logarithm of an arrangement count $W$; gases expand and mixtures mix because there are more ways to be spread out than to be huddled. When entropy arrives in earnest, the mathematics under it will be exactly the $\binom{n}{k}$ of this page.
+
+## Remarks and cautions
+
+**The only decision that matters: does order count?** Before touching a formula, ask whether swapping two chosen items produces a genuinely different outcome. Run order in an autosampler: yes — permutations. Membership in a screening panel: no — combinations. The most common exam error is not bad arithmetic but answering the wrong question, usually $P$ where $\binom{n}{k}$ belongs; notice $P$ is always *larger*, by exactly the factor $k!$.
+
+**Repetition is a separate decision.** Sequences with repetition give $n^k$; without, $P(n,k)$. "Can the same option be used twice?" is a fact about the chemistry (a residue can repeat in a peptide; a physical sample cannot occupy two positions), not about the math.
+
+**Indistinguishability is physical, not notational.** Two electrons cannot be labeled even in principle, and Example 1.3.4 showed the spectroscopic count endorsing $\binom{6}{2}$, not $P(6,2)$. Overcounting identical-particle states by their permutations is a real error with real consequences (it is precisely the error resolved by the "Gibbs paradox" of statistical mechanics).
+
+**Respect factorial growth.** $10! \approx 3.6 \times 10^6$; $20!$ ≈ $2.4 \times 10^{18}$; $52!$ exceeds the number of seconds since the Big Bang by dozens of orders of magnitude. When a calculation seems to require enumerating arrangements, it is wrong — the formulas exist because enumeration is impossible.
+
+## Summary
+
+Three counting formulas cover ordered-with-repetition ($n^k$), ordered-without-repetition ($P(n,k) = n!/(n-k)!$), and unordered ($\binom{n}{k} = n!/(k!(n-k)!)$) selection, and all three are the multiplication principle of §1.2 — applied to a constant option pool, a shrinking pool, and a shrinking pool with the $k!$ orderings of each choice divided back out, respectively. The derivation of Theorem 1.3.3 by double counting is a technique to keep. Chemistry supplied the stakes at every step: sequence spaces too vast to enumerate, spectroscopic term counts that vindicate indistinguishability, and the arrangement counts $W$ whose logarithm is entropy — the first hint that a counting formula from this chapter will one day explain why anything in the universe mixes, expands, or reacts spontaneously.
+
+::: {.exercises}
+Exercises
+
+1. Compute, showing which formula applies and why: (a) the number of distinct tetrapeptides from the 20 standard amino acids; (b) the number of ways to run 5 distinct samples through a single-column instrument, one after another; (c) the number of 4-solvent screening panels drawn from 12 candidates.
+
+2. Verify numerically that $P(7,3) = \binom{7}{3} \cdot 3!$, and state in one sentence what the identity says about ordered versus unordered selection.
+
+3. How many distinct arrangements are there of the letters of MENDELEEV? *Hint:* start from $9!$ and repair the overcounting from the repeated E's (three of them) the same way Theorem 1.3.3 repaired ordering.
+
+4. An octahedral complex has 6 coordination sites. Ignoring the molecule's rotational symmetry, in how many ways can you choose the 2 sites that carry ligand B (the rest carrying A)? Why is the true number of *distinguishable* isomers of MA₄B₂ smaller (it is 2: cis and trans)?
+
+5. A d² transition-metal configuration places 2 indistinguishable electrons in the 10 d spin-orbitals. Count the microstates, and check your answer against the term-symbol degeneracies ³F(21) + ¹D(5) + ³P(9) + ¹G(9) + ¹S(1).
+
+6. Eight gas molecules occupy two bulbs. How many arrangements exist in total, how many have an even 4–4 split, and what fraction is that? Repeat the fraction for 4 molecules (from the text's 16) — is the even split becoming more or less dominant as $N$ grows? *(Careful: compare the 4–4 fraction with the 2–2 fraction, not raw counts.)*
+
+7. ★ Prove $\binom{n}{k} = \binom{n}{n-k}$ twice: once by algebra from Theorem 1.3.3, and once with no algebra at all, by explaining what choosing $k$ objects to *include* has to do with choosing $n-k$ to *exclude*.
+
+8. ★ Prove Pascal's identity $\binom{n}{k} = \binom{n-1}{k-1} + \binom{n-1}{k}$ by double counting: fix one particular solvent on the candidate list and split all $k$-panels into those that include it and those that don't.
+
+9. ★ Water with isotopes: using ¹H and ²H for the two hydrogen positions and ¹⁶O, ¹⁷O, ¹⁸O for the oxygen, how many isotopologues of H₂O exist? (Careful: the two hydrogen positions are equivalent — HDO and DHO are the same molecule. Count H-pair *combinations with repetition* by listing them.)
+
+10. ★★ Stirling's approximation gives $\ln n! \approx n \ln n - n$ for large $n$. Use it to estimate $\ln W$ for $W = \binom{N}{N/2}$ with $N = 10^{23}$, and show the result is proportional to $N$. This proportionality is why entropy — $k \ln W$ — is an *extensive* quantity, doubling when the system doubles.
+:::
+
+## Practice until it sticks
+
+<div data-skill="counting"></div>
+
+<script src="../../js/adaptive-engine.js"></script>
+<script src="../../js/skills/counting.js"></script>

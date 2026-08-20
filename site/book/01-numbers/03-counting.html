@@ -77,6 +77,49 @@ ul.task-list li input[type="checkbox"] {
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&amp;family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
 
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -394,8 +437,20 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#sequences-order-matters-repetition-allowed" id="toc-sequences-order-matters-repetition-allowed" class="nav-link active" data-scroll-target="#sequences-order-matters-repetition-allowed">Sequences: order matters, repetition allowed</a></li>
+  <li><a href="#permutations-order-matters-no-repetition" id="toc-permutations-order-matters-no-repetition" class="nav-link" data-scroll-target="#permutations-order-matters-no-repetition">Permutations: order matters, no repetition</a></li>
+  <li><a href="#combinations-order-does-not-matter" id="toc-combinations-order-does-not-matter" class="nav-link" data-scroll-target="#combinations-order-does-not-matter">Combinations: order does not matter</a></li>
+  <li><a href="#counting-is-thermodynamics-in-disguise" id="toc-counting-is-thermodynamics-in-disguise" class="nav-link" data-scroll-target="#counting-is-thermodynamics-in-disguise">Counting is thermodynamics in disguise</a></li>
+  <li><a href="#remarks-and-cautions" id="toc-remarks-and-cautions" class="nav-link" data-scroll-target="#remarks-and-cautions">Remarks and cautions</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#practice-until-it-sticks" id="toc-practice-until-it-sticks" class="nav-link" data-scroll-target="#practice-until-it-sticks">Practice until it sticks</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -420,11 +475,93 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<div class="stub-note">
-<p>This section is being written. The corresponding material is still available in the <a href="../lectures/all-lectures.html">lecture pages</a>.</p>
+<p>A colleague in a peptide lab makes tripeptides — chains of three amino acid residues — drawing on the twenty standard amino acids. Before ordering starting material she asks a planning question: how many <em>distinct</em> tripeptides are possible? Your first instinct might be to start listing (Ala–Ala–Ala, Ala–Ala–Arg, …) and your second instinct, a few lines in, is that listing is hopeless. The right move is the one this section develops: stop listing, start <em>counting the choices</em>. Sequence space, isomer space, and — by the end of the section — the microstate counts that define entropy are all too large to enumerate and all governed by three formulas, each of which is the multiplication principle of Section <a href="../01-numbers/02-sets.html">1.2</a> wearing a different disguise.</p>
+<section id="sequences-order-matters-repetition-allowed" class="level2">
+<h2 class="anchored" data-anchor-id="sequences-order-matters-repetition-allowed">Sequences: order matters, repetition allowed</h2>
+<p>A tripeptide is an <em>ordered</em> triple of residues — Ala–Gly–Ser and Ser–Gly–Ala are different molecules with different chemistry, which is exactly why a set (order-blind by Definition 1.2.1) is the wrong container and the Cartesian product is the right one. The set of tripeptides is <span class="math inline">R \times R \times R</span> for the residue set <span class="math inline">R</span> with <span class="math inline">|R| = 20</span>, and Theorem 1.2.5 does the rest: <span class="math display">
+|R \times R \times R| = 20 \times 20 \times 20 = 8000 .
+</span> Twenty choices for the first slot; for <em>each</em> of those, twenty for the second; for each pair, twenty for the third. In general, sequences of length <span class="math inline">k</span> from an alphabet of <span class="math inline">n</span> symbols number <span class="math inline">n^k</span> — the count that makes even short biopolymers astronomically diverse (<span class="math inline">20^{100}</span> for a modest protein dwarfs the number of atoms in the observable universe, which is why evolution samples rather than enumerates).</p>
+</section>
+<section id="permutations-order-matters-no-repetition" class="level2">
+<h2 class="anchored" data-anchor-id="permutations-order-matters-no-repetition">Permutations: order matters, no repetition</h2>
+<p>Now change the game slightly: six different samples must be loaded into an autosampler that runs them in sequence, each sample used exactly once. Choices still multiply, but they no longer stay at six: the first slot has <span class="math inline">6</span> candidates, the second only <span class="math inline">5</span> (one sample is spent), the third <span class="math inline">4</span>, and so on down to <span class="math inline">1</span>. The count is <span class="math inline">6 \times 5 \times 4 \times 3 \times 2 \times 1</span>, and products of this falling shape appear so relentlessly that they get a name and a symbol.</p>
+<div class="env definition">
+<p><strong>Definition 1.3.1 (Factorial).</strong> For <span class="math inline">n \in \mathbb{N}</span>, the <strong>factorial</strong> is <span class="math inline">n! = n \times (n-1) \times \cdots \times 2 \times 1</span>, the number of ways to arrange <span class="math inline">n</span> distinct objects in order. By convention <span class="math inline">0! = 1</span> — the empty arrangement counts as one way, a convention the formulas below will vindicate.</p>
 </div>
+<p>Often only <em>some</em> of the objects get arranged: from <span class="math inline">n</span> distinct samples, load an autosampler with <span class="math inline">k</span> ordered slots. The same falling product stops after <span class="math inline">k</span> factors, <span class="math inline">n(n-1)\cdots(n-k+1)</span>, and dividing factorials writes it compactly: <span class="math display">
+P(n, k) = \frac{n!}{(n-k)!} ,
+</span> the number of <strong>permutations</strong> of <span class="math inline">k</span> objects drawn from <span class="math inline">n</span>. The formula is nothing new — it is the multiplication principle with a shrinking option pool — but the factorial notation will let the next, genuinely new idea be stated cleanly.</p>
+<div class="env example">
+<p><strong>Example 1.3.2 (The morning queue).</strong> An autosampler holds 8 positions; you have 15 distinct samples and will load 8 of them, run order mattering (early positions dodge instrument drift). How many distinct loadings are possible?</p>
+<p><em>Setting it up.</em> Order matters and no sample repeats: a permutation, <span class="math inline">P(15, 8)</span>.</p>
+<p><em>Solution.</em> <span class="math display">
+P(15,8) = \frac{15!}{7!} = 15 \times 14 \times 13 \times 12 \times 11 \times 10 \times 9 \times 8
+= 259{,}459{,}200 .
+</span></p>
+<p><em>Check.</em> Bounds: with repetition allowed the count would be <span class="math inline">15^8 \approx 2.6 \times 10^9</span>; forbidding repeats must give fewer, and <span class="math inline">2.6 \times 10^8 &lt; 2.6 \times 10^9</span> ✓. The first factor check: if only 1 slot existed the formula must give 15, and <span class="math inline">15!/14! = 15</span> ✓. Magnitude: a quarter of a billion loadings from a bench of 15 bottles — the combinatorial explosion is not a metaphor.</p>
+</div>
+</section>
+<section id="combinations-order-does-not-matter" class="level2">
+<h2 class="anchored" data-anchor-id="combinations-order-does-not-matter">Combinations: order does not matter</h2>
+<p>The third disguise is the deep one. Choose 3 solvents from a candidate list of 10 to take into a screening study — and now the <em>order of choosing is irrelevant</em>: taking {toluene, THF, DMSO} is the same screening panel however you picked them. The permutation count <span class="math inline">P(10,3) = 720</span> is wrong for this question, and it is wrong in a precisely diagnosable way: it counts every panel more than once. How many times? A panel of 3 solvents can be ordered in <span class="math inline">3! = 6</span> ways, and <span class="math inline">P(10,3)</span> counts each ordering separately. Every unordered panel appears exactly <span class="math inline">6</span> times in the ordered count — so divide the overcount out.</p>
+<div class="env theorem">
+<p><strong>Theorem 1.3.3 (Combinations).</strong> The number of ways to choose an (unordered) <span class="math inline">k</span>-element subset from <span class="math inline">n</span> distinct objects is <span class="math display">
+\binom{n}{k} = \frac{P(n,k)}{k!} = \frac{n!}{k!\,(n-k)!} .
+</span></p>
+</div>
+<div class="env proof">
+<p><span class="proof-title"><em>Proof</em>. </span>Count ordered selections of <span class="math inline">k</span> objects in two ways. Directly, there are <span class="math inline">P(n,k)</span>. Alternatively, build an ordered selection by first choosing <em>which</em> <span class="math inline">k</span> objects (this is the unknown count, call it <span class="math inline">C</span>) and then ordering them (<span class="math inline">k!</span> ways); by the multiplication principle the total is <span class="math inline">C \cdot k!</span>. The two counts describe the same collection of ordered selections, so <span class="math inline">C \cdot k! = P(n,k)</span>, giving <span class="math inline">C = P(n,k)/k!</span>.</p>
+</div>
+<p>The proof technique — count one thing two ways and set the answers equal — is as valuable as the formula, and the formula itself now explains the <span class="math inline">0! = 1</span> convention: choosing all <span class="math inline">n</span> objects can be done exactly one way, and <span class="math inline">\binom{n}{n} = \frac{n!}{n!\,0!}</span> delivers 1 only if <span class="math inline">0! = 1</span>. The symbol <span class="math inline">\binom{n}{k}</span> is read “<span class="math inline">n</span> choose <span class="math inline">k</span>.”</p>
+<div class="env example">
+<p><strong>Example 1.3.4 (Microstates of a p² configuration).</strong> A carbon atom’s two 2p electrons occupy the six 2p spin-orbitals (three spatial orbitals × two spins, by the multiplication principle of §1.2). Electrons are indistinguishable and no spin-orbital holds two. How many distinct microstates does p² have?</p>
+<p><em>Setting it up.</em> A microstate is a <em>choice of which 2 of the 6 spin-orbitals are occupied</em> — unordered, because swapping identical electrons produces literally the same physical state. That is <span class="math inline">\binom{6}{2}</span>.</p>
+<p><em>Solution.</em> <span class="math display">
+\binom{6}{2} = \frac{6!}{2!\,4!} = \frac{6 \times 5}{2} = 15 .
+</span></p>
+<p><em>Check.</em> Against the ordered count: distinguishable electrons would give <span class="math inline">P(6,2) = 30</span>, and dividing by the <span class="math inline">2! = 2</span> orderings of the identical pair gives 15 ✓. Against spectroscopy: the 15 microstates of p² are exactly the states atomic spectroscopists sort into the term symbols ³P, ¹D, ¹S — with degeneracies <span class="math inline">9 + 5 + 1 = 15</span> ✓. Indistinguishability is not bookkeeping taste; the atom agrees with the divided count, not the ordered one.</p>
+</div>
+</section>
+<section id="counting-is-thermodynamics-in-disguise" class="level2">
+<h2 class="anchored" data-anchor-id="counting-is-thermodynamics-in-disguise">Counting is thermodynamics in disguise</h2>
+<p>One more scene, because it opens a door we will walk through in Chapter 6. Four gas molecules occupy a two-bulb flask; each molecule is in the left bulb or the right. By the multiplication principle there are <span class="math inline">2^4 = 16</span> arrangements. Now count arrangements by <em>how many</em> molecules sit on the left: all four, <span class="math inline">\binom{4}{4} = 1</span> way; three, <span class="math inline">\binom{4}{3} = 4</span>; an even split, <span class="math inline">\binom{4}{2} = 6</span>. The even split is the most common kind of arrangement not by any force or preference but by <em>sheer count</em> — and with <span class="math inline">10^{23}</span> molecules instead of 4, the dominance of near-even splits becomes so overwhelming that it acquires a thermodynamic name. Boltzmann’s <span class="math inline">S = k \ln W</span> says that entropy <em>is</em> the logarithm of an arrangement count <span class="math inline">W</span>; gases expand and mixtures mix because there are more ways to be spread out than to be huddled. When entropy arrives in earnest, the mathematics under it will be exactly the <span class="math inline">\binom{n}{k}</span> of this page.</p>
+</section>
+<section id="remarks-and-cautions" class="level2">
+<h2 class="anchored" data-anchor-id="remarks-and-cautions">Remarks and cautions</h2>
+<p><strong>The only decision that matters: does order count?</strong> Before touching a formula, ask whether swapping two chosen items produces a genuinely different outcome. Run order in an autosampler: yes — permutations. Membership in a screening panel: no — combinations. The most common exam error is not bad arithmetic but answering the wrong question, usually <span class="math inline">P</span> where <span class="math inline">\binom{n}{k}</span> belongs; notice <span class="math inline">P</span> is always <em>larger</em>, by exactly the factor <span class="math inline">k!</span>.</p>
+<p><strong>Repetition is a separate decision.</strong> Sequences with repetition give <span class="math inline">n^k</span>; without, <span class="math inline">P(n,k)</span>. “Can the same option be used twice?” is a fact about the chemistry (a residue can repeat in a peptide; a physical sample cannot occupy two positions), not about the math.</p>
+<p><strong>Indistinguishability is physical, not notational.</strong> Two electrons cannot be labeled even in principle, and Example 1.3.4 showed the spectroscopic count endorsing <span class="math inline">\binom{6}{2}</span>, not <span class="math inline">P(6,2)</span>. Overcounting identical-particle states by their permutations is a real error with real consequences (it is precisely the error resolved by the “Gibbs paradox” of statistical mechanics).</p>
+<p><strong>Respect factorial growth.</strong> <span class="math inline">10! \approx 3.6 \times 10^6</span>; <span class="math inline">20!</span> ≈ <span class="math inline">2.4 \times 10^{18}</span>; <span class="math inline">52!</span> exceeds the number of seconds since the Big Bang by dozens of orders of magnitude. When a calculation seems to require enumerating arrangements, it is wrong — the formulas exist because enumeration is impossible.</p>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>Three counting formulas cover ordered-with-repetition (<span class="math inline">n^k</span>), ordered-without-repetition (<span class="math inline">P(n,k) = n!/(n-k)!</span>), and unordered (<span class="math inline">\binom{n}{k} = n!/(k!(n-k)!)</span>) selection, and all three are the multiplication principle of §1.2 — applied to a constant option pool, a shrinking pool, and a shrinking pool with the <span class="math inline">k!</span> orderings of each choice divided back out, respectively. The derivation of Theorem 1.3.3 by double counting is a technique to keep. Chemistry supplied the stakes at every step: sequence spaces too vast to enumerate, spectroscopic term counts that vindicate indistinguishability, and the arrangement counts <span class="math inline">W</span> whose logarithm is entropy — the first hint that a counting formula from this chapter will one day explain why anything in the universe mixes, expands, or reacts spontaneously.</p>
+<div class="exercises">
+<p>Exercises</p>
+<ol type="1">
+<li><p>Compute, showing which formula applies and why: (a) the number of distinct tetrapeptides from the 20 standard amino acids; (b) the number of ways to run 5 distinct samples through a single-column instrument, one after another; (c) the number of 4-solvent screening panels drawn from 12 candidates.</p></li>
+<li><p>Verify numerically that <span class="math inline">P(7,3) = \binom{7}{3} \cdot 3!</span>, and state in one sentence what the identity says about ordered versus unordered selection.</p></li>
+<li><p>How many distinct arrangements are there of the letters of MENDELEEV? <em>Hint:</em> start from <span class="math inline">9!</span> and repair the overcounting from the repeated E’s (three of them) the same way Theorem 1.3.3 repaired ordering.</p></li>
+<li><p>An octahedral complex has 6 coordination sites. Ignoring the molecule’s rotational symmetry, in how many ways can you choose the 2 sites that carry ligand B (the rest carrying A)? Why is the true number of <em>distinguishable</em> isomers of MA₄B₂ smaller (it is 2: cis and trans)?</p></li>
+<li><p>A d² transition-metal configuration places 2 indistinguishable electrons in the 10 d spin-orbitals. Count the microstates, and check your answer against the term-symbol degeneracies ³F(21) + ¹D(5) + ³P(9) + ¹G(9) + ¹S(1).</p></li>
+<li><p>Eight gas molecules occupy two bulbs. How many arrangements exist in total, how many have an even 4–4 split, and what fraction is that? Repeat the fraction for 4 molecules (from the text’s 16) — is the even split becoming more or less dominant as <span class="math inline">N</span> grows? <em>(Careful: compare the 4–4 fraction with the 2–2 fraction, not raw counts.)</em></p></li>
+<li><p>★ Prove <span class="math inline">\binom{n}{k} = \binom{n}{n-k}</span> twice: once by algebra from Theorem 1.3.3, and once with no algebra at all, by explaining what choosing <span class="math inline">k</span> objects to <em>include</em> has to do with choosing <span class="math inline">n-k</span> to <em>exclude</em>.</p></li>
+<li><p>★ Prove Pascal’s identity <span class="math inline">\binom{n}{k} = \binom{n-1}{k-1} + \binom{n-1}{k}</span> by double counting: fix one particular solvent on the candidate list and split all <span class="math inline">k</span>-panels into those that include it and those that don’t.</p></li>
+<li><p>★ Water with isotopes: using ¹H and ²H for the two hydrogen positions and ¹⁶O, ¹⁷O, ¹⁸O for the oxygen, how many isotopologues of H₂O exist? (Careful: the two hydrogen positions are equivalent — HDO and DHO are the same molecule. Count H-pair <em>combinations with repetition</em> by listing them.)</p></li>
+<li><p>★★ Stirling’s approximation gives <span class="math inline">\ln n! \approx n \ln n - n</span> for large <span class="math inline">n</span>. Use it to estimate <span class="math inline">\ln W</span> for <span class="math inline">W = \binom{N}{N/2}</span> with <span class="math inline">N = 10^{23}</span>, and show the result is proportional to <span class="math inline">N</span>. This proportionality is why entropy — <span class="math inline">k \ln W</span> — is an <em>extensive</em> quantity, doubling when the system doubles.</p></li>
+</ol>
+</div>
+</section>
+<section id="practice-until-it-sticks" class="level2">
+<h2 class="anchored" data-anchor-id="practice-until-it-sticks">Practice until it sticks</h2>
+<div data-skill="counting">
+
+</div>
+<script src="../../js/adaptive-engine.js"></script>
+<script src="../../js/skills/counting.js"></script>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
