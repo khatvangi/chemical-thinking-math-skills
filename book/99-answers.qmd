@@ -1,0 +1,137 @@
+---
+title: "Answers to Odd-Numbered Exercises"
+---
+
+Answers, with the deciding step — not full solutions. If your answer differs, re-derive before consulting; if it matches, make sure it would have matched for the *reason* given.
+
+## §1.1 Kinds of Numbers
+
+**1.** (a) $6 \in \mathbb{N}$ — a count. (b) $+7 \in \mathbb{N}$ as a value, though oxidation states as a *type* live in $\mathbb{Z}$ (they can be negative — the smallest system containing this one value and the smallest system appropriate to the quantity differ). (c) $\tfrac{3}{8} \in \mathbb{Q}$ — a ratio of counts. (d) $\pi \in \mathbb{R}$ — irrational.
+
+**3.** $100x - x = 27.\overline{27} - 0.\overline{27} = 27$, so $99x = 27$ and $x = \tfrac{27}{99} = \tfrac{3}{11}$.
+
+**5.** If $rs$ were rational, then $s = (rs) \cdot \tfrac1r$ would be a product of rationals, hence rational — contradicting the hypothesis. So $rs$ is irrational.
+
+**7.** Mimic the parity argument mod 3: squares leave remainder 0 or 1 on division by 3, so $p^2 = 3q^2$ forces $3 \mid p$, then $3 \mid q$ — contradiction with lowest terms. For $\sqrt4$: the step "$p^2$ divisible by 4 $\Rightarrow$ $p$ divisible by 4" is false ($p = 2$), because 4 is not prime — and indeed $\sqrt4 = 2$ is rational.
+
+**9.** The false step is "no gaps between rationals $\Rightarrow$ every point of the line is rational." Density guarantees rationals *arbitrarily close* to any point; it does not guarantee the point itself is rational. $\sqrt2$ is approximated arbitrarily well by rationals and is provably not one of them — closeness is not membership.
+
+## §1.2 Sets and Collections
+
+**1.** $R \subseteq H$: yes — every member of $R$ is a halogen. $\mathrm{Br} \in R$: yes. $\{\mathrm{Br}\} \in R$: no — $R$'s members are elements, not sets ($\{\mathrm{Br}\} \subseteq R$ would be the true statement).
+
+**3.** $|A \cup B| = 87 + 64 - 41 = 110$ pass at least one; $200 - 110 = 90$ fail both. Categories: $46 + 23 + 41 + 90 = 200$ ✓.
+
+**5.** $6 \times 4 \times 3 = 72$ experiments. The number 13 counts the *settings available on the three dials considered separately* — e.g., a one-factor-at-a-time sweep from a fixed baseline — not the full combination grid.
+
+**7.** $\varnothing$; $\{2p_x\}, \{2p_y\}, \{2p_z\}$; the three pairs; the full set — $8 = 2^3$ subsets. In general each element is independently in or out: $2 \times 2 \times \cdots \times 2 = 2^n$ by the multiplication principle.
+
+**9.** Audit the seven membership patterns. An element in $A$ only: counted once (by $|A|$). In $A \cap B$ only: $1 + 1 - 1 = 1$. In all three: $3 - 3 + 1 = 1$. Every pattern nets to exactly one count, so the right side equals $|A \cup B \cup C|$.
+
+## §1.3 Permutations and Combinations
+
+**1.** (a) $20^4 = 160{,}000$ (order matters, repetition allowed). (b) $5! = 120$ (order matters, no repetition). (c) $\binom{12}{4} = 495$ (unordered panel).
+
+**3.** $\dfrac{9!}{4!} = \dfrac{362{,}880}{24} = 15{,}120$ — the four E's are interchangeable, so each distinct word was counted $4!$ times.
+
+**5.** $\binom{10}{2} = 45$ microstates; the term degeneracies $21 + 5 + 9 + 9 + 1 = 45$ ✓.
+
+**7.** Algebraically, $\binom{n}{n-k} = \frac{n!}{(n-k)!\,k!} = \binom{n}{k}$. Bijectively: choosing which $k$ solvents join the panel *is* choosing which $n-k$ stay on the shelf — the same decision described from the other side.
+
+**9.** Hydrogen pairs from $\{\mathrm{H}, \mathrm{D}\}$ with equivalent positions: HH, HD, DD — 3 (not 4: HD = DH). Times 3 oxygen isotopes: $3 \times 3 = 9$ isotopologues.
+
+## §2.1 Direction in Space
+
+**1.** $\mathbf{a}+\mathbf{b} = (-1, 4, 5)$; $\mathbf{a}-\mathbf{b} = (5, -6, 3)$; $3\mathbf{a}-2\mathbf{b} = (12, -13, 10)$.
+
+**3.** Vectors: bond dipole, force, velocity. Scalars: bond energy, pH, $W$ — each is fully given by one number with no direction.
+
+**5.** $2(1.52)\cos(54.75°) = 1.75$ D — smaller than water's 1.86 D: opening the angle moves the bond dipoles toward cancellation.
+
+**7.** With $\mu_b(1, 0)$, $\mu_b(-\tfrac12, \tfrac{\sqrt3}{2})$, $\mu_b(-\tfrac12, -\tfrac{\sqrt3}{2})$: the $x$-components sum to $\mu_b(1 - \tfrac12 - \tfrac12) = 0$ and the $y$-components cancel pairwise. Net dipole exactly $\mathbf{0}$ — why BF₃, with three strongly polar bonds, is a nonpolar molecule.
+
+**9.** $|\mathbf{a}+\mathbf{b}|^2 = |\mathbf{a}|^2 + 2\,\mathbf{a}\cdot\mathbf{b} + |\mathbf{b}|^2 \le |\mathbf{a}|^2 + 2|\mathbf{a}||\mathbf{b}| + |\mathbf{b}|^2 = (|\mathbf{a}|+|\mathbf{b}|)^2$ by Cauchy–Schwarz. Equality iff $\mathbf{a} \cdot \mathbf{b} = |\mathbf{a}||\mathbf{b}|$, i.e. parallel and same sense: bond dipoles reach the sum of magnitudes only when collinear and aligned.
+
+## §2.2 Magnitude and Components
+
+**1.** $5$, $3$, $7$, $7$. The last two must coincide before any arithmetic: squaring kills the signs, and reversing an arrow cannot change its length.
+
+**3.** $|\mathbf{v}| = 7$; $\hat{\mathbf{v}} = (\tfrac67, -\tfrac27, \tfrac37)$, whose squares sum to $\tfrac{36+4+9}{49} = 1$ ✓; $\mathbf{v} = 7\,(\tfrac67, -\tfrac27, \tfrac37)$.
+
+**5.** $c\mathbf{v} = (-3, -6, -6)$, $|c\mathbf{v}| = 9$; and $|c||\mathbf{v}| = 3 \times 3 = 9$ ✓.
+
+**7.** From $|\hat{\mathbf{v}}| = 1$: $\cos^2\alpha + \cos^2\beta + \cos^2\gamma = 1$. Three equal angles of $60°$: $3 \times \tfrac14 = \tfrac34 \neq 1$ — impossible. $55°$: $3\cos^2 55° = 0.987 \neq 1$ — also impossible. The unique equal-angle solution is $\cos\alpha = 1/\sqrt3$, $\alpha = 54.74°$ — the "magic angle" of solid-state NMR.
+
+**9.** Expanding with $|\mathbf{v}|^2 = \mathbf{v}\cdot\mathbf{v}$ and cancelling $\mathbf{r}\cdot\mathbf{r}$: $2\,\mathbf{r} \cdot (\mathbf{b} - \mathbf{a}) = |\mathbf{b}|^2 - |\mathbf{a}|^2$ — linear in $\mathbf{r}$: a plane, perpendicular to $\mathbf{b} - \mathbf{a}$, through the midpoint of the two atoms.
+
+## §2.3 The Dot Product
+
+**1.** $\mathbf{a}\cdot\mathbf{b} = 2 - 4 - 6 = -8$; $\mathbf{a}\cdot\mathbf{a} = 14$. Negative dot product: obtuse.
+
+**3.** $(3,-2,1)\cdot(2,3,0) = 6 - 6 + 0 = 0$: orthogonal. $(1,1,1)\cdot(1,1,-1) = 1$: not. No magnitudes needed — orthogonality is *defined* by a vanishing dot product, and the sign/zero of $\mathbf{a}\cdot\mathbf{b}$ alone classifies the angle.
+
+**5.** $\mathbf{b}_1 \cdot \mathbf{b}_2 = -0.4418 + 0 + 0.1444 = -0.2974$; $|\mathbf{b}_1| = |\mathbf{b}_2| = 1.014$; $\cos\theta = -0.2893$, $\theta = 106.8°$ — matching experiment.
+
+**7.** $\operatorname{comp} = 0.9$ D; $|\boldsymbol{\mu}| = \sqrt{0.81 + 1.44} = 1.5$ D; $\cos\theta = 0.6$, $\theta = 53.1°$.
+
+**9.** $|\hat{\mathbf{u}}-\hat{\mathbf{v}}|^2 = \hat{\mathbf{u}}\cdot\hat{\mathbf{u}} - 2\hat{\mathbf{u}}\cdot\hat{\mathbf{v}} + \hat{\mathbf{v}}\cdot\hat{\mathbf{v}} = 2(1 - \cos\theta)$. At $\cos\theta = -\tfrac13$: $|\hat{\mathbf{u}}-\hat{\mathbf{v}}| = \sqrt{8/3} = 1.633$.
+
+## §2.4 Basis and Coordinates
+
+**1.** (a) Not a basis: $(2,4) = 2(1,2)$ — the pair spans only a line; $(1, 0)$ is unreachable, and $(2,4)$ itself has two descriptions ($1 \cdot$ second vector, or $2 \cdot$ first). (b) Basis. (c) Basis (orthonormal).
+
+**3.** Orthonormality checks pass; $c_1 = \tfrac{5+1}{\sqrt2} = 3\sqrt2 \approx 4.243$, $c_2 = \tfrac{5-1}{\sqrt2} = 2\sqrt2 \approx 2.828$; $c_1^2 + c_2^2 = 18 + 8 = 26 = 5^2 + 1^2$ ✓.
+
+**5.** Cubic cell vectors are mutually perpendicular (cross terms vanish) and of equal known length $a$ (so dividing by $|\mathbf{a}|^2$ normalizes): $u = \mathbf{v}\cdot\mathbf{a}/a^2$ exactly. Orthogonality and known normalization are the two working properties; triclinic cells lack the first.
+
+**7.** Dotting the equality with $\hat{\mathbf{e}}_i$ kills every term but the $i$-th on each side, leaving $c_i = c_i'$. Orthonormality is what annihilates the cross terms; without it each dot product yields an equation *mixing* all the coefficients, and equality of individual coefficients can no longer be read off.
+
+**9.** $\mathbf{v}\cdot\mathbf{v} = \sum_i \sum_j c_i c_j\, \hat{\mathbf{e}}_i \cdot \hat{\mathbf{e}}_j = \sum_i c_i^2$ since only $i = j$ survives. Any orthonormal frame therefore computes the *same* $|\mathbf{v}|^2$ from its own coordinates — Example 2.4.5's check in general.
+
+## §3.1 Grids of Numbers
+
+**1.** $3 \times 2$; $a_{21} = 3$, $a_{12} = -1$; $A\mathbf{v} = (8, 15, 13)$; only length-2 vectors are accepted.
+
+**3.** Column-picture recomputation: $1.5\,(1,4,2,1) + 0.8\,(2,5,1,2) + 3.0\,(0,3,1,0) = (3.1,\ 19.0,\ 6.8,\ 3.1)$ mol — identical to the row-by-row totals of Exercise 2.
+
+**5.** $(a_1\ a_2\ a_3)\begin{pmatrix} b_1 \\ b_2 \\ b_3 \end{pmatrix} = a_1 b_1 + a_2 b_2 + a_3 b_3$ — Definition 3.1.2 with one row, reproducing §2.3's dot product as a $1 \times 1$ product.
+
+**7.** Entry $i$: $\sum_j a_{ij}(u_j + v_j) = \sum_j a_{ij}u_j + \sum_j a_{ij}v_j$, and $\sum_j a_{ij}(cv_j) = c\sum_j a_{ij}v_j$ — distributivity of scalar arithmetic, row by row.
+
+**9.** Solving the $3\times3$ system exactly: feeds $\approx (41.7,\ 29.2,\ 29.2)$ mol (i.e. $\tfrac{125}{3}, \tfrac{175}{6}, \tfrac{175}{6}$). The unpleasantness of finding it by trial is the point — §3.2's inverse turns this into one multiplication.
+
+## §3.2 Matrix Algebra
+
+**1.** $AB = \begin{pmatrix} 4 & -2 \\ 6 & 0 \end{pmatrix}$, $BA = \begin{pmatrix} 2 & -2 \\ 4 & 2 \end{pmatrix}$. The agreeing $(1,2)$ entries ($-2$) are a numerical accident — perturb any entry of $A$ and the coincidence evaporates.
+
+**3.** $\begin{pmatrix} 4 & 2 \\ 2 & 1 \end{pmatrix}$: $ad - bc = 0$, no inverse (rows proportional — outputs fill only a line). $\begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix}^{-1} = \begin{pmatrix} -2 & 1 \\ 1.5 & -0.5 \end{pmatrix}$. $\begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}$ is its own inverse: it swaps the two components, and swapping twice is doing nothing.
+
+**5.** Diagonal matrices multiply diagonal-entry-by-diagonal-entry, and scalar multiplication commutes. Counterexample with a non-diagonal partner: $D = \mathrm{diag}(1,2)$, $M = \begin{pmatrix} 0 & 1 \\ 0 & 0 \end{pmatrix}$ give $DM = \begin{pmatrix} 0 & 1 \\ 0 & 0 \end{pmatrix} \neq \begin{pmatrix} 0 & 2 \\ 0 & 0 \end{pmatrix} = MD$.
+
+**7.** $B = BI = B(AC) = (BA)C = IC = C$ — associativity does all the work, and "the" inverse is justified.
+
+**9.** Good pair: $c_X$ moves from $4.00$ to $4.07 \times 10^{-5}$ M — about $+1.7\%$. Near-proportional pair ($\det E' = 1.5 \times 10^6$ versus $1.59 \times 10^8$): the same $\pm 0.01$ in $A_1$ drives $c_X$ from $4.0$ to $5.9 \times 10^{-5}$ M — roughly $+48\%$, some thirty-fold worse. The foretelling scalar is the determinant: sensitivities scale like entries divided by $\det$, and $E'$'s determinant is two orders of magnitude smaller.
+
+## §3.3 Linear Transformations
+
+**1.** $R(270°) = \begin{pmatrix} 0 & 1 \\ -1 & 0 \end{pmatrix}$; reflection across $y = x$: $\begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}$; stretch: $\begin{pmatrix} 2 & 0 \\ 0 & 1 \end{pmatrix}$; $R(120°) = \begin{pmatrix} -\tfrac12 & -\tfrac{\sqrt3}{2} \\ \tfrac{\sqrt3}{2} & -\tfrac12 \end{pmatrix}$.
+
+**3.** $(1,0) \to (-\tfrac12, \tfrac{\sqrt3}{2}) \to (-\tfrac12, -\tfrac{\sqrt3}{2}) \to (1, 0)$: home in three steps, so $R(120°)^3 = I$. Any $n$-fold symmetry axis rotates by $360°/n$; $n$ applications complete a full turn, which is the identity — molecules cannot tell that anything happened, $n$ times over.
+
+**5.** $R(60°)$ advances each carbon to its neighbor's site — the set maps to itself. For 1,3,5-substitution the substituted and bare carbons alternate; the smallest rotation preserving each *kind* of site is $120°$.
+
+**7.** A rotation moves the plane rigidly: the parallelogram on $\mathbf{u}, \mathbf{v}$ rotates as one object, so its diagonal (the sum) rotates to the diagonal of the rotated sides — $R(\mathbf{u}+\mathbf{v}) = R\mathbf{u} + R\mathbf{v}$. A scaled arrow rotates to the equally scaled rotated arrow. Both habits hold with no components in sight.
+
+**9.** $P^2 = P$ — once flattened onto the axis, projecting again changes nothing. No inverse: the $y$-component is destroyed (physically, information loss), and e.g. $\mathbf{u} = (1, 0)$, $\mathbf{v} = (1, 5)$ satisfy $P\mathbf{u} = P\mathbf{v}$, so no map can send the shared output back to both inputs — §3.2's failed cancellation, realized geometrically.
+
+## §3.4 Determinants
+
+**1.** $\det = 2$: invertible, orientation-preserving. $\det = 0$: singular. $\det R(30°) = \cos^2 30° + \sin^2 30° = 1$: invertible, preserving. $\det = -1$: invertible, orientation-*reversing* (it is the reflection across $y = x$).
+
+**3.** $AB = \begin{pmatrix} 4 & 6 \\ 10 & 12 \end{pmatrix}$; $\det A = -2$, $\det B = 6$, $\det(AB) = 48 - 60 = -12 = (-2)(6)$ ✓.
+
+**5.** In their 2D in-plane representations: $\det C_2 = \det \mathrm{diag}(-1, 1) = -1$, $\det \sigma_v = -1$, $\det R(120°) = +1$. Physically $|\det| = 1$ always: a symmetry operation preserves all lengths, hence all areas and volumes — a scale factor other than 1 would visibly deform the molecule. (Subtlety worth savoring: the full 3D $C_2$ is a proper rotation with $\det = +1$; its *restriction* to the molecular plane looks like a reflection with $\det = -1$. The sign depends on the space you let the operation act on.)
+
+**7.** Both columns pick up the factor $c$, each donating one power: $\det(cA) = c^2 \det A$ (area picture: the spanned parallelogram stretches by $c$ in two independent directions). The student's $3\times3$ error: halving all entries scales volume by $(\tfrac12)^3 = \tfrac18$, not $\tfrac12$.
+
+**9.** $\det E = 48 \times 10^6 - 48.8 \times 10^6 = -8 \times 10^5$ — tiny against entries of order $10^4 \times 10^4$. Measured $(0.60, 0.40)$: $\mathbf{c} = (5.0 \times 10^{-5},\ 0)$ M. Perturbed $(0.61, 0.40)$: $\mathbf{c} = (0,\ 1.0 \times 10^{-4})$ M — a 1.7% absorbance change *swapped the entire composition* from all-X to all-Y. That is ill-conditioning: with near-parallel columns the inverse divides small differences by a small determinant, and noise is amplified without limit as $\det \to 0$.

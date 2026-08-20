@@ -36,6 +36,8 @@ book:
         - 03-matrices/02-algebra.qmd
         - 03-matrices/03-transformations.qmd
         - 03-matrices/04-determinants.qmd
+  appendices:
+    - 99-answers.qmd
 
 format:
   html:

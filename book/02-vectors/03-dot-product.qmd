@@ -220,7 +220,7 @@ Exercises
 
 2. Find the angle between $(1, 0)$ and $(1, 1)$, and the angle between $(1, 2, 2)$ and $(2, 1, -2)$.
 
-3. One of the pairs $\{(3,-2,1), (2,3,0)\}$ and $\{(1,1,1), (1,1,-2)\}$ is orthogonal. Decide which by computation, and explain how you know *without* computing any magnitudes.
+3. One of the pairs $\{(3,-2,1), (2,3,0)\}$ and $\{(1,1,1), (1,1,-1)\}$ is orthogonal. Decide which by computation, and explain how you know *without* computing any magnitudes.
 
 4. A CO₂ molecule has bond vectors $(1.16, 0, 0)$ and $(-1.16, 0, 0)$ Å. Show that the angle formula yields exactly $180°$, and explain what the value of $\cos\theta$ here has to do with the equality case of Cauchy–Schwarz.
 

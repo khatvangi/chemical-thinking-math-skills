@@ -95,7 +95,7 @@ Exercises
 
 2. Verify numerically that $P(7,3) = \binom{7}{3} \cdot 3!$, and state in one sentence what the identity says about ordered versus unordered selection.
 
-3. How many distinct arrangements are there of the letters of MENDELEEV? *Hint:* start from $9!$ and repair the overcounting from the repeated E's (three of them) the same way Theorem 1.3.3 repaired ordering.
+3. How many distinct arrangements are there of the letters of MENDELEEV? *Hint:* start from $9!$ and repair the overcounting from the repeated E's (four of them) the same way Theorem 1.3.3 repaired ordering.
 
 4. An octahedral complex has 6 coordination sites. Ignoring the molecule's rotational symmetry, in how many ways can you choose the 2 sites that carry ligand B (the rest carrying A)? Why is the true number of *distinguishable* isomers of MA₄B₂ smaller (it is 2: cis and trans)?
 
