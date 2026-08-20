@@ -77,6 +77,49 @@ ul.task-list li input[type="checkbox"] {
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&amp;family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
 
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -394,8 +437,19 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#magnitude-and-direction-welded-together" id="toc-magnitude-and-direction-welded-together" class="nav-link active" data-scroll-target="#magnitude-and-direction-welded-together">Magnitude and direction, welded together</a></li>
+  <li><a href="#adding-arrows" id="toc-adding-arrows" class="nav-link" data-scroll-target="#adding-arrows">Adding arrows</a></li>
+  <li><a href="#the-dipole-of-water-assembled" id="toc-the-dipole-of-water-assembled" class="nav-link" data-scroll-target="#the-dipole-of-water-assembled">The dipole of water, assembled</a></li>
+  <li><a href="#remarks-and-cautions" id="toc-remarks-and-cautions" class="nav-link" data-scroll-target="#remarks-and-cautions">Remarks and cautions</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#practice-until-it-sticks" id="toc-practice-until-it-sticks" class="nav-link" data-scroll-target="#practice-until-it-sticks">Practice until it sticks</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -420,11 +474,98 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<div class="stub-note">
-<p>This section is being written. The corresponding material is still available in the <a href="../lectures/all-lectures.html">lecture pages</a>.</p>
+<p>A microwave oven is a machine for grabbing molecules and shaking them, and it only works on molecules that give it something to grab. Water heats spectacularly; the nitrogen and oxygen of the air in the oven barely notice. The difference is not mass, not bond strength, not anything a single number captures: a water molecule <em>points</em>. Its electron density is shifted toward the oxygen, giving the molecule a positive end and a negative end — a dipole — and the oven’s oscillating field seizes that handle and swings it back and forth ten billion times a second. Nitrogen, perfectly symmetric, offers no handle at all. “Points toward the oxygen” is a statement no ordinary number can make. A temperature is 25 °C without any direction; a mass is 18 g pointing nowhere. To do chemistry on quantities that aim — dipoles, forces on ions, displacements of diffusing molecules, and above all bonds — we need a new kind of mathematical object, and this chapter builds it.</p>
+<section id="magnitude-and-direction-welded-together" class="level2">
+<h2 class="anchored" data-anchor-id="magnitude-and-direction-welded-together">Magnitude and direction, welded together</h2>
+<div class="env definition">
+<p><strong>Definition 2.1.1 (Vector).</strong> A <strong>vector</strong> is a quantity possessing both a magnitude and a direction in space. Two vectors are equal exactly when both agree — same length, same aim — regardless of where the vectors are drawn. Quantities fully described by a single number (temperature, mass, energy) are <strong>scalars</strong> by contrast. We write vectors in bold — <span class="math inline">\mathbf{v}</span> — and draw them as arrows.</p>
 </div>
+<p>The clause “regardless of where drawn” deserves a pause, because it is a genuine modeling decision. An arrow of given length and aim represents the <em>same</em> vector whether its tail sits at the origin or across the room: a displacement “3 Å along <span class="math inline">+x</span>” is one instruction, wherever it is executed. This is why a bond vector belongs to the <em>bond</em> and not to any coordinate origin — a fact that already bit us once, in the positions-versus-bond-vectors caution of Section <a href="../02-vectors/03-dot-product.html">2.3</a>, and that we now see was baked into the definition from the start.</p>
+<p>To compute with vectors rather than draw them, fix a coordinate system and record how far the arrow extends along each axis: <span class="math inline">\mathbf{v} = (v_x, v_y, v_z)</span>, the <strong>components</strong>. An O–H bond vector might be <span class="math inline">(0.958, 0, 0)</span> Å; the same physical bond described in a rotated coordinate system would carry different components — the vector is the physical arrow, the components are its shadow on a particular choice of axes, and Section <a href="../02-vectors/04-basis.html">2.4</a> will make that distinction do real work.</p>
+</section>
+<section id="adding-arrows" class="level2">
+<h2 class="anchored" data-anchor-id="adding-arrows">Adding arrows</h2>
+<p>Why would anyone add two directions? Because nature does it constantly. Each O–H bond of water carries its own small dipole, and the molecule’s total dipole — the thing the microwave grabs — is the two bond contributions <em>combined</em>. A dust grain in solution takes one random diffusive step, then another; its net displacement is the two steps combined. The combination rule is forced by the displacement picture: to execute two displacements in succession, walk the first arrow, then walk the second <em>starting from where the first ended</em>. The net effect is the arrow from the original start to the final end — the <strong>tip-to-tail</strong> rule. In components the rule becomes arithmetic, and it is worth seeing that this is a small theorem rather than a notational reflex.</p>
+<div class="env theorem">
+<p><strong>Theorem 2.1.2 (Vector addition is componentwise).</strong> If <span class="math inline">\mathbf{a} = (a_x, a_y, a_z)</span> and <span class="math inline">\mathbf{b} = (b_x, b_y, b_z)</span>, the tip-to-tail combination is <span class="math display">
+\mathbf{a} + \mathbf{b} = (a_x + b_x,\; a_y + b_y,\; a_z + b_z).
+</span></p>
+</div>
+<div class="env proof">
+<p><span class="proof-title"><em>Proof</em>. </span>Walk <span class="math inline">\mathbf{a}</span>: you move <span class="math inline">a_x</span> along the <span class="math inline">x</span>-axis, <span class="math inline">a_y</span> along <span class="math inline">y</span>, <span class="math inline">a_z</span> along <span class="math inline">z</span>. Now walk <span class="math inline">\mathbf{b}</span> from there: a further <span class="math inline">b_x</span>, <span class="math inline">b_y</span>, <span class="math inline">b_z</span> along the same axes. Motions along one axis simply accumulate, independently of the other axes — the eastward parts of a journey add up regardless of any northward wandering. Total motion along <span class="math inline">x</span>: <span class="math inline">a_x + b_x</span>; likewise for <span class="math inline">y</span> and <span class="math inline">z</span>. The net arrow therefore has exactly the claimed components.</p>
+</div>
+<p>Two corollaries come free. Since ordinary addition of each component commutes, <span class="math inline">\mathbf{a} + \mathbf{b} = \mathbf{b} + \mathbf{a}</span> — geometrically, the two walking orders trace the two sides of a parallelogram to the same far corner. And scaling is equally componentwise: <span class="math inline">c\,\mathbf{v} = (c v_x, c v_y, c v_z)</span> stretches the arrow by <span class="math inline">|c|</span>, reversing it when <span class="math inline">c &lt; 0</span>. In particular <span class="math inline">-\mathbf{v}</span> is <span class="math inline">\mathbf{v}</span> exactly reversed, and <span class="math inline">\mathbf{v} + (-\mathbf{v}) = \mathbf{0}</span>, the zero vector — the unique vector with no direction at all, whose special status was already flagged in §2.3’s cautions.</p>
+<div class="env example">
+<p><strong>Example 2.1.3 (Two forces on one ion).</strong> In an electrophoresis cell, a chloride ion feels an electric force <span class="math inline">\mathbf{F}_1 = (3.2, -1.5, 0)</span> pN and a viscous drag <span class="math inline">\mathbf{F}_2 = (-2.8, 0.9, 0)</span> pN. Find the net force.</p>
+<p><em>Setting it up.</em> Forces on a single object combine by vector addition — nature runs the tip-to-tail rule with no help from us. Theorem 2.1.2 reduces the sum to arithmetic.</p>
+<p><em>Solution.</em> <span class="math display">
+\mathbf{F}_1 + \mathbf{F}_2 = (3.2 - 2.8,\; -1.5 + 0.9,\; 0) = (0.4,\; -0.6,\; 0)\ \text{pN}.
+</span></p>
+<p><em>Check.</em> Units: pN + pN = pN ✓. Sign logic: the drag nearly cancels the electric push in <span class="math inline">x</span> (0.4 is small compared to 3.2), which is exactly what drag <em>does</em> — a large residual would mean runaway acceleration. Magnitude sanity: each component of the sum lies between the sum and difference of the corresponding inputs ✓. A wrong but common answer, <span class="math inline">(6.0, -2.4, 0)</span>, comes from dropping the drag’s minus signs — the sign of a component <em>is</em> its direction along that axis.</p>
+</div>
+</section>
+<section id="the-dipole-of-water-assembled" class="level2">
+<h2 class="anchored" data-anchor-id="the-dipole-of-water-assembled">The dipole of water, assembled</h2>
+<p>Now the section’s opening scene gets its calculation. Each O–H bond carries a bond dipole of magnitude <span class="math inline">\mu_b</span> pointing from H toward O along the bond; the two bonds meet at water’s <span class="math inline">104.5°</span>. By symmetry the two components perpendicular to the bisector cancel, and the two components along the bisector reinforce: each bond contributes <span class="math inline">\mu_b \cos(\theta/2)</span> along the bisector, so <span class="math display">
+\mu_{\text{net}} = 2\,\mu_b \cos\!\left(\tfrac{\theta}{2}\right).
+</span> Feeding in <span class="math inline">\mu_b = 1.52</span> D and <span class="math inline">\theta = 104.5°</span>: <span class="math inline">\mu_{\text{net}} = 2 (1.52)(\cos 52.25°) = 2(1.52)(0.612) = 1.86</span> D — and the measured dipole moment of water is <span class="math inline">1.85</span> D. The molecule performs Theorem 2.1.2 on itself, and the agreement to three figures is the theorem’s laboratory audit.</p>
+<p>The formula also <em>explains</em> molecules other than water. Stretch the angle to <span class="math inline">180°</span> and <span class="math inline">\cos 90° = 0</span>: the dipoles cancel exactly. That is CO₂ — two strongly polar C=O bonds, zero molecular dipole, a linear molecule invisible to the microwave for the same reason it is a greenhouse gas by a subtler mechanism. Close the angle toward <span class="math inline">0°</span> and the net dipole approaches <span class="math inline">2\mu_b</span>, the two arrows in lockstep. Geometry, not bond polarity alone, decides whether a molecule points.</p>
+<div class="widget-frame">
+<div class="widget-predict">
+<p>Before touching the slider: water’s angle is <span class="math inline">104.5°</span> and its net dipole is <span class="math inline">1.86</span> D. Predict the net dipole at <span class="math inline">\theta = 120°</span> (ammonia-like planar geometry) — bigger or smaller than water’s? And at exactly what angle does the net dipole vanish?</p>
+</div>
+<div class="widget-body">
+<div style="margin-bottom:0.6rem;">
+<p><label>bond angle θ <input type="range" id="daAngle" min="60" max="180" value="104" step="1"></label></p>
+</div>
+<canvas id="daCanvas" width="640" height="340">
+</canvas>
+<div id="daReadout" class="widget-readout">
+
+</div>
+</div>
+<div class="widget-debrief">
+<p>The perpendicular components always cancel by symmetry; only the along-bisector parts survive, each worth <span class="math inline">\mu_b\cos(\theta/2)</span>. The net dipole dies only at <span class="math inline">\theta = 180°</span> — molecular linearity, not weak bonds, is what silences CO₂. Notice the resultant’s <em>direction</em> never budges from the bisector while its magnitude runs from <span class="math inline">2\mu_b</span> down to zero: symmetry pins the direction, geometry tunes the size.</p>
+</div>
+</div>
+</section>
+<section id="remarks-and-cautions" class="level2">
+<h2 class="anchored" data-anchor-id="remarks-and-cautions">Remarks and cautions</h2>
+<p><strong>Scalars and vectors do not mix.</strong> “Add 2 to the vector <span class="math inline">(1, 3)</span>” is as meaningless as adding 5 mL to 30 °C. A scalar can <em>multiply</em> a vector (Theorem 2.1.2’s corollary); it cannot be added to one. If an expression sums a bold symbol with a plain one, a type error has already happened upstream.</p>
+<p><strong>The magnitude of a sum is not the sum of magnitudes.</strong> Two 1.52 D bond dipoles combined to 1.86 D, not 3.04 D — the angle stole the rest. In general <span class="math inline">|\mathbf{a} + \mathbf{b}| \le |\mathbf{a}| + |\mathbf{b}|</span>, with equality only for perfectly parallel vectors (this <em>triangle inequality</em> is proved with the dot product in Exercise 9). Adding magnitudes as if they were masses is the most tempting wrong move in every dipole problem.</p>
+<p><strong>Distinguish position from displacement.</strong> “The hydrogen at <span class="math inline">(0.96, 0, 0)</span>” names a position — origin-dependent bookkeeping. “The O→H bond vector <span class="math inline">(0.96, 0, 0)</span>” names a displacement — physical and origin-free. The arithmetic is identical; the meaning is not, and §2.3’s bond-angle caution was exactly the price of confusing them.</p>
+<p><strong>Direction requires nonzero magnitude.</strong> The zero vector points nowhere; asking for its direction is undefined, and formulas dividing by a magnitude (unit vectors ahead in §2.2) must exclude it explicitly.</p>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>A vector welds magnitude to direction and is the native mathematical type of every chemical quantity that aims: bonds, dipoles, forces, displacements. Fixing axes turns a vector into components; Theorem 2.1.2 turns the physically mandated tip-to-tail combination rule into componentwise arithmetic, with commutativity and scalar multiples following at once. The payoff was quantitative chemistry from geometry alone: water’s measured 1.85 D dipole reconstructed as <span class="math inline">2\mu_b\cos(\theta/2)</span>, and CO₂’s vanishing dipole exposed as the <span class="math inline">\theta = 180°</span> limit of the same formula. What vectors cannot yet do is report their own length or compare two directions numerically — magnitude is next (§2.2), and the comparison machine, the dot product, is already waiting in §2.3.</p>
+<div class="exercises">
+<p>Exercises</p>
+<ol type="1">
+<li><p>Compute <span class="math inline">\mathbf{a} + \mathbf{b}</span>, <span class="math inline">\mathbf{a} - \mathbf{b}</span>, and <span class="math inline">3\mathbf{a} - 2\mathbf{b}</span> for <span class="math inline">\mathbf{a} = (2, -1, 4)</span> and <span class="math inline">\mathbf{b} = (-3, 5, 1)</span>.</p></li>
+<li><p>A molecule diffusing in solution makes three successive displacements: <span class="math inline">(1.2, 0.5, -0.8)</span>, <span class="math inline">(-0.4, 1.1, 0.6)</span>, and <span class="math inline">(0.9, -1.3, 0.2)</span> (µm). Find the net displacement, and explain in one sentence why the answer would be the same if the three steps happened in any other order.</p></li>
+<li><p>Which of these are vectors, which scalars? Bond energy; bond dipole; pH; the force on an ion in a field; the number of microstates <span class="math inline">W</span>; the velocity of an effusing molecule. One-line justification each.</p></li>
+<li><p>Two forces act on a colloidal particle: <span class="math inline">(4.0, 2.0, 0)</span> pN and one unknown <span class="math inline">\mathbf{F}</span>. The particle is observed to feel zero net force. Find <span class="math inline">\mathbf{F}</span>, and state the general rule your answer illustrates.</p></li>
+<li><p>Using bond dipole <span class="math inline">\mu_b = 1.52</span> D for O–H: what net dipole would “water” have if its angle were the tetrahedral <span class="math inline">109.5°</span>? Compare with the real 1.86 D and state the direction of the change in one sentence.</p></li>
+<li><p>H₂S has bond angle <span class="math inline">92.1°</span> and bond dipole <span class="math inline">0.69</span> D. Predict its net dipole from the bisector formula and compare with the experimental <span class="math inline">0.97</span> D. (The agreement is imperfect — the formula ignores the sulfur lone pairs’ contribution; say which direction the discrepancy runs.)</p></li>
+<li><p>★ Boron trifluoride, BF₃, is planar with three equivalent B–F bonds at <span class="math inline">120°</span> to each other. Show by explicit components that the three bond dipoles sum to exactly zero. <em>Hint:</em> place one bond along <span class="math inline">+x</span> and use <span class="math inline">\cos 120° = -\tfrac12</span>, <span class="math inline">\sin 120° = \tfrac{\sqrt3}{2}</span>.</p></li>
+<li><p>★ Ammonia’s three N–H bonds (<span class="math inline">\mu_b = 1.31</span> D) make an angle of <span class="math inline">67.9°</span> with the molecular (<span class="math inline">C_3</span>) axis. Argue from symmetry that the net dipole lies along the axis, then compute its magnitude <span class="math inline">3\mu_b\cos(67.9°)</span> and compare with the experimental <span class="math inline">1.47</span> D.</p></li>
+<li><p>★ Prove the triangle inequality <span class="math inline">|\mathbf{a} + \mathbf{b}| \le |\mathbf{a}| + |\mathbf{b}|</span>: expand <span class="math inline">|\mathbf{a}+\mathbf{b}|^2</span> with the dot product (§2.3) and apply Cauchy–Schwarz. When exactly does equality hold, and what does that say about dipoles?</p></li>
+<li><p>★★ A polymer chain is modeled as <span class="math inline">N</span> bond vectors of equal length <span class="math inline">\ell</span>, each pointing in an independent random direction. Explain why the <em>average</em> end-to-end vector is <span class="math inline">\mathbf{0}</span>, yet the chain is almost never actually closed. (The resolution — averaging the squared length instead — is a §2.3 computation: <span class="math inline">\langle |\mathbf{R}|^2 \rangle = N\ell^2</span>. Show this, using the vanishing of the average cross terms <span class="math inline">\langle \mathbf{b}_i \cdot \mathbf{b}_j \rangle = 0</span> for <span class="math inline">i \ne j</span>.)</p></li>
+</ol>
+</div>
+</section>
+<section id="practice-until-it-sticks" class="level2">
+<h2 class="anchored" data-anchor-id="practice-until-it-sticks">Practice until it sticks</h2>
+<div data-skill="vector-add">
+
+</div>
+<script src="../js/widgets/dipole-add.js"></script>
+<script src="../../js/adaptive-engine.js"></script>
+<script src="../../js/skills/vector-add.js"></script>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

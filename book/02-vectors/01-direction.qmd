@@ -2,6 +2,116 @@
 title: "2.1 Direction in Space"
 ---
 
-::: {.stub-note}
-This section is being written. The corresponding material is still available in the [lecture pages](/lectures/all-lectures.html).
+A microwave oven is a machine for grabbing molecules and shaking them, and it only works on molecules that give it something to grab. Water heats spectacularly; the nitrogen and oxygen of the air in the oven barely notice. The difference is not mass, not bond strength, not anything a single number captures: a water molecule *points*. Its electron density is shifted toward the oxygen, giving the molecule a positive end and a negative end — a dipole — and the oven's oscillating field seizes that handle and swings it back and forth ten billion times a second. Nitrogen, perfectly symmetric, offers no handle at all. "Points toward the oxygen" is a statement no ordinary number can make. A temperature is 25 °C without any direction; a mass is 18 g pointing nowhere. To do chemistry on quantities that aim — dipoles, forces on ions, displacements of diffusing molecules, and above all bonds — we need a new kind of mathematical object, and this chapter builds it.
+
+## Magnitude and direction, welded together
+
+::: {.env .definition}
+**Definition 2.1.1 (Vector).** A **vector** is a quantity possessing both a magnitude and a direction in space. Two vectors are equal exactly when both agree — same length, same aim — regardless of where the vectors are drawn. Quantities fully described by a single number (temperature, mass, energy) are **scalars** by contrast. We write vectors in bold — $\mathbf{v}$ — and draw them as arrows.
 :::
+
+The clause "regardless of where drawn" deserves a pause, because it is a genuine modeling decision. An arrow of given length and aim represents the *same* vector whether its tail sits at the origin or across the room: a displacement "3 Å along $+x$" is one instruction, wherever it is executed. This is why a bond vector belongs to the *bond* and not to any coordinate origin — a fact that already bit us once, in the positions-versus-bond-vectors caution of Section [2.3](03-dot-product.qmd), and that we now see was baked into the definition from the start.
+
+To compute with vectors rather than draw them, fix a coordinate system and record how far the arrow extends along each axis: $\mathbf{v} = (v_x, v_y, v_z)$, the **components**. An O–H bond vector might be $(0.958, 0, 0)$ Å; the same physical bond described in a rotated coordinate system would carry different components — the vector is the physical arrow, the components are its shadow on a particular choice of axes, and Section [2.4](04-basis.qmd) will make that distinction do real work.
+
+## Adding arrows
+
+Why would anyone add two directions? Because nature does it constantly. Each O–H bond of water carries its own small dipole, and the molecule's total dipole — the thing the microwave grabs — is the two bond contributions *combined*. A dust grain in solution takes one random diffusive step, then another; its net displacement is the two steps combined. The combination rule is forced by the displacement picture: to execute two displacements in succession, walk the first arrow, then walk the second *starting from where the first ended*. The net effect is the arrow from the original start to the final end — the **tip-to-tail** rule. In components the rule becomes arithmetic, and it is worth seeing that this is a small theorem rather than a notational reflex.
+
+::: {.env .theorem}
+**Theorem 2.1.2 (Vector addition is componentwise).** If $\mathbf{a} = (a_x, a_y, a_z)$ and $\mathbf{b} = (b_x, b_y, b_z)$, the tip-to-tail combination is
+$$
+\mathbf{a} + \mathbf{b} = (a_x + b_x,\; a_y + b_y,\; a_z + b_z).
+$$
+:::
+
+::: {.env .proof}
+Walk $\mathbf{a}$: you move $a_x$ along the $x$-axis, $a_y$ along $y$, $a_z$ along $z$. Now walk $\mathbf{b}$ from there: a further $b_x$, $b_y$, $b_z$ along the same axes. Motions along one axis simply accumulate, independently of the other axes — the eastward parts of a journey add up regardless of any northward wandering. Total motion along $x$: $a_x + b_x$; likewise for $y$ and $z$. The net arrow therefore has exactly the claimed components.
+:::
+
+Two corollaries come free. Since ordinary addition of each component commutes, $\mathbf{a} + \mathbf{b} = \mathbf{b} + \mathbf{a}$ — geometrically, the two walking orders trace the two sides of a parallelogram to the same far corner. And scaling is equally componentwise: $c\,\mathbf{v} = (c v_x, c v_y, c v_z)$ stretches the arrow by $|c|$, reversing it when $c < 0$. In particular $-\mathbf{v}$ is $\mathbf{v}$ exactly reversed, and $\mathbf{v} + (-\mathbf{v}) = \mathbf{0}$, the zero vector — the unique vector with no direction at all, whose special status was already flagged in §2.3's cautions.
+
+::: {.env .example}
+**Example 2.1.3 (Two forces on one ion).** In an electrophoresis cell, a chloride ion feels an electric force $\mathbf{F}_1 = (3.2, -1.5, 0)$ pN and a viscous drag $\mathbf{F}_2 = (-2.8, 0.9, 0)$ pN. Find the net force.
+
+*Setting it up.* Forces on a single object combine by vector addition — nature runs the tip-to-tail rule with no help from us. Theorem 2.1.2 reduces the sum to arithmetic.
+
+*Solution.*
+$$
+\mathbf{F}_1 + \mathbf{F}_2 = (3.2 - 2.8,\; -1.5 + 0.9,\; 0) = (0.4,\; -0.6,\; 0)\ \text{pN}.
+$$
+
+*Check.* Units: pN + pN = pN ✓. Sign logic: the drag nearly cancels the electric push in $x$ (0.4 is small compared to 3.2), which is exactly what drag *does* — a large residual would mean runaway acceleration. Magnitude sanity: each component of the sum lies between the sum and difference of the corresponding inputs ✓. A wrong but common answer, $(6.0, -2.4, 0)$, comes from dropping the drag's minus signs — the sign of a component *is* its direction along that axis.
+:::
+
+## The dipole of water, assembled
+
+Now the section's opening scene gets its calculation. Each O–H bond carries a bond dipole of magnitude $\mu_b$ pointing from H toward O along the bond; the two bonds meet at water's $104.5°$. By symmetry the two components perpendicular to the bisector cancel, and the two components along the bisector reinforce: each bond contributes $\mu_b \cos(\theta/2)$ along the bisector, so
+$$
+\mu_{\text{net}} = 2\,\mu_b \cos\!\left(\tfrac{\theta}{2}\right).
+$$
+Feeding in $\mu_b = 1.52$ D and $\theta = 104.5°$: $\mu_{\text{net}} = 2 (1.52)(\cos 52.25°) = 2(1.52)(0.612) = 1.86$ D — and the measured dipole moment of water is $1.85$ D. The molecule performs Theorem 2.1.2 on itself, and the agreement to three figures is the theorem's laboratory audit.
+
+The formula also *explains* molecules other than water. Stretch the angle to $180°$ and $\cos 90° = 0$: the dipoles cancel exactly. That is CO₂ — two strongly polar C=O bonds, zero molecular dipole, a linear molecule invisible to the microwave for the same reason it is a greenhouse gas by a subtler mechanism. Close the angle toward $0°$ and the net dipole approaches $2\mu_b$, the two arrows in lockstep. Geometry, not bond polarity alone, decides whether a molecule points.
+
+::: {.widget-frame}
+::: {.widget-predict}
+Before touching the slider: water's angle is $104.5°$ and its net dipole is $1.86$ D. Predict the net dipole at $\theta = 120°$ (ammonia-like planar geometry) — bigger or smaller than water's? And at exactly what angle does the net dipole vanish?
+:::
+::: {.widget-body}
+<div style="margin-bottom:0.6rem;">
+  <label>bond angle θ <input type="range" id="daAngle" min="60" max="180" value="104" step="1"></label>
+</div>
+<canvas id="daCanvas" width="640" height="340"></canvas>
+<div class="widget-readout" id="daReadout"></div>
+:::
+::: {.widget-debrief}
+The perpendicular components always cancel by symmetry; only the along-bisector parts survive, each worth $\mu_b\cos(\theta/2)$. The net dipole dies only at $\theta = 180°$ — molecular linearity, not weak bonds, is what silences CO₂. Notice the resultant's *direction* never budges from the bisector while its magnitude runs from $2\mu_b$ down to zero: symmetry pins the direction, geometry tunes the size.
+:::
+:::
+
+## Remarks and cautions
+
+**Scalars and vectors do not mix.** "Add 2 to the vector $(1, 3)$" is as meaningless as adding 5 mL to 30 °C. A scalar can *multiply* a vector (Theorem 2.1.2's corollary); it cannot be added to one. If an expression sums a bold symbol with a plain one, a type error has already happened upstream.
+
+**The magnitude of a sum is not the sum of magnitudes.** Two 1.52 D bond dipoles combined to 1.86 D, not 3.04 D — the angle stole the rest. In general $|\mathbf{a} + \mathbf{b}| \le |\mathbf{a}| + |\mathbf{b}|$, with equality only for perfectly parallel vectors (this *triangle inequality* is proved with the dot product in Exercise 9). Adding magnitudes as if they were masses is the most tempting wrong move in every dipole problem.
+
+**Distinguish position from displacement.** "The hydrogen at $(0.96, 0, 0)$" names a position — origin-dependent bookkeeping. "The O→H bond vector $(0.96, 0, 0)$" names a displacement — physical and origin-free. The arithmetic is identical; the meaning is not, and §2.3's bond-angle caution was exactly the price of confusing them.
+
+**Direction requires nonzero magnitude.** The zero vector points nowhere; asking for its direction is undefined, and formulas dividing by a magnitude (unit vectors ahead in §2.2) must exclude it explicitly.
+
+## Summary
+
+A vector welds magnitude to direction and is the native mathematical type of every chemical quantity that aims: bonds, dipoles, forces, displacements. Fixing axes turns a vector into components; Theorem 2.1.2 turns the physically mandated tip-to-tail combination rule into componentwise arithmetic, with commutativity and scalar multiples following at once. The payoff was quantitative chemistry from geometry alone: water's measured 1.85 D dipole reconstructed as $2\mu_b\cos(\theta/2)$, and CO₂'s vanishing dipole exposed as the $\theta = 180°$ limit of the same formula. What vectors cannot yet do is report their own length or compare two directions numerically — magnitude is next (§2.2), and the comparison machine, the dot product, is already waiting in §2.3.
+
+::: {.exercises}
+Exercises
+
+1. Compute $\mathbf{a} + \mathbf{b}$, $\mathbf{a} - \mathbf{b}$, and $3\mathbf{a} - 2\mathbf{b}$ for $\mathbf{a} = (2, -1, 4)$ and $\mathbf{b} = (-3, 5, 1)$.
+
+2. A molecule diffusing in solution makes three successive displacements: $(1.2, 0.5, -0.8)$, $(-0.4, 1.1, 0.6)$, and $(0.9, -1.3, 0.2)$ (µm). Find the net displacement, and explain in one sentence why the answer would be the same if the three steps happened in any other order.
+
+3. Which of these are vectors, which scalars? Bond energy; bond dipole; pH; the force on an ion in a field; the number of microstates $W$; the velocity of an effusing molecule. One-line justification each.
+
+4. Two forces act on a colloidal particle: $(4.0, 2.0, 0)$ pN and one unknown $\mathbf{F}$. The particle is observed to feel zero net force. Find $\mathbf{F}$, and state the general rule your answer illustrates.
+
+5. Using bond dipole $\mu_b = 1.52$ D for O–H: what net dipole would "water" have if its angle were the tetrahedral $109.5°$? Compare with the real 1.86 D and state the direction of the change in one sentence.
+
+6. H₂S has bond angle $92.1°$ and bond dipole $0.69$ D. Predict its net dipole from the bisector formula and compare with the experimental $0.97$ D. (The agreement is imperfect — the formula ignores the sulfur lone pairs' contribution; say which direction the discrepancy runs.)
+
+7. ★ Boron trifluoride, BF₃, is planar with three equivalent B–F bonds at $120°$ to each other. Show by explicit components that the three bond dipoles sum to exactly zero. *Hint:* place one bond along $+x$ and use $\cos 120° = -\tfrac12$, $\sin 120° = \tfrac{\sqrt3}{2}$.
+
+8. ★ Ammonia's three N–H bonds ($\mu_b = 1.31$ D) make an angle of $67.9°$ with the molecular ($C_3$) axis. Argue from symmetry that the net dipole lies along the axis, then compute its magnitude $3\mu_b\cos(67.9°)$ and compare with the experimental $1.47$ D.
+
+9. ★ Prove the triangle inequality $|\mathbf{a} + \mathbf{b}| \le |\mathbf{a}| + |\mathbf{b}|$: expand $|\mathbf{a}+\mathbf{b}|^2$ with the dot product (§2.3) and apply Cauchy–Schwarz. When exactly does equality hold, and what does that say about dipoles?
+
+10. ★★ A polymer chain is modeled as $N$ bond vectors of equal length $\ell$, each pointing in an independent random direction. Explain why the *average* end-to-end vector is $\mathbf{0}$, yet the chain is almost never actually closed. (The resolution — averaging the squared length instead — is a §2.3 computation: $\langle |\mathbf{R}|^2 \rangle = N\ell^2$. Show this, using the vanishing of the average cross terms $\langle \mathbf{b}_i \cdot \mathbf{b}_j \rangle = 0$ for $i \ne j$.)
+:::
+
+## Practice until it sticks
+
+<div data-skill="vector-add"></div>
+
+<script src="../js/widgets/dipole-add.js"></script>
+<script src="../../js/adaptive-engine.js"></script>
+<script src="../../js/skills/vector-add.js"></script>
