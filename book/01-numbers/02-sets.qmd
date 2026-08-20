@@ -2,6 +2,120 @@
 title: "1.2 Sets and Collections"
 ---
 
-::: {.stub-note}
-This section is being written. The corresponding material is still available in the [lecture pages](/lectures/all-lectures.html).
+You need a solvent. The reaction demands one that is polar, so the charged intermediate stays dissolved; aprotic, so nothing quenches your carbanion; and boiling below 100 °C, so the workup is civilized. On the shelf stand thirty bottles. What your mind does next — and does so fast you hardly notice — is form three *collections*: the polar solvents, the aprotic ones, the volatile ones. Then it demands their common members. Every screening, every "which compounds have both properties," every electron configuration ("the electrons in the 2p subshell") begins with this same mental act: gathering things into a collection and asking about membership. Mathematics calls the act a *set*, and this section makes it precise enough to compute with — because the payoff of precision is that membership questions become arithmetic.
+
+## Membership is everything
+
+::: {.env .definition}
+**Definition 1.2.1 (Set).** A **set** is a collection of distinct objects, its **elements**; we write $x \in S$ ("$x$ is an element of $S$") or $x \notin S$. A set is determined *entirely* by its membership: order does not matter, and repetition does not count. $\{ \mathrm{Cl}, \mathrm{Br}, \mathrm{I} \}$ and $\{ \mathrm{I}, \mathrm{Cl}, \mathrm{Br}, \mathrm{Cl} \}$ are the same set.
 :::
+
+The definition's two disclaimers — no order, no repetition — look like small print but carry real content. That a set forgets order is a *feature*: the three 2p orbitals $\{2p_x, 2p_y, 2p_z\}$ form one energy level regardless of how you list them, and "the halogens" names a chemical family without ranking it. When order *does* matter — and in Chapter 1's next section it will matter enormously — we will need a different object, and knowing that a set is not that object is half the battle. Two more pieces of vocabulary complete the basic kit. If every element of $A$ also belongs to $B$, then $A$ is a **subset** of $B$, written $A \subseteq B$: the halogens are a subset of the main-group elements. And the number of elements in a finite set $S$ is its **cardinality** $|S|$ — a natural number, landing us back in the tower of Section [1.1](01-kinds.qmd). Cardinality is already chemistry: the *degeneracy* of an energy level is nothing but the cardinality of its set of orbitals, $|\{2p_x, 2p_y, 2p_z\}| = 3$, and the mole is a cardinality with its own name.
+
+## The algebra of collections
+
+Your solvent search needed "polar *and* aprotic"; a colleague's needs "chlorinated *or* aromatic"; a safety officer's needs "everything *except* the peroxide-formers." These three connectives — and, or, except — generate an entire algebra.
+
+::: {.env .definition}
+**Definition 1.2.2 (Set operations).** For sets $A$ and $B$ drawn from a universe $U$ of objects under discussion:
+$$
+A \cap B = \{x : x \in A \text{ and } x \in B\} \qquad \text{(intersection)}
+$$
+$$
+A \cup B = \{x : x \in A \text{ or } x \in B\} \qquad \text{(union)}
+$$
+$$
+A \setminus B = \{x : x \in A \text{ and } x \notin B\} \qquad \text{(difference)}
+$$
+:::
+
+The operations answer membership questions; the chemist usually wants the *count*. How many solvents are polar or aprotic? The tempting answer $|A| + |B|$ is wrong, and it is worth feeling exactly why before repairing it: any solvent that is *both* polar and aprotic — DMSO, say — gets counted once as polar and again as aprotic. The sum double-counts precisely the intersection, no more and no less. Subtracting the overcount once fixes it, and that reasoning *is* the proof of the first genuinely useful theorem of counting.
+
+::: {.env .theorem}
+**Theorem 1.2.3 (Inclusion–exclusion).** For finite sets, $|A \cup B| = |A| + |B| - |A \cap B|$.
+:::
+
+::: {.env .proof}
+Take any element of $A \cup B$ and ask how often the right-hand side counts it. If it lies in $A$ only, it is counted once by $|A|$, not at all by the other terms: net once. Likewise for $B$ only. If it lies in both, it is counted by $|A|$, again by $|B|$, and subtracted once by $|A \cap B|$: net once. Every element of the union is counted exactly once, and nothing outside the union is counted at all — so the right-hand side equals $|A \cup B|$.
+:::
+
+::: {.env .example}
+**Example 1.2.4 (The solvent shelf).** Of 30 solvents in a stockroom, 12 are polar, 9 are aprotic, and 5 are both. How many are polar or aprotic? How many are neither?
+
+*Setting it up.* Let $P$ and $A$ be the polar and aprotic sets inside the universe $U$ of 30 bottles. The two questions are $|P \cup A|$ and $|U| - |P \cup A|$.
+
+*Solution.* Inclusion–exclusion gives $|P \cup A| = 12 + 9 - 5 = 16$, so the "neither" count is $30 - 16 = 14$.
+
+*Check.* Bounds first: a union can never exceed the sum ($16 \le 21$ ✓) nor be smaller than its larger part ($16 \ge 12$ ✓). Consistency: the four disjoint categories — polar only ($12-5 = 7$), aprotic only ($9-5 = 4$), both ($5$), neither ($14$) — must return the whole shelf: $7 + 4 + 5 + 14 = 30$ ✓. And the answer passes the DMSO test: a bottle in both sets was counted once, not twice.
+:::
+
+## Pairing collections: the product
+
+One more construction earns its keep before the next section, and it answers the question every experimental design begins with. You will screen 4 solvents at 3 temperatures: how many experiments is that? Each experiment is a *pair* — one solvent, one temperature — and the set of all such pairs is the **Cartesian product** $S \times T = \{(s, t) : s \in S,\ t \in T\}$. Note the parentheses: $(s,t)$ is an *ordered* pair, our first departure from the set's indifference to order — $(\text{DMSO}, 25\,°\mathrm{C})$ and $(25\,°\mathrm{C}, \text{DMSO})$ describe one experiment, but the slots mean different things.
+
+::: {.env .theorem}
+**Theorem 1.2.5 (Multiplication principle).** $|S \times T| = |S| \cdot |T|$.
+:::
+
+::: {.env .proof}
+Arrange the pairs in a grid: one row for each element of $S$, one column for each element of $T$. Every pair $(s,t)$ occupies exactly one cell — row $s$, column $t$ — and every cell holds exactly one pair. A grid with $|S|$ rows and $|T|$ columns has $|S| \cdot |T|$ cells.
+:::
+
+The proof is almost a picture, but the theorem scales beyond any picture: with a third factor (5 catalysts) the count is $4 \times 3 \times 5 = 60$ experiments, and in general each independent choice multiplies. Chemistry runs on this principle in places far from the bench notebook. An electron's state in an orbital pairs a spatial orbital with a spin, and $|\{\text{orbitals}\}| \times |\{\uparrow, \downarrow\}|$ is why every orbital holds two electrons — the 2 in the $2n^2$ shell capacities is a cardinality of the spin set. The multiplication principle is also the seed of the next section: *all* of counting — permutations, factorials, the combinatorial explosion of isomers — is this one theorem applied relentlessly.
+
+::: {.env .example}
+**Example 1.2.6 (Shell capacities).** The $n$-th electron shell contains one $s$, three $p$, five $d$, … orbitals — the subshell degeneracies are the odd numbers $1, 3, 5, \ldots, 2n-1$. Verify that shell $n = 3$ holds 18 electrons, and find the general capacity.
+
+*Setting it up.* Two counting layers: the cardinality of the shell's orbital set (a sum of odd numbers), then the product with the spin set $\{\uparrow, \downarrow\}$.
+
+*Solution.* For $n = 3$: $|{\text{orbitals}}| = 1 + 3 + 5 = 9$, and pairing each with a spin gives $9 \times 2 = 18$ electrons. In general the first $n$ odd numbers sum to $n^2$ (Exercise 8 proves this pleasant fact), so shell $n$ holds $n^2$ orbitals and $2n^2$ electrons.
+
+*Check.* Against reality: $2n^2$ gives $2, 8, 18, 32$ — precisely the celebrated shell capacities of the periodic table. Structure of the formula: the 2 is $|\{\uparrow,\downarrow\}|$ from the multiplication principle, and the $n^2$ is a cardinality — the formula is *made of set arithmetic*, not memorized numerology.
+:::
+
+## Remarks and cautions
+
+**A molecular formula is not a set.** H₂O contains two hydrogens, but $\{\mathrm{H}, \mathrm{H}, \mathrm{O}\}$ collapses to $\{\mathrm{H}, \mathrm{O}\}$ — sets ignore repetition by definition. A formula is a *multiset*: membership with multiplicities. The distinction sounds pedantic until inclusion–exclusion or a cardinality argument silently merges your duplicate atoms and every count comes out wrong.
+
+**Element versus subset.** $\mathrm{Cl} \in \{\text{halogens}\}$, but $\{\mathrm{Cl}\} \subseteq \{\text{halogens}\}$: chlorine is a *member*; the set containing chlorine is a *subset*. Writing $\mathrm{Cl} \subseteq \{\text{halogens}\}$ is a type error, like adding a temperature to a volume. The symbols $\in$ and $\subseteq$ answer different questions — "is this thing in there?" versus "is this collection contained in that one?"
+
+**Say your universe out loud.** "Everything except the peroxide-formers" is meaningless until you fix what "everything" spans — this stockroom? all commercial solvents? A complement without a declared universe $U$ is the set-theory version of a concentration without units.
+
+**The empty set is a set.** The screening that returns no hits returns $\varnothing$, with $|\varnothing| = 0$ — a legitimate answer that propagates correctly through every formula above ($\varnothing$'s failure mode is human: forgetting that a valid computation can produce it).
+
+## Summary
+
+A set is a collection determined solely by membership — orderless and repetition-blind — and its cardinality lands in the natural numbers of Section 1.1, where chemistry meets it as degeneracy, shell capacity, and the mole. The operations $\cap$, $\cup$, and $\setminus$ turn the laboratory connectives *and*, *or*, *except* into computable objects; inclusion–exclusion converts union questions into arithmetic by repairing exactly the double-count at the intersection; and the multiplication principle $|S \times T| = |S||T|$ counts paired choices, from experimental grids to the spin-doubling that fixes shell capacities at $2n^2$. The one thing a set cannot see — order — is precisely what the next section is about, and the multiplication principle is the tool we will carry into it.
+
+::: {.exercises}
+Exercises
+
+1. Let $H = \{\mathrm{F}, \mathrm{Cl}, \mathrm{Br}, \mathrm{I}, \mathrm{At}\}$ and $R = \{\mathrm{Cl}, \mathrm{Br}, \mathrm{I}\}$ (the ones in your stockroom). Decide, with a one-line reason each: is $R \subseteq H$? Is $\mathrm{Br} \in R$? Is $\{\mathrm{Br}\} \in R$?
+
+2. For $A = \{1, 2, 3, 4, 6\}$ and $B = \{2, 4, 8\}$ inside $U = \{1, \ldots, 10\}$, list $A \cap B$, $A \cup B$, $A \setminus B$, and $U \setminus (A \cup B)$, and verify Theorem 1.2.3 numerically.
+
+3. In a compound library of 200 molecules, 87 pass a solubility screen, 64 pass a toxicity screen, and 41 pass both. How many pass at least one screen? How many fail both? Run the four-category consistency check from Example 1.2.4.
+
+4. Write the molecular formula of glucose, C₆H₁₂O₆, as a multiset, and state its total multiplicity. What set does it collapse to, and what chemical information is lost in the collapse?
+
+5. You will screen 6 solvents, 4 temperatures, and 3 catalyst loadings, one experiment per combination. How many experiments? Your labmate proposes "6 + 4 + 3 = 13 experiments to cover everything" — say precisely what question *that* number answers.
+
+6. Prove that $A = B$ exactly when both $A \subseteq B$ and $B \subseteq A$. (This "double inclusion" is how set equalities are actually proved.)
+
+7. ★ The **power set** of $S$ is the set of all subsets of $S$. List the power set of $\{2p_x, 2p_y, 2p_z\}$, count it, and prove that a set with $n$ elements has exactly $2^n$ subsets. *Hint:* build a subset by making one independent in/out choice per element, then apply Theorem 1.2.5 repeatedly.
+
+8. ★ Prove that $1 + 3 + 5 + \cdots + (2n-1) = n^2$, completing Example 1.2.6. *One route:* pair the $k$-th odd number with the L-shaped border that grows a $(k-1) \times (k-1)$ square into a $k \times k$ square.
+
+9. ★ Extend inclusion–exclusion to three sets: show
+$|A \cup B \cup C| = |A| + |B| + |C| - |A \cap B| - |A \cap C| - |B \cap C| + |A \cap B \cap C|$
+by auditing, as in the proof of Theorem 1.2.3, how often each kind of element is counted — there are now seven kinds.
+
+10. ★★ A microstate of a two-electron system assigns each electron a spin-orbital. With 3 spatial orbitals available: how many spin-orbitals are there, and how many ordered assignments of the two (distinguishable, for now) electrons? Which of your counts will survive when Section 1.3 makes the electrons indistinguishable — and which is doomed?
+:::
+
+## Practice until it sticks
+
+<div data-skill="sets"></div>
+
+<script src="../../js/adaptive-engine.js"></script>
+<script src="../../js/skills/sets.js"></script>

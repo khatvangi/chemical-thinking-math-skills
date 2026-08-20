@@ -77,6 +77,49 @@ ul.task-list li input[type="checkbox"] {
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&amp;family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
 
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -394,8 +437,19 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#membership-is-everything" id="toc-membership-is-everything" class="nav-link active" data-scroll-target="#membership-is-everything">Membership is everything</a></li>
+  <li><a href="#the-algebra-of-collections" id="toc-the-algebra-of-collections" class="nav-link" data-scroll-target="#the-algebra-of-collections">The algebra of collections</a></li>
+  <li><a href="#pairing-collections-the-product" id="toc-pairing-collections-the-product" class="nav-link" data-scroll-target="#pairing-collections-the-product">Pairing collections: the product</a></li>
+  <li><a href="#remarks-and-cautions" id="toc-remarks-and-cautions" class="nav-link" data-scroll-target="#remarks-and-cautions">Remarks and cautions</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#practice-until-it-sticks" id="toc-practice-until-it-sticks" class="nav-link" data-scroll-target="#practice-until-it-sticks">Practice until it sticks</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -420,11 +474,93 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<div class="stub-note">
-<p>This section is being written. The corresponding material is still available in the <a href="../lectures/all-lectures.html">lecture pages</a>.</p>
+<p>You need a solvent. The reaction demands one that is polar, so the charged intermediate stays dissolved; aprotic, so nothing quenches your carbanion; and boiling below 100 °C, so the workup is civilized. On the shelf stand thirty bottles. What your mind does next — and does so fast you hardly notice — is form three <em>collections</em>: the polar solvents, the aprotic ones, the volatile ones. Then it demands their common members. Every screening, every “which compounds have both properties,” every electron configuration (“the electrons in the 2p subshell”) begins with this same mental act: gathering things into a collection and asking about membership. Mathematics calls the act a <em>set</em>, and this section makes it precise enough to compute with — because the payoff of precision is that membership questions become arithmetic.</p>
+<section id="membership-is-everything" class="level2">
+<h2 class="anchored" data-anchor-id="membership-is-everything">Membership is everything</h2>
+<div class="env definition">
+<p><strong>Definition 1.2.1 (Set).</strong> A <strong>set</strong> is a collection of distinct objects, its <strong>elements</strong>; we write <span class="math inline">x \in S</span> (“<span class="math inline">x</span> is an element of <span class="math inline">S</span>”) or <span class="math inline">x \notin S</span>. A set is determined <em>entirely</em> by its membership: order does not matter, and repetition does not count. <span class="math inline">\{ \mathrm{Cl}, \mathrm{Br}, \mathrm{I} \}</span> and <span class="math inline">\{ \mathrm{I}, \mathrm{Cl}, \mathrm{Br}, \mathrm{Cl} \}</span> are the same set.</p>
 </div>
+<p>The definition’s two disclaimers — no order, no repetition — look like small print but carry real content. That a set forgets order is a <em>feature</em>: the three 2p orbitals <span class="math inline">\{2p_x, 2p_y, 2p_z\}</span> form one energy level regardless of how you list them, and “the halogens” names a chemical family without ranking it. When order <em>does</em> matter — and in Chapter 1’s next section it will matter enormously — we will need a different object, and knowing that a set is not that object is half the battle. Two more pieces of vocabulary complete the basic kit. If every element of <span class="math inline">A</span> also belongs to <span class="math inline">B</span>, then <span class="math inline">A</span> is a <strong>subset</strong> of <span class="math inline">B</span>, written <span class="math inline">A \subseteq B</span>: the halogens are a subset of the main-group elements. And the number of elements in a finite set <span class="math inline">S</span> is its <strong>cardinality</strong> <span class="math inline">|S|</span> — a natural number, landing us back in the tower of Section <a href="../01-numbers/01-kinds.html">1.1</a>. Cardinality is already chemistry: the <em>degeneracy</em> of an energy level is nothing but the cardinality of its set of orbitals, <span class="math inline">|\{2p_x, 2p_y, 2p_z\}| = 3</span>, and the mole is a cardinality with its own name.</p>
+</section>
+<section id="the-algebra-of-collections" class="level2">
+<h2 class="anchored" data-anchor-id="the-algebra-of-collections">The algebra of collections</h2>
+<p>Your solvent search needed “polar <em>and</em> aprotic”; a colleague’s needs “chlorinated <em>or</em> aromatic”; a safety officer’s needs “everything <em>except</em> the peroxide-formers.” These three connectives — and, or, except — generate an entire algebra.</p>
+<div class="env definition">
+<p><strong>Definition 1.2.2 (Set operations).</strong> For sets <span class="math inline">A</span> and <span class="math inline">B</span> drawn from a universe <span class="math inline">U</span> of objects under discussion: <span class="math display">
+A \cap B = \{x : x \in A \text{ and } x \in B\} \qquad \text{(intersection)}
+</span> <span class="math display">
+A \cup B = \{x : x \in A \text{ or } x \in B\} \qquad \text{(union)}
+</span> <span class="math display">
+A \setminus B = \{x : x \in A \text{ and } x \notin B\} \qquad \text{(difference)}
+</span></p>
+</div>
+<p>The operations answer membership questions; the chemist usually wants the <em>count</em>. How many solvents are polar or aprotic? The tempting answer <span class="math inline">|A| + |B|</span> is wrong, and it is worth feeling exactly why before repairing it: any solvent that is <em>both</em> polar and aprotic — DMSO, say — gets counted once as polar and again as aprotic. The sum double-counts precisely the intersection, no more and no less. Subtracting the overcount once fixes it, and that reasoning <em>is</em> the proof of the first genuinely useful theorem of counting.</p>
+<div class="env theorem">
+<p><strong>Theorem 1.2.3 (Inclusion–exclusion).</strong> For finite sets, <span class="math inline">|A \cup B| = |A| + |B| - |A \cap B|</span>.</p>
+</div>
+<div class="env proof">
+<p><span class="proof-title"><em>Proof</em>. </span>Take any element of <span class="math inline">A \cup B</span> and ask how often the right-hand side counts it. If it lies in <span class="math inline">A</span> only, it is counted once by <span class="math inline">|A|</span>, not at all by the other terms: net once. Likewise for <span class="math inline">B</span> only. If it lies in both, it is counted by <span class="math inline">|A|</span>, again by <span class="math inline">|B|</span>, and subtracted once by <span class="math inline">|A \cap B|</span>: net once. Every element of the union is counted exactly once, and nothing outside the union is counted at all — so the right-hand side equals <span class="math inline">|A \cup B|</span>.</p>
+</div>
+<div class="env example">
+<p><strong>Example 1.2.4 (The solvent shelf).</strong> Of 30 solvents in a stockroom, 12 are polar, 9 are aprotic, and 5 are both. How many are polar or aprotic? How many are neither?</p>
+<p><em>Setting it up.</em> Let <span class="math inline">P</span> and <span class="math inline">A</span> be the polar and aprotic sets inside the universe <span class="math inline">U</span> of 30 bottles. The two questions are <span class="math inline">|P \cup A|</span> and <span class="math inline">|U| - |P \cup A|</span>.</p>
+<p><em>Solution.</em> Inclusion–exclusion gives <span class="math inline">|P \cup A| = 12 + 9 - 5 = 16</span>, so the “neither” count is <span class="math inline">30 - 16 = 14</span>.</p>
+<p><em>Check.</em> Bounds first: a union can never exceed the sum (<span class="math inline">16 \le 21</span> ✓) nor be smaller than its larger part (<span class="math inline">16 \ge 12</span> ✓). Consistency: the four disjoint categories — polar only (<span class="math inline">12-5 = 7</span>), aprotic only (<span class="math inline">9-5 = 4</span>), both (<span class="math inline">5</span>), neither (<span class="math inline">14</span>) — must return the whole shelf: <span class="math inline">7 + 4 + 5 + 14 = 30</span> ✓. And the answer passes the DMSO test: a bottle in both sets was counted once, not twice.</p>
+</div>
+</section>
+<section id="pairing-collections-the-product" class="level2">
+<h2 class="anchored" data-anchor-id="pairing-collections-the-product">Pairing collections: the product</h2>
+<p>One more construction earns its keep before the next section, and it answers the question every experimental design begins with. You will screen 4 solvents at 3 temperatures: how many experiments is that? Each experiment is a <em>pair</em> — one solvent, one temperature — and the set of all such pairs is the <strong>Cartesian product</strong> <span class="math inline">S \times T = \{(s, t) : s \in S,\ t \in T\}</span>. Note the parentheses: <span class="math inline">(s,t)</span> is an <em>ordered</em> pair, our first departure from the set’s indifference to order — <span class="math inline">(\text{DMSO}, 25\,°\mathrm{C})</span> and <span class="math inline">(25\,°\mathrm{C}, \text{DMSO})</span> describe one experiment, but the slots mean different things.</p>
+<div class="env theorem">
+<p><strong>Theorem 1.2.5 (Multiplication principle).</strong> <span class="math inline">|S \times T| = |S| \cdot |T|</span>.</p>
+</div>
+<div class="env proof">
+<p><span class="proof-title"><em>Proof</em>. </span>Arrange the pairs in a grid: one row for each element of <span class="math inline">S</span>, one column for each element of <span class="math inline">T</span>. Every pair <span class="math inline">(s,t)</span> occupies exactly one cell — row <span class="math inline">s</span>, column <span class="math inline">t</span> — and every cell holds exactly one pair. A grid with <span class="math inline">|S|</span> rows and <span class="math inline">|T|</span> columns has <span class="math inline">|S| \cdot |T|</span> cells.</p>
+</div>
+<p>The proof is almost a picture, but the theorem scales beyond any picture: with a third factor (5 catalysts) the count is <span class="math inline">4 \times 3 \times 5 = 60</span> experiments, and in general each independent choice multiplies. Chemistry runs on this principle in places far from the bench notebook. An electron’s state in an orbital pairs a spatial orbital with a spin, and <span class="math inline">|\{\text{orbitals}\}| \times |\{\uparrow, \downarrow\}|</span> is why every orbital holds two electrons — the 2 in the <span class="math inline">2n^2</span> shell capacities is a cardinality of the spin set. The multiplication principle is also the seed of the next section: <em>all</em> of counting — permutations, factorials, the combinatorial explosion of isomers — is this one theorem applied relentlessly.</p>
+<div class="env example">
+<p><strong>Example 1.2.6 (Shell capacities).</strong> The <span class="math inline">n</span>-th electron shell contains one <span class="math inline">s</span>, three <span class="math inline">p</span>, five <span class="math inline">d</span>, … orbitals — the subshell degeneracies are the odd numbers <span class="math inline">1, 3, 5, \ldots, 2n-1</span>. Verify that shell <span class="math inline">n = 3</span> holds 18 electrons, and find the general capacity.</p>
+<p><em>Setting it up.</em> Two counting layers: the cardinality of the shell’s orbital set (a sum of odd numbers), then the product with the spin set <span class="math inline">\{\uparrow, \downarrow\}</span>.</p>
+<p><em>Solution.</em> For <span class="math inline">n = 3</span>: <span class="math inline">|{\text{orbitals}}| = 1 + 3 + 5 = 9</span>, and pairing each with a spin gives <span class="math inline">9 \times 2 = 18</span> electrons. In general the first <span class="math inline">n</span> odd numbers sum to <span class="math inline">n^2</span> (Exercise 8 proves this pleasant fact), so shell <span class="math inline">n</span> holds <span class="math inline">n^2</span> orbitals and <span class="math inline">2n^2</span> electrons.</p>
+<p><em>Check.</em> Against reality: <span class="math inline">2n^2</span> gives <span class="math inline">2, 8, 18, 32</span> — precisely the celebrated shell capacities of the periodic table. Structure of the formula: the 2 is <span class="math inline">|\{\uparrow,\downarrow\}|</span> from the multiplication principle, and the <span class="math inline">n^2</span> is a cardinality — the formula is <em>made of set arithmetic</em>, not memorized numerology.</p>
+</div>
+</section>
+<section id="remarks-and-cautions" class="level2">
+<h2 class="anchored" data-anchor-id="remarks-and-cautions">Remarks and cautions</h2>
+<p><strong>A molecular formula is not a set.</strong> H₂O contains two hydrogens, but <span class="math inline">\{\mathrm{H}, \mathrm{H}, \mathrm{O}\}</span> collapses to <span class="math inline">\{\mathrm{H}, \mathrm{O}\}</span> — sets ignore repetition by definition. A formula is a <em>multiset</em>: membership with multiplicities. The distinction sounds pedantic until inclusion–exclusion or a cardinality argument silently merges your duplicate atoms and every count comes out wrong.</p>
+<p><strong>Element versus subset.</strong> <span class="math inline">\mathrm{Cl} \in \{\text{halogens}\}</span>, but <span class="math inline">\{\mathrm{Cl}\} \subseteq \{\text{halogens}\}</span>: chlorine is a <em>member</em>; the set containing chlorine is a <em>subset</em>. Writing <span class="math inline">\mathrm{Cl} \subseteq \{\text{halogens}\}</span> is a type error, like adding a temperature to a volume. The symbols <span class="math inline">\in</span> and <span class="math inline">\subseteq</span> answer different questions — “is this thing in there?” versus “is this collection contained in that one?”</p>
+<p><strong>Say your universe out loud.</strong> “Everything except the peroxide-formers” is meaningless until you fix what “everything” spans — this stockroom? all commercial solvents? A complement without a declared universe <span class="math inline">U</span> is the set-theory version of a concentration without units.</p>
+<p><strong>The empty set is a set.</strong> The screening that returns no hits returns <span class="math inline">\varnothing</span>, with <span class="math inline">|\varnothing| = 0</span> — a legitimate answer that propagates correctly through every formula above (<span class="math inline">\varnothing</span>’s failure mode is human: forgetting that a valid computation can produce it).</p>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>A set is a collection determined solely by membership — orderless and repetition-blind — and its cardinality lands in the natural numbers of Section 1.1, where chemistry meets it as degeneracy, shell capacity, and the mole. The operations <span class="math inline">\cap</span>, <span class="math inline">\cup</span>, and <span class="math inline">\setminus</span> turn the laboratory connectives <em>and</em>, <em>or</em>, <em>except</em> into computable objects; inclusion–exclusion converts union questions into arithmetic by repairing exactly the double-count at the intersection; and the multiplication principle <span class="math inline">|S \times T| = |S||T|</span> counts paired choices, from experimental grids to the spin-doubling that fixes shell capacities at <span class="math inline">2n^2</span>. The one thing a set cannot see — order — is precisely what the next section is about, and the multiplication principle is the tool we will carry into it.</p>
+<div class="exercises">
+<p>Exercises</p>
+<ol type="1">
+<li><p>Let <span class="math inline">H = \{\mathrm{F}, \mathrm{Cl}, \mathrm{Br}, \mathrm{I}, \mathrm{At}\}</span> and <span class="math inline">R = \{\mathrm{Cl}, \mathrm{Br}, \mathrm{I}\}</span> (the ones in your stockroom). Decide, with a one-line reason each: is <span class="math inline">R \subseteq H</span>? Is <span class="math inline">\mathrm{Br} \in R</span>? Is <span class="math inline">\{\mathrm{Br}\} \in R</span>?</p></li>
+<li><p>For <span class="math inline">A = \{1, 2, 3, 4, 6\}</span> and <span class="math inline">B = \{2, 4, 8\}</span> inside <span class="math inline">U = \{1, \ldots, 10\}</span>, list <span class="math inline">A \cap B</span>, <span class="math inline">A \cup B</span>, <span class="math inline">A \setminus B</span>, and <span class="math inline">U \setminus (A \cup B)</span>, and verify Theorem 1.2.3 numerically.</p></li>
+<li><p>In a compound library of 200 molecules, 87 pass a solubility screen, 64 pass a toxicity screen, and 41 pass both. How many pass at least one screen? How many fail both? Run the four-category consistency check from Example 1.2.4.</p></li>
+<li><p>Write the molecular formula of glucose, C₆H₁₂O₆, as a multiset, and state its total multiplicity. What set does it collapse to, and what chemical information is lost in the collapse?</p></li>
+<li><p>You will screen 6 solvents, 4 temperatures, and 3 catalyst loadings, one experiment per combination. How many experiments? Your labmate proposes “6 + 4 + 3 = 13 experiments to cover everything” — say precisely what question <em>that</em> number answers.</p></li>
+<li><p>Prove that <span class="math inline">A = B</span> exactly when both <span class="math inline">A \subseteq B</span> and <span class="math inline">B \subseteq A</span>. (This “double inclusion” is how set equalities are actually proved.)</p></li>
+<li><p>★ The <strong>power set</strong> of <span class="math inline">S</span> is the set of all subsets of <span class="math inline">S</span>. List the power set of <span class="math inline">\{2p_x, 2p_y, 2p_z\}</span>, count it, and prove that a set with <span class="math inline">n</span> elements has exactly <span class="math inline">2^n</span> subsets. <em>Hint:</em> build a subset by making one independent in/out choice per element, then apply Theorem 1.2.5 repeatedly.</p></li>
+<li><p>★ Prove that <span class="math inline">1 + 3 + 5 + \cdots + (2n-1) = n^2</span>, completing Example 1.2.6. <em>One route:</em> pair the <span class="math inline">k</span>-th odd number with the L-shaped border that grows a <span class="math inline">(k-1) \times (k-1)</span> square into a <span class="math inline">k \times k</span> square.</p></li>
+<li><p>★ Extend inclusion–exclusion to three sets: show <span class="math inline">|A \cup B \cup C| = |A| + |B| + |C| - |A \cap B| - |A \cap C| - |B \cap C| + |A \cap B \cap C|</span> by auditing, as in the proof of Theorem 1.2.3, how often each kind of element is counted — there are now seven kinds.</p></li>
+<li><p>★★ A microstate of a two-electron system assigns each electron a spin-orbital. With 3 spatial orbitals available: how many spin-orbitals are there, and how many ordered assignments of the two (distinguishable, for now) electrons? Which of your counts will survive when Section 1.3 makes the electrons indistinguishable — and which is doomed?</p></li>
+</ol>
+</div>
+</section>
+<section id="practice-until-it-sticks" class="level2">
+<h2 class="anchored" data-anchor-id="practice-until-it-sticks">Practice until it sticks</h2>
+<div data-skill="sets">
+
+</div>
+<script src="../../js/adaptive-engine.js"></script>
+<script src="../../js/skills/sets.js"></script>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
