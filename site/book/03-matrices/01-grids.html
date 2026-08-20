@@ -77,6 +77,49 @@ ul.task-list li input[type="checkbox"] {
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&amp;family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
 
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -394,8 +437,19 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#the-matrix" id="toc-the-matrix" class="nav-link active" data-scroll-target="#the-matrix">The matrix</a></li>
+  <li><a href="#the-product-that-does-the-bookkeeping" id="toc-the-product-that-does-the-bookkeeping" class="nav-link" data-scroll-target="#the-product-that-does-the-bookkeeping">The product that does the bookkeeping</a></li>
+  <li><a href="#the-same-product-wearing-a-lab-coat" id="toc-the-same-product-wearing-a-lab-coat" class="nav-link" data-scroll-target="#the-same-product-wearing-a-lab-coat">The same product, wearing a lab coat</a></li>
+  <li><a href="#remarks-and-cautions" id="toc-remarks-and-cautions" class="nav-link" data-scroll-target="#remarks-and-cautions">Remarks and cautions</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#practice-until-it-sticks" id="toc-practice-until-it-sticks" class="nav-link" data-scroll-target="#practice-until-it-sticks">Practice until it sticks</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -420,11 +474,94 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<div class="stub-note">
-<p>This section is being written. The corresponding material is still available in the <a href="../lectures/all-lectures.html">lecture pages</a>.</p>
+<p>A fermentation broth is being made up, and the recipe calls for 0.5 mol of glucose (C₆H₁₂O₆), 2.0 mol of ethanol (C₂H₆O), and 10.0 mol of water. The safety audit asks a simple question: how many moles of carbon, of hydrogen, of oxygen, in total, are going into the vessel? You could grind it out — carbon from glucose, carbon from ethanol, add; then hydrogen from all three; then oxygen — and you would be executing, by hand and without a name, one of the most consequential operations in applied mathematics. The data has a shape: three compounds, each with a composition over three elements. That is not a list; it is a <em>grid</em> — rows for elements, columns for compounds — and the operation “combine the columns in the recipe’s proportions” is the matrix-vector product, the workhorse of everything from stoichiometry to quantum chemistry. This chapter is about grids that <em>act</em>; this section defines them and teaches them their first action.</p>
+<section id="the-matrix" class="level2">
+<h2 class="anchored" data-anchor-id="the-matrix">The matrix</h2>
+<div class="env definition">
+<p><strong>Definition 3.1.1 (Matrix).</strong> An <span class="math inline">m \times n</span> <strong>matrix</strong> is a rectangular grid of numbers with <span class="math inline">m</span> rows and <span class="math inline">n</span> columns; the entry in row <span class="math inline">i</span>, column <span class="math inline">j</span> is written <span class="math inline">a_{ij}</span> — row index first, always. A vector reappears here as the special case <span class="math inline">n = 1</span>: a single column.</p>
 </div>
+<p>The composition grid of our broth, with rows C, H, O and columns glucose, ethanol, water, is <span class="math display">
+A = \begin{pmatrix} 6 &amp; 2 &amp; 0 \\ 12 &amp; 6 &amp; 2 \\ 6 &amp; 1 &amp; 1 \end{pmatrix},
+</span> and the discipline of the definition — <em>this</em> row means carbon, <em>that</em> column means ethanol — is not pedantry but the entire information content: the same nine numbers with rows and columns swapped describe a different (and here meaningless) chemistry. Matrices add entrywise and scale entrywise, exactly as vectors did in §2.1, and nothing about those operations is new. What is new is that a matrix is about to <em>do</em> something.</p>
+</section>
+<section id="the-product-that-does-the-bookkeeping" class="level2">
+<h2 class="anchored" data-anchor-id="the-product-that-does-the-bookkeeping">The product that does the bookkeeping</h2>
+<p>Return to the audit. The recipe is a column vector <span class="math inline">\mathbf{n} = (0.5,\ 2.0,\ 10.0)</span> mol. Total carbon is “6 per glucose times 0.5, plus 2 per ethanol times 2.0, plus 0 per water times 10.0” — the carbon <em>row</em> of <span class="math inline">A</span>, dotted with the recipe. Total hydrogen: the hydrogen row, dotted with the same recipe. Every element total is one row-times-vector dot product, and the collection of all three is a new vector. That is the definition.</p>
+<div class="env definition">
+<p><strong>Definition 3.1.2 (Matrix–vector product).</strong> For an <span class="math inline">m \times n</span> matrix <span class="math inline">A</span> and an <span class="math inline">n</span>-component vector <span class="math inline">\mathbf{v}</span>, the product <span class="math inline">A\mathbf{v}</span> is the <span class="math inline">m</span>-component vector whose <span class="math inline">i</span>-th entry is the dot product of row <span class="math inline">i</span> with <span class="math inline">\mathbf{v}</span>: <span class="math display">
+(A\mathbf{v})_i = a_{i1} v_1 + a_{i2} v_2 + \cdots + a_{in} v_n .
+</span> The column count of <span class="math inline">A</span> must equal the length of <span class="math inline">\mathbf{v}</span> — the product is undefined otherwise.</p>
+</div>
+<p>There is a second way to read the same arithmetic, and the two readings together are worth a theorem, because each will carry half the chapter.</p>
+<div class="env theorem">
+<p><strong>Theorem 3.1.3 (Row picture = column picture).</strong> <span class="math inline">A\mathbf{v}</span> is simultaneously (i) the stack of dot products of <span class="math inline">A</span>’s rows with <span class="math inline">\mathbf{v}</span>, and (ii) the linear combination of <span class="math inline">A</span>’s <em>columns</em> weighted by <span class="math inline">\mathbf{v}</span>’s entries: <span class="math display">
+A \mathbf{v} = v_1 \, (\text{col}_1 A) + v_2 \, (\text{col}_2 A) + \cdots + v_n \, (\text{col}_n A).
+</span></p>
+</div>
+<div class="env proof">
+<p><span class="proof-title"><em>Proof</em>. </span>Fix an entry position <span class="math inline">i</span> and compare what each reading puts there. Reading (i) puts <span class="math inline">\sum_j a_{ij} v_j</span> there directly, by Definition 3.1.2. In reading (ii), the <span class="math inline">j</span>-th term of the combination is the column vector <span class="math inline">v_j (\text{col}_j A)</span>, whose <span class="math inline">i</span>-th entry is <span class="math inline">v_j a_{ij}</span>; summing the terms entrywise puts <span class="math inline">\sum_j v_j a_{ij}</span> in position <span class="math inline">i</span>. The two sums are the same numbers added in the same way. Since every entry agrees, the vectors are equal.</p>
+</div>
+<p>The column picture is the chemically vivid one for our broth: “0.5 of the glucose column, plus 2.0 of the ethanol column, plus 10.0 of the water column” — each column is a compound’s elemental identity, and the product blends identities in recipe proportions, precisely the linear-combination language of §2.4. The row picture is the computationally vivid one — three independent dot products, each answerable alone. Fluency means switching between the pictures without noticing.</p>
+<div class="env example">
+<p><strong>Example 3.1.4 (The broth audit).</strong> Compute the element totals for the recipe above.</p>
+<p><em>Setting it up.</em> Totals <span class="math inline">= A\mathbf{n}</span>, a <span class="math inline">3 \times 3</span> grid times a 3-vector: dimensions compatible.</p>
+<p><em>Solution.</em> Row by row: <span class="math display">
+\begin{aligned}
+\text{C:} \quad &amp; 6(0.5) + 2(2.0) + 0(10.0) = 3 + 4 + 0 = 7.0 \text{ mol} \\
+\text{H:} \quad &amp; 12(0.5) + 6(2.0) + 2(10.0) = 6 + 12 + 20 = 38.0 \text{ mol} \\
+\text{O:} \quad &amp; 6(0.5) + 1(2.0) + 1(10.0) = 3 + 2 + 10 = 15.0 \text{ mol}
+\end{aligned}
+\qquad
+A\mathbf{n} = \begin{pmatrix} 7.0 \\ 38.0 \\ 15.0 \end{pmatrix} \text{mol}.
+</span></p>
+<p><em>Check.</em> Units: (atoms per molecule) × (mol of molecules) = mol of atoms ✓. Zeros pull their weight: water contributed nothing to carbon, as its 0 in the C row demands ✓. Column-picture audit: summing <span class="math inline">0.5\,(6,12,6) + 2.0\,(2,6,1) + 10.0\,(0,2,1)</span> reproduces <span class="math inline">(7, 38, 15)</span> ✓ — the two readings of Theorem 3.1.3 agreeing numerically is the best arithmetic check this operation offers, since an error rarely survives both bookkeeping orders.</p>
+</div>
+</section>
+<section id="the-same-product-wearing-a-lab-coat" class="level2">
+<h2 class="anchored" data-anchor-id="the-same-product-wearing-a-lab-coat">The same product, wearing a lab coat</h2>
+<p>The broth was a warm-up; here is the version that runs every UV-vis instrument in the building. Beer’s law for a single absorber says absorbance <span class="math inline">= \varepsilon \ell c</span>; in a <em>mixture</em>, absorbances add, so at any wavelength the total is a weighted sum of the concentrations — a dot product. Measuring at several wavelengths stacks several dot products: a matrix-vector product. For two dyes measured at two wavelengths (path length <span class="math inline">\ell = 1</span> cm), <span class="math display">
+\mathbf{A} = E\, \mathbf{c},
+\qquad
+E = \begin{pmatrix} \varepsilon_{1X} &amp; \varepsilon_{1Y} \\ \varepsilon_{2X} &amp; \varepsilon_{2Y} \end{pmatrix},
+</span> where <span class="math inline">\varepsilon_{i M}</span> is species <span class="math inline">M</span>’s molar absorptivity at wavelength <span class="math inline">i</span>. Given concentrations, predicting the spectrum is one product: with <span class="math inline">E = \begin{pmatrix} 15{,}000 &amp; 3{,}000 \\ 2{,}000 &amp; 11{,}000 \end{pmatrix}</span> M⁻¹cm⁻¹ and <span class="math inline">\mathbf{c} = (4.0, 6.0) \times 10^{-5}</span> M, the predicted absorbances are <span class="math inline">A_1 = 15{,}000(4.0\times10^{-5}) + 3{,}000(6.0\times10^{-5}) = 0.78</span> and <span class="math inline">A_2 = 2{,}000(4.0\times10^{-5}) + 11{,}000(6.0\times10^{-5}) = 0.74</span>.</p>
+<p>But notice which direction the laboratory actually needs. The instrument <em>measures</em> <span class="math inline">\mathbf{A}</span>; the chemist <em>wants</em> <span class="math inline">\mathbf{c}</span>. The equation runs forward effortlessly and the lab question runs backward: given <span class="math inline">E\mathbf{c} = \mathbf{A}</span>, undo the product. Undoing requires new machinery — an inverse — and whether an inverse even exists will turn out to hinge on a single number computable from <span class="math inline">E</span>. Both stories are the next two sections, and this dangling question is the reason they exist.</p>
+</section>
+<section id="remarks-and-cautions" class="level2">
+<h2 class="anchored" data-anchor-id="remarks-and-cautions">Remarks and cautions</h2>
+<p><strong>Dimensions are a contract.</strong> An <span class="math inline">m \times n</span> matrix accepts only length-<span class="math inline">n</span> vectors and emits length-<span class="math inline">m</span> ones. Writing a product that violates the contract is not a hard question — it is a non-question, like titrating with a thermometer. Check compatibility <em>before</em> computing, and let the check catch transposition errors early.</p>
+<p><strong>Rows first, always.</strong> <span class="math inline">a_{ij}</span> lives in row <span class="math inline">i</span>, column <span class="math inline">j</span>; a <span class="math inline">3 \times 2</span> matrix is three rows tall, two wide. Half of all beginner matrix errors are silent row/column swaps, and they are vicious precisely because the swapped computation often still <em>runs</em> — producing well-formed nonsense. Label your rows and columns with words (“rows = elements”) the way you label axes on a plot.</p>
+<p><strong>Entries carry units.</strong> The composition matrix’s entries are atoms per molecule; <span class="math inline">E</span>’s are M⁻¹cm⁻¹. A matrix inherits its meaning from its units as surely as any lab quantity, and a product’s units multiply out exactly as in scalar arithmetic — a free correctness check most students discard.</p>
+<p><strong>The matrix is the relationship, not the data dump.</strong> A spreadsheet of unrelated columns is not usefully a matrix; the power of <span class="math inline">A\mathbf{v}</span> came from every column speaking the same language (composition over the same elements). When you set up a matrix, you are asserting that structure — assert it deliberately.</p>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>A matrix is a rectangular grid <span class="math inline">a_{ij}</span> (row, then column) whose first and defining action is the matrix–vector product: by rows, a stack of independent dot products; by columns — provably the same thing — a linear combination of the matrix’s columns weighted by the vector’s entries. One operation therefore unifies stoichiometric audits (composition matrix × recipe = element totals) and multi-component spectroscopy (absorptivity matrix × concentrations = spectrum), with dimensional compatibility as the entrance requirement and unit bookkeeping as the free audit. The product runs forward; chemistry’s most common question — recovering concentrations from measured absorbances — runs backward, and undoing <span class="math inline">E\mathbf{c} = \mathbf{A}</span> is precisely where the algebra of the next section, and the determinant test after it, become unavoidable.</p>
+<div class="exercises">
+<p>Exercises</p>
+<ol type="1">
+<li><p>For <span class="math inline">A = \begin{pmatrix} 2 &amp; -1 \\ 3 &amp; 0 \\ 1 &amp; 4 \end{pmatrix}</span>: state its dimensions, list <span class="math inline">a_{21}</span> and <span class="math inline">a_{12}</span>, and compute <span class="math inline">A\mathbf{v}</span> for <span class="math inline">\mathbf{v} = (5, 2)</span>. Which products among <span class="math inline">A\mathbf{u}</span> for <span class="math inline">\mathbf{u}</span> of length 2, 3 are defined?</p></li>
+<li><p>Build the composition matrix (rows C, H, N, O) for a mixture of urea CO(NH₂)₂, glycine C₂H₅NO₂, and ammonia NH₃, and compute the element totals for 1.5 mol urea + 0.8 mol glycine + 3.0 mol ammonia.</p></li>
+<li><p>Verify Theorem 3.1.3 numerically on Exercise 2: recompute your answer as a weighted sum of the three compound columns and confirm agreement.</p></li>
+<li><p>Using the <span class="math inline">E</span> matrix of the text, predict the absorbances for <span class="math inline">\mathbf{c} = (1.0, 1.0) \times 10^{-5}</span> M, and for double that. What property of the matrix–vector product does the doubling result illustrate?</p></li>
+<li><p>A row vector is a <span class="math inline">1 \times n</span> matrix. Show that the product of a <span class="math inline">1 \times 3</span> row with a <span class="math inline">3 \times 1</span> column, by Definition 3.1.2, is exactly the §2.3 dot product — a <span class="math inline">1 \times 1</span> “matrix.” (This is why dot products and matrix products will never conflict.)</p></li>
+<li><p>Isotope bookkeeping: chlorine is 75.8% ³⁵Cl (mass 34.97) and 24.2% ³⁷Cl (mass 36.97). Express the average atomic mass as a <span class="math inline">1 \times 2</span> matrix times a 2-vector, identify which factor is which, and compute it.</p></li>
+<li><p>★ Prove linearity from Definition 3.1.2: <span class="math inline">A(\mathbf{u} + \mathbf{v}) = A\mathbf{u} + A\mathbf{v}</span> and <span class="math inline">A(c\mathbf{v}) = c(A\mathbf{v})</span>, entry by entry. (These two identities are why matrices — and only operations like them — will deserve the name <em>linear</em> transformations in §3.3.)</p></li>
+<li><p>★ The broth audit ran elements-from-compounds. Set up the <em>reverse</em> audit: given target element totals <span class="math inline">(7, 38, 15)</span> mol, write the system of equations for the compound amounts, and say why solving it is harder than the forward product. (Do not solve it — §3.2 will.)</p></li>
+<li><p>★ A polymer plant blends three monomer feeds, each a mixture of butadiene/styrene/acrylonitrile in known mole fractions (columns): <span class="math inline">\begin{pmatrix} 0.7 &amp; 0.2 &amp; 0.0 \\ 0.3 &amp; 0.5 &amp; 0.1 \\ 0.0 &amp; 0.3 &amp; 0.9 \end{pmatrix}</span>. What vector of feed amounts (mol) yields monomer totals <span class="math inline">(35, 30, 35)</span> mol? Guess-and-check is permitted this once — and notice how unpleasant it is without an inverse.</p></li>
+<li><p>★★ Each column of the composition matrix <span class="math inline">A</span> in the text sums (down the rows) to the compound’s atom count. Show that the “all-ones” row vector <span class="math inline">\mathbf{1}^T = (1, 1, 1)</span> extracts this: <span class="math inline">\mathbf{1}^T A</span> is the row of atom counts, and <span class="math inline">\mathbf{1}^T (A\mathbf{n})</span> is the total atoms in the broth. Verify numerically, and explain why grouping <span class="math inline">(\mathbf{1}^T A)\mathbf{n} = \mathbf{1}^T (A \mathbf{n})</span> had to hold — a first, unannounced sighting of the associativity that §3.2 proves in general.</p></li>
+</ol>
+</div>
+</section>
+<section id="practice-until-it-sticks" class="level2">
+<h2 class="anchored" data-anchor-id="practice-until-it-sticks">Practice until it sticks</h2>
+<div data-skill="matrix-vector">
+
+</div>
+<script src="../../js/adaptive-engine.js"></script>
+<script src="../../js/skills/matrix-vector.js"></script>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

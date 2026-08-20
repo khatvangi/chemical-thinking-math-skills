@@ -2,6 +2,119 @@
 title: "3.1 Grids of Numbers"
 ---
 
-::: {.stub-note}
-This section is being written. The corresponding material is still available in the [lecture pages](/lectures/all-lectures.html).
+A fermentation broth is being made up, and the recipe calls for 0.5 mol of glucose (C₆H₁₂O₆), 2.0 mol of ethanol (C₂H₆O), and 10.0 mol of water. The safety audit asks a simple question: how many moles of carbon, of hydrogen, of oxygen, in total, are going into the vessel? You could grind it out — carbon from glucose, carbon from ethanol, add; then hydrogen from all three; then oxygen — and you would be executing, by hand and without a name, one of the most consequential operations in applied mathematics. The data has a shape: three compounds, each with a composition over three elements. That is not a list; it is a *grid* — rows for elements, columns for compounds — and the operation "combine the columns in the recipe's proportions" is the matrix-vector product, the workhorse of everything from stoichiometry to quantum chemistry. This chapter is about grids that *act*; this section defines them and teaches them their first action.
+
+## The matrix
+
+::: {.env .definition}
+**Definition 3.1.1 (Matrix).** An $m \times n$ **matrix** is a rectangular grid of numbers with $m$ rows and $n$ columns; the entry in row $i$, column $j$ is written $a_{ij}$ — row index first, always. A vector reappears here as the special case $n = 1$: a single column.
 :::
+
+The composition grid of our broth, with rows C, H, O and columns glucose, ethanol, water, is
+$$
+A = \begin{pmatrix} 6 & 2 & 0 \\ 12 & 6 & 2 \\ 6 & 1 & 1 \end{pmatrix},
+$$
+and the discipline of the definition — *this* row means carbon, *that* column means ethanol — is not pedantry but the entire information content: the same nine numbers with rows and columns swapped describe a different (and here meaningless) chemistry. Matrices add entrywise and scale entrywise, exactly as vectors did in §2.1, and nothing about those operations is new. What is new is that a matrix is about to *do* something.
+
+## The product that does the bookkeeping
+
+Return to the audit. The recipe is a column vector $\mathbf{n} = (0.5,\ 2.0,\ 10.0)$ mol. Total carbon is "6 per glucose times 0.5, plus 2 per ethanol times 2.0, plus 0 per water times 10.0" — the carbon *row* of $A$, dotted with the recipe. Total hydrogen: the hydrogen row, dotted with the same recipe. Every element total is one row-times-vector dot product, and the collection of all three is a new vector. That is the definition.
+
+::: {.env .definition}
+**Definition 3.1.2 (Matrix–vector product).** For an $m \times n$ matrix $A$ and an $n$-component vector $\mathbf{v}$, the product $A\mathbf{v}$ is the $m$-component vector whose $i$-th entry is the dot product of row $i$ with $\mathbf{v}$:
+$$
+(A\mathbf{v})_i = a_{i1} v_1 + a_{i2} v_2 + \cdots + a_{in} v_n .
+$$
+The column count of $A$ must equal the length of $\mathbf{v}$ — the product is undefined otherwise.
+:::
+
+There is a second way to read the same arithmetic, and the two readings together are worth a theorem, because each will carry half the chapter.
+
+::: {.env .theorem}
+**Theorem 3.1.3 (Row picture = column picture).** $A\mathbf{v}$ is simultaneously (i) the stack of dot products of $A$'s rows with $\mathbf{v}$, and (ii) the linear combination of $A$'s *columns* weighted by $\mathbf{v}$'s entries:
+$$
+A \mathbf{v} = v_1 \, (\text{col}_1 A) + v_2 \, (\text{col}_2 A) + \cdots + v_n \, (\text{col}_n A).
+$$
+:::
+
+::: {.env .proof}
+Fix an entry position $i$ and compare what each reading puts there. Reading (i) puts $\sum_j a_{ij} v_j$ there directly, by Definition 3.1.2. In reading (ii), the $j$-th term of the combination is the column vector $v_j (\text{col}_j A)$, whose $i$-th entry is $v_j a_{ij}$; summing the terms entrywise puts $\sum_j v_j a_{ij}$ in position $i$. The two sums are the same numbers added in the same way. Since every entry agrees, the vectors are equal.
+:::
+
+The column picture is the chemically vivid one for our broth: "0.5 of the glucose column, plus 2.0 of the ethanol column, plus 10.0 of the water column" — each column is a compound's elemental identity, and the product blends identities in recipe proportions, precisely the linear-combination language of §2.4. The row picture is the computationally vivid one — three independent dot products, each answerable alone. Fluency means switching between the pictures without noticing.
+
+::: {.env .example}
+**Example 3.1.4 (The broth audit).** Compute the element totals for the recipe above.
+
+*Setting it up.* Totals $= A\mathbf{n}$, a $3 \times 3$ grid times a 3-vector: dimensions compatible.
+
+*Solution.* Row by row:
+$$
+\begin{aligned}
+\text{C:} \quad & 6(0.5) + 2(2.0) + 0(10.0) = 3 + 4 + 0 = 7.0 \text{ mol} \\
+\text{H:} \quad & 12(0.5) + 6(2.0) + 2(10.0) = 6 + 12 + 20 = 38.0 \text{ mol} \\
+\text{O:} \quad & 6(0.5) + 1(2.0) + 1(10.0) = 3 + 2 + 10 = 15.0 \text{ mol}
+\end{aligned}
+\qquad
+A\mathbf{n} = \begin{pmatrix} 7.0 \\ 38.0 \\ 15.0 \end{pmatrix} \text{mol}.
+$$
+
+*Check.* Units: (atoms per molecule) × (mol of molecules) = mol of atoms ✓. Zeros pull their weight: water contributed nothing to carbon, as its 0 in the C row demands ✓. Column-picture audit: summing $0.5\,(6,12,6) + 2.0\,(2,6,1) + 10.0\,(0,2,1)$ reproduces $(7, 38, 15)$ ✓ — the two readings of Theorem 3.1.3 agreeing numerically is the best arithmetic check this operation offers, since an error rarely survives both bookkeeping orders.
+:::
+
+## The same product, wearing a lab coat
+
+The broth was a warm-up; here is the version that runs every UV-vis instrument in the building. Beer's law for a single absorber says absorbance $= \varepsilon \ell c$; in a *mixture*, absorbances add, so at any wavelength the total is a weighted sum of the concentrations — a dot product. Measuring at several wavelengths stacks several dot products: a matrix-vector product. For two dyes measured at two wavelengths (path length $\ell = 1$ cm),
+$$
+\mathbf{A} = E\, \mathbf{c},
+\qquad
+E = \begin{pmatrix} \varepsilon_{1X} & \varepsilon_{1Y} \\ \varepsilon_{2X} & \varepsilon_{2Y} \end{pmatrix},
+$$
+where $\varepsilon_{i M}$ is species $M$'s molar absorptivity at wavelength $i$. Given concentrations, predicting the spectrum is one product: with $E = \begin{pmatrix} 15{,}000 & 3{,}000 \\ 2{,}000 & 11{,}000 \end{pmatrix}$ M⁻¹cm⁻¹ and $\mathbf{c} = (4.0, 6.0) \times 10^{-5}$ M, the predicted absorbances are $A_1 = 15{,}000(4.0\times10^{-5}) + 3{,}000(6.0\times10^{-5}) = 0.78$ and $A_2 = 2{,}000(4.0\times10^{-5}) + 11{,}000(6.0\times10^{-5}) = 0.74$.
+
+But notice which direction the laboratory actually needs. The instrument *measures* $\mathbf{A}$; the chemist *wants* $\mathbf{c}$. The equation runs forward effortlessly and the lab question runs backward: given $E\mathbf{c} = \mathbf{A}$, undo the product. Undoing requires new machinery — an inverse — and whether an inverse even exists will turn out to hinge on a single number computable from $E$. Both stories are the next two sections, and this dangling question is the reason they exist.
+
+## Remarks and cautions
+
+**Dimensions are a contract.** An $m \times n$ matrix accepts only length-$n$ vectors and emits length-$m$ ones. Writing a product that violates the contract is not a hard question — it is a non-question, like titrating with a thermometer. Check compatibility *before* computing, and let the check catch transposition errors early.
+
+**Rows first, always.** $a_{ij}$ lives in row $i$, column $j$; a $3 \times 2$ matrix is three rows tall, two wide. Half of all beginner matrix errors are silent row/column swaps, and they are vicious precisely because the swapped computation often still *runs* — producing well-formed nonsense. Label your rows and columns with words ("rows = elements") the way you label axes on a plot.
+
+**Entries carry units.** The composition matrix's entries are atoms per molecule; $E$'s are M⁻¹cm⁻¹. A matrix inherits its meaning from its units as surely as any lab quantity, and a product's units multiply out exactly as in scalar arithmetic — a free correctness check most students discard.
+
+**The matrix is the relationship, not the data dump.** A spreadsheet of unrelated columns is not usefully a matrix; the power of $A\mathbf{v}$ came from every column speaking the same language (composition over the same elements). When you set up a matrix, you are asserting that structure — assert it deliberately.
+
+## Summary
+
+A matrix is a rectangular grid $a_{ij}$ (row, then column) whose first and defining action is the matrix–vector product: by rows, a stack of independent dot products; by columns — provably the same thing — a linear combination of the matrix's columns weighted by the vector's entries. One operation therefore unifies stoichiometric audits (composition matrix × recipe = element totals) and multi-component spectroscopy (absorptivity matrix × concentrations = spectrum), with dimensional compatibility as the entrance requirement and unit bookkeeping as the free audit. The product runs forward; chemistry's most common question — recovering concentrations from measured absorbances — runs backward, and undoing $E\mathbf{c} = \mathbf{A}$ is precisely where the algebra of the next section, and the determinant test after it, become unavoidable.
+
+::: {.exercises}
+Exercises
+
+1. For $A = \begin{pmatrix} 2 & -1 \\ 3 & 0 \\ 1 & 4 \end{pmatrix}$: state its dimensions, list $a_{21}$ and $a_{12}$, and compute $A\mathbf{v}$ for $\mathbf{v} = (5, 2)$. Which products among $A\mathbf{u}$ for $\mathbf{u}$ of length 2, 3 are defined?
+
+2. Build the composition matrix (rows C, H, N, O) for a mixture of urea CO(NH₂)₂, glycine C₂H₅NO₂, and ammonia NH₃, and compute the element totals for 1.5 mol urea + 0.8 mol glycine + 3.0 mol ammonia.
+
+3. Verify Theorem 3.1.3 numerically on Exercise 2: recompute your answer as a weighted sum of the three compound columns and confirm agreement.
+
+4. Using the $E$ matrix of the text, predict the absorbances for $\mathbf{c} = (1.0, 1.0) \times 10^{-5}$ M, and for double that. What property of the matrix–vector product does the doubling result illustrate?
+
+5. A row vector is a $1 \times n$ matrix. Show that the product of a $1 \times 3$ row with a $3 \times 1$ column, by Definition 3.1.2, is exactly the §2.3 dot product — a $1 \times 1$ "matrix." (This is why dot products and matrix products will never conflict.)
+
+6. Isotope bookkeeping: chlorine is 75.8% ³⁵Cl (mass 34.97) and 24.2% ³⁷Cl (mass 36.97). Express the average atomic mass as a $1 \times 2$ matrix times a 2-vector, identify which factor is which, and compute it.
+
+7. ★ Prove linearity from Definition 3.1.2: $A(\mathbf{u} + \mathbf{v}) = A\mathbf{u} + A\mathbf{v}$ and $A(c\mathbf{v}) = c(A\mathbf{v})$, entry by entry. (These two identities are why matrices — and only operations like them — will deserve the name *linear* transformations in §3.3.)
+
+8. ★ The broth audit ran elements-from-compounds. Set up the *reverse* audit: given target element totals $(7, 38, 15)$ mol, write the system of equations for the compound amounts, and say why solving it is harder than the forward product. (Do not solve it — §3.2 will.)
+
+9. ★ A polymer plant blends three monomer feeds, each a mixture of butadiene/styrene/acrylonitrile in known mole fractions (columns): $\begin{pmatrix} 0.7 & 0.2 & 0.0 \\ 0.3 & 0.5 & 0.1 \\ 0.0 & 0.3 & 0.9 \end{pmatrix}$. What vector of feed amounts (mol) yields monomer totals $(35, 30, 35)$ mol? Guess-and-check is permitted this once — and notice how unpleasant it is without an inverse.
+
+10. ★★ Each column of the composition matrix $A$ in the text sums (down the rows) to the compound's atom count. Show that the "all-ones" row vector $\mathbf{1}^T = (1, 1, 1)$ extracts this: $\mathbf{1}^T A$ is the row of atom counts, and $\mathbf{1}^T (A\mathbf{n})$ is the total atoms in the broth. Verify numerically, and explain why grouping $(\mathbf{1}^T A)\mathbf{n} = \mathbf{1}^T (A \mathbf{n})$ had to hold — a first, unannounced sighting of the associativity that §3.2 proves in general.
+:::
+
+## Practice until it sticks
+
+<div data-skill="matrix-vector"></div>
+
+<script src="../../js/adaptive-engine.js"></script>
+<script src="../../js/skills/matrix-vector.js"></script>
