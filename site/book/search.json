@@ -1,0 +1,221 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Chemical Thinking",
+    "section": "",
+    "text": "How to use this book\nThis book teaches the mathematics of chemistry in the order a chemist actually meets it: phenomenon first, pattern second, tool last. A traditional course hands you a tool and asks you to find applications. Here we begin with something a molecule does — a bond that points, a rate that falls, a population that spreads — learn to recognize the pattern in it, and only then develop the mathematics that captures the pattern precisely.\nThe recognition step runs on nine cognitive primitives — Collection, Arrangement, Direction, Proximity, Sameness, Change, Rate, Accumulation, Spread — patterns of perception older than either mathematics or chemistry. Each part of this book develops the tools that one or two primitives summon, always at working depth: precise definitions, honest derivations, worked examples with checks, and exercises that are not decoration.\nEach section is one sitting’s worth of material. Read with a pencil; the derivations are narrated so you can follow every move, but following is not the same as doing. Interactive figures ask you to predict before you test — commit to an answer, then play. Every section closes with an exercise set that ramps from routine computation to chemistry applications to starred problems that will make you think, plus an adaptive practice block that diagnoses how you went wrong, not just whether.\nThis book accompanies CHEM 291 at McNeese State University, but it is written to stand on its own.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Chemical Thinking</span>"
+    ]
+  },
+  {
+    "objectID": "00-seeing/00-seeing.html",
+    "href": "00-seeing/00-seeing.html",
+    "title": "Seeing Like a Chemist",
+    "section": "",
+    "text": "This section is being written. The corresponding material is still available in the lecture pages.",
+    "crumbs": [
+      "Prologue",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Seeing Like a Chemist</span>"
+    ]
+  },
+  {
+    "objectID": "01-numbers/01-kinds.html",
+    "href": "01-numbers/01-kinds.html",
+    "title": "1.1 Kinds of Numbers",
+    "section": "",
+    "text": "This section is being written. The corresponding material is still available in the lecture pages.",
+    "crumbs": [
+      "1 · Numbers and Counting",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>1.1 Kinds of Numbers</span>"
+    ]
+  },
+  {
+    "objectID": "01-numbers/02-sets.html",
+    "href": "01-numbers/02-sets.html",
+    "title": "1.2 Sets and Collections",
+    "section": "",
+    "text": "This section is being written. The corresponding material is still available in the lecture pages.",
+    "crumbs": [
+      "1 · Numbers and Counting",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>1.2 Sets and Collections</span>"
+    ]
+  },
+  {
+    "objectID": "01-numbers/03-counting.html",
+    "href": "01-numbers/03-counting.html",
+    "title": "1.3 Permutations and Combinations",
+    "section": "",
+    "text": "This section is being written. The corresponding material is still available in the lecture pages.",
+    "crumbs": [
+      "1 · Numbers and Counting",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>1.3 Permutations and Combinations</span>"
+    ]
+  },
+  {
+    "objectID": "02-vectors/01-direction.html",
+    "href": "02-vectors/01-direction.html",
+    "title": "2.1 Direction in Space",
+    "section": "",
+    "text": "This section is being written. The corresponding material is still available in the lecture pages.",
+    "crumbs": [
+      "2 · Vectors",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>2.1 Direction in Space</span>"
+    ]
+  },
+  {
+    "objectID": "02-vectors/02-magnitude.html",
+    "href": "02-vectors/02-magnitude.html",
+    "title": "2.2 Magnitude and Components",
+    "section": "",
+    "text": "This section is being written. The corresponding material is still available in the lecture pages.",
+    "crumbs": [
+      "2 · Vectors",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>2.2 Magnitude and Components</span>"
+    ]
+  },
+  {
+    "objectID": "02-vectors/03-dot-product.html",
+    "href": "02-vectors/03-dot-product.html",
+    "title": "2.3 The Dot Product",
+    "section": "",
+    "text": "From coordinates to comparison\nA crystallographer hands you the refined structure of a water molecule. It is not a picture; it is a list of numbers. Placing the oxygen at the origin, the two hydrogens sit at\n\\mathbf{b}_1 = (0.958,\\ 0,\\ 0)\\ \\text{Å}, \\qquad\n\\mathbf{b}_2 = (-0.240,\\ 0.927,\\ 0)\\ \\text{Å}.\nEvery question you might ask about this molecule’s geometry is buried in those six numbers. The one a chemist asks first — because it decides the molecule’s polarity, its hydrogen bonding, and ultimately why ice floats — is the bond angle: what is the angle between the two O–H bonds? The instrument reported positions. Chemistry wants an angle. Nothing in Section 2.2 — magnitudes, components, unit vectors — directly answers it. This section builds the machine that does.\nAn honest first attempt: describe each bond’s direction separately, then compare the descriptions. In the plane this almost works — each vector has a polar angle measured from the x-axis, and the angle between the vectors is the difference of the two. But the water coordinates above only happen to lie in a plane. A general molecule is three-dimensional, and in three dimensions a single angle no longer specifies a direction; you need two (Section 2.1), and “subtracting directions” stops meaning anything. The approach dies exactly where chemistry lives.\nWhat we want instead is a single algebraic operation — something computed directly from components, with no intermediate angles — that takes two vectors and reports how aligned they are. It should not care where the vectors sit in space, only how they point relative to each other. It is not obvious that such an operation exists. It does, and it is almost embarrassingly simple.\nRead the definition again and notice what kind of object it produces. Two vectors go in; a plain number — a scalar — comes out. This already distinguishes the dot product from every operation in Section 2.2, which turned vectors into vectors. Whatever geometric meaning this number carries, it must be a property of the pair of vectors that does not itself point anywhere.\nThree algebraic facts follow immediately from the definition, each by writing out components. The dot product is symmetric, \\mathbf{a} \\cdot \\mathbf{b} = \\mathbf{b} \\cdot \\mathbf{a}, since ordinary multiplication is. It distributes over vector addition, \\mathbf{a} \\cdot (\\mathbf{b} + \\mathbf{c}) = \\mathbf{a} \\cdot \\mathbf{b} + \\mathbf{a} \\cdot \\mathbf{c}, and scalars pull out: (c\\,\\mathbf{a}) \\cdot \\mathbf{b} = c\\,(\\mathbf{a} \\cdot \\mathbf{b}). The third fact is the first hint that this bookkeeping operation knows geometry: dotting a vector with itself gives \n\\mathbf{a} \\cdot \\mathbf{a} = a_1^2 + a_2^2 + a_3^2 = |\\mathbf{a}|^2,\n the squared length from Section 2.2. An operation that recovers length when fed a vector twice is an operation worth interrogating about angles.",
+    "crumbs": [
+      "2 · Vectors",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>2.3 The Dot Product</span>"
+    ]
+  },
+  {
+    "objectID": "02-vectors/03-dot-product.html#from-coordinates-to-comparison",
+    "href": "02-vectors/03-dot-product.html#from-coordinates-to-comparison",
+    "title": "2.3 The Dot Product",
+    "section": "",
+    "text": "Definition 2.3.1 (Dot product). For vectors \\mathbf{a} = (a_1, a_2, a_3) and \\mathbf{b} = (b_1, b_2, b_3) in \\mathbb{R}^3, the dot product is the number \n\\mathbf{a} \\cdot \\mathbf{b} = a_1 b_1 + a_2 b_2 + a_3 b_3,\n and likewise in \\mathbb{R}^2 or \\mathbb{R}^n: multiply matching components, add the results.",
+    "crumbs": [
+      "2 · Vectors",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>2.3 The Dot Product</span>"
+    ]
+  },
+  {
+    "objectID": "02-vectors/03-dot-product.html#what-the-number-means",
+    "href": "02-vectors/03-dot-product.html#what-the-number-means",
+    "title": "2.3 The Dot Product",
+    "section": "What the number means",
+    "text": "What the number means\n\nTheorem 2.3.2 (Geometric form). If \\theta is the angle between nonzero vectors \\mathbf{a} and \\mathbf{b}, placed tail to tail, then \n\\mathbf{a} \\cdot \\mathbf{b} = |\\mathbf{a}|\\,|\\mathbf{b}| \\cos\\theta .\n\n\n\nProof. Place \\mathbf{a} and \\mathbf{b} tail to tail. The vector running from the tip of \\mathbf{b} to the tip of \\mathbf{a} is \\mathbf{a} - \\mathbf{b}, so the three vectors form a triangle with side lengths |\\mathbf{a}|, |\\mathbf{b}|, and |\\mathbf{a} - \\mathbf{b}|, with the angle \\theta between the first two sides. The law of cosines — the Pythagorean theorem’s generalization to non-right triangles — says \n|\\mathbf{a} - \\mathbf{b}|^2 = |\\mathbf{a}|^2 + |\\mathbf{b}|^2 - 2\\,|\\mathbf{a}|\\,|\\mathbf{b}| \\cos\\theta .\n Now compute the same left-hand side algebraically, using |\\mathbf{v}|^2 = \\mathbf{v} \\cdot \\mathbf{v} and the distributive property: \n|\\mathbf{a} - \\mathbf{b}|^2\n= (\\mathbf{a} - \\mathbf{b}) \\cdot (\\mathbf{a} - \\mathbf{b})\n= \\mathbf{a} \\cdot \\mathbf{a} - 2\\, \\mathbf{a} \\cdot \\mathbf{b} + \\mathbf{b} \\cdot \\mathbf{b}\n= |\\mathbf{a}|^2 + |\\mathbf{b}|^2 - 2\\, \\mathbf{a} \\cdot \\mathbf{b}.\n Two expressions for the same quantity must be equal. Cancel |\\mathbf{a}|^2 + |\\mathbf{b}|^2 from both, divide by -2, and the theorem falls out.\n\nPause on what just happened, because it is the whole point of the section. The left route through the law of cosines is pure geometry — triangles and angles, no coordinates anywhere. The right route is pure algebra — components multiplied and added, no angles anywhere. They meet in the middle, and the meeting point is the dot product. This is why the definition, which looked like arbitrary bookkeeping, deserves its central place: it is the algebraic shadow of the angle.\nThe theorem also tells you how to read the number’s sign. Since |\\mathbf{a}| and |\\mathbf{b}| are positive, the sign of \\mathbf{a} \\cdot \\mathbf{b} is the sign of \\cos\\theta: positive means the vectors point broadly the same way (\\theta &lt; 90°), negative means broadly opposite (\\theta &gt; 90°), and zero means exactly perpendicular. That last case earns a name — vectors with \\mathbf{a} \\cdot \\mathbf{b} = 0 are orthogonal — and a special role throughout the rest of this book: perpendicularity, a visual notion, has become a one-line computation.\n\n\nSet the movable vector to \\theta = 90° and predict the dot product before you look. Then predict: as you swing past 90°, what happens to the sign — and does the magnitude of the dot product care whether you approach 0° or 180°?\n\n\n\nangle θ  |v| \n\n\n\n\n\n\n\n\nThe shadow that v casts on w is the geometric content of the dot product: \\mathbf{v}\\cdot\\mathbf{w} = |\\mathbf{w}| \\times (\\text{signed shadow length}). At 90° the shadow collapses to a point and the product to zero; past 90° the shadow points backward along w and the product goes negative, with the same magnitude at 180° - \\theta as at \\theta.",
+    "crumbs": [
+      "2 · Vectors",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>2.3 The Dot Product</span>"
+    ]
+  },
+  {
+    "objectID": "02-vectors/03-dot-product.html#the-angle-formula",
+    "href": "02-vectors/03-dot-product.html#the-angle-formula",
+    "title": "2.3 The Dot Product",
+    "section": "The angle formula",
+    "text": "The angle formula\nSolving the geometric form for the angle gives the formula this section promised the crystallographer: \n\\cos\\theta = \\frac{\\mathbf{a} \\cdot \\mathbf{b}}{|\\mathbf{a}|\\,|\\mathbf{b}|},\n\\qquad\n\\theta = \\arccos\\!\\left( \\frac{\\mathbf{a} \\cdot \\mathbf{b}}{|\\mathbf{a}|\\,|\\mathbf{b}|} \\right).\n\nBefore trusting this formula, a careful reader should raise an objection. The arccosine only accepts inputs between -1 and 1; feed it 1.3 and it has nothing to say. The formula is only legitimate if the fraction \\mathbf{a} \\cdot \\mathbf{b} / (|\\mathbf{a}||\\mathbf{b}|) can never escape that window, for any pair of vectors whatsoever. That guarantee is a genuine theorem, and its proof is a small classic — no triangles, no pictures, just one quadratic.\n\nTheorem 2.3.3 (Cauchy–Schwarz inequality). For all vectors \\mathbf{a}, \\mathbf{b}: \n|\\mathbf{a} \\cdot \\mathbf{b}| \\;\\le\\; |\\mathbf{a}|\\,|\\mathbf{b}|,\n with equality exactly when one vector is a scalar multiple of the other.\n\n\nProof. If \\mathbf{b} = \\mathbf{0} both sides are zero. Otherwise, consider the function \nq(t) = |\\mathbf{a} + t\\,\\mathbf{b}|^2 ,\n where t ranges over all real numbers. As a squared length, q(t) \\ge 0 for every t — this single observation powers the whole proof. Expanding with the distributive property, \nq(t) = \\mathbf{a}\\cdot\\mathbf{a} + 2t\\,(\\mathbf{a} \\cdot \\mathbf{b}) + t^2\\,(\\mathbf{b} \\cdot \\mathbf{b})\n     = |\\mathbf{b}|^2 t^2 + 2 (\\mathbf{a} \\cdot \\mathbf{b})\\, t + |\\mathbf{a}|^2 ,\n an upward-opening parabola in t. A parabola that never dips below the axis has at most one root, so its discriminant cannot be positive: \n4 (\\mathbf{a} \\cdot \\mathbf{b})^2 - 4\\, |\\mathbf{b}|^2 |\\mathbf{a}|^2 \\le 0\n\\quad\\Longrightarrow\\quad\n(\\mathbf{a} \\cdot \\mathbf{b})^2 \\le |\\mathbf{a}|^2 |\\mathbf{b}|^2 .\n Taking square roots gives the inequality. Equality forces the discriminant to zero, so q(t^\\*) = 0 for some t^\\* — meaning \\mathbf{a} + t^\\*\\mathbf{b} has length zero, i.e. \\mathbf{a} = -t^\\* \\mathbf{b}: the vectors are parallel.\n\nSo the fraction in the angle formula is trapped in [-1, 1] by mathematical law, the arccosine is always defined, and the endpoints carry meaning: the fraction reaches +1 or -1 only for perfectly parallel or antiparallel vectors. The formula is not merely a recipe; it comes with a certificate that it can never fail.\n\nExample 2.3.4 (The bond angle of water). Find the H–O–H angle from the crystallographer’s coordinates: \\mathbf{b}_1 = (0.958, 0, 0) Å and \\mathbf{b}_2 = (-0.240, 0.927, 0) Å.\nSetting it up. Both vectors already run from the oxygen to a hydrogen — they are bond vectors with a common tail, which is exactly what the tail-to-tail angle \\theta in Theorem 2.3.2 requires. We need three numbers: the dot product and the two magnitudes.\nSolution. The dot product: \n\\mathbf{b}_1 \\cdot \\mathbf{b}_2 = (0.958)(-0.240) + (0)(0.927) + 0 = -0.2299\\ \\text{Å}^2 .\n The magnitudes: |\\mathbf{b}_1| = 0.958 Å, and \n|\\mathbf{b}_2| = \\sqrt{(-0.240)^2 + (0.927)^2} = \\sqrt{0.9169} = 0.9576\\ \\text{Å}.\n Then \n\\cos\\theta = \\frac{-0.2299}{(0.958)(0.9576)} = -0.2506,\n\\qquad\n\\theta = \\arccos(-0.2506) = 104.5° .\n\nCheck. Units first: Å^2 over Å·Å is dimensionless, as a cosine must be. The sign is negative, so the angle must be obtuse — and 104.5° is. The magnitudes agree with chemistry: both O–H bonds should have essentially equal lengths (0.958 vs 0.958 Å — the second bond’s components were chosen by the crystallographer to the same length within rounding), and the experimental bond angle of water is 104.5°. A limiting-case sanity check: had the hydrogens been at right angles, the dot product would have been 0; our -0.23 is a modest negative fraction of |\\mathbf{b}_1||\\mathbf{b}_2| \\approx 0.92, consistent with an angle a bit past 90°, not near 180°.",
+    "crumbs": [
+      "2 · Vectors",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>2.3 The Dot Product</span>"
+    ]
+  },
+  {
+    "objectID": "02-vectors/03-dot-product.html#projection-how-much-of-one-vector-lies-along-another",
+    "href": "02-vectors/03-dot-product.html#projection-how-much-of-one-vector-lies-along-another",
+    "title": "2.3 The Dot Product",
+    "section": "Projection: how much of one vector lies along another",
+    "text": "Projection: how much of one vector lies along another\nThe angle is only half of what the dot product gives away. The other half answers a different chemical question: how much of a vector acts along a chosen direction? A dipole moment in an electric field only interacts through its component along the field. A force pulling at a slant only does work through its component along the motion. Both questions have the same shape — resolve \\mathbf{v} along \\mathbf{w} — and the dot product answers both at once.\nLet \\hat{\\mathbf{w}} = \\mathbf{w}/|\\mathbf{w}| be the unit vector along \\mathbf{w}. The scalar projection of \\mathbf{v} on \\mathbf{w} is \n\\operatorname{comp}_{\\mathbf{w}} \\mathbf{v} = \\mathbf{v} \\cdot \\hat{\\mathbf{w}} = |\\mathbf{v}| \\cos\\theta ,\n the signed length of the shadow \\mathbf{v} casts on the line of \\mathbf{w} — you watched exactly this quantity in the interactive figure above. Multiplying the shadow’s length by the direction it lies along gives the vector projection, \n\\operatorname{proj}_{\\mathbf{w}} \\mathbf{v} = (\\mathbf{v} \\cdot \\hat{\\mathbf{w}})\\, \\hat{\\mathbf{w}} ,\n and subtracting that from \\mathbf{v} leaves the part of \\mathbf{v} perpendicular to \\mathbf{w}. Every vector thus splits cleanly into a piece along \\mathbf{w} and a piece orthogonal to it: \n\\mathbf{v} = \\underbrace{\\operatorname{proj}_{\\mathbf{w}} \\mathbf{v}}_{\\parallel \\,\\mathbf{w}} \\;+\\; \\underbrace{\\left(\\mathbf{v} - \\operatorname{proj}_{\\mathbf{w}} \\mathbf{v}\\right)}_{\\perp\\, \\mathbf{w}} .\n This orthogonal decomposition looks like a modest bit of geometry now; it will become the engine behind coordinates in a new basis (Section 2.4) and, much later, behind why quantum states can be resolved into orbitals at all.\n\nExample 2.3.5 (Work done by a slanted force). An AFM tip drags a molecule across a surface. The tip exerts a constant force \\mathbf{F} = (2.0,\\ 0,\\ 1.0) nN while the molecule moves through displacement \\mathbf{d} = (3.0,\\ 0,\\ 0) nm. How much work is done?\nSetting it up. Work is force times distance only when they point the same way; the honest definition is W = \\mathbf{F} \\cdot \\mathbf{d} — precisely the “effective component along the motion, times the distance” that projection describes.\nSolution. \nW = \\mathbf{F} \\cdot \\mathbf{d} = (2.0)(3.0) + 0 + (1.0)(0) = 6.0\\ \\text{nN·nm}\n= 6.0 \\times 10^{-18}\\ \\text{J} = 6.0\\ \\text{aJ}.\n\nCheck. Units: 10^{-9}\\,\\text{N} \\times 10^{-9}\\,\\text{m} = 10^{-18} J, so nN·nm is attojoules. Magnitude: with k_BT \\approx 4.1 \\times 10^{-21} J at room temperature, 6.0 aJ is roughly 1500\\,k_BT — far above thermal noise, as a deliberate AFM manipulation must be, yet ten orders of magnitude below anything macroscopic. Limiting cases: the vertical 1.0 nN component contributed nothing, exactly as it should — force perpendicular to motion does no work; and had the tip pulled straight along the motion with the same total force |\\mathbf{F}| = \\sqrt{5} nN, the work would have been \\sqrt{5} \\times 3 \\approx 6.7 aJ, a little more than our 6.0. The slanted pull wastes some of the force, and the numbers agree.\n\n\n\nBefore selecting methane: its H–C–H angle — larger or smaller than water’s 104.5°? Commit, then check. Then try CO₂ and predict the dot product’s value relative to -|\\mathbf{b}_1||\\mathbf{b}_2|.\n\n\n\nmolecule  H₂O — water NH₃ — ammonia CH₄ — methane CO₂ — carbon dioxide BF₃ — boron trifluoride  \n\n\n\n\n\n\n\n\nMethane opens to 109.47° — the tetrahedral angle, \\arccos(-1/3), forced by pure geometry when four bonds repel equally (Exercises 8 and 10 derive it). CO₂ hits the floor of Cauchy–Schwarz: antiparallel bonds, \\cos\\theta = -1, \\theta = 180°. Every entry in this widget is one arccosine away from the coordinates — there is no other geometric input.",
+    "crumbs": [
+      "2 · Vectors",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>2.3 The Dot Product</span>"
+    ]
+  },
+  {
+    "objectID": "02-vectors/03-dot-product.html#remarks-and-cautions",
+    "href": "02-vectors/03-dot-product.html#remarks-and-cautions",
+    "title": "2.3 The Dot Product",
+    "section": "Remarks and cautions",
+    "text": "Remarks and cautions\nThe dot product of two vectors is a scalar. On exams, answers of the form “\\mathbf{a} \\cdot \\mathbf{b} = (2, -4, -6)” — multiplying componentwise and stopping — are the single most common dot-product error. The components are multiplied and then added; if your dot product has components, it is not a dot product.\nThe angle formula requires bond vectors, not atomic positions. The vectors must run tail-to-tail from the vertex of the angle — for a bond angle, from the central atom outward. If the central atom is not at the origin, you must subtract: \\mathbf{b}_1 = \\mathbf{r}_{\\mathrm{H}_1} - \\mathbf{r}_{\\mathrm{O}}, not \\mathbf{r}_{\\mathrm{H}_1} itself. Dotting raw position vectors measures the angle subtended at the origin of the coordinate system, a physically meaningless quantity that changes when the crystallographer re-centers the axes. Our water example worked with positions only because the oxygen sat at the origin, making positions and bond vectors coincide.\nMind your calculator’s angle mode. \\arccos(-0.2506) is 104.5 in degrees and 1.824 in radians; both will happily appear on the display, and only one is the bond angle of water. When a computed “bond angle” of 1.9 appears in your work, recognize it as radians rather than reporting a molecule folded to two degrees.\nIn numerical work, clamp before arccos. Floating-point rounding can return \\cos\\theta = 1.0000000002 for nearly parallel vectors, and arccos of that is an error, not an angle. Cauchy–Schwarz guarantees the exact value is legal; it does not guarantee your computer’s rounded value is. Production code clamps the fraction to [-1, 1] first — the widgets on this page do exactly that.\nFinally, the angle between vectors is undefined if either is the zero vector — the formula divides by its magnitude, and geometrically a vector of zero length points nowhere. This is not pedantry: it is the algebra reminding you that direction is a property only nonzero displacements possess (Section 2.1).",
+    "crumbs": [
+      "2 · Vectors",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>2.3 The Dot Product</span>"
+    ]
+  },
+  {
+    "objectID": "02-vectors/03-dot-product.html#summary",
+    "href": "02-vectors/03-dot-product.html#summary",
+    "title": "2.3 The Dot Product",
+    "section": "Summary",
+    "text": "Summary\nThe dot product \\mathbf{a} \\cdot \\mathbf{b} = \\sum_i a_i b_i compresses the geometric relationship between two directions into a single scalar, and Theorem 2.3.2 — proved by computing one squared length two ways — reveals that scalar to be |\\mathbf{a}||\\mathbf{b}|\\cos\\theta. Its sign classifies the angle as acute, right, or obtuse; its vanishing defines orthogonality; and inverting it through the arccosine, legitimized by the Cauchy–Schwarz inequality, turns tables of atomic coordinates into bond angles, which is how every molecular geometry you have ever been shown was actually measured. Dotting against a unit vector resolves any vector into a component along a chosen direction plus an orthogonal remainder — the operation behind work integrals, dipole–field energies, and, in the next section, the very idea of coordinates in a basis.\n\nExercises\n\nCompute \\mathbf{a} \\cdot \\mathbf{b} and \\mathbf{a} \\cdot \\mathbf{a} for \\mathbf{a} = (2, -1, 3), \\mathbf{b} = (1, 4, -2). Is the angle between them acute, right, or obtuse?\nFind the angle between (1, 0) and (1, 1), and the angle between (1, 2, 2) and (2, 1, -2).\nOne of the pairs \\{(3,-2,1), (2,3,0)\\} and \\{(1,1,1), (1,1,-2)\\} is orthogonal. Decide which by computation, and explain how you know without computing any magnitudes.\nA CO₂ molecule has bond vectors (1.16, 0, 0) and (-1.16, 0, 0) Å. Show that the angle formula yields exactly 180°, and explain what the value of \\cos\\theta here has to do with the equality case of Cauchy–Schwarz.\nIn ammonia, two N–H bond vectors are (0.940, 0, -0.380) and (-0.470, 0.814, -0.380) Å. Compute the H–N–H bond angle, and check your answer against the experimental value of 106.8°.\nA force \\mathbf{F} = (4, 3) N acts on a particle moving through \\mathbf{d} = (2, 0) m. Compute the work. The 3 N component contributed nothing — state in one sentence the geometric reason.\nA molecular dipole \\boldsymbol{\\mu} = (0.9, 1.2) D sits in an apparatus whose field points along (1, 0). Find the scalar projection of \\boldsymbol{\\mu} on the field direction, the magnitude |\\boldsymbol{\\mu}|, and the angle between dipole and field.\n★ Model methane by placing carbon at the origin and hydrogens toward alternating cube vertices: (1,1,1), (1,-1,-1), (-1,1,-1), (-1,-1,1). Show every pair of bond vectors meets at \\arccos(-1/3) = 109.47° — the tetrahedral angle.\n★ For unit vectors \\hat{\\mathbf{u}}, \\hat{\\mathbf{v}} at angle \\theta, show |\\hat{\\mathbf{u}} - \\hat{\\mathbf{v}}|^2 = 2(1 - \\cos\\theta), using only |\\mathbf{w}|^2 = \\mathbf{w}\\cdot\\mathbf{w} and the algebraic properties of the dot product. Then find the distance between the tips of two unit bond vectors at the tetrahedral angle.\n★★ By symmetry, the four C–H unit vectors of methane sum to the zero vector: \\hat{\\mathbf{v}}_1 + \\hat{\\mathbf{v}}_2 + \\hat{\\mathbf{v}}_3 + \\hat{\\mathbf{v}}_4 = \\mathbf{0}, and every pair meets at the same angle \\theta. Dot this equation with itself, and deduce — with no coordinates at all — that \\cos\\theta must equal -1/3. (This is why the tetrahedral angle is 109.47° in methane, ammonium, and every perfect tetrahedron in the universe: it is not chemistry, it is arithmetic.)",
+    "crumbs": [
+      "2 · Vectors",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>2.3 The Dot Product</span>"
+    ]
+  },
+  {
+    "objectID": "02-vectors/03-dot-product.html#practice-until-it-sticks",
+    "href": "02-vectors/03-dot-product.html#practice-until-it-sticks",
+    "title": "2.3 The Dot Product",
+    "section": "Practice until it sticks",
+    "text": "Practice until it sticks\nThe block below generates fresh problems, diagnoses which mistake you made when you miss, and climbs through three tiers as you demonstrate mastery. Clean solves — no hints — at every tier retire the skill.",
+    "crumbs": [
+      "2 · Vectors",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>2.3 The Dot Product</span>"
+    ]
+  },
+  {
+    "objectID": "02-vectors/04-basis.html",
+    "href": "02-vectors/04-basis.html",
+    "title": "2.4 Basis and Coordinates",
+    "section": "",
+    "text": "This section is being written. The corresponding material is still available in the lecture pages.",
+    "crumbs": [
+      "2 · Vectors",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>2.4 Basis and Coordinates</span>"
+    ]
+  },
+  {
+    "objectID": "03-matrices/01-grids.html",
+    "href": "03-matrices/01-grids.html",
+    "title": "3.1 Grids of Numbers",
+    "section": "",
+    "text": "This section is being written. The corresponding material is still available in the lecture pages.",
+    "crumbs": [
+      "3 · Matrices and Transformations",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>3.1 Grids of Numbers</span>"
+    ]
+  },
+  {
+    "objectID": "03-matrices/02-algebra.html",
+    "href": "03-matrices/02-algebra.html",
+    "title": "3.2 Matrix Algebra",
+    "section": "",
+    "text": "This section is being written. The corresponding material is still available in the lecture pages.",
+    "crumbs": [
+      "3 · Matrices and Transformations",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>3.2 Matrix Algebra</span>"
+    ]
+  },
+  {
+    "objectID": "03-matrices/03-transformations.html",
+    "href": "03-matrices/03-transformations.html",
+    "title": "3.3 Linear Transformations",
+    "section": "",
+    "text": "This section is being written. The corresponding material is still available in the lecture pages.",
+    "crumbs": [
+      "3 · Matrices and Transformations",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>3.3 Linear Transformations</span>"
+    ]
+  },
+  {
+    "objectID": "03-matrices/04-determinants.html",
+    "href": "03-matrices/04-determinants.html",
+    "title": "3.4 Determinants and What They Mean",
+    "section": "",
+    "text": "This section is being written. The corresponding material is still available in the lecture pages.",
+    "crumbs": [
+      "3 · Matrices and Transformations",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>3.4 Determinants and What They Mean</span>"
+    ]
+  }
+]

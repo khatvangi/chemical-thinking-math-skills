@@ -1,0 +1,240 @@
+/*-- scss:defaults --*/
+
+// chemical thinking textbook — light (print-serious, warm paper)
+
+$paper:        #faf8f3;
+$paper-raised: #f3efe6;
+$ink:          #211d17;
+$ink-soft:     #5a5348;
+$rule:         #ddd6c8;
+
+$teal:    #0e6862;   // definitions, links — course identity
+$oxblood: #8a3524;   // theorems
+$slate:   #44586b;   // examples
+$gold:    #97772a;   // remarks
+$moss:    #556b2f;   // checks
+
+$body-bg: $paper;
+$body-color: $ink;
+$link-color: $teal;
+$font-family-sans-serif: "STIX Two Text", "Georgia", serif;
+$font-family-monospace: "JetBrains Mono", monospace;
+$font-size-root: 19px;
+$headings-font-family: "Fraunces", "Georgia", serif;
+$headings-font-weight: 550;
+$headings-color: $ink;
+
+$sidebar-bg: $paper;
+$sidebar-fg: $ink-soft;
+$navbar-bg: $paper;
+$code-block-bg: $paper-raised;
+$code-bg: $paper-raised;
+$code-color: darken($teal, 4%);
+
+$toc-active-border: $teal;
+$btn-border-radius: 3px;
+
+/*-- scss:rules --*/
+
+// ---------- page & prose ----------
+
+body {
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+}
+
+#quarto-content main.content {
+  max-width: 46rem;   // ~65ch at 19px STIX
+}
+
+p, li {
+  line-height: 1.72;
+  hyphens: auto;
+}
+
+h1, h2, h3 {
+  letter-spacing: -0.012em;
+}
+
+h1.title, .quarto-title-block h1 {
+  font-weight: 400;
+  font-size: 2.3rem;
+  border-bottom: 2px solid $ink;
+  padding-bottom: 0.55rem;
+  margin-bottom: 1.6rem;
+}
+
+h2 {
+  font-size: 1.42rem;
+  margin-top: 2.6rem;
+  border-bottom: none !important;
+}
+
+a {
+  text-decoration-color: rgba($teal, 0.35);
+  text-underline-offset: 3px;
+  &:hover { text-decoration-color: $teal; }
+}
+
+// ---------- sidebar: the ILA feel ----------
+
+#quarto-sidebar {
+  border-right: 1px solid $rule;
+  .sidebar-title {
+    font-family: "Fraunces", serif;
+    font-weight: 600;
+    font-size: 1.12rem;
+    color: $ink;
+  }
+  .sidebar-item-section > .sidebar-item-container > a.sidebar-item-text,
+  .sidebar-item-section .menu-text {
+    font-family: "Fraunces", serif;
+    font-variant-caps: all-small-caps;
+    letter-spacing: 0.06em;
+    font-size: 0.95rem;
+    color: $ink-soft;
+  }
+  .sidebar-item .sidebar-item-container a {
+    font-size: 0.86rem;
+    padding-top: 0.22rem;
+    padding-bottom: 0.22rem;
+  }
+  .sidebar-item-container a.active {
+    color: $teal;
+    font-weight: 600;
+  }
+}
+
+// part headers in sidebar
+.sidebar-item-section > .sidebar-item-container {
+  margin-top: 0.9rem;
+}
+
+// ---------- numbered environments ----------
+// authored as  ::: {.env .definition} ... :::  with a bold manual label.
+
+.env {
+  margin: 1.7rem 0;
+  padding: 0.9rem 1.2rem 0.9rem 1.35rem;
+  background: rgba($paper-raised, 0.55);
+  border-left: 3px solid $ink-soft;
+  position: relative;
+
+  > p:first-child { margin-top: 0; }
+  > p:last-child { margin-bottom: 0; }
+
+  &::before {
+    display: block;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.66rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 0.35rem;
+    color: $ink-soft;
+  }
+}
+
+.env.definition { border-left-color: $teal;    &::before { content: "Definition"; color: $teal; } }
+.env.theorem    { border-left-color: $oxblood; &::before { content: "Theorem";    color: $oxblood; } }
+// quarto injects its own italic "Proof." prefix for .proof divs — no label needed
+.env.proof      { border-left-color: $rule; background: transparent; font-size: 0.94em;
+                  &::before { content: none; } }
+.env.example    { border-left-color: $slate;   &::before { content: "Worked Example"; color: $slate; } }
+.env.remark     { border-left-color: $gold;    &::before { content: "Remark"; color: $gold; } }
+.env.check      { border-left-color: $moss; background: rgba($moss, 0.05);
+                  &::before { content: "Check"; color: $moss; } }
+
+.env.proof p:last-child::after {
+  content: " ∎";
+  color: $ink-soft;
+}
+
+// ---------- widget framing ----------
+
+.widget-frame {
+  margin: 2rem 0;
+  border: 1px solid $rule;
+  border-radius: 4px;
+  background: $paper-raised;
+  overflow: hidden;
+
+  .widget-predict {
+    padding: 0.7rem 1.2rem;
+    font-size: 0.92rem;
+    border-bottom: 1px dashed $rule;
+    &::before {
+      content: "Predict first · ";
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.66rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: $oxblood;
+    }
+  }
+  .widget-body { padding: 1rem 1.2rem; }
+  .widget-body canvas { max-width: 100%; display: block; margin: 0 auto; }
+  .widget-debrief {
+    padding: 0.7rem 1.2rem;
+    font-size: 0.92rem;
+    border-top: 1px dashed $rule;
+    color: $ink-soft;
+  }
+  label { font-size: 0.85rem; color: $ink-soft; }
+  select, input[type=range] { accent-color: $teal; }
+  .widget-readout {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.8rem;
+    line-height: 1.9;
+  }
+}
+
+// ---------- exercises ----------
+
+.exercises {
+  margin-top: 2.5rem;
+  border-top: 2px solid $ink;
+  padding-top: 0.8rem;
+
+  > p:first-child {
+    font-family: "Fraunces", serif;
+    font-variant-caps: all-small-caps;
+    letter-spacing: 0.08em;
+    font-size: 1.05rem;
+  }
+  ol > li { margin-bottom: 0.85rem; }
+  .starred::after { content: none; }
+}
+
+// adaptive practice block inherits its own styles from the engine; give it room
+// the engine reads these variables (falls back to dark palette without them)
+[data-skill] {
+  margin: 2rem 0;
+  --bg-primary: #{$paper};
+  --bg-secondary: #{$paper-raised};
+  --bg-tertiary: #{darken($paper-raised, 6%)};
+  --text-primary: #{$ink};
+  --text-secondary: #{$ink-soft};
+  --text-muted: #{lighten($ink-soft, 18%)};
+  --accent-blue: #{$teal};
+  --accent-green: #{$moss};
+  --accent-orange: #{$gold};
+  --accent-red: #{$oxblood};
+}
+
+// ---------- misc ----------
+
+.katex { font-size: 1.04em; }
+
+blockquote {
+  border-left: 2px solid $rule;
+  color: $ink-soft;
+  font-style: italic;
+}
+
+// stub pages
+.stub-note {
+  color: $ink-soft;
+  font-style: italic;
+  border: 1px dashed $rule;
+  padding: 0.8rem 1.1rem;
+}

@@ -1,0 +1,7 @@
+---
+title: "3.1 Grids of Numbers"
+---
+
+::: {.stub-note}
+This section is being written. The corresponding material is still available in the [lecture pages](/lectures/all-lectures.html).
+:::

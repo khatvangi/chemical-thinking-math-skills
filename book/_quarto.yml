@@ -1,0 +1,78 @@
+project:
+  type: book
+  output-dir: ../site/book
+  resources:
+    - js
+
+book:
+  title: "Chemical Thinking"
+  subtitle: "The Mathematics of Chemical Reality"
+  author: "Kiran Boggavarapu"
+  search: true
+  repo-url: https://github.com/khatvangi/chemical-thinking-math-skills
+  sidebar:
+    style: docked
+    collapse-level: 2
+  page-navigation: true
+  chapters:
+    - index.qmd
+    - part: "Prologue"
+      chapters:
+        - 00-seeing/00-seeing.qmd
+    - part: "1 · Numbers and Counting"
+      chapters:
+        - 01-numbers/01-kinds.qmd
+        - 01-numbers/02-sets.qmd
+        - 01-numbers/03-counting.qmd
+    - part: "2 · Vectors"
+      chapters:
+        - 02-vectors/01-direction.qmd
+        - 02-vectors/02-magnitude.qmd
+        - 02-vectors/03-dot-product.qmd
+        - 02-vectors/04-basis.qmd
+    - part: "3 · Matrices and Transformations"
+      chapters:
+        - 03-matrices/01-grids.qmd
+        - 03-matrices/02-algebra.qmd
+        - 03-matrices/03-transformations.qmd
+        - 03-matrices/04-determinants.qmd
+
+format:
+  html:
+    theme:
+      light: [cosmo, theme/textbook.scss]
+      dark: [cosmo, theme/textbook-dark.scss]
+    html-math-method: katex
+    number-sections: false
+    toc: true
+    toc-depth: 3
+    toc-title: "On this page"
+    link-external-newwindow: true
+    include-in-header:
+      text: |
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    include-after-body:
+      text: |
+        <script>
+        // quarto loads katex.min.js but not auto-render; the adaptive engine
+        // needs window.renderMathInElement for dynamically inserted problems.
+        // load it once katex exists, then re-render already-mounted widgets.
+        (function () {
+          function loadAutoRender() {
+            if (!window.katex) return setTimeout(loadAutoRender, 120);
+            var s = document.createElement("script");
+            s.src = "https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/auto-render.min.js";
+            s.onload = function () {
+              document.querySelectorAll("[data-skill]").forEach(function (el) {
+                window.renderMathInElement(el, { delimiters: [
+                  { left: "$$", right: "$$", display: true },
+                  { left: "$", right: "$", display: false } ] });
+              });
+            };
+            document.head.appendChild(s);
+          }
+          loadAutoRender();
+        })();
+        </script>

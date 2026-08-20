@@ -1,0 +1,249 @@
+---
+title: "2.3 The Dot Product"
+---
+
+A crystallographer hands you the refined structure of a water molecule. It is not a picture; it is a list of numbers. Placing the oxygen at the origin, the two hydrogens sit at
+
+$$
+\mathbf{b}_1 = (0.958,\ 0,\ 0)\ \text{Å}, \qquad
+\mathbf{b}_2 = (-0.240,\ 0.927,\ 0)\ \text{Å}.
+$$
+
+Every question you might ask about this molecule's geometry is buried in those six numbers. The one a chemist asks first — because it decides the molecule's polarity, its hydrogen bonding, and ultimately why ice floats — is the *bond angle*: what is the angle between the two O–H bonds? The instrument reported positions. Chemistry wants an angle. Nothing in Section [2.2](02-magnitude.qmd) — magnitudes, components, unit vectors — directly answers it. This section builds the machine that does.
+
+## From coordinates to comparison
+
+An honest first attempt: describe each bond's direction separately, then compare the descriptions. In the plane this almost works — each vector has a polar angle measured from the $x$-axis, and the angle between the vectors is the difference of the two. But the water coordinates above only *happen* to lie in a plane. A general molecule is three-dimensional, and in three dimensions a single angle no longer specifies a direction; you need two (Section [2.1](01-direction.qmd)), and "subtracting directions" stops meaning anything. The approach dies exactly where chemistry lives.
+
+What we want instead is a single algebraic operation — something computed directly from components, with no intermediate angles — that takes two vectors and reports how aligned they are. It should not care where the vectors sit in space, only how they point relative to each other. It is not obvious that such an operation exists. It does, and it is almost embarrassingly simple.
+
+::: {.env .definition}
+**Definition 2.3.1 (Dot product).** For vectors $\mathbf{a} = (a_1, a_2, a_3)$ and $\mathbf{b} = (b_1, b_2, b_3)$ in $\mathbb{R}^3$, the **dot product** is the number
+$$
+\mathbf{a} \cdot \mathbf{b} = a_1 b_1 + a_2 b_2 + a_3 b_3,
+$$
+and likewise in $\mathbb{R}^2$ or $\mathbb{R}^n$: multiply matching components, add the results.
+:::
+
+Read the definition again and notice what kind of object it produces. Two vectors go in; a plain number — a *scalar* — comes out. This already distinguishes the dot product from every operation in Section 2.2, which turned vectors into vectors. Whatever geometric meaning this number carries, it must be a property of the *pair* of vectors that does not itself point anywhere.
+
+Three algebraic facts follow immediately from the definition, each by writing out components. The dot product is symmetric, $\mathbf{a} \cdot \mathbf{b} = \mathbf{b} \cdot \mathbf{a}$, since ordinary multiplication is. It distributes over vector addition, $\mathbf{a} \cdot (\mathbf{b} + \mathbf{c}) = \mathbf{a} \cdot \mathbf{b} + \mathbf{a} \cdot \mathbf{c}$, and scalars pull out: $(c\,\mathbf{a}) \cdot \mathbf{b} = c\,(\mathbf{a} \cdot \mathbf{b})$. The third fact is the first hint that this bookkeeping operation knows geometry: dotting a vector with itself gives
+$$
+\mathbf{a} \cdot \mathbf{a} = a_1^2 + a_2^2 + a_3^2 = |\mathbf{a}|^2,
+$$
+the squared length from Section 2.2. An operation that recovers length when fed a vector twice is an operation worth interrogating about angles.
+
+## What the number means
+
+::: {.env .theorem}
+**Theorem 2.3.2 (Geometric form).** If $\theta$ is the angle between nonzero vectors $\mathbf{a}$ and $\mathbf{b}$, placed tail to tail, then
+$$
+\mathbf{a} \cdot \mathbf{b} = |\mathbf{a}|\,|\mathbf{b}| \cos\theta .
+$$
+:::
+
+::: {.env .proof}
+Place $\mathbf{a}$ and $\mathbf{b}$ tail to tail. The vector running from the tip of $\mathbf{b}$ to the tip of $\mathbf{a}$ is $\mathbf{a} - \mathbf{b}$, so the three vectors form a triangle with side lengths $|\mathbf{a}|$, $|\mathbf{b}|$, and $|\mathbf{a} - \mathbf{b}|$, with the angle $\theta$ between the first two sides. The law of cosines — the Pythagorean theorem's generalization to non-right triangles — says
+$$
+|\mathbf{a} - \mathbf{b}|^2 = |\mathbf{a}|^2 + |\mathbf{b}|^2 - 2\,|\mathbf{a}|\,|\mathbf{b}| \cos\theta .
+$$
+Now compute the same left-hand side *algebraically*, using $|\mathbf{v}|^2 = \mathbf{v} \cdot \mathbf{v}$ and the distributive property:
+$$
+|\mathbf{a} - \mathbf{b}|^2
+= (\mathbf{a} - \mathbf{b}) \cdot (\mathbf{a} - \mathbf{b})
+= \mathbf{a} \cdot \mathbf{a} - 2\, \mathbf{a} \cdot \mathbf{b} + \mathbf{b} \cdot \mathbf{b}
+= |\mathbf{a}|^2 + |\mathbf{b}|^2 - 2\, \mathbf{a} \cdot \mathbf{b}.
+$$
+Two expressions for the same quantity must be equal. Cancel $|\mathbf{a}|^2 + |\mathbf{b}|^2$ from both, divide by $-2$, and the theorem falls out.
+:::
+
+Pause on what just happened, because it is the whole point of the section. The left route through the law of cosines is pure geometry — triangles and angles, no coordinates anywhere. The right route is pure algebra — components multiplied and added, no angles anywhere. They meet in the middle, and the meeting point *is* the dot product. This is why the definition, which looked like arbitrary bookkeeping, deserves its central place: it is the algebraic shadow of the angle.
+
+The theorem also tells you how to read the number's sign. Since $|\mathbf{a}|$ and $|\mathbf{b}|$ are positive, the sign of $\mathbf{a} \cdot \mathbf{b}$ is the sign of $\cos\theta$: positive means the vectors point broadly the same way ($\theta < 90°$), negative means broadly opposite ($\theta > 90°$), and zero means exactly perpendicular. That last case earns a name — vectors with $\mathbf{a} \cdot \mathbf{b} = 0$ are **orthogonal** — and a special role throughout the rest of this book: perpendicularity, a visual notion, has become a one-line computation.
+
+::: {.widget-frame}
+::: {.widget-predict}
+Set the movable vector to $\theta = 90°$ and predict the dot product before you look. Then predict: as you swing past $90°$, what happens to the sign — and does the *magnitude* of the dot product care whether you approach $0°$ or $180°$?
+:::
+::: {.widget-body}
+<div style="display:flex; gap:1.5rem; flex-wrap:wrap; margin-bottom:0.6rem;">
+  <label>angle θ <input type="range" id="dpAngle" min="0" max="180" value="40"></label>
+  <label>|v| <input type="range" id="dpMag" min="40" max="180" value="130"></label>
+</div>
+<canvas id="dpProjCanvas" width="640" height="360"></canvas>
+<div class="widget-readout" id="dpReadout"></div>
+:::
+::: {.widget-debrief}
+The shadow that **v** casts on **w** is the geometric content of the dot product: $\mathbf{v}\cdot\mathbf{w} = |\mathbf{w}| \times (\text{signed shadow length})$. At $90°$ the shadow collapses to a point and the product to zero; past $90°$ the shadow points *backward* along **w** and the product goes negative, with the same magnitude at $180° - \theta$ as at $\theta$.
+:::
+:::
+
+## The angle formula
+
+Solving the geometric form for the angle gives the formula this section promised the crystallographer:
+$$
+\cos\theta = \frac{\mathbf{a} \cdot \mathbf{b}}{|\mathbf{a}|\,|\mathbf{b}|},
+\qquad
+\theta = \arccos\!\left( \frac{\mathbf{a} \cdot \mathbf{b}}{|\mathbf{a}|\,|\mathbf{b}|} \right).
+$$
+
+Before trusting this formula, a careful reader should raise an objection. The arccosine only accepts inputs between $-1$ and $1$; feed it $1.3$ and it has nothing to say. The formula is only legitimate if the fraction $\mathbf{a} \cdot \mathbf{b} / (|\mathbf{a}||\mathbf{b}|)$ can *never* escape that window, for any pair of vectors whatsoever. That guarantee is a genuine theorem, and its proof is a small classic — no triangles, no pictures, just one quadratic.
+
+::: {.env .theorem}
+**Theorem 2.3.3 (Cauchy–Schwarz inequality).** For all vectors $\mathbf{a}$, $\mathbf{b}$:
+$$
+|\mathbf{a} \cdot \mathbf{b}| \;\le\; |\mathbf{a}|\,|\mathbf{b}|,
+$$
+with equality exactly when one vector is a scalar multiple of the other.
+:::
+
+::: {.env .proof}
+If $\mathbf{b} = \mathbf{0}$ both sides are zero. Otherwise, consider the function
+$$
+q(t) = |\mathbf{a} + t\,\mathbf{b}|^2 ,
+$$
+where $t$ ranges over all real numbers. As a squared length, $q(t) \ge 0$ for every $t$ — this single observation powers the whole proof. Expanding with the distributive property,
+$$
+q(t) = \mathbf{a}\cdot\mathbf{a} + 2t\,(\mathbf{a} \cdot \mathbf{b}) + t^2\,(\mathbf{b} \cdot \mathbf{b})
+     = |\mathbf{b}|^2 t^2 + 2 (\mathbf{a} \cdot \mathbf{b})\, t + |\mathbf{a}|^2 ,
+$$
+an upward-opening parabola in $t$. A parabola that never dips below the axis has at most one root, so its discriminant cannot be positive:
+$$
+4 (\mathbf{a} \cdot \mathbf{b})^2 - 4\, |\mathbf{b}|^2 |\mathbf{a}|^2 \le 0
+\quad\Longrightarrow\quad
+(\mathbf{a} \cdot \mathbf{b})^2 \le |\mathbf{a}|^2 |\mathbf{b}|^2 .
+$$
+Taking square roots gives the inequality. Equality forces the discriminant to zero, so $q(t^\*) = 0$ for some $t^\*$ — meaning $\mathbf{a} + t^\*\mathbf{b}$ has length zero, i.e. $\mathbf{a} = -t^\* \mathbf{b}$: the vectors are parallel.
+:::
+
+So the fraction in the angle formula is trapped in $[-1, 1]$ by mathematical law, the arccosine is always defined, and the endpoints carry meaning: the fraction reaches $+1$ or $-1$ only for perfectly parallel or antiparallel vectors. The formula is not merely a recipe; it comes with a certificate that it can never fail.
+
+::: {.env .example}
+**Example 2.3.4 (The bond angle of water).** Find the H–O–H angle from the crystallographer's coordinates: $\mathbf{b}_1 = (0.958, 0, 0)$ Å and $\mathbf{b}_2 = (-0.240, 0.927, 0)$ Å.
+
+*Setting it up.* Both vectors already run *from the oxygen to a hydrogen* — they are bond vectors with a common tail, which is exactly what the tail-to-tail angle $\theta$ in Theorem 2.3.2 requires. We need three numbers: the dot product and the two magnitudes.
+
+*Solution.* The dot product:
+$$
+\mathbf{b}_1 \cdot \mathbf{b}_2 = (0.958)(-0.240) + (0)(0.927) + 0 = -0.2299\ \text{Å}^2 .
+$$
+The magnitudes: $|\mathbf{b}_1| = 0.958$ Å, and
+$$
+|\mathbf{b}_2| = \sqrt{(-0.240)^2 + (0.927)^2} = \sqrt{0.9169} = 0.9576\ \text{Å}.
+$$
+Then
+$$
+\cos\theta = \frac{-0.2299}{(0.958)(0.9576)} = -0.2506,
+\qquad
+\theta = \arccos(-0.2506) = 104.5° .
+$$
+
+*Check.* Units first: Å$^2$ over Å·Å is dimensionless, as a cosine must be. The sign is negative, so the angle must be obtuse — and $104.5°$ is. The magnitudes agree with chemistry: both O–H bonds should have essentially equal lengths ($0.958$ vs $0.958$ Å — the second bond's components were chosen by the crystallographer to the same length within rounding), and the experimental bond angle of water is $104.5°$. A limiting-case sanity check: had the hydrogens been at right angles, the dot product would have been $0$; our $-0.23$ is a modest negative fraction of $|\mathbf{b}_1||\mathbf{b}_2| \approx 0.92$, consistent with an angle a bit past $90°$, not near $180°$.
+:::
+
+## Projection: how much of one vector lies along another
+
+The angle is only half of what the dot product gives away. The other half answers a different chemical question: *how much* of a vector acts along a chosen direction? A dipole moment in an electric field only interacts through its component along the field. A force pulling at a slant only does work through its component along the motion. Both questions have the same shape — resolve $\mathbf{v}$ along $\mathbf{w}$ — and the dot product answers both at once.
+
+Let $\hat{\mathbf{w}} = \mathbf{w}/|\mathbf{w}|$ be the unit vector along $\mathbf{w}$. The **scalar projection** of $\mathbf{v}$ on $\mathbf{w}$ is
+$$
+\operatorname{comp}_{\mathbf{w}} \mathbf{v} = \mathbf{v} \cdot \hat{\mathbf{w}} = |\mathbf{v}| \cos\theta ,
+$$
+the signed length of the shadow $\mathbf{v}$ casts on the line of $\mathbf{w}$ — you watched exactly this quantity in the interactive figure above. Multiplying the shadow's length by the direction it lies along gives the **vector projection**,
+$$
+\operatorname{proj}_{\mathbf{w}} \mathbf{v} = (\mathbf{v} \cdot \hat{\mathbf{w}})\, \hat{\mathbf{w}} ,
+$$
+and subtracting that from $\mathbf{v}$ leaves the part of $\mathbf{v}$ perpendicular to $\mathbf{w}$. Every vector thus splits cleanly into a piece along $\mathbf{w}$ and a piece orthogonal to it:
+$$
+\mathbf{v} = \underbrace{\operatorname{proj}_{\mathbf{w}} \mathbf{v}}_{\parallel \,\mathbf{w}} \;+\; \underbrace{\left(\mathbf{v} - \operatorname{proj}_{\mathbf{w}} \mathbf{v}\right)}_{\perp\, \mathbf{w}} .
+$$
+This *orthogonal decomposition* looks like a modest bit of geometry now; it will become the engine behind coordinates in a new basis (Section [2.4](04-basis.qmd)) and, much later, behind why quantum states can be resolved into orbitals at all.
+
+::: {.env .example}
+**Example 2.3.5 (Work done by a slanted force).** An AFM tip drags a molecule across a surface. The tip exerts a constant force $\mathbf{F} = (2.0,\ 0,\ 1.0)$ nN while the molecule moves through displacement $\mathbf{d} = (3.0,\ 0,\ 0)$ nm. How much work is done?
+
+*Setting it up.* Work is force times distance *only when they point the same way*; the honest definition is $W = \mathbf{F} \cdot \mathbf{d}$ — precisely the "effective component along the motion, times the distance" that projection describes.
+
+*Solution.*
+$$
+W = \mathbf{F} \cdot \mathbf{d} = (2.0)(3.0) + 0 + (1.0)(0) = 6.0\ \text{nN·nm}
+= 6.0 \times 10^{-18}\ \text{J} = 6.0\ \text{aJ}.
+$$
+
+*Check.* Units: $10^{-9}\,\text{N} \times 10^{-9}\,\text{m} = 10^{-18}$ J, so nN·nm is attojoules. Magnitude: with $k_BT \approx 4.1 \times 10^{-21}$ J at room temperature, $6.0$ aJ is roughly $1500\,k_BT$ — far above thermal noise, as a deliberate AFM manipulation must be, yet ten orders of magnitude below anything macroscopic. Limiting cases: the vertical $1.0$ nN component contributed nothing, exactly as it should — force perpendicular to motion does no work; and had the tip pulled straight along the motion with the same total force $|\mathbf{F}| = \sqrt{5}$ nN, the work would have been $\sqrt{5} \times 3 \approx 6.7$ aJ, a little more than our $6.0$. The slanted pull wastes some of the force, and the numbers agree.
+:::
+
+::: {.widget-frame}
+::: {.widget-predict}
+Before selecting methane: its H–C–H angle — larger or smaller than water's $104.5°$? Commit, then check. Then try CO₂ and predict the dot product's value relative to $-|\mathbf{b}_1||\mathbf{b}_2|$.
+:::
+::: {.widget-body}
+<div style="margin-bottom:0.6rem;">
+  <label>molecule
+    <select id="baMolecule">
+      <option value="water">H₂O — water</option>
+      <option value="ammonia">NH₃ — ammonia</option>
+      <option value="methane">CH₄ — methane</option>
+      <option value="co2">CO₂ — carbon dioxide</option>
+      <option value="bf3">BF₃ — boron trifluoride</option>
+    </select>
+  </label>
+</div>
+<canvas id="baCanvas" width="640" height="360"></canvas>
+<div class="widget-readout" id="baReadout"></div>
+:::
+::: {.widget-debrief}
+Methane opens to $109.47°$ — the *tetrahedral angle*, $\arccos(-1/3)$, forced by pure geometry when four bonds repel equally (Exercises 8 and 10 derive it). CO₂ hits the floor of Cauchy–Schwarz: antiparallel bonds, $\cos\theta = -1$, $\theta = 180°$. Every entry in this widget is one arccosine away from the coordinates — there is no other geometric input.
+:::
+:::
+
+## Remarks and cautions
+
+The dot product of two vectors is a **scalar**. On exams, answers of the form "$\mathbf{a} \cdot \mathbf{b} = (2, -4, -6)$" — multiplying componentwise and stopping — are the single most common dot-product error. The components are multiplied *and then added*; if your dot product has components, it is not a dot product.
+
+The angle formula requires **bond vectors, not atomic positions**. The vectors must run tail-to-tail from the vertex of the angle — for a bond angle, from the central atom outward. If the central atom is not at the origin, you must subtract: $\mathbf{b}_1 = \mathbf{r}_{\mathrm{H}_1} - \mathbf{r}_{\mathrm{O}}$, not $\mathbf{r}_{\mathrm{H}_1}$ itself. Dotting raw position vectors measures the angle subtended at the *origin of the coordinate system*, a physically meaningless quantity that changes when the crystallographer re-centers the axes. Our water example worked with positions only because the oxygen sat at the origin, making positions and bond vectors coincide.
+
+Mind your **calculator's angle mode**. $\arccos(-0.2506)$ is $104.5$ in degrees and $1.824$ in radians; both will happily appear on the display, and only one is the bond angle of water. When a computed "bond angle" of $1.9$ appears in your work, recognize it as radians rather than reporting a molecule folded to two degrees.
+
+In numerical work, **clamp before arccos**. Floating-point rounding can return $\cos\theta = 1.0000000002$ for nearly parallel vectors, and arccos of that is an error, not an angle. Cauchy–Schwarz guarantees the exact value is legal; it does not guarantee your computer's rounded value is. Production code clamps the fraction to $[-1, 1]$ first — the widgets on this page do exactly that.
+
+Finally, the angle between vectors is undefined if either is the **zero vector** — the formula divides by its magnitude, and geometrically a vector of zero length points nowhere. This is not pedantry: it is the algebra reminding you that direction is a property only nonzero displacements possess (Section 2.1).
+
+## Summary
+
+The dot product $\mathbf{a} \cdot \mathbf{b} = \sum_i a_i b_i$ compresses the geometric relationship between two directions into a single scalar, and Theorem 2.3.2 — proved by computing one squared length two ways — reveals that scalar to be $|\mathbf{a}||\mathbf{b}|\cos\theta$. Its sign classifies the angle as acute, right, or obtuse; its vanishing defines orthogonality; and inverting it through the arccosine, legitimized by the Cauchy–Schwarz inequality, turns tables of atomic coordinates into bond angles, which is how every molecular geometry you have ever been shown was actually measured. Dotting against a unit vector resolves any vector into a component along a chosen direction plus an orthogonal remainder — the operation behind work integrals, dipole–field energies, and, in the next section, the very idea of coordinates in a basis.
+
+::: {.exercises}
+Exercises
+
+1. Compute $\mathbf{a} \cdot \mathbf{b}$ and $\mathbf{a} \cdot \mathbf{a}$ for $\mathbf{a} = (2, -1, 3)$, $\mathbf{b} = (1, 4, -2)$. Is the angle between them acute, right, or obtuse?
+
+2. Find the angle between $(1, 0)$ and $(1, 1)$, and the angle between $(1, 2, 2)$ and $(2, 1, -2)$.
+
+3. One of the pairs $\{(3,-2,1), (2,3,0)\}$ and $\{(1,1,1), (1,1,-2)\}$ is orthogonal. Decide which by computation, and explain how you know *without* computing any magnitudes.
+
+4. A CO₂ molecule has bond vectors $(1.16, 0, 0)$ and $(-1.16, 0, 0)$ Å. Show that the angle formula yields exactly $180°$, and explain what the value of $\cos\theta$ here has to do with the equality case of Cauchy–Schwarz.
+
+5. In ammonia, two N–H bond vectors are $(0.940, 0, -0.380)$ and $(-0.470, 0.814, -0.380)$ Å. Compute the H–N–H bond angle, and check your answer against the experimental value of $106.8°$.
+
+6. A force $\mathbf{F} = (4, 3)$ N acts on a particle moving through $\mathbf{d} = (2, 0)$ m. Compute the work. The $3$ N component contributed nothing — state in one sentence the geometric reason.
+
+7. A molecular dipole $\boldsymbol{\mu} = (0.9, 1.2)$ D sits in an apparatus whose field points along $(1, 0)$. Find the scalar projection of $\boldsymbol{\mu}$ on the field direction, the magnitude $|\boldsymbol{\mu}|$, and the angle between dipole and field.
+
+8. ★ Model methane by placing carbon at the origin and hydrogens toward alternating cube vertices: $(1,1,1)$, $(1,-1,-1)$, $(-1,1,-1)$, $(-1,-1,1)$. Show every pair of bond vectors meets at $\arccos(-1/3) = 109.47°$ — the tetrahedral angle.
+
+9. ★ For unit vectors $\hat{\mathbf{u}}$, $\hat{\mathbf{v}}$ at angle $\theta$, show $|\hat{\mathbf{u}} - \hat{\mathbf{v}}|^2 = 2(1 - \cos\theta)$, using only $|\mathbf{w}|^2 = \mathbf{w}\cdot\mathbf{w}$ and the algebraic properties of the dot product. Then find the distance between the tips of two unit bond vectors at the tetrahedral angle.
+
+10. ★★ By symmetry, the four C–H unit vectors of methane sum to the zero vector: $\hat{\mathbf{v}}_1 + \hat{\mathbf{v}}_2 + \hat{\mathbf{v}}_3 + \hat{\mathbf{v}}_4 = \mathbf{0}$, and every pair meets at the same angle $\theta$. Dot this equation with itself, and deduce — with no coordinates at all — that $\cos\theta$ *must* equal $-1/3$. (This is why the tetrahedral angle is $109.47°$ in methane, ammonium, and every perfect tetrahedron in the universe: it is not chemistry, it is arithmetic.)
+:::
+
+## Practice until it sticks
+
+The block below generates fresh problems, diagnoses *which* mistake you made when you miss, and climbs through three tiers as you demonstrate mastery. Clean solves — no hints — at every tier retire the skill.
+
+<div data-skill="dot-product"></div>
+
+<script src="../js/widgets/dot-projection.js"></script>
+<script src="../js/widgets/bond-angle.js"></script>
+<script src="../../js/adaptive-engine.js"></script>
+<script src="../../js/skills/dot-product.js"></script>

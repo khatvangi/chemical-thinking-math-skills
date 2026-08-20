@@ -1,0 +1,7 @@
+---
+title: "3.4 Determinants and What They Mean"
+---
+
+::: {.stub-note}
+This section is being written. The corresponding material is still available in the [lecture pages](/lectures/all-lectures.html).
+:::

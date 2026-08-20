@@ -1,0 +1,17 @@
+---
+title: "Chemical Thinking"
+subtitle: "The Mathematics of Chemical Reality"
+---
+
+> "I learned very early the difference between knowing the name of something and knowing something."
+> — Richard Feynman
+
+This book teaches the mathematics of chemistry in the order a chemist actually meets it: **phenomenon first, pattern second, tool last**. A traditional course hands you a tool and asks you to find applications. Here we begin with something a molecule does — a bond that points, a rate that falls, a population that spreads — learn to *recognize* the pattern in it, and only then develop the mathematics that captures the pattern precisely.
+
+The recognition step runs on nine cognitive primitives — Collection, Arrangement, Direction, Proximity, Sameness, Change, Rate, Accumulation, Spread — patterns of perception older than either mathematics or chemistry. Each part of this book develops the tools that one or two primitives summon, always at working depth: precise definitions, honest derivations, worked examples with checks, and exercises that are not decoration.
+
+## How to use this book
+
+Each section is one sitting's worth of material. Read with a pencil; the derivations are narrated so you can follow every move, but following is not the same as doing. Interactive figures ask you to **predict before you test** — commit to an answer, then play. Every section closes with an exercise set that ramps from routine computation to chemistry applications to starred problems that will make you think, plus an **adaptive practice** block that diagnoses *how* you went wrong, not just whether.
+
+This book accompanies CHEM 291 at McNeese State University, but it is written to stand on its own.
