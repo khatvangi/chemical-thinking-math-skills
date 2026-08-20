@@ -76,6 +76,49 @@ ul.task-list li input[type="checkbox"] {
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&amp;family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
 
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -393,8 +436,19 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#the-number-named" id="toc-the-number-named" class="nav-link active" data-scroll-target="#the-number-named">The number, named</a></li>
+  <li><a href="#what-it-means-for-transformations" id="toc-what-it-means-for-transformations" class="nav-link" data-scroll-target="#what-it-means-for-transformations">What it means for transformations</a></li>
+  <li><a href="#three-dimensions-and-the-crystallographer-paid" id="toc-three-dimensions-and-the-crystallographer-paid" class="nav-link" data-scroll-target="#three-dimensions-and-the-crystallographer-paid">Three dimensions, and the crystallographer paid</a></li>
+  <li><a href="#remarks-and-cautions" id="toc-remarks-and-cautions" class="nav-link" data-scroll-target="#remarks-and-cautions">Remarks and cautions</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#practice-until-it-sticks" id="toc-practice-until-it-sticks" class="nav-link" data-scroll-target="#practice-until-it-sticks">Practice until it sticks</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -419,11 +473,102 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<div class="stub-note">
-<p>This section is being written. The corresponding material is still available in the <a href="../lectures/all-lectures.html">lecture pages</a>.</p>
+<p>A crystallographer who has just solved a structure performs one last sanity check before submitting it: compute the crystal’s density and compare with the measured value. The formula is <span class="math inline">\rho = Z M / (N_A V)</span> — <span class="math inline">Z</span> formula units of molar mass <span class="math inline">M</span> in a cell of volume <span class="math inline">V</span> — and every quantity is in hand except <span class="math inline">V</span>. For a rectangular cell, volume is length × width × height. But real cells lean: the lattice vectors <span class="math inline">\mathbf{a}, \mathbf{b}, \mathbf{c}</span> of a monoclinic or triclinic crystal meet at oblique angles, the cell is a slanted box (a <em>parallelepiped</em>), and edge-lengths-multiplied is simply the wrong answer. Meanwhile, an unfinished thread dangles from Section <a href="../03-matrices/02-algebra.html">3.2</a>: the number <span class="math inline">ad - bc</span> appeared out of the algebra, decided single-handedly whether the dye assay could be solved, and left without explaining itself. This section is where the two mysteries turn out to be the same mystery. The number is called the determinant, and what it measures is <em>volume — with a sign</em>.</p>
+<section id="the-number-named" class="level2">
+<h2 class="anchored" data-anchor-id="the-number-named">The number, named</h2>
+<div class="env definition">
+<p><strong>Definition 3.4.1 (Determinant, 2×2).</strong> For <span class="math inline">A = \begin{pmatrix} a &amp; b \\ c &amp; d \end{pmatrix}</span>, the <strong>determinant</strong> is <span class="math display">
+\det A = ad - bc,
+</span> also written <span class="math inline">|A|</span>. Diagonal product minus anti-diagonal product.</p>
 </div>
+<p>Section 3.2 established its first meaning by construction: <span class="math inline">A</span> is invertible exactly when <span class="math inline">\det A \neq 0</span>, because the inverse formula divides by it. The geometric meaning is the theorem the whole section leans on.</p>
+<div class="env theorem">
+<p><strong>Theorem 3.4.2 (Determinant = signed area).</strong> Let <span class="math inline">\mathbf{u} = (a, c)</span> and <span class="math inline">\mathbf{v} = (b, d)</span> be the <em>columns</em> of <span class="math inline">A</span>. Then the parallelogram they span has <span class="math display">
+\text{area} = |\det A|,
+</span> and the sign of <span class="math inline">\det A</span> records orientation: positive when <span class="math inline">\mathbf{u}</span> turns counterclockwise to reach <span class="math inline">\mathbf{v}</span>, negative when clockwise.</p>
+</div>
+<div class="env proof">
+<p><span class="proof-title"><em>Proof</em>. </span>The parallelogram on <span class="math inline">\mathbf{u}, \mathbf{v}</span> with angle <span class="math inline">\theta</span> between them has area (base times height) <span class="math inline">|\mathbf{u}|\,|\mathbf{v}| \sin\theta</span>. Square it, and trade the sine for a cosine via <span class="math inline">\sin^2 = 1 - \cos^2</span>: <span class="math display">
+\text{area}^2 = |\mathbf{u}|^2 |\mathbf{v}|^2 (1 - \cos^2\theta) = |\mathbf{u}|^2 |\mathbf{v}|^2 - (\mathbf{u} \cdot \mathbf{v})^2 ,
+</span> using the §2.3 geometric form <span class="math inline">\mathbf{u} \cdot \mathbf{v} = |\mathbf{u}||\mathbf{v}|\cos\theta</span> to rewrite the second term. Now expand both terms in components and watch the algebra collapse: <span class="math display">
+(a^2 + c^2)(b^2 + d^2) - (ab + cd)^2
+= a^2 d^2 + c^2 b^2 - 2abcd
+= (ad - bc)^2 .
+</span> (The cross terms <span class="math inline">a^2b^2</span> and <span class="math inline">c^2d^2</span> cancel against the square’s expansion.) So <span class="math inline">\text{area} = |ad - bc|</span>. For the sign: rotating <span class="math inline">\mathbf{v}</span> continuously across the line of <span class="math inline">\mathbf{u}</span> takes <span class="math inline">\sin\theta</span> — and with it <span class="math inline">ad - bc</span> — through zero and out the other side negative; the sign is precisely which side of <span class="math inline">\mathbf{u}</span>’s line the vector <span class="math inline">\mathbf{v}</span> lies on, i.e., the handedness of the pair.</p>
+</div>
+<p>The identity in the middle of that proof — area² = (length product)² − (dot product)² — is Lagrange’s identity, and it is the exact algebraic sibling of Cauchy–Schwarz from §2.3: Cauchy–Schwarz says the dot product can’t exceed the length product, and Lagrange says the <em>deficit</em> is exactly the spanned area, squared. Perpendicular vectors waste none of their lengths on overlap and span maximal area; parallel vectors overlap entirely and span none.</p>
+</section>
+<section id="what-it-means-for-transformations" class="level2">
+<h2 class="anchored" data-anchor-id="what-it-means-for-transformations">What it means for transformations</h2>
+<p>Section <a href="../03-matrices/03-transformations.html">3.3</a> taught us to read a matrix as a motion of space whose columns are the fates of <span class="math inline">\hat{\mathbf{x}}</span> and <span class="math inline">\hat{\mathbf{y}}</span>. Those two vectors span the unit square, area 1; after the transformation, their images — the columns — span a parallelogram of area <span class="math inline">|\det A|</span>. And because linear maps treat all of space uniformly (linearity is exactly the no-favoritism clause), <em>every</em> region’s area gets multiplied by the same factor:</p>
+<ul>
+<li><span class="math inline">|\det A|</span> is the transformation’s universal <strong>area scale factor</strong>;</li>
+<li><span class="math inline">\det A &lt; 0</span> means the map <strong>flips orientation</strong> — it is, or contains, a reflection. This is the one-number chirality flag promised in §3.3: rotations have <span class="math inline">\det R(\theta) = \cos^2\theta + \sin^2\theta = +1</span>, while every mirror has <span class="math inline">\det = -1</span>, which is why no amount of rotating (<span class="math inline">+1</span> times <span class="math inline">+1</span> forever) ever reproduces a reflection;</li>
+<li><span class="math inline">\det A = 0</span> means the columns are parallel (zero spanned area): the map <em>flattens</em> the plane onto a line, distinct inputs collide onto identical outputs, and no inverse can exist — §3.2’s singular matrices, now seen geometrically. The dye assay with proportional absorptivity columns didn’t fail by bad luck; its matrix crushed concentration space flat, and the measurement could not be un-crushed.</li>
+</ul>
+<p>Composition seals the story. Applying <span class="math inline">B</span> then <span class="math inline">A</span> scales areas by <span class="math inline">|\det B|</span>, then by <span class="math inline">|\det A|</span> — so the composite must scale by the product, and signs multiply for the same reason (two flips make a straight):</p>
+<div class="env theorem">
+<p><strong>Theorem 3.4.3 (Product rule).</strong> <span class="math inline">\det(AB) = \det(A)\,\det(B)</span>.</p>
+</div>
+<p>The geometric argument just given <em>is</em> the proof, granted the one fact that a linear map scales all areas equally (Exercise 8 verifies the rule by brute algebra for <span class="math inline">2 \times 2</span>, a satisfying if unilluminating check). Note what the rule instantly implies: <span class="math inline">\det(A^{-1}) = 1/\det A</span> (undoing a ×3 area stretch must be a ×⅓), and no product of nonsingular matrices is ever singular.</p>
+</section>
+<section id="three-dimensions-and-the-crystallographer-paid" class="level2">
+<h2 class="anchored" data-anchor-id="three-dimensions-and-the-crystallographer-paid">Three dimensions, and the crystallographer paid</h2>
+<p>Everything scales up one dimension. The <span class="math inline">3 \times 3</span> determinant is computed by <em>cofactor expansion</em> along the top row — each entry times the <span class="math inline">2 \times 2</span> determinant of what remains when its row and column are struck out, with alternating signs: <span class="math display">
+\det \begin{pmatrix} a_1 &amp; b_1 &amp; c_1 \\ a_2 &amp; b_2 &amp; c_2 \\ a_3 &amp; b_3 &amp; c_3 \end{pmatrix}
+= a_1 \begin{vmatrix} b_2 &amp; c_2 \\ b_3 &amp; c_3 \end{vmatrix}
+- b_1 \begin{vmatrix} a_2 &amp; c_2 \\ a_3 &amp; c_3 \end{vmatrix}
++ c_1 \begin{vmatrix} a_2 &amp; b_2 \\ a_3 &amp; b_3 \end{vmatrix},
+</span> and its absolute value is the <strong>volume of the parallelepiped</strong> spanned by the three column vectors — the slanted box, exactly the crystallographer’s unit cell.</p>
+<div class="env example">
+<p><strong>Example 3.4.4 (Density check on a monoclinic crystal).</strong> A monoclinic cell has lattice vectors (Å) <span class="math inline">\mathbf{a} = (9.8, 0, 0)</span>, <span class="math inline">\mathbf{b} = (0, 9.4, 0)</span>, <span class="math inline">\mathbf{c} = (-1.2, 0, 9.3)</span> — the <span class="math inline">\mathbf{c}</span> axis leans in the <span class="math inline">xz</span>-plane. The cell holds <span class="math inline">Z = 4</span> molecules of <span class="math inline">M = 180.2</span> g/mol. Find the cell volume and predicted density.</p>
+<p><em>Setting it up.</em> Columns into a matrix, cofactor expansion, then <span class="math inline">\rho = ZM/(N_A V)</span>.</p>
+<p><em>Solution.</em> <span class="math display">
+V = \left| \det \begin{pmatrix} 9.8 &amp; 0 &amp; -1.2 \\ 0 &amp; 9.4 &amp; 0 \\ 0 &amp; 0 &amp; 9.3 \end{pmatrix} \right|
+= \left| 9.8 \begin{vmatrix} 9.4 &amp; 0 \\ 0 &amp; 9.3 \end{vmatrix} - 0 + (-1.2) \begin{vmatrix} 0 &amp; 9.4 \\ 0 &amp; 0 \end{vmatrix} \right|
+= 9.8 \times 87.42 - 1.2 \times 0 = 856.7\ \text{Å}^3 .
+</span> Then, converting <span class="math inline">V = 856.7 \times 10^{-24}</span> cm³, <span class="math display">
+\rho = \frac{Z M}{N_A V} = \frac{4 \times 180.2}{(6.022 \times 10^{23})(856.7 \times 10^{-24})} = \frac{720.8}{515.9} = 1.40\ \text{g/cm}^3 .
+</span></p>
+<p><em>Check.</em> Units: g·mol⁻¹ over (mol⁻¹·cm³) is g/cm³ ✓. Magnitude: 1.40 g/cm³ is exactly where small-molecule organic crystals live (1.2–1.6) ✓. And the geometry teaches its own lesson: the lean of <span class="math inline">\mathbf{c}</span> — the <span class="math inline">-1.2</span> — <em>dropped out</em>, multiplied by a determinant of zeros. A sheared box has the same volume as the upright one with the same base and height; only naive edge-length multiplication (<span class="math inline">9.8 \times 9.4 \times \sqrt{1.2^2 + 9.3^2} = 863.8</span> Å³, wrong by 0.8%) is fooled by the slant. For strongly leaning triclinic cells the naive error grows to many percent — real referees catch real papers this way.</p>
+</div>
+</section>
+<section id="remarks-and-cautions" class="level2">
+<h2 class="anchored" data-anchor-id="remarks-and-cautions">Remarks and cautions</h2>
+<p><strong>Determinants belong to square matrices only.</strong> A non-square matrix maps between spaces of different dimensions; “volume scale factor” has no meaning for it, and neither does det. If you find yourself wanting <span class="math inline">\det</span> of a <span class="math inline">3 \times 2</span>, the question upstream is malformed.</p>
+<p><strong>The determinant is not linear in the matrix.</strong> <span class="math inline">\det(A + B) \neq \det A + \det B</span> in general — areas do not add when you add span vectors. Worse, and heavily examined: <span class="math inline">\det(cA) = c^2 \det A</span> for <span class="math inline">2 \times 2</span> (and <span class="math inline">c^3</span> for <span class="math inline">3 \times 3</span>), because <em>every</em> column picks up the factor <span class="math inline">c</span> and each contributes one power. Doubling a matrix quadruples areas.</p>
+<p><strong>“Nearly singular” is a laboratory condition, not just a mathematical one.</strong> A determinant close to zero means the columns are nearly parallel and the inverse divides by a small number, amplifying measurement noise enormously. For the dye assay: choose wavelengths where the two spectra differ in <em>shape</em>, making <span class="math inline">\det E</span> comfortably large — determinant magnitude is a quantitative experiment-design criterion, not an afterthought.</p>
+<p><strong>Signs carry physics; magnitudes carry geometry.</strong> Report volumes as <span class="math inline">|\det|</span>; read handedness from the sign. A negative “volume” in your work means the column vectors were taken in a left-handed order — harmless for <span class="math inline">V</span>, fatal if you were tracking chirality and dropped the sign.</p>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>The determinant — <span class="math inline">ad - bc</span> in two dimensions, cofactor expansion in three — is the signed volume spanned by a matrix’s columns, proved via Lagrange’s identity, which casts it as the exact geometric complement of the dot product: overlap squared plus span squared equals length-product squared. Read as a transformation, <span class="math inline">|\det A|</span> is the universal area/volume scale factor, its sign the orientation flag that separates rotations (<span class="math inline">+1</span>) from reflections (<span class="math inline">-1</span>) and hands chirality a one-number test, and its vanishing the geometric truth behind §3.2’s uninvertible matrices: a flattened space cannot be unflattened. Scale factors multiply under composition — <span class="math inline">\det(AB) = \det A \det B</span> — and the three-dimensional version prices the crystallographer’s slanted unit cell exactly, shear and all, closing the density check that opened the section. With grids that act (§3.1), an algebra that composes and undoes (§3.2), motions read from columns (§3.3), and a single number governing volume, orientation, and solvability, the matrix toolkit of Module 1 is complete — Module 2 asks what happens when things begin to <em>change</em>.</p>
+<div class="exercises">
+<p>Exercises</p>
+<ol type="1">
+<li><p>Compute the determinants: <span class="math inline">\begin{pmatrix} 3 &amp; 1 \\ 4 &amp; 2 \end{pmatrix}</span>, <span class="math inline">\begin{pmatrix} 2 &amp; 6 \\ 1 &amp; 3 \end{pmatrix}</span>, <span class="math inline">R(30°)</span>, <span class="math inline">\begin{pmatrix} 0 &amp; 1 \\ 1 &amp; 0 \end{pmatrix}</span>. For each: invertible? Orientation-preserving?</p></li>
+<li><p>Find the area of the parallelogram spanned by <span class="math inline">(5, 1)</span> and <span class="math inline">(2, 4)</span>, and the area of the triangle with vertices <span class="math inline">(0,0)</span>, <span class="math inline">(5,1)</span>, <span class="math inline">(2,4)</span>.</p></li>
+<li><p>Verify Theorem 3.4.3 numerically for <span class="math inline">A = \begin{pmatrix} 1 &amp; 2 \\ 3 &amp; 4 \end{pmatrix}</span>, <span class="math inline">B = \begin{pmatrix} 2 &amp; 0 \\ 1 &amp; 3 \end{pmatrix}</span>: compute <span class="math inline">AB</span>, then <span class="math inline">\det A</span>, <span class="math inline">\det B</span>, <span class="math inline">\det(AB)</span>.</p></li>
+<li><p>An orthorhombic cell has <span class="math inline">a = 7.1</span>, <span class="math inline">b = 9.6</span>, <span class="math inline">c = 11.2</span> Å with <span class="math inline">Z = 8</span> and <span class="math inline">M = 122.1</span> g/mol. Predict the density. (Rectangular — the determinant is the diagonal product, but say why.)</p></li>
+<li><p>Every symmetry operation of §3.3 satisfied <span class="math inline">\det = \pm 1</span>. Verify for <span class="math inline">C_2</span>, <span class="math inline">\sigma_v</span>, and <span class="math inline">R(120°)</span>, and explain physically why a symmetry operation could never have <span class="math inline">|\det| \neq 1</span>.</p></li>
+<li><p>Using the product rule: show <span class="math inline">\det(A^{-1}) = 1/\det A</span>, and compute <span class="math inline">\det(R(90°)\,\sigma_x\,R(90°)^{-1})</span> <em>without multiplying any matrices</em>. What kind of operation must that product be?</p></li>
+<li><p>★ Show that <span class="math inline">\det(cA) = c^2 \det A</span> for <span class="math inline">2 \times 2</span> matrices, both algebraically and by the area picture. A student halves every entry of a <span class="math inline">3 \times 3</span> lattice matrix and reports the volume halved — state their error and the correct factor.</p></li>
+<li><p>★ Prove Theorem 3.4.3 for <span class="math inline">2 \times 2</span> matrices by direct expansion: write out <span class="math inline">\det(AB)</span> from Definition 3.2.1’s product entries and grind until <span class="math inline">(ad-bc)(eh-fg)</span> appears. (Once in a life; the geometric proof is why it’s <em>true</em>, this is why it’s <em>certain</em>.)</p></li>
+<li><p>★ The assay matrix <span class="math inline">E = \begin{pmatrix} 12000 &amp; 6100 \\ 8000 &amp; 4000 \end{pmatrix}</span> M⁻¹cm⁻¹ has a small determinant relative to its entries. Compute <span class="math inline">\det E</span>, solve <span class="math inline">E\mathbf{c} = (0.60, 0.40)</span>, then re-solve with the slightly perturbed measurement <span class="math inline">(0.61, 0.40)</span> and report how much each concentration moved. One percent of absorbance noise became how many percent of concentration change? (This amplification is <em>ill-conditioning</em>, and <span class="math inline">\det</span> near zero is its warning light.)</p></li>
+<li><p>★★ For the tetrahedral tripod of §2.3 Exercise 8 — bond vectors <span class="math inline">(1,1,1)</span>, <span class="math inline">(1,-1,-1)</span>, <span class="math inline">(-1,1,-1)</span> — compute the <span class="math inline">3 \times 3</span> determinant and hence the volume of the parallelepiped the three bonds span. Then apply the reflection <span class="math inline">\text{diag}(-1, 1, 1)</span> to all three vectors and recompute: same volume, opposite sign. You have just performed, on one carbon center’s worth of geometry, the calculation that distinguishes a molecule from its mirror image.</p></li>
+</ol>
+</div>
+</section>
+<section id="practice-until-it-sticks" class="level2">
+<h2 class="anchored" data-anchor-id="practice-until-it-sticks">Practice until it sticks</h2>
+<div data-skill="determinants">
+
+</div>
+<script src="../../js/adaptive-engine.js"></script>
+<script src="../../js/skills/determinants.js"></script>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

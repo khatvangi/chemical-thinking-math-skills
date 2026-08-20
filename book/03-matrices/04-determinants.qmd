@@ -2,6 +2,131 @@
 title: "3.4 Determinants and What They Mean"
 ---
 
-::: {.stub-note}
-This section is being written. The corresponding material is still available in the [lecture pages](/lectures/all-lectures.html).
+A crystallographer who has just solved a structure performs one last sanity check before submitting it: compute the crystal's density and compare with the measured value. The formula is $\rho = Z M / (N_A V)$ — $Z$ formula units of molar mass $M$ in a cell of volume $V$ — and every quantity is in hand except $V$. For a rectangular cell, volume is length × width × height. But real cells lean: the lattice vectors $\mathbf{a}, \mathbf{b}, \mathbf{c}$ of a monoclinic or triclinic crystal meet at oblique angles, the cell is a slanted box (a *parallelepiped*), and edge-lengths-multiplied is simply the wrong answer. Meanwhile, an unfinished thread dangles from Section [3.2](02-algebra.qmd): the number $ad - bc$ appeared out of the algebra, decided single-handedly whether the dye assay could be solved, and left without explaining itself. This section is where the two mysteries turn out to be the same mystery. The number is called the determinant, and what it measures is *volume — with a sign*.
+
+## The number, named
+
+::: {.env .definition}
+**Definition 3.4.1 (Determinant, 2×2).** For $A = \begin{pmatrix} a & b \\ c & d \end{pmatrix}$, the **determinant** is
+$$
+\det A = ad - bc,
+$$
+also written $|A|$. Diagonal product minus anti-diagonal product.
 :::
+
+Section 3.2 established its first meaning by construction: $A$ is invertible exactly when $\det A \neq 0$, because the inverse formula divides by it. The geometric meaning is the theorem the whole section leans on.
+
+::: {.env .theorem}
+**Theorem 3.4.2 (Determinant = signed area).** Let $\mathbf{u} = (a, c)$ and $\mathbf{v} = (b, d)$ be the *columns* of $A$. Then the parallelogram they span has
+$$
+\text{area} = |\det A|,
+$$
+and the sign of $\det A$ records orientation: positive when $\mathbf{u}$ turns counterclockwise to reach $\mathbf{v}$, negative when clockwise.
+:::
+
+::: {.env .proof}
+The parallelogram on $\mathbf{u}, \mathbf{v}$ with angle $\theta$ between them has area (base times height) $|\mathbf{u}|\,|\mathbf{v}| \sin\theta$. Square it, and trade the sine for a cosine via $\sin^2 = 1 - \cos^2$:
+$$
+\text{area}^2 = |\mathbf{u}|^2 |\mathbf{v}|^2 (1 - \cos^2\theta) = |\mathbf{u}|^2 |\mathbf{v}|^2 - (\mathbf{u} \cdot \mathbf{v})^2 ,
+$$
+using the §2.3 geometric form $\mathbf{u} \cdot \mathbf{v} = |\mathbf{u}||\mathbf{v}|\cos\theta$ to rewrite the second term. Now expand both terms in components and watch the algebra collapse:
+$$
+(a^2 + c^2)(b^2 + d^2) - (ab + cd)^2
+= a^2 d^2 + c^2 b^2 - 2abcd
+= (ad - bc)^2 .
+$$
+(The cross terms $a^2b^2$ and $c^2d^2$ cancel against the square's expansion.) So $\text{area} = |ad - bc|$. For the sign: rotating $\mathbf{v}$ continuously across the line of $\mathbf{u}$ takes $\sin\theta$ — and with it $ad - bc$ — through zero and out the other side negative; the sign is precisely which side of $\mathbf{u}$'s line the vector $\mathbf{v}$ lies on, i.e., the handedness of the pair.
+:::
+
+The identity in the middle of that proof — area² = (length product)² − (dot product)² — is Lagrange's identity, and it is the exact algebraic sibling of Cauchy–Schwarz from §2.3: Cauchy–Schwarz says the dot product can't exceed the length product, and Lagrange says the *deficit* is exactly the spanned area, squared. Perpendicular vectors waste none of their lengths on overlap and span maximal area; parallel vectors overlap entirely and span none.
+
+## What it means for transformations
+
+Section [3.3](03-transformations.qmd) taught us to read a matrix as a motion of space whose columns are the fates of $\hat{\mathbf{x}}$ and $\hat{\mathbf{y}}$. Those two vectors span the unit square, area 1; after the transformation, their images — the columns — span a parallelogram of area $|\det A|$. And because linear maps treat all of space uniformly (linearity is exactly the no-favoritism clause), *every* region's area gets multiplied by the same factor:
+
+- $|\det A|$ is the transformation's universal **area scale factor**;
+- $\det A < 0$ means the map **flips orientation** — it is, or contains, a reflection. This is the one-number chirality flag promised in §3.3: rotations have $\det R(\theta) = \cos^2\theta + \sin^2\theta = +1$, while every mirror has $\det = -1$, which is why no amount of rotating ($+1$ times $+1$ forever) ever reproduces a reflection;
+- $\det A = 0$ means the columns are parallel (zero spanned area): the map *flattens* the plane onto a line, distinct inputs collide onto identical outputs, and no inverse can exist — §3.2's singular matrices, now seen geometrically. The dye assay with proportional absorptivity columns didn't fail by bad luck; its matrix crushed concentration space flat, and the measurement could not be un-crushed.
+
+Composition seals the story. Applying $B$ then $A$ scales areas by $|\det B|$, then by $|\det A|$ — so the composite must scale by the product, and signs multiply for the same reason (two flips make a straight):
+
+::: {.env .theorem}
+**Theorem 3.4.3 (Product rule).** $\det(AB) = \det(A)\,\det(B)$.
+:::
+
+The geometric argument just given *is* the proof, granted the one fact that a linear map scales all areas equally (Exercise 8 verifies the rule by brute algebra for $2 \times 2$, a satisfying if unilluminating check). Note what the rule instantly implies: $\det(A^{-1}) = 1/\det A$ (undoing a ×3 area stretch must be a ×⅓), and no product of nonsingular matrices is ever singular.
+
+## Three dimensions, and the crystallographer paid
+
+Everything scales up one dimension. The $3 \times 3$ determinant is computed by *cofactor expansion* along the top row — each entry times the $2 \times 2$ determinant of what remains when its row and column are struck out, with alternating signs:
+$$
+\det \begin{pmatrix} a_1 & b_1 & c_1 \\ a_2 & b_2 & c_2 \\ a_3 & b_3 & c_3 \end{pmatrix}
+= a_1 \begin{vmatrix} b_2 & c_2 \\ b_3 & c_3 \end{vmatrix}
+- b_1 \begin{vmatrix} a_2 & c_2 \\ a_3 & c_3 \end{vmatrix}
++ c_1 \begin{vmatrix} a_2 & b_2 \\ a_3 & b_3 \end{vmatrix},
+$$
+and its absolute value is the **volume of the parallelepiped** spanned by the three column vectors — the slanted box, exactly the crystallographer's unit cell.
+
+::: {.env .example}
+**Example 3.4.4 (Density check on a monoclinic crystal).** A monoclinic cell has lattice vectors (Å) $\mathbf{a} = (9.8, 0, 0)$, $\mathbf{b} = (0, 9.4, 0)$, $\mathbf{c} = (-1.2, 0, 9.3)$ — the $\mathbf{c}$ axis leans in the $xz$-plane. The cell holds $Z = 4$ molecules of $M = 180.2$ g/mol. Find the cell volume and predicted density.
+
+*Setting it up.* Columns into a matrix, cofactor expansion, then $\rho = ZM/(N_A V)$.
+
+*Solution.*
+$$
+V = \left| \det \begin{pmatrix} 9.8 & 0 & -1.2 \\ 0 & 9.4 & 0 \\ 0 & 0 & 9.3 \end{pmatrix} \right|
+= \left| 9.8 \begin{vmatrix} 9.4 & 0 \\ 0 & 9.3 \end{vmatrix} - 0 + (-1.2) \begin{vmatrix} 0 & 9.4 \\ 0 & 0 \end{vmatrix} \right|
+= 9.8 \times 87.42 - 1.2 \times 0 = 856.7\ \text{Å}^3 .
+$$
+Then, converting $V = 856.7 \times 10^{-24}$ cm³,
+$$
+\rho = \frac{Z M}{N_A V} = \frac{4 \times 180.2}{(6.022 \times 10^{23})(856.7 \times 10^{-24})} = \frac{720.8}{515.9} = 1.40\ \text{g/cm}^3 .
+$$
+
+*Check.* Units: g·mol⁻¹ over (mol⁻¹·cm³) is g/cm³ ✓. Magnitude: 1.40 g/cm³ is exactly where small-molecule organic crystals live (1.2–1.6) ✓. And the geometry teaches its own lesson: the lean of $\mathbf{c}$ — the $-1.2$ — *dropped out*, multiplied by a determinant of zeros. A sheared box has the same volume as the upright one with the same base and height; only naive edge-length multiplication ($9.8 \times 9.4 \times \sqrt{1.2^2 + 9.3^2} = 863.8$ Å³, wrong by 0.8%) is fooled by the slant. For strongly leaning triclinic cells the naive error grows to many percent — real referees catch real papers this way.
+:::
+
+## Remarks and cautions
+
+**Determinants belong to square matrices only.** A non-square matrix maps between spaces of different dimensions; "volume scale factor" has no meaning for it, and neither does det. If you find yourself wanting $\det$ of a $3 \times 2$, the question upstream is malformed.
+
+**The determinant is not linear in the matrix.** $\det(A + B) \neq \det A + \det B$ in general — areas do not add when you add span vectors. Worse, and heavily examined: $\det(cA) = c^2 \det A$ for $2 \times 2$ (and $c^3$ for $3 \times 3$), because *every* column picks up the factor $c$ and each contributes one power. Doubling a matrix quadruples areas.
+
+**"Nearly singular" is a laboratory condition, not just a mathematical one.** A determinant close to zero means the columns are nearly parallel and the inverse divides by a small number, amplifying measurement noise enormously. For the dye assay: choose wavelengths where the two spectra differ in *shape*, making $\det E$ comfortably large — determinant magnitude is a quantitative experiment-design criterion, not an afterthought.
+
+**Signs carry physics; magnitudes carry geometry.** Report volumes as $|\det|$; read handedness from the sign. A negative "volume" in your work means the column vectors were taken in a left-handed order — harmless for $V$, fatal if you were tracking chirality and dropped the sign.
+
+## Summary
+
+The determinant — $ad - bc$ in two dimensions, cofactor expansion in three — is the signed volume spanned by a matrix's columns, proved via Lagrange's identity, which casts it as the exact geometric complement of the dot product: overlap squared plus span squared equals length-product squared. Read as a transformation, $|\det A|$ is the universal area/volume scale factor, its sign the orientation flag that separates rotations ($+1$) from reflections ($-1$) and hands chirality a one-number test, and its vanishing the geometric truth behind §3.2's uninvertible matrices: a flattened space cannot be unflattened. Scale factors multiply under composition — $\det(AB) = \det A \det B$ — and the three-dimensional version prices the crystallographer's slanted unit cell exactly, shear and all, closing the density check that opened the section. With grids that act (§3.1), an algebra that composes and undoes (§3.2), motions read from columns (§3.3), and a single number governing volume, orientation, and solvability, the matrix toolkit of Module 1 is complete — Module 2 asks what happens when things begin to *change*.
+
+::: {.exercises}
+Exercises
+
+1. Compute the determinants: $\begin{pmatrix} 3 & 1 \\ 4 & 2 \end{pmatrix}$, $\begin{pmatrix} 2 & 6 \\ 1 & 3 \end{pmatrix}$, $R(30°)$, $\begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}$. For each: invertible? Orientation-preserving?
+
+2. Find the area of the parallelogram spanned by $(5, 1)$ and $(2, 4)$, and the area of the triangle with vertices $(0,0)$, $(5,1)$, $(2,4)$.
+
+3. Verify Theorem 3.4.3 numerically for $A = \begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix}$, $B = \begin{pmatrix} 2 & 0 \\ 1 & 3 \end{pmatrix}$: compute $AB$, then $\det A$, $\det B$, $\det(AB)$.
+
+4. An orthorhombic cell has $a = 7.1$, $b = 9.6$, $c = 11.2$ Å with $Z = 8$ and $M = 122.1$ g/mol. Predict the density. (Rectangular — the determinant is the diagonal product, but say why.)
+
+5. Every symmetry operation of §3.3 satisfied $\det = \pm 1$. Verify for $C_2$, $\sigma_v$, and $R(120°)$, and explain physically why a symmetry operation could never have $|\det| \neq 1$.
+
+6. Using the product rule: show $\det(A^{-1}) = 1/\det A$, and compute $\det(R(90°)\,\sigma_x\,R(90°)^{-1})$ *without multiplying any matrices*. What kind of operation must that product be?
+
+7. ★ Show that $\det(cA) = c^2 \det A$ for $2 \times 2$ matrices, both algebraically and by the area picture. A student halves every entry of a $3 \times 3$ lattice matrix and reports the volume halved — state their error and the correct factor.
+
+8. ★ Prove Theorem 3.4.3 for $2 \times 2$ matrices by direct expansion: write out $\det(AB)$ from Definition 3.2.1's product entries and grind until $(ad-bc)(eh-fg)$ appears. (Once in a life; the geometric proof is why it's *true*, this is why it's *certain*.)
+
+9. ★ The assay matrix $E = \begin{pmatrix} 12000 & 6100 \\ 8000 & 4000 \end{pmatrix}$ M⁻¹cm⁻¹ has a small determinant relative to its entries. Compute $\det E$, solve $E\mathbf{c} = (0.60, 0.40)$, then re-solve with the slightly perturbed measurement $(0.61, 0.40)$ and report how much each concentration moved. One percent of absorbance noise became how many percent of concentration change? (This amplification is *ill-conditioning*, and $\det$ near zero is its warning light.)
+
+10. ★★ For the tetrahedral tripod of §2.3 Exercise 8 — bond vectors $(1,1,1)$, $(1,-1,-1)$, $(-1,1,-1)$ — compute the $3 \times 3$ determinant and hence the volume of the parallelepiped the three bonds span. Then apply the reflection $\text{diag}(-1, 1, 1)$ to all three vectors and recompute: same volume, opposite sign. You have just performed, on one carbon center's worth of geometry, the calculation that distinguishes a molecule from its mirror image.
+:::
+
+## Practice until it sticks
+
+<div data-skill="determinants"></div>
+
+<script src="../../js/adaptive-engine.js"></script>
+<script src="../../js/skills/determinants.js"></script>
