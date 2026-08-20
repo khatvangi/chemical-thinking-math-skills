@@ -2,6 +2,97 @@
 title: "1.1 Kinds of Numbers"
 ---
 
-::: {.stub-note}
-This section is being written. The corresponding material is still available in the [lecture pages](/lectures/all-lectures.html).
+An afternoon's work in an analytical lab leaves this trail in your notebook: a burette reading of 24.35 mL, a count of 3 titrations, a chloride charge of −1, a dilution factor of 1/250, a measured $K_w$ of $1.0 \times 10^{-14}$, and — if the afternoon included any spectroscopy — a wavefunction somewhere with $i = \sqrt{-1}$ inside it. All of these are "numbers," and it is tempting to treat them as one undifferentiated kind of thing. They are not. They belong to different number *systems*, the systems form a tower in which each level repairs a specific failure of the level below, and knowing which level a chemical quantity lives on is not philosophical decoration — it determines what arithmetic you may trust, what equations can even have solutions, and (by the end of this book) why quantum numbers jump in steps while energies drift continuously.
+
+## Counting, and the first escape
+
+The oldest numbers are the counting numbers $\mathbb{N} = \{1, 2, 3, \ldots\}$, and chemistry rests on them more heavily than any other science: molecules come in whole numbers. There is no such thing as 2.7 protons in a nucleus; a flask contains an integer number of water molecules even when that integer is around $10^{24}$ and we will never know it exactly. Within $\mathbb{N}$, two operations behave perfectly: add two counts and you get a count; multiply two counts and you get a count. This reliability deserves a name, because its *failures* are about to drive everything.
+
+::: {.env .definition}
+**Definition 1.1.1 (Closure).** A set of numbers is **closed** under an operation if performing the operation on any members of the set always produces another member of the set. $\mathbb{N}$ is closed under addition and multiplication.
 :::
+
+Now watch the first failure. A zinc atom loses two electrons: to describe the change in its electron count you compute $30 - 32$... wait — you compute "two fewer," and if your only numbers are counting numbers, $3 - 5$ simply has no answer. Subtraction *escapes* $\mathbb{N}$. The repair is to adjoin zero and the negatives, giving the integers $\mathbb{Z} = \{\ldots, -2, -1, 0, 1, 2, \ldots\}$, and chemistry immediately puts the new territory to work: oxidation states, ionic charges, and the sign conventions of thermodynamics ($\Delta H = -57$ kJ/mol is not "57 kJ/mol, downhill" — the sign *is* data) all live in $\mathbb{Z}$. The integers are closed under addition, multiplication, *and* subtraction. The pattern to notice: a new number system is not invented for decoration; it is forced into existence by an operation the old system cannot complete.
+
+## Ratios, and the second escape
+
+Division breaks $\mathbb{Z}$ the same way subtraction broke $\mathbb{N}$: a 1-to-3 dilution asks for $1 \div 3$, and no integer answers. The repair is the rational numbers,
+$$
+\mathbb{Q} = \left\{ \tfrac{p}{q} : p, q \in \mathbb{Z},\ q \neq 0 \right\},
+$$
+the system of all fractions. Stoichiometric ratios, dilution factors, isotopic abundances, mole fractions — the everyday arithmetic of the prep room is rational arithmetic, and it is *exact*: three successive 1:3 dilutions give a factor of exactly $\tfrac{1}{27}$, not $0.037$. A useful fact, proved in the exercises: the rationals are precisely the numbers whose decimal expansions terminate or repeat ($\tfrac{1}{27} = 0.\overline{037}$). Since any calculator display shows finitely many digits, *every number your calculator has ever shown you is rational*. Keep that thought; it makes the next escape genuinely strange.
+
+## The diagonal, and the third escape
+
+The rationals look complete. Between any two of them lies another (their average), so they are packed densely on the number line with no visible gaps. It took the Greeks to find a gap anyway, and the gap sits inside every cubic crystal you will ever study: the diagonal of a unit square. If the edge is 1, the Pythagorean theorem makes the diagonal $\sqrt{2}$ — and $\sqrt{2}$ is not a ratio of integers. Not "hard to write as a fraction": *provably not a fraction at all*.
+
+::: {.env .theorem}
+**Theorem 1.1.2.** $\sqrt{2}$ is irrational: no fraction $p/q$ of integers satisfies $(p/q)^2 = 2$.
+:::
+
+::: {.env .proof}
+Suppose such a fraction exists, and write it in lowest terms — cancel all common factors, so $p$ and $q$ share none. Squaring gives $p^2 = 2q^2$. The right side is even, so $p^2$ is even; and an odd number squared is odd, so $p$ itself must be even. Write $p = 2m$. Substituting, $4m^2 = 2q^2$, so $q^2 = 2m^2$ — and now the same argument runs again: $q^2$ is even, hence $q$ is even. But then $p$ and $q$ are both even, sharing the factor 2, contradicting "lowest terms." The assumption collapses; no such fraction exists.
+:::
+
+Read the proof's structure, because you will meet it again: assume the thing you doubt, follow the consequences honestly, and arrive at an impossibility. Nothing was measured and no approximation was made — this is knowledge of a different character from anything an instrument can deliver. Filling in $\sqrt{2}$ and all its fellow gaps ($\sqrt{3}$, $\pi$, $e$, and uncountably many more) produces the real numbers $\mathbb{R}$: the complete, gapless number line. The reals are where measurement lives, where calculus will live, and where every "continuous" quantity of chemistry — energy, concentration, temperature — is modeled.
+
+::: {.env .example}
+**Example 1.1.3 (The face diagonal of rock salt).** NaCl crystallizes in a cubic cell with edge $a = 5.640$ Å. The face diagonal has length $a\sqrt{2}$. Is that length a rational or an irrational number — and what should you report?
+
+*Setting it up.* Two different objects are in play: the *model's* exact value $a\sqrt{2}$, and the *measured, reported* value rounded to instrument precision. The question is really about telling them apart.
+
+*Solution.* In the model, if $a$ is taken as an exact length then $a\sqrt{2}$ is irrational — a rational times an irrational is always irrational (Exercise 5). Numerically, $5.640 \times 1.41421\ldots = 7.976$ Å. The reported value $7.976$ is, like every finite decimal, rational.
+
+*Check.* Units survive: Å times a dimensionless $\sqrt{2}$ is Å. Magnitude: a face diagonal must exceed the edge ($7.98 > 5.64$ ✓) but be less than double it ($< 11.3$ ✓). And the apparent paradox — an irrational model value reported as a rational — dissolves once you see that *measurement truncates*: the instrument delivers a rational approximation to a real-valued model. Both statements are true; they are about different things.
+:::
+
+## What kind of number is a chemical quantity?
+
+You can now classify with precision, and the classification does work. Counts of particles, protons, and quanta are naturals — and this is physics, not bookkeeping: the principal quantum number takes values $n = 1, 2, 3, \ldots$ and *nothing between*, which is why atomic spectra are lines rather than smears. Charges and oxidation states are integers. Ratios built from counts — mole fractions, dilution factors, stoichiometric coefficients — are exact rationals, and doing their arithmetic as fractions postpones rounding error until the final step. Continuously variable quantities — mass, energy, concentration, temperature — are *modeled* as reals so that the calculus of Chapters 4 and 5 can apply, while every actual measurement of them is a rational approximation with stated precision.
+
+One level of the tower remains. The equation $x^2 = -1$ has no real solution — squares of reals are never negative — and repairing *that* failure produces the complex numbers $\mathbb{C}$, built from $i = \sqrt{-1}$. Chemistry needs them for one great purpose: waves. The electron's wavefunction, the phases that make bonding and antibonding orbitals differ, and the oscillating solutions of Chapter 5's differential equations are all natively complex. We flag the tower's top level now and will climb it when the phenomena demand it — which is precisely how, by Theorem 1.1.2's example, every level of the tower was built in the first place.
+
+## Remarks and cautions
+
+**Significant figures are about precision, not number type.** Writing a concentration as $0.100$ M rather than $0.1$ M claims better knowledge of the same rational number; it does not make the value "more real." Number type is a property of the *model*; precision is a property of the *measurement*.
+
+**Exact symbols beat early decimals.** In any multi-step calculation, carry $\sqrt{2}$, $\pi$, and fractions symbolically and convert to decimal once, at the end. The student who writes $1/3 = 0.33$ in step one has injected a $1\%$ error that three later multiplications can amplify; the student who carries $\tfrac{1}{3}$ pays nothing.
+
+**Discreteness is physical.** When a variable is genuinely integer-valued — quantum numbers, electron counts, protons — treating it as continuous is not a small error but a category error. There is no chemistry of $n = 1.5$. Conversely, forcing a continuous quantity into integers (rounding a 2.4-equivalent requirement down to 2) fails titrations. Ask of every quantity: which system does it live in?
+
+**A calculator cannot exhibit an irrational number.** Its $\sqrt{2}$ key returns a 12-digit rational impostor. The impostor is close enough for every lab purpose — but Theorem 1.1.2 is about the true value, and no improvement in calculators can touch it.
+
+## Summary
+
+Numbers form a tower $\mathbb{N} \subset \mathbb{Z} \subset \mathbb{Q} \subset \mathbb{R} \subset \mathbb{C}$, and each level exists because a specific operation escapes the level below: subtraction forces $\mathbb{Z}$, division forces $\mathbb{Q}$, taking limits and roots forces $\mathbb{R}$ (with $\sqrt{2}$'s irrationality proved, not asserted), and $x^2 = -1$ forces $\mathbb{C}$. Chemical quantities are not indifferent to the tower: particle counts are natural, charges integer, ratio-built quantities exactly rational, continuous measurables real by modeling convention, and wave phenomena complex. The practical disciplines that follow — exact fraction arithmetic before final rounding, symbols before decimals, respect for physical discreteness — are the tower's daily dividends, and the distinction between an exact model value and its rational measured shadow will matter every time this book compares a derivation with an experiment.
+
+::: {.exercises}
+Exercises
+
+1. Classify each quantity by the smallest system in the tower that contains it, with one sentence of justification: (a) the number of oxygen atoms in one glucose molecule; (b) the oxidation state of Mn in MnO₄⁻; (c) the mole fraction of ethanol in a mixture of 3 mol ethanol and 5 mol water; (d) the circumference-to-diameter ratio of a round-bottom flask.
+
+2. $\mathbb{Z}$ is closed under addition, subtraction, and multiplication. Show by counterexample that it is not closed under division, and that $\mathbb{Q}$ (with 0 excluded as divisor) is.
+
+3. Convert $0.\overline{27}$ (that is, $0.272727\ldots$) into a fraction $p/q$. *Method:* set $x = 0.\overline{27}$, compute $100x - x$, and solve.
+
+4. A stock solution is carried through five successive 1:4 dilutions. Express the overall dilution factor as an exact fraction, then as a decimal. At which step of a lab writeup should the decimal appear?
+
+5. Prove: if $r$ is rational ($r \neq 0$) and $s$ is irrational, then $rs$ is irrational. *Hint:* suppose $rs$ were rational and solve for $s$.
+
+6. The principal quantum number of hydrogen's electron takes values in $\mathbb{N}$. The energy of level $n$ is $E_n = -13.6/n^2$ eV. Compute $E_1, E_2, E_3$, and explain in one sentence why hydrogen's emission spectrum consists of discrete lines rather than a continuous band.
+
+7. ★ Adapt the proof of Theorem 1.1.2 to show $\sqrt{3}$ is irrational. Where exactly does the same argument *fail* for $\sqrt{4}$? (It had better fail — $\sqrt{4} = 2$.)
+
+8. ★ Show that $0.999\ldots = 1$ exactly (the same method as Exercise 3 works). Then explain why this equality is a statement about $\mathbb{R}$'s lack of gaps rather than a rounding convention.
+
+9. ★ A student claims: "between any two distinct rationals there is another rational, so the rationals have no gaps, so $\sqrt{2}$ must be rational." Identify precisely which step of this argument Theorem 1.1.2 refutes, and restate what density does and does not guarantee.
+
+10. ★★ Call a real number *constructible by ruler and compass* if it can be built from 1 by addition, subtraction, multiplication, division, and square roots. Chemists meet such numbers constantly: show that the tetrahedral angle's cosine, $-\tfrac{1}{3}$, and the face-diagonal ratio $\sqrt{2}$ are both constructible, and give one chemical constant from this section that is (almost certainly) not.
+:::
+
+## Practice until it sticks
+
+<div data-skill="number-types"></div>
+
+<script src="../../js/adaptive-engine.js"></script>
+<script src="../../js/skills/number-types.js"></script>

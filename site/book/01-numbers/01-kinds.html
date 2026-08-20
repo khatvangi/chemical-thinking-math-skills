@@ -77,6 +77,49 @@ ul.task-list li input[type="checkbox"] {
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&amp;family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
 
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -394,8 +437,20 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#counting-and-the-first-escape" id="toc-counting-and-the-first-escape" class="nav-link active" data-scroll-target="#counting-and-the-first-escape">Counting, and the first escape</a></li>
+  <li><a href="#ratios-and-the-second-escape" id="toc-ratios-and-the-second-escape" class="nav-link" data-scroll-target="#ratios-and-the-second-escape">Ratios, and the second escape</a></li>
+  <li><a href="#the-diagonal-and-the-third-escape" id="toc-the-diagonal-and-the-third-escape" class="nav-link" data-scroll-target="#the-diagonal-and-the-third-escape">The diagonal, and the third escape</a></li>
+  <li><a href="#what-kind-of-number-is-a-chemical-quantity" id="toc-what-kind-of-number-is-a-chemical-quantity" class="nav-link" data-scroll-target="#what-kind-of-number-is-a-chemical-quantity">What kind of number is a chemical quantity?</a></li>
+  <li><a href="#remarks-and-cautions" id="toc-remarks-and-cautions" class="nav-link" data-scroll-target="#remarks-and-cautions">Remarks and cautions</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#practice-until-it-sticks" id="toc-practice-until-it-sticks" class="nav-link" data-scroll-target="#practice-until-it-sticks">Practice until it sticks</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -420,11 +475,79 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<div class="stub-note">
-<p>This section is being written. The corresponding material is still available in the <a href="../lectures/all-lectures.html">lecture pages</a>.</p>
+<p>An afternoon’s work in an analytical lab leaves this trail in your notebook: a burette reading of 24.35 mL, a count of 3 titrations, a chloride charge of −1, a dilution factor of 1/250, a measured <span class="math inline">K_w</span> of <span class="math inline">1.0 \times 10^{-14}</span>, and — if the afternoon included any spectroscopy — a wavefunction somewhere with <span class="math inline">i = \sqrt{-1}</span> inside it. All of these are “numbers,” and it is tempting to treat them as one undifferentiated kind of thing. They are not. They belong to different number <em>systems</em>, the systems form a tower in which each level repairs a specific failure of the level below, and knowing which level a chemical quantity lives on is not philosophical decoration — it determines what arithmetic you may trust, what equations can even have solutions, and (by the end of this book) why quantum numbers jump in steps while energies drift continuously.</p>
+<section id="counting-and-the-first-escape" class="level2">
+<h2 class="anchored" data-anchor-id="counting-and-the-first-escape">Counting, and the first escape</h2>
+<p>The oldest numbers are the counting numbers <span class="math inline">\mathbb{N} = \{1, 2, 3, \ldots\}</span>, and chemistry rests on them more heavily than any other science: molecules come in whole numbers. There is no such thing as 2.7 protons in a nucleus; a flask contains an integer number of water molecules even when that integer is around <span class="math inline">10^{24}</span> and we will never know it exactly. Within <span class="math inline">\mathbb{N}</span>, two operations behave perfectly: add two counts and you get a count; multiply two counts and you get a count. This reliability deserves a name, because its <em>failures</em> are about to drive everything.</p>
+<div class="env definition">
+<p><strong>Definition 1.1.1 (Closure).</strong> A set of numbers is <strong>closed</strong> under an operation if performing the operation on any members of the set always produces another member of the set. <span class="math inline">\mathbb{N}</span> is closed under addition and multiplication.</p>
 </div>
+<p>Now watch the first failure. A zinc atom loses two electrons: to describe the change in its electron count you compute <span class="math inline">30 - 32</span>… wait — you compute “two fewer,” and if your only numbers are counting numbers, <span class="math inline">3 - 5</span> simply has no answer. Subtraction <em>escapes</em> <span class="math inline">\mathbb{N}</span>. The repair is to adjoin zero and the negatives, giving the integers <span class="math inline">\mathbb{Z} = \{\ldots, -2, -1, 0, 1, 2, \ldots\}</span>, and chemistry immediately puts the new territory to work: oxidation states, ionic charges, and the sign conventions of thermodynamics (<span class="math inline">\Delta H = -57</span> kJ/mol is not “57 kJ/mol, downhill” — the sign <em>is</em> data) all live in <span class="math inline">\mathbb{Z}</span>. The integers are closed under addition, multiplication, <em>and</em> subtraction. The pattern to notice: a new number system is not invented for decoration; it is forced into existence by an operation the old system cannot complete.</p>
+</section>
+<section id="ratios-and-the-second-escape" class="level2">
+<h2 class="anchored" data-anchor-id="ratios-and-the-second-escape">Ratios, and the second escape</h2>
+<p>Division breaks <span class="math inline">\mathbb{Z}</span> the same way subtraction broke <span class="math inline">\mathbb{N}</span>: a 1-to-3 dilution asks for <span class="math inline">1 \div 3</span>, and no integer answers. The repair is the rational numbers, <span class="math display">
+\mathbb{Q} = \left\{ \tfrac{p}{q} : p, q \in \mathbb{Z},\ q \neq 0 \right\},
+</span> the system of all fractions. Stoichiometric ratios, dilution factors, isotopic abundances, mole fractions — the everyday arithmetic of the prep room is rational arithmetic, and it is <em>exact</em>: three successive 1:3 dilutions give a factor of exactly <span class="math inline">\tfrac{1}{27}</span>, not <span class="math inline">0.037</span>. A useful fact, proved in the exercises: the rationals are precisely the numbers whose decimal expansions terminate or repeat (<span class="math inline">\tfrac{1}{27} = 0.\overline{037}</span>). Since any calculator display shows finitely many digits, <em>every number your calculator has ever shown you is rational</em>. Keep that thought; it makes the next escape genuinely strange.</p>
+</section>
+<section id="the-diagonal-and-the-third-escape" class="level2">
+<h2 class="anchored" data-anchor-id="the-diagonal-and-the-third-escape">The diagonal, and the third escape</h2>
+<p>The rationals look complete. Between any two of them lies another (their average), so they are packed densely on the number line with no visible gaps. It took the Greeks to find a gap anyway, and the gap sits inside every cubic crystal you will ever study: the diagonal of a unit square. If the edge is 1, the Pythagorean theorem makes the diagonal <span class="math inline">\sqrt{2}</span> — and <span class="math inline">\sqrt{2}</span> is not a ratio of integers. Not “hard to write as a fraction”: <em>provably not a fraction at all</em>.</p>
+<div class="env theorem">
+<p><strong>Theorem 1.1.2.</strong> <span class="math inline">\sqrt{2}</span> is irrational: no fraction <span class="math inline">p/q</span> of integers satisfies <span class="math inline">(p/q)^2 = 2</span>.</p>
+</div>
+<div class="env proof">
+<p><span class="proof-title"><em>Proof</em>. </span>Suppose such a fraction exists, and write it in lowest terms — cancel all common factors, so <span class="math inline">p</span> and <span class="math inline">q</span> share none. Squaring gives <span class="math inline">p^2 = 2q^2</span>. The right side is even, so <span class="math inline">p^2</span> is even; and an odd number squared is odd, so <span class="math inline">p</span> itself must be even. Write <span class="math inline">p = 2m</span>. Substituting, <span class="math inline">4m^2 = 2q^2</span>, so <span class="math inline">q^2 = 2m^2</span> — and now the same argument runs again: <span class="math inline">q^2</span> is even, hence <span class="math inline">q</span> is even. But then <span class="math inline">p</span> and <span class="math inline">q</span> are both even, sharing the factor 2, contradicting “lowest terms.” The assumption collapses; no such fraction exists.</p>
+</div>
+<p>Read the proof’s structure, because you will meet it again: assume the thing you doubt, follow the consequences honestly, and arrive at an impossibility. Nothing was measured and no approximation was made — this is knowledge of a different character from anything an instrument can deliver. Filling in <span class="math inline">\sqrt{2}</span> and all its fellow gaps (<span class="math inline">\sqrt{3}</span>, <span class="math inline">\pi</span>, <span class="math inline">e</span>, and uncountably many more) produces the real numbers <span class="math inline">\mathbb{R}</span>: the complete, gapless number line. The reals are where measurement lives, where calculus will live, and where every “continuous” quantity of chemistry — energy, concentration, temperature — is modeled.</p>
+<div class="env example">
+<p><strong>Example 1.1.3 (The face diagonal of rock salt).</strong> NaCl crystallizes in a cubic cell with edge <span class="math inline">a = 5.640</span> Å. The face diagonal has length <span class="math inline">a\sqrt{2}</span>. Is that length a rational or an irrational number — and what should you report?</p>
+<p><em>Setting it up.</em> Two different objects are in play: the <em>model’s</em> exact value <span class="math inline">a\sqrt{2}</span>, and the <em>measured, reported</em> value rounded to instrument precision. The question is really about telling them apart.</p>
+<p><em>Solution.</em> In the model, if <span class="math inline">a</span> is taken as an exact length then <span class="math inline">a\sqrt{2}</span> is irrational — a rational times an irrational is always irrational (Exercise 5). Numerically, <span class="math inline">5.640 \times 1.41421\ldots = 7.976</span> Å. The reported value <span class="math inline">7.976</span> is, like every finite decimal, rational.</p>
+<p><em>Check.</em> Units survive: Å times a dimensionless <span class="math inline">\sqrt{2}</span> is Å. Magnitude: a face diagonal must exceed the edge (<span class="math inline">7.98 &gt; 5.64</span> ✓) but be less than double it (<span class="math inline">&lt; 11.3</span> ✓). And the apparent paradox — an irrational model value reported as a rational — dissolves once you see that <em>measurement truncates</em>: the instrument delivers a rational approximation to a real-valued model. Both statements are true; they are about different things.</p>
+</div>
+</section>
+<section id="what-kind-of-number-is-a-chemical-quantity" class="level2">
+<h2 class="anchored" data-anchor-id="what-kind-of-number-is-a-chemical-quantity">What kind of number is a chemical quantity?</h2>
+<p>You can now classify with precision, and the classification does work. Counts of particles, protons, and quanta are naturals — and this is physics, not bookkeeping: the principal quantum number takes values <span class="math inline">n = 1, 2, 3, \ldots</span> and <em>nothing between</em>, which is why atomic spectra are lines rather than smears. Charges and oxidation states are integers. Ratios built from counts — mole fractions, dilution factors, stoichiometric coefficients — are exact rationals, and doing their arithmetic as fractions postpones rounding error until the final step. Continuously variable quantities — mass, energy, concentration, temperature — are <em>modeled</em> as reals so that the calculus of Chapters 4 and 5 can apply, while every actual measurement of them is a rational approximation with stated precision.</p>
+<p>One level of the tower remains. The equation <span class="math inline">x^2 = -1</span> has no real solution — squares of reals are never negative — and repairing <em>that</em> failure produces the complex numbers <span class="math inline">\mathbb{C}</span>, built from <span class="math inline">i = \sqrt{-1}</span>. Chemistry needs them for one great purpose: waves. The electron’s wavefunction, the phases that make bonding and antibonding orbitals differ, and the oscillating solutions of Chapter 5’s differential equations are all natively complex. We flag the tower’s top level now and will climb it when the phenomena demand it — which is precisely how, by Theorem 1.1.2’s example, every level of the tower was built in the first place.</p>
+</section>
+<section id="remarks-and-cautions" class="level2">
+<h2 class="anchored" data-anchor-id="remarks-and-cautions">Remarks and cautions</h2>
+<p><strong>Significant figures are about precision, not number type.</strong> Writing a concentration as <span class="math inline">0.100</span> M rather than <span class="math inline">0.1</span> M claims better knowledge of the same rational number; it does not make the value “more real.” Number type is a property of the <em>model</em>; precision is a property of the <em>measurement</em>.</p>
+<p><strong>Exact symbols beat early decimals.</strong> In any multi-step calculation, carry <span class="math inline">\sqrt{2}</span>, <span class="math inline">\pi</span>, and fractions symbolically and convert to decimal once, at the end. The student who writes <span class="math inline">1/3 = 0.33</span> in step one has injected a <span class="math inline">1\%</span> error that three later multiplications can amplify; the student who carries <span class="math inline">\tfrac{1}{3}</span> pays nothing.</p>
+<p><strong>Discreteness is physical.</strong> When a variable is genuinely integer-valued — quantum numbers, electron counts, protons — treating it as continuous is not a small error but a category error. There is no chemistry of <span class="math inline">n = 1.5</span>. Conversely, forcing a continuous quantity into integers (rounding a 2.4-equivalent requirement down to 2) fails titrations. Ask of every quantity: which system does it live in?</p>
+<p><strong>A calculator cannot exhibit an irrational number.</strong> Its <span class="math inline">\sqrt{2}</span> key returns a 12-digit rational impostor. The impostor is close enough for every lab purpose — but Theorem 1.1.2 is about the true value, and no improvement in calculators can touch it.</p>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>Numbers form a tower <span class="math inline">\mathbb{N} \subset \mathbb{Z} \subset \mathbb{Q} \subset \mathbb{R} \subset \mathbb{C}</span>, and each level exists because a specific operation escapes the level below: subtraction forces <span class="math inline">\mathbb{Z}</span>, division forces <span class="math inline">\mathbb{Q}</span>, taking limits and roots forces <span class="math inline">\mathbb{R}</span> (with <span class="math inline">\sqrt{2}</span>’s irrationality proved, not asserted), and <span class="math inline">x^2 = -1</span> forces <span class="math inline">\mathbb{C}</span>. Chemical quantities are not indifferent to the tower: particle counts are natural, charges integer, ratio-built quantities exactly rational, continuous measurables real by modeling convention, and wave phenomena complex. The practical disciplines that follow — exact fraction arithmetic before final rounding, symbols before decimals, respect for physical discreteness — are the tower’s daily dividends, and the distinction between an exact model value and its rational measured shadow will matter every time this book compares a derivation with an experiment.</p>
+<div class="exercises">
+<p>Exercises</p>
+<ol type="1">
+<li><p>Classify each quantity by the smallest system in the tower that contains it, with one sentence of justification: (a) the number of oxygen atoms in one glucose molecule; (b) the oxidation state of Mn in MnO₄⁻; (c) the mole fraction of ethanol in a mixture of 3 mol ethanol and 5 mol water; (d) the circumference-to-diameter ratio of a round-bottom flask.</p></li>
+<li><p><span class="math inline">\mathbb{Z}</span> is closed under addition, subtraction, and multiplication. Show by counterexample that it is not closed under division, and that <span class="math inline">\mathbb{Q}</span> (with 0 excluded as divisor) is.</p></li>
+<li><p>Convert <span class="math inline">0.\overline{27}</span> (that is, <span class="math inline">0.272727\ldots</span>) into a fraction <span class="math inline">p/q</span>. <em>Method:</em> set <span class="math inline">x = 0.\overline{27}</span>, compute <span class="math inline">100x - x</span>, and solve.</p></li>
+<li><p>A stock solution is carried through five successive 1:4 dilutions. Express the overall dilution factor as an exact fraction, then as a decimal. At which step of a lab writeup should the decimal appear?</p></li>
+<li><p>Prove: if <span class="math inline">r</span> is rational (<span class="math inline">r \neq 0</span>) and <span class="math inline">s</span> is irrational, then <span class="math inline">rs</span> is irrational. <em>Hint:</em> suppose <span class="math inline">rs</span> were rational and solve for <span class="math inline">s</span>.</p></li>
+<li><p>The principal quantum number of hydrogen’s electron takes values in <span class="math inline">\mathbb{N}</span>. The energy of level <span class="math inline">n</span> is <span class="math inline">E_n = -13.6/n^2</span> eV. Compute <span class="math inline">E_1, E_2, E_3</span>, and explain in one sentence why hydrogen’s emission spectrum consists of discrete lines rather than a continuous band.</p></li>
+<li><p>★ Adapt the proof of Theorem 1.1.2 to show <span class="math inline">\sqrt{3}</span> is irrational. Where exactly does the same argument <em>fail</em> for <span class="math inline">\sqrt{4}</span>? (It had better fail — <span class="math inline">\sqrt{4} = 2</span>.)</p></li>
+<li><p>★ Show that <span class="math inline">0.999\ldots = 1</span> exactly (the same method as Exercise 3 works). Then explain why this equality is a statement about <span class="math inline">\mathbb{R}</span>’s lack of gaps rather than a rounding convention.</p></li>
+<li><p>★ A student claims: “between any two distinct rationals there is another rational, so the rationals have no gaps, so <span class="math inline">\sqrt{2}</span> must be rational.” Identify precisely which step of this argument Theorem 1.1.2 refutes, and restate what density does and does not guarantee.</p></li>
+<li><p>★★ Call a real number <em>constructible by ruler and compass</em> if it can be built from 1 by addition, subtraction, multiplication, division, and square roots. Chemists meet such numbers constantly: show that the tetrahedral angle’s cosine, <span class="math inline">-\tfrac{1}{3}</span>, and the face-diagonal ratio <span class="math inline">\sqrt{2}</span> are both constructible, and give one chemical constant from this section that is (almost certainly) not.</p></li>
+</ol>
+</div>
+</section>
+<section id="practice-until-it-sticks" class="level2">
+<h2 class="anchored" data-anchor-id="practice-until-it-sticks">Practice until it sticks</h2>
+<div data-skill="number-types">
+
+</div>
+<script src="../../js/adaptive-engine.js"></script>
+<script src="../../js/skills/number-types.js"></script>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
