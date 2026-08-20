@@ -77,6 +77,49 @@ ul.task-list li input[type="checkbox"] {
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&amp;family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
 
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -394,8 +437,18 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#mixtures-of-directions" id="toc-mixtures-of-directions" class="nav-link active" data-scroll-target="#mixtures-of-directions">Mixtures of directions</a></li>
+  <li><a href="#the-projection-formula-coordinates-from-dot-products" id="toc-the-projection-formula-coordinates-from-dot-products" class="nav-link" data-scroll-target="#the-projection-formula-coordinates-from-dot-products">The projection formula: coordinates from dot products</a></li>
+  <li><a href="#remarks-and-cautions" id="toc-remarks-and-cautions" class="nav-link" data-scroll-target="#remarks-and-cautions">Remarks and cautions</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#practice-until-it-sticks" id="toc-practice-until-it-sticks" class="nav-link" data-scroll-target="#practice-until-it-sticks">Practice until it sticks</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -420,11 +473,91 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<div class="stub-note">
-<p>This section is being written. The corresponding material is still available in the <a href="../lectures/all-lectures.html">lecture pages</a>.</p>
+<p>Download a crystal structure file — a CIF, the crystallographer’s standard — and the atom positions look strange: silicon at <span class="math inline">(0.470,\ 0,\ 0)</span>, oxygen at <span class="math inline">(0.415,\ 0.267,\ 0.119)</span>, all coordinates dimensionless and none larger than 1. These are <em>fractional coordinates</em>: not distances along <span class="math inline">x</span>, <span class="math inline">y</span>, <span class="math inline">z</span>, but fractions of the crystal’s own three repeat vectors <span class="math inline">\mathbf{a}</span>, <span class="math inline">\mathbf{b}</span>, <span class="math inline">\mathbf{c}</span> — the edges of the unit cell, which in quartz are neither equal in length nor all at right angles. The file is telling you a position the way a resident gives directions — “half a block that way, a quarter block the other way” — in units of the city’s own street grid, not some surveyor’s absolute north. This section is about that freedom: what it takes for a set of vectors to serve as a <em>grid for describing everything</em>, why the description is then unique, and how the dot product of Section <a href="../02-vectors/03-dot-product.html">2.3</a> computes the description whenever the grid is rectangular.</p>
+<section id="mixtures-of-directions" class="level2">
+<h2 class="anchored" data-anchor-id="mixtures-of-directions">Mixtures of directions</h2>
+<p>Section <a href="../02-vectors/02-magnitude.html">2.2</a> ended with every vector written as <span class="math inline">\mathbf{v} = v_x \hat{\mathbf{x}} + v_y \hat{\mathbf{y}} + v_z \hat{\mathbf{z}}</span> — a mixture of three standard directions with coefficients. The general recipe deserves a name.</p>
+<div class="env definition">
+<p><strong>Definition 2.4.1 (Linear combination).</strong> A <strong>linear combination</strong> of vectors <span class="math inline">\mathbf{b}_1, \ldots, \mathbf{b}_n</span> is any vector of the form <span class="math inline">c_1 \mathbf{b}_1 + \cdots + c_n \mathbf{b}_n</span> with scalar coefficients <span class="math inline">c_i</span> — the vectors scaled and added, nothing more. The two operations of §2.1 are the only ingredients.</p>
 </div>
+<p>The question with teeth is the converse one. Given some chosen vectors — the crystal’s <span class="math inline">\mathbf{a}, \mathbf{b}, \mathbf{c}</span>, say — can <em>every</em> position be written as a combination of them? And if so, in only one way? “Every” is called <em>spanning</em>; “only one way” is uniqueness, and it matters just as much: if the oxygen at <span class="math inline">(0.415, 0.267, 0.119)</span> could equally be described by different numbers, the file format would be ambiguous and structure comparison meaningless.</p>
+<div class="env definition">
+<p><strong>Definition 2.4.2 (Basis).</strong> A set of vectors is a <strong>basis</strong> for space if every vector can be written as a linear combination of them in <em>exactly one</em> way. The coefficients of that unique combination are the vector’s <strong>coordinates</strong> in the basis. In three dimensions, any three vectors that do not lie in a common plane form a basis.</p>
+</div>
+<p>The non-coplanarity condition is where geometry enforces the bookkeeping. Three vectors squashed into one plane can only ever mix to vectors <em>in that plane</em> — spanning fails for everything off it — and, more subtly, vectors they do reach they reach in many ways. Three independent directions are exactly enough: enough to get everywhere, few enough to get everywhere only once. (Chapter 3 will hand us a one-number test for non-coplanarity — the determinant; for now, geometry decides.) The deep shift in this definition is that coordinates stop being <em>properties of a vector</em> and become <em>a relationship between a vector and a chosen basis</em>. The bond vector is physical; its coordinate triple is negotiated. Same arrow, new basis, new numbers.</p>
+<div class="env example">
+<p><strong>Example 2.4.3 (Fractional to Cartesian).</strong> An orthorhombic crystal has mutually perpendicular cell vectors of lengths <span class="math inline">a = 5.0</span>, <span class="math inline">b = 7.0</span>, <span class="math inline">c = 9.0</span> Å. An atom sits at fractional coordinates <span class="math inline">(u, v, w) = (0.25, 0.50, 0.10)</span>. Where is it in Cartesian Å?</p>
+<p><em>Setting it up.</em> Fractional coordinates are coordinates in the basis <span class="math inline">\{\mathbf{a}, \mathbf{b}, \mathbf{c}\}</span>: the position is <span class="math inline">\mathbf{r} = u\,\mathbf{a} + v\,\mathbf{b} + w\,\mathbf{c}</span>. With the cell vectors along the Cartesian axes, <span class="math inline">\mathbf{a} = (5, 0, 0)</span>, <span class="math inline">\mathbf{b} = (0, 7, 0)</span>, <span class="math inline">\mathbf{c} = (0, 0, 9)</span>.</p>
+<p><em>Solution.</em> <span class="math display">
+\mathbf{r} = 0.25\,(5, 0, 0) + 0.50\,(0, 7, 0) + 0.10\,(0, 0, 9)
+= (1.25,\ 3.50,\ 0.90)\ \text{Å}.
+</span></p>
+<p><em>Check.</em> Units: fractions are dimensionless, the Å rides on the cell vectors, so the result is in Å ✓. Bounds: every fractional coordinate lies in <span class="math inline">[0, 1)</span>, so the atom must sit inside the cell — each Cartesian component is indeed less than its cell edge (<span class="math inline">1.25 &lt; 5</span>, <span class="math inline">3.50 &lt; 7</span>, <span class="math inline">0.90 &lt; 9</span>) ✓. Limiting case: fractional <span class="math inline">(1, 0, 0)</span> must land at <span class="math inline">\mathbf{a}</span> itself, and the formula delivers <span class="math inline">(5, 0, 0)</span> ✓.</p>
+</div>
+</section>
+<section id="the-projection-formula-coordinates-from-dot-products" class="level2">
+<h2 class="anchored" data-anchor-id="the-projection-formula-coordinates-from-dot-products">The projection formula: coordinates from dot products</h2>
+<p>For a general basis, finding coordinates means solving simultaneous equations (Chapter 3 builds the machinery). But for the bases chemists use most — mutually perpendicular unit vectors — the dot product collapses the whole problem into three independent one-line computations. Call such a basis <strong>orthonormal</strong>: each vector has unit length, and each pair is orthogonal, conditions expressible entirely in §2.3’s language as <span class="math inline">\hat{\mathbf{e}}_i \cdot \hat{\mathbf{e}}_j = 1</span> when <span class="math inline">i = j</span> and <span class="math inline">0</span> when <span class="math inline">i \neq j</span>.</p>
+<div class="env theorem">
+<p><strong>Theorem 2.4.4 (Coordinates by projection).</strong> If <span class="math inline">\{\hat{\mathbf{e}}_1, \hat{\mathbf{e}}_2, \hat{\mathbf{e}}_3\}</span> is an orthonormal basis, then every vector satisfies <span class="math display">
+\mathbf{v} = (\mathbf{v} \cdot \hat{\mathbf{e}}_1)\, \hat{\mathbf{e}}_1 + (\mathbf{v} \cdot \hat{\mathbf{e}}_2)\, \hat{\mathbf{e}}_2 + (\mathbf{v} \cdot \hat{\mathbf{e}}_3)\, \hat{\mathbf{e}}_3 :
+</span> the coordinate on each basis vector is simply the dot product with it — the scalar projection of §2.3.</p>
+</div>
+<div class="env proof">
+<p><span class="proof-title"><em>Proof</em>. </span>Being a basis, the set gives <span class="math inline">\mathbf{v} = c_1 \hat{\mathbf{e}}_1 + c_2 \hat{\mathbf{e}}_2 + c_3 \hat{\mathbf{e}}_3</span> for some unique coefficients; the work is to identify them. Dot both sides with <span class="math inline">\hat{\mathbf{e}}_1</span> and let the dot product’s distributivity (§2.3) carry the operation across the sum: <span class="math display">
+\mathbf{v} \cdot \hat{\mathbf{e}}_1
+= c_1 (\hat{\mathbf{e}}_1 \cdot \hat{\mathbf{e}}_1) + c_2 (\hat{\mathbf{e}}_2 \cdot \hat{\mathbf{e}}_1) + c_3 (\hat{\mathbf{e}}_3 \cdot \hat{\mathbf{e}}_1)
+= c_1 (1) + c_2 (0) + c_3 (0) = c_1 .
+</span> Orthonormality annihilated every term but the first: the perpendicular pairs contributed zeros, the unit length contributed a clean 1. The same move with <span class="math inline">\hat{\mathbf{e}}_2</span> and <span class="math inline">\hat{\mathbf{e}}_3</span> extracts <span class="math inline">c_2</span> and <span class="math inline">c_3</span>.</p>
+</div>
+<p>Stand back from the proof for a moment, because its structure is one of the load-bearing patterns of physical science. Orthogonality made the coordinates <em>independent</em> — each one computable alone, by one projection, with no simultaneous equations and no interference between directions. When quantum mechanics expands a molecular orbital over basis functions, when a spectrum is decomposed into frequencies, the operative identity is this theorem with the dot product suitably generalized; “the coefficient is the overlap with the basis member” is a sentence you will hear for years, and this is its first, three-dimensional appearance.</p>
+<div class="env example">
+<p><strong>Example 2.4.5 (A dipole in the molecule’s own frame).</strong> A molecule’s symmetry axes, expressed in the lab frame, are the orthonormal pair <span class="math inline">\hat{\mathbf{e}}_1 = (0.6, 0.8)</span> and <span class="math inline">\hat{\mathbf{e}}_2 = (-0.8, 0.6)</span> (a rotated frame, working in the molecular plane). The molecule’s dipole, measured in the lab, is <span class="math inline">\boldsymbol{\mu} = (2.0, 1.0)</span> D. What are the dipole’s components along the molecular axes?</p>
+<p><em>Setting it up.</em> Check the basis first: <span class="math inline">|\hat{\mathbf{e}}_1|^2 = 0.36 + 0.64 = 1</span> ✓, <span class="math inline">|\hat{\mathbf{e}}_2|^2 = 1</span> ✓, and <span class="math inline">\hat{\mathbf{e}}_1 \cdot \hat{\mathbf{e}}_2 = -0.48 + 0.48 = 0</span> ✓ — orthonormal, so Theorem 2.4.4 applies and each component is one dot product.</p>
+<p><em>Solution.</em> <span class="math display">
+\mu_1 = \boldsymbol{\mu} \cdot \hat{\mathbf{e}}_1 = (2.0)(0.6) + (1.0)(0.8) = 2.0\ \text{D},
+\qquad
+\mu_2 = \boldsymbol{\mu} \cdot \hat{\mathbf{e}}_2 = (2.0)(-0.8) + (1.0)(0.6) = -1.0\ \text{D}.
+</span> In its own frame the molecule’s dipole is <span class="math inline">(2.0, -1.0)</span> D.</p>
+<p><em>Check.</em> The physical arrow didn’t change, so its length must not either: lab frame gives <span class="math inline">|\boldsymbol{\mu}|^2 = 4 + 1 = 5</span>; molecular frame gives <span class="math inline">2^2 + (-1)^2 = 5</span> ✓. This invariance is the standing audit for every change of orthonormal basis — coordinates are negotiable, magnitudes are not, and a mismatch means an arithmetic error with certainty.</p>
+</div>
+</section>
+<section id="remarks-and-cautions" class="level2">
+<h2 class="anchored" data-anchor-id="remarks-and-cautions">Remarks and cautions</h2>
+<p><strong>The vector is physical; the coordinates are a description.</strong> A bond vector does not “have” the components <span class="math inline">(0.958, 0, 0)</span> — it has them <em>relative to somebody’s axes</em>. Two papers can disagree in every coordinate and describe identical molecules. Before comparing coordinates across sources, compare bases; this is not politeness but the definition of coordinates.</p>
+<p><strong>The projection formula requires orthonormality — crystallographers live where it fails.</strong> In a triclinic cell the basis <span class="math inline">\{\mathbf{a}, \mathbf{b}, \mathbf{c}\}</span> is neither unit nor perpendicular, the cross terms in the proof no longer vanish, and <span class="math inline">\mathbf{v} \cdot \mathbf{a}</span> is <em>not</em> the fractional coordinate <span class="math inline">u</span>. Using Theorem 2.4.4 with a non-orthonormal basis is the section’s signature error: the formula computes projections regardless, and they are silently the wrong numbers.</p>
+<p><strong>Three vectors are not automatically a basis.</strong> Coplanar triples span only their plane. The suspicion test is a Chapter 3 determinant; the symptom, if you blunder into it, is simultaneous equations with no solution or infinitely many.</p>
+<p><strong>Fractional coordinates are dimensionless.</strong> The Å lives in the cell vectors, exactly as §2.2 put units in the magnitude and none in the direction. Reporting fractional coordinates “in Å” — or converting by multiplying <span class="math inline">u</span> by the wrong edge — are both unit-audit failures before they are geometry failures.</p>
+</section>
+<section id="summary" class="level2">
+<h2 class="anchored" data-anchor-id="summary">Summary</h2>
+<p>A basis is a set of directions rich enough to describe every vector and lean enough to describe each only once — three non-coplanar vectors in space — and coordinates are the coefficients of that unique description, a <em>relationship</em> between vector and basis rather than a property of the vector. Crystallography’s fractional coordinates are exactly this idea in daily professional use, with the unit cell as basis. When the basis is orthonormal, Theorem 2.4.4 computes each coordinate independently as a dot product — the coefficient is the projection — by the cross-term-killing argument that underlies every orthogonal expansion in physical science, from this page’s rotated dipole to the orbital expansions of quantum chemistry; and the invariance of magnitude under such re-description is both a physical truth and a working error check. What we cannot yet do is <em>transform</em> — send every vector somewhere new, rotate frames wholesale, and solve the non-orthonormal case honestly. Those are matrices, and they are Chapter 3.</p>
+<div class="exercises">
+<p>Exercises</p>
+<ol type="1">
+<li><p>Which of these pairs form a basis of the plane? (a) <span class="math inline">(1, 2)</span> and <span class="math inline">(2, 4)</span>; (b) <span class="math inline">(1, 2)</span> and <span class="math inline">(2, 1)</span>; (c) <span class="math inline">(0.6, 0.8)</span> and <span class="math inline">(-0.8, 0.6)</span>. For each failure, exhibit a vector that cannot be written in the pair, or two different descriptions of one vector.</p></li>
+<li><p>A tetragonal crystal has perpendicular cell vectors with <span class="math inline">a = b = 4.0</span> Å, <span class="math inline">c = 6.6</span> Å. Convert fractional <span class="math inline">(0.5, 0.25, 0.75)</span> to Cartesian Å, and convert Cartesian <span class="math inline">(2.0, 3.0, 3.3)</span> Å back to fractional.</p></li>
+<li><p>Verify that <span class="math inline">\hat{\mathbf{e}}_1 = \tfrac{1}{\sqrt2}(1, 1)</span>, <span class="math inline">\hat{\mathbf{e}}_2 = \tfrac{1}{\sqrt2}(1, -1)</span> is orthonormal, then use Theorem 2.4.4 to find the coordinates of <span class="math inline">\mathbf{v} = (5, 1)</span> in it. Confirm magnitude invariance numerically.</p></li>
+<li><p>In Example 2.4.5’s molecular frame, a second molecule’s dipole reads <span class="math inline">(0, 1.5)</span> D. What is it in the lab frame? (You are running the theorem’s expansion direction: multiply out <span class="math inline">\mu_1\hat{\mathbf{e}}_1 + \mu_2\hat{\mathbf{e}}_2</span>.)</p></li>
+<li><p>Explain in two sentences why the <em>same</em> dot products <span class="math inline">\mathbf{v} \cdot \mathbf{a}</span>, <span class="math inline">\mathbf{v} \cdot \mathbf{b}</span>, <span class="math inline">\mathbf{v} \cdot \mathbf{c}</span> that fail to give fractional coordinates in a triclinic cell <em>do</em> succeed in a cubic one. Which two properties of the cubic cell vectors are doing the work?</p></li>
+<li><p>The standard basis is orthonormal, so Theorem 2.4.4 must reproduce ordinary components. Verify symbolically: <span class="math inline">(\mathbf{v} \cdot \hat{\mathbf{x}})\hat{\mathbf{x}} + (\mathbf{v} \cdot \hat{\mathbf{y}})\hat{\mathbf{y}} + (\mathbf{v} \cdot \hat{\mathbf{z}})\hat{\mathbf{z}} = (v_x, v_y, v_z)</span>.</p></li>
+<li><p>★ Prove uniqueness directly for orthonormal bases: if <span class="math inline">c_1\hat{\mathbf{e}}_1 + c_2\hat{\mathbf{e}}_2 + c_3\hat{\mathbf{e}}_3 = c_1'\hat{\mathbf{e}}_1 + c_2'\hat{\mathbf{e}}_2 + c_3'\hat{\mathbf{e}}_3</span>, dot with each basis vector to force <span class="math inline">c_i = c_i'</span>. Where exactly does orthonormality enter, and what could go wrong without it?</p></li>
+<li><p>★ Build an orthonormal basis for the plane containing <span class="math inline">\mathbf{u} = (3, 4)</span>: take <span class="math inline">\hat{\mathbf{e}}_1 = \hat{\mathbf{u}}</span>, then find the unit vector perpendicular to it (two choices — give both), and express <span class="math inline">\mathbf{w} = (1, 7)</span> in your basis. This bootstrapping — normalize, project away, repeat — is the Gram–Schmidt process in miniature.</p></li>
+<li><p>★ Show that for any orthonormal basis, <span class="math inline">|\mathbf{v}|^2 = c_1^2 + c_2^2 + c_3^2</span> (Parseval’s identity in three dimensions): expand <span class="math inline">\mathbf{v} \cdot \mathbf{v}</span> with the theorem’s expression and let orthonormality kill the cross terms. Why does this guarantee the magnitude-invariance check of Example 2.4.5 in general?</p></li>
+<li><p>★★ A triclinic cell has <span class="math inline">\mathbf{a} = (5, 0, 0)</span>, <span class="math inline">\mathbf{b} = (1, 6, 0)</span>, <span class="math inline">\mathbf{c} = (0.5, 0.5, 7)</span> Å (skewed, as real triclinic cells are). An atom has fractional coordinates <span class="math inline">(0.2, 0.3, 0.4)</span>. Find its Cartesian position (the expansion direction still works — it always does), then compute the naive “fractional coordinate” <span class="math inline">\mathbf{r} \cdot \mathbf{a} / |\mathbf{a}|^2</span> and show it disagrees with 0.2, diagnosing precisely which cross term the orthonormal proof would have killed.</p></li>
+</ol>
+</div>
+</section>
+<section id="practice-until-it-sticks" class="level2">
+<h2 class="anchored" data-anchor-id="practice-until-it-sticks">Practice until it sticks</h2>
+<div data-skill="basis-coords">
+
+</div>
+<script src="../../js/adaptive-engine.js"></script>
+<script src="../../js/skills/basis-coords.js"></script>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

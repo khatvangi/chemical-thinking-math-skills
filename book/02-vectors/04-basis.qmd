@@ -2,6 +2,119 @@
 title: "2.4 Basis and Coordinates"
 ---
 
-::: {.stub-note}
-This section is being written. The corresponding material is still available in the [lecture pages](/lectures/all-lectures.html).
+Download a crystal structure file — a CIF, the crystallographer's standard — and the atom positions look strange: silicon at $(0.470,\ 0,\ 0)$, oxygen at $(0.415,\ 0.267,\ 0.119)$, all coordinates dimensionless and none larger than 1. These are *fractional coordinates*: not distances along $x$, $y$, $z$, but fractions of the crystal's own three repeat vectors $\mathbf{a}$, $\mathbf{b}$, $\mathbf{c}$ — the edges of the unit cell, which in quartz are neither equal in length nor all at right angles. The file is telling you a position the way a resident gives directions — "half a block that way, a quarter block the other way" — in units of the city's own street grid, not some surveyor's absolute north. This section is about that freedom: what it takes for a set of vectors to serve as a *grid for describing everything*, why the description is then unique, and how the dot product of Section [2.3](03-dot-product.qmd) computes the description whenever the grid is rectangular.
+
+## Mixtures of directions
+
+Section [2.2](02-magnitude.qmd) ended with every vector written as $\mathbf{v} = v_x \hat{\mathbf{x}} + v_y \hat{\mathbf{y}} + v_z \hat{\mathbf{z}}$ — a mixture of three standard directions with coefficients. The general recipe deserves a name.
+
+::: {.env .definition}
+**Definition 2.4.1 (Linear combination).** A **linear combination** of vectors $\mathbf{b}_1, \ldots, \mathbf{b}_n$ is any vector of the form $c_1 \mathbf{b}_1 + \cdots + c_n \mathbf{b}_n$ with scalar coefficients $c_i$ — the vectors scaled and added, nothing more. The two operations of §2.1 are the only ingredients.
 :::
+
+The question with teeth is the converse one. Given some chosen vectors — the crystal's $\mathbf{a}, \mathbf{b}, \mathbf{c}$, say — can *every* position be written as a combination of them? And if so, in only one way? "Every" is called *spanning*; "only one way" is uniqueness, and it matters just as much: if the oxygen at $(0.415, 0.267, 0.119)$ could equally be described by different numbers, the file format would be ambiguous and structure comparison meaningless.
+
+::: {.env .definition}
+**Definition 2.4.2 (Basis).** A set of vectors is a **basis** for space if every vector can be written as a linear combination of them in *exactly one* way. The coefficients of that unique combination are the vector's **coordinates** in the basis. In three dimensions, any three vectors that do not lie in a common plane form a basis.
+:::
+
+The non-coplanarity condition is where geometry enforces the bookkeeping. Three vectors squashed into one plane can only ever mix to vectors *in that plane* — spanning fails for everything off it — and, more subtly, vectors they do reach they reach in many ways. Three independent directions are exactly enough: enough to get everywhere, few enough to get everywhere only once. (Chapter 3 will hand us a one-number test for non-coplanarity — the determinant; for now, geometry decides.) The deep shift in this definition is that coordinates stop being *properties of a vector* and become *a relationship between a vector and a chosen basis*. The bond vector is physical; its coordinate triple is negotiated. Same arrow, new basis, new numbers.
+
+::: {.env .example}
+**Example 2.4.3 (Fractional to Cartesian).** An orthorhombic crystal has mutually perpendicular cell vectors of lengths $a = 5.0$, $b = 7.0$, $c = 9.0$ Å. An atom sits at fractional coordinates $(u, v, w) = (0.25, 0.50, 0.10)$. Where is it in Cartesian Å?
+
+*Setting it up.* Fractional coordinates are coordinates in the basis $\{\mathbf{a}, \mathbf{b}, \mathbf{c}\}$: the position is $\mathbf{r} = u\,\mathbf{a} + v\,\mathbf{b} + w\,\mathbf{c}$. With the cell vectors along the Cartesian axes, $\mathbf{a} = (5, 0, 0)$, $\mathbf{b} = (0, 7, 0)$, $\mathbf{c} = (0, 0, 9)$.
+
+*Solution.*
+$$
+\mathbf{r} = 0.25\,(5, 0, 0) + 0.50\,(0, 7, 0) + 0.10\,(0, 0, 9)
+= (1.25,\ 3.50,\ 0.90)\ \text{Å}.
+$$
+
+*Check.* Units: fractions are dimensionless, the Å rides on the cell vectors, so the result is in Å ✓. Bounds: every fractional coordinate lies in $[0, 1)$, so the atom must sit inside the cell — each Cartesian component is indeed less than its cell edge ($1.25 < 5$, $3.50 < 7$, $0.90 < 9$) ✓. Limiting case: fractional $(1, 0, 0)$ must land at $\mathbf{a}$ itself, and the formula delivers $(5, 0, 0)$ ✓.
+:::
+
+## The projection formula: coordinates from dot products
+
+For a general basis, finding coordinates means solving simultaneous equations (Chapter 3 builds the machinery). But for the bases chemists use most — mutually perpendicular unit vectors — the dot product collapses the whole problem into three independent one-line computations. Call such a basis **orthonormal**: each vector has unit length, and each pair is orthogonal, conditions expressible entirely in §2.3's language as $\hat{\mathbf{e}}_i \cdot \hat{\mathbf{e}}_j = 1$ when $i = j$ and $0$ when $i \neq j$.
+
+::: {.env .theorem}
+**Theorem 2.4.4 (Coordinates by projection).** If $\{\hat{\mathbf{e}}_1, \hat{\mathbf{e}}_2, \hat{\mathbf{e}}_3\}$ is an orthonormal basis, then every vector satisfies
+$$
+\mathbf{v} = (\mathbf{v} \cdot \hat{\mathbf{e}}_1)\, \hat{\mathbf{e}}_1 + (\mathbf{v} \cdot \hat{\mathbf{e}}_2)\, \hat{\mathbf{e}}_2 + (\mathbf{v} \cdot \hat{\mathbf{e}}_3)\, \hat{\mathbf{e}}_3 :
+$$
+the coordinate on each basis vector is simply the dot product with it — the scalar projection of §2.3.
+:::
+
+::: {.env .proof}
+Being a basis, the set gives $\mathbf{v} = c_1 \hat{\mathbf{e}}_1 + c_2 \hat{\mathbf{e}}_2 + c_3 \hat{\mathbf{e}}_3$ for some unique coefficients; the work is to identify them. Dot both sides with $\hat{\mathbf{e}}_1$ and let the dot product's distributivity (§2.3) carry the operation across the sum:
+$$
+\mathbf{v} \cdot \hat{\mathbf{e}}_1
+= c_1 (\hat{\mathbf{e}}_1 \cdot \hat{\mathbf{e}}_1) + c_2 (\hat{\mathbf{e}}_2 \cdot \hat{\mathbf{e}}_1) + c_3 (\hat{\mathbf{e}}_3 \cdot \hat{\mathbf{e}}_1)
+= c_1 (1) + c_2 (0) + c_3 (0) = c_1 .
+$$
+Orthonormality annihilated every term but the first: the perpendicular pairs contributed zeros, the unit length contributed a clean 1. The same move with $\hat{\mathbf{e}}_2$ and $\hat{\mathbf{e}}_3$ extracts $c_2$ and $c_3$.
+:::
+
+Stand back from the proof for a moment, because its structure is one of the load-bearing patterns of physical science. Orthogonality made the coordinates *independent* — each one computable alone, by one projection, with no simultaneous equations and no interference between directions. When quantum mechanics expands a molecular orbital over basis functions, when a spectrum is decomposed into frequencies, the operative identity is this theorem with the dot product suitably generalized; "the coefficient is the overlap with the basis member" is a sentence you will hear for years, and this is its first, three-dimensional appearance.
+
+::: {.env .example}
+**Example 2.4.5 (A dipole in the molecule's own frame).** A molecule's symmetry axes, expressed in the lab frame, are the orthonormal pair $\hat{\mathbf{e}}_1 = (0.6, 0.8)$ and $\hat{\mathbf{e}}_2 = (-0.8, 0.6)$ (a rotated frame, working in the molecular plane). The molecule's dipole, measured in the lab, is $\boldsymbol{\mu} = (2.0, 1.0)$ D. What are the dipole's components along the molecular axes?
+
+*Setting it up.* Check the basis first: $|\hat{\mathbf{e}}_1|^2 = 0.36 + 0.64 = 1$ ✓, $|\hat{\mathbf{e}}_2|^2 = 1$ ✓, and $\hat{\mathbf{e}}_1 \cdot \hat{\mathbf{e}}_2 = -0.48 + 0.48 = 0$ ✓ — orthonormal, so Theorem 2.4.4 applies and each component is one dot product.
+
+*Solution.*
+$$
+\mu_1 = \boldsymbol{\mu} \cdot \hat{\mathbf{e}}_1 = (2.0)(0.6) + (1.0)(0.8) = 2.0\ \text{D},
+\qquad
+\mu_2 = \boldsymbol{\mu} \cdot \hat{\mathbf{e}}_2 = (2.0)(-0.8) + (1.0)(0.6) = -1.0\ \text{D}.
+$$
+In its own frame the molecule's dipole is $(2.0, -1.0)$ D.
+
+*Check.* The physical arrow didn't change, so its length must not either: lab frame gives $|\boldsymbol{\mu}|^2 = 4 + 1 = 5$; molecular frame gives $2^2 + (-1)^2 = 5$ ✓. This invariance is the standing audit for every change of orthonormal basis — coordinates are negotiable, magnitudes are not, and a mismatch means an arithmetic error with certainty.
+:::
+
+## Remarks and cautions
+
+**The vector is physical; the coordinates are a description.** A bond vector does not "have" the components $(0.958, 0, 0)$ — it has them *relative to somebody's axes*. Two papers can disagree in every coordinate and describe identical molecules. Before comparing coordinates across sources, compare bases; this is not politeness but the definition of coordinates.
+
+**The projection formula requires orthonormality — crystallographers live where it fails.** In a triclinic cell the basis $\{\mathbf{a}, \mathbf{b}, \mathbf{c}\}$ is neither unit nor perpendicular, the cross terms in the proof no longer vanish, and $\mathbf{v} \cdot \mathbf{a}$ is *not* the fractional coordinate $u$. Using Theorem 2.4.4 with a non-orthonormal basis is the section's signature error: the formula computes projections regardless, and they are silently the wrong numbers.
+
+**Three vectors are not automatically a basis.** Coplanar triples span only their plane. The suspicion test is a Chapter 3 determinant; the symptom, if you blunder into it, is simultaneous equations with no solution or infinitely many.
+
+**Fractional coordinates are dimensionless.** The Å lives in the cell vectors, exactly as §2.2 put units in the magnitude and none in the direction. Reporting fractional coordinates "in Å" — or converting by multiplying $u$ by the wrong edge — are both unit-audit failures before they are geometry failures.
+
+## Summary
+
+A basis is a set of directions rich enough to describe every vector and lean enough to describe each only once — three non-coplanar vectors in space — and coordinates are the coefficients of that unique description, a *relationship* between vector and basis rather than a property of the vector. Crystallography's fractional coordinates are exactly this idea in daily professional use, with the unit cell as basis. When the basis is orthonormal, Theorem 2.4.4 computes each coordinate independently as a dot product — the coefficient is the projection — by the cross-term-killing argument that underlies every orthogonal expansion in physical science, from this page's rotated dipole to the orbital expansions of quantum chemistry; and the invariance of magnitude under such re-description is both a physical truth and a working error check. What we cannot yet do is *transform* — send every vector somewhere new, rotate frames wholesale, and solve the non-orthonormal case honestly. Those are matrices, and they are Chapter 3.
+
+::: {.exercises}
+Exercises
+
+1. Which of these pairs form a basis of the plane? (a) $(1, 2)$ and $(2, 4)$; (b) $(1, 2)$ and $(2, 1)$; (c) $(0.6, 0.8)$ and $(-0.8, 0.6)$. For each failure, exhibit a vector that cannot be written in the pair, or two different descriptions of one vector.
+
+2. A tetragonal crystal has perpendicular cell vectors with $a = b = 4.0$ Å, $c = 6.6$ Å. Convert fractional $(0.5, 0.25, 0.75)$ to Cartesian Å, and convert Cartesian $(2.0, 3.0, 3.3)$ Å back to fractional.
+
+3. Verify that $\hat{\mathbf{e}}_1 = \tfrac{1}{\sqrt2}(1, 1)$, $\hat{\mathbf{e}}_2 = \tfrac{1}{\sqrt2}(1, -1)$ is orthonormal, then use Theorem 2.4.4 to find the coordinates of $\mathbf{v} = (5, 1)$ in it. Confirm magnitude invariance numerically.
+
+4. In Example 2.4.5's molecular frame, a second molecule's dipole reads $(0, 1.5)$ D. What is it in the lab frame? (You are running the theorem's expansion direction: multiply out $\mu_1\hat{\mathbf{e}}_1 + \mu_2\hat{\mathbf{e}}_2$.)
+
+5. Explain in two sentences why the *same* dot products $\mathbf{v} \cdot \mathbf{a}$, $\mathbf{v} \cdot \mathbf{b}$, $\mathbf{v} \cdot \mathbf{c}$ that fail to give fractional coordinates in a triclinic cell *do* succeed in a cubic one. Which two properties of the cubic cell vectors are doing the work?
+
+6. The standard basis is orthonormal, so Theorem 2.4.4 must reproduce ordinary components. Verify symbolically: $(\mathbf{v} \cdot \hat{\mathbf{x}})\hat{\mathbf{x}} + (\mathbf{v} \cdot \hat{\mathbf{y}})\hat{\mathbf{y}} + (\mathbf{v} \cdot \hat{\mathbf{z}})\hat{\mathbf{z}} = (v_x, v_y, v_z)$.
+
+7. ★ Prove uniqueness directly for orthonormal bases: if $c_1\hat{\mathbf{e}}_1 + c_2\hat{\mathbf{e}}_2 + c_3\hat{\mathbf{e}}_3 = c_1'\hat{\mathbf{e}}_1 + c_2'\hat{\mathbf{e}}_2 + c_3'\hat{\mathbf{e}}_3$, dot with each basis vector to force $c_i = c_i'$. Where exactly does orthonormality enter, and what could go wrong without it?
+
+8. ★ Build an orthonormal basis for the plane containing $\mathbf{u} = (3, 4)$: take $\hat{\mathbf{e}}_1 = \hat{\mathbf{u}}$, then find the unit vector perpendicular to it (two choices — give both), and express $\mathbf{w} = (1, 7)$ in your basis. This bootstrapping — normalize, project away, repeat — is the Gram–Schmidt process in miniature.
+
+9. ★ Show that for any orthonormal basis, $|\mathbf{v}|^2 = c_1^2 + c_2^2 + c_3^2$ (Parseval's identity in three dimensions): expand $\mathbf{v} \cdot \mathbf{v}$ with the theorem's expression and let orthonormality kill the cross terms. Why does this guarantee the magnitude-invariance check of Example 2.4.5 in general?
+
+10. ★★ A triclinic cell has $\mathbf{a} = (5, 0, 0)$, $\mathbf{b} = (1, 6, 0)$, $\mathbf{c} = (0.5, 0.5, 7)$ Å (skewed, as real triclinic cells are). An atom has fractional coordinates $(0.2, 0.3, 0.4)$. Find its Cartesian position (the expansion direction still works — it always does), then compute the naive "fractional coordinate" $\mathbf{r} \cdot \mathbf{a} / |\mathbf{a}|^2$ and show it disagrees with 0.2, diagnosing precisely which cross term the orthonormal proof would have killed.
+:::
+
+## Practice until it sticks
+
+<div data-skill="basis-coords"></div>
+
+<script src="../../js/adaptive-engine.js"></script>
+<script src="../../js/skills/basis-coords.js"></script>
