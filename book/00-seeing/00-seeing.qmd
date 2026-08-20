@@ -2,6 +2,49 @@
 title: "Seeing Like a Chemist"
 ---
 
-::: {.stub-note}
-This section is being written. The corresponding material is still available in the [lecture pages](/lectures/all-lectures.html).
+Stand at a bench and watch a copper sulfate solution meet ammonia. The pale blue deepens to royal; the color front swells outward from the point of mixing; the beaker warms in your palm; and if you wait, deep blue crystals appear, every one of them bounded by faces that meet at the same angles as every other. Nothing in that minute required an equation. But everything in it was already mathematical — not because numbers were present, but because *patterns* were, and mathematics is the discipline of saying patterns precisely.
+
+This book rests on a single claim: before there is mathematics and before there is chemistry, there is perception, and both subjects are built from the same small stock of perceptual patterns. You watched the color *become* something else — that is **change**. It spread *faster at first, then slower* — that is **rate**. The heat you felt was energy *totaled up* over countless molecular events — **accumulation**. The crystal faces *point* — **direction** — and their angles repeat because the packing underneath repeats — **arrangement** and **sameness**. A traditional course would hand you the derivative, the vector, and the probability distribution as finished tools and then hunt for applications. We will go the other way: phenomenon first, pattern second, tool last. When the tool finally arrives, it should feel less like something new and more like notation for what you already saw.
+
+## The nine primitives
+
+Nine patterns of perception carry the whole book. They are older than science — a child tracking a rolling ball uses most of them — and each one, made precise, becomes a branch of mathematics.
+
+| Primitive | The perception | The tool it summons | Where chemistry needs it |
+|---|---|---|---|
+| **Collection** | "there are many" | sets, counting, factorials | moles, electron shells |
+| **Arrangement** | "order matters" | permutations, matrices | isomers, crystal packing |
+| **Direction** | "it points" | vectors, dot product | bond angles, dipoles |
+| **Proximity** | "near versus far" | functions, limits | potential energy, equilibrium |
+| **Sameness** | "unchanged" | symmetry, eigenvalues | conservation, resonance |
+| **Change** | "becoming" | derivatives, operators | reactions, transitions |
+| **Rate** | "how fast" | derivatives, differential equations | kinetics, half-life |
+| **Accumulation** | "all together" | integrals | work, heat, total yield |
+| **Spread** | "distributed" | probability | Boltzmann, entropy |
+
+Read the table twice: once down the second column, where every entry is something you could point at with a finger, and once down the third, where every entry is a mathematics course. The thesis of this book is that each row is *one* idea wearing two costumes. The mole is not "an application of" set cardinality; counting a collection is what both are doing. A bond dipole is not "modeled by" a vector; *pointing with a magnitude* is the entire content of both notions.
+
+::: {.env .remark}
+The primitives are not mutually exclusive, and real phenomena almost always engage several at once. That is not a defect of the scheme — it is the skill you are here to build. An experienced chemist looking at a titration curve sees **proximity** (the approach to equivalence), **rate** (the steepness of the jump), and **accumulation** (the running total of added titrant) simultaneously, and reaches for the matching tools without deliberation. Recognition is fast, and it can be trained.
 :::
+
+## Recognition is the skill
+
+Consider a single, ordinary laboratory fact: a solution of hydrogen peroxide slowly goes flat, evolving oxygen. Watch what a trained eye extracts from it.
+
+The peroxide molecules are many and interchangeable — a **collection**, and the mole is already implicit. The concentration is *becoming* smaller: **change**, and the tool that captures becoming-at-an-instant is the derivative. The decomposition is faster in the first hour than the third — **rate**, and the question "how does the rate depend on how much is left?" is precisely a differential equation, the machine that will give you half-lives in Chapter 5. The total oxygen collected in the gas buret is the accumulated sum of countless individual decompositions — **accumulation**, an integral before you have ever written ∫. And if you ask *which* molecules decompose — why this one now and that one later — you are asking about energies **spread** over a population: the Boltzmann distribution, waiting at the end of the book.
+
+One flask, five primitives, and the entire second half of the course laid out in the order the phenomena demand it. Nothing here required you to be told what a derivative is. It required you to *see becoming* and to want to speak about it precisely. That wanting is where every chapter of this book begins.
+
+## How each section works
+
+Every numbered section that follows keeps one contract with you. It opens with a chemical situation and lets the situation generate the mathematical question. Definitions arrive only after the need for them is felt, and every important equation is derived in narrated steps — you should never meet a formula whose origin you could not reconstruct. Worked examples end with a **Check** paragraph, because professionals verify: units, signs, limiting cases, orders of magnitude. Interactive figures ask you to **predict before you test** — commit to an answer, then play, because the gap between your prediction and the result is where learning happens. And each section closes with exercises that ramp from routine to genuinely hard, plus an adaptive practice block that watches *how* you go wrong and answers with the specific correction, not a generic "try again."
+
+The primitive vocabulary is not decoration; we will use it. When Chapter 2 asks "what does a bond *do*?" and answers "it points," that observation — not any textbook's syllabus — is what forces vectors into existence. Practice the recognition below, then turn the page and start counting.
+
+## Practice: name the primitive
+
+<div data-skill="primitive-recognition"></div>
+
+<script src="../../js/adaptive-engine.js"></script>
+<script src="../../js/skills/primitive-recognition.js"></script>
