@@ -564,6 +564,24 @@ z_1 z_2 = r_1 r_2 \left[ (\cos\alpha\cos\beta - \sin\alpha\sin\beta) + i(\sin\al
 = (1 + \cos\varphi)^2 + \sin^2\varphi
 = 2 + 2\cos\varphi .
 </span> At <span class="math inline">\varphi = 0</span>: intensity <span class="math inline">4</span> — twice the naive sum of the two unit intensities; the waves reinforce. At <span class="math inline">\varphi = 180°</span>: intensity <span class="math inline">0</span> — total annihilation, energy nowhere at this point. Chemistry has a name for this pair of outcomes: when two atomic orbitals overlap <em>in phase</em> they reinforce into a <strong>bonding</strong> orbital, and <em>out of phase</em> they cancel into an <strong>antibonding</strong> one — the entire covalent bond, the reason molecules exist, is constructive interference, and the <span class="math inline">\pm</span> that generations of students have drawn on orbital lobes is the argument of a complex number wearing a disguise. The wavefunctions of Module 3’s quantum chemistry are complex-valued from birth; here in Chapter 1 it is enough to know <em>why they must be</em>: the electron keeps two books, and <span class="math inline">\mathbb{C}</span> is the only number system with double-entry built in.</p>
+<div class="widget-frame">
+<div class="widget-predict">
+<p>Two waves travel; the slider sets their phase difference <span class="math inline">\varphi</span>. Before touching it: predict the sum wave at <span class="math inline">\varphi = 0°</span>, at <span class="math inline">180°</span> — and predict the <span class="math inline">\varphi</span> at which the combined intensity equals exactly what two <em>non-interfering</em> unit waves would give (intensity 2).</p>
+</div>
+<div class="widget-body">
+<div style="margin-bottom:0.6rem;">
+<p><label>phase difference φ <input type="range" id="wiPhi" min="0" max="360" value="0" step="5"></label></p>
+</div>
+<canvas id="wiCanvas" width="660" height="320">
+</canvas>
+<div id="wiReadout" class="widget-readout">
+
+</div>
+</div>
+<div class="widget-debrief">
+<p>At <span class="math inline">\varphi = 0</span> the crests ride crests: intensity 4, twice the naive sum — the bonding surplus. At <span class="math inline">180°</span> crest meets trough and the sum is <em>flat</em>: the antibonding node, energy nowhere. The break-even <span class="math inline">\varphi = 90°</span> gives <span class="math inline">2 + 2\cos 90° = 2</span>: interference neither helps nor harms. All of it is the single complex number <span class="math inline">1 + \operatorname{cis}\varphi</span> changing length — phase, made audible to arithmetic.</p>
+</div>
+</div>
 <p>One more fact closes the chapter, and it is the tower’s summit. Every extension in §1.1 was provoked by an unsolvable equation: <span class="math inline">x + 5 = 3</span> forced <span class="math inline">\mathbb{Z}</span>, <span class="math inline">3x = 1</span> forced <span class="math inline">\mathbb{Q}</span>, <span class="math inline">x^2 = 2</span> forced <span class="math inline">\mathbb{R}</span>, <span class="math inline">x^2 = -1</span> forced <span class="math inline">\mathbb{C}</span>. The pattern invites the question: what equation will force the next level? The <strong>Fundamental Theorem of Algebra</strong> answers: <em>none</em>. Every polynomial equation with complex (or real) coefficients has all of its solutions already inside <span class="math inline">\mathbb{C}</span> — the system is <em>algebraically closed</em>. The escape-and-repair engine that built the whole tower runs out of fuel precisely here. <span class="math inline">\mathbb{C}</span> is not one more way station; it is, for algebra, the top.</p>
 </section>
 <section id="remarks-and-cautions" class="level2">
@@ -597,6 +615,7 @@ z_1 z_2 = r_1 r_2 \left[ (\cos\alpha\cos\beta - \sin\alpha\sin\beta) + i(\sin\al
 <div data-skill="complex-numbers">
 
 </div>
+<script src="../js/widgets/wave-interference.js"></script>
 <script src="../../js/adaptive-engine.js"></script>
 <script src="../../js/skills/complex-numbers.js"></script>
 

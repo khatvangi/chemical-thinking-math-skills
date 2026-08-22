@@ -57,6 +57,22 @@ Count ordered selections of $k$ objects in two ways. Directly, there are $P(n,k)
 
 The proof technique — count one thing two ways and set the answers equal — is as valuable as the formula, and the formula itself now explains the $0! = 1$ convention: choosing all $n$ objects can be done exactly one way, and $\binom{n}{n} = \frac{n!}{n!\,0!}$ delivers 1 only if $0! = 1$. The symbol $\binom{n}{k}$ is read "$n$ choose $k$."
 
+::: {.widget-frame}
+::: {.widget-predict}
+Five flasks, three slots, run order mattering. Before pressing play: predict the number the running product reaches — and then predict what single arithmetic act will convert that ordered count into the number of unordered panels.
+:::
+::: {.widget-body}
+<div style="margin-bottom:0.6rem;">
+  <button id="pcPlay" type="button">▶ choose, then merge</button>
+</div>
+<canvas id="pcCanvas" width="660" height="400"></canvas>
+<div class="widget-readout" id="pcReadout"></div>
+:::
+::: {.widget-debrief}
+Phase one is the multiplication principle with a shrinking pool — each departure leaves a ghost seat, and the factors fall 5, 4, 3. Phase two is the entire proof of Theorem 1.3.3 in motion: the six orderings of one trio converge to a single panel because, as a *choice*, they always were one thing counted six ways. The merge is the division by $k!$.
+:::
+:::
+
 ::: {.env .example}
 **Example 1.3.4 (Microstates of a p² configuration).** A carbon atom's two 2p electrons occupy the six 2p spin-orbitals (three spatial orbitals × two spins, by the multiplication principle of §1.2). Electrons are indistinguishable and no spin-orbital holds two. How many distinct microstates does p² have?
 
@@ -116,5 +132,6 @@ Exercises
 
 <div data-skill="counting"></div>
 
+<script src="../js/widgets/perm-combo.js"></script>
 <script src="../../js/adaptive-engine.js"></script>
 <script src="../../js/skills/counting.js"></script>

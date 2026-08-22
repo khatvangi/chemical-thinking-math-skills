@@ -104,6 +104,22 @@ $$
 $$
 At $\varphi = 0$: intensity $4$ — twice the naive sum of the two unit intensities; the waves reinforce. At $\varphi = 180°$: intensity $0$ — total annihilation, energy nowhere at this point. Chemistry has a name for this pair of outcomes: when two atomic orbitals overlap *in phase* they reinforce into a **bonding** orbital, and *out of phase* they cancel into an **antibonding** one — the entire covalent bond, the reason molecules exist, is constructive interference, and the $\pm$ that generations of students have drawn on orbital lobes is the argument of a complex number wearing a disguise. The wavefunctions of Module 3's quantum chemistry are complex-valued from birth; here in Chapter 1 it is enough to know *why they must be*: the electron keeps two books, and $\mathbb{C}$ is the only number system with double-entry built in.
 
+::: {.widget-frame}
+::: {.widget-predict}
+Two waves travel; the slider sets their phase difference $\varphi$. Before touching it: predict the sum wave at $\varphi = 0°$, at $180°$ — and predict the $\varphi$ at which the combined intensity equals exactly what two *non-interfering* unit waves would give (intensity 2).
+:::
+::: {.widget-body}
+<div style="margin-bottom:0.6rem;">
+  <label>phase difference φ <input type="range" id="wiPhi" min="0" max="360" value="0" step="5"></label>
+</div>
+<canvas id="wiCanvas" width="660" height="320"></canvas>
+<div class="widget-readout" id="wiReadout"></div>
+:::
+::: {.widget-debrief}
+At $\varphi = 0$ the crests ride crests: intensity 4, twice the naive sum — the bonding surplus. At $180°$ crest meets trough and the sum is *flat*: the antibonding node, energy nowhere. The break-even $\varphi = 90°$ gives $2 + 2\cos 90° = 2$: interference neither helps nor harms. All of it is the single complex number $1 + \operatorname{cis}\varphi$ changing length — phase, made audible to arithmetic.
+:::
+:::
+
 One more fact closes the chapter, and it is the tower's summit. Every extension in §1.1 was provoked by an unsolvable equation: $x + 5 = 3$ forced $\mathbb{Z}$, $3x = 1$ forced $\mathbb{Q}$, $x^2 = 2$ forced $\mathbb{R}$, $x^2 = -1$ forced $\mathbb{C}$. The pattern invites the question: what equation will force the next level? The **Fundamental Theorem of Algebra** answers: *none*. Every polynomial equation with complex (or real) coefficients has all of its solutions already inside $\mathbb{C}$ — the system is *algebraically closed*. The escape-and-repair engine that built the whole tower runs out of fuel precisely here. $\mathbb{C}$ is not one more way station; it is, for algebra, the top.
 
 ## Remarks and cautions
@@ -148,5 +164,6 @@ Exercises
 
 <div data-skill="complex-numbers"></div>
 
+<script src="../js/widgets/wave-interference.js"></script>
 <script src="../../js/adaptive-engine.js"></script>
 <script src="../../js/skills/complex-numbers.js"></script>

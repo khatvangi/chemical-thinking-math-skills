@@ -43,6 +43,24 @@ Fix an entry position $i$ and compare what each reading puts there. Reading (i) 
 
 The column picture is the chemically vivid one for our broth: "0.5 of the glucose column, plus 2.0 of the ethanol column, plus 10.0 of the water column" — each column is a compound's elemental identity, and the product blends identities in recipe proportions, precisely the linear-combination language of §2.4. The row picture is the computationally vivid one — three independent dot products, each answerable alone. Fluency means switching between the pictures without noticing.
 
+::: {.widget-frame}
+::: {.widget-predict}
+The animation builds $A\mathbf{v}$ by the column picture: set $v_1$ and $v_2$, then play. Before pressing: predict where the resultant lands for $v_1 = 2, v_2 = 0$ — and say which single ingredient of §2.1 the final gliding step is.
+:::
+::: {.widget-body}
+<div style="display:flex; gap:1.2rem; flex-wrap:wrap; align-items:center; margin-bottom:0.6rem;">
+  <label>v₁ <input type="range" id="cmV1" min="0" max="3" value="2" step="1"></label>
+  <label>v₂ <input type="range" id="cmV2" min="0" max="3" value="1" step="1"></label>
+  <button id="cmPlay" type="button">▶ mix the columns</button>
+</div>
+<canvas id="cmCanvas" width="660" height="380"></canvas>
+<div class="widget-readout" id="cmReadout"></div>
+:::
+::: {.widget-debrief}
+Three acts, all of them Chapter 2: each column is scaled by its entry of $\mathbf{v}$ (scalar multiplication), then laid tip-to-tail (vector addition), and the resultant *is* $A\mathbf{v}$. With $v_2 = 0$ the second column never leaves the origin — the product is just $v_1$ copies of column 1. A matrix–vector product contains no new arithmetic; it is a *recipe for mixing columns*, which is exactly how the broth audit below will read.
+:::
+:::
+
 ::: {.env .example}
 **Example 3.1.4 (The broth audit).** Compute the element totals for the recipe above.
 
@@ -116,5 +134,6 @@ Exercises
 
 <div data-skill="matrix-vector"></div>
 
+<script src="../js/widgets/column-mix.js"></script>
 <script src="../../js/adaptive-engine.js"></script>
 <script src="../../js/skills/matrix-vector.js"></script>

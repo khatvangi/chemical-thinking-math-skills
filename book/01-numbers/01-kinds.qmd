@@ -46,6 +46,30 @@ Read the proof's structure, because you will meet it again: assume the thing you
 *Check.* Units survive: Å times a dimensionless $\sqrt{2}$ is Å. Magnitude: a face diagonal must exceed the edge ($7.98 > 5.64$ ✓) but be less than double it ($< 11.3$ ✓). And the apparent paradox — an irrational model value reported as a rational — dissolves once you see that *measurement truncates*: the instrument delivers a rational approximation to a real-valued model. Both statements are true; they are about different things.
 :::
 
+::: {.widget-frame}
+::: {.widget-predict}
+The tower so far, drawn as nested sets — each system inside the next. Before playing each escape: predict which wall the question will fail to cross, and what number it becomes on the other side. Then ask: does the outermost dashed frontier ever get escaped in turn? (§1.4 answers.)
+:::
+::: {.widget-body}
+<div style="display:flex; gap:1.2rem; flex-wrap:wrap; align-items:center; margin-bottom:0.6rem;">
+  <label>the escape
+    <select id="ntEscape">
+      <option value="sub">3 − 5 — subtraction breaks ℕ</option>
+      <option value="div">1 ÷ 3 — division breaks ℤ</option>
+      <option value="sqrt">x² = 2 — roots break ℚ</option>
+      <option value="imag">x² = −1 — squares break ℝ</option>
+    </select>
+  </label>
+  <button id="ntPlay" type="button">▶ play the escape</button>
+</div>
+<canvas id="ntCanvas" width="660" height="380"></canvas>
+<div class="widget-readout" id="ntReadout"></div>
+:::
+::: {.widget-debrief}
+Every ring exists because a question rattled against the previous wall and broke through: the tower is not a classification handed down but a history of escapes. Note what sits in each *band* — the band between ℚ and ℝ holds $\sqrt2$ and $\pi$, numbers in ℝ but not in ℚ — and note that the ℂ frontier is drawn dashed: §1.4 proves it is the last wall, never itself escaped.
+:::
+:::
+
 ## What kind of number is a chemical quantity?
 
 You can now classify with precision, and the classification does work. Counts of particles, protons, and quanta are naturals — and this is physics, not bookkeeping: the principal quantum number takes values $n = 1, 2, 3, \ldots$ and *nothing between*, which is why atomic spectra are lines rather than smears. Charges and oxidation states are integers. Ratios built from counts — mole fractions, dilution factors, stoichiometric coefficients — are exact rationals, and doing their arithmetic as fractions postpones rounding error until the final step. Continuously variable quantities — mass, energy, concentration, temperature — are *modeled* as reals so that the calculus of Chapters 4 and 5 can apply, while every actual measurement of them is a rational approximation with stated precision.
@@ -94,5 +118,6 @@ Exercises
 
 <div data-skill="number-types"></div>
 
+<script src="../js/widgets/number-tower.js"></script>
 <script src="../../js/adaptive-engine.js"></script>
 <script src="../../js/skills/number-types.js"></script>

@@ -49,6 +49,22 @@ Take any element of $A \cup B$ and ask how often the right-hand side counts it. 
 *Check.* Bounds first: a union can never exceed the sum ($16 \le 21$ ✓) nor be smaller than its larger part ($16 \ge 12$ ✓). Consistency: the four disjoint categories — polar only ($12-5 = 7$), aprotic only ($9-5 = 4$), both ($5$), neither ($14$) — must return the whole shelf: $7 + 4 + 5 + 14 = 30$ ✓. And the answer passes the DMSO test: a bottle in both sets was counted once, not twice.
 :::
 
+::: {.widget-frame}
+::: {.widget-predict}
+Example 1.2.4's shelf, drawn. Before pressing play: predict what will happen to the five shared solvents during the count — and at what number the tally will momentarily peak before the correction lands.
+:::
+::: {.widget-body}
+<div style="margin-bottom:0.6rem;">
+  <button id="vcPlay" type="button">▶ run the count</button>
+</div>
+<canvas id="vcCanvas" width="660" height="400"></canvas>
+<div class="widget-readout" id="vcReadout"></div>
+:::
+::: {.widget-debrief}
+The tally overshoots to 21 for exactly one reason, visible as it happens: each solvent in the lens got tallied once as polar and once again as aprotic. Inclusion–exclusion is not a formula to memorize but this animation run backward — subtract precisely the overcount, once per shared member, and never touch anything counted correctly.
+:::
+:::
+
 ## Pairing collections: the product
 
 One more construction earns its keep before the next section, and it answers the question every experimental design begins with. You will screen 4 solvents at 3 temperatures: how many experiments is that? Each experiment is a *pair* — one solvent, one temperature — and the set of all such pairs is the **Cartesian product** $S \times T = \{(s, t) : s \in S,\ t \in T\}$. Note the parentheses: $(s,t)$ is an *ordered* pair, our first departure from the set's indifference to order — $(\text{DMSO}, 25\,°\mathrm{C})$ and $(25\,°\mathrm{C}, \text{DMSO})$ describe one experiment, but the slots mean different things.
@@ -117,5 +133,6 @@ by auditing, as in the proof of Theorem 1.2.3, how often each kind of element is
 
 <div data-skill="sets"></div>
 
+<script src="../js/widgets/venn-count.js"></script>
 <script src="../../js/adaptive-engine.js"></script>
 <script src="../../js/skills/sets.js"></script>

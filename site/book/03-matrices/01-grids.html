@@ -528,6 +528,24 @@ A \mathbf{v} = v_1 \, (\text{col}_1 A) + v_2 \, (\text{col}_2 A) + \cdots + v_n 
 <p><span class="proof-title"><em>Proof</em>. </span>Fix an entry position <span class="math inline">i</span> and compare what each reading puts there. Reading (i) puts <span class="math inline">\sum_j a_{ij} v_j</span> there directly, by Definition 3.1.2. In reading (ii), the <span class="math inline">j</span>-th term of the combination is the column vector <span class="math inline">v_j (\text{col}_j A)</span>, whose <span class="math inline">i</span>-th entry is <span class="math inline">v_j a_{ij}</span>; summing the terms entrywise puts <span class="math inline">\sum_j v_j a_{ij}</span> in position <span class="math inline">i</span>. The two sums are the same numbers added in the same way. Since every entry agrees, the vectors are equal.</p>
 </div>
 <p>The column picture is the chemically vivid one for our broth: “0.5 of the glucose column, plus 2.0 of the ethanol column, plus 10.0 of the water column” — each column is a compound’s elemental identity, and the product blends identities in recipe proportions, precisely the linear-combination language of §2.4. The row picture is the computationally vivid one — three independent dot products, each answerable alone. Fluency means switching between the pictures without noticing.</p>
+<div class="widget-frame">
+<div class="widget-predict">
+<p>The animation builds <span class="math inline">A\mathbf{v}</span> by the column picture: set <span class="math inline">v_1</span> and <span class="math inline">v_2</span>, then play. Before pressing: predict where the resultant lands for <span class="math inline">v_1 = 2, v_2 = 0</span> — and say which single ingredient of §2.1 the final gliding step is.</p>
+</div>
+<div class="widget-body">
+<div style="display:flex; gap:1.2rem; flex-wrap:wrap; align-items:center; margin-bottom:0.6rem;">
+<p><label>v₁ <input type="range" id="cmV1" min="0" max="3" value="2" step="1"></label> <label>v₂ <input type="range" id="cmV2" min="0" max="3" value="1" step="1"></label> <button id="cmPlay" type="button">▶ mix the columns</button></p>
+</div>
+<canvas id="cmCanvas" width="660" height="380">
+</canvas>
+<div id="cmReadout" class="widget-readout">
+
+</div>
+</div>
+<div class="widget-debrief">
+<p>Three acts, all of them Chapter 2: each column is scaled by its entry of <span class="math inline">\mathbf{v}</span> (scalar multiplication), then laid tip-to-tail (vector addition), and the resultant <em>is</em> <span class="math inline">A\mathbf{v}</span>. With <span class="math inline">v_2 = 0</span> the second column never leaves the origin — the product is just <span class="math inline">v_1</span> copies of column 1. A matrix–vector product contains no new arithmetic; it is a <em>recipe for mixing columns</em>, which is exactly how the broth audit below will read.</p>
+</div>
+</div>
 <div class="env example">
 <p><strong>Example 3.1.4 (The broth audit).</strong> Compute the element totals for the recipe above.</p>
 <p><em>Setting it up.</em> Totals <span class="math inline">= A\mathbf{n}</span>, a <span class="math inline">3 \times 3</span> grid times a 3-vector: dimensions compatible.</p>
@@ -583,6 +601,7 @@ E = \begin{pmatrix} \varepsilon_{1X} &amp; \varepsilon_{1Y} \\ \varepsilon_{2X} 
 <div data-skill="matrix-vector">
 
 </div>
+<script src="../js/widgets/column-mix.js"></script>
 <script src="../../js/adaptive-engine.js"></script>
 <script src="../../js/skills/matrix-vector.js"></script>
 

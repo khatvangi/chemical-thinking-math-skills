@@ -533,6 +533,24 @@ A \setminus B = \{x : x \in A \text{ and } x \notin B\} \qquad \text{(difference
 <p><em>Solution.</em> Inclusion–exclusion gives <span class="math inline">|P \cup A| = 12 + 9 - 5 = 16</span>, so the “neither” count is <span class="math inline">30 - 16 = 14</span>.</p>
 <p><em>Check.</em> Bounds first: a union can never exceed the sum (<span class="math inline">16 \le 21</span> ✓) nor be smaller than its larger part (<span class="math inline">16 \ge 12</span> ✓). Consistency: the four disjoint categories — polar only (<span class="math inline">12-5 = 7</span>), aprotic only (<span class="math inline">9-5 = 4</span>), both (<span class="math inline">5</span>), neither (<span class="math inline">14</span>) — must return the whole shelf: <span class="math inline">7 + 4 + 5 + 14 = 30</span> ✓. And the answer passes the DMSO test: a bottle in both sets was counted once, not twice.</p>
 </div>
+<div class="widget-frame">
+<div class="widget-predict">
+<p>Example 1.2.4’s shelf, drawn. Before pressing play: predict what will happen to the five shared solvents during the count — and at what number the tally will momentarily peak before the correction lands.</p>
+</div>
+<div class="widget-body">
+<div style="margin-bottom:0.6rem;">
+<p><button id="vcPlay" type="button">▶ run the count</button></p>
+</div>
+<canvas id="vcCanvas" width="660" height="400">
+</canvas>
+<div id="vcReadout" class="widget-readout">
+
+</div>
+</div>
+<div class="widget-debrief">
+<p>The tally overshoots to 21 for exactly one reason, visible as it happens: each solvent in the lens got tallied once as polar and once again as aprotic. Inclusion–exclusion is not a formula to memorize but this animation run backward — subtract precisely the overcount, once per shared member, and never touch anything counted correctly.</p>
+</div>
+</div>
 </section>
 <section id="pairing-collections-the-product" class="level2">
 <h2 class="anchored" data-anchor-id="pairing-collections-the-product">Pairing collections: the product</h2>
@@ -582,6 +600,7 @@ A \setminus B = \{x : x \in A \text{ and } x \notin B\} \qquad \text{(difference
 <div data-skill="sets">
 
 </div>
+<script src="../js/widgets/venn-count.js"></script>
 <script src="../../js/adaptive-engine.js"></script>
 <script src="../../js/skills/sets.js"></script>
 

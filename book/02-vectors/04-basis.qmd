@@ -58,6 +58,23 @@ Orthonormality annihilated every term but the first: the perpendicular pairs con
 
 Stand back from the proof for a moment, because its structure is one of the load-bearing patterns of physical science. Orthogonality made the coordinates *independent* — each one computable alone, by one projection, with no simultaneous equations and no interference between directions. When quantum mechanics expands a molecular orbital over basis functions, when a spectrum is decomposed into frequencies, the operative identity is this theorem with the dot product suitably generalized; "the coefficient is the overlap with the basis member" is a sentence you will hear for years, and this is its first, three-dimensional appearance.
 
+::: {.widget-frame}
+::: {.widget-predict}
+Press play and the grid will glide from the lab's square axes to a crystal's skewed cell axes. Predict which of these changes and which does not: the red arrow's direction; the red arrow's length; the numbers describing it.
+:::
+::: {.widget-body}
+<div style="display:flex; gap:1.2rem; flex-wrap:wrap; align-items:center; margin-bottom:0.6rem;">
+  <button id="bcPlay" type="button">▶ lab ⇄ cell axes</button>
+  <label>scrub <input type="range" id="bcScrub" min="0" max="100" value="0"></label>
+</div>
+<canvas id="bcCanvas" width="660" height="420"></canvas>
+<div class="widget-readout" id="bcReadout"></div>
+:::
+::: {.widget-debrief}
+The arrow never moves — watch it against the ghost grid — yet its coordinate readout changes continuously as the basis slides beneath it. That is the section's central distinction performed: the vector is physical, the coordinates are a negotiation between the vector and whichever grid is currently asking. Fractional coordinates in a CIF are the far end of this animation, lived in daily.
+:::
+:::
+
 ::: {.env .example}
 **Example 2.4.5 (A dipole in the molecule's own frame).** A molecule's symmetry axes, expressed in the lab frame, are the orthonormal pair $\hat{\mathbf{e}}_1 = (0.6, 0.8)$ and $\hat{\mathbf{e}}_2 = (-0.8, 0.6)$ (a rotated frame, working in the molecular plane). The molecule's dipole, measured in the lab, is $\boldsymbol{\mu} = (2.0, 1.0)$ D. What are the dipole's components along the molecular axes?
 
@@ -116,5 +133,6 @@ Exercises
 
 <div data-skill="basis-coords"></div>
 
+<script src="../js/widgets/basis-change.js"></script>
 <script src="../../js/adaptive-engine.js"></script>
 <script src="../../js/skills/basis-coords.js"></script>

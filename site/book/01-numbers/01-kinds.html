@@ -532,6 +532,24 @@ window.Quarto = {
 <p><em>Solution.</em> In the model, if <span class="math inline">a</span> is taken as an exact length then <span class="math inline">a\sqrt{2}</span> is irrational — a rational times an irrational is always irrational (Exercise 5). Numerically, <span class="math inline">5.640 \times 1.41421\ldots = 7.976</span> Å. The reported value <span class="math inline">7.976</span> is, like every finite decimal, rational.</p>
 <p><em>Check.</em> Units survive: Å times a dimensionless <span class="math inline">\sqrt{2}</span> is Å. Magnitude: a face diagonal must exceed the edge (<span class="math inline">7.98 &gt; 5.64</span> ✓) but be less than double it (<span class="math inline">&lt; 11.3</span> ✓). And the apparent paradox — an irrational model value reported as a rational — dissolves once you see that <em>measurement truncates</em>: the instrument delivers a rational approximation to a real-valued model. Both statements are true; they are about different things.</p>
 </div>
+<div class="widget-frame">
+<div class="widget-predict">
+<p>The tower so far, drawn as nested sets — each system inside the next. Before playing each escape: predict which wall the question will fail to cross, and what number it becomes on the other side. Then ask: does the outermost dashed frontier ever get escaped in turn? (§1.4 answers.)</p>
+</div>
+<div class="widget-body">
+<div style="display:flex; gap:1.2rem; flex-wrap:wrap; align-items:center; margin-bottom:0.6rem;">
+<p><label>the escape <select id="ntEscape"> <option value="sub">3 − 5 — subtraction breaks ℕ</option> <option value="div">1 ÷ 3 — division breaks ℤ</option> <option value="sqrt">x² = 2 — roots break ℚ</option> <option value="imag">x² = −1 — squares break ℝ</option> </select> </label> <button id="ntPlay" type="button">▶ play the escape</button></p>
+</div>
+<canvas id="ntCanvas" width="660" height="380">
+</canvas>
+<div id="ntReadout" class="widget-readout">
+
+</div>
+</div>
+<div class="widget-debrief">
+<p>Every ring exists because a question rattled against the previous wall and broke through: the tower is not a classification handed down but a history of escapes. Note what sits in each <em>band</em> — the band between ℚ and ℝ holds <span class="math inline">\sqrt2</span> and <span class="math inline">\pi</span>, numbers in ℝ but not in ℚ — and note that the ℂ frontier is drawn dashed: §1.4 proves it is the last wall, never itself escaped.</p>
+</div>
+</div>
 </section>
 <section id="what-kind-of-number-is-a-chemical-quantity" class="level2">
 <h2 class="anchored" data-anchor-id="what-kind-of-number-is-a-chemical-quantity">What kind of number is a chemical quantity?</h2>
@@ -569,6 +587,7 @@ window.Quarto = {
 <div data-skill="number-types">
 
 </div>
+<script src="../js/widgets/number-tower.js"></script>
 <script src="../../js/adaptive-engine.js"></script>
 <script src="../../js/skills/number-types.js"></script>
 

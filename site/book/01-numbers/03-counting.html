@@ -539,6 +539,24 @@ P(15,8) = \frac{15!}{7!} = 15 \times 14 \times 13 \times 12 \times 11 \times 10 
 <p><span class="proof-title"><em>Proof</em>. </span>Count ordered selections of <span class="math inline">k</span> objects in two ways. Directly, there are <span class="math inline">P(n,k)</span>. Alternatively, build an ordered selection by first choosing <em>which</em> <span class="math inline">k</span> objects (this is the unknown count, call it <span class="math inline">C</span>) and then ordering them (<span class="math inline">k!</span> ways); by the multiplication principle the total is <span class="math inline">C \cdot k!</span>. The two counts describe the same collection of ordered selections, so <span class="math inline">C \cdot k! = P(n,k)</span>, giving <span class="math inline">C = P(n,k)/k!</span>.</p>
 </div>
 <p>The proof technique — count one thing two ways and set the answers equal — is as valuable as the formula, and the formula itself now explains the <span class="math inline">0! = 1</span> convention: choosing all <span class="math inline">n</span> objects can be done exactly one way, and <span class="math inline">\binom{n}{n} = \frac{n!}{n!\,0!}</span> delivers 1 only if <span class="math inline">0! = 1</span>. The symbol <span class="math inline">\binom{n}{k}</span> is read “<span class="math inline">n</span> choose <span class="math inline">k</span>.”</p>
+<div class="widget-frame">
+<div class="widget-predict">
+<p>Five flasks, three slots, run order mattering. Before pressing play: predict the number the running product reaches — and then predict what single arithmetic act will convert that ordered count into the number of unordered panels.</p>
+</div>
+<div class="widget-body">
+<div style="margin-bottom:0.6rem;">
+<p><button id="pcPlay" type="button">▶ choose, then merge</button></p>
+</div>
+<canvas id="pcCanvas" width="660" height="400">
+</canvas>
+<div id="pcReadout" class="widget-readout">
+
+</div>
+</div>
+<div class="widget-debrief">
+<p>Phase one is the multiplication principle with a shrinking pool — each departure leaves a ghost seat, and the factors fall 5, 4, 3. Phase two is the entire proof of Theorem 1.3.3 in motion: the six orderings of one trio converge to a single panel because, as a <em>choice</em>, they always were one thing counted six ways. The merge is the division by <span class="math inline">k!</span>.</p>
+</div>
+</div>
 <div class="env example">
 <p><strong>Example 1.3.4 (Microstates of a p² configuration).</strong> A carbon atom’s two 2p electrons occupy the six 2p spin-orbitals (three spatial orbitals × two spins, by the multiplication principle of §1.2). Electrons are indistinguishable and no spin-orbital holds two. How many distinct microstates does p² have?</p>
 <p><em>Setting it up.</em> A microstate is a <em>choice of which 2 of the 6 spin-orbitals are occupied</em> — unordered, because swapping identical electrons produces literally the same physical state. That is <span class="math inline">\binom{6}{2}</span>.</p>
@@ -583,6 +601,7 @@ P(15,8) = \frac{15!}{7!} = 15 \times 14 \times 13 \times 12 \times 11 \times 10 
 <div data-skill="counting">
 
 </div>
+<script src="../js/widgets/perm-combo.js"></script>
 <script src="../../js/adaptive-engine.js"></script>
 <script src="../../js/skills/counting.js"></script>
 
