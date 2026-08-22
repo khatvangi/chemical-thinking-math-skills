@@ -533,6 +533,25 @@ window.Quarto = {
 <li><span class="math inline">\det A &lt; 0</span> means the map <strong>flips orientation</strong> — it is, or contains, a reflection. This is the one-number chirality flag promised in §3.3: rotations have <span class="math inline">\det R(\theta) = \cos^2\theta + \sin^2\theta = +1</span>, while every mirror has <span class="math inline">\det = -1</span>, which is why no amount of rotating (<span class="math inline">+1</span> times <span class="math inline">+1</span> forever) ever reproduces a reflection;</li>
 <li><span class="math inline">\det A = 0</span> means the columns are parallel (zero spanned area): the map <em>flattens</em> the plane onto a line, distinct inputs collide onto identical outputs, and no inverse can exist — §3.2’s singular matrices, now seen geometrically. The dye assay with proportional absorptivity columns didn’t fail by bad luck; its matrix crushed concentration space flat, and the measurement could not be un-crushed.</li>
 </ul>
+<p>All three bullets can be <em>watched</em>. Replay §3.3’s grid animation with this section’s eyes on the readout: the moving number is <span class="math inline">\det M(t)</span> as the plane deforms, the shaded square is the unit of area being priced, and the color flip at the instant the square turns inside-out is the sign changing hands.</p>
+<div class="widget-frame">
+<div class="widget-predict">
+<p>Run <em>rotation 90°</em> and watch only the det readout: predict its value throughout the whole motion. Then run <em>shear</em> — the square leans hard; predict the final determinant before the animation ends.</p>
+</div>
+<div class="widget-body">
+<div style="display:flex; gap:1.2rem; flex-wrap:wrap; align-items:center; margin-bottom:0.6rem;">
+<p><label>matrix <select id="gtPreset"> <option value="shear">shear</option> <option value="rot90">rotation 90°</option> <option value="reflect">reflection σᵥ</option> <option value="scale">anisotropic scale</option> <option value="singular">singular collapse</option> </select> </label> <button id="gtPlay" type="button">▶ play</button> <label>scrub <input type="range" id="gtScrub" min="0" max="100" value="0"></label></p>
+</div>
+<canvas id="gtCanvas" width="640" height="440">
+</canvas>
+<div id="gtReadout" class="widget-readout">
+
+</div>
+</div>
+<div class="widget-debrief">
+<p>The rotation holds <span class="math inline">\det = 1</span> for the <em>entire</em> motion — rigid turning never touches area or orientation. The shear ends at <span class="math inline">\det = 1</span> too, the surprise that Example 3.4.4’s leaning unit cell will monetize: slant costs no volume. The reflection passes through <span class="math inline">\det = 0</span> on its way to <span class="math inline">-1</span> — to turn the square inside out, the animation must momentarily flatten it — and the singular matrix parks there permanently: area annihilated, plane collapsed to a line, no inverse to be had at any price.</p>
+</div>
+</div>
 <p>Composition seals the story. Applying <span class="math inline">B</span> then <span class="math inline">A</span> scales areas by <span class="math inline">|\det B|</span>, then by <span class="math inline">|\det A|</span> — so the composite must scale by the product, and signs multiply for the same reason (two flips make a straight):</p>
 <div class="env theorem">
 <p><strong>Theorem 3.4.3 (Product rule).</strong> <span class="math inline">\det(AB) = \det(A)\,\det(B)</span>.</p>
@@ -591,6 +610,7 @@ V = \left| \det \begin{pmatrix} 9.8 &amp; 0 &amp; -1.2 \\ 0 &amp; 9.4 &amp; 0 \\
 <div data-skill="determinants">
 
 </div>
+<script src="../js/widgets/grid-transform.js"></script>
 <script src="../../js/adaptive-engine.js"></script>
 <script src="../../js/skills/determinants.js"></script>
 

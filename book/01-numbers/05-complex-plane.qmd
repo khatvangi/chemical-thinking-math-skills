@@ -80,6 +80,24 @@ Theorem 1.4.3 handles one multiplication: moduli multiply, angles add. Apply it 
 
 The theorem's practical message is a strategy, and it is *the* strategy of complex fluency: **add in rectangular, multiply in polar.** Addition is painless on $a + bi$ (collect parts) and painful in polar; powers and products are painless in polar (multiply lengths, add angles) and increasingly awful in rectangular. The fluent practitioner converts freely and chooses the representation the operation prefers — exactly as a chemist runs a reaction in the solvent it prefers.
 
+::: {.widget-frame}
+::: {.widget-predict}
+Set $|z| = 1$ and any angle, and predict the shape the powers $z, z^2, z^3, \ldots$ will trace before pressing play. Then nudge $|z|$ to $1.15$ and predict again — and to $0.85$.
+:::
+::: {.widget-body}
+<div style="display:flex; gap:1.2rem; flex-wrap:wrap; align-items:center; margin-bottom:0.6rem;">
+  <label>|z| <input type="range" id="psR" min="0.7" max="1.3" value="1.1" step="0.05"></label>
+  <label>θ <input type="range" id="psTh" min="15" max="170" value="60" step="5"></label>
+  <button id="psPlay" type="button">▶ play z→z⁶</button>
+</div>
+<canvas id="psCanvas" width="640" height="420"></canvas>
+<div class="widget-readout" id="psReadout"></div>
+:::
+::: {.widget-debrief}
+De Moivre, watched: the angle advances by the same $\theta$ at every step while the modulus compounds by the same factor — a point on the unit circle orbits forever, $|z| > 1$ spirals outward, $|z| < 1$ spirals home to zero. Module 2 will meet this exact trichotomy wearing chemical clothes: oscillations that persist, blow up, or damp away are powers of a complex number doing what you just watched.
+:::
+:::
+
 ::: {.env .example}
 **Example 1.5.3 (A power, the smart way).** Compute $(1 + i)^8$.
 
@@ -162,5 +180,6 @@ Exercises
 <div data-skill="complex-plane"></div>
 
 <script src="../js/widgets/complex-plane.js"></script>
+<script src="../js/widgets/power-spiral.js"></script>
 <script src="../../js/adaptive-engine.js"></script>
 <script src="../../js/skills/complex-plane.js"></script>

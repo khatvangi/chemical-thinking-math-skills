@@ -43,6 +43,35 @@ R(\theta) = \begin{pmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta 
 \sigma_y = \begin{pmatrix} -1 & 0 \\ 0 & 1 \end{pmatrix}.
 $$
 
+Before applying these to molecules, watch what a matrix does to *space itself* — not one vector but all of them at once. In the animation below, the entire coordinate grid glides from "nothing has happened" to the full action of the chosen matrix; the basis vectors $\hat{\imath}$ and $\hat{\jmath}$ ride the matrix's columns (Theorem 3.3.2 made them the whole story), and the shaded unit square shows what becomes of area and orientation.
+
+::: {.widget-frame}
+::: {.widget-predict}
+Before pressing play on the <em>shear</em>: the unit square will visibly lean — predict whether its area changes. Then, before <em>singular collapse</em>: the readout will track the determinant as the grid moves — predict its final value, and what the grid must look like when it gets there.
+:::
+::: {.widget-body}
+<div style="display:flex; gap:1.2rem; flex-wrap:wrap; align-items:center; margin-bottom:0.6rem;">
+  <label>matrix
+    <select id="gtPreset">
+      <option value="rot90">rotation 90°</option>
+      <option value="rot30">rotation 30°</option>
+      <option value="shear">shear</option>
+      <option value="reflect">reflection σᵥ</option>
+      <option value="scale">anisotropic scale</option>
+      <option value="singular">singular collapse</option>
+    </select>
+  </label>
+  <button id="gtPlay" type="button">▶ play</button>
+  <label>scrub <input type="range" id="gtScrub" min="0" max="100" value="0"></label>
+</div>
+<canvas id="gtCanvas" width="640" height="440"></canvas>
+<div class="widget-readout" id="gtReadout"></div>
+:::
+::: {.widget-debrief}
+Grid lines stay straight and evenly spaced throughout — that is linearity, watched rather than defined. The shear leans the square without changing its area (det stays 1); the reflection turns the square inside out (det $= -1$, the fill changes color the instant orientation flips); and the singular matrix crushes the whole plane onto a single line — every grid cell's area driven to zero, which is what $\det = 0$ *is*, and why §3.2 could find no inverse: a line cannot be unfolded back into a plane.
+:::
+:::
+
 ::: {.env .example}
 **Example 3.3.3 (Water's $C_2$, executed).** With the axis along $y$, the $C_2$ operation is $\sigma_y$'s cousin: rotation by $180°$ about the $y$-axis in 3D, which acts on in-plane points as $(x, y) \mapsto (-x, y)$ — the matrix $\sigma_y$ above. Apply it to water's three atoms and verify the symmetry claim.
 
@@ -149,5 +178,6 @@ Exercises
 <div data-skill="transformations"></div>
 
 <script src="../js/widgets/transform-2d.js"></script>
+<script src="../js/widgets/grid-transform.js"></script>
 <script src="../../js/adaptive-engine.js"></script>
 <script src="../../js/skills/transformations.js"></script>

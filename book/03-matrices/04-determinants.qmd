@@ -48,6 +48,34 @@ Section [3.3](03-transformations.qmd) taught us to read a matrix as a motion of 
 - $\det A < 0$ means the map **flips orientation** — it is, or contains, a reflection. This is the one-number chirality flag promised in §3.3: rotations have $\det R(\theta) = \cos^2\theta + \sin^2\theta = +1$, while every mirror has $\det = -1$, which is why no amount of rotating ($+1$ times $+1$ forever) ever reproduces a reflection;
 - $\det A = 0$ means the columns are parallel (zero spanned area): the map *flattens* the plane onto a line, distinct inputs collide onto identical outputs, and no inverse can exist — §3.2's singular matrices, now seen geometrically. The dye assay with proportional absorptivity columns didn't fail by bad luck; its matrix crushed concentration space flat, and the measurement could not be un-crushed.
 
+All three bullets can be *watched*. Replay §3.3's grid animation with this section's eyes on the readout: the moving number is $\det M(t)$ as the plane deforms, the shaded square is the unit of area being priced, and the color flip at the instant the square turns inside-out is the sign changing hands.
+
+::: {.widget-frame}
+::: {.widget-predict}
+Run <em>rotation 90°</em> and watch only the det readout: predict its value throughout the whole motion. Then run <em>shear</em> — the square leans hard; predict the final determinant before the animation ends.
+:::
+::: {.widget-body}
+<div style="display:flex; gap:1.2rem; flex-wrap:wrap; align-items:center; margin-bottom:0.6rem;">
+  <label>matrix
+    <select id="gtPreset">
+      <option value="shear">shear</option>
+      <option value="rot90">rotation 90°</option>
+      <option value="reflect">reflection σᵥ</option>
+      <option value="scale">anisotropic scale</option>
+      <option value="singular">singular collapse</option>
+    </select>
+  </label>
+  <button id="gtPlay" type="button">▶ play</button>
+  <label>scrub <input type="range" id="gtScrub" min="0" max="100" value="0"></label>
+</div>
+<canvas id="gtCanvas" width="640" height="440"></canvas>
+<div class="widget-readout" id="gtReadout"></div>
+:::
+::: {.widget-debrief}
+The rotation holds $\det = 1$ for the *entire* motion — rigid turning never touches area or orientation. The shear ends at $\det = 1$ too, the surprise that Example 3.4.4's leaning unit cell will monetize: slant costs no volume. The reflection passes through $\det = 0$ on its way to $-1$ — to turn the square inside out, the animation must momentarily flatten it — and the singular matrix parks there permanently: area annihilated, plane collapsed to a line, no inverse to be had at any price.
+:::
+:::
+
 Composition seals the story. Applying $B$ then $A$ scales areas by $|\det B|$, then by $|\det A|$ — so the composite must scale by the product, and signs multiply for the same reason (two flips make a straight):
 
 ::: {.env .theorem}
@@ -128,5 +156,6 @@ Exercises
 
 <div data-skill="determinants"></div>
 
+<script src="../js/widgets/grid-transform.js"></script>
 <script src="../../js/adaptive-engine.js"></script>
 <script src="../../js/skills/determinants.js"></script>
