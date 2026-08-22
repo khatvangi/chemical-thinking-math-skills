@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>1.4 Complex Numbers – Chemical Thinking</title>
+<title>1.5 Working in the Complex Plane – Chemical Thinking</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../01-numbers/05-complex-plane.html" rel="next">
-<link href="../01-numbers/03-counting.html" rel="prev">
+<link href="../02-vectors/01-direction.html" rel="next">
+<link href="../01-numbers/04-complex.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -294,7 +294,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../01-numbers/01-kinds.html">1 · Numbers and Counting</a></li><li class="breadcrumb-item"><a href="../01-numbers/04-complex.html"><span class="chapter-title">1.4 Complex Numbers</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../01-numbers/01-kinds.html">1 · Numbers and Counting</a></li><li class="breadcrumb-item"><a href="../01-numbers/05-complex-plane.html"><span class="chapter-title">1.5 Working in the Complex Plane</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -370,12 +370,12 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../01-numbers/04-complex.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">1.4 Complex Numbers</span></a>
+  <a href="../01-numbers/04-complex.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">1.4 Complex Numbers</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../01-numbers/05-complex-plane.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">1.5 Working in the Complex Plane</span></a>
+  <a href="../01-numbers/05-complex-plane.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">1.5 Working in the Complex Plane</span></a>
   </div>
 </li>
       </ul>
@@ -468,9 +468,9 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#the-arithmetic-of-the-impossible" id="toc-the-arithmetic-of-the-impossible" class="nav-link active" data-scroll-target="#the-arithmetic-of-the-impossible">The arithmetic of the impossible</a></li>
-  <li><a href="#the-complex-plane-numbers-with-direction" id="toc-the-complex-plane-numbers-with-direction" class="nav-link" data-scroll-target="#the-complex-plane-numbers-with-direction">The complex plane: numbers with direction</a></li>
-  <li><a href="#the-chemical-necessity-waves-carry-phase" id="toc-the-chemical-necessity-waves-carry-phase" class="nav-link" data-scroll-target="#the-chemical-necessity-waves-carry-phase">The chemical necessity: waves carry phase</a></li>
+  <li><a href="#there-are-no-imaginary-numbers" id="toc-there-are-no-imaginary-numbers" class="nav-link active" data-scroll-target="#there-are-no-imaginary-numbers">There are no imaginary numbers</a></li>
+  <li><a href="#the-conjugate-pair-algebras-favorite-molecule" id="toc-the-conjugate-pair-algebras-favorite-molecule" class="nav-link" data-scroll-target="#the-conjugate-pair-algebras-favorite-molecule">The conjugate pair: algebra’s favorite molecule</a></li>
+  <li><a href="#the-dictionary-every-operation-is-a-motion" id="toc-the-dictionary-every-operation-is-a-motion" class="nav-link" data-scroll-target="#the-dictionary-every-operation-is-a-motion">The dictionary: every operation is a motion</a></li>
   <li><a href="#remarks-and-cautions" id="toc-remarks-and-cautions" class="nav-link" data-scroll-target="#remarks-and-cautions">Remarks and cautions</a></li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
   <li><a href="#practice-until-it-sticks" id="toc-practice-until-it-sticks" class="nav-link" data-scroll-target="#practice-until-it-sticks">Practice until it sticks</a></li>
@@ -481,9 +481,9 @@ window.Quarto = {
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../01-numbers/01-kinds.html">1 · Numbers and Counting</a></li><li class="breadcrumb-item"><a href="../01-numbers/04-complex.html"><span class="chapter-title">1.4 Complex Numbers</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../01-numbers/01-kinds.html">1 · Numbers and Counting</a></li><li class="breadcrumb-item"><a href="../01-numbers/05-complex-plane.html"><span class="chapter-title">1.5 Working in the Complex Plane</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">1.4 Complex Numbers</span></h1>
+<h1 class="title"><span class="chapter-title">1.5 Working in the Complex Plane</span></h1>
 </div>
 
 
@@ -500,105 +500,157 @@ window.Quarto = {
 </header>
 
 
-<p>The equation <span class="math inline">x^2 = -1</span> has no real solution — squares of reals are never negative — and for centuries mathematicians drew the sensible conclusion: <em>so it has no solution</em>, the way “which count is <span class="math inline">3 - 5</span>?” once had none. A parabola that never crosses the axis is not a crisis. If that were the whole story, <span class="math inline">\sqrt{-1}</span> would have stayed a curiosity, and this section would not exist. What forced the issue was stranger and better: in 1572 Rafael Bombelli met an equation with a perfectly ordinary <em>real</em> answer that could only be <em>reached</em> by marching straight through the impossible. The cubic <span class="math display">
-x^3 = 15x + 4
-</span> plainly has the solution <span class="math inline">x = 4</span> (check: <span class="math inline">64 = 60 + 4</span>). But the cubic formula — the era’s pride, the machine that solves <em>every</em> cubic — returns for this equation <span class="math display">
-x = \sqrt[3]{\,2 + \sqrt{-121}\,} + \sqrt[3]{\,2 - \sqrt{-121}\,},
-</span> an expression demanding the square root of <span class="math inline">-121</span>. The formula was not wrong; the answer <span class="math inline">4</span> is genuinely in there. But to extract it, one must compute with <span class="math inline">\sqrt{-121}</span> as if it meant something — add it, multiply it, take its cube root — and only at the end watch every impossible piece cancel, leaving honest reality behind. This is a different kind of necessity from anything in Section <a href="../01-numbers/01-kinds.html">1.1</a>: not “we want more answers” but “we cannot reach the answers we already have without new numbers as <em>scaffolding</em>.” Numbers that indispensable are not imaginary in any sense that matters, and this section is their introduction — with a second, chemical necessity waiting at the end, because the electron turned out to be a wave, and waves keep their books in complex numbers.</p>
-<section id="the-arithmetic-of-the-impossible" class="level2">
-<h2 class="anchored" data-anchor-id="the-arithmetic-of-the-impossible">The arithmetic of the impossible</h2>
-<p>Bombelli’s move was to stop philosophizing and start computing: give the impossible thing a symbol, grant it one algebraic property, and otherwise manipulate it by the ordinary rules.</p>
-<div class="env definition">
-<p><strong>Definition 1.4.1 (Complex numbers).</strong> The <strong>imaginary unit</strong> <span class="math inline">i</span> is a symbol with the single property <span class="math inline">i^2 = -1</span>. A <strong>complex number</strong> is an expression <span class="math inline">z = a + bi</span> with <span class="math inline">a, b \in \mathbb{R}</span>: the <strong>real part</strong> <span class="math inline">a</span> and the <strong>imaginary part</strong> <span class="math inline">b</span>. The set of all of them is <span class="math inline">\mathbb{C}</span>. Addition collects like terms; multiplication distributes as usual and replaces every <span class="math inline">i^2</span> by <span class="math inline">-1</span>: <span class="math display">
-(a + bi)(c + di) = ac + adi + bci + bd\,i^2 = (ac - bd) + (ad + bc)\,i .
+<p>Section <a href="../01-numbers/04-complex.html">1.4</a> established that complex numbers are <em>necessary</em> — Bombelli’s cubic and the electron’s phase left no choice. Necessity, however, is not comfort. A chemist who believes in complex numbers but hesitates over <span class="math inline">\frac{2+11i}{2+i}</span> is like one who believes in stoichiometry but hesitates over unit conversions: the conviction is useless until the manipulations are reflexes. This section builds the reflexes, and it builds them on two rails at once — every algebraic move will be paired with the geometric act it performs in the plane, because the operations only <em>feel</em> arbitrary until you can see them. Along the way we will settle, permanently and by an explicit construction, the lingering unease the word “imaginary” still whispers: there is nothing imaginary here. Not as reassurance — as a theorem.</p>
+<section id="there-are-no-imaginary-numbers" class="level2">
+<h2 class="anchored" data-anchor-id="there-are-no-imaginary-numbers">There are no imaginary numbers</h2>
+<p>The unease deserves to be met head-on. When §1.4 “adjoined a symbol <span class="math inline">i</span> with <span class="math inline">i^2 = -1</span>,” a skeptic could still ask: adjoined <em>what</em>, exactly? Is there really such an object, or are we manipulating a superstition that happens to work? In 1835 William Rowan Hamilton answered by showing that complex numbers can be <em>built from scratch</em> out of nothing but ordinary real numbers — no new entities, no leaps of faith.</p>
+<p>Take as your objects <strong>ordered pairs of reals</strong> <span class="math inline">(a, b)</span> — the same pairs that will reappear as vectors in Chapter 2, and about which nothing is mysterious. Decree two operations: <span class="math display">
+(a, b) + (c, d) = (a + c,\ b + d),
+\qquad
+(a, b) \times (c, d) = (ac - bd,\ ad + bc).
+</span> The addition is obvious; the multiplication looks arbitrary for exactly one paragraph. First observe that pairs of the form <span class="math inline">(a, 0)</span> behave <em>precisely</em> like the real numbers themselves: <span class="math inline">(a, 0) + (c, 0) = (a + c, 0)</span> and <span class="math inline">(a, 0) \times (c, 0) = (ac, 0)</span> — the reals sit inside the system, unharmed. Now compute one particular product: <span class="math display">
+(0, 1) \times (0, 1) = (0 \cdot 0 - 1 \cdot 1,\ 0 \cdot 1 + 1 \cdot 0) = (-1, 0).
+</span> The pair <span class="math inline">(0, 1)</span>, squared, is the pair that <em>is</em> the real number <span class="math inline">-1</span>. There is your <span class="math inline">i</span>: not a metaphysical novelty but the ordered pair <span class="math inline">(0,1)</span>, and “<span class="math inline">i^2 = -1</span>” is a two-line computation with real numbers. Writing <span class="math inline">(a, b)</span> as <span class="math inline">a + bi</span> is then mere notation — convenient shorthand for “<span class="math inline">a</span> of the real unit plus <span class="math inline">b</span> of the pair <span class="math inline">(0,1)</span>” — and the multiplication rule that looked arbitrary is exactly what distributing <span class="math inline">(a + bi)(c + di)</span> and using <span class="math inline">i^2 = -1</span> produces, as §1.4’s Definition 1.4.1 already showed. Nothing was postulated that arithmetic on reals cannot deliver. The name <em>imaginary</em> records a seventeenth-century failure of nerve, not a property of the objects; you may henceforth translate it, every time you read it, as “the second coordinate.”</p>
+</section>
+<section id="the-conjugate-pair-algebras-favorite-molecule" class="level2">
+<h2 class="anchored" data-anchor-id="the-conjugate-pair-algebras-favorite-molecule">The conjugate pair: algebra’s favorite molecule</h2>
+<p>One pattern does more work in complex arithmetic than all others combined, and it deserves to be developed the way a synthetic method is developed — slowly, and until it is a reflex. Multiply a number by its own conjugate: <span class="math display">
+(a + bi)(a - bi) = a^2 - (bi)^2 = a^2 - b^2 i^2 = a^2 + b^2 .
+</span> Watch what happened. This is the difference-of-squares pattern <span class="math inline">(x+y)(x-y) = x^2 - y^2</span> that you have owned since algebra — but with <span class="math inline">y = bi</span>, the subtraction <span class="math inline">-y^2 = -b^2i^2</span> <em>flips to addition</em>. The product of a conjugate pair is not merely real; it is a <strong>sum of squares, hence never negative, and zero only for zero</strong>. You have met this move before in a lighter disguise: to simplify <span class="math inline">\frac{1}{3 + \sqrt2}</span>, you multiplied by <span class="math inline">\frac{3 - \sqrt2}{3 - \sqrt2}</span> and the root vanished from the denominator. The conjugate pair is the same trick with <span class="math inline">i</span> in place of <span class="math inline">\sqrt2</span> — and it converts the one operation that looks impossible, <em>division by a complex number</em>, into routine.</p>
+<p>To divide, multiply top and bottom by the conjugate of the bottom: <span class="math display">
+\frac{w}{z} = \frac{w\,\bar{z}}{z\,\bar{z}} = \frac{w \bar z}{|z|^2},
+</span> and the denominator is now an honest positive real — the division has been reduced to one complex multiplication and one real division. Geometrically (the second rail): since <span class="math inline">\bar z</span> has the opposite angle to <span class="math inline">z</span>, multiplying by <span class="math inline">\bar z / |z|^2</span> <em>rotates backward by <span class="math inline">z</span>’s angle and shrinks by <span class="math inline">z</span>’s length</em> — division undoes, in reverse, exactly what multiplication by <span class="math inline">z</span> does, as an inverse ought to.</p>
+<div class="env example">
+<p><strong>Example 1.5.1 (Division, both rails).</strong> Compute <span class="math inline">\dfrac{2 + 11i}{2 + i}</span> — the quotient hiding inside Bombelli’s cubic.</p>
+<p><em>Setting it up.</em> Conjugate of the denominator: <span class="math inline">2 - i</span>; its conjugate product: <span class="math inline">(2+i)(2-i) = 4 + 1 = 5</span>.</p>
+<p><em>Solution.</em> <span class="math display">
+\frac{2 + 11i}{2 + i} = \frac{(2 + 11i)(2 - i)}{5}
+= \frac{4 - 2i + 22i - 11i^2}{5}
+= \frac{15 + 20i}{5} = 3 + 4i .
+</span></p>
+<p><em>Check.</em> Multiply back: <span class="math inline">(3+4i)(2+i) = 6 + 3i + 8i + 4i^2 = 2 + 11i</span> ✓ — division’s only obligation. Moduli must divide: <span class="math inline">|2 + 11i| = \sqrt{125} = 5\sqrt5</span>, <span class="math inline">|2+i| = \sqrt5</span>, and <span class="math inline">|3+4i| = 5 = 5\sqrt5/\sqrt5</span> ✓. And geometrically the answer is <em>plausible before computing</em>: the numerator sits at a steep angle (<span class="math inline">\approx 80°</span>), the denominator at a shallow one (<span class="math inline">\approx 27°</span>), so the quotient should sit near <span class="math inline">80° - 27° = 53°</span> — and <span class="math inline">3 + 4i</span> does.</p>
+</div>
+</section>
+<section id="the-dictionary-every-operation-is-a-motion" class="level2">
+<h2 class="anchored" data-anchor-id="the-dictionary-every-operation-is-a-motion">The dictionary: every operation is a motion</h2>
+<p>Comfort with complex numbers is, in the end, the ability to run this dictionary in both directions without thinking. Each row says the same thing twice.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Algebra</th>
+<th>Geometry in the plane</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">z + w</span></td>
+<td>tip-to-tail translation (the parallelogram of §2.1)</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">-z</span></td>
+<td>point reflection through the origin (half-turn)</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\bar{z}</span></td>
+<td>mirror reflection across the real axis</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">z \times w</span></td>
+<td>rotate <span class="math inline">z</span> by <span class="math inline">w</span>’s angle, scale by <span class="math inline">w</span>’s length</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">z / w</span></td>
+<td>rotate backward by <span class="math inline">w</span>’s angle, shrink by <span class="math inline">w</span>’s length</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\lvert z \rvert</span></td>
+<td>the arrow’s length</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">z\,\bar{z}</span></td>
+<td>squared length, guaranteed real</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">i \times z</span></td>
+<td>quarter-turn counterclockwise, nothing else</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">z^n</span></td>
+<td>spiral: <span class="math inline">n</span>-fold angle, length to the <span class="math inline">n</span>-th power</td>
+</tr>
+</tbody>
+</table>
+<p>Two rows deserve expansion. The <span class="math inline">i \times z</span> row is the entire content of “<span class="math inline">i</span>” in one motion — no number needs to be imagined, only a rotation performed. And the last row, iterated multiplication, is a theorem with a name.</p>
+<div class="env theorem">
+<p><strong>Theorem 1.5.2 (De Moivre).</strong> For <span class="math inline">z = r(\cos\theta + i\sin\theta)</span> and any <span class="math inline">n \in \mathbb{N}</span>: <span class="math display">
+z^n = r^n \left( \cos n\theta + i \sin n\theta \right).
 </span></p>
 </div>
-<p>Note the honest grammar: <span class="math inline">i</span> is not “discovered,” it is <em>adjoined</em> — exactly as the negatives and the fractions were in §1.1, by declaring a solution to an unsolvable equation and extending the arithmetic around it. The only novelty is the sign flip that <span class="math inline">i^2 = -1</span> injects into the real part of a product. Everything else is algebra you already own.</p>
-<p>Now watch the definition earn its keep on Bombelli’s cubic. Could <span class="math inline">\sqrt[3]{2 + \sqrt{-121}} = \sqrt[3]{2 + 11i}</span> be something as tame as <span class="math inline">2 + i</span>? Cube it and see: <span class="math display">
-(2+i)^2 = 4 + 4i + i^2 = 3 + 4i,
-\qquad
-(3+4i)(2+i) = 6 + 3i + 8i + 4i^2 = 2 + 11i .
-</span> It is. Identically, <span class="math inline">(2 - i)^3 = 2 - 11i</span>. So the formula’s monstrous expression collapses: <span class="math display">
-x = (2 + i) + (2 - i) = 4 .
-</span> The imaginary parts cancelled — as they had to, since the cubic’s answer is real — but they <em>had to exist in order to cancel</em>. The formula routes every solution of this cubic through <span class="math inline">\mathbb{C}</span>; the destination is real, the road is not. This computation, more than any philosophy, is what made mathematicians keep complex numbers: refusing them meant abandoning answers that were provably correct.</p>
-</section>
-<section id="the-complex-plane-numbers-with-direction" class="level2">
-<h2 class="anchored" data-anchor-id="the-complex-plane-numbers-with-direction">The complex plane: numbers with direction</h2>
-<p>A complex number carries two real numbers, and two real numbers are begging to be drawn: put the real part on a horizontal axis, the imaginary part on a vertical one, and <span class="math inline">z = a + bi</span> becomes the point — or better, the arrow — <span class="math inline">(a, b)</span>. This picture (Argand’s) converts the algebra into geometry, and the geometry is where chemistry will live.</p>
-<div class="env definition">
-<p><strong>Definition 1.4.2 (Modulus, argument, conjugate).</strong> For <span class="math inline">z = a + bi</span>: the <strong>modulus</strong> <span class="math inline">|z| = \sqrt{a^2 + b^2}</span> is the arrow’s length; the <strong>argument</strong> <span class="math inline">\theta</span> is the angle it makes with the positive real axis, so that <span class="math display">
-z = r(\cos\theta + i \sin\theta), \qquad r = |z|
-</span> (the <strong>polar form</strong>); and the <strong>conjugate</strong> <span class="math inline">\bar{z} = a - bi</span> is the mirror image across the real axis.</p>
-</div>
-<p>The conjugate immediately pays for itself: <span class="math display">
-z\,\bar{z} = (a+bi)(a-bi) = a^2 - (bi)^2 = a^2 + b^2 = |z|^2 ,
-</span> a <em>real, nonnegative</em> number — the standard trick for turning complex quantities real, and the reason division works: to compute <span class="math inline">w/z</span>, multiply top and bottom by <span class="math inline">\bar{z}</span> and the denominator becomes the real number <span class="math inline">|z|^2</span>. (When quantum mechanics writes probability density as <span class="math inline">\psi^*\psi</span>, it is performing exactly this move: the wavefunction is complex, but <span class="math inline">\psi^*\psi = |\psi|^2</span> — what the detector sees — is guaranteed real. The star is the chemist’s bar.)</p>
-<p>The deep fact of the section is what multiplication looks like in polar form.</p>
-<div class="env theorem">
-<p><strong>Theorem 1.4.3 (Multiplication rotates).</strong> If <span class="math inline">z_1 = r_1(\cos\alpha + i\sin\alpha)</span> and <span class="math inline">z_2 = r_2(\cos\beta + i\sin\beta)</span>, then <span class="math display">
-z_1 z_2 = r_1 r_2 \left[ \cos(\alpha + \beta) + i \sin(\alpha + \beta) \right]:
-</span> moduli multiply, angles <strong>add</strong>.</p>
-</div>
 <div class="env proof">
-<p><span class="proof-title"><em>Proof</em>. </span>Multiply out and group real and imaginary parts: <span class="math display">
-z_1 z_2 = r_1 r_2 \left[ (\cos\alpha\cos\beta - \sin\alpha\sin\beta) + i(\sin\alpha\cos\beta + \cos\alpha\sin\beta) \right],
-</span> where the minus sign in the real part is <span class="math inline">i^2 = -1</span> at work. The two brackets are precisely the angle-addition identities of trigonometry: <span class="math inline">\cos(\alpha+\beta)</span> and <span class="math inline">\sin(\alpha+\beta)</span>.</p>
+<p><span class="proof-title"><em>Proof</em>. </span>Theorem 1.4.3 handles one multiplication: moduli multiply, angles add. Apply it <span class="math inline">n - 1</span> times to <span class="math inline">z \cdot z \cdots z</span>: the modulus compounds to <span class="math inline">r \cdot r \cdots r = r^n</span> and the angle accumulates to <span class="math inline">\theta + \theta + \cdots + \theta = n\theta</span>. Nothing else is available to change.</p>
 </div>
-<p>Read the theorem back onto the mystery this section opened with. Multiplying by <span class="math inline">i</span> — modulus 1, angle <span class="math inline">90°</span> — <em>adds a quarter turn</em>. Then <span class="math inline">i^2</span> is two quarter turns: a point reversal, which is multiplication by <span class="math inline">-1</span>. The equation <span class="math inline">i^2 = -1</span>, scandalous as algebra, is a triviality as geometry: <strong>half of a half-turn is a quarter-turn</strong>, and <span class="math inline">i</span> is simply the quarter-turn itself, caught and given a symbol. Nothing imaginary is happening; a rotation is happening. (Compare §3.3, where the matrix <span class="math inline">R(90°)</span> plays the identical role — multiplication by unit complex numbers and <span class="math inline">2\times 2</span> rotation matrices are the same operation in different dress.)</p>
+<p>The theorem’s practical message is a strategy, and it is <em>the</em> strategy of complex fluency: <strong>add in rectangular, multiply in polar.</strong> Addition is painless on <span class="math inline">a + bi</span> (collect parts) and painful in polar; powers and products are painless in polar (multiply lengths, add angles) and increasingly awful in rectangular. The fluent practitioner converts freely and chooses the representation the operation prefers — exactly as a chemist runs a reaction in the solvent it prefers.</p>
 <div class="env example">
-<p><strong>Example 1.4.4 (Phasing an NMR signal).</strong> An NMR spectrometer’s quadrature detector records the transverse magnetization as one complex number — real part from the <span class="math inline">x</span>-channel, imaginary from the <span class="math inline">y</span>-channel. A peak comes out as <span class="math inline">z = 3 + 4i</span> (arbitrary units), tilted by detector phase error. Rotate it onto the real axis (“phase the spectrum”) and report the corrected, purely absorptive amplitude.</p>
-<p><em>Setting it up.</em> The signal’s physical content is its modulus and its phase; phasing means multiplying by a unit complex number that cancels the phase — rotation by <span class="math inline">-\theta</span>, where <span class="math inline">\theta</span> is <span class="math inline">z</span>’s argument.</p>
-<p><em>Solution.</em> <span class="math inline">|z| = \sqrt{9 + 16} = 5</span>, and <span class="math inline">\cos\theta = \tfrac35</span>, <span class="math inline">\sin\theta = \tfrac45</span>. Multiply by <span class="math inline">\cos\theta - i\sin\theta</span> (a unit number at angle <span class="math inline">-\theta</span>): <span class="math display">
-(3 + 4i)\left(\tfrac{3}{5} - \tfrac{4}{5} i\right)
-= \tfrac{9}{5} - \tfrac{12}{5} i + \tfrac{12}{5} i - \tfrac{16}{5} i^2
-= \tfrac{9}{5} + \tfrac{16}{5} = 5 .
-</span> The corrected amplitude is <span class="math inline">5</span>, purely real.</p>
-<p><em>Check.</em> Rotation must preserve length: the answer’s modulus is <span class="math inline">5 = |z|</span> ✓. The imaginary part vanished exactly — the definition of a correctly phased, absorptive peak — and the two middle terms cancelling is no accident: we multiplied <span class="math inline">z</span> by <span class="math inline">\bar{z}/|z|</span>, so the product is <span class="math inline">|z|^2/|z| = |z|</span>, guaranteed real. Every “phase” knob on every NMR console executes this one line of complex arithmetic.</p>
+<p><strong>Example 1.5.3 (A power, the smart way).</strong> Compute <span class="math inline">(1 + i)^8</span>.</p>
+<p><em>Setting it up.</em> Eight rectangular multiplications would invite eight sign errors. Convert once: <span class="math inline">|1 + i| = \sqrt2</span>, angle <span class="math inline">45°</span>.</p>
+<p><em>Solution.</em> By De Moivre, <span class="math display">
+(1+i)^8 = (\sqrt2)^8 \left( \cos 360° + i \sin 360° \right) = 2^4 (1 + 0i) = 16 .
+</span></p>
+<p><em>Check.</em> Climb by squaring in rectangular as an independent route: <span class="math inline">(1+i)^2 = 1 + 2i + i^2 = 2i</span>; then <span class="math inline">(2i)^2 = -4</span>; then <span class="math inline">(-4)^2 = 16</span> ✓. The intermediate values tell the geometric story: <span class="math inline">45° \to 90° \,(2i) \to 180° \,(-4) \to 360°</span> — the spiral visits the imaginary axis and the negative reals on its way to landing, with modulus <span class="math inline">\sqrt2 \to 2 \to 4 \to 16</span>, exactly on the real axis. A real answer from a complex spiral — Bombelli’s lesson again, now as routine.</p>
 </div>
-</section>
-<section id="the-chemical-necessity-waves-carry-phase" class="level2">
-<h2 class="anchored" data-anchor-id="the-chemical-necessity-waves-carry-phase">The chemical necessity: waves carry phase</h2>
-<p>Bombelli’s necessity was algebraic. Chemistry’s is physical, and it arrived in 1926: the electron is described by a wave, and a wave at a point is not one number but two — <em>how much</em> (amplitude) and <em>where in its cycle</em> (phase). A single real number cannot hold both; a complex number is exactly both, as modulus and argument. This is not notational convenience. Interference — the defining behavior of waves — is <em>arithmetic</em> on complex numbers: two overlapping waves add as complex amplitudes, and whether they reinforce or annihilate is decided by their phase difference.</p>
-<p>Add two waves of unit amplitude differing in phase by <span class="math inline">\varphi</span>: the first is <span class="math inline">1</span> (angle zero), the second is <span class="math inline">\cos\varphi + i\sin\varphi</span>. The combined intensity is the squared modulus of the sum: <span class="math display">
-\left| 1 + \cos\varphi + i \sin\varphi \right|^2
-= (1 + \cos\varphi)^2 + \sin^2\varphi
-= 2 + 2\cos\varphi .
-</span> At <span class="math inline">\varphi = 0</span>: intensity <span class="math inline">4</span> — twice the naive sum of the two unit intensities; the waves reinforce. At <span class="math inline">\varphi = 180°</span>: intensity <span class="math inline">0</span> — total annihilation, energy nowhere at this point. Chemistry has a name for this pair of outcomes: when two atomic orbitals overlap <em>in phase</em> they reinforce into a <strong>bonding</strong> orbital, and <em>out of phase</em> they cancel into an <strong>antibonding</strong> one — the entire covalent bond, the reason molecules exist, is constructive interference, and the <span class="math inline">\pm</span> that generations of students have drawn on orbital lobes is the argument of a complex number wearing a disguise. The wavefunctions of Module 3’s quantum chemistry are complex-valued from birth; here in Chapter 1 it is enough to know <em>why they must be</em>: the electron keeps two books, and <span class="math inline">\mathbb{C}</span> is the only number system with double-entry built in.</p>
-<p>One more fact closes the chapter, and it is the tower’s summit. Every extension in §1.1 was provoked by an unsolvable equation: <span class="math inline">x + 5 = 3</span> forced <span class="math inline">\mathbb{Z}</span>, <span class="math inline">3x = 1</span> forced <span class="math inline">\mathbb{Q}</span>, <span class="math inline">x^2 = 2</span> forced <span class="math inline">\mathbb{R}</span>, <span class="math inline">x^2 = -1</span> forced <span class="math inline">\mathbb{C}</span>. The pattern invites the question: what equation will force the next level? The <strong>Fundamental Theorem of Algebra</strong> answers: <em>none</em>. Every polynomial equation with complex (or real) coefficients has all of its solutions already inside <span class="math inline">\mathbb{C}</span> — the system is <em>algebraically closed</em>. The escape-and-repair engine that built the whole tower runs out of fuel precisely here. <span class="math inline">\mathbb{C}</span> is not one more way station; it is, for algebra, the top.</p>
+<div class="widget-frame">
+<div class="widget-predict">
+<p>Set the operation to <em>multiply</em> and <span class="math inline">z_2</span> to <span class="math inline">r = 1</span>, <span class="math inline">\theta = 90°</span> (that is, <span class="math inline">z_2 = i</span>). Predict where <span class="math inline">z_1 \times i</span> will point before looking. Then predict: what <span class="math inline">z_2</span> would rotate <span class="math inline">z_1</span> by a half-turn without changing its length — and what <span class="math inline">z_2</span> would leave <span class="math inline">z_1</span> completely alone?</p>
+</div>
+<div class="widget-body">
+<div style="display:flex; gap:1.2rem; flex-wrap:wrap; margin-bottom:0.6rem; align-items:center;">
+<p><label>operation <select id="cpOp"> <option value="mul">multiply z₁ × z₂</option> <option value="add">add z₁ + z₂</option> <option value="conj">conjugate z̄₁ (z₂ ignored)</option> </select> </label> <label>Re z₁ <input type="range" id="cpRe" min="-2" max="2" value="2" step="0.25"></label> <label>Im z₁ <input type="range" id="cpIm" min="-2" max="2" value="1" step="0.25"></label> <label>|z₂| <input type="range" id="cpR" min="0.25" max="2" value="1" step="0.25"></label> <label>θ₂ <input type="range" id="cpTh" min="0" max="360" value="90" step="15"></label></p>
+</div>
+<canvas id="cpCanvas" width="640" height="420">
+</canvas>
+<div id="cpReadout" class="widget-readout">
+
+</div>
+</div>
+<div class="widget-debrief">
+<p>Multiplication never bends the plane — it rotates by <span class="math inline">\theta_2</span> and scales by <span class="math inline">|z_2|</span>, whatever <span class="math inline">z_1</span> is. The half-turn is <span class="math inline">z_2 = -1</span> (<span class="math inline">r = 1</span>, <span class="math inline">\theta = 180°</span>), and only <span class="math inline">z_2 = 1</span> leaves <span class="math inline">z_1</span> alone: the identity of multiplication survives intact in <span class="math inline">\mathbb{C}</span>. Switch to <em>add</em> and the geometry changes character entirely — translation, no rotation — which is why the fluent strategy is “add in rectangular, multiply in polar.”</p>
+</div>
+</div>
 </section>
 <section id="remarks-and-cautions" class="level2">
 <h2 class="anchored" data-anchor-id="remarks-and-cautions">Remarks and cautions</h2>
-<p><strong>“Imaginary” is a fossilized insult, not a description.</strong> Descartes coined it as a dismissal, and the name stuck the way “irrational” stuck. By every criterion that matters — consistent arithmetic, indispensability for real answers (Bombelli), physical measurability of consequences (every NMR spectrum, every bond) — <span class="math inline">i</span> has the same standing as <span class="math inline">-3</span>, which you also cannot hold in your hand.</p>
-<p><strong>Complex numbers are ordered pairs with a multiplication, not just vectors.</strong> The Argand picture makes <span class="math inline">z</span> look like the <span class="math inline">(a, b)</span> of Chapter 2, and for <em>addition</em> the pictures agree exactly (tip-to-tail). But <span class="math inline">\mathbb{C}</span> has what <span class="math inline">\mathbb{R}^2</span>’s vectors lack: a multiplication that stays in the system and, by Theorem 1.4.3, <em>means</em> something — rotate and scale. The dot product of §2.3 eats two vectors and excretes a scalar; complex multiplication returns another complex number. Different machines; don’t interchange them.</p>
-<p><strong>Say <span class="math inline">i^2 = -1</span>, not <span class="math inline">i = \sqrt{-1}</span>, when care matters.</strong> Both <span class="math inline">i</span> and <span class="math inline">-i</span> square to <span class="math inline">-1</span>, and the familiar rule <span class="math inline">\sqrt{x}\sqrt{y} = \sqrt{xy}</span> <em>fails</em> off the nonnegative reals: <span class="math inline">\sqrt{-1}\sqrt{-1} \ne \sqrt{1}</span>. The definition by the squaring property dodges every such pitfall; the radical notation invites them.</p>
-<p><strong>Real answers may require complex intermediates — let them.</strong> The recurring student instinct is to abort a computation the moment <span class="math inline">i</span> appears, on the theory that “physical answers are real.” Bombelli’s cubic is the standing counterexample: the imaginary parts cancel <em>at the end</em>, not at the beginning. The oscillating solutions of Module 2’s differential equations behave identically — complex en route, real on arrival. Carry the <span class="math inline">i</span>; it knows where it’s going.</p>
+<p><strong>The conjugate distributes over everything.</strong> <span class="math inline">\overline{z + w} = \bar z + \bar w</span> and <span class="math inline">\overline{z w} = \bar z\, \bar w</span> (Exercise 7) — mirror first or mirror last, the algebra cannot tell. This is what lets you conjugate an entire computation in one stroke, and it is why the complex roots of any real-coefficient polynomial arrive in conjugate pairs: conjugating the whole equation changes nothing, so solutions map to solutions.</p>
+<p><strong><span class="math inline">|z|^2</span> is <span class="math inline">z\bar z</span>, never <span class="math inline">z^2</span>.</strong> The single most common manipulation error in early quantum chemistry: <span class="math inline">z^2</span> is a complex number that spirals (<span class="math inline">(1+i)^2 = 2i</span>), while <span class="math inline">z\bar z</span> is the real, nonnegative squared length (<span class="math inline">(1+i)(1-i) = 2</span>). Probability densities are <span class="math inline">\psi^*\psi</span>; a <span class="math inline">\psi^2</span> in their place is wrong the moment <span class="math inline">\psi</span> is complex.</p>
+<p><strong>Angles live on a circle.</strong> After adding angles, reduce modulo <span class="math inline">360°</span>: the <span class="math inline">360°</span> in Example 1.5.3 <em>is</em> <span class="math inline">0°</span>. Forgetting this is harmless for a single product and fatal in root-finding, where the distinct answers differ by exactly such full turns divided by <span class="math inline">n</span>.</p>
+<p><strong>Choose the representation the operation wants.</strong> Adding in polar or exponentiating in rectangular is not wrong, only self-punishing. Before computing, ask which operation dominates — the answer chooses your coordinates, and switching costs one conversion.</p>
 </section>
 <section id="summary" class="level2">
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>
-<p>Complex numbers enter not as a luxury but under two compulsions: Bombelli’s cubic, whose real solutions are unreachable except through <span class="math inline">\sqrt{-121}</span>, and the electron’s wave nature, which demands two numbers — amplitude and phase — at every point of space. Adjoining a symbol <span class="math inline">i</span> with <span class="math inline">i^2 = -1</span> and computing by the ordinary rules yields a consistent arithmetic on <span class="math inline">z = a + bi</span>; the conjugate manufactures reality via <span class="math inline">z\bar z = |z|^2</span> (quantum mechanics’ <span class="math inline">\psi^*\psi</span>); and the Argand plane reveals the operations’ geometry, above all Theorem 1.4.3: multiplication multiplies moduli and <em>adds angles</em>, so that <span class="math inline">i</span> is a quarter-turn and <span class="math inline">i^2 = -1</span> is the unmysterious statement that two quarter-turns reverse direction. Interference falls out as arithmetic — <span class="math inline">|1 + (\cos\varphi + i\sin\varphi)|^2 = 2 + 2\cos\varphi</span> spans the full range from bonding reinforcement to antibonding annihilation — and the Fundamental Theorem of Algebra caps the tower of §1.1: within <span class="math inline">\mathbb{C}</span>, every polynomial equation is solvable, and the escape-and-repair engine that generated every number system finally rests. What this section established is <em>acquaintance</em>; Section <a href="../01-numbers/05-complex-plane.html">1.5</a> turns it into fluency — the conjugate machinery, division, powers, and the geometric dictionary — until complex manipulation is a reflex rather than a topic.</p>
+<p>Hamilton’s construction closes the metaphysics: complex numbers are ordered pairs of reals with a specified multiplication under which <span class="math inline">(0,1)^2 = (-1, 0)</span>, so <span class="math inline">i</span> is a definite, ordinary object — the second coordinate’s unit — and “imaginary” is history, not description. Fluency then rests on a small kit used relentlessly: the conjugate pair <span class="math inline">(a+bi)(a-bi) = a^2 + b^2</span> — difference of squares with the sign rescued by <span class="math inline">i^2 = -1</span> — which turns division into multiplication by <span class="math inline">\bar z / |z|^2</span>; the two-column dictionary in which every algebraic operation is a plane motion (add = translate, multiply = rotate-and-scale, conjugate = mirror, <span class="math inline">i\,\times</span> = quarter-turn); and De Moivre’s <span class="math inline">z^n = r^n \operatorname{cis} n\theta</span>, whose strategic corollary — <em>add in rectangular, multiply in polar</em> — decides every computation’s coordinates before it starts. Run the checks that the geometry provides for free (moduli must multiply and divide; angles must add and subtract), and complex arithmetic becomes what it is for the working spectroscopist and quantum chemist: not a topic, but a solvent.</p>
 <div class="exercises">
 <p>Exercises</p>
 <ol type="1">
-<li><p>Compute <span class="math inline">(3 + 2i) + (1 - 4i)</span>, <span class="math inline">(3 + 2i)(1 - 4i)</span>, <span class="math inline">i^3</span>, <span class="math inline">i^4</span>, and <span class="math inline">i^{2026}</span>.</p></li>
-<li><p>Verify Bombelli’s collapse yourself: square <span class="math inline">2 + i</span>, multiply the result by <span class="math inline">2 + i</span> again, and confirm <span class="math inline">(2+i)^3 = 2 + 11i</span>. Conclude, in one sentence, why <span class="math inline">x = 4</span> emerges from the cubic formula’s “impossible” expression.</p></li>
-<li><p>Find <span class="math inline">|3 + 4i|</span>, <span class="math inline">|1 + i|</span>, <span class="math inline">|i|</span>, and compute <span class="math inline">z\bar{z}</span> for <span class="math inline">z = 3 + 4i</span>. Which general identity do the first and last answers jointly confirm?</p></li>
-<li><p>Divide: <span class="math inline">(2 + 11i)/(2 + i)</span>, using the conjugate trick. (You already know what the answer must be from Exercise 2 — check against it.)</p></li>
-<li><p>Two overlapping unit-amplitude waves differ in phase by <span class="math inline">\varphi</span>. Evaluate the intensity <span class="math inline">2 + 2\cos\varphi</span> at <span class="math inline">\varphi = 60°, 120°, 180°</span>, and state which value corresponds to bonding overlap, which to antibonding cancellation, and which to something between.</p></li>
-<li><p>Start from <span class="math inline">z = 1</span> and multiply by <span class="math inline">\cos 90° + i \sin 90°</span> four times in succession, recording each result. Explain, from your sequence, the geometric meaning of <span class="math inline">i^2 = -1</span> in one sentence.</p></li>
-<li><p>★ Prove <span class="math inline">|z_1 z_2| = |z_1|\,|z_2|</span> by pure algebra: show <span class="math inline">(ac - bd)^2 + (ad + bc)^2 = (a^2 + b^2)(c^2 + d^2)</span>. (This Brahmagupta–Fibonacci identity is the sibling of §3.4’s Lagrange identity — compare them when you get there.)</p></li>
-<li><p>★ Run Theorem 1.4.3’s proof backward: multiply <span class="math inline">(\cos\alpha + i\sin\alpha)(\cos\beta + i\sin\beta)</span> and, by matching real and imaginary parts against the polar form of the product, <em>derive</em> the two angle-addition identities of trigonometry. (Students memorize these for years; <span class="math inline">\mathbb{C}</span> generates them in three lines.)</p></li>
-<li><p>★ Solve <span class="math inline">z^2 = i</span> exactly, using polar form: what modulus and what angle(s) must <span class="math inline">z</span> have? Give both solutions in the form <span class="math inline">a + bi</span>. How many solutions does the Fundamental Theorem of Algebra entitle <span class="math inline">z^2 - i = 0</span> to?</p></li>
-<li><p>★★ Find all six solutions of <span class="math inline">z^6 = 1</span> (the <em>sixth roots of unity</em>) in polar form, and plot them mentally on the Argand plane. What familiar molecular shape do they trace, and what is the relationship between multiplying by one of these roots and the <span class="math inline">C_6</span> rotation of benzene in §3.3’s language? (You are looking at your first <em>group</em>: the same six operations, once as numbers, once as symmetries.)</p></li>
+<li><p>Compute the conjugate products <span class="math inline">(3+2i)(3-2i)</span>, <span class="math inline">(5-i)(5+i)</span>, and <span class="math inline">(1+i)(1-i)</span>, and state the general identity they instantiate.</p></li>
+<li><p>Divide, using the conjugate method, and verify each answer by multiplying back: <span class="math inline">\dfrac{7+4i}{1+2i}</span> and <span class="math inline">\dfrac{2-3i}{3-4i}</span>.</p></li>
+<li><p>Convert to polar form <span class="math inline">(r, \theta)</span>: <span class="math inline">1 + i</span>; <span class="math inline">-2</span>; <span class="math inline">3i</span>; <span class="math inline">1 - \sqrt3\, i</span>.</p></li>
+<li><p>Convert to rectangular form: <span class="math inline">2(\cos 30° + i \sin 30°)</span> and <span class="math inline">4(\cos 135° + i \sin 135°)</span>.</p></li>
+<li><p>Compute <span class="math inline">(1+i)^{12}</span> by De Moivre, then verify by cubing your squaring chain from Example 1.5.3 (you already have <span class="math inline">(1+i)^4 = -4</span>).</p></li>
+<li><p>Multiplication by <span class="math inline">z_2 = 0.6 + 0.8i</span> performs what rotation and what scaling? (Compute <span class="math inline">|z_2|</span> first — the answer determines whether any scaling happens at all.) What is the smallest <span class="math inline">n</span> for which multiplying by <span class="math inline">z_2</span> exactly <span class="math inline">n</span> times could return a number to its starting direction — and does an integer <span class="math inline">n</span> exist here? <em>(Hint: is <span class="math inline">\arctan(4/3)</span> a rational multiple of <span class="math inline">360°</span>? Assume the known answer: no.)</em></p></li>
+<li><p>★ Prove <span class="math inline">\overline{z + w} = \bar z + \bar w</span> and <span class="math inline">\overline{z w} = \bar z \,\bar w</span> by writing <span class="math inline">z = a+bi</span>, <span class="math inline">w = c+di</span> and computing both sides. Deduce from the second identity, using <span class="math inline">z\bar z = |z|^2</span>, a one-line re-proof that <span class="math inline">|zw| = |z||w|</span>.</p></li>
+<li><p>★ Show that <span class="math inline">\dfrac{1}{z} = \dfrac{\bar z}{|z|^2}</span>, and describe the reciprocal’s geometry: what happens to the angle, and to the length? For which numbers is <span class="math inline">1/z = \bar z</span> exactly, and what is that set called?</p></li>
+<li><p>★ Solve <span class="math inline">z^2 + z + 1 = 0</span> with the quadratic formula, keeping the complex arithmetic honest. Convert both roots to polar form, and identify them among the roots of unity: which power of each root equals 1, and why does that make sense given that <span class="math inline">z^2 + z + 1 = \frac{z^3 - 1}{z - 1}</span>?</p></li>
+<li><p>★★ Hamilton, verified: using only the pair rules <span class="math inline">(a,b)+(c,d) = (a+c, b+d)</span> and <span class="math inline">(a,b)(c,d) = (ac-bd, ad+bc)</span>, show (i) <span class="math inline">(0,1)(0,1) = (-1,0)</span>; (ii) pairs <span class="math inline">(a, 0)</span> add and multiply exactly as the reals <span class="math inline">a</span> do; (iii) the multiplication is commutative. Then argue in two sentences why (i)–(iii) together justify the sentence “there are no imaginary numbers, only pairs of real ones.”</p></li>
 </ol>
 </div>
 </section>
 <section id="practice-until-it-sticks" class="level2">
 <h2 class="anchored" data-anchor-id="practice-until-it-sticks">Practice until it sticks</h2>
-<div data-skill="complex-numbers">
+<div data-skill="complex-plane">
 
 </div>
+<script src="../js/widgets/complex-plane.js"></script>
 <script src="../../js/adaptive-engine.js"></script>
-<script src="../../js/skills/complex-numbers.js"></script>
+<script src="../../js/skills/complex-plane.js"></script>
 
 
 </section>
@@ -1023,13 +1075,13 @@ z_1 z_2 = r_1 r_2 \left[ (\cos\alpha\cos\beta - \sin\alpha\sin\beta) + i(\sin\al
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../01-numbers/03-counting.html" class="pagination-link" aria-label="1.3 Permutations and Combinations">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">1.3 Permutations and Combinations</span></span>
+      <a href="../01-numbers/04-complex.html" class="pagination-link" aria-label="1.4 Complex Numbers">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">1.4 Complex Numbers</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../01-numbers/05-complex-plane.html" class="pagination-link" aria-label="1.5 Working in the Complex Plane">
-        <span class="nav-page-text"><span class="chapter-title">1.5 Working in the Complex Plane</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../02-vectors/01-direction.html" class="pagination-link" aria-label="2.1 Direction in Space">
+        <span class="nav-page-text"><span class="chapter-title">2.1 Direction in Space</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

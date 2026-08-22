@@ -372,6 +372,11 @@ window.Quarto = {
   <a href="./01-numbers/04-complex.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">1.4 Complex Numbers</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-numbers/05-complex-plane.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">1.5 Working in the Complex Plane</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -466,6 +471,7 @@ window.Quarto = {
   <li><a href="#sets-and-collections" id="toc-sets-and-collections" class="nav-link" data-scroll-target="#sets-and-collections">§1.2 Sets and Collections</a></li>
   <li><a href="#permutations-and-combinations" id="toc-permutations-and-combinations" class="nav-link" data-scroll-target="#permutations-and-combinations">§1.3 Permutations and Combinations</a></li>
   <li><a href="#complex-numbers" id="toc-complex-numbers" class="nav-link" data-scroll-target="#complex-numbers">§1.4 Complex Numbers</a></li>
+  <li><a href="#working-in-the-complex-plane" id="toc-working-in-the-complex-plane" class="nav-link" data-scroll-target="#working-in-the-complex-plane">§1.5 Working in the Complex Plane</a></li>
   <li><a href="#direction-in-space" id="toc-direction-in-space" class="nav-link" data-scroll-target="#direction-in-space">§2.1 Direction in Space</a></li>
   <li><a href="#magnitude-and-components" id="toc-magnitude-and-components" class="nav-link" data-scroll-target="#magnitude-and-components">§2.2 Magnitude and Components</a></li>
   <li><a href="#the-dot-product" id="toc-the-dot-product" class="nav-link" data-scroll-target="#the-dot-product">§2.3 The Dot Product</a></li>
@@ -532,6 +538,14 @@ window.Quarto = {
 <p><strong>5.</strong> <span class="math inline">\varphi = 60°</span>: <span class="math inline">2 + 2(\tfrac12) = 3</span> — constructive side, partway toward full bonding reinforcement (which is 4, at <span class="math inline">\varphi = 0</span>). <span class="math inline">\varphi = 120°</span>: <span class="math inline">2 + 2(-\tfrac12) = 1</span> — partial cancellation. <span class="math inline">\varphi = 180°</span>: <span class="math inline">0</span> — total annihilation, the antibonding node.</p>
 <p><strong>7.</strong> <span class="math inline">(ac-bd)^2 + (ad+bc)^2 = a^2c^2 - 2abcd + b^2d^2 + a^2d^2 + 2abcd + b^2c^2 = (a^2+b^2)(c^2+d^2)</span> — the cross terms cancel, exactly as in §3.4’s Lagrange identity.</p>
 <p><strong>9.</strong> <span class="math inline">|z|^2 = |i| = 1</span> so <span class="math inline">|z| = 1</span>; the angle must satisfy <span class="math inline">2\theta = 90° + 360°k</span>, giving <span class="math inline">\theta = 45°</span> or <span class="math inline">225°</span>: <span class="math inline">z = \pm\tfrac{\sqrt2}{2}(1 + i)</span>. A degree-2 polynomial is entitled to exactly 2 roots in <span class="math inline">\mathbb{C}</span> — both found.</p>
+</section>
+<section id="working-in-the-complex-plane" class="level2">
+<h2 class="anchored" data-anchor-id="working-in-the-complex-plane">§1.5 Working in the Complex Plane</h2>
+<p><strong>1.</strong> <span class="math inline">9 + 4 = 13</span>; <span class="math inline">25 + 1 = 26</span>; <span class="math inline">1 + 1 = 2</span>. The identity: <span class="math inline">(a+bi)(a-bi) = a^2 + b^2 = |z|^2</span> — always real, never negative.</p>
+<p><strong>3.</strong> <span class="math inline">1+i</span>: <span class="math inline">(\sqrt2, 45°)</span>. <span class="math inline">-2</span>: <span class="math inline">(2, 180°)</span>. <span class="math inline">3i</span>: <span class="math inline">(3, 90°)</span>. <span class="math inline">1 - \sqrt3\,i</span>: <span class="math inline">(2, 300°)</span> (equivalently <span class="math inline">-60°</span>).</p>
+<p><strong>5.</strong> <span class="math inline">(1+i)^{12} = (\sqrt2)^{12} \operatorname{cis}(12 \times 45°) = 64 \operatorname{cis} 540° = 64 \operatorname{cis} 180° = -64</span>. Cross-check: <span class="math inline">(1+i)^4 = -4</span>, and <span class="math inline">(-4)^3 = -64</span> ✓.</p>
+<p><strong>7.</strong> Both identities fall out of expanding <span class="math inline">z = a+bi</span>, <span class="math inline">w = c+di</span> on each side (the product case reuses the <span class="math inline">(ac-bd, ad+bc)</span> rule with <span class="math inline">b, d</span> negated). Then <span class="math inline">|zw|^2 = zw\,\overline{zw} = z\bar z\, w\bar w = |z|^2 |w|^2</span>; take roots.</p>
+<p><strong>9.</strong> <span class="math inline">z = \dfrac{-1 \pm \sqrt{1 - 4}}{2} = -\tfrac12 \pm \tfrac{\sqrt3}{2} i</span>. Both have modulus <span class="math inline">\sqrt{\tfrac14 + \tfrac34} = 1</span> and angles <span class="math inline">120°</span>, <span class="math inline">240°</span> — the two nontrivial cube roots of unity: cubing triples the angles to <span class="math inline">360°</span> and <span class="math inline">720°</span>, both <span class="math inline">\equiv 0°</span>, so <span class="math inline">z^3 = 1</span>. That is exactly right, since <span class="math inline">z^2 + z + 1 = \frac{z^3 - 1}{z - 1}</span>: its roots are the cube roots of 1 other than 1 itself.</p>
 </section>
 <section id="direction-in-space" class="level2">
 <h2 class="anchored" data-anchor-id="direction-in-space">§2.1 Direction in Space</h2>

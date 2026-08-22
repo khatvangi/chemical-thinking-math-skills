@@ -1,0 +1,166 @@
+---
+title: "1.5 Working in the Complex Plane"
+---
+
+Section [1.4](04-complex.qmd) established that complex numbers are *necessary* — Bombelli's cubic and the electron's phase left no choice. Necessity, however, is not comfort. A chemist who believes in complex numbers but hesitates over $\frac{2+11i}{2+i}$ is like one who believes in stoichiometry but hesitates over unit conversions: the conviction is useless until the manipulations are reflexes. This section builds the reflexes, and it builds them on two rails at once — every algebraic move will be paired with the geometric act it performs in the plane, because the operations only *feel* arbitrary until you can see them. Along the way we will settle, permanently and by an explicit construction, the lingering unease the word "imaginary" still whispers: there is nothing imaginary here. Not as reassurance — as a theorem.
+
+## There are no imaginary numbers
+
+The unease deserves to be met head-on. When §1.4 "adjoined a symbol $i$ with $i^2 = -1$," a skeptic could still ask: adjoined *what*, exactly? Is there really such an object, or are we manipulating a superstition that happens to work? In 1835 William Rowan Hamilton answered by showing that complex numbers can be *built from scratch* out of nothing but ordinary real numbers — no new entities, no leaps of faith.
+
+Take as your objects **ordered pairs of reals** $(a, b)$ — the same pairs that will reappear as vectors in Chapter 2, and about which nothing is mysterious. Decree two operations:
+$$
+(a, b) + (c, d) = (a + c,\ b + d),
+\qquad
+(a, b) \times (c, d) = (ac - bd,\ ad + bc).
+$$
+The addition is obvious; the multiplication looks arbitrary for exactly one paragraph. First observe that pairs of the form $(a, 0)$ behave *precisely* like the real numbers themselves: $(a, 0) + (c, 0) = (a + c, 0)$ and $(a, 0) \times (c, 0) = (ac, 0)$ — the reals sit inside the system, unharmed. Now compute one particular product:
+$$
+(0, 1) \times (0, 1) = (0 \cdot 0 - 1 \cdot 1,\ 0 \cdot 1 + 1 \cdot 0) = (-1, 0).
+$$
+The pair $(0, 1)$, squared, is the pair that *is* the real number $-1$. There is your $i$: not a metaphysical novelty but the ordered pair $(0,1)$, and "$i^2 = -1$" is a two-line computation with real numbers. Writing $(a, b)$ as $a + bi$ is then mere notation — convenient shorthand for "$a$ of the real unit plus $b$ of the pair $(0,1)$" — and the multiplication rule that looked arbitrary is exactly what distributing $(a + bi)(c + di)$ and using $i^2 = -1$ produces, as §1.4's Definition 1.4.1 already showed. Nothing was postulated that arithmetic on reals cannot deliver. The name *imaginary* records a seventeenth-century failure of nerve, not a property of the objects; you may henceforth translate it, every time you read it, as "the second coordinate."
+
+## The conjugate pair: algebra's favorite molecule
+
+One pattern does more work in complex arithmetic than all others combined, and it deserves to be developed the way a synthetic method is developed — slowly, and until it is a reflex. Multiply a number by its own conjugate:
+$$
+(a + bi)(a - bi) = a^2 - (bi)^2 = a^2 - b^2 i^2 = a^2 + b^2 .
+$$
+Watch what happened. This is the difference-of-squares pattern $(x+y)(x-y) = x^2 - y^2$ that you have owned since algebra — but with $y = bi$, the subtraction $-y^2 = -b^2i^2$ *flips to addition*. The product of a conjugate pair is not merely real; it is a **sum of squares, hence never negative, and zero only for zero**. You have met this move before in a lighter disguise: to simplify $\frac{1}{3 + \sqrt2}$, you multiplied by $\frac{3 - \sqrt2}{3 - \sqrt2}$ and the root vanished from the denominator. The conjugate pair is the same trick with $i$ in place of $\sqrt2$ — and it converts the one operation that looks impossible, *division by a complex number*, into routine.
+
+To divide, multiply top and bottom by the conjugate of the bottom:
+$$
+\frac{w}{z} = \frac{w\,\bar{z}}{z\,\bar{z}} = \frac{w \bar z}{|z|^2},
+$$
+and the denominator is now an honest positive real — the division has been reduced to one complex multiplication and one real division. Geometrically (the second rail): since $\bar z$ has the opposite angle to $z$, multiplying by $\bar z / |z|^2$ *rotates backward by $z$'s angle and shrinks by $z$'s length* — division undoes, in reverse, exactly what multiplication by $z$ does, as an inverse ought to.
+
+::: {.env .example}
+**Example 1.5.1 (Division, both rails).** Compute $\dfrac{2 + 11i}{2 + i}$ — the quotient hiding inside Bombelli's cubic.
+
+*Setting it up.* Conjugate of the denominator: $2 - i$; its conjugate product: $(2+i)(2-i) = 4 + 1 = 5$.
+
+*Solution.*
+$$
+\frac{2 + 11i}{2 + i} = \frac{(2 + 11i)(2 - i)}{5}
+= \frac{4 - 2i + 22i - 11i^2}{5}
+= \frac{15 + 20i}{5} = 3 + 4i .
+$$
+
+*Check.* Multiply back: $(3+4i)(2+i) = 6 + 3i + 8i + 4i^2 = 2 + 11i$ ✓ — division's only obligation. Moduli must divide: $|2 + 11i| = \sqrt{125} = 5\sqrt5$, $|2+i| = \sqrt5$, and $|3+4i| = 5 = 5\sqrt5/\sqrt5$ ✓. And geometrically the answer is *plausible before computing*: the numerator sits at a steep angle ($\approx 80°$), the denominator at a shallow one ($\approx 27°$), so the quotient should sit near $80° - 27° = 53°$ — and $3 + 4i$ does.
+:::
+
+## The dictionary: every operation is a motion
+
+Comfort with complex numbers is, in the end, the ability to run this dictionary in both directions without thinking. Each row says the same thing twice.
+
+| Algebra | Geometry in the plane |
+|---|---|
+| $z + w$ | tip-to-tail translation (the parallelogram of §2.1) |
+| $-z$ | point reflection through the origin (half-turn) |
+| $\bar{z}$ | mirror reflection across the real axis |
+| $z \times w$ | rotate $z$ by $w$'s angle, scale by $w$'s length |
+| $z / w$ | rotate backward by $w$'s angle, shrink by $w$'s length |
+| $\lvert z \rvert$ | the arrow's length |
+| $z\,\bar{z}$ | squared length, guaranteed real |
+| $i \times z$ | quarter-turn counterclockwise, nothing else |
+| $z^n$ | spiral: $n$-fold angle, length to the $n$-th power |
+
+Two rows deserve expansion. The $i \times z$ row is the entire content of "$i$" in one motion — no number needs to be imagined, only a rotation performed. And the last row, iterated multiplication, is a theorem with a name.
+
+::: {.env .theorem}
+**Theorem 1.5.2 (De Moivre).** For $z = r(\cos\theta + i\sin\theta)$ and any $n \in \mathbb{N}$:
+$$
+z^n = r^n \left( \cos n\theta + i \sin n\theta \right).
+$$
+:::
+
+::: {.env .proof}
+Theorem 1.4.3 handles one multiplication: moduli multiply, angles add. Apply it $n - 1$ times to $z \cdot z \cdots z$: the modulus compounds to $r \cdot r \cdots r = r^n$ and the angle accumulates to $\theta + \theta + \cdots + \theta = n\theta$. Nothing else is available to change.
+:::
+
+The theorem's practical message is a strategy, and it is *the* strategy of complex fluency: **add in rectangular, multiply in polar.** Addition is painless on $a + bi$ (collect parts) and painful in polar; powers and products are painless in polar (multiply lengths, add angles) and increasingly awful in rectangular. The fluent practitioner converts freely and chooses the representation the operation prefers — exactly as a chemist runs a reaction in the solvent it prefers.
+
+::: {.env .example}
+**Example 1.5.3 (A power, the smart way).** Compute $(1 + i)^8$.
+
+*Setting it up.* Eight rectangular multiplications would invite eight sign errors. Convert once: $|1 + i| = \sqrt2$, angle $45°$.
+
+*Solution.* By De Moivre,
+$$
+(1+i)^8 = (\sqrt2)^8 \left( \cos 360° + i \sin 360° \right) = 2^4 (1 + 0i) = 16 .
+$$
+
+*Check.* Climb by squaring in rectangular as an independent route: $(1+i)^2 = 1 + 2i + i^2 = 2i$; then $(2i)^2 = -4$; then $(-4)^2 = 16$ ✓. The intermediate values tell the geometric story: $45° \to 90° \,(2i) \to 180° \,(-4) \to 360°$ — the spiral visits the imaginary axis and the negative reals on its way to landing, with modulus $\sqrt2 \to 2 \to 4 \to 16$, exactly on the real axis. A real answer from a complex spiral — Bombelli's lesson again, now as routine.
+:::
+
+::: {.widget-frame}
+::: {.widget-predict}
+Set the operation to <em>multiply</em> and $z_2$ to $r = 1$, $\theta = 90°$ (that is, $z_2 = i$). Predict where $z_1 \times i$ will point before looking. Then predict: what $z_2$ would rotate $z_1$ by a half-turn without changing its length — and what $z_2$ would leave $z_1$ completely alone?
+:::
+::: {.widget-body}
+<div style="display:flex; gap:1.2rem; flex-wrap:wrap; margin-bottom:0.6rem; align-items:center;">
+  <label>operation
+    <select id="cpOp">
+      <option value="mul">multiply z₁ × z₂</option>
+      <option value="add">add z₁ + z₂</option>
+      <option value="conj">conjugate z̄₁ (z₂ ignored)</option>
+    </select>
+  </label>
+  <label>Re z₁ <input type="range" id="cpRe" min="-2" max="2" value="2" step="0.25"></label>
+  <label>Im z₁ <input type="range" id="cpIm" min="-2" max="2" value="1" step="0.25"></label>
+  <label>|z₂| <input type="range" id="cpR" min="0.25" max="2" value="1" step="0.25"></label>
+  <label>θ₂ <input type="range" id="cpTh" min="0" max="360" value="90" step="15"></label>
+</div>
+<canvas id="cpCanvas" width="640" height="420"></canvas>
+<div class="widget-readout" id="cpReadout"></div>
+:::
+::: {.widget-debrief}
+Multiplication never bends the plane — it rotates by $\theta_2$ and scales by $|z_2|$, whatever $z_1$ is. The half-turn is $z_2 = -1$ ($r = 1$, $\theta = 180°$), and only $z_2 = 1$ leaves $z_1$ alone: the identity of multiplication survives intact in $\mathbb{C}$. Switch to <em>add</em> and the geometry changes character entirely — translation, no rotation — which is why the fluent strategy is "add in rectangular, multiply in polar."
+:::
+:::
+
+## Remarks and cautions
+
+**The conjugate distributes over everything.** $\overline{z + w} = \bar z + \bar w$ and $\overline{z w} = \bar z\, \bar w$ (Exercise 7) — mirror first or mirror last, the algebra cannot tell. This is what lets you conjugate an entire computation in one stroke, and it is why the complex roots of any real-coefficient polynomial arrive in conjugate pairs: conjugating the whole equation changes nothing, so solutions map to solutions.
+
+**$|z|^2$ is $z\bar z$, never $z^2$.** The single most common manipulation error in early quantum chemistry: $z^2$ is a complex number that spirals ($(1+i)^2 = 2i$), while $z\bar z$ is the real, nonnegative squared length ($(1+i)(1-i) = 2$). Probability densities are $\psi^*\psi$; a $\psi^2$ in their place is wrong the moment $\psi$ is complex.
+
+**Angles live on a circle.** After adding angles, reduce modulo $360°$: the $360°$ in Example 1.5.3 *is* $0°$. Forgetting this is harmless for a single product and fatal in root-finding, where the distinct answers differ by exactly such full turns divided by $n$.
+
+**Choose the representation the operation wants.** Adding in polar or exponentiating in rectangular is not wrong, only self-punishing. Before computing, ask which operation dominates — the answer chooses your coordinates, and switching costs one conversion.
+
+## Summary
+
+Hamilton's construction closes the metaphysics: complex numbers are ordered pairs of reals with a specified multiplication under which $(0,1)^2 = (-1, 0)$, so $i$ is a definite, ordinary object — the second coordinate's unit — and "imaginary" is history, not description. Fluency then rests on a small kit used relentlessly: the conjugate pair $(a+bi)(a-bi) = a^2 + b^2$ — difference of squares with the sign rescued by $i^2 = -1$ — which turns division into multiplication by $\bar z / |z|^2$; the two-column dictionary in which every algebraic operation is a plane motion (add = translate, multiply = rotate-and-scale, conjugate = mirror, $i\,\times$ = quarter-turn); and De Moivre's $z^n = r^n \operatorname{cis} n\theta$, whose strategic corollary — *add in rectangular, multiply in polar* — decides every computation's coordinates before it starts. Run the checks that the geometry provides for free (moduli must multiply and divide; angles must add and subtract), and complex arithmetic becomes what it is for the working spectroscopist and quantum chemist: not a topic, but a solvent.
+
+::: {.exercises}
+Exercises
+
+1. Compute the conjugate products $(3+2i)(3-2i)$, $(5-i)(5+i)$, and $(1+i)(1-i)$, and state the general identity they instantiate.
+
+2. Divide, using the conjugate method, and verify each answer by multiplying back: $\dfrac{7+4i}{1+2i}$ and $\dfrac{2-3i}{3-4i}$.
+
+3. Convert to polar form $(r, \theta)$: $1 + i$; $-2$; $3i$; $1 - \sqrt3\, i$.
+
+4. Convert to rectangular form: $2(\cos 30° + i \sin 30°)$ and $4(\cos 135° + i \sin 135°)$.
+
+5. Compute $(1+i)^{12}$ by De Moivre, then verify by cubing your squaring chain from Example 1.5.3 (you already have $(1+i)^4 = -4$).
+
+6. Multiplication by $z_2 = 0.6 + 0.8i$ performs what rotation and what scaling? (Compute $|z_2|$ first — the answer determines whether any scaling happens at all.) What is the smallest $n$ for which multiplying by $z_2$ exactly $n$ times could return a number to its starting direction — and does an integer $n$ exist here? *(Hint: is $\arctan(4/3)$ a rational multiple of $360°$? Assume the known answer: no.)*
+
+7. ★ Prove $\overline{z + w} = \bar z + \bar w$ and $\overline{z w} = \bar z \,\bar w$ by writing $z = a+bi$, $w = c+di$ and computing both sides. Deduce from the second identity, using $z\bar z = |z|^2$, a one-line re-proof that $|zw| = |z||w|$.
+
+8. ★ Show that $\dfrac{1}{z} = \dfrac{\bar z}{|z|^2}$, and describe the reciprocal's geometry: what happens to the angle, and to the length? For which numbers is $1/z = \bar z$ exactly, and what is that set called?
+
+9. ★ Solve $z^2 + z + 1 = 0$ with the quadratic formula, keeping the complex arithmetic honest. Convert both roots to polar form, and identify them among the roots of unity: which power of each root equals 1, and why does that make sense given that $z^2 + z + 1 = \frac{z^3 - 1}{z - 1}$?
+
+10. ★★ Hamilton, verified: using only the pair rules $(a,b)+(c,d) = (a+c, b+d)$ and $(a,b)(c,d) = (ac-bd, ad+bc)$, show (i) $(0,1)(0,1) = (-1,0)$; (ii) pairs $(a, 0)$ add and multiply exactly as the reals $a$ do; (iii) the multiplication is commutative. Then argue in two sentences why (i)–(iii) together justify the sentence "there are no imaginary numbers, only pairs of real ones."
+:::
+
+## Practice until it sticks
+
+<div data-skill="complex-plane"></div>
+
+<script src="../js/widgets/complex-plane.js"></script>
+<script src="../../js/adaptive-engine.js"></script>
+<script src="../../js/skills/complex-plane.js"></script>

@@ -25,6 +25,7 @@ book:
         - 01-numbers/02-sets.qmd
         - 01-numbers/03-counting.qmd
         - 01-numbers/04-complex.qmd
+        - 01-numbers/05-complex-plane.qmd
     - part: "2 · Vectors"
       chapters:
         - 02-vectors/01-direction.qmd

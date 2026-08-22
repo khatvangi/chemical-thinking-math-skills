@@ -52,6 +52,18 @@ Answers, with the deciding step — not full solutions. If your answer differs, 
 
 **9.** $|z|^2 = |i| = 1$ so $|z| = 1$; the angle must satisfy $2\theta = 90° + 360°k$, giving $\theta = 45°$ or $225°$: $z = \pm\tfrac{\sqrt2}{2}(1 + i)$. A degree-2 polynomial is entitled to exactly 2 roots in $\mathbb{C}$ — both found.
 
+## §1.5 Working in the Complex Plane
+
+**1.** $9 + 4 = 13$; $25 + 1 = 26$; $1 + 1 = 2$. The identity: $(a+bi)(a-bi) = a^2 + b^2 = |z|^2$ — always real, never negative.
+
+**3.** $1+i$: $(\sqrt2, 45°)$. $-2$: $(2, 180°)$. $3i$: $(3, 90°)$. $1 - \sqrt3\,i$: $(2, 300°)$ (equivalently $-60°$).
+
+**5.** $(1+i)^{12} = (\sqrt2)^{12} \operatorname{cis}(12 \times 45°) = 64 \operatorname{cis} 540° = 64 \operatorname{cis} 180° = -64$. Cross-check: $(1+i)^4 = -4$, and $(-4)^3 = -64$ ✓.
+
+**7.** Both identities fall out of expanding $z = a+bi$, $w = c+di$ on each side (the product case reuses the $(ac-bd, ad+bc)$ rule with $b, d$ negated). Then $|zw|^2 = zw\,\overline{zw} = z\bar z\, w\bar w = |z|^2 |w|^2$; take roots.
+
+**9.** $z = \dfrac{-1 \pm \sqrt{1 - 4}}{2} = -\tfrac12 \pm \tfrac{\sqrt3}{2} i$. Both have modulus $\sqrt{\tfrac14 + \tfrac34} = 1$ and angles $120°$, $240°$ — the two nontrivial cube roots of unity: cubing triples the angles to $360°$ and $720°$, both $\equiv 0°$, so $z^3 = 1$. That is exactly right, since $z^2 + z + 1 = \frac{z^3 - 1}{z - 1}$: its roots are the cube roots of 1 other than 1 itself.
+
 ## §2.1 Direction in Space
 
 **1.** $\mathbf{a}+\mathbf{b} = (-1, 4, 5)$; $\mathbf{a}-\mathbf{b} = (5, -6, 3)$; $3\mathbf{a}-2\mathbf{b} = (12, -13, 10)$.
