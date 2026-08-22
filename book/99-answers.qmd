@@ -40,6 +40,18 @@ Answers, with the deciding step — not full solutions. If your answer differs, 
 
 **9.** Hydrogen pairs from $\{\mathrm{H}, \mathrm{D}\}$ with equivalent positions: HH, HD, DD — 3 (not 4: HD = DH). Times 3 oxygen isotopes: $3 \times 3 = 9$ isotopologues.
 
+## §1.4 Complex Numbers
+
+**1.** $(4 - 2i)$; $(3+2i)(1-4i) = 3 - 12i + 2i - 8i^2 = 11 - 10i$; $i^3 = -i$; $i^4 = 1$; $i^{2026} = i^{4 \cdot 506 + 2} = i^2 = -1$.
+
+**3.** $|3+4i| = 5$, $|1+i| = \sqrt2$, $|i| = 1$; $z\bar z = (3+4i)(3-4i) = 9 + 16 = 25$. Jointly: $z\bar z = |z|^2$.
+
+**5.** $\varphi = 60°$: $2 + 2(\tfrac12) = 3$ — constructive side, partway toward full bonding reinforcement (which is 4, at $\varphi = 0$). $\varphi = 120°$: $2 + 2(-\tfrac12) = 1$ — partial cancellation. $\varphi = 180°$: $0$ — total annihilation, the antibonding node.
+
+**7.** $(ac-bd)^2 + (ad+bc)^2 = a^2c^2 - 2abcd + b^2d^2 + a^2d^2 + 2abcd + b^2c^2 = (a^2+b^2)(c^2+d^2)$ — the cross terms cancel, exactly as in §3.4's Lagrange identity.
+
+**9.** $|z|^2 = |i| = 1$ so $|z| = 1$; the angle must satisfy $2\theta = 90° + 360°k$, giving $\theta = 45°$ or $225°$: $z = \pm\tfrac{\sqrt2}{2}(1 + i)$. A degree-2 polynomial is entitled to exactly 2 roots in $\mathbb{C}$ — both found.
+
 ## §2.1 Direction in Space
 
 **1.** $\mathbf{a}+\mathbf{b} = (-1, 4, 5)$; $\mathbf{a}-\mathbf{b} = (5, -6, 3)$; $3\mathbf{a}-2\mathbf{b} = (12, -13, 10)$.

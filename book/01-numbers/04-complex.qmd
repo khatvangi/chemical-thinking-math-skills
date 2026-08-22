@@ -1,0 +1,152 @@
+---
+title: "1.4 Complex Numbers"
+---
+
+The equation $x^2 = -1$ has no real solution — squares of reals are never negative — and for centuries mathematicians drew the sensible conclusion: *so it has no solution*, the way "which count is $3 - 5$?" once had none. A parabola that never crosses the axis is not a crisis. If that were the whole story, $\sqrt{-1}$ would have stayed a curiosity, and this section would not exist. What forced the issue was stranger and better: in 1572 Rafael Bombelli met an equation with a perfectly ordinary *real* answer that could only be *reached* by marching straight through the impossible. The cubic
+$$
+x^3 = 15x + 4
+$$
+plainly has the solution $x = 4$ (check: $64 = 60 + 4$). But the cubic formula — the era's pride, the machine that solves *every* cubic — returns for this equation
+$$
+x = \sqrt[3]{\,2 + \sqrt{-121}\,} + \sqrt[3]{\,2 - \sqrt{-121}\,},
+$$
+an expression demanding the square root of $-121$. The formula was not wrong; the answer $4$ is genuinely in there. But to extract it, one must compute with $\sqrt{-121}$ as if it meant something — add it, multiply it, take its cube root — and only at the end watch every impossible piece cancel, leaving honest reality behind. This is a different kind of necessity from anything in Section [1.1](01-kinds.qmd): not "we want more answers" but "we cannot reach the answers we already have without new numbers as *scaffolding*." Numbers that indispensable are not imaginary in any sense that matters, and this section is their introduction — with a second, chemical necessity waiting at the end, because the electron turned out to be a wave, and waves keep their books in complex numbers.
+
+## The arithmetic of the impossible
+
+Bombelli's move was to stop philosophizing and start computing: give the impossible thing a symbol, grant it one algebraic property, and otherwise manipulate it by the ordinary rules.
+
+::: {.env .definition}
+**Definition 1.4.1 (Complex numbers).** The **imaginary unit** $i$ is a symbol with the single property $i^2 = -1$. A **complex number** is an expression $z = a + bi$ with $a, b \in \mathbb{R}$: the **real part** $a$ and the **imaginary part** $b$. The set of all of them is $\mathbb{C}$. Addition collects like terms; multiplication distributes as usual and replaces every $i^2$ by $-1$:
+$$
+(a + bi)(c + di) = ac + adi + bci + bd\,i^2 = (ac - bd) + (ad + bc)\,i .
+$$
+:::
+
+Note the honest grammar: $i$ is not "discovered," it is *adjoined* — exactly as the negatives and the fractions were in §1.1, by declaring a solution to an unsolvable equation and extending the arithmetic around it. The only novelty is the sign flip that $i^2 = -1$ injects into the real part of a product. Everything else is algebra you already own.
+
+Now watch the definition earn its keep on Bombelli's cubic. Could $\sqrt[3]{2 + \sqrt{-121}} = \sqrt[3]{2 + 11i}$ be something as tame as $2 + i$? Cube it and see:
+$$
+(2+i)^2 = 4 + 4i + i^2 = 3 + 4i,
+\qquad
+(3+4i)(2+i) = 6 + 3i + 8i + 4i^2 = 2 + 11i .
+$$
+It is. Identically, $(2 - i)^3 = 2 - 11i$. So the formula's monstrous expression collapses:
+$$
+x = (2 + i) + (2 - i) = 4 .
+$$
+The imaginary parts cancelled — as they had to, since the cubic's answer is real — but they *had to exist in order to cancel*. The formula routes every solution of this cubic through $\mathbb{C}$; the destination is real, the road is not. This computation, more than any philosophy, is what made mathematicians keep complex numbers: refusing them meant abandoning answers that were provably correct.
+
+## The complex plane: numbers with direction
+
+A complex number carries two real numbers, and two real numbers are begging to be drawn: put the real part on a horizontal axis, the imaginary part on a vertical one, and $z = a + bi$ becomes the point — or better, the arrow — $(a, b)$. This picture (Argand's) converts the algebra into geometry, and the geometry is where chemistry will live.
+
+::: {.env .definition}
+**Definition 1.4.2 (Modulus, argument, conjugate).** For $z = a + bi$:
+the **modulus** $|z| = \sqrt{a^2 + b^2}$ is the arrow's length; the **argument** $\theta$ is the angle it makes with the positive real axis, so that
+$$
+z = r(\cos\theta + i \sin\theta), \qquad r = |z|
+$$
+(the **polar form**); and the **conjugate** $\bar{z} = a - bi$ is the mirror image across the real axis.
+:::
+
+The conjugate immediately pays for itself:
+$$
+z\,\bar{z} = (a+bi)(a-bi) = a^2 - (bi)^2 = a^2 + b^2 = |z|^2 ,
+$$
+a *real, nonnegative* number — the standard trick for turning complex quantities real, and the reason division works: to compute $w/z$, multiply top and bottom by $\bar{z}$ and the denominator becomes the real number $|z|^2$. (When quantum mechanics writes probability density as $\psi^*\psi$, it is performing exactly this move: the wavefunction is complex, but $\psi^*\psi = |\psi|^2$ — what the detector sees — is guaranteed real. The star is the chemist's bar.)
+
+The deep fact of the section is what multiplication looks like in polar form.
+
+::: {.env .theorem}
+**Theorem 1.4.3 (Multiplication rotates).** If $z_1 = r_1(\cos\alpha + i\sin\alpha)$ and $z_2 = r_2(\cos\beta + i\sin\beta)$, then
+$$
+z_1 z_2 = r_1 r_2 \left[ \cos(\alpha + \beta) + i \sin(\alpha + \beta) \right]:
+$$
+moduli multiply, angles **add**.
+:::
+
+::: {.env .proof}
+Multiply out and group real and imaginary parts:
+$$
+z_1 z_2 = r_1 r_2 \left[ (\cos\alpha\cos\beta - \sin\alpha\sin\beta) + i(\sin\alpha\cos\beta + \cos\alpha\sin\beta) \right],
+$$
+where the minus sign in the real part is $i^2 = -1$ at work. The two brackets are precisely the angle-addition identities of trigonometry: $\cos(\alpha+\beta)$ and $\sin(\alpha+\beta)$.
+:::
+
+Read the theorem back onto the mystery this section opened with. Multiplying by $i$ — modulus 1, angle $90°$ — *adds a quarter turn*. Then $i^2$ is two quarter turns: a point reversal, which is multiplication by $-1$. The equation $i^2 = -1$, scandalous as algebra, is a triviality as geometry: **half of a half-turn is a quarter-turn**, and $i$ is simply the quarter-turn itself, caught and given a symbol. Nothing imaginary is happening; a rotation is happening. (Compare §3.3, where the matrix $R(90°)$ plays the identical role — multiplication by unit complex numbers and $2\times 2$ rotation matrices are the same operation in different dress.)
+
+::: {.env .example}
+**Example 1.4.4 (Phasing an NMR signal).** An NMR spectrometer's quadrature detector records the transverse magnetization as one complex number — real part from the $x$-channel, imaginary from the $y$-channel. A peak comes out as $z = 3 + 4i$ (arbitrary units), tilted by detector phase error. Rotate it onto the real axis ("phase the spectrum") and report the corrected, purely absorptive amplitude.
+
+*Setting it up.* The signal's physical content is its modulus and its phase; phasing means multiplying by a unit complex number that cancels the phase — rotation by $-\theta$, where $\theta$ is $z$'s argument.
+
+*Solution.* $|z| = \sqrt{9 + 16} = 5$, and $\cos\theta = \tfrac35$, $\sin\theta = \tfrac45$. Multiply by $\cos\theta - i\sin\theta$ (a unit number at angle $-\theta$):
+$$
+(3 + 4i)\left(\tfrac{3}{5} - \tfrac{4}{5} i\right)
+= \tfrac{9}{5} - \tfrac{12}{5} i + \tfrac{12}{5} i - \tfrac{16}{5} i^2
+= \tfrac{9}{5} + \tfrac{16}{5} = 5 .
+$$
+The corrected amplitude is $5$, purely real.
+
+*Check.* Rotation must preserve length: the answer's modulus is $5 = |z|$ ✓. The imaginary part vanished exactly — the definition of a correctly phased, absorptive peak — and the two middle terms cancelling is no accident: we multiplied $z$ by $\bar{z}/|z|$, so the product is $|z|^2/|z| = |z|$, guaranteed real. Every "phase" knob on every NMR console executes this one line of complex arithmetic.
+:::
+
+## The chemical necessity: waves carry phase
+
+Bombelli's necessity was algebraic. Chemistry's is physical, and it arrived in 1926: the electron is described by a wave, and a wave at a point is not one number but two — *how much* (amplitude) and *where in its cycle* (phase). A single real number cannot hold both; a complex number is exactly both, as modulus and argument. This is not notational convenience. Interference — the defining behavior of waves — is *arithmetic* on complex numbers: two overlapping waves add as complex amplitudes, and whether they reinforce or annihilate is decided by their phase difference.
+
+Add two waves of unit amplitude differing in phase by $\varphi$: the first is $1$ (angle zero), the second is $\cos\varphi + i\sin\varphi$. The combined intensity is the squared modulus of the sum:
+$$
+\left| 1 + \cos\varphi + i \sin\varphi \right|^2
+= (1 + \cos\varphi)^2 + \sin^2\varphi
+= 2 + 2\cos\varphi .
+$$
+At $\varphi = 0$: intensity $4$ — twice the naive sum of the two unit intensities; the waves reinforce. At $\varphi = 180°$: intensity $0$ — total annihilation, energy nowhere at this point. Chemistry has a name for this pair of outcomes: when two atomic orbitals overlap *in phase* they reinforce into a **bonding** orbital, and *out of phase* they cancel into an **antibonding** one — the entire covalent bond, the reason molecules exist, is constructive interference, and the $\pm$ that generations of students have drawn on orbital lobes is the argument of a complex number wearing a disguise. The wavefunctions of Module 3's quantum chemistry are complex-valued from birth; here in Chapter 1 it is enough to know *why they must be*: the electron keeps two books, and $\mathbb{C}$ is the only number system with double-entry built in.
+
+One more fact closes the chapter, and it is the tower's summit. Every extension in §1.1 was provoked by an unsolvable equation: $x + 5 = 3$ forced $\mathbb{Z}$, $3x = 1$ forced $\mathbb{Q}$, $x^2 = 2$ forced $\mathbb{R}$, $x^2 = -1$ forced $\mathbb{C}$. The pattern invites the question: what equation will force the next level? The **Fundamental Theorem of Algebra** answers: *none*. Every polynomial equation with complex (or real) coefficients has all of its solutions already inside $\mathbb{C}$ — the system is *algebraically closed*. The escape-and-repair engine that built the whole tower runs out of fuel precisely here. $\mathbb{C}$ is not one more way station; it is, for algebra, the top.
+
+## Remarks and cautions
+
+**"Imaginary" is a fossilized insult, not a description.** Descartes coined it as a dismissal, and the name stuck the way "irrational" stuck. By every criterion that matters — consistent arithmetic, indispensability for real answers (Bombelli), physical measurability of consequences (every NMR spectrum, every bond) — $i$ has the same standing as $-3$, which you also cannot hold in your hand.
+
+**Complex numbers are ordered pairs with a multiplication, not just vectors.** The Argand picture makes $z$ look like the $(a, b)$ of Chapter 2, and for *addition* the pictures agree exactly (tip-to-tail). But $\mathbb{C}$ has what $\mathbb{R}^2$'s vectors lack: a multiplication that stays in the system and, by Theorem 1.4.3, *means* something — rotate and scale. The dot product of §2.3 eats two vectors and excretes a scalar; complex multiplication returns another complex number. Different machines; don't interchange them.
+
+**Say $i^2 = -1$, not $i = \sqrt{-1}$, when care matters.** Both $i$ and $-i$ square to $-1$, and the familiar rule $\sqrt{x}\sqrt{y} = \sqrt{xy}$ *fails* off the nonnegative reals: $\sqrt{-1}\sqrt{-1} \ne \sqrt{1}$. The definition by the squaring property dodges every such pitfall; the radical notation invites them.
+
+**Real answers may require complex intermediates — let them.** The recurring student instinct is to abort a computation the moment $i$ appears, on the theory that "physical answers are real." Bombelli's cubic is the standing counterexample: the imaginary parts cancel *at the end*, not at the beginning. The oscillating solutions of Module 2's differential equations behave identically — complex en route, real on arrival. Carry the $i$; it knows where it's going.
+
+## Summary
+
+Complex numbers enter not as a luxury but under two compulsions: Bombelli's cubic, whose real solutions are unreachable except through $\sqrt{-121}$, and the electron's wave nature, which demands two numbers — amplitude and phase — at every point of space. Adjoining a symbol $i$ with $i^2 = -1$ and computing by the ordinary rules yields a consistent arithmetic on $z = a + bi$; the conjugate manufactures reality via $z\bar z = |z|^2$ (quantum mechanics' $\psi^*\psi$); and the Argand plane reveals the operations' geometry, above all Theorem 1.4.3: multiplication multiplies moduli and *adds angles*, so that $i$ is a quarter-turn and $i^2 = -1$ is the unmysterious statement that two quarter-turns reverse direction. Interference falls out as arithmetic — $|1 + (\cos\varphi + i\sin\varphi)|^2 = 2 + 2\cos\varphi$ spans the full range from bonding reinforcement to antibonding annihilation — and the Fundamental Theorem of Algebra caps the tower of §1.1: within $\mathbb{C}$, every polynomial equation is solvable, and the escape-and-repair engine that generated every number system finally rests.
+
+::: {.exercises}
+Exercises
+
+1. Compute $(3 + 2i) + (1 - 4i)$, $(3 + 2i)(1 - 4i)$, $i^3$, $i^4$, and $i^{2026}$.
+
+2. Verify Bombelli's collapse yourself: square $2 + i$, multiply the result by $2 + i$ again, and confirm $(2+i)^3 = 2 + 11i$. Conclude, in one sentence, why $x = 4$ emerges from the cubic formula's "impossible" expression.
+
+3. Find $|3 + 4i|$, $|1 + i|$, $|i|$, and compute $z\bar{z}$ for $z = 3 + 4i$. Which general identity do the first and last answers jointly confirm?
+
+4. Divide: $(2 + 11i)/(2 + i)$, using the conjugate trick. (You already know what the answer must be from Exercise 2 — check against it.)
+
+5. Two overlapping unit-amplitude waves differ in phase by $\varphi$. Evaluate the intensity $2 + 2\cos\varphi$ at $\varphi = 60°, 120°, 180°$, and state which value corresponds to bonding overlap, which to antibonding cancellation, and which to something between.
+
+6. Start from $z = 1$ and multiply by $\cos 90° + i \sin 90°$ four times in succession, recording each result. Explain, from your sequence, the geometric meaning of $i^2 = -1$ in one sentence.
+
+7. ★ Prove $|z_1 z_2| = |z_1|\,|z_2|$ by pure algebra: show $(ac - bd)^2 + (ad + bc)^2 = (a^2 + b^2)(c^2 + d^2)$. (This Brahmagupta–Fibonacci identity is the sibling of §3.4's Lagrange identity — compare them when you get there.)
+
+8. ★ Run Theorem 1.4.3's proof backward: multiply $(\cos\alpha + i\sin\alpha)(\cos\beta + i\sin\beta)$ and, by matching real and imaginary parts against the polar form of the product, *derive* the two angle-addition identities of trigonometry. (Students memorize these for years; $\mathbb{C}$ generates them in three lines.)
+
+9. ★ Solve $z^2 = i$ exactly, using polar form: what modulus and what angle(s) must $z$ have? Give both solutions in the form $a + bi$. How many solutions does the Fundamental Theorem of Algebra entitle $z^2 - i = 0$ to?
+
+10. ★★ Find all six solutions of $z^6 = 1$ (the *sixth roots of unity*) in polar form, and plot them mentally on the Argand plane. What familiar molecular shape do they trace, and what is the relationship between multiplying by one of these roots and the $C_6$ rotation of benzene in §3.3's language? (You are looking at your first *group*: the same six operations, once as numbers, once as symmetries.)
+:::
+
+## Practice until it sticks
+
+<div data-skill="complex-numbers"></div>
+
+<script src="../../js/adaptive-engine.js"></script>
+<script src="../../js/skills/complex-numbers.js"></script>

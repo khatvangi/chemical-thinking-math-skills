@@ -2,7 +2,7 @@
  * Adaptive skill: matrix algebra (§3.2).
  * Tier 1 (numeric): one entry of a 2×2 matrix product.
  * Tier 2 (numeric): one entry of a 2×2 inverse.
- * Tier 3 (numeric): solve a 2×2 chemical system for one unknown.
+ * Tier 3 (numeric): solve a 2×2 system via the inverse.
  */
 
 (function () {
@@ -16,39 +16,39 @@
                 const i = A.rand([0, 1]), j = A.rand([0, 1]);
                 const correct = M[i][0] * N[0][j] + M[i][1] * N[1][j];
                 const entrywise = M[i][j] * N[i][j];
-                const rowRow = M[i][0] * N[j][0] + M[i][1] * N[j][1];
-                const reversed = N[i][0] * M[0][j] + N[i][1] * M[1][j];
-                if (new Set([correct, entrywise, rowRow, reversed]).size < 4) continue;
+                const rowRow = M[i][0] * N[j][0] + M[i][1] * N[j][1];   // dotted two rows
+                const other = M[j][0] * N[0][i] + M[j][1] * N[1][i];    // transposed position
+                if (new Set([correct, entrywise, rowRow, other]).size < 4) continue;
                 return {
-                    prompt: "Let $A = \\begin{pmatrix} " + M[0][0] + " & " + M[0][1] + " \\\\ " + M[1][0] + " & " + M[1][1] +
-                        " \\end{pmatrix}$, $B = \\begin{pmatrix} " + N[0][0] + " & " + N[0][1] + " \\\\ " + N[1][0] + " & " + N[1][1] +
-                        " \\end{pmatrix}$. Compute the entry in row " + (i + 1) + ", column " + (j + 1) + " of $AB$.",
+                    prompt: "For $M = \\begin{pmatrix} " + M[0][0] + " & " + M[0][1] + " \\\\ " + M[1][0] + " & " + M[1][1] +
+                        " \\end{pmatrix}$ and $N = \\begin{pmatrix} " + N[0][0] + " & " + N[0][1] + " \\\\ " + N[1][0] + " & " + N[1][1] +
+                        " \\end{pmatrix}$, compute the entry in <strong>row " + (i + 1) + ", column " + (j + 1) + "</strong> of $MN$.",
                     correct: correct,
                     tol: 0.01,
                     misconceptions: [
                         {
                             id: "entrywise",
                             value: entrywise, tol: 0.01,
-                            why: "You multiplied matching entries. The matrix product dots a ROW of A with a COLUMN of B.",
+                            why: "You multiplied matching entries. The matrix product dots a full ROW of M with a full COLUMN of N.",
                             nudges: [
-                                "(AB)_{" + (i + 1) + (j + 1) + "} = (row " + (i + 1) + " of A) · (column " + (j + 1) + " of B).",
+                                "Entry (i, j) of MN = (row i of M) · (column j of N) — a sum of two products, not one.",
                                 "Compute " + M[i][0] + "×" + N[0][j] + " + (" + M[i][1] + ")×" + N[1][j] + "."
                             ]
                         },
                         {
                             id: "row-row",
                             value: rowRow, tol: 0.01,
-                            why: "You dotted a row of A with a ROW of B — the second factor contributes a column.",
+                            why: "You dotted a row of M with a ROW of N — the right factor contributes columns.",
                             nudges: [
-                                "Column " + (j + 1) + " of B is (" + N[0][j] + ", " + N[1][j] + "), read DOWNWARD. Dot row " + (i + 1) + " of A with that."
+                                "Left factor: rows. Right factor: COLUMNS. Column " + (j + 1) + " of N is (" + N[0][j] + ", " + N[1][j] + "). Dot it with row " + (i + 1) + " of M."
                             ]
                         },
                         {
-                            id: "reversed-order",
-                            value: reversed, tol: 0.01,
-                            why: "That is the (" + (i + 1) + "," + (j + 1) + ") entry of BA — and BA ≠ AB in general.",
+                            id: "transposed-entry",
+                            value: other, tol: 0.01,
+                            why: "That is the (" + (j + 1) + ", " + (i + 1) + ") entry — row and column swapped.",
                             nudges: [
-                                "Order matters (Theorem 3.2.2). The FIRST factor supplies the row: use A's row " + (i + 1) + ", B's column " + (j + 1) + "."
+                                "Row index first: you need row " + (i + 1) + " of M against column " + (j + 1) + " of N."
                             ]
                         }
                     ]
@@ -60,42 +60,43 @@
     const T2 = {
         gen() {
             for (let t = 0; t < 60; t++) {
-                const a = A.randInt(1, 5), b = A.randInt(1, 4), c = A.randInt(1, 4), d = A.randInt(2, 6);
+                const a = A.randInt(1, 5), b = A.randInt(1, 4), c = A.randInt(1, 4), d = A.randInt(1, 5);
                 const det = a * d - b * c;
-                if (det === 0 || det === 1) continue;
-                // ask for the (1,1) entry of the inverse: d/det
+                if (det === 0 || Math.abs(det) > 6) continue;
+                // ask for entry (1,1) of the inverse: d/det
                 const correct = d / det;
-                const vals = [correct, d, a / det, -d / det];
+                const vals = [correct, a / det, d, -d / det];
                 if (new Set(vals.map(x => Math.round(x * 1000))).size < 4) continue;
                 return {
                     prompt: "For $A = \\begin{pmatrix} " + a + " & " + b + " \\\\ " + c + " & " + d +
-                        " \\end{pmatrix}$, compute the entry in row 1, column 1 of $A^{-1}$. (3 decimals)",
+                        " \\end{pmatrix}$, compute the <strong>row 1, column 1</strong> entry of $A^{-1}$. (3 decimals)",
                     correct: correct,
                     tol: 0.004,
                     misconceptions: [
                         {
-                            id: "forgot-det",
-                            value: d, tol: 0.01,
-                            why: "You swapped the diagonal but skipped dividing by the determinant.",
+                            id: "forgot-swap",
+                            value: a / det, tol: 0.004,
+                            why: "You kept a in place — the 2×2 inverse SWAPS the diagonal entries first.",
                             nudges: [
-                                "The 2×2 inverse is (1/(ad−bc)) × (swapped/negated matrix). Here ad−bc = " + a + "×" + d + " − " + b + "×" + c + " = " + det + ".",
-                                "Divide " + d + " by " + det + "."
+                                "Swap the diagonal (a ↔ d), negate the off-diagonal, divide by ad − bc. Position (1,1) receives d.",
+                                "Entry (1,1) of A⁻¹ = d/(ad − bc) = " + d + "/" + det + "."
                             ]
                         },
                         {
-                            id: "no-swap",
-                            value: a / det, tol: 0.004,
-                            why: "You divided by the determinant but forgot to SWAP the diagonal — the (1,1) slot of the inverse holds d, not a.",
+                            id: "forgot-det",
+                            value: d, tol: 0.004,
+                            why: "The swap is right but the division by ad − bc is missing.",
                             nudges: [
-                                "Theorem 3.2.4: the diagonal entries a and d trade places. The (1,1) entry is d/(ad−bc) = " + d + "/" + det + "."
+                                "The whole swapped-and-negated matrix is divided by ad − bc = " + a + "×" + d + " − " + b + "×" + c + " = " + det + ".",
+                                "Compute " + d + "/" + det + "."
                             ]
                         },
                         {
                             id: "wrong-sign",
                             value: -d / det, tol: 0.004,
-                            why: "The minus signs belong to the OFF-diagonal entries b and c, not the diagonal.",
+                            why: "The DIAGONAL entries keep their sign — only the off-diagonal entries are negated.",
                             nudges: [
-                                "Pattern: swap a↔d, negate b and c. Diagonal entries stay positive (as written): d/" + det + "."
+                                "Swap-negate-divide: negation touches b and c only. (1,1) is d/" + det + ", sign intact."
                             ]
                         }
                     ]
@@ -107,45 +108,44 @@
     const T3 = {
         gen() {
             for (let t = 0; t < 60; t++) {
-                // build a clean system: choose solution first
-                const x = A.randInt(1, 5), y = A.randInt(1, 5);
-                const a = A.randInt(1, 4), b = A.randInt(1, 3), c = A.randInt(1, 3), d = A.randInt(2, 4);
+                const a = A.randInt(2, 5), b = A.randInt(1, 3), c = A.randInt(1, 3), d = A.randInt(2, 5);
                 const det = a * d - b * c;
                 if (det === 0) continue;
-                const p = a * x + b * y, q = c * x + d * y;
-                const which = A.rand(["x", "y"]);
-                const correct = which === "x" ? x : y;
-                const other = which === "x" ? y : x;
-                if (correct === other) continue;
+                const x = A.randInt(1, 4), y = A.randInt(1, 4);
+                const b1 = a * x + b * y, b2 = c * x + d * y;
+                const naive = b1 / a;
+                const vals = [x, y, naive, b1 - b2];
+                if (new Set(vals.map(v => Math.round(v * 100))).size < 4) continue;
                 return {
-                    prompt: "A mixture of two acids satisfies the titration balances $" +
-                        a + "x + " + b + "y = " + p + "$ and $" + c + "x + " + d + "y = " + q +
-                        "$ (mmol). Solve the system: what is $" + which + "$?",
-                    correct: correct,
+                    prompt: "Two dyes obey $" + a + "c_X + " + b + "c_Y = " + b1 + "$ and $" + c + "c_X + " + d +
+                        "c_Y = " + b2 + "$ (scaled units). Solve for $c_X$.",
+                    correct: x,
                     tol: 0.01,
                     misconceptions: [
                         {
-                            id: "swapped-unknowns",
-                            value: other, tol: 0.01,
-                            why: "That is the value of the OTHER unknown — the pair got swapped at the end.",
+                            id: "swapped-solution",
+                            value: y, tol: 0.01,
+                            why: "That is c_Y — the components came back in the wrong order.",
                             nudges: [
-                                "Substitute your values back into the first equation: " + a + "×(your x) + " + b + "×(your y) must equal " + p + ". Which assignment survives?"
+                                "By the inverse formula, c_X = (d·b₁ − b·b₂)/(ad − bc) = (" + d + "×" + b1 + " − " + b + "×" + b2 + ")/" + det + ". The first output slot is c_X."
                             ]
                         },
                         {
-                            id: "rhs-ratio",
-                            value: Math.abs(p / a - correct) > 0.005 ? p / a : NaN, tol: 0.01,
-                            why: "That is " + p + "/" + a + " — solving equation 1 as if y were zero. Both equations constrain both unknowns.",
+                            id: "ignored-coupling",
+                            value: Math.abs(naive - x) > 0.02 && Math.abs(naive - y) > 0.02 ? naive : NaN,
+                            tol: 0.02,
+                            why: "You divided b₁ by " + a + " as if dye Y weren't absorbing — the equations are coupled.",
                             nudges: [
-                                "One equation alone can't pin two unknowns. Eliminate: multiply the equations to match a coefficient, subtract, then back-substitute — or use the 2×2 inverse of the coefficient matrix."
+                                "The first equation alone can't isolate c_X: part of " + b1 + " is dye Y's contribution. Use both equations — the inverse (or elimination) untangles them.",
+                                "c_X = (" + d + "×" + b1 + " − " + b + "×" + b2 + ")/" + det + "."
                             ]
                         },
                         {
-                            id: "sum-misread",
-                            value: Math.abs(x + y - correct) > 0.005 ? x + y : NaN, tol: 0.01,
-                            why: "That is x + y, the total — the question asks for " + which + " alone.",
+                            id: "subtracted-data",
+                            value: Math.abs(b1 - b2 - x) > 0.02 ? (b1 - b2) : NaN, tol: 0.02,
+                            why: "Subtracting the right-hand sides doesn't isolate c_X unless the Y-coefficients happen to match.",
                             nudges: [
-                                "Finish the elimination: once one unknown is known, back-substitute to isolate " + which + "."
+                                "Blind subtraction eliminates c_Y only if its coefficients are equal (" + b + " vs " + d + " — they aren't). Weight the equations first, or apply the 2×2 inverse."
                             ]
                         }
                     ].filter(m => isFinite(m.value))

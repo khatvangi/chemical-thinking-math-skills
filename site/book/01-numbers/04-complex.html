@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>2.2 Magnitude and Components – Chemical Thinking</title>
+<title>1.4 Complex Numbers – Chemical Thinking</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../02-vectors/03-dot-product.html" rel="next">
-<link href="../02-vectors/01-direction.html" rel="prev">
+<link href="../02-vectors/01-direction.html" rel="next">
+<link href="../01-numbers/03-counting.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -294,7 +294,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../02-vectors/01-direction.html">2 · Vectors</a></li><li class="breadcrumb-item"><a href="../02-vectors/02-magnitude.html"><span class="chapter-title">2.2 Magnitude and Components</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../01-numbers/01-kinds.html">1 · Numbers and Counting</a></li><li class="breadcrumb-item"><a href="../01-numbers/04-complex.html"><span class="chapter-title">1.4 Complex Numbers</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -370,7 +370,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../01-numbers/04-complex.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">1.4 Complex Numbers</span></a>
+  <a href="../01-numbers/04-complex.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">1.4 Complex Numbers</span></a>
   </div>
 </li>
       </ul>
@@ -391,7 +391,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../02-vectors/02-magnitude.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">2.2 Magnitude and Components</span></a>
+  <a href="../02-vectors/02-magnitude.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">2.2 Magnitude and Components</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -463,8 +463,9 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#from-components-to-length" id="toc-from-components-to-length" class="nav-link active" data-scroll-target="#from-components-to-length">From components to length</a></li>
-  <li><a href="#pure-direction-unit-vectors" id="toc-pure-direction-unit-vectors" class="nav-link" data-scroll-target="#pure-direction-unit-vectors">Pure direction: unit vectors</a></li>
+  <li><a href="#the-arithmetic-of-the-impossible" id="toc-the-arithmetic-of-the-impossible" class="nav-link active" data-scroll-target="#the-arithmetic-of-the-impossible">The arithmetic of the impossible</a></li>
+  <li><a href="#the-complex-plane-numbers-with-direction" id="toc-the-complex-plane-numbers-with-direction" class="nav-link" data-scroll-target="#the-complex-plane-numbers-with-direction">The complex plane: numbers with direction</a></li>
+  <li><a href="#the-chemical-necessity-waves-carry-phase" id="toc-the-chemical-necessity-waves-carry-phase" class="nav-link" data-scroll-target="#the-chemical-necessity-waves-carry-phase">The chemical necessity: waves carry phase</a></li>
   <li><a href="#remarks-and-cautions" id="toc-remarks-and-cautions" class="nav-link" data-scroll-target="#remarks-and-cautions">Remarks and cautions</a></li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
   <li><a href="#practice-until-it-sticks" id="toc-practice-until-it-sticks" class="nav-link" data-scroll-target="#practice-until-it-sticks">Practice until it sticks</a></li>
@@ -475,9 +476,9 @@ window.Quarto = {
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../02-vectors/01-direction.html">2 · Vectors</a></li><li class="breadcrumb-item"><a href="../02-vectors/02-magnitude.html"><span class="chapter-title">2.2 Magnitude and Components</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../01-numbers/01-kinds.html">1 · Numbers and Counting</a></li><li class="breadcrumb-item"><a href="../01-numbers/04-complex.html"><span class="chapter-title">1.4 Complex Numbers</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">2.2 Magnitude and Components</span></h1>
+<h1 class="title"><span class="chapter-title">1.4 Complex Numbers</span></h1>
 </div>
 
 
@@ -494,84 +495,105 @@ window.Quarto = {
 </header>
 
 
-<p>Open a protein structure file — the kind deposited by the thousands in the Protein Data Bank — and you find atoms as rows of coordinates: a backbone nitrogen at <span class="math inline">(12.4, 8.1, 5.9)</span> Å, a carbonyl oxygen of a neighboring strand at <span class="math inline">(14.1, 9.6, 7.3)</span> Å. The biochemical question hiding in those six numbers is whether this N–H···O pair forms a hydrogen bond, and the standard criterion is blunt: donor–acceptor distance below about <span class="math inline">3.5</span> Å. So the file gives positions, and the chemistry needs a <em>distance</em> — a single number extracted from a vector. Section <a href="../02-vectors/01-direction.html">2.1</a> taught vectors to add; this section teaches them to report their own length, and then to split cleanly into “how long” and “which way.”</p>
-<section id="from-components-to-length" class="level2">
-<h2 class="anchored" data-anchor-id="from-components-to-length">From components to length</h2>
-<p>The displacement from the nitrogen to the oxygen is found by subtraction (a §2.1 operation): <span class="math inline">\mathbf{d} = (14.1 - 12.4,\; 9.6 - 8.1,\; 7.3 - 5.9) = (1.7, 1.5, 1.4)</span> Å. But the <em>length</em> of that displacement is not any of its components, nor — a tempting error — their sum. Walking <span class="math inline">1.7</span> Å east, then <span class="math inline">1.5</span> Å north, then <span class="math inline">1.4</span> Å up covers <span class="math inline">4.6</span> Å of path, but the atoms are closer than that: a straight tunnel is shorter than an axis-aligned detour.</p>
-<p>The straight-line length comes from Pythagoras, applied twice. In the horizontal plane, the diagonal across the first two legs has squared length <span class="math inline">d_x^2 + d_y^2</span> — that is the ordinary right-triangle statement. Now this horizontal diagonal and the vertical leg <span class="math inline">d_z</span> form <em>another</em> right triangle (vertical is perpendicular to everything horizontal), whose hypotenuse is the true straight-line displacement. Applying Pythagoras again: <span class="math display">
-(\text{length})^2 = \left( d_x^2 + d_y^2 \right) + d_z^2 .
-</span> Each axis contributes the square of its component, and perpendicularity is what lets the contributions simply add. The result deserves a name and a symbol.</p>
+<p>The equation <span class="math inline">x^2 = -1</span> has no real solution — squares of reals are never negative — and for centuries mathematicians drew the sensible conclusion: <em>so it has no solution</em>, the way “which count is <span class="math inline">3 - 5</span>?” once had none. A parabola that never crosses the axis is not a crisis. If that were the whole story, <span class="math inline">\sqrt{-1}</span> would have stayed a curiosity, and this section would not exist. What forced the issue was stranger and better: in 1572 Rafael Bombelli met an equation with a perfectly ordinary <em>real</em> answer that could only be <em>reached</em> by marching straight through the impossible. The cubic <span class="math display">
+x^3 = 15x + 4
+</span> plainly has the solution <span class="math inline">x = 4</span> (check: <span class="math inline">64 = 60 + 4</span>). But the cubic formula — the era’s pride, the machine that solves <em>every</em> cubic — returns for this equation <span class="math display">
+x = \sqrt[3]{\,2 + \sqrt{-121}\,} + \sqrt[3]{\,2 - \sqrt{-121}\,},
+</span> an expression demanding the square root of <span class="math inline">-121</span>. The formula was not wrong; the answer <span class="math inline">4</span> is genuinely in there. But to extract it, one must compute with <span class="math inline">\sqrt{-121}</span> as if it meant something — add it, multiply it, take its cube root — and only at the end watch every impossible piece cancel, leaving honest reality behind. This is a different kind of necessity from anything in Section <a href="../01-numbers/01-kinds.html">1.1</a>: not “we want more answers” but “we cannot reach the answers we already have without new numbers as <em>scaffolding</em>.” Numbers that indispensable are not imaginary in any sense that matters, and this section is their introduction — with a second, chemical necessity waiting at the end, because the electron turned out to be a wave, and waves keep their books in complex numbers.</p>
+<section id="the-arithmetic-of-the-impossible" class="level2">
+<h2 class="anchored" data-anchor-id="the-arithmetic-of-the-impossible">The arithmetic of the impossible</h2>
+<p>Bombelli’s move was to stop philosophizing and start computing: give the impossible thing a symbol, grant it one algebraic property, and otherwise manipulate it by the ordinary rules.</p>
 <div class="env definition">
-<p><strong>Definition 2.2.1 (Magnitude).</strong> The <strong>magnitude</strong> (or norm) of <span class="math inline">\mathbf{v} = (v_x, v_y, v_z)</span> is <span class="math display">
-|\mathbf{v}| = \sqrt{\,v_x^2 + v_y^2 + v_z^2\,},
-</span> and the <strong>distance</strong> between points <span class="math inline">\mathbf{r}_1</span> and <span class="math inline">\mathbf{r}_2</span> is <span class="math inline">|\mathbf{r}_2 - \mathbf{r}_1|</span>: subtract first, then take the magnitude.</p>
+<p><strong>Definition 1.4.1 (Complex numbers).</strong> The <strong>imaginary unit</strong> <span class="math inline">i</span> is a symbol with the single property <span class="math inline">i^2 = -1</span>. A <strong>complex number</strong> is an expression <span class="math inline">z = a + bi</span> with <span class="math inline">a, b \in \mathbb{R}</span>: the <strong>real part</strong> <span class="math inline">a</span> and the <strong>imaginary part</strong> <span class="math inline">b</span>. The set of all of them is <span class="math inline">\mathbb{C}</span>. Addition collects like terms; multiplication distributes as usual and replaces every <span class="math inline">i^2</span> by <span class="math inline">-1</span>: <span class="math display">
+(a + bi)(c + di) = ac + adi + bci + bd\,i^2 = (ac - bd) + (ad + bc)\,i .
+</span></p>
 </div>
-<p>Two structural facts follow immediately from the formula. First, <span class="math inline">|\mathbf{v}| \ge 0</span> always, with zero only for the zero vector — squares cannot conspire to be negative. Second, scaling a vector scales its length by the <em>absolute</em> factor, <span class="math inline">|c\,\mathbf{v}| = |c|\,|\mathbf{v}|</span>: doubling stretches twofold, and reversing (<span class="math inline">c = -1</span>) leaves length untouched, exactly as an arrow flipped end-for-end should. And the magnitude connects straight back to §2.3’s machine: <span class="math inline">\mathbf{v} \cdot \mathbf{v} = |\mathbf{v}|^2</span>, the identity that powered the law-of-cosines proof.</p>
+<p>Note the honest grammar: <span class="math inline">i</span> is not “discovered,” it is <em>adjoined</em> — exactly as the negatives and the fractions were in §1.1, by declaring a solution to an unsolvable equation and extending the arithmetic around it. The only novelty is the sign flip that <span class="math inline">i^2 = -1</span> injects into the real part of a product. Everything else is algebra you already own.</p>
+<p>Now watch the definition earn its keep on Bombelli’s cubic. Could <span class="math inline">\sqrt[3]{2 + \sqrt{-121}} = \sqrt[3]{2 + 11i}</span> be something as tame as <span class="math inline">2 + i</span>? Cube it and see: <span class="math display">
+(2+i)^2 = 4 + 4i + i^2 = 3 + 4i,
+\qquad
+(3+4i)(2+i) = 6 + 3i + 8i + 4i^2 = 2 + 11i .
+</span> It is. Identically, <span class="math inline">(2 - i)^3 = 2 - 11i</span>. So the formula’s monstrous expression collapses: <span class="math display">
+x = (2 + i) + (2 - i) = 4 .
+</span> The imaginary parts cancelled — as they had to, since the cubic’s answer is real — but they <em>had to exist in order to cancel</em>. The formula routes every solution of this cubic through <span class="math inline">\mathbb{C}</span>; the destination is real, the road is not. This computation, more than any philosophy, is what made mathematicians keep complex numbers: refusing them meant abandoning answers that were provably correct.</p>
+</section>
+<section id="the-complex-plane-numbers-with-direction" class="level2">
+<h2 class="anchored" data-anchor-id="the-complex-plane-numbers-with-direction">The complex plane: numbers with direction</h2>
+<p>A complex number carries two real numbers, and two real numbers are begging to be drawn: put the real part on a horizontal axis, the imaginary part on a vertical one, and <span class="math inline">z = a + bi</span> becomes the point — or better, the arrow — <span class="math inline">(a, b)</span>. This picture (Argand’s) converts the algebra into geometry, and the geometry is where chemistry will live.</p>
+<div class="env definition">
+<p><strong>Definition 1.4.2 (Modulus, argument, conjugate).</strong> For <span class="math inline">z = a + bi</span>: the <strong>modulus</strong> <span class="math inline">|z| = \sqrt{a^2 + b^2}</span> is the arrow’s length; the <strong>argument</strong> <span class="math inline">\theta</span> is the angle it makes with the positive real axis, so that <span class="math display">
+z = r(\cos\theta + i \sin\theta), \qquad r = |z|
+</span> (the <strong>polar form</strong>); and the <strong>conjugate</strong> <span class="math inline">\bar{z} = a - bi</span> is the mirror image across the real axis.</p>
+</div>
+<p>The conjugate immediately pays for itself: <span class="math display">
+z\,\bar{z} = (a+bi)(a-bi) = a^2 - (bi)^2 = a^2 + b^2 = |z|^2 ,
+</span> a <em>real, nonnegative</em> number — the standard trick for turning complex quantities real, and the reason division works: to compute <span class="math inline">w/z</span>, multiply top and bottom by <span class="math inline">\bar{z}</span> and the denominator becomes the real number <span class="math inline">|z|^2</span>. (When quantum mechanics writes probability density as <span class="math inline">\psi^*\psi</span>, it is performing exactly this move: the wavefunction is complex, but <span class="math inline">\psi^*\psi = |\psi|^2</span> — what the detector sees — is guaranteed real. The star is the chemist’s bar.)</p>
+<p>The deep fact of the section is what multiplication looks like in polar form.</p>
+<div class="env theorem">
+<p><strong>Theorem 1.4.3 (Multiplication rotates).</strong> If <span class="math inline">z_1 = r_1(\cos\alpha + i\sin\alpha)</span> and <span class="math inline">z_2 = r_2(\cos\beta + i\sin\beta)</span>, then <span class="math display">
+z_1 z_2 = r_1 r_2 \left[ \cos(\alpha + \beta) + i \sin(\alpha + \beta) \right]:
+</span> moduli multiply, angles <strong>add</strong>.</p>
+</div>
+<div class="env proof">
+<p><span class="proof-title"><em>Proof</em>. </span>Multiply out and group real and imaginary parts: <span class="math display">
+z_1 z_2 = r_1 r_2 \left[ (\cos\alpha\cos\beta - \sin\alpha\sin\beta) + i(\sin\alpha\cos\beta + \cos\alpha\sin\beta) \right],
+</span> where the minus sign in the real part is <span class="math inline">i^2 = -1</span> at work. The two brackets are precisely the angle-addition identities of trigonometry: <span class="math inline">\cos(\alpha+\beta)</span> and <span class="math inline">\sin(\alpha+\beta)</span>.</p>
+</div>
+<p>Read the theorem back onto the mystery this section opened with. Multiplying by <span class="math inline">i</span> — modulus 1, angle <span class="math inline">90°</span> — <em>adds a quarter turn</em>. Then <span class="math inline">i^2</span> is two quarter turns: a point reversal, which is multiplication by <span class="math inline">-1</span>. The equation <span class="math inline">i^2 = -1</span>, scandalous as algebra, is a triviality as geometry: <strong>half of a half-turn is a quarter-turn</strong>, and <span class="math inline">i</span> is simply the quarter-turn itself, caught and given a symbol. Nothing imaginary is happening; a rotation is happening. (Compare §3.3, where the matrix <span class="math inline">R(90°)</span> plays the identical role — multiplication by unit complex numbers and <span class="math inline">2\times 2</span> rotation matrices are the same operation in different dress.)</p>
 <div class="env example">
-<p><strong>Example 2.2.2 (Is it a hydrogen bond?).</strong> Decide whether the N at <span class="math inline">(12.4, 8.1, 5.9)</span> Å and the O at <span class="math inline">(14.1, 9.6, 7.3)</span> Å are close enough to hydrogen-bond, against the <span class="math inline">3.5</span> Å criterion.</p>
-<p><em>Setting it up.</em> Distance = magnitude of the difference vector; the subtraction is already done above: <span class="math inline">\mathbf{d} = (1.7, 1.5, 1.4)</span> Å.</p>
-<p><em>Solution.</em> <span class="math display">
-|\mathbf{d}| = \sqrt{1.7^2 + 1.5^2 + 1.4^2} = \sqrt{2.89 + 2.25 + 1.96} = \sqrt{7.10} = 2.66\ \text{Å}.
-</span> Comfortably below <span class="math inline">3.5</span> Å: report the contact as a hydrogen bond.</p>
-<p><em>Check.</em> Units: squaring gives Å², the root returns Å ✓. Bounds: the distance must be at least the largest single component (<span class="math inline">2.66 \ge 1.7</span> ✓) and at most the taxicab sum (<span class="math inline">2.66 \le 4.6</span> ✓). Chemical scale: 2.66 Å sits right in the canonical N···O hydrogen-bond window (2.7–3.1 Å is typical; ours is on the short, strong end) — a number in the right decade, not just the right side of the cutoff.</p>
+<p><strong>Example 1.4.4 (Phasing an NMR signal).</strong> An NMR spectrometer’s quadrature detector records the transverse magnetization as one complex number — real part from the <span class="math inline">x</span>-channel, imaginary from the <span class="math inline">y</span>-channel. A peak comes out as <span class="math inline">z = 3 + 4i</span> (arbitrary units), tilted by detector phase error. Rotate it onto the real axis (“phase the spectrum”) and report the corrected, purely absorptive amplitude.</p>
+<p><em>Setting it up.</em> The signal’s physical content is its modulus and its phase; phasing means multiplying by a unit complex number that cancels the phase — rotation by <span class="math inline">-\theta</span>, where <span class="math inline">\theta</span> is <span class="math inline">z</span>’s argument.</p>
+<p><em>Solution.</em> <span class="math inline">|z| = \sqrt{9 + 16} = 5</span>, and <span class="math inline">\cos\theta = \tfrac35</span>, <span class="math inline">\sin\theta = \tfrac45</span>. Multiply by <span class="math inline">\cos\theta - i\sin\theta</span> (a unit number at angle <span class="math inline">-\theta</span>): <span class="math display">
+(3 + 4i)\left(\tfrac{3}{5} - \tfrac{4}{5} i\right)
+= \tfrac{9}{5} - \tfrac{12}{5} i + \tfrac{12}{5} i - \tfrac{16}{5} i^2
+= \tfrac{9}{5} + \tfrac{16}{5} = 5 .
+</span> The corrected amplitude is <span class="math inline">5</span>, purely real.</p>
+<p><em>Check.</em> Rotation must preserve length: the answer’s modulus is <span class="math inline">5 = |z|</span> ✓. The imaginary part vanished exactly — the definition of a correctly phased, absorptive peak — and the two middle terms cancelling is no accident: we multiplied <span class="math inline">z</span> by <span class="math inline">\bar{z}/|z|</span>, so the product is <span class="math inline">|z|^2/|z| = |z|</span>, guaranteed real. Every “phase” knob on every NMR console executes this one line of complex arithmetic.</p>
 </div>
 </section>
-<section id="pure-direction-unit-vectors" class="level2">
-<h2 class="anchored" data-anchor-id="pure-direction-unit-vectors">Pure direction: unit vectors</h2>
-<p>A vector answers two questions at once — how long, which way — and it is constantly useful to take the answers apart. The dipole formula of §2.1 needed only directions until the final step; the projection machinery of §2.3 fed on <span class="math inline">\hat{\mathbf{w}} = \mathbf{w}/|\mathbf{w}|</span>. That hat construction is the general tool.</p>
-<div class="env definition">
-<p><strong>Definition 2.2.3 (Unit vector).</strong> A <strong>unit vector</strong> has magnitude 1. Any nonzero <span class="math inline">\mathbf{v}</span> yields one by <strong>normalization</strong>: <span class="math display">
-\hat{\mathbf{v}} = \frac{\mathbf{v}}{|\mathbf{v}|},
-</span> a dimensionless carrier of pure direction. Every vector then factors as <span class="math inline">\mathbf{v} = |\mathbf{v}|\,\hat{\mathbf{v}}</span>: magnitude times direction.</p>
-</div>
-<p>Normalization is honest division: each component of <span class="math inline">\mathbf{v}</span> divided by the single number <span class="math inline">|\mathbf{v}|</span>. The result truly has length 1 — compute <span class="math inline">|\hat{\mathbf{v}}|</span> and the factor <span class="math inline">1/|\mathbf{v}|</span> comes out of the magnitude by the scaling rule, leaving <span class="math inline">|\mathbf{v}|/|\mathbf{v}| = 1</span>. Note also what normalization does to units: an O–H bond vector in Å, divided by its length in Å, becomes unitless. “Which way” has no meters attached.</p>
-<p>Three unit vectors are so useful they get permanent names: <span class="math inline">\hat{\mathbf{x}} = (1,0,0)</span>, <span class="math inline">\hat{\mathbf{y}} = (0,1,0)</span>, <span class="math inline">\hat{\mathbf{z}} = (0,0,1)</span>, the directions of the axes themselves. They let any vector be written as an explicit recipe, <span class="math display">
-\mathbf{v} = v_x\, \hat{\mathbf{x}} + v_y\, \hat{\mathbf{y}} + v_z\, \hat{\mathbf{z}},
-</span> “walk <span class="math inline">v_x</span> of the <span class="math inline">x</span>-direction, plus <span class="math inline">v_y</span> of the <span class="math inline">y</span>-direction, plus <span class="math inline">v_z</span> of the <span class="math inline">z</span>-direction.” Read that equation twice: it says the components are <em>coefficients</em> — amounts of standard directions, mixed. The idea that a vector is a mixture of chosen ingredient-directions is the seed of Section <a href="../02-vectors/04-basis.html">2.4</a>, where we will earn the right to choose ingredients other than <span class="math inline">\hat{\mathbf{x}}, \hat{\mathbf{y}}, \hat{\mathbf{z}}</span>.</p>
-<div class="env example">
-<p><strong>Example 2.2.4 (A force, factored).</strong> An optical trap pulls a bead with force <span class="math inline">\mathbf{F} = (2, 4, 4)</span> pN. Factor <span class="math inline">\mathbf{F}</span> into magnitude times direction, and give the fraction of the force that acts along each axis direction.</p>
-<p><em>Setting it up.</em> Compute <span class="math inline">|\mathbf{F}|</span>, then divide it out.</p>
-<p><em>Solution.</em> <span class="math display">
-|\mathbf{F}| = \sqrt{4 + 16 + 16} = \sqrt{36} = 6\ \text{pN},
-\qquad
-\hat{\mathbf{F}} = \tfrac{1}{6}(2, 4, 4) = \left( \tfrac13, \tfrac23, \tfrac23 \right).
-</span> So <span class="math inline">\mathbf{F} = 6\ \text{pN} \times (\tfrac13, \tfrac23, \tfrac23)</span>: a 6 pN pull, one-third of whose direction lies along <span class="math inline">x</span> and two-thirds along each of <span class="math inline">y</span> and <span class="math inline">z</span>.</p>
-<p><em>Check.</em> The direction must be unit: <span class="math inline">\left(\tfrac13\right)^2 + \left(\tfrac23\right)^2 + \left(\tfrac23\right)^2 = \tfrac{1 + 4 + 4}{9} = 1</span> ✓. Units: pN divided by pN is dimensionless ✓. And the components of <span class="math inline">\hat{\mathbf{F}}</span> have a §2.3 reading worth noticing: each is the cosine of the angle <span class="math inline">\mathbf{F}</span> makes with that axis (<span class="math inline">\hat{\mathbf{F}} \cdot \hat{\mathbf{x}} = \tfrac13 = \cos 70.5°</span>) — the <em>direction cosines</em>, whose squares summing to 1 is exactly the unit-length check just performed.</p>
-</div>
+<section id="the-chemical-necessity-waves-carry-phase" class="level2">
+<h2 class="anchored" data-anchor-id="the-chemical-necessity-waves-carry-phase">The chemical necessity: waves carry phase</h2>
+<p>Bombelli’s necessity was algebraic. Chemistry’s is physical, and it arrived in 1926: the electron is described by a wave, and a wave at a point is not one number but two — <em>how much</em> (amplitude) and <em>where in its cycle</em> (phase). A single real number cannot hold both; a complex number is exactly both, as modulus and argument. This is not notational convenience. Interference — the defining behavior of waves — is <em>arithmetic</em> on complex numbers: two overlapping waves add as complex amplitudes, and whether they reinforce or annihilate is decided by their phase difference.</p>
+<p>Add two waves of unit amplitude differing in phase by <span class="math inline">\varphi</span>: the first is <span class="math inline">1</span> (angle zero), the second is <span class="math inline">\cos\varphi + i\sin\varphi</span>. The combined intensity is the squared modulus of the sum: <span class="math display">
+\left| 1 + \cos\varphi + i \sin\varphi \right|^2
+= (1 + \cos\varphi)^2 + \sin^2\varphi
+= 2 + 2\cos\varphi .
+</span> At <span class="math inline">\varphi = 0</span>: intensity <span class="math inline">4</span> — twice the naive sum of the two unit intensities; the waves reinforce. At <span class="math inline">\varphi = 180°</span>: intensity <span class="math inline">0</span> — total annihilation, energy nowhere at this point. Chemistry has a name for this pair of outcomes: when two atomic orbitals overlap <em>in phase</em> they reinforce into a <strong>bonding</strong> orbital, and <em>out of phase</em> they cancel into an <strong>antibonding</strong> one — the entire covalent bond, the reason molecules exist, is constructive interference, and the <span class="math inline">\pm</span> that generations of students have drawn on orbital lobes is the argument of a complex number wearing a disguise. The wavefunctions of Module 3’s quantum chemistry are complex-valued from birth; here in Chapter 1 it is enough to know <em>why they must be</em>: the electron keeps two books, and <span class="math inline">\mathbb{C}</span> is the only number system with double-entry built in.</p>
+<p>One more fact closes the chapter, and it is the tower’s summit. Every extension in §1.1 was provoked by an unsolvable equation: <span class="math inline">x + 5 = 3</span> forced <span class="math inline">\mathbb{Z}</span>, <span class="math inline">3x = 1</span> forced <span class="math inline">\mathbb{Q}</span>, <span class="math inline">x^2 = 2</span> forced <span class="math inline">\mathbb{R}</span>, <span class="math inline">x^2 = -1</span> forced <span class="math inline">\mathbb{C}</span>. The pattern invites the question: what equation will force the next level? The <strong>Fundamental Theorem of Algebra</strong> answers: <em>none</em>. Every polynomial equation with complex (or real) coefficients has all of its solutions already inside <span class="math inline">\mathbb{C}</span> — the system is <em>algebraically closed</em>. The escape-and-repair engine that built the whole tower runs out of fuel precisely here. <span class="math inline">\mathbb{C}</span> is not one more way station; it is, for algebra, the top.</p>
 </section>
 <section id="remarks-and-cautions" class="level2">
 <h2 class="anchored" data-anchor-id="remarks-and-cautions">Remarks and cautions</h2>
-<p><strong>The square root is not optional.</strong> The single most frequent slip is reporting <span class="math inline">v_x^2 + v_y^2 + v_z^2</span> — a squared length — as the length. Catch it by units: if a distance comes out in Å², the root is still owed. The reverse slip, rooting each term separately, is equally wrong: <span class="math inline">\sqrt{a^2} + \sqrt{b^2}</span> is the taxicab detour, not the tunnel.</p>
-<p><strong>Components add; magnitudes do not.</strong> From §2.1’s triangle inequality, <span class="math inline">|\mathbf{a} + \mathbf{b}| \le |\mathbf{a}| + |\mathbf{b}|</span>. In this section the same warning wears a new face: the magnitude of a vector is not the sum of its components’ absolute values, and a distance is not the sum of coordinate differences. Perpendicular contributions combine <em>in quadrature</em> — squared, summed, rooted — a pattern that will return verbatim as the error-propagation rule for independent uncertainties.</p>
-<p><strong>Normalize nothing that is zero.</strong> <span class="math inline">\hat{\mathbf{v}}</span> divides by <span class="math inline">|\mathbf{v}|</span>; the zero vector, with no direction to extract, makes the recipe divide by zero. Any algorithm that normalizes should test for (near-)zero magnitude first — the numerical cousin of §2.3’s clamp-before-arccos.</p>
-<p><strong>Keep units with the magnitude, never the direction.</strong> In <span class="math inline">\mathbf{v} = |\mathbf{v}|\hat{\mathbf{v}}</span>, the Å or pN or D lives entirely in <span class="math inline">|\mathbf{v}|</span>. A “unit vector in Å” is a contradiction; if one appears in your work, the factorization went wrong.</p>
+<p><strong>“Imaginary” is a fossilized insult, not a description.</strong> Descartes coined it as a dismissal, and the name stuck the way “irrational” stuck. By every criterion that matters — consistent arithmetic, indispensability for real answers (Bombelli), physical measurability of consequences (every NMR spectrum, every bond) — <span class="math inline">i</span> has the same standing as <span class="math inline">-3</span>, which you also cannot hold in your hand.</p>
+<p><strong>Complex numbers are ordered pairs with a multiplication, not just vectors.</strong> The Argand picture makes <span class="math inline">z</span> look like the <span class="math inline">(a, b)</span> of Chapter 2, and for <em>addition</em> the pictures agree exactly (tip-to-tail). But <span class="math inline">\mathbb{C}</span> has what <span class="math inline">\mathbb{R}^2</span>’s vectors lack: a multiplication that stays in the system and, by Theorem 1.4.3, <em>means</em> something — rotate and scale. The dot product of §2.3 eats two vectors and excretes a scalar; complex multiplication returns another complex number. Different machines; don’t interchange them.</p>
+<p><strong>Say <span class="math inline">i^2 = -1</span>, not <span class="math inline">i = \sqrt{-1}</span>, when care matters.</strong> Both <span class="math inline">i</span> and <span class="math inline">-i</span> square to <span class="math inline">-1</span>, and the familiar rule <span class="math inline">\sqrt{x}\sqrt{y} = \sqrt{xy}</span> <em>fails</em> off the nonnegative reals: <span class="math inline">\sqrt{-1}\sqrt{-1} \ne \sqrt{1}</span>. The definition by the squaring property dodges every such pitfall; the radical notation invites them.</p>
+<p><strong>Real answers may require complex intermediates — let them.</strong> The recurring student instinct is to abort a computation the moment <span class="math inline">i</span> appears, on the theory that “physical answers are real.” Bombelli’s cubic is the standing counterexample: the imaginary parts cancel <em>at the end</em>, not at the beginning. The oscillating solutions of Module 2’s differential equations behave identically — complex en route, real on arrival. Carry the <span class="math inline">i</span>; it knows where it’s going.</p>
 </section>
 <section id="summary" class="level2">
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>
-<p>The magnitude <span class="math inline">|\mathbf{v}| = \sqrt{v_x^2 + v_y^2 + v_z^2}</span> — Pythagoras applied once per perpendicular axis — turns vectors into lengths and coordinate pairs into distances via subtract-then-magnitude, the operation that converts a structure file’s positions into hydrogen-bond calls. Normalization <span class="math inline">\hat{\mathbf{v}} = \mathbf{v}/|\mathbf{v}|</span> strips length away, leaving dimensionless pure direction, so every vector factors into magnitude times unit direction; the standard directions <span class="math inline">\hat{\mathbf{x}}, \hat{\mathbf{y}}, \hat{\mathbf{z}}</span> then exhibit any vector as a mixture <span class="math inline">v_x\hat{\mathbf{x}} + v_y\hat{\mathbf{y}} + v_z\hat{\mathbf{z}}</span> whose coefficients are the components — and whose normalized coefficients are cosines of the angles to the axes. Squares that add under a root will reappear wherever independent perpendicular contributions combine, from thermal velocities to measurement error; the mixture-of-directions picture is the doorway to bases, one section ahead.</p>
+<p>Complex numbers enter not as a luxury but under two compulsions: Bombelli’s cubic, whose real solutions are unreachable except through <span class="math inline">\sqrt{-121}</span>, and the electron’s wave nature, which demands two numbers — amplitude and phase — at every point of space. Adjoining a symbol <span class="math inline">i</span> with <span class="math inline">i^2 = -1</span> and computing by the ordinary rules yields a consistent arithmetic on <span class="math inline">z = a + bi</span>; the conjugate manufactures reality via <span class="math inline">z\bar z = |z|^2</span> (quantum mechanics’ <span class="math inline">\psi^*\psi</span>); and the Argand plane reveals the operations’ geometry, above all Theorem 1.4.3: multiplication multiplies moduli and <em>adds angles</em>, so that <span class="math inline">i</span> is a quarter-turn and <span class="math inline">i^2 = -1</span> is the unmysterious statement that two quarter-turns reverse direction. Interference falls out as arithmetic — <span class="math inline">|1 + (\cos\varphi + i\sin\varphi)|^2 = 2 + 2\cos\varphi</span> spans the full range from bonding reinforcement to antibonding annihilation — and the Fundamental Theorem of Algebra caps the tower of §1.1: within <span class="math inline">\mathbb{C}</span>, every polynomial equation is solvable, and the escape-and-repair engine that generated every number system finally rests.</p>
 <div class="exercises">
 <p>Exercises</p>
 <ol type="1">
-<li><p>Compute the magnitudes of <span class="math inline">(3, 4, 0)</span>, <span class="math inline">(1, 2, 2)</span>, <span class="math inline">(2, 3, 6)</span>, and <span class="math inline">(-2, -3, -6)</span>. Two of the answers must coincide — say why before computing.</p></li>
-<li><p>In a crystal structure, carbons sit at <span class="math inline">(1.24, 3.60, 2.11)</span> and <span class="math inline">(2.48, 4.15, 3.05)</span> Å. Find their separation, and classify the contact: C–C single bond (~1.54 Å), aromatic (~1.40 Å), or nonbonded (&gt; 3 Å)?</p></li>
-<li><p>Normalize <span class="math inline">(6, -2, 3)</span> and verify by direct computation that your result has magnitude 1. Then write <span class="math inline">(6, -2, 3)</span> in the factored form <span class="math inline">|\mathbf{v}|\hat{\mathbf{v}}</span>.</p></li>
-<li><p>A dipole of magnitude <span class="math inline">1.85</span> D points along the direction <span class="math inline">(1, 1, 0)</span>. Write the dipole vector in components. (Normalize first — and notice what goes wrong if you skip it.)</p></li>
-<li><p>Verify the scaling rule on <span class="math inline">\mathbf{v} = (1, 2, 2)</span> with <span class="math inline">c = -3</span>: compute <span class="math inline">|c\mathbf{v}|</span> directly and via <span class="math inline">|c||\mathbf{v}|</span>.</p></li>
-<li><p>The three direction cosines of a vector are <span class="math inline">\cos\alpha = \hat{v}_x</span>, <span class="math inline">\cos\beta = \hat{v}_y</span>, <span class="math inline">\cos\gamma = \hat{v}_z</span>. Find the direction cosines of the C–H bond <span class="math inline">(0.63, 0.63, 0.63)</span> and the angles <span class="math inline">\alpha, \beta, \gamma</span>.</p></li>
-<li><p>★ Prove that <span class="math inline">\cos^2\alpha + \cos^2\beta + \cos^2\gamma = 1</span> for any nonzero vector, and use the identity to answer: can a bond simultaneously make <span class="math inline">60°</span> with all three axes? Can it make <span class="math inline">55°</span> with all three?</p></li>
-<li><p>★ An N₂ molecule’s velocity has components drawn independently, each contributing equally on average to the total. Given r.m.s. speed <span class="math inline">\sqrt{\langle v^2 \rangle} = 515</span> m/s at 298 K, find the r.m.s. value of a single component <span class="math inline">\sqrt{\langle v_x^2 \rangle}</span>, explaining which identity of this section you used. (This factor-of-<span class="math inline">\sqrt3</span> is the bridge between speed distributions and their one-dimensional projections.)</p></li>
-<li><p>★ Show that the set of points equidistant from two fixed atoms <span class="math inline">\mathbf{a}</span> and <span class="math inline">\mathbf{b}</span> satisfies a linear equation in the coordinates (expand <span class="math inline">|\mathbf{r} - \mathbf{a}|^2 = |\mathbf{r} - \mathbf{b}|^2</span> using <span class="math inline">|\mathbf{v}|^2 = \mathbf{v}\cdot\mathbf{v}</span>), and identify the geometric object it describes. Crystallographers meet it as the perpendicular bisector plane between lattice neighbors.</p></li>
-<li><p>★★ For a random-walk polymer of <span class="math inline">N</span> bonds each of length <span class="math inline">\ell</span> (Exercise 10 of §2.1 gave <span class="math inline">\langle |\mathbf{R}|^2 \rangle = N\ell^2</span>), the r.m.s. end-to-end distance is <span class="math inline">\ell\sqrt{N}</span>. A polymer of <span class="math inline">10^4</span> bonds of 1.5 Å: find its r.m.s. size, compare with its fully stretched length, and reflect (two sentences) on why “square root of the sum of squares” made a molecule <span class="math inline">10^2</span> times smaller than its contour.</p></li>
+<li><p>Compute <span class="math inline">(3 + 2i) + (1 - 4i)</span>, <span class="math inline">(3 + 2i)(1 - 4i)</span>, <span class="math inline">i^3</span>, <span class="math inline">i^4</span>, and <span class="math inline">i^{2026}</span>.</p></li>
+<li><p>Verify Bombelli’s collapse yourself: square <span class="math inline">2 + i</span>, multiply the result by <span class="math inline">2 + i</span> again, and confirm <span class="math inline">(2+i)^3 = 2 + 11i</span>. Conclude, in one sentence, why <span class="math inline">x = 4</span> emerges from the cubic formula’s “impossible” expression.</p></li>
+<li><p>Find <span class="math inline">|3 + 4i|</span>, <span class="math inline">|1 + i|</span>, <span class="math inline">|i|</span>, and compute <span class="math inline">z\bar{z}</span> for <span class="math inline">z = 3 + 4i</span>. Which general identity do the first and last answers jointly confirm?</p></li>
+<li><p>Divide: <span class="math inline">(2 + 11i)/(2 + i)</span>, using the conjugate trick. (You already know what the answer must be from Exercise 2 — check against it.)</p></li>
+<li><p>Two overlapping unit-amplitude waves differ in phase by <span class="math inline">\varphi</span>. Evaluate the intensity <span class="math inline">2 + 2\cos\varphi</span> at <span class="math inline">\varphi = 60°, 120°, 180°</span>, and state which value corresponds to bonding overlap, which to antibonding cancellation, and which to something between.</p></li>
+<li><p>Start from <span class="math inline">z = 1</span> and multiply by <span class="math inline">\cos 90° + i \sin 90°</span> four times in succession, recording each result. Explain, from your sequence, the geometric meaning of <span class="math inline">i^2 = -1</span> in one sentence.</p></li>
+<li><p>★ Prove <span class="math inline">|z_1 z_2| = |z_1|\,|z_2|</span> by pure algebra: show <span class="math inline">(ac - bd)^2 + (ad + bc)^2 = (a^2 + b^2)(c^2 + d^2)</span>. (This Brahmagupta–Fibonacci identity is the sibling of §3.4’s Lagrange identity — compare them when you get there.)</p></li>
+<li><p>★ Run Theorem 1.4.3’s proof backward: multiply <span class="math inline">(\cos\alpha + i\sin\alpha)(\cos\beta + i\sin\beta)</span> and, by matching real and imaginary parts against the polar form of the product, <em>derive</em> the two angle-addition identities of trigonometry. (Students memorize these for years; <span class="math inline">\mathbb{C}</span> generates them in three lines.)</p></li>
+<li><p>★ Solve <span class="math inline">z^2 = i</span> exactly, using polar form: what modulus and what angle(s) must <span class="math inline">z</span> have? Give both solutions in the form <span class="math inline">a + bi</span>. How many solutions does the Fundamental Theorem of Algebra entitle <span class="math inline">z^2 - i = 0</span> to?</p></li>
+<li><p>★★ Find all six solutions of <span class="math inline">z^6 = 1</span> (the <em>sixth roots of unity</em>) in polar form, and plot them mentally on the Argand plane. What familiar molecular shape do they trace, and what is the relationship between multiplying by one of these roots and the <span class="math inline">C_6</span> rotation of benzene in §3.3’s language? (You are looking at your first <em>group</em>: the same six operations, once as numbers, once as symmetries.)</p></li>
 </ol>
 </div>
 </section>
 <section id="practice-until-it-sticks" class="level2">
 <h2 class="anchored" data-anchor-id="practice-until-it-sticks">Practice until it sticks</h2>
-<div data-skill="magnitude">
+<div data-skill="complex-numbers">
 
 </div>
 <script src="../../js/adaptive-engine.js"></script>
-<script src="../../js/skills/magnitude.js"></script>
+<script src="../../js/skills/complex-numbers.js"></script>
 
 
 </section>
@@ -996,13 +1018,13 @@ window.Quarto = {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../02-vectors/01-direction.html" class="pagination-link" aria-label="2.1 Direction in Space">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">2.1 Direction in Space</span></span>
+      <a href="../01-numbers/03-counting.html" class="pagination-link" aria-label="1.3 Permutations and Combinations">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">1.3 Permutations and Combinations</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../02-vectors/03-dot-product.html" class="pagination-link" aria-label="2.3 The Dot Product">
-        <span class="nav-page-text"><span class="chapter-title">2.3 The Dot Product</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../02-vectors/01-direction.html" class="pagination-link" aria-label="2.1 Direction in Space">
+        <span class="nav-page-text"><span class="chapter-title">2.1 Direction in Space</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
