@@ -148,6 +148,8 @@ Answers, with the deciding step — not full solutions. If your answer differs, 
 
 **9.** $P^2 = P$ — once flattened onto the axis, projecting again changes nothing. No inverse: the $y$-component is destroyed (physically, information loss), and e.g. $\mathbf{u} = (1, 0)$, $\mathbf{v} = (1, 5)$ satisfy $P\mathbf{u} = P\mathbf{v}$, so no map can send the shared output back to both inputs — §3.2's failed cancellation, realized geometrically.
 
+**11.** (a) $P(x, y) = (y, x)$ by direct multiplication. (b) $\begin{pmatrix} 0 & 0 & 1 \\ 1 & 0 & 0 \\ 0 & 1 & 0 \end{pmatrix}$ — its columns are the images of $\hat{\mathbf{x}}, \hat{\mathbf{y}}, \hat{\mathbf{z}}$; on $(1,2,3)$ it gives $(3, 1, 2)$ ✓. (c) $3! = 6$ — one matrix per ordering of three slots, the factorial of §1.3. (d) $\det P = 0 \cdot 0 - 1 \cdot 1 = -1$: a single swap reverses orientation, exactly as a reflection does — transpositions are the "odd" operations, and §3.4's sign will keep the books.
+
 ## §3.4 Determinants
 
 **1.** $\det = 2$: invertible, orientation-preserving. $\det = 0$: singular. $\det R(30°) = \cos^2 30° + \sin^2 30° = 1$: invertible, preserving. $\det = -1$: invertible, orientation-*reversing* (it is the reflection across $y = x$).
