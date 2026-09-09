@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>3.3 Linear Transformations – Chemical Thinking</title>
+<title>Appendix C — Problem Set 1 | Seeing the Structure – Chemical Thinking</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../03-matrices/04-determinants.html" rel="next">
-<link href="../03-matrices/02-algebra.html" rel="prev">
+<link href="../problem-sets/02-existence.html" rel="next">
+<link href="../problem-sets/index.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -294,7 +294,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../03-matrices/01-grids.html">3 · Matrices and Transformations</a></li><li class="breadcrumb-item"><a href="../03-matrices/03-transformations.html"><span class="chapter-title">3.3 Linear Transformations</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../99-answers.html">Appendices</a></li><li class="breadcrumb-item"><a href="../problem-sets/index.html">Problem Sets</a></li><li class="breadcrumb-item"><a href="../problem-sets/01-orientation.html"><span class="chapter-title">Problem Set 1 | Seeing the Structure</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -432,7 +432,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../03-matrices/03-transformations.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">3.3 Linear Transformations</span></a>
+  <a href="../03-matrices/03-transformations.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">3.3 Linear Transformations</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -458,13 +458,13 @@ window.Quarto = {
 </li>
           <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
  <span class="menu-text">Problem Sets</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth2 ">  
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth2 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../problem-sets/index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Problem Sets</span></a>
@@ -472,7 +472,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../problem-sets/01-orientation.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Problem Set 1 | Seeing the Structure</span></a>
+  <a href="../problem-sets/01-orientation.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Problem Set 1 | Seeing the Structure</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -509,13 +509,24 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#what-makes-a-transformation-linear" id="toc-what-makes-a-transformation-linear" class="nav-link active" data-scroll-target="#what-makes-a-transformation-linear">What makes a transformation linear</a></li>
-  <li><a href="#the-whole-transformation-in-two-columns" id="toc-the-whole-transformation-in-two-columns" class="nav-link" data-scroll-target="#the-whole-transformation-in-two-columns">The whole transformation in two columns</a></li>
-  <li><a href="#composition-and-the-promise-kept" id="toc-composition-and-the-promise-kept" class="nav-link" data-scroll-target="#composition-and-the-promise-kept">Composition, and the promise kept</a></li>
-  <li><a href="#transformation-is-re-arrangement" id="toc-transformation-is-re-arrangement" class="nav-link" data-scroll-target="#transformation-is-re-arrangement">Transformation is re-arrangement</a></li>
-  <li><a href="#remarks-and-cautions" id="toc-remarks-and-cautions" class="nav-link" data-scroll-target="#remarks-and-cautions">Remarks and cautions</a></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
-  <li><a href="#practice-until-it-sticks" id="toc-practice-until-it-sticks" class="nav-link" data-scroll-target="#practice-until-it-sticks">Practice until it sticks</a></li>
+  <li><a href="#purpose" id="toc-purpose" class="nav-link active" data-scroll-target="#purpose">Purpose</a></li>
+  <li><a href="#a.-recognition" id="toc-a.-recognition" class="nav-link" data-scroll-target="#a.-recognition">A. Recognition</a>
+  <ul class="collapse">
+  <li><a href="#name-the-primitive" id="toc-name-the-primitive" class="nav-link" data-scroll-target="#name-the-primitive">1. Name the primitive</a></li>
+  <li><a href="#object-representation-or-process" id="toc-object-representation-or-process" class="nav-link" data-scroll-target="#object-representation-or-process">2. Object, representation, or process?</a></li>
+  </ul></li>
+  <li><a href="#b.-quantitative-structure" id="toc-b.-quantitative-structure" class="nav-link" data-scroll-target="#b.-quantitative-structure">B. Quantitative structure</a>
+  <ul class="collapse">
+  <li><a href="#state-vector-for-a-gas-sample" id="toc-state-vector-for-a-gas-sample" class="nav-link" data-scroll-target="#state-vector-for-a-gas-sample">3. State vector for a gas sample</a></li>
+  <li><a href="#description-versus-physical-change" id="toc-description-versus-physical-change" class="nav-link" data-scroll-target="#description-versus-physical-change">4. Description versus physical change</a></li>
+  <li><a href="#dimensional-constraint" id="toc-dimensional-constraint" class="nav-link" data-scroll-target="#dimensional-constraint">5. Dimensional constraint</a></li>
+  <li><a href="#scale-decides-the-model" id="toc-scale-decides-the-model" class="nav-link" data-scroll-target="#scale-decides-the-model">6. Scale decides the model</a></li>
+  </ul></li>
+  <li><a href="#c.-model-judgment" id="toc-c.-model-judgment" class="nav-link" data-scroll-target="#c.-model-judgment">C. Model judgment</a>
+  <ul class="collapse">
+  <li><a href="#one-graph-two-claims" id="toc-one-graph-two-claims" class="nav-link" data-scroll-target="#one-graph-two-claims">7. One graph, two claims</a></li>
+  <li><a href="#synthesis-choose-before-calculating" id="toc-synthesis-choose-before-calculating" class="nav-link" data-scroll-target="#synthesis-choose-before-calculating">8. Synthesis: choose before calculating</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -523,9 +534,10 @@ window.Quarto = {
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../03-matrices/01-grids.html">3 · Matrices and Transformations</a></li><li class="breadcrumb-item"><a href="../03-matrices/03-transformations.html"><span class="chapter-title">3.3 Linear Transformations</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../99-answers.html">Appendices</a></li><li class="breadcrumb-item"><a href="../problem-sets/index.html">Problem Sets</a></li><li class="breadcrumb-item"><a href="../problem-sets/01-orientation.html"><span class="chapter-title">Problem Set 1 | Seeing the Structure</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">3.3 Linear Transformations</span></h1>
+<h1 class="title">Appendix C — Problem Set 1 | Seeing the Structure</h1>
+<p class="subtitle lead">Companion to the Prologue — Seeing</p>
 </div>
 
 
@@ -542,137 +554,127 @@ window.Quarto = {
 </header>
 
 
-<p>Set a water molecule in the plane of the page: oxygen at the origin, the two hydrogens at <span class="math inline">(0.76, -0.59)</span> and <span class="math inline">(-0.76, -0.59)</span> Å, the twofold symmetry axis running along <span class="math inline">y</span>. Chemists say water “has <span class="math inline">C_2</span> symmetry”: rotate it half a turn about that axis and the result is indistinguishable from the start — the hydrogens trade places, the oxygen stays put, and no experiment can detect that anything happened. The sentence sounds qualitative, but it is secretly a computation about <em>every point of the molecule at once</em>: a rule that sends each position <span class="math inline">(x, y)</span> to a new position, applied to all atoms simultaneously, whose output configuration coincides with the input. Rules that move all of space — rotations, reflections, scalings — are called <em>transformations</em>, and this section shows that the well-behaved ones are precisely the matrices of §3.1 in their true vocation. A matrix is not a data table that happens to multiply; it is a <em>motion of space</em>, tabulated.</p>
-<section id="what-makes-a-transformation-linear" class="level2">
-<h2 class="anchored" data-anchor-id="what-makes-a-transformation-linear">What makes a transformation linear</h2>
-<p>A transformation <span class="math inline">T</span> assigns to every vector <span class="math inline">\mathbf{v}</span> an output <span class="math inline">T(\mathbf{v})</span>. The ones matrices can represent share two structural habits, and they are exactly the habits of the matrix–vector product itself (Exercise 7 of §3.1): they respect addition and scaling.</p>
-<div class="env definition">
-<p><strong>Definition 3.3.1 (Linear transformation).</strong> <span class="math inline">T</span> is <strong>linear</strong> if for all vectors and scalars <span class="math display">
-T(\mathbf{u} + \mathbf{v}) = T(\mathbf{u}) + T(\mathbf{v}),
-\qquad
-T(c\,\mathbf{v}) = c\, T(\mathbf{v}).
-</span> Consequences: <span class="math inline">T(\mathbf{0}) = \mathbf{0}</span> (take <span class="math inline">c = 0</span>), and straight lines map to straight lines with even spacing preserved.</p>
-</div>
-<p>Rotation about the origin is linear — rotate two arrows and their tip-to-tail sum rotates along with them, since the whole parallelogram of §2.1 turns rigidly. So are reflections through lines containing the origin, and uniform stretches. The instructive <em>failure</em> is translation, “shift everything 2 Å along <span class="math inline">x</span>”: it moves the origin, violating <span class="math inline">T(\mathbf{0}) = \mathbf{0}</span>, so no matrix will ever represent it. (Crystallography needs translations badly and handles them by a bolt-on — affine transformations — but the symmetry operations of a <em>molecule about its own center</em> are exactly the linear kind, which is why matrices run point-group theory.)</p>
+<section id="purpose" class="level2">
+<h2 class="anchored" data-anchor-id="purpose">Purpose</h2>
+<p>Before calculating, decide what kind of problem reality has given you. The central objects in this course are COLLECTION, ARRANGEMENT, DIRECTION, PROXIMITY, SAMENESS, CHANGE, RATE, ACCUMULATION, and SPREAD.</p>
 </section>
-<section id="the-whole-transformation-in-two-columns" class="level2">
-<h2 class="anchored" data-anchor-id="the-whole-transformation-in-two-columns">The whole transformation in two columns</h2>
-<p>Linearity looks like a modest bookkeeping constraint. It is actually a devastating economy: a linear transformation of the plane is completely pinned down by what it does to just two vectors.</p>
-<div class="env theorem">
-<p><strong>Theorem 3.3.2 (The matrix of a transformation).</strong> Let <span class="math inline">T</span> be linear on the plane. Form the matrix <span class="math inline">M</span> whose first column is <span class="math inline">T(\hat{\mathbf{x}})</span> and whose second column is <span class="math inline">T(\hat{\mathbf{y}})</span>. Then <span class="math inline">T(\mathbf{v}) = M\mathbf{v}</span> for every vector <span class="math inline">\mathbf{v}</span>.</p>
-</div>
-<div class="env proof">
-<p><span class="proof-title"><em>Proof</em>. </span>Any <span class="math inline">\mathbf{v} = (v_x, v_y)</span> decomposes on the standard basis (§2.2): <span class="math inline">\mathbf{v} = v_x \hat{\mathbf{x}} + v_y \hat{\mathbf{y}}</span>. Apply <span class="math inline">T</span> and let linearity distribute it: <span class="math display">
-T(\mathbf{v}) = T(v_x \hat{\mathbf{x}}) + T(v_y \hat{\mathbf{y}}) = v_x\, T(\hat{\mathbf{x}}) + v_y\, T(\hat{\mathbf{y}}).
-</span> The right side is a linear combination of <span class="math inline">M</span>’s columns weighted by <span class="math inline">\mathbf{v}</span>’s entries — which is <span class="math inline">M\mathbf{v}</span> by the column picture, Theorem 3.1.3. <span class="math inline">\square</span></p>
-</div>
-<p>The theorem cuts both ways, and both directions are daily tools. <em>Building</em> a matrix: ask where the basis vectors land, write the answers as columns, done. <em>Reading</em> a matrix: its columns <em>are</em> the fates of <span class="math inline">\hat{\mathbf{x}}</span> and <span class="math inline">\hat{\mathbf{y}}</span> — stare at the columns and the motion reveals itself. Build the two workhorses now. A rotation by angle <span class="math inline">\theta</span> carries <span class="math inline">\hat{\mathbf{x}}</span> to <span class="math inline">(\cos\theta, \sin\theta)</span> — that is the definition of sine and cosine on the unit circle — and carries <span class="math inline">\hat{\mathbf{y}}</span>, which starts <span class="math inline">90°</span> ahead, to <span class="math inline">(-\sin\theta, \cos\theta)</span>. Reflection across the <span class="math inline">y</span>-axis flips <span class="math inline">\hat{\mathbf{x}}</span> to <span class="math inline">-\hat{\mathbf{x}}</span> and fixes <span class="math inline">\hat{\mathbf{y}}</span>. Columns in place: <span class="math display">
-R(\theta) = \begin{pmatrix} \cos\theta &amp; -\sin\theta \\ \sin\theta &amp; \cos\theta \end{pmatrix},
-\qquad
-\sigma_y = \begin{pmatrix} -1 &amp; 0 \\ 0 &amp; 1 \end{pmatrix}.
-</span></p>
-<p>Before applying these to molecules, watch what a matrix does to <em>space itself</em> — not one vector but all of them at once. In the animation below, the entire coordinate grid glides from “nothing has happened” to the full action of the chosen matrix; the basis vectors <span class="math inline">\hat{\imath}</span> and <span class="math inline">\hat{\jmath}</span> ride the matrix’s columns (Theorem 3.3.2 made them the whole story), and the shaded unit square shows what becomes of area and orientation.</p>
-<div class="widget-frame">
-<div class="widget-predict">
-<p>Before pressing play on the <em>shear</em>: the unit square will visibly lean — predict whether its area changes. Then, before <em>singular collapse</em>: the readout will track the determinant as the grid moves — predict its final value, and what the grid must look like when it gets there.</p>
-</div>
-<div class="widget-body">
-<div style="display:flex; gap:1.2rem; flex-wrap:wrap; align-items:center; margin-bottom:0.6rem;">
-<p><label>matrix <select id="gtPreset"> <option value="rot90">rotation 90°</option> <option value="rot30">rotation 30°</option> <option value="shear">shear</option> <option value="reflect">reflection σᵥ</option> <option value="scale">anisotropic scale</option> <option value="singular">singular collapse</option> </select> </label> <button id="gtPlay" type="button">▶ play</button> <label>scrub <input type="range" id="gtScrub" min="0" max="100" value="0"></label></p>
-</div>
-<canvas id="gtCanvas" width="640" height="440">
-</canvas>
-<div id="gtReadout" class="widget-readout">
-
-</div>
-</div>
-<div class="widget-debrief">
-<p>Grid lines stay straight and evenly spaced throughout — that is linearity, watched rather than defined. The shear leans the square without changing its area (det stays 1); the reflection turns the square inside out (det <span class="math inline">= -1</span>, the fill changes color the instant orientation flips); and the singular matrix crushes the whole plane onto a single line — every grid cell’s area driven to zero, which is what <span class="math inline">\det = 0</span> <em>is</em>, and why §3.2 could find no inverse: a line cannot be unfolded back into a plane.</p>
-</div>
-</div>
-<div class="env example">
-<p><strong>Example 3.3.3 (Water’s <span class="math inline">C_2</span>, executed).</strong> With the axis along <span class="math inline">y</span>, the <span class="math inline">C_2</span> operation is <span class="math inline">\sigma_y</span>’s cousin: rotation by <span class="math inline">180°</span> about the <span class="math inline">y</span>-axis in 3D, which acts on in-plane points as <span class="math inline">(x, y) \mapsto (-x, y)</span> — the matrix <span class="math inline">\sigma_y</span> above. Apply it to water’s three atoms and verify the symmetry claim.</p>
-<p><em>Setting it up.</em> Multiply each atomic position by the matrix; compare the output <em>set</em> of positions with the input set (atoms of the same element are interchangeable — a §1.2 sentiment).</p>
-<p><em>Solution.</em> <span class="math display">
-\sigma_y \begin{pmatrix} 0.76 \\ -0.59 \end{pmatrix} = \begin{pmatrix} -0.76 \\ -0.59 \end{pmatrix},
-\qquad
-\sigma_y \begin{pmatrix} -0.76 \\ -0.59 \end{pmatrix} = \begin{pmatrix} 0.76 \\ -0.59 \end{pmatrix},
-\qquad
-\sigma_y \begin{pmatrix} 0 \\ 0 \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \end{pmatrix}.
-</span> H₁ lands exactly on H₂’s site, H₂ on H₁’s, O stays fixed: the transformed molecule occupies precisely the original sites.</p>
-<p><em>Check.</em> Lengths must survive a symmetry operation: each O–H distance is <span class="math inline">\sqrt{0.76^2 + 0.59^2} = 0.96</span> Å before and after ✓. The atom-swap is not an approximation — the coordinates were chosen symmetric, and the operation exchanges them <em>exactly</em>, which is what “the molecule possesses this symmetry” means. Run the same matrix on a hypothetical HOD molecule (one H heavier) and the output no longer matches the input — isotopic substitution genuinely lowers the symmetry, and the arithmetic shows it.</p>
-</div>
-</section>
-<section id="composition-and-the-promise-kept" class="level2">
-<h2 class="anchored" data-anchor-id="composition-and-the-promise-kept">Composition, and the promise kept</h2>
-<p>Section <a href="../03-matrices/02-algebra.html">3.2</a> asserted that operations performed in different orders end differently, and promised a molecule to prove it. The matrix product was <em>engineered</em> so that applying <span class="math inline">B</span> then <span class="math inline">A</span> is the single transformation <span class="math inline">AB</span> — composition is multiplication. So take a <span class="math inline">90°</span> rotation <span class="math inline">R = R(90°) = \begin{pmatrix} 0 &amp; -1 \\ 1 &amp; 0 \end{pmatrix}</span> and the reflection <span class="math inline">\sigma_x = \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; -1 \end{pmatrix}</span> (across the <span class="math inline">x</span>-axis), and compose both ways: <span class="math display">
-\sigma_x R = \begin{pmatrix} 0 &amp; -1 \\ -1 &amp; 0 \end{pmatrix},
-\qquad
-R\,\sigma_x = \begin{pmatrix} 0 &amp; 1 \\ 1 &amp; 0 \end{pmatrix}.
-</span> Both products are reflections — but across <em>different</em> mirror lines (<span class="math inline">y = -x</span> and <span class="math inline">y = x</span> respectively; read each matrix’s columns to see where <span class="math inline">\hat{\mathbf{x}}</span> and <span class="math inline">\hat{\mathbf{y}}</span> go). Track a concrete atom at <span class="math inline">(1, 0)</span>: rotate-then-reflect sends it $ (1,0) (0,1) (0,-1)$, while reflect-then-rotate sends it <span class="math inline">(1,0) \to (1,0) \to (0,1)</span>. Different final positions, non-commutativity made visible — and this is not a pathology but the arithmetic backbone of group theory, where the multiplication table of a molecule’s symmetry operations <em>is</em> a fingerprint of its structure.</p>
-<div class="widget-frame">
-<div class="widget-predict">
-<p>Predict before pressing: which operations below will leave the water molecule occupying its original sites, and which will visibly move it? Then check whether <span class="math inline">C_4</span> (a quarter turn) is a symmetry of water — and of anything square.</p>
-</div>
-<div class="widget-body">
-<div style="margin-bottom:0.6rem;">
-<p><label>operation <select id="tfOp"> <option value="c2">C₂ — rotate 180° about the axis</option> <option value="sx">σ — reflect across the x-axis</option> <option value="sy">σᵥ — reflect across the y-axis (the C₂ plane)</option> <option value="c4">C₄ — rotate 90°</option> <option value="scale">stretch ×1.5 along x</option> <option value="shear">shear (x ← x + 0.5y)</option> </select> </label></p>
-</div>
-<canvas id="tfCanvas" width="640" height="360">
-</canvas>
-<div id="tfReadout" class="widget-readout">
-
-</div>
-</div>
-<div class="widget-debrief">
-<p>The operations that return water to its own sites — <span class="math inline">C_2</span> about the axis and <span class="math inline">\sigma_v</span> in the plane — are exactly water’s point-group operations (with the identity, the group <span class="math inline">C_{2v}</span>). <span class="math inline">C_4</span> moves the hydrogens somewhere no atom was: a quarter turn is a symmetry of square things, and water is not square. The stretch and shear preserve neither lengths nor the molecule — matrices in general <em>deform</em>; the special ones that merely reorient are the next section’s aristocracy.</p>
-</div>
-</div>
-</section>
-<section id="transformation-is-re-arrangement" class="level2">
-<h2 class="anchored" data-anchor-id="transformation-is-re-arrangement">Transformation is re-arrangement</h2>
-<p>Step back far enough and this section is Section <a href="../01-numbers/03-counting.html">1.3</a> again, grown up. Back there, the ARRANGEMENT primitive dealt in discrete slots: a permutation took one ordering of <span class="math inline">n</span> objects and delivered another. Watch that idea put on matrix dress. The matrix <span class="math inline">P = \begin{pmatrix} 0 &amp; 1 \\ 1 &amp; 0 \end{pmatrix}</span>, applied to any vector, swaps its two components — read its columns: <span class="math inline">\hat{\mathbf{x}}</span> goes to where <span class="math inline">\hat{\mathbf{y}}</span> was and vice versa. It does not rotate, stretch, or blend; it <em>re-seats</em>. Matrices with exactly one 1 in each row and column — <strong>permutation matrices</strong> — are precisely the permutations of §1.3 acting on coordinate slots, and composing two of them multiplies the matrices, so the whole multiplication apparatus of §3.2 was secretly a theory of rearrangements all along. Water’s <span class="math inline">C_2</span> in Example 3.3.3 made the connection physical: the operation’s net effect on the <em>atoms</em> was a permutation — hydrogen 1 to hydrogen 2’s seat and back — which is exactly why the transformed molecule occupied the original sites.</p>
-<p>The general linear transformation extends this from slots to the continuum: it re-arranges <em>space itself</em>, assigning every point a new address, all points simultaneously and coherently. One arrangement of the plane in, another out. But the extension comes with caveats, and the caveats are not fine print — they are the section’s main theorems seen from a new angle. <strong>First</strong>, not every conceivable rearrangement qualifies: a matrix can only perform rearrangements that fix the origin and keep lines straight with even spacing (Definition 3.3.1). Shifting everything sideways is a rearrangement, but not a linear one; bending the plane is a rearrangement, but no matrix bends. <strong>Second</strong>, and deeper: an honest rearrangement <em>loses nothing</em> — every output position is claimed by exactly one input, so the shuffle can be undone. Invertible matrices are honest in exactly this sense. A singular matrix is not: the projection <span class="math inline">P</span> of Exercise 9 sends <span class="math inline">(1, 0)</span> and <span class="math inline">(1, 5)</span> to the same seat, and once two occupants share a chair, no rule can send each back where it came from. A singular matrix is therefore <em>not</em> a rearrangement of space but a <strong>forgetting</strong> of it — which is §3.2’s “no inverse exists,” re-derived from the primitive. <strong>Third</strong>, among the honest rearrangements sits the aristocracy that preserves the arrangement’s own internal geometry — every distance, every angle — and those, the orthogonal matrices of Exercise 8, are precisely the operations a molecule can call its symmetries.</p>
-<p>So the ARRANGEMENT primitive has two faces, and Chapter 3 has now shown both. Its static face is §3.1: a grid <em>records</em> an arrangement — which entry sits in which row and column is the information. Its dynamic face is this section: a matrix <em>carries</em> one arrangement to another. They are not two applications of matrices but one idea seen at rest and in motion, and the next section’s determinant is the natural auditor of the motion: one number reporting whether the rearrangement preserved the arrangement’s volume, whether it flipped its handedness, and — when the number is zero — whether it was ever a rearrangement at all.</p>
-</section>
-<section id="remarks-and-cautions" class="level2">
-<h2 class="anchored" data-anchor-id="remarks-and-cautions">Remarks and cautions</h2>
-<p><strong>Read matrices by their columns.</strong> Handed an unfamiliar <span class="math inline">2\times2</span>, resist entry-by-entry staring: column 1 is where <span class="math inline">\hat{\mathbf{x}}</span> goes, column 2 is where <span class="math inline">\hat{\mathbf{y}}</span> goes, and Theorem 3.3.2 says that is the whole story. <span class="math inline">\begin{pmatrix} 0 &amp; 1 \\ 1 &amp; 0 \end{pmatrix}</span> swaps the basis vectors — it can only be the reflection across <span class="math inline">y = x</span>.</p>
-<p><strong>Symmetry operations are the length-preserving minority.</strong> Every symmetry operation is linear, but most matrices are not symmetry operations: the shear and stretch in the widget mangle bond lengths, which no physical symmetry may do. The matrices that preserve all lengths and angles have orthonormal columns (Exercise 8) — the <em>orthogonal</em> matrices, and molecular point groups live entirely inside that aristocratic subset.</p>
-<p><strong>Translation is not linear.</strong> A matrix fixes the origin, always. Moving a molecule bodily across the cell is a different mathematical object (affine), which is why symmetry analysis pins the point group at the molecule’s <em>center</em> — the one point every operation leaves alone.</p>
-<p><strong>Reflections reverse handedness.</strong> Apply <span class="math inline">\sigma_y</span> to your right hand and the output is a left hand; no rotation can undo it. Two numbers in the matrix know this — the next section shows that a single computed quantity distinguishes proper rotations from improper reflections, and its sign is exactly the handedness flag chirality has been waiting for.</p>
-</section>
-<section id="summary" class="level2">
-<h2 class="anchored" data-anchor-id="summary">Summary</h2>
-<p>A linear transformation is a motion of all space that respects vector addition and scaling — rotations, reflections, and stretches about the origin, but never translations — and Theorem 3.3.2 compresses any such motion into a matrix whose columns are simply the destinations of the basis vectors, making matrices buildable (write the columns) and readable (read them) in one stroke. Rotation and reflection matrices follow instantly, water’s <span class="math inline">C_2</span> becomes an exact arithmetic identity on its coordinates, and composition of motions <em>is</em> the matrix product of §3.2, whose non-commutativity now has geometric flesh: rotate-then-reflect and reflect-then-rotate are different mirrors. Seen from the primitives, the section closes a circle begun in §1.3: a transformation is one arrangement carried to another — permutation matrices doing it to discrete slots, general matrices doing it to space itself — with the caveats doing the real work: only origin-fixing, line-preserving rearrangements are linear, only invertible ones lose nothing, and the length-preserving orthogonal minority are the physical symmetry operations. One question now stands open with everything staged for it: what single number audits the rearrangement — its effect on volume, on handedness, and on whether it was a rearrangement at all? That number is the determinant, next.</p>
-<div class="exercises">
-<p>Exercises</p>
-<ol type="1">
-<li><p>Write the matrices for: rotation by <span class="math inline">270°</span>; reflection across the line <span class="math inline">y = x</span>; the stretch that doubles <span class="math inline">x</span> and leaves <span class="math inline">y</span> alone; and rotation by <span class="math inline">120°</span> (exact entries, using <span class="math inline">\cos 120° = -\tfrac12</span>, <span class="math inline">\sin 120° = \tfrac{\sqrt3}{2}</span>).</p></li>
-<li><p>Identify each matrix from its columns, in words: <span class="math inline">\begin{pmatrix} -1 &amp; 0 \\ 0 &amp; -1 \end{pmatrix}</span>; <span class="math inline">\begin{pmatrix} 0 &amp; 1 \\ -1 &amp; 0 \end{pmatrix}</span>; <span class="math inline">\begin{pmatrix} 3 &amp; 0 \\ 0 &amp; 3 \end{pmatrix}</span>; <span class="math inline">\begin{pmatrix} 1 &amp; 0.4 \\ 0 &amp; 1 \end{pmatrix}</span>.</p></li>
-<li><p>Ammonia’s <span class="math inline">C_3</span> axis: apply <span class="math inline">R(120°)</span> (Exercise 1) three times in succession to the point <span class="math inline">(1, 0)</span> and verify it returns home — algebraically, <span class="math inline">R(120°)^3 = I</span>. Why must every rotation matrix of a molecular symmetry axis satisfy <span class="math inline">R^n = I</span> for some <span class="math inline">n</span>?</p></li>
-<li><p>Verify by direct multiplication the two compositions of the text, <span class="math inline">\sigma_x R(90°)</span> and <span class="math inline">R(90°)\,\sigma_x</span>, and confirm the trajectories of the atom at <span class="math inline">(1, 0)</span> given there.</p></li>
-<li><p>Benzene in the plane: its carbons sit at angles <span class="math inline">0°, 60°, \ldots, 300°</span> on a circle of radius 1.39 Å. Show that <span class="math inline">R(60°)</span> maps the carbon set to itself, and find the smallest positive rotation that does the same for the <em>hydrogens</em> of a hypothetical C₆H₃ (alternating substitution at carbons 1, 3, 5).</p></li>
-<li><p>Which of these are linear transformations? Justify with the two defining habits or a violated consequence: (a) <span class="math inline">T(x, y) = (2x - y, x)</span>; (b) <span class="math inline">T(x, y) = (x + 1, y)</span>; (c) <span class="math inline">T(x, y) = (x^2, y)</span>; (d) $T() = $ projection of <span class="math inline">\mathbf{v}</span> onto a fixed line through the origin (§2.3’s <span class="math inline">\operatorname{proj}</span>).</p></li>
-<li><p>★ Prove that rotation about the origin is linear, geometrically: argue that rotating a parallelogram rigidly rotates its diagonal, so <span class="math inline">R(\mathbf{u} + \mathbf{v}) = R\mathbf{u} + R\mathbf{v}</span>, and similarly for scaling. (No components needed — that is the point.)</p></li>
-<li><p>★ Show that a matrix preserves all lengths if and only if its columns are orthonormal. <em>Forward direction:</em> lengths of <span class="math inline">M\hat{\mathbf{x}}</span>, <span class="math inline">M\hat{\mathbf{y}}</span>, and <span class="math inline">M(\hat{\mathbf{x}} + \hat{\mathbf{y}})</span> pin down the columns’ norms and mutual dot product. Confirm that <span class="math inline">R(\theta)</span> passes for every <span class="math inline">\theta</span> and the shear fails.</p></li>
-<li><p>★ The projection matrix onto the <span class="math inline">x</span>-axis is <span class="math inline">P = \begin{pmatrix} 1 &amp; 0 \\ 0 &amp; 0 \end{pmatrix}</span>. Compute <span class="math inline">P^2</span>, explain the answer in words (project twice — then what?), and explain why no inverse of <span class="math inline">P</span> can exist, first physically (what information is destroyed?) and then via §3.2’s cancellation failure: find <span class="math inline">\mathbf{u} \neq \mathbf{v}</span> with <span class="math inline">P\mathbf{u} = P\mathbf{v}</span>.</p></li>
-<li><p>★★ Chirality by arithmetic: take the “right-handed” tripod of points <span class="math inline">(1,0), (0,1)</span> and their sum <span class="math inline">(1,1)</span>, apply <span class="math inline">\sigma_y</span>, and show that no rotation <span class="math inline">R(\theta)</span> maps the reflected tripod back onto the original (compare, for the images of <span class="math inline">(1, 0)</span> and <span class="math inline">(0, 1)</span>, the sense — clockwise or counterclockwise — in which one must turn to reach the other). Every chiral molecule is this exercise wearing atoms; the sign that automates the check arrives in §3.4.</p></li>
-<li><p>★ Permutations in matrix dress: (a) verify that <span class="math inline">P = \begin{pmatrix} 0 &amp; 1 \\ 1 &amp; 0 \end{pmatrix}</span> swaps the components of any vector <span class="math inline">(x, y)</span>; (b) write the <span class="math inline">3 \times 3</span> matrix performing the cyclic re-arrangement <span class="math inline">(x, y, z) \mapsto (z, x, y)</span>, and check it on <span class="math inline">(1, 2, 3)</span>; (c) how many <span class="math inline">3 \times 3</span> permutation matrices exist? (§1.3 already answered this — say which formula); (d) compute <span class="math inline">\det P</span> for the swap in (a), and explain what its sign says about a single swap, anticipating §3.4.</p></li>
+<section id="a.-recognition" class="level2">
+<h2 class="anchored" data-anchor-id="a.-recognition">A. Recognition</h2>
+<section id="name-the-primitive" class="level3">
+<h3 class="anchored" data-anchor-id="name-the-primitive">1. Name the primitive</h3>
+<p>For each question, choose the <em>primary</em> primitive and justify the choice in one sentence.</p>
+<ol type="a">
+<li>How many distinguishable ways can four ligands occupy four sites around a metal center?<br>
+</li>
+<li>What component of an electric field lies along an O–H bond?<br>
+</li>
+<li>Does a concentration function approach a finite value as <span class="math inline">t\to\infty</span>?<br>
+</li>
+<li>Which molecular property is unchanged when the coordinate axes rotate?<br>
+</li>
+<li>What is the instantaneous disappearance speed of a reactant?<br>
+</li>
+<li>What total charge passed through an electrode during 30 minutes?<br>
+</li>
+<li>How broadly are molecular speeds distributed at 500 K?</li>
 </ol>
-</div>
 </section>
-<section id="practice-until-it-sticks" class="level2">
-<h2 class="anchored" data-anchor-id="practice-until-it-sticks">Practice until it sticks</h2>
-<div data-skill="transformations">
+<section id="object-representation-or-process" class="level3">
+<h3 class="anchored" data-anchor-id="object-representation-or-process">2. Object, representation, or process?</h3>
+<p>Classify each statement as primarily about a <strong>state</strong>, a <strong>process</strong>, a <strong>constraint</strong>, or a <strong>representation</strong>. Some cases admit two labels; if so, state which is primary.</p>
+<ol type="a">
+<li>“The sample contains 0.150 mol of ethanol at 298 K.”<br>
+</li>
+<li>“The reaction vessel is sealed and rigid.”<br>
+</li>
+<li>“The same molecular geometry is reported in Cartesian and spherical coordinates.”<br>
+</li>
+<li>“The temperature rises from 298 K to 315 K.”<br>
+</li>
+<li>“Total carbon atoms are conserved.”</li>
+</ol>
+</section>
+</section>
+<section id="b.-quantitative-structure" class="level2">
+<h2 class="anchored" data-anchor-id="b.-quantitative-structure">B. Quantitative structure</h2>
+<section id="state-vector-for-a-gas-sample" class="level3">
+<h3 class="anchored" data-anchor-id="state-vector-for-a-gas-sample">3. State vector for a gas sample</h3>
+<p>A rigid vessel contains a single gas phase described by <span class="math display">
+\mathbf{s}=(n,T,V,p)=(0.500\ \mathrm{mol},300.0\ \mathrm K,12.5\ \mathrm L,0.985\ \mathrm{atm}).
+</span></p>
+<ol type="a">
+<li>Which entries are extensive and which are intensive?<br>
+</li>
+<li>The gas is divided equally between two identical vessels without changing temperature. Write the state vector for either half, assuming ideal behavior.<br>
+</li>
+<li>Identify the quantities that provide SAMENESS between the original equilibrium state and either half, and those that do not.</li>
+</ol>
+</section>
+<section id="description-versus-physical-change" class="level3">
+<h3 class="anchored" data-anchor-id="description-versus-physical-change">4. Description versus physical change</h3>
+<p>The position of an atom is <span class="math inline">\mathbf r=(1.20,-0.50,0.80)\ \text{Å}</span>. A second investigator moves the coordinate origin by <span class="math inline">\mathbf a=(0.20,0.10,-0.30)\ \text{Å}</span>, so that <span class="math inline">\mathbf r'=\mathbf r-\mathbf a</span>.</p>
+<ol type="a">
+<li>Calculate <span class="math inline">\mathbf r'</span>.<br>
+</li>
+<li>Did the atom move? Defend your answer.<br>
+</li>
+<li>Give one atom-to-atom quantity that must remain unchanged under this coordinate translation.</li>
+</ol>
+</section>
+<section id="dimensional-constraint" class="level3">
+<h3 class="anchored" data-anchor-id="dimensional-constraint">5. Dimensional constraint</h3>
+<p>Suppose a proposed diffusion timescale is <span class="math inline">\tau=L/D</span>, where <span class="math inline">L</span> has units m and <span class="math inline">D</span> has units <span class="math inline">\mathrm{m^2\,s^{-1}}</span>.</p>
+<ol type="a">
+<li>Test the dimensions of the proposal.<br>
+</li>
+<li>Construct a dimensionally valid monomial <span class="math inline">\tau=L^aD^b</span>. Solve for <span class="math inline">a</span> and <span class="math inline">b</span>.<br>
+</li>
+<li>Estimate <span class="math inline">\tau</span> for <span class="math inline">L=10\ \mu\mathrm m</span> and <span class="math inline">D=1.0\times10^{-9}\ \mathrm{m^2\,s^{-1}}</span>.</li>
+</ol>
+</section>
+<section id="scale-decides-the-model" class="level3">
+<h3 class="anchored" data-anchor-id="scale-decides-the-model">6. Scale decides the model</h3>
+<p>A solute diffuses with <span class="math inline">D=8.0\times10^{-10}\ \mathrm{m^2\,s^{-1}}</span>. Use <span class="math inline">\tau\sim L^2/D</span> to estimate diffusion times over:</p>
+<ol type="a">
+<li><span class="math inline">L=1.0\ \mathrm{nm}</span>,<br>
+</li>
+<li><span class="math inline">L=10\ \mu\mathrm m</span>,<br>
+</li>
+<li><span class="math inline">L=1.0\ \mathrm{cm}</span>.</li>
+</ol>
+<p>Explain why “diffusion is fast” is not a scientific statement until a length scale is supplied.</p>
+</section>
+</section>
+<section id="c.-model-judgment" class="level2">
+<h2 class="anchored" data-anchor-id="c.-model-judgment">C. Model judgment</h2>
+<section id="one-graph-two-claims" class="level3">
+<h3 class="anchored" data-anchor-id="one-graph-two-claims">7. One graph, two claims</h3>
+<p>An instrument gives <span class="math inline">A=0.013+0.842c</span>, where absorbance <span class="math inline">A</span> is dimensionless and concentration <span class="math inline">c</span> is in <span class="math inline">\mathrm{mmol\,L^{-1}}</span>.</p>
+<ol type="a">
+<li>State the units of the intercept and slope.<br>
+</li>
+<li>Find <span class="math inline">c</span> when <span class="math inline">A=0.350</span>.<br>
+</li>
+<li>A student says “doubling concentration doubles absorbance.” Is that exactly true for this calibration? Show the relevant test.</li>
+</ol>
+</section>
+<section id="synthesis-choose-before-calculating" class="level3">
+<h3 class="anchored" data-anchor-id="synthesis-choose-before-calculating">8. Synthesis: choose before calculating</h3>
+<p>For each task below, name the object, the governing constraint, and the operation you would use. Do <strong>not</strong> perform the calculation.</p>
+<ol type="a">
+<li>Balance a redox equation.<br>
+</li>
+<li>Determine a molecular dipole from bond dipoles.<br>
+</li>
+<li>Recover a rate constant from concentration–time data.<br>
+</li>
+<li>Determine the probability that a molecule exceeds an activation energy.<br>
+</li>
+<li>Compute work from a pressure–volume path.</li>
+</ol>
 
-</div>
-<script src="../js/widgets/transform-2d.js"></script>
-<script src="../js/widgets/grid-transform.js"></script>
-<script src="../../js/adaptive-engine.js"></script>
-<script src="../../js/skills/transformations.js"></script>
 
-
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -1095,13 +1097,13 @@ R\,\sigma_x = \begin{pmatrix} 0 &amp; 1 \\ 1 &amp; 0 \end{pmatrix}.
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../03-matrices/02-algebra.html" class="pagination-link" aria-label="3.2 Matrix Algebra">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">3.2 Matrix Algebra</span></span>
+      <a href="../problem-sets/index.html" class="pagination-link" aria-label="Problem Sets">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Problem Sets</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../03-matrices/04-determinants.html" class="pagination-link" aria-label="3.4 Determinants and What They Mean">
-        <span class="nav-page-text"><span class="chapter-title">3.4 Determinants and What They Mean</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../problem-sets/02-existence.html" class="pagination-link" aria-label="Problem Set 2 | What Kinds of Numbers?">
+        <span class="nav-page-text"><span class="chapter-title">Problem Set 2 | What Kinds of Numbers?</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -1218,5 +1218,269 @@
       "Appendices",
       "<span class='chapter-number'>A</span>  <span class='chapter-title'>Answers to Odd-Numbered Exercises</span>"
     ]
+  },
+  {
+    "objectID": "problem-sets/index.html",
+    "href": "problem-sets/index.html",
+    "title": "Appendix B — Problem Sets",
+    "section": "",
+    "text": "Expectations\nThese sets train you to recognize the mathematical structure of a chemical problem before choosing an operation. A numerical answer without units, reasoning, or interpretation is incomplete.\nFor extended vector practice there is also a printable supplement: Vector chemistry problem set (PDF).",
+    "crumbs": [
+      "Appendices",
+      "Problem Sets",
+      "<span class='chapter-number'>B</span>  <span class='chapter-title'>Problem Sets</span>"
+    ]
+  },
+  {
+    "objectID": "problem-sets/index.html#expectations",
+    "href": "problem-sets/index.html#expectations",
+    "title": "Appendix B — Problem Sets",
+    "section": "",
+    "text": "State what mathematical object you are using.\nShow a symbolic setup before substituting numbers.\nCarry units through every physical calculation.\nReport sensible significant figures.\nEnd modeling problems with one sentence of chemical interpretation.",
+    "crumbs": [
+      "Appendices",
+      "Problem Sets",
+      "<span class='chapter-number'>B</span>  <span class='chapter-title'>Problem Sets</span>"
+    ]
+  },
+  {
+    "objectID": "problem-sets/01-orientation.html",
+    "href": "problem-sets/01-orientation.html",
+    "title": "Appendix C — Problem Set 1 | Seeing the Structure",
+    "section": "",
+    "text": "Purpose\nBefore calculating, decide what kind of problem reality has given you. The central objects in this course are COLLECTION, ARRANGEMENT, DIRECTION, PROXIMITY, SAMENESS, CHANGE, RATE, ACCUMULATION, and SPREAD.",
+    "crumbs": [
+      "Appendices",
+      "Problem Sets",
+      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Problem Set 1 | Seeing the Structure</span>"
+    ]
+  },
+  {
+    "objectID": "problem-sets/01-orientation.html#a.-recognition",
+    "href": "problem-sets/01-orientation.html#a.-recognition",
+    "title": "Appendix C — Problem Set 1 | Seeing the Structure",
+    "section": "A. Recognition",
+    "text": "A. Recognition\n\n1. Name the primitive\nFor each question, choose the primary primitive and justify the choice in one sentence.\n\nHow many distinguishable ways can four ligands occupy four sites around a metal center?\n\nWhat component of an electric field lies along an O–H bond?\n\nDoes a concentration function approach a finite value as t\\to\\infty?\n\nWhich molecular property is unchanged when the coordinate axes rotate?\n\nWhat is the instantaneous disappearance speed of a reactant?\n\nWhat total charge passed through an electrode during 30 minutes?\n\nHow broadly are molecular speeds distributed at 500 K?\n\n\n\n2. Object, representation, or process?\nClassify each statement as primarily about a state, a process, a constraint, or a representation. Some cases admit two labels; if so, state which is primary.\n\n“The sample contains 0.150 mol of ethanol at 298 K.”\n\n“The reaction vessel is sealed and rigid.”\n\n“The same molecular geometry is reported in Cartesian and spherical coordinates.”\n\n“The temperature rises from 298 K to 315 K.”\n\n“Total carbon atoms are conserved.”",
+    "crumbs": [
+      "Appendices",
+      "Problem Sets",
+      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Problem Set 1 | Seeing the Structure</span>"
+    ]
+  },
+  {
+    "objectID": "problem-sets/01-orientation.html#b.-quantitative-structure",
+    "href": "problem-sets/01-orientation.html#b.-quantitative-structure",
+    "title": "Appendix C — Problem Set 1 | Seeing the Structure",
+    "section": "B. Quantitative structure",
+    "text": "B. Quantitative structure\n\n3. State vector for a gas sample\nA rigid vessel contains a single gas phase described by \n\\mathbf{s}=(n,T,V,p)=(0.500\\ \\mathrm{mol},300.0\\ \\mathrm K,12.5\\ \\mathrm L,0.985\\ \\mathrm{atm}).\n\n\nWhich entries are extensive and which are intensive?\n\nThe gas is divided equally between two identical vessels without changing temperature. Write the state vector for either half, assuming ideal behavior.\n\nIdentify the quantities that provide SAMENESS between the original equilibrium state and either half, and those that do not.\n\n\n\n4. Description versus physical change\nThe position of an atom is \\mathbf r=(1.20,-0.50,0.80)\\ \\text{Å}. A second investigator moves the coordinate origin by \\mathbf a=(0.20,0.10,-0.30)\\ \\text{Å}, so that \\mathbf r'=\\mathbf r-\\mathbf a.\n\nCalculate \\mathbf r'.\n\nDid the atom move? Defend your answer.\n\nGive one atom-to-atom quantity that must remain unchanged under this coordinate translation.\n\n\n\n5. Dimensional constraint\nSuppose a proposed diffusion timescale is \\tau=L/D, where L has units m and D has units \\mathrm{m^2\\,s^{-1}}.\n\nTest the dimensions of the proposal.\n\nConstruct a dimensionally valid monomial \\tau=L^aD^b. Solve for a and b.\n\nEstimate \\tau for L=10\\ \\mu\\mathrm m and D=1.0\\times10^{-9}\\ \\mathrm{m^2\\,s^{-1}}.\n\n\n\n6. Scale decides the model\nA solute diffuses with D=8.0\\times10^{-10}\\ \\mathrm{m^2\\,s^{-1}}. Use \\tau\\sim L^2/D to estimate diffusion times over:\n\nL=1.0\\ \\mathrm{nm},\n\nL=10\\ \\mu\\mathrm m,\n\nL=1.0\\ \\mathrm{cm}.\n\nExplain why “diffusion is fast” is not a scientific statement until a length scale is supplied.",
+    "crumbs": [
+      "Appendices",
+      "Problem Sets",
+      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Problem Set 1 | Seeing the Structure</span>"
+    ]
+  },
+  {
+    "objectID": "problem-sets/01-orientation.html#c.-model-judgment",
+    "href": "problem-sets/01-orientation.html#c.-model-judgment",
+    "title": "Appendix C — Problem Set 1 | Seeing the Structure",
+    "section": "C. Model judgment",
+    "text": "C. Model judgment\n\n7. One graph, two claims\nAn instrument gives A=0.013+0.842c, where absorbance A is dimensionless and concentration c is in \\mathrm{mmol\\,L^{-1}}.\n\nState the units of the intercept and slope.\n\nFind c when A=0.350.\n\nA student says “doubling concentration doubles absorbance.” Is that exactly true for this calibration? Show the relevant test.\n\n\n\n8. Synthesis: choose before calculating\nFor each task below, name the object, the governing constraint, and the operation you would use. Do not perform the calculation.\n\nBalance a redox equation.\n\nDetermine a molecular dipole from bond dipoles.\n\nRecover a rate constant from concentration–time data.\n\nDetermine the probability that a molecule exceeds an activation energy.\n\nCompute work from a pressure–volume path.",
+    "crumbs": [
+      "Appendices",
+      "Problem Sets",
+      "<span class='chapter-number'>C</span>  <span class='chapter-title'>Problem Set 1 | Seeing the Structure</span>"
+    ]
+  },
+  {
+    "objectID": "problem-sets/02-existence.html",
+    "href": "problem-sets/02-existence.html",
+    "title": "Appendix D — Problem Set 2 | What Kinds of Numbers?",
+    "section": "",
+    "text": "A. Recognition and closure",
+    "crumbs": [
+      "Appendices",
+      "Problem Sets",
+      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Problem Set 2 | What Kinds of Numbers?</span>"
+    ]
+  },
+  {
+    "objectID": "problem-sets/02-existence.html#a.-recognition-and-closure",
+    "href": "problem-sets/02-existence.html#a.-recognition-and-closure",
+    "title": "Appendix D — Problem Set 2 | What Kinds of Numbers?",
+    "section": "",
+    "text": "1. Smallest sufficient number system\nFor each quantity, give the smallest system among \\mathbb N,\\mathbb Z,\\mathbb Q,\\mathbb R,\\mathbb C that contains it.\n\n17 molecules\n\na charge imbalance of -3e\n\nan exact mole fraction 2/7\n\nthe diagonal length of a unit square\n\nthe root of z^2+4=0\n\n\n\n2. Which operation forces extension?\nState the operation and the required extension.\n\n3-8 starting in \\mathbb N\n\n5/12 starting in \\mathbb Z\n\n\\sqrt 2 starting in \\mathbb Q\n\n\\sqrt{-9} starting in \\mathbb R\n\n\n\n3. Counterexamples to closure\nFor each false claim, give one counterexample and then repair the claim.\n\n\\mathbb N is closed under subtraction.\n\n\\mathbb Z is closed under division.\n\n\\mathbb R is closed under square roots.\n\n\\mathbb C is closed under division.",
+    "crumbs": [
+      "Appendices",
+      "Problem Sets",
+      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Problem Set 2 | What Kinds of Numbers?</span>"
+    ]
+  },
+  {
+    "objectID": "problem-sets/02-existence.html#b.-complex-arithmetic-as-geometry",
+    "href": "problem-sets/02-existence.html#b.-complex-arithmetic-as-geometry",
+    "title": "Appendix D — Problem Set 2 | What Kinds of Numbers?",
+    "section": "B. Complex arithmetic as geometry",
+    "text": "B. Complex arithmetic as geometry\n\n4. Cartesian operations\nLet z_1=3-4i and z_2=-2+i. Calculate:\n\nz_1+z_2\n\nz_1z_2\n\nz_1/z_2\n\n|z_1| and z_1^*\n\nverify z_1z_1^*=|z_1|^2.\n\n\n\n5. Polar form\nConvert each number to re^{i\\theta} using the principal argument -\\pi&lt;\\theta\\le\\pi.\n\n1+i\n\n-\\sqrt3+i\n\n-2i\n\n-3-3i\n\n\n\n6. Multiplication rotates and scales\nLet z=2e^{i\\pi/6} and w=3e^{-i\\pi/4}.\n\nCompute zw in polar form.\n\nCompute z/w in polar form.\n\nConvert zw to Cartesian form.\n\nState separately what happened to magnitude and angle during multiplication.",
+    "crumbs": [
+      "Appendices",
+      "Problem Sets",
+      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Problem Set 2 | What Kinds of Numbers?</span>"
+    ]
+  },
+  {
+    "objectID": "problem-sets/02-existence.html#c.-chemistry-and-measurement",
+    "href": "problem-sets/02-existence.html#c.-chemistry-and-measurement",
+    "title": "Appendix D — Problem Set 2 | What Kinds of Numbers?",
+    "section": "C. Chemistry and measurement",
+    "text": "C. Chemistry and measurement\n\n7. Spectroscopic phase\nAn ideal signal is represented by \nZ(t)=4.00e^{i(20.0t+\\pi/3)}.\n\n\nWrite the observed real channel x(t)=\\Re Z(t).\n\nWrite the quadrature channel y(t)=\\Im Z(t).\n\nEvaluate both channels at t=0.\n\nProve that x(t)^2+y(t)^2 is time-independent and interpret the result.\n\n\n\n8. Interference requires relative phase\nTwo equal complex amplitudes are \\psi_1=A and \\psi_2=Ae^{i\\phi}. Observable intensity is proportional to |\\psi_1+\\psi_2|^2.\n\nDerive |\\psi_1+\\psi_2|^2=2A^2(1+\\cos\\phi).\n\nEvaluate it for \\phi=0,\\pi/2,\\pi.\n\nExplain why replacing each amplitude by its magnitude before addition destroys physical information.\n\n\n\n9. Roots and symmetry\nSolve z^3=8 completely.\n\nWrite 8 in polar form including the multivalued phase.\n\nFind all three roots.\n\nPlot their locations conceptually on the complex plane.\n\nShow that their vector sum is zero.\n\n\n\n10. Error diagnosis\nA student calculates \n\\frac{1}{2-i}=\\frac{1}{2}-\\frac{1}{i}.\n\n\nIdentify the invalid algebraic step.\n\nCalculate the correct value.\n\nVerify your result by multiplication.",
+    "crumbs": [
+      "Appendices",
+      "Problem Sets",
+      "<span class='chapter-number'>D</span>  <span class='chapter-title'>Problem Set 2 | What Kinds of Numbers?</span>"
+    ]
+  },
+  {
+    "objectID": "problem-sets/03-collection.html",
+    "href": "problem-sets/03-collection.html",
+    "title": "Appendix E — Problem Set 3 | COLLECTION",
+    "section": "",
+    "text": "A. Recognition\nUse the distinction deliberately: a permutation counts ordered selections; a combination counts unordered selections.",
+    "crumbs": [
+      "Appendices",
+      "Problem Sets",
+      "<span class='chapter-number'>E</span>  <span class='chapter-title'>Problem Set 3 | COLLECTION</span>"
+    ]
+  },
+  {
+    "objectID": "problem-sets/03-collection.html#a.-recognition",
+    "href": "problem-sets/03-collection.html#a.-recognition",
+    "title": "Appendix E — Problem Set 3 | COLLECTION",
+    "section": "",
+    "text": "1. Does order matter?\nFor each problem, decide whether order matters and choose n^r, P(n,r), \\binom nr, or a multinomial coefficient.\n\nChoose three samples from twelve for destructive analysis.\n\nAssign three distinct samples to instruments A, B, and C.\n\nConstruct a five-residue peptide from twenty amino-acid types, allowing repetition.\n\nDistribute six isotopic labels among six fixed sites, using two ^{13}\\mathrm C labels and four ^{12}\\mathrm C labels.\n\n\n\n2. COLLECTION or ARRANGEMENT?\nFor each pair, state whether it represents the same COLLECTION, the same ARRANGEMENT, both, or neither.\n\n\\{\\mathrm H,\\mathrm H,\\mathrm O\\} and \\{\\mathrm O,\\mathrm H,\\mathrm H\\} as bags of atoms.\n\nH–O–H and H–H–O as bonded sequences.\n\ncis- and trans-[\\mathrm{PtCl_2(NH_3)_2}].\n\ntwo electron configurations that differ only by exchanging indistinguishable electrons.",
+    "crumbs": [
+      "Appendices",
+      "Problem Sets",
+      "<span class='chapter-number'>E</span>  <span class='chapter-title'>Problem Set 3 | COLLECTION</span>"
+    ]
+  },
+  {
+    "objectID": "problem-sets/03-collection.html#b.-counting-tools",
+    "href": "problem-sets/03-collection.html#b.-counting-tools",
+    "title": "Appendix E — Problem Set 3 | COLLECTION",
+    "section": "B. Counting tools",
+    "text": "B. Counting tools\n\n3. Derive, do not quote\nDerive \\binom nr=n!/[r!(n-r)!] by first counting ordered selections and then identifying the overcount. Evaluate \\binom{12}{4}.\n\n\n4. Isotopologues of methane\nMethane has four equivalent hydrogen sites. Suppose exactly two H atoms are replaced by D.\n\nHow many site-labelings exist before molecular symmetry is considered?\n\nWhy does this count not necessarily equal the number of experimentally distinguishable isotopomers?\n\nWhat additional mathematical object is required to account for molecular symmetry?\n\n\n\n5. Peptide sequences\nAssume the twenty standard amino acids are available.\n\nHow many tripeptide sequences exist?\n\nHow many contain no repeated residue type?\n\nHow many contain exactly two alanines?\n\nAmong all tripeptides, what fraction contain exactly two alanines?\n\n\n\n6. Ligand placement\nIgnore geometric symmetry initially. Six labeled coordination sites receive two A ligands, two B ligands, and two C ligands.\n\nFind the number of site assignments.\n\nGeneralize to counts n_A,n_B,n_C with N=n_A+n_B+n_C.\n\nExplain precisely where indistinguishability enters the denominator.",
+    "crumbs": [
+      "Appendices",
+      "Problem Sets",
+      "<span class='chapter-number'>E</span>  <span class='chapter-title'>Problem Set 3 | COLLECTION</span>"
+    ]
+  },
+  {
+    "objectID": "problem-sets/03-collection.html#c.-multiplicity-and-entropy",
+    "href": "problem-sets/03-collection.html#c.-multiplicity-and-entropy",
+    "title": "Appendix E — Problem Set 3 | COLLECTION",
+    "section": "C. Multiplicity and entropy",
+    "text": "C. Multiplicity and entropy\n\n7. Two-state molecular ensemble\nTen distinguishable molecules can occupy a lower state L or upper state U. Exactly four occupy U.\n\nCalculate the multiplicity \\Omega.\n\nCalculate S/k_\\mathrm B=\\ln\\Omega.\n\nRepeat for five molecules in U.\n\nWhich macrostate is more probable if all microstates are equally likely?\n\n\n\n8. Why the logarithm is forced\nIndependent systems A and B have multiplicities \\Omega_A=10^6 and \\Omega_B=10^9.\n\nCalculate \\Omega_{AB}.\n\nShow that \\ln\\Omega_{AB}=\\ln\\Omega_A+\\ln\\Omega_B.\n\nExplain why an extensive entropy cannot be directly proportional to \\Omega.\n\nFind \\Delta(S/k_\\mathrm B) when multiplicity increases by a factor of 100.\n\n\n\n9. Binomial composition\nAn ideal mixture contains N=20 distinguishable lattice sites, occupied by 8 A molecules and 12 B molecules.\n\nCalculate the configurational multiplicity.\n\nCalculate S_\\mathrm{mix}/k_\\mathrm B=\\ln\\Omega.\n\nCompare with the multiplicity at 10 A and 10 B.\n\nExplain the result without saying merely “the number is larger.”\n\n\n\n10. Model audit\nA student claims that ten coin tosses with five heads have 10^5 arrangements.\n\nIdentify what 10^5 would actually count, if anything.\n\nGive the correct count.\n\nState a recognition question that would have prevented the error.",
+    "crumbs": [
+      "Appendices",
+      "Problem Sets",
+      "<span class='chapter-number'>E</span>  <span class='chapter-title'>Problem Set 3 | COLLECTION</span>"
+    ]
+  },
+  {
+    "objectID": "problem-sets/04-direction-vectors.html",
+    "href": "problem-sets/04-direction-vectors.html",
+    "title": "Appendix F — Problem Set 4 | DIRECTION: Vectors and Bonds",
+    "section": "",
+    "text": "A. Recognition",
+    "crumbs": [
+      "Appendices",
+      "Problem Sets",
+      "<span class='chapter-number'>F</span>  <span class='chapter-title'>Problem Set 4 | DIRECTION: Vectors and Bonds</span>"
+    ]
+  },
+  {
+    "objectID": "problem-sets/04-direction-vectors.html#a.-recognition",
+    "href": "problem-sets/04-direction-vectors.html#a.-recognition",
+    "title": "Appendix F — Problem Set 4 | DIRECTION: Vectors and Bonds",
+    "section": "",
+    "text": "1. Scalar or vector?\nClassify each quantity and justify one borderline case.\n\ntemperature\n\nmolecular dipole moment\n\nbond length\n\nforce on a nucleus\n\nactivation energy\n\nconcentration gradient\n\nreaction rate in \\mathrm{mol\\,L^{-1}\\,s^{-1}}\n\n\n\n2. What operation is needed?\nChoose vector addition, subtraction, scalar multiplication, magnitude, or normalization.\n\nFind a bond vector from two atomic positions.\n\nCombine three bond dipoles.\n\nRetain direction but discard magnitude.\n\nCompare the length of a computed displacement with experiment.\n\nReverse a force while doubling its strength.",
+    "crumbs": [
+      "Appendices",
+      "Problem Sets",
+      "<span class='chapter-number'>F</span>  <span class='chapter-title'>Problem Set 4 | DIRECTION: Vectors and Bonds</span>"
+    ]
+  },
+  {
+    "objectID": "problem-sets/04-direction-vectors.html#b.-components-and-geometry",
+    "href": "problem-sets/04-direction-vectors.html#b.-components-and-geometry",
+    "title": "Appendix F — Problem Set 4 | DIRECTION: Vectors and Bonds",
+    "section": "B. Components and geometry",
+    "text": "B. Components and geometry\n\n3. Bond vector and unit vector\nIn Cartesian coordinates, \\mathbf r_C=(1.20,-0.40,0.10)\\ \\text{Å} and \\mathbf r_O=(2.35,0.25,-0.55)\\ \\text{Å}.\n\nFind the vector from C to O.\n\nFind the C–O bond length.\n\nFind the unit vector pointing from C to O.\n\nConfirm that the unit vector has magnitude 1 within rounding.\n\n\n\n4. Coordinate translation test\nTranslate both positions in Problem 3 by \\mathbf a=(-4.0,2.0,1.5)\\ \\text{Å}.\n\nWrite the translated coordinates.\n\nRecalculate the C-to-O vector.\n\nState and verify the invariant.\n\n\n\n5. Resultant molecular dipole\nThree bond-dipole contributions, in debye, are \n\\boldsymbol\\mu_1=(1.20,0,0),\\quad\n\\boldsymbol\\mu_2=(-0.35,0.95,0),\\quad\n\\boldsymbol\\mu_3=(-0.35,-0.20,0.60).\n\n\nCalculate the total molecular dipole vector.\n\nCalculate its magnitude.\n\nA model reports only the sum of the three magnitudes. Explain why that is generally wrong.\n\n\n\n6. Force from a potential\nAlong one coordinate, U(x)=\\tfrac12k(x-x_0)^2, with k=500\\ \\mathrm{N\\,m^{-1}} and x-x_0=2.0\\times10^{-12}\\ \\mathrm m.\n\nUse F_x=-dU/dx to derive the force.\n\nCalculate its value and direction.\n\nRepeat for x-x_0=-2.0\\times10^{-12}\\ \\mathrm m.\n\nWhat physical role does the minus sign play?",
+    "crumbs": [
+      "Appendices",
+      "Problem Sets",
+      "<span class='chapter-number'>F</span>  <span class='chapter-title'>Problem Set 4 | DIRECTION: Vectors and Bonds</span>"
+    ]
+  },
+  {
+    "objectID": "problem-sets/04-direction-vectors.html#c.-chemical-models",
+    "href": "problem-sets/04-direction-vectors.html#c.-chemical-models",
+    "title": "Appendix F — Problem Set 4 | DIRECTION: Vectors and Bonds",
+    "section": "C. Chemical models",
+    "text": "C. Chemical models\n\n7. Water from two bond vectors\nModel two equal O–H bond dipoles of magnitude \\mu_b=1.50\\ \\mathrm D, separated by 104.5^\\circ. Place their bisector along +y.\n\nWrite both dipoles in components using half the bond angle.\n\nShow which components cancel.\n\nCalculate the resultant magnitude.\n\nPredict the effect of changing the angle toward 180^\\circ while holding \\mu_b fixed.\n\n\n\n8. Carbon dioxide cancellation\nRepresent the two equal C=O bond dipoles of linear CO_2 as vectors.\n\nShow algebraically why their sum is zero.\n\nExplain why “CO_2 has polar bonds” does not imply “CO_2 has a molecular dipole.”\n\nIf one bond dipole were 1.0% larger, express the residual dipole in terms of \\mu_b.\n\n\n\n9. Center of mass as a weighted vector sum\nFor three atoms with masses m_i and positions \\mathbf r_i, derive \n\\mathbf R_{CM}=\\frac{\\sum_i m_i\\mathbf r_i}{\\sum_i m_i}.\n Then calculate \\mathbf R_{CM} for atoms of mass 12, 1, and 16 u at (0,0,0), (1,0,0), and (0,1,0) Å.\n\n\n10. Error diagnosis\nA student normalizes \\mathbf v=(3,4,0) by dividing every component by 3+4+0.\n\nTest whether the result has unit magnitude.\n\nCorrect the normalization.\n\nExplain the difference between component sum and Euclidean magnitude.",
+    "crumbs": [
+      "Appendices",
+      "Problem Sets",
+      "<span class='chapter-number'>F</span>  <span class='chapter-title'>Problem Set 4 | DIRECTION: Vectors and Bonds</span>"
+    ]
+  },
+  {
+    "objectID": "problem-sets/05-angles-projections.html",
+    "href": "problem-sets/05-angles-projections.html",
+    "title": "Appendix G — Problem Set 5 | DIRECTION: Angles and Projections",
+    "section": "",
+    "text": "A. Recognition",
+    "crumbs": [
+      "Appendices",
+      "Problem Sets",
+      "<span class='chapter-number'>G</span>  <span class='chapter-title'>Problem Set 5 | DIRECTION: Angles and Projections</span>"
+    ]
+  },
+  {
+    "objectID": "problem-sets/05-angles-projections.html#a.-recognition",
+    "href": "problem-sets/05-angles-projections.html#a.-recognition",
+    "title": "Appendix G — Problem Set 5 | DIRECTION: Angles and Projections",
+    "section": "",
+    "text": "1. Dot product, cross product, or neither?\nChoose the most direct operation and justify it.\n\nFind the angle between two bonds.\n\nFind the component of an electric field along a bond.\n\nFind a vector normal to a molecular plane.\n\nAdd three displacement vectors.\n\nTest whether two directions are perpendicular.\n\n\n\n2. Scalar projection or vector projection?\nState which is requested.\n\n“How much of \\mathbf F acts along the reaction coordinate?”\n\n“What vector is the part of \\mathbf F parallel to the reaction coordinate?”\n\n“What remains after the parallel part is removed?”",
+    "crumbs": [
+      "Appendices",
+      "Problem Sets",
+      "<span class='chapter-number'>G</span>  <span class='chapter-title'>Problem Set 5 | DIRECTION: Angles and Projections</span>"
+    ]
+  },
+  {
+    "objectID": "problem-sets/05-angles-projections.html#b.-angles-and-projections",
+    "href": "problem-sets/05-angles-projections.html#b.-angles-and-projections",
+    "title": "Appendix G — Problem Set 5 | DIRECTION: Angles and Projections",
+    "section": "B. Angles and projections",
+    "text": "B. Angles and projections\n\n3. Bond angle from coordinates\nAn atom B is at the origin; A and C are at \\mathbf r_A=(1,1,0) Å and \\mathbf r_C=(-1,2,0) Å.\n\nWrite vectors \\overrightarrow{BA} and \\overrightarrow{BC}.\n\nCalculate \\angle ABC using the dot product.\n\nVerify that rescaling either bond length without changing its direction leaves the angle unchanged.\n\n\n\n4. Electric field along a bond\nAn electric field is \\mathbf E=(2.0,-1.0,3.0)\\times10^5\\ \\mathrm{V\\,m^{-1}}. A bond points along \\mathbf b=(2,1,2).\n\nConstruct \\hat{\\mathbf b}.\n\nCalculate the signed scalar component E_\\parallel=\\mathbf E\\cdot\\hat{\\mathbf b}.\n\nCalculate the vector projection \\mathbf E_\\parallel.\n\nCalculate the perpendicular remainder and verify orthogonality.\n\n\n\n5. Work along a molecular displacement\nA constant force \\mathbf F=(4,-2,1)\\ \\mathrm{pN} displaces an atom by \\Delta\\mathbf r=(0.30,0.10,-0.20)\\ \\mathrm{nm}.\n\nCalculate W=\\mathbf F\\cdot\\Delta\\mathbf r in \\mathrm{pN\\,nm}.\n\nConvert to joules.\n\nIs the force, on balance, assisting or opposing this displacement?\n\n\n\n6. Projection decomposition theorem\nFor nonzero \\mathbf b, define \n\\mathbf a_\\parallel=\\frac{\\mathbf a\\cdot\\mathbf b}{\\mathbf b\\cdot\\mathbf b}\\mathbf b,\n\\qquad\n\\mathbf a_\\perp=\\mathbf a-\\mathbf a_\\parallel.\n\n\nProve \\mathbf a_\\perp\\cdot\\mathbf b=0.\n\nApply the decomposition to \\mathbf a=(3,1,2) and \\mathbf b=(1,-1,0).\n\nVerify |\\mathbf a|^2=|\\mathbf a_\\parallel|^2+|\\mathbf a_\\perp|^2.",
+    "crumbs": [
+      "Appendices",
+      "Problem Sets",
+      "<span class='chapter-number'>G</span>  <span class='chapter-title'>Problem Set 5 | DIRECTION: Angles and Projections</span>"
+    ]
+  },
+  {
+    "objectID": "problem-sets/05-angles-projections.html#c.-molecular-geometry",
+    "href": "problem-sets/05-angles-projections.html#c.-molecular-geometry",
+    "title": "Appendix G — Problem Set 5 | DIRECTION: Angles and Projections",
+    "section": "C. Molecular geometry",
+    "text": "C. Molecular geometry\n\n7. Plane normal and orientation\nThree atoms lie at A(1,0,0), B(0,1,0), and C(0,0,1) Å.\n\nForm \\overrightarrow{AB} and \\overrightarrow{AC}.\n\nCompute a normal using \\overrightarrow{AB}\\times\\overrightarrow{AC}.\n\nNormalize it.\n\nExplain why the negative of your normal is equally perpendicular but not identically oriented.\n\n\n\n8. Torque on a dipole\nA dipole \\boldsymbol\\mu=(2.0,0,0)\\ \\mathrm D lies in an electric field \\mathbf E=(0,3.0,0)\\times10^5\\ \\mathrm{V\\,m^{-1}}.\n\nDetermine the direction of \\boldsymbol\\tau=\\boldsymbol\\mu\\times\\mathbf E.\n\nCalculate its magnitude in symbolic units \\mathrm{D\\,V\\,m^{-1}}.\n\nWhat happens to torque when the dipole becomes parallel or antiparallel to the field?\n\nWhich orientation minimizes U=-\\boldsymbol\\mu\\cdot\\mathbf E?\n\n\n\n9. Tetrahedral check\nFour ideal tetrahedral directions may be represented by \n(1,1,1),\\ (1,-1,-1),\\ (-1,1,-1),\\ (-1,-1,1).\n\n\nNormalize any two.\n\nShow their dot product is -1/3.\n\nCalculate the angle and compare it with the tetrahedral angle 109.47^\\circ.\n\nExplain why every pair gives the same angle.\n\n\n\n10. Error diagnosis: inverse cosine\nA student finds \\mathbf a\\cdot\\mathbf b=-2, |\\mathbf a|=2, and |\\mathbf b|=2, then reports \\theta=-0.5^\\circ.\n\nIdentify both conceptual errors.\n\nCalculate the correct angle.\n\nState the allowable range of (\\mathbf a\\cdot\\mathbf b)/(|\\mathbf a||\\mathbf b|) and why.",
+    "crumbs": [
+      "Appendices",
+      "Problem Sets",
+      "<span class='chapter-number'>G</span>  <span class='chapter-title'>Problem Set 5 | DIRECTION: Angles and Projections</span>"
+    ]
   }
 ]

@@ -3,6 +3,7 @@ project:
   output-dir: ../site/book
   resources:
     - js
+    - problem-sets/vector_chemistry_problem_set_student.pdf
 
 book:
   title: "Chemical Thinking"
@@ -40,6 +41,14 @@ book:
         - 03-matrices/04-determinants.qmd
   appendices:
     - 99-answers.qmd
+    - part: "Problem Sets"
+      chapters:
+        - problem-sets/index.qmd
+        - problem-sets/01-orientation.qmd
+        - problem-sets/02-existence.qmd
+        - problem-sets/03-collection.qmd
+        - problem-sets/04-direction-vectors.qmd
+        - problem-sets/05-angles-projections.qmd
 
 format:
   html:

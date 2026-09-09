@@ -1,0 +1,27 @@
+---
+title: "Problem Sets"
+subtitle: "Structured practice for Chapters 0–2"
+format:
+  html:
+    toc: true
+---
+
+These sets train you to recognize the mathematical structure of a chemical problem before choosing an operation. A numerical answer without units, reasoning, or interpretation is incomplete.
+
+| Set | Problem set | Companion sections | Main mathematical object |
+|---:|---|---|---|
+| 1 | [Seeing the structure](01-orientation.qmd) | Prologue | object, representation, constraint, scale |
+| 2 | [What kinds of numbers?](02-existence.qmd) | §1.1 | $\mathbb N,\mathbb Z,\mathbb Q,\mathbb R,\mathbb C$ |
+| 3 | [COLLECTION: counting chemical possibilities](03-collection.qmd) | §1.2–1.3 | factorials, permutations, combinations, multiplicity |
+| 4 | [DIRECTION: vectors and bonds](04-direction-vectors.qmd) | §2.1–2.2 | components, magnitude, unit vectors, vector sums |
+| 5 | [DIRECTION: angles and projections](05-angles-projections.qmd) | §2.3 | dot product, projection, cross product |
+
+For extended vector practice there is also a printable supplement: [Vector chemistry problem set (PDF)](vector_chemistry_problem_set_student.pdf).
+
+## Expectations
+
+1. State what mathematical object you are using.
+2. Show a symbolic setup before substituting numbers.
+3. Carry units through every physical calculation.
+4. Report sensible significant figures.
+5. End modeling problems with one sentence of chemical interpretation.

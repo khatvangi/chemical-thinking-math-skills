@@ -1,0 +1,98 @@
+---
+title: "Problem Set 3 | COLLECTION"
+subtitle: "Companion to §1.2–1.3 — sets and counting"
+format:
+  html:
+    toc: true
+---
+
+Use the distinction deliberately: a **permutation** counts ordered selections; a **combination** counts unordered selections.
+
+## A. Recognition
+
+### 1. Does order matter?
+
+For each problem, decide whether order matters and choose $n^r$, $P(n,r)$, $\binom nr$, or a multinomial coefficient.
+
+a. Choose three samples from twelve for destructive analysis.  
+b. Assign three distinct samples to instruments A, B, and C.  
+c. Construct a five-residue peptide from twenty amino-acid types, allowing repetition.  
+d. Distribute six isotopic labels among six fixed sites, using two $^{13}\mathrm C$ labels and four $^{12}\mathrm C$ labels.
+
+### 2. COLLECTION or ARRANGEMENT?
+
+For each pair, state whether it represents the same COLLECTION, the same ARRANGEMENT, both, or neither.
+
+a. $\{\mathrm H,\mathrm H,\mathrm O\}$ and $\{\mathrm O,\mathrm H,\mathrm H\}$ as bags of atoms.  
+b. H–O–H and H–H–O as bonded sequences.  
+c. cis- and trans-$[\mathrm{PtCl_2(NH_3)_2}]$.  
+d. two electron configurations that differ only by exchanging indistinguishable electrons.
+
+## B. Counting tools
+
+### 3. Derive, do not quote
+
+Derive $\binom nr=n!/[r!(n-r)!]$ by first counting ordered selections and then identifying the overcount. Evaluate $\binom{12}{4}$.
+
+### 4. Isotopologues of methane
+
+Methane has four equivalent hydrogen sites. Suppose exactly two H atoms are replaced by D.
+
+a. How many site-labelings exist before molecular symmetry is considered?  
+b. Why does this count not necessarily equal the number of experimentally distinguishable isotopomers?  
+c. What additional mathematical object is required to account for molecular symmetry?
+
+### 5. Peptide sequences
+
+Assume the twenty standard amino acids are available.
+
+a. How many tripeptide sequences exist?  
+b. How many contain no repeated residue type?  
+c. How many contain exactly two alanines?  
+d. Among all tripeptides, what fraction contain exactly two alanines?
+
+### 6. Ligand placement
+
+Ignore geometric symmetry initially. Six labeled coordination sites receive two A ligands, two B ligands, and two C ligands.
+
+a. Find the number of site assignments.  
+b. Generalize to counts $n_A,n_B,n_C$ with $N=n_A+n_B+n_C$.  
+c. Explain precisely where indistinguishability enters the denominator.
+
+## C. Multiplicity and entropy
+
+### 7. Two-state molecular ensemble
+
+Ten distinguishable molecules can occupy a lower state $L$ or upper state $U$. Exactly four occupy $U$.
+
+a. Calculate the multiplicity $\Omega$.  
+b. Calculate $S/k_\mathrm B=\ln\Omega$.  
+c. Repeat for five molecules in $U$.  
+d. Which macrostate is more probable if all microstates are equally likely?
+
+### 8. Why the logarithm is forced
+
+Independent systems A and B have multiplicities $\Omega_A=10^6$ and $\Omega_B=10^9$.
+
+a. Calculate $\Omega_{AB}$.  
+b. Show that $\ln\Omega_{AB}=\ln\Omega_A+\ln\Omega_B$.  
+c. Explain why an extensive entropy cannot be directly proportional to $\Omega$.  
+d. Find $\Delta(S/k_\mathrm B)$ when multiplicity increases by a factor of 100.
+
+### 9. Binomial composition
+
+An ideal mixture contains $N=20$ distinguishable lattice sites, occupied by 8 A molecules and 12 B molecules.
+
+a. Calculate the configurational multiplicity.  
+b. Calculate $S_\mathrm{mix}/k_\mathrm B=\ln\Omega$.  
+c. Compare with the multiplicity at 10 A and 10 B.  
+d. Explain the result without saying merely “the number is larger.”
+
+### 10. Model audit
+
+A student claims that ten coin tosses with five heads have $10^5$ arrangements.
+
+a. Identify what $10^5$ would actually count, if anything.  
+b. Give the correct count.  
+c. State a recognition question that would have prevented the error.
+

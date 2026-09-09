@@ -1,0 +1,108 @@
+---
+title: "Problem Set 4 | DIRECTION: Vectors and Bonds"
+subtitle: "Companion to §2.1–2.2 — direction and magnitude"
+format:
+  html:
+    toc: true
+---
+
+## A. Recognition
+
+### 1. Scalar or vector?
+
+Classify each quantity and justify one borderline case.
+
+a. temperature  
+b. molecular dipole moment  
+c. bond length  
+d. force on a nucleus  
+e. activation energy  
+f. concentration gradient  
+g. reaction rate in $\mathrm{mol\,L^{-1}\,s^{-1}}$
+
+### 2. What operation is needed?
+
+Choose vector addition, subtraction, scalar multiplication, magnitude, or normalization.
+
+a. Find a bond vector from two atomic positions.  
+b. Combine three bond dipoles.  
+c. Retain direction but discard magnitude.  
+d. Compare the length of a computed displacement with experiment.  
+e. Reverse a force while doubling its strength.
+
+## B. Components and geometry
+
+### 3. Bond vector and unit vector
+
+In Cartesian coordinates, $\mathbf r_C=(1.20,-0.40,0.10)\ \text{Å}$ and $\mathbf r_O=(2.35,0.25,-0.55)\ \text{Å}$.
+
+a. Find the vector from C to O.  
+b. Find the C–O bond length.  
+c. Find the unit vector pointing from C to O.  
+d. Confirm that the unit vector has magnitude 1 within rounding.
+
+### 4. Coordinate translation test
+
+Translate both positions in Problem 3 by $\mathbf a=(-4.0,2.0,1.5)\ \text{Å}$.
+
+a. Write the translated coordinates.  
+b. Recalculate the C-to-O vector.  
+c. State and verify the invariant.
+
+### 5. Resultant molecular dipole
+
+Three bond-dipole contributions, in debye, are
+$$
+\boldsymbol\mu_1=(1.20,0,0),\quad
+\boldsymbol\mu_2=(-0.35,0.95,0),\quad
+\boldsymbol\mu_3=(-0.35,-0.20,0.60).
+$$
+
+a. Calculate the total molecular dipole vector.  
+b. Calculate its magnitude.  
+c. A model reports only the sum of the three magnitudes. Explain why that is generally wrong.
+
+### 6. Force from a potential
+
+Along one coordinate, $U(x)=\tfrac12k(x-x_0)^2$, with $k=500\ \mathrm{N\,m^{-1}}$ and $x-x_0=2.0\times10^{-12}\ \mathrm m$.
+
+a. Use $F_x=-dU/dx$ to derive the force.  
+b. Calculate its value and direction.  
+c. Repeat for $x-x_0=-2.0\times10^{-12}\ \mathrm m$.  
+d. What physical role does the minus sign play?
+
+## C. Chemical models
+
+### 7. Water from two bond vectors
+
+Model two equal O–H bond dipoles of magnitude $\mu_b=1.50\ \mathrm D$, separated by $104.5^\circ$. Place their bisector along $+y$.
+
+a. Write both dipoles in components using half the bond angle.  
+b. Show which components cancel.  
+c. Calculate the resultant magnitude.  
+d. Predict the effect of changing the angle toward $180^\circ$ while holding $\mu_b$ fixed.
+
+### 8. Carbon dioxide cancellation
+
+Represent the two equal C=O bond dipoles of linear CO$_2$ as vectors.
+
+a. Show algebraically why their sum is zero.  
+b. Explain why “CO$_2$ has polar bonds” does not imply “CO$_2$ has a molecular dipole.”  
+c. If one bond dipole were 1.0% larger, express the residual dipole in terms of $\mu_b$.
+
+### 9. Center of mass as a weighted vector sum
+
+For three atoms with masses $m_i$ and positions $\mathbf r_i$, derive
+$$
+\mathbf R_{CM}=\frac{\sum_i m_i\mathbf r_i}{\sum_i m_i}.
+$$
+Then calculate $\mathbf R_{CM}$ for atoms of mass 12, 1, and 16 u at $(0,0,0)$, $(1,0,0)$, and $(0,1,0)$ Å.
+
+### 10. Error diagnosis
+
+A student normalizes $\mathbf v=(3,4,0)$ by dividing every component by $3+4+0$.
+
+a. Test whether the result has unit magnitude.  
+b. Correct the normalization.  
+c. Explain the difference between component sum and Euclidean magnitude.
+

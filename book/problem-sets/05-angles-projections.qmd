@@ -1,0 +1,108 @@
+---
+title: "Problem Set 5 | DIRECTION: Angles and Projections"
+subtitle: "Companion to §2.3 — the dot product and projection"
+format:
+  html:
+    toc: true
+---
+
+## A. Recognition
+
+### 1. Dot product, cross product, or neither?
+
+Choose the most direct operation and justify it.
+
+a. Find the angle between two bonds.  
+b. Find the component of an electric field along a bond.  
+c. Find a vector normal to a molecular plane.  
+d. Add three displacement vectors.  
+e. Test whether two directions are perpendicular.
+
+### 2. Scalar projection or vector projection?
+
+State which is requested.
+
+a. “How much of $\mathbf F$ acts along the reaction coordinate?”  
+b. “What vector is the part of $\mathbf F$ parallel to the reaction coordinate?”  
+c. “What remains after the parallel part is removed?”
+
+## B. Angles and projections
+
+### 3. Bond angle from coordinates
+
+An atom B is at the origin; A and C are at $\mathbf r_A=(1,1,0)$ Å and $\mathbf r_C=(-1,2,0)$ Å.
+
+a. Write vectors $\overrightarrow{BA}$ and $\overrightarrow{BC}$.  
+b. Calculate $\angle ABC$ using the dot product.  
+c. Verify that rescaling either bond length without changing its direction leaves the angle unchanged.
+
+### 4. Electric field along a bond
+
+An electric field is $\mathbf E=(2.0,-1.0,3.0)\times10^5\ \mathrm{V\,m^{-1}}$. A bond points along $\mathbf b=(2,1,2)$.
+
+a. Construct $\hat{\mathbf b}$.  
+b. Calculate the signed scalar component $E_\parallel=\mathbf E\cdot\hat{\mathbf b}$.  
+c. Calculate the vector projection $\mathbf E_\parallel$.  
+d. Calculate the perpendicular remainder and verify orthogonality.
+
+### 5. Work along a molecular displacement
+
+A constant force $\mathbf F=(4,-2,1)\ \mathrm{pN}$ displaces an atom by $\Delta\mathbf r=(0.30,0.10,-0.20)\ \mathrm{nm}$.
+
+a. Calculate $W=\mathbf F\cdot\Delta\mathbf r$ in $\mathrm{pN\,nm}$.  
+b. Convert to joules.  
+c. Is the force, on balance, assisting or opposing this displacement?
+
+### 6. Projection decomposition theorem
+
+For nonzero $\mathbf b$, define
+$$
+\mathbf a_\parallel=\frac{\mathbf a\cdot\mathbf b}{\mathbf b\cdot\mathbf b}\mathbf b,
+\qquad
+\mathbf a_\perp=\mathbf a-\mathbf a_\parallel.
+$$
+
+a. Prove $\mathbf a_\perp\cdot\mathbf b=0$.  
+b. Apply the decomposition to $\mathbf a=(3,1,2)$ and $\mathbf b=(1,-1,0)$.  
+c. Verify $|\mathbf a|^2=|\mathbf a_\parallel|^2+|\mathbf a_\perp|^2$.
+
+## C. Molecular geometry
+
+### 7. Plane normal and orientation
+
+Three atoms lie at A$(1,0,0)$, B$(0,1,0)$, and C$(0,0,1)$ Å.
+
+a. Form $\overrightarrow{AB}$ and $\overrightarrow{AC}$.  
+b. Compute a normal using $\overrightarrow{AB}\times\overrightarrow{AC}$.  
+c. Normalize it.  
+d. Explain why the negative of your normal is equally perpendicular but not identically oriented.
+
+### 8. Torque on a dipole
+
+A dipole $\boldsymbol\mu=(2.0,0,0)\ \mathrm D$ lies in an electric field $\mathbf E=(0,3.0,0)\times10^5\ \mathrm{V\,m^{-1}}$.
+
+a. Determine the direction of $\boldsymbol\tau=\boldsymbol\mu\times\mathbf E$.  
+b. Calculate its magnitude in symbolic units $\mathrm{D\,V\,m^{-1}}$.  
+c. What happens to torque when the dipole becomes parallel or antiparallel to the field?  
+d. Which orientation minimizes $U=-\boldsymbol\mu\cdot\mathbf E$?
+
+### 9. Tetrahedral check
+
+Four ideal tetrahedral directions may be represented by
+$$
+(1,1,1),\ (1,-1,-1),\ (-1,1,-1),\ (-1,-1,1).
+$$
+
+a. Normalize any two.  
+b. Show their dot product is $-1/3$.  
+c. Calculate the angle and compare it with the tetrahedral angle $109.47^\circ$.  
+d. Explain why every pair gives the same angle.
+
+### 10. Error diagnosis: inverse cosine
+
+A student finds $\mathbf a\cdot\mathbf b=-2$, $|\mathbf a|=2$, and $|\mathbf b|=2$, then reports $\theta=-0.5^\circ$.
+
+a. Identify both conceptual errors.  
+b. Calculate the correct angle.  
+c. State the allowable range of $(\mathbf a\cdot\mathbf b)/(|\mathbf a||\mathbf b|)$ and why.
+

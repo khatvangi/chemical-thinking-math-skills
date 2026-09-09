@@ -1,0 +1,110 @@
+---
+title: "Problem Set 2 | What Kinds of Numbers?"
+subtitle: "Companion to §1.1 — kinds of numbers and closure"
+format:
+  html:
+    toc: true
+---
+
+## A. Recognition and closure
+
+### 1. Smallest sufficient number system
+
+For each quantity, give the smallest system among $\mathbb N,\mathbb Z,\mathbb Q,\mathbb R,\mathbb C$ that contains it.
+
+a. 17 molecules  
+b. a charge imbalance of $-3e$  
+c. an exact mole fraction $2/7$  
+d. the diagonal length of a unit square  
+e. the root of $z^2+4=0$
+
+### 2. Which operation forces extension?
+
+State the operation and the required extension.
+
+a. $3-8$ starting in $\mathbb N$  
+b. $5/12$ starting in $\mathbb Z$  
+c. $\sqrt 2$ starting in $\mathbb Q$  
+d. $\sqrt{-9}$ starting in $\mathbb R$
+
+### 3. Counterexamples to closure
+
+For each false claim, give one counterexample and then repair the claim.
+
+a. $\mathbb N$ is closed under subtraction.  
+b. $\mathbb Z$ is closed under division.  
+c. $\mathbb R$ is closed under square roots.  
+d. $\mathbb C$ is closed under division.
+
+## B. Complex arithmetic as geometry
+
+### 4. Cartesian operations
+
+Let $z_1=3-4i$ and $z_2=-2+i$. Calculate:
+
+a. $z_1+z_2$  
+b. $z_1z_2$  
+c. $z_1/z_2$  
+d. $|z_1|$ and $z_1^*$  
+e. verify $z_1z_1^*=|z_1|^2$.
+
+### 5. Polar form
+
+Convert each number to $re^{i\theta}$ using the principal argument $-\pi<\theta\le\pi$.
+
+a. $1+i$  
+b. $-\sqrt3+i$  
+c. $-2i$  
+d. $-3-3i$
+
+### 6. Multiplication rotates and scales
+
+Let $z=2e^{i\pi/6}$ and $w=3e^{-i\pi/4}$.
+
+a. Compute $zw$ in polar form.  
+b. Compute $z/w$ in polar form.  
+c. Convert $zw$ to Cartesian form.  
+d. State separately what happened to magnitude and angle during multiplication.
+
+## C. Chemistry and measurement
+
+### 7. Spectroscopic phase
+
+An ideal signal is represented by
+$$
+Z(t)=4.00e^{i(20.0t+\pi/3)}.
+$$
+
+a. Write the observed real channel $x(t)=\Re Z(t)$.  
+b. Write the quadrature channel $y(t)=\Im Z(t)$.  
+c. Evaluate both channels at $t=0$.  
+d. Prove that $x(t)^2+y(t)^2$ is time-independent and interpret the result.
+
+### 8. Interference requires relative phase
+
+Two equal complex amplitudes are $\psi_1=A$ and $\psi_2=Ae^{i\phi}$. Observable intensity is proportional to $|\psi_1+\psi_2|^2$.
+
+a. Derive $|\psi_1+\psi_2|^2=2A^2(1+\cos\phi)$.  
+b. Evaluate it for $\phi=0,\pi/2,\pi$.  
+c. Explain why replacing each amplitude by its magnitude before addition destroys physical information.
+
+### 9. Roots and symmetry
+
+Solve $z^3=8$ completely.
+
+a. Write 8 in polar form including the multivalued phase.  
+b. Find all three roots.  
+c. Plot their locations conceptually on the complex plane.  
+d. Show that their vector sum is zero.
+
+### 10. Error diagnosis
+
+A student calculates
+$$
+\frac{1}{2-i}=\frac{1}{2}-\frac{1}{i}.
+$$
+
+a. Identify the invalid algebraic step.  
+b. Calculate the correct value.  
+c. Verify your result by multiplication.
+

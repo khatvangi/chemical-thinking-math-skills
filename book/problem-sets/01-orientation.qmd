@@ -1,0 +1,96 @@
+---
+title: "Problem Set 1 | Seeing the Structure"
+subtitle: "Companion to the Prologue — Seeing"
+format:
+  html:
+    toc: true
+    number-sections: false
+---
+
+## Purpose
+
+Before calculating, decide what kind of problem reality has given you. The central objects in this course are COLLECTION, ARRANGEMENT, DIRECTION, PROXIMITY, SAMENESS, CHANGE, RATE, ACCUMULATION, and SPREAD.
+
+## A. Recognition
+
+### 1. Name the primitive
+
+For each question, choose the *primary* primitive and justify the choice in one sentence.
+
+a. How many distinguishable ways can four ligands occupy four sites around a metal center?  
+b. What component of an electric field lies along an O–H bond?  
+c. Does a concentration function approach a finite value as $t\to\infty$?  
+d. Which molecular property is unchanged when the coordinate axes rotate?  
+e. What is the instantaneous disappearance speed of a reactant?  
+f. What total charge passed through an electrode during 30 minutes?  
+g. How broadly are molecular speeds distributed at 500 K?
+
+### 2. Object, representation, or process?
+
+Classify each statement as primarily about a **state**, a **process**, a **constraint**, or a **representation**. Some cases admit two labels; if so, state which is primary.
+
+a. “The sample contains 0.150 mol of ethanol at 298 K.”  
+b. “The reaction vessel is sealed and rigid.”  
+c. “The same molecular geometry is reported in Cartesian and spherical coordinates.”  
+d. “The temperature rises from 298 K to 315 K.”  
+e. “Total carbon atoms are conserved.”
+
+## B. Quantitative structure
+
+### 3. State vector for a gas sample
+
+A rigid vessel contains a single gas phase described by
+$$
+\mathbf{s}=(n,T,V,p)=(0.500\ \mathrm{mol},300.0\ \mathrm K,12.5\ \mathrm L,0.985\ \mathrm{atm}).
+$$
+
+a. Which entries are extensive and which are intensive?  
+b. The gas is divided equally between two identical vessels without changing temperature. Write the state vector for either half, assuming ideal behavior.  
+c. Identify the quantities that provide SAMENESS between the original equilibrium state and either half, and those that do not.
+
+### 4. Description versus physical change
+
+The position of an atom is $\mathbf r=(1.20,-0.50,0.80)\ \text{Å}$. A second investigator moves the coordinate origin by $\mathbf a=(0.20,0.10,-0.30)\ \text{Å}$, so that $\mathbf r'=\mathbf r-\mathbf a$.
+
+a. Calculate $\mathbf r'$.  
+b. Did the atom move? Defend your answer.  
+c. Give one atom-to-atom quantity that must remain unchanged under this coordinate translation.
+
+### 5. Dimensional constraint
+
+Suppose a proposed diffusion timescale is $\tau=L/D$, where $L$ has units m and $D$ has units $\mathrm{m^2\,s^{-1}}$.
+
+a. Test the dimensions of the proposal.  
+b. Construct a dimensionally valid monomial $\tau=L^aD^b$. Solve for $a$ and $b$.  
+c. Estimate $\tau$ for $L=10\ \mu\mathrm m$ and $D=1.0\times10^{-9}\ \mathrm{m^2\,s^{-1}}$.
+
+### 6. Scale decides the model
+
+A solute diffuses with $D=8.0\times10^{-10}\ \mathrm{m^2\,s^{-1}}$. Use $\tau\sim L^2/D$ to estimate diffusion times over:
+
+a. $L=1.0\ \mathrm{nm}$,  
+b. $L=10\ \mu\mathrm m$,  
+c. $L=1.0\ \mathrm{cm}$.
+
+Explain why “diffusion is fast” is not a scientific statement until a length scale is supplied.
+
+## C. Model judgment
+
+### 7. One graph, two claims
+
+An instrument gives $A=0.013+0.842c$, where absorbance $A$ is dimensionless and concentration $c$ is in $\mathrm{mmol\,L^{-1}}$.
+
+a. State the units of the intercept and slope.  
+b. Find $c$ when $A=0.350$.  
+c. A student says “doubling concentration doubles absorbance.” Is that exactly true for this calibration? Show the relevant test.
+
+### 8. Synthesis: choose before calculating
+
+For each task below, name the object, the governing constraint, and the operation you would use. Do **not** perform the calculation.
+
+a. Balance a redox equation.  
+b. Determine a molecular dipole from bond dipoles.  
+c. Recover a rate constant from concentration–time data.  
+d. Determine the probability that a molecule exceeds an activation energy.  
+e. Compute work from a pressure–volume path.
+
