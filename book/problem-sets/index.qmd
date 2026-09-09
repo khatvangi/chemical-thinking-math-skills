@@ -18,6 +18,8 @@ These sets train you to recognize the mathematical structure of a chemical probl
 
 For extended vector practice there is also a printable supplement: [Vector chemistry problem set (PDF)](vector_chemistry_problem_set_student.pdf).
 
+**When you are done, [submit your answers here](../../submit.html).** Log in with the access code your instructor gave you. You can resubmit any time; the newest version replaces the old one.
+
 ## Expectations
 
 1. State what mathematical object you are using.

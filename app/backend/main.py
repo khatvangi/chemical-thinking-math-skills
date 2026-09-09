@@ -398,6 +398,85 @@ async def grade_with_tracking(submission: GradeWithStudent):
     return result
 
 
+# ============== Problem-set submissions (access-code login) ==============
+# codes + instructor key live in secrets.json next to this file (never committed)
+
+from pathlib import Path
+
+SECRETS_PATH = Path(__file__).parent / "secrets.json"
+try:
+    _secrets = json.loads(SECRETS_PATH.read_text())
+except FileNotFoundError:
+    _secrets = {"access_codes": [], "instructor_key": ""}
+db.seed_access_codes(_secrets["access_codes"])
+
+MAX_ANSWER_CHARS = 100_000
+
+
+class PsLogin(BaseModel):
+    code: str
+    name: Optional[str] = None
+
+
+class PsSubmit(BaseModel):
+    code: str
+    set_id: int
+    answers: str
+
+
+def _student_for_code(code: str):
+    student = db.get_student_by_code(code.strip().upper())
+    if not student:
+        raise HTTPException(status_code=401, detail="Unknown access code")
+    return student
+
+
+@app.post("/ps/login")
+async def ps_login(body: PsLogin):
+    """validate an access code; first login also records the student's name"""
+    student = _student_for_code(body.code)
+    if body.name and body.name.strip():
+        db.set_student_name(student["student_id"], body.name.strip()[:80])
+        student["name"] = body.name.strip()[:80]
+    db.update_last_active(student["student_id"])
+    return {
+        "ok": True,
+        "name": student["name"],
+        "needs_name": not student["name"],
+    }
+
+
+@app.post("/ps/submit")
+async def ps_submit(body: PsSubmit):
+    """submit (or resubmit) answers for one problem set"""
+    student = _student_for_code(body.code)
+    if not 1 <= body.set_id <= 5:
+        raise HTTPException(status_code=400, detail="set_id must be 1-5")
+    text = body.answers.strip()
+    if not text:
+        raise HTTPException(status_code=400, detail="Answers are empty")
+    if len(text) > MAX_ANSWER_CHARS:
+        raise HTTPException(status_code=400, detail="Submission too long")
+    result = db.upsert_ps_submission(student["student_id"], body.set_id, text)
+    return result
+
+
+@app.get("/ps/submissions")
+async def ps_my_submissions(code: str):
+    """a student's own submissions, for prefilling the form"""
+    student = _student_for_code(code)
+    return db.get_ps_submissions(student["student_id"])
+
+
+@app.get("/ps/instructor")
+async def ps_instructor(key: str):
+    """all submissions; requires the instructor key"""
+    if not _secrets["instructor_key"] or key != _secrets["instructor_key"]:
+        raise HTTPException(status_code=401, detail="Bad instructor key")
+    return db.get_all_ps_submissions()
+
+
 if __name__ == "__main__":
+    import os
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=int(os.environ.get("PORT", 8000)))

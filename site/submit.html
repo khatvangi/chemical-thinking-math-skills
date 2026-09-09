@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Submit Answers | CHEM 291</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=JetBrains+Mono:wght@400;500&family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg: #0d1a1a;
+    --bg-card: #122323;
+    --bg-input: #0a1414;
+    --border: #1e3a3a;
+    --text: #d8e6e4;
+    --text-muted: #7fa39e;
+    --accent: #2dd4bf;
+    --accent-dim: #14b8a6;
+    --error: #f87171;
+    --ok: #4ade80;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: "STIX Two Text", Georgia, serif;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    min-height: 100vh;
+}
+.wrap { max-width: 720px; margin: 0 auto; padding: 3rem 1.25rem 5rem; }
+h1 {
+    font-family: Fraunces, serif;
+    font-weight: 600;
+    font-size: 2rem;
+    margin-bottom: 0.25rem;
+}
+.sub { color: var(--text-muted); margin-bottom: 2.5rem; }
+.card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.75rem;
+    margin-bottom: 1.5rem;
+}
+label { display: block; color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.4rem; }
+input, textarea, select {
+    width: 100%;
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    padding: 0.7rem 0.9rem;
+    font-size: 1rem;
+    margin-bottom: 1.1rem;
+}
+input, select { font-family: "JetBrains Mono", monospace; }
+textarea {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.92rem;
+    min-height: 320px;
+    resize: vertical;
+    line-height: 1.55;
+}
+input:focus, textarea:focus, select:focus { outline: none; border-color: var(--accent-dim); }
+button {
+    background: var(--accent-dim);
+    color: #052421;
+    font-family: Fraunces, serif;
+    font-weight: 600;
+    font-size: 1.05rem;
+    border: none;
+    border-radius: 8px;
+    padding: 0.7rem 1.6rem;
+    cursor: pointer;
+}
+button:hover { background: var(--accent); }
+button:disabled { opacity: 0.5; cursor: wait; }
+.msg { margin-top: 1rem; font-size: 0.95rem; }
+.msg.error { color: var(--error); }
+.msg.ok { color: var(--ok); }
+.topbar { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.25rem; }
+.who { font-family: "JetBrains Mono", monospace; font-size: 0.85rem; color: var(--text-muted); }
+.who a { color: var(--text-muted); }
+.sets { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.3rem; }
+.set-btn {
+    background: var(--bg-input);
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.5rem 0.9rem;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+.set-btn.active { border-color: var(--accent); color: var(--accent); background: var(--bg-card); }
+.set-btn .tick { color: var(--ok); }
+.hint { font-size: 0.88rem; color: var(--text-muted); margin-bottom: 0.9rem; }
+.hint a { color: var(--accent); }
+[hidden] { display: none !important; }
+footer { margin-top: 3rem; font-size: 0.85rem; color: var(--text-muted); }
+footer a { color: var(--text-muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+    <div class="topbar">
+        <h1>Submit Answers</h1>
+        <span class="who" id="who" hidden><span id="whoName"></span> · <a href="#" id="logout">log out</a></span>
+    </div>
+    <p class="sub">CHEM 291 · Problem Sets 1–5</p>
+
+    <!-- login -->
+    <div class="card" id="loginCard">
+        <label for="code">Access code (from your instructor)</label>
+        <input id="code" placeholder="e.g. NEON-42" autocomplete="off" autocapitalize="characters">
+        <div id="nameRow" hidden>
+            <label for="name">Your name (first login only)</label>
+            <input id="name" placeholder="Full name" autocomplete="name">
+        </div>
+        <button id="loginBtn">Continue</button>
+        <div class="msg" id="loginMsg"></div>
+    </div>
+
+    <!-- submission -->
+    <div class="card" id="submitCard" hidden>
+        <label>Problem set</label>
+        <div class="sets" id="setBtns"></div>
+        <p class="hint">
+            Number your answers to match the set (1a, 1b, 2, …). Show your setup, carry units,
+            and end modeling problems with one sentence of interpretation —
+            <a href="book/problem-sets/index.html">the sets are here</a>.
+            You can resubmit any time before the deadline; the newest version replaces the old one.
+        </p>
+        <textarea id="answers" placeholder="1a. ...&#10;1b. ...&#10;2.  ..."></textarea>
+        <button id="submitBtn">Submit set</button>
+        <div class="msg" id="submitMsg"></div>
+    </div>
+
+    <footer><a href="index.html">← Course home</a></footer>
+</div>
+
+<script>
+const API = "https://api.thebeakers.com";
+const NUM_SETS = 5;
+const $ = id => document.getElementById(id);
+
+let code = null;
+let mySubs = {};        // set_id -> submission row
+let currentSet = 1;
+
+function getSavedCode() {
+    try { return localStorage.getItem("chem291_code"); } catch (e) { return null; }
+}
+function saveCode(c) {
+    try { c === null ? localStorage.removeItem("chem291_code") : localStorage.setItem("chem291_code", c); } catch (e) {}
+}
+
+async function api(path, opts) {
+    let res;
+    try {
+        res = await fetch(API + path, opts);
+    } catch (e) {
+        throw new Error("Cannot reach the submission server. Tell your instructor.");
+    }
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.detail || ("Server error " + res.status));
+    return data;
+}
+
+async function doLogin(c, name) {
+    const body = { code: c };
+    if (name) body.name = name;
+    const r = await api("/ps/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body)
+    });
+    if (r.needs_name) {
+        $("nameRow").hidden = false;
+        $("loginMsg").className = "msg";
+        $("loginMsg").textContent = "Code accepted — enter your name to finish.";
+        $("name").focus();
+        return;
+    }
+    code = c;
+    saveCode(c);
+    $("whoName").textContent = r.name;
+    $("who").hidden = false;
+    $("loginCard").hidden = true;
+    $("submitCard").hidden = false;
+    await loadSubs();
+    selectSet(1);
+}
+
+async function loadSubs() {
+    mySubs = {};
+    const rows = await api("/ps/submissions?code=" + encodeURIComponent(code));
+    rows.forEach(r => { mySubs[r.set_id] = r; });
+    drawSetBtns();
+}
+
+function drawSetBtns() {
+    const box = $("setBtns");
+    box.innerHTML = "";
+    for (let i = 1; i <= NUM_SETS; i++) {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "set-btn" + (i === currentSet ? " active" : "");
+        b.innerHTML = "Set " + i + (mySubs[i] ? ' <span class="tick">✓</span>' : "");
+        b.onclick = () => selectSet(i);
+        box.appendChild(b);
+    }
+}
+
+function selectSet(i) {
+    currentSet = i;
+    drawSetBtns();
+    const sub = mySubs[i];
+    $("answers").value = sub ? sub.answers : "";
+    $("submitMsg").textContent = sub ? "Already submitted (" + sub.updated_at + " UTC). Edit and resubmit if you like." : "";
+    $("submitMsg").className = "msg";
+}
+
+$("loginBtn").onclick = async () => {
+    const c = $("code").value.trim().toUpperCase();
+    if (!c) return;
+    $("loginBtn").disabled = true;
+    $("loginMsg").className = "msg";
+    try {
+        await doLogin(c, $("name").value.trim());
+    } catch (e) {
+        $("loginMsg").className = "msg error";
+        $("loginMsg").textContent = e.message;
+    } finally {
+        $("loginBtn").disabled = false;
+    }
+};
+
+$("submitBtn").onclick = async () => {
+    const text = $("answers").value.trim();
+    const msg = $("submitMsg");
+    if (!text) { msg.className = "msg error"; msg.textContent = "Nothing to submit yet."; return; }
+    $("submitBtn").disabled = true;
+    msg.className = "msg";
+    msg.textContent = "Submitting…";
+    try {
+        const r = await api("/ps/submit", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ code: code, set_id: currentSet, answers: text })
+        });
+        msg.className = "msg ok";
+        msg.textContent = "Set " + currentSet + " submitted (" + r.updated_at + " UTC).";
+        await loadSubs();
+    } catch (e) {
+        msg.className = "msg error";
+        msg.textContent = e.message;
+    } finally {
+        $("submitBtn").disabled = false;
+    }
+};
+
+$("logout").onclick = (e) => {
+    e.preventDefault();
+    saveCode(null);
+    location.reload();
+};
+
+["code", "name"].forEach(id => $(id).addEventListener("keydown", e => {
+    if (e.key === "Enter") $("loginBtn").click();
+}));
+
+// auto-login with remembered code
+const saved = getSavedCode();
+if (saved) {
+    $("code").value = saved;
+    doLogin(saved, "").catch(() => { saveCode(null); });
+}
+</script>
+</body>
+</html>

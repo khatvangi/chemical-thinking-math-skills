@@ -1,0 +1,13 @@
+[Unit]
+Description=Cloudflare tunnel beakers-api (api.thebeakers.com)
+After=network-online.target chem-thinking.service
+
+[Service]
+Type=simple
+User=kiran
+ExecStart=/home/kiran/bin/cloudflared --no-autoupdate tunnel --config /home/kiran/.cloudflared/config.yml run beakers-api
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

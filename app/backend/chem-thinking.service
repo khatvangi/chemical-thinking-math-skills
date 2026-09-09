@@ -10,6 +10,7 @@ ExecStart=/usr/bin/python3 main.py
 Restart=always
 RestartSec=3
 Environment=PYTHONUNBUFFERED=1
+Environment=PORT=8010
 
 [Install]
 WantedBy=multi-user.target

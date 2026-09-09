@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Instructor | CHEM 291 Submissions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=JetBrains+Mono:wght@400;500&family=STIX+Two+Text:ital,wght@0,400..700&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg: #0d1a1a; --bg-card: #122323; --bg-input: #0a1414;
+    --border: #1e3a3a; --text: #d8e6e4; --text-muted: #7fa39e;
+    --accent: #2dd4bf; --accent-dim: #14b8a6; --error: #f87171;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--bg); color: var(--text); font-family: "STIX Two Text", Georgia, serif; line-height: 1.6; }
+.wrap { max-width: 860px; margin: 0 auto; padding: 3rem 1.25rem 5rem; }
+h1 { font-family: Fraunces, serif; font-weight: 600; font-size: 1.8rem; margin-bottom: 2rem; }
+h2 { font-family: Fraunces, serif; font-weight: 600; font-size: 1.25rem; margin: 2.2rem 0 0.8rem; color: var(--accent); }
+.card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; }
+input { background: var(--bg-input); border: 1px solid var(--border); border-radius: 8px; color: var(--text); padding: 0.6rem 0.9rem; font-family: "JetBrains Mono", monospace; width: 320px; max-width: 100%; }
+button { background: var(--accent-dim); color: #052421; font-family: Fraunces, serif; font-weight: 600; border: none; border-radius: 8px; padding: 0.6rem 1.3rem; cursor: pointer; margin-left: 0.5rem; }
+button:hover { background: var(--accent); }
+.meta { font-family: "JetBrains Mono", monospace; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.6rem; }
+.student { font-weight: 700; color: var(--text); font-size: 1rem; font-family: "STIX Two Text", serif; }
+pre { background: var(--bg-input); border: 1px solid var(--border); border-radius: 8px; padding: 0.9rem 1rem; font-family: "JetBrains Mono", monospace; font-size: 0.85rem; white-space: pre-wrap; overflow-x: auto; }
+.msg { color: var(--error); margin-top: 0.8rem; }
+.empty { color: var(--text-muted); }
+[hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<div class="wrap">
+    <h1>Problem-Set Submissions</h1>
+    <div class="card" id="keyCard">
+        <input id="key" type="password" placeholder="instructor key" autocomplete="off">
+        <button id="loadBtn">Load</button>
+        <div class="msg" id="keyMsg"></div>
+    </div>
+    <div id="out"></div>
+</div>
+
+<script>
+const API = "https://api.thebeakers.com";
+const $ = id => document.getElementById(id);
+
+function esc(s) {
+    return s.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+}
+
+async function load() {
+    const key = $("key").value.trim();
+    if (!key) return;
+    $("keyMsg").textContent = "";
+    let rows;
+    try {
+        const res = await fetch(API + "/ps/instructor?key=" + encodeURIComponent(key));
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(data.detail || ("Server error " + res.status));
+        rows = data;
+    } catch (e) {
+        $("keyMsg").textContent = e.message;
+        return;
+    }
+    try { sessionStorage.setItem("chem291_ikey", key); } catch (e) {}
+    const out = $("out");
+    if (!rows.length) {
+        out.innerHTML = '<p class="empty">No submissions yet.</p>';
+        return;
+    }
+    const bySet = {};
+    rows.forEach(r => { (bySet[r.set_id] = bySet[r.set_id] || []).push(r); });
+    out.innerHTML = Object.keys(bySet).sort().map(sid =>
+        "<h2>Problem Set " + sid + "</h2>" +
+        bySet[sid].map(r =>
+            '<div class="card">' +
+            '<div class="meta"><span class="student">' + esc(r.name || r.student_id) + "</span>" +
+            " · first " + esc(r.submitted_at) + " UTC · latest " + esc(r.updated_at) + " UTC</div>" +
+            "<pre>" + esc(r.answers) + "</pre></div>"
+        ).join("")
+    ).join("");
+}
+
+$("loadBtn").onclick = load;
+$("key").addEventListener("keydown", e => { if (e.key === "Enter") load(); });
+try {
+    const k = sessionStorage.getItem("chem291_ikey");
+    if (k) { $("key").value = k; load(); }
+} catch (e) {}
+</script>
+</body>
+</html>

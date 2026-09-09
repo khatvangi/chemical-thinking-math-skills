@@ -325,5 +325,120 @@ def get_leaderboard(primitive: str = None, limit: int = 10) -> List[Dict[str, An
     return [dict(row) for row in rows]
 
 
+# ============== Problem-set submissions (access-code login) ==============
+
+def init_problem_sets():
+    """tables for problem-set submissions; students log in with an access code"""
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    # add access_code to students if missing
+    cols = [r["name"] for r in cursor.execute("PRAGMA table_info(students)")]
+    if "access_code" not in cols:
+        cursor.execute("ALTER TABLE students ADD COLUMN access_code TEXT")
+        cursor.execute("CREATE UNIQUE INDEX IF NOT EXISTS idx_students_code ON students(access_code)")
+
+    # one row per (student, set); resubmission replaces answers
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS ps_submissions (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            student_id TEXT NOT NULL,
+            set_id INTEGER NOT NULL,
+            answers TEXT NOT NULL,
+            submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (student_id) REFERENCES students(student_id),
+            UNIQUE(student_id, set_id)
+        )
+    """)
+    conn.commit()
+    conn.close()
+
+
+def seed_access_codes(codes: List[str]):
+    """create placeholder student rows for any unseeded access codes"""
+    conn = get_connection()
+    cursor = conn.cursor()
+    for i, code in enumerate(codes, start=1):
+        cursor.execute("SELECT 1 FROM students WHERE access_code = ?", (code,))
+        if not cursor.fetchone():
+            sid = f"ps-student-{i}"
+            cursor.execute(
+                """INSERT OR IGNORE INTO students (student_id, name, email, access_code)
+                   VALUES (?, '', ?, ?)""",
+                (sid, f"{sid}@chem291.local", code)
+            )
+            # if the student_id already existed without a code, attach the code
+            cursor.execute(
+                "UPDATE students SET access_code = ? WHERE student_id = ? AND access_code IS NULL",
+                (code, sid)
+            )
+    conn.commit()
+    conn.close()
+
+
+def get_student_by_code(code: str) -> Optional[Dict[str, Any]]:
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM students WHERE access_code = ?", (code,))
+    row = cursor.fetchone()
+    conn.close()
+    return dict(row) if row else None
+
+
+def set_student_name(student_id: str, name: str):
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("UPDATE students SET name = ? WHERE student_id = ?", (name, student_id))
+    conn.commit()
+    conn.close()
+
+
+def upsert_ps_submission(student_id: str, set_id: int, answers: str) -> Dict[str, Any]:
+    """insert or replace a problem-set submission; keeps original submitted_at"""
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        INSERT INTO ps_submissions (student_id, set_id, answers)
+        VALUES (?, ?, ?)
+        ON CONFLICT(student_id, set_id)
+        DO UPDATE SET answers = excluded.answers, updated_at = CURRENT_TIMESTAMP
+    """, (student_id, set_id, answers))
+    conn.commit()
+    cursor.execute(
+        "SELECT updated_at FROM ps_submissions WHERE student_id = ? AND set_id = ?",
+        (student_id, set_id)
+    )
+    ts = cursor.fetchone()["updated_at"]
+    conn.close()
+    return {"success": True, "updated_at": ts}
+
+
+def get_ps_submissions(student_id: str) -> List[Dict[str, Any]]:
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute(
+        "SELECT set_id, answers, submitted_at, updated_at FROM ps_submissions WHERE student_id = ? ORDER BY set_id",
+        (student_id,)
+    )
+    rows = [dict(r) for r in cursor.fetchall()]
+    conn.close()
+    return rows
+
+
+def get_all_ps_submissions() -> List[Dict[str, Any]]:
+    conn = get_connection()
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT s.name, s.student_id, p.set_id, p.answers, p.submitted_at, p.updated_at
+        FROM ps_submissions p JOIN students s ON p.student_id = s.student_id
+        ORDER BY p.set_id, s.name
+    """)
+    rows = [dict(r) for r in cursor.fetchall()]
+    conn.close()
+    return rows
+
+
 # Initialize on import
 init_database()
+init_problem_sets()
