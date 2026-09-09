@@ -6,7 +6,7 @@ After=network.target ollama.service
 Type=simple
 User=kiran
 WorkingDirectory=/storage/chem-math-course/app/backend
-ExecStart=/usr/bin/python3 main.py
+ExecStart=/home/kiran/miniforge3/bin/python3 main.py
 Restart=always
 RestartSec=3
 Environment=PYTHONUNBUFFERED=1
