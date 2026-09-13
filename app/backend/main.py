@@ -408,7 +408,20 @@ try:
     _secrets = json.loads(SECRETS_PATH.read_text())
 except FileNotFoundError:
     _secrets = {"access_codes": [], "instructor_key": ""}
-db.seed_access_codes(_secrets["access_codes"])
+# secrets.json layout: top-level access_codes/instructor_key are chem291 (the
+# original course); further courses live under "courses": {"chem380": {...}}.
+# each course has its own instructor key, so instructor views are separate.
+COURSES = {"chem291": {"access_codes": _secrets.get("access_codes", []),
+                       "instructor_key": _secrets.get("instructor_key", ""),
+                       "num_sets": 5}}
+for _name, _c in _secrets.get("courses", {}).items():
+    COURSES[_name] = {"access_codes": _c.get("access_codes", []),
+                      "instructor_key": _c.get("instructor_key", ""),
+                      "num_sets": int(_c.get("num_sets", 0))}
+db.seed_access_codes(COURSES["chem291"]["access_codes"])
+for _name, _c in COURSES.items():
+    if _name != "chem291":
+        db.seed_access_codes(_c["access_codes"], course=_name, prefix=f"{_name}-student")
 
 MAX_ANSWER_CHARS = 100_000
 
@@ -416,17 +429,22 @@ MAX_ANSWER_CHARS = 100_000
 class PsLogin(BaseModel):
     code: str
     name: Optional[str] = None
+    course: str = "chem291"
 
 
 class PsSubmit(BaseModel):
     code: str
     set_id: int
     answers: str
+    course: str = "chem291"
 
 
-def _student_for_code(code: str):
+def _student_for_code(code: str, course: str = "chem291"):
+    """resolve an access code; a code from another course is rejected"""
+    if course not in COURSES:
+        raise HTTPException(status_code=400, detail="Unknown course")
     student = db.get_student_by_code(code.strip().upper())
-    if not student:
+    if not student or student.get("course", "chem291") != course:
         raise HTTPException(status_code=401, detail="Unknown access code")
     return student
 
@@ -434,7 +452,7 @@ def _student_for_code(code: str):
 @app.post("/ps/login")
 async def ps_login(body: PsLogin):
     """validate an access code; first login also records the student's name"""
-    student = _student_for_code(body.code)
+    student = _student_for_code(body.code, body.course)
     if body.name and body.name.strip():
         db.set_student_name(student["student_id"], body.name.strip()[:80])
         student["name"] = body.name.strip()[:80]
@@ -449,9 +467,10 @@ async def ps_login(body: PsLogin):
 @app.post("/ps/submit")
 async def ps_submit(body: PsSubmit):
     """submit (or resubmit) answers for one problem set"""
-    student = _student_for_code(body.code)
-    if not 1 <= body.set_id <= 5:
-        raise HTTPException(status_code=400, detail="set_id must be 1-5")
+    student = _student_for_code(body.code, body.course)
+    num_sets = COURSES[body.course]["num_sets"]
+    if not 1 <= body.set_id <= num_sets:
+        raise HTTPException(status_code=400, detail=f"set_id must be 1-{num_sets}")
     text = body.answers.strip()
     if not text:
         raise HTTPException(status_code=400, detail="Answers are empty")
@@ -462,18 +481,19 @@ async def ps_submit(body: PsSubmit):
 
 
 @app.get("/ps/submissions")
-async def ps_my_submissions(code: str):
+async def ps_my_submissions(code: str, course: str = "chem291"):
     """a student's own submissions, for prefilling the form"""
-    student = _student_for_code(code)
+    student = _student_for_code(code, course)
     return db.get_ps_submissions(student["student_id"])
 
 
 @app.get("/ps/instructor")
-async def ps_instructor(key: str):
-    """all submissions; requires the instructor key"""
-    if not _secrets["instructor_key"] or key != _secrets["instructor_key"]:
+async def ps_instructor(key: str, course: str = "chem291"):
+    """all submissions for one course; requires that course's instructor key"""
+    expected = COURSES.get(course, {}).get("instructor_key", "")
+    if not expected or key != expected:
         raise HTTPException(status_code=401, detail="Bad instructor key")
-    return db.get_all_ps_submissions()
+    return db.get_all_ps_submissions(course)
 
 
 if __name__ == "__main__":

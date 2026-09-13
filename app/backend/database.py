@@ -337,6 +337,9 @@ def init_problem_sets():
     if "access_code" not in cols:
         cursor.execute("ALTER TABLE students ADD COLUMN access_code TEXT")
         cursor.execute("CREATE UNIQUE INDEX IF NOT EXISTS idx_students_code ON students(access_code)")
+    # each access code belongs to one course; pre-existing rows are chem291
+    if "course" not in cols:
+        cursor.execute("ALTER TABLE students ADD COLUMN course TEXT NOT NULL DEFAULT 'chem291'")
 
     # one row per (student, set); resubmission replaces answers
     cursor.execute("""
@@ -355,18 +358,18 @@ def init_problem_sets():
     conn.close()
 
 
-def seed_access_codes(codes: List[str]):
-    """create placeholder student rows for any unseeded access codes"""
+def seed_access_codes(codes: List[str], course: str = "chem291", prefix: str = "ps-student"):
+    """create placeholder student rows for any unseeded access codes of one course"""
     conn = get_connection()
     cursor = conn.cursor()
     for i, code in enumerate(codes, start=1):
         cursor.execute("SELECT 1 FROM students WHERE access_code = ?", (code,))
         if not cursor.fetchone():
-            sid = f"ps-student-{i}"
+            sid = f"{prefix}-{i}"
             cursor.execute(
-                """INSERT OR IGNORE INTO students (student_id, name, email, access_code)
-                   VALUES (?, '', ?, ?)""",
-                (sid, f"{sid}@chem291.local", code)
+                """INSERT OR IGNORE INTO students (student_id, name, email, access_code, course)
+                   VALUES (?, '', ?, ?, ?)""",
+                (sid, f"{sid}@{course}.local", code, course)
             )
             # if the student_id already existed without a code, attach the code
             cursor.execute(
@@ -426,14 +429,16 @@ def get_ps_submissions(student_id: str) -> List[Dict[str, Any]]:
     return rows
 
 
-def get_all_ps_submissions() -> List[Dict[str, Any]]:
+def get_all_ps_submissions(course: str = "chem291") -> List[Dict[str, Any]]:
+    """every submission for one course (the instructor view is per course)"""
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("""
         SELECT s.name, s.student_id, p.set_id, p.answers, p.submitted_at, p.updated_at
         FROM ps_submissions p JOIN students s ON p.student_id = s.student_id
+        WHERE s.course = ?
         ORDER BY p.set_id, s.name
-    """)
+    """, (course,))
     rows = [dict(r) for r in cursor.fetchall()]
     conn.close()
     return rows
