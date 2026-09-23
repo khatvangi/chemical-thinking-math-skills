@@ -3,7 +3,8 @@ Chemical Thinking - Adaptive Learning Backend
 Connects to Ollama for LLM-powered grading and problem generation
 """
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, UploadFile, File, Form
+from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import httpx
@@ -461,6 +462,7 @@ async def ps_login(body: PsLogin):
         "ok": True,
         "name": student["name"],
         "needs_name": not student["name"],
+        "assigned_case": student.get("assigned_case"),
     }
 
 
@@ -494,6 +496,111 @@ async def ps_instructor(key: str, course: str = "chem291"):
     if not expected or key != expected:
         raise HTTPException(status_code=401, detail="Bad instructor key")
     return db.get_all_ps_submissions(course)
+
+
+# ============== take-home uploads (files, not typed answers) ==============
+# students hand in scans/photos/PDFs for a named assignment; the typed-answer
+# route above is unchanged. files live outside the db, one folder per student.
+
+import shutil
+import uuid
+
+UPLOAD_ROOT = Path(__file__).parent / "uploads"
+MAX_FILE_BYTES = 15 * 1024 * 1024        # per file
+MAX_TOTAL_BYTES = 40 * 1024 * 1024       # per student per assignment
+MAX_FILES = 8
+ALLOWED_EXT = {".pdf", ".jpg", ".jpeg", ".png", ".heic", ".webp", ".docx", ".txt", ".md"}
+
+
+def _safe_ext(filename: str) -> str:
+    ext = Path(filename or "").suffix.lower()
+    if ext not in ALLOWED_EXT:
+        raise HTTPException(status_code=400,
+                            detail=f"File type {ext or '(none)'} not accepted. Allowed: " +
+                                   ", ".join(sorted(ALLOWED_EXT)))
+    return ext
+
+
+@app.post("/ps/upload")
+async def ps_upload(code: str = Form(...), course: str = Form("chem291"),
+                    assignment: str = Form(...), files: List[UploadFile] = File(...)):
+    """accept one or more files from a student for a named assignment"""
+    student = _student_for_code(code, course)
+    if not re.fullmatch(r"[a-z0-9][a-z0-9-]{0,40}", assignment or ""):
+        raise HTTPException(status_code=400, detail="Bad assignment name")
+    existing = db.get_uploads(student["student_id"], assignment)
+    if len(existing) + len(files) > MAX_FILES:
+        raise HTTPException(status_code=400,
+                            detail=f"At most {MAX_FILES} files per assignment; you already have {len(existing)}")
+    used = sum(r["size_bytes"] for r in existing)
+    dest_dir = UPLOAD_ROOT / course / student["student_id"] / assignment
+    dest_dir.mkdir(parents=True, exist_ok=True)
+    saved = []
+    for up in files:
+        ext = _safe_ext(up.filename)
+        stored = dest_dir / f"{uuid.uuid4().hex}{ext}"
+        size = 0
+        with stored.open("wb") as fh:
+            while chunk := await up.read(1024 * 1024):
+                size += len(chunk)
+                if size > MAX_FILE_BYTES:
+                    fh.close(); stored.unlink(missing_ok=True)
+                    raise HTTPException(status_code=400,
+                                        detail=f"{up.filename} is larger than 15 MB")
+                fh.write(chunk)
+        used += size
+        if used > MAX_TOTAL_BYTES:
+            stored.unlink(missing_ok=True)
+            raise HTTPException(status_code=400, detail="Total upload for this assignment exceeds 40 MB")
+        saved.append(db.add_upload(student["student_id"], course, assignment,
+                                   up.filename or stored.name, str(stored),
+                                   up.content_type or "application/octet-stream", size))
+    db.update_last_active(student["student_id"])
+    return {"success": True, "files": saved}
+
+
+@app.get("/ps/uploads")
+async def ps_my_uploads(code: str, assignment: str, course: str = "chem291"):
+    """a student's own uploaded files for one assignment"""
+    student = _student_for_code(code, course)
+    return db.get_uploads(student["student_id"], assignment)
+
+
+@app.delete("/ps/upload/{upload_id}")
+async def ps_delete_upload(upload_id: int, code: str, course: str = "chem291"):
+    """a student may remove a file they uploaded by mistake"""
+    student = _student_for_code(code, course)
+    row = db.get_upload_row(upload_id)
+    if not row or row["student_id"] != student["student_id"]:
+        raise HTTPException(status_code=404, detail="No such file")
+    Path(row["stored_path"]).unlink(missing_ok=True)
+    db.delete_upload(upload_id)
+    return {"success": True}
+
+
+@app.get("/ps/instructor/uploads")
+async def ps_instructor_uploads(key: str, course: str = "chem291", assignment: Optional[str] = None):
+    """every uploaded file for a course; requires that course's instructor key"""
+    expected = COURSES.get(course, {}).get("instructor_key", "")
+    if not expected or key != expected:
+        raise HTTPException(status_code=401, detail="Bad instructor key")
+    return db.get_all_uploads(course, assignment)
+
+
+@app.get("/ps/instructor/upload/{upload_id}")
+async def ps_instructor_download(upload_id: int, key: str, course: str = "chem291"):
+    """download one uploaded file"""
+    expected = COURSES.get(course, {}).get("instructor_key", "")
+    if not expected or key != expected:
+        raise HTTPException(status_code=401, detail="Bad instructor key")
+    row = db.get_upload_row(upload_id)
+    if not row or row["course"] != course:
+        raise HTTPException(status_code=404, detail="No such file")
+    p = Path(row["stored_path"])
+    if not p.exists():
+        raise HTTPException(status_code=410, detail="File missing from disk")
+    return FileResponse(str(p), filename=row["original_name"],
+                        media_type=row["content_type"] or "application/octet-stream")
 
 
 if __name__ == "__main__":

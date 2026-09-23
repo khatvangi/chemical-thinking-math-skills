@@ -444,6 +444,91 @@ def get_all_ps_submissions(course: str = "chem291") -> List[Dict[str, Any]]:
     return rows
 
 
+
+# ============== take-home file uploads ==============
+
+def init_uploads():
+    """table for files students upload against a named assignment (e.g. a take-home)"""
+    conn = get_connection()
+    cursor = conn.cursor()
+    # each student may be given a variant of the same assignment (case A-E)
+    cols = [r["name"] for r in cursor.execute("PRAGMA table_info(students)")]
+    if "assigned_case" not in cols:
+        cursor.execute("ALTER TABLE students ADD COLUMN assigned_case TEXT")
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS ps_uploads (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            student_id TEXT NOT NULL,
+            course TEXT NOT NULL,
+            assignment TEXT NOT NULL,
+            original_name TEXT NOT NULL,
+            stored_path TEXT NOT NULL,
+            content_type TEXT,
+            size_bytes INTEGER NOT NULL,
+            uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (student_id) REFERENCES students(student_id)
+        )
+    """)
+    cursor.execute("CREATE INDEX IF NOT EXISTS idx_uploads_student ON ps_uploads(student_id, assignment)")
+    conn.commit()
+    conn.close()
+
+
+def set_assigned_case(student_id: str, case: str):
+    conn = get_connection(); cur = conn.cursor()
+    cur.execute("UPDATE students SET assigned_case = ? WHERE student_id = ?", (case, student_id))
+    conn.commit(); conn.close()
+
+
+def add_upload(student_id: str, course: str, assignment: str, original_name: str,
+               stored_path: str, content_type: str, size_bytes: int) -> Dict[str, Any]:
+    conn = get_connection(); cur = conn.cursor()
+    cur.execute("""INSERT INTO ps_uploads
+                   (student_id, course, assignment, original_name, stored_path, content_type, size_bytes)
+                   VALUES (?, ?, ?, ?, ?, ?, ?)""",
+                (student_id, course, assignment, original_name, stored_path, content_type, size_bytes))
+    conn.commit()
+    row = cur.execute("SELECT id, original_name, size_bytes, uploaded_at FROM ps_uploads WHERE id = ?",
+                      (cur.lastrowid,)).fetchone()
+    out = dict(row); conn.close(); return out
+
+
+def get_uploads(student_id: str, assignment: str) -> List[Dict[str, Any]]:
+    conn = get_connection(); cur = conn.cursor()
+    rows = cur.execute("""SELECT id, original_name, size_bytes, content_type, uploaded_at
+                          FROM ps_uploads WHERE student_id = ? AND assignment = ?
+                          ORDER BY uploaded_at""", (student_id, assignment)).fetchall()
+    out = [dict(r) for r in rows]; conn.close(); return out
+
+
+def get_upload_row(upload_id: int) -> Optional[Dict[str, Any]]:
+    conn = get_connection(); cur = conn.cursor()
+    row = cur.execute("SELECT * FROM ps_uploads WHERE id = ?", (upload_id,)).fetchone()
+    conn.close(); return dict(row) if row else None
+
+
+def delete_upload(upload_id: int) -> bool:
+    conn = get_connection(); cur = conn.cursor()
+    cur.execute("DELETE FROM ps_uploads WHERE id = ?", (upload_id,))
+    conn.commit(); changed = cur.rowcount > 0; conn.close(); return changed
+
+
+def get_all_uploads(course: str, assignment: Optional[str] = None) -> List[Dict[str, Any]]:
+    """every upload for a course, newest last, with the student's name and case"""
+    conn = get_connection(); cur = conn.cursor()
+    sql = """SELECT u.id, u.assignment, u.original_name, u.size_bytes, u.content_type, u.uploaded_at,
+                    s.name, s.student_id, s.assigned_case
+             FROM ps_uploads u JOIN students s ON u.student_id = s.student_id
+             WHERE u.course = ?"""
+    args = [course]
+    if assignment:
+        sql += " AND u.assignment = ?"; args.append(assignment)
+    sql += " ORDER BY s.name, u.uploaded_at"
+    rows = cur.execute(sql, args).fetchall()
+    out = [dict(r) for r in rows]; conn.close(); return out
+
+
 # Initialize on import
 init_database()
 init_problem_sets()
+init_uploads()
