@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Take-home Exam 1 | CHEM 291</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=JetBrains+Mono:wght@400;500&family=STIX+Two+Text:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg: #0d1a1a;
+    --bg-card: #122323;
+    --bg-input: #0a1414;
+    --border: #1e3a3a;
+    --text: #d8e6e4;
+    --text-muted: #7fa39e;
+    --accent: #2dd4bf;
+    --accent-dim: #14b8a6;
+    --amber: #fbbf24;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: "STIX Two Text", Georgia, serif;
+    font-size: 1.05rem;
+    line-height: 1.65;
+}
+.wrap { max-width: 780px; margin: 0 auto; padding: 3rem 1.25rem 5rem; }
+h1 { font-family: Fraunces, serif; font-weight: 600; font-size: 2.1rem; margin-bottom: 0.25rem; }
+.sub { color: var(--text-muted); margin-bottom: 1.5rem; }
+h2 {
+    font-family: Fraunces, serif;
+    font-weight: 600;
+    font-size: 1.45rem;
+    margin: 3rem 0 0.3rem;
+    color: var(--accent);
+}
+.level { font-family: "JetBrains Mono", monospace; font-size: 0.78rem; color: var(--amber); letter-spacing: 0.06em; margin-bottom: 1rem; }
+h3 { font-family: Fraunces, serif; font-weight: 600; font-size: 1.05rem; margin: 1.4rem 0 0.4rem; }
+p { margin-bottom: 0.9rem; }
+.q { font-style: italic; }
+ul, ol { margin: 0 0 1rem 1.4rem; }
+li { margin-bottom: 0.45rem; }
+ol li strong { color: var(--text); }
+table {
+    border-collapse: collapse;
+    margin: 1rem 0 1.2rem;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.88rem;
+}
+th, td { border: 1px solid var(--border); padding: 0.45rem 0.9rem; text-align: center; }
+th { background: var(--bg-card); font-weight: 500; }
+code { font-family: "JetBrains Mono", monospace; font-size: 0.92em; color: var(--accent); }
+.notice {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent-dim);
+    border-radius: 8px;
+    padding: 1.1rem 1.3rem;
+    margin: 1.6rem 0;
+}
+.notice p:last-child { margin-bottom: 0; }
+.limit {
+    border-left: 3px solid var(--amber);
+    background: var(--bg-card);
+    border-radius: 0 8px 8px 0;
+    padding: 0.8rem 1.1rem;
+    margin: 1.2rem 0 0;
+    font-size: 0.95rem;
+}
+.limit strong { color: var(--amber); }
+a { color: var(--accent); }
+hr { border: none; border-top: 1px solid var(--border); margin: 2.5rem 0 0; }
+footer { margin-top: 3.5rem; font-size: 0.85rem; color: var(--text-muted); }
+footer a { color: var(--text-muted); }
+sub { font-size: 0.75em; }
+</style>
+</head>
+<body>
+<div class="wrap">
+    <h1>Take-home Exam 1: Mini-projects</h1>
+    <p class="sub">CHEM 291-A · Chemical Thinking</p>
+
+    <div class="notice">
+        <p>Four projects, in increasing difficulty. <strong>Each of you completes only the one project assigned to you by email</strong> — check your inbox for your project number. The in-class test is separate. All data below are synthetic teaching data. No differentiation, determinant, or matrix inverse is required.</p>
+        <p>Prefer paper? <a href="CHEM291_TakeHome1_Student.pdf">Download the PDF version</a>.</p>
+    </div>
+
+    <h2>Project 1: The sample that looks too dark</h2>
+    <div class="level">LEVEL 1 · EASY</div>
+    <p class="q"><strong>Chemical question:</strong> Can you report both unknown concentrations without using a calibration beyond the range tested?</p>
+    <h3>Recognition prompts</h3>
+    <ul>
+        <li>What do the standard solutions hold fixed, and what changes from vial to vial?</li>
+        <li>Why does adding water change concentration but not the amount of solute?</li>
+        <li>Which observed quantity is an instrument reading, and which is the chemical quantity you want?</li>
+    </ul>
+    <p>A colorimeter was calibrated with five known concentrations of one dissolved dye. Absorbance is dimensionless. The numbers below are simulated, chosen so you can examine the reasoning.</p>
+    <table>
+        <tr><th>Concentration (mM)</th><td>0.0</td><td>1.0</td><td>2.0</td><td>3.0</td><td>4.0</td></tr>
+        <tr><th>Absorbance</th><td>0.020</td><td>0.160</td><td>0.300</td><td>0.440</td><td>0.580</td></tr>
+    </table>
+    <p>Unknown U: absorbance 0.370. Unknown V: absorbance 0.720. Equal volumes of V and pure water are then mixed; the diluted V reads 0.370.</p>
+    <ol>
+        <li><strong>Make the observation visible.</strong> Plot the five standards as absorbance versus concentration; mark U and the undiluted V as horizontal reading levels.</li>
+        <li><strong>Build the simplest useful model.</strong> Find the slope and baseline, with units where appropriate. Write absorbance as a function of concentration and verify one standard you did not use to find the slope.</li>
+        <li><strong>Find the unknowns.</strong> Determine U from its reading. Determine V from its diluted reading, explicitly showing the dilution calculation.</li>
+        <li><strong>Make a decision.</strong> Explain why calculating a number from V = 0.720 using the line does not, by itself, justify reporting it as calibrated.</li>
+        <li><strong>Test your answer.</strong> Predict the absorbance of the diluted V from your reported original concentration and explain why U and diluted V can have identical readings.</li>
+    </ol>
+    <div class="limit"><strong>Limit:</strong> Use only the measured standard range to claim calibration validity; model extrapolation is a different claim.</div>
+
+    <h2>Project 2: The reaction that halves</h2>
+    <div class="level">LEVEL 2 · EASY+</div>
+    <p class="q"><strong>Chemical question:</strong> What mathematical description explains a constant fractional loss, and when is a short polynomial an acceptable shortcut?</p>
+    <h3>Recognition prompts</h3>
+    <ul>
+        <li>Do equal five-minute intervals remove equal amounts or equal fractions?</li>
+        <li>What does a straight line hide or reveal when you change what is on the vertical axis?</li>
+        <li>Why should a local approximation be checked before using it for a longer time?</li>
+    </ul>
+    <p>A dissolved species A disappears during a simplified reaction. The following simulated concentration observations are exact for this teaching model.</p>
+    <table>
+        <tr><th>Time (min)</th><td>0</td><td>5</td><td>10</td><td>15</td></tr>
+        <tr><th>[A] (M)</th><td>0.800</td><td>0.400</td><td>0.200</td><td>0.100</td></tr>
+    </table>
+    <p>For this project, use the model <code>[A](t) = [A]<sub>0</sub> exp(−kt)</code>. Use a dimensionless ratio inside the logarithm. An exponent of −0.10 corresponds to a short time interval Δt = 0.10/k. Compare exp(−0.10) with 1 − 0.10 and 1 − 0.10 + (0.10)²/2.</p>
+    <ol>
+        <li><strong>Recognize the pattern.</strong> Compute successive differences and successive ratios. Decide whether a straight line in ordinary [A] versus time is a suitable model.</li>
+        <li><strong>Change the representation.</strong> Plot or tabulate ln([A]/[A]<sub>0</sub>) against time. Extract k, state its units, and explain the meaning of the negative slope.</li>
+        <li><strong>Predict.</strong> Estimate [A] at 12 min from the model; check that your prediction lies between the 10- and 15-minute observations.</li>
+        <li><strong>Approximate locally.</strong> Evaluate the linear and quadratic approximations to exp(−0.10), compare each to your calculator, and decide which achieves absolute error below 0.001.</li>
+        <li><strong>State a boundary.</strong> Explain why an approximation tested at −0.10 should not be assumed accurate at −2.</li>
+    </ol>
+    <div class="limit"><strong>Limit:</strong> These data support a useful mathematical model; they do not independently prove a molecular reaction mechanism.</div>
+
+    <h2>Project 3: The dipole and the fixed meter</h2>
+    <div class="level">LEVEL 3 · EASY–MEDIUM</div>
+    <p class="q"><strong>Chemical question:</strong> Why can turning an unchanged molecule change what a fixed directional sensor measures?</p>
+    <h3>Recognition prompts</h3>
+    <ul>
+        <li>Which parts of the molecular description are lengths, and which are directions?</li>
+        <li>Does changing the direction of the whole molecule change its internal geometry?</li>
+        <li>If the meter and molecule both turn together, what should remain the same?</li>
+    </ul>
+    <p>Model water in a 2-D drawing: O = (0,0), H<sub>1</sub> = (0.80, 0.60) Å, H<sub>2</sub> = (0.80, −0.60) Å. Assign each O→H bond a dipole contribution of magnitude 1.50 D, directed along its bond. This is an idealized vector model, not a measured water dipole.</p>
+    <table>
+        <tr><th>Object</th><th>x coordinate / component</th><th>y coordinate / component</th></tr>
+        <tr><td>O</td><td>0.00 Å</td><td>0.00 Å</td></tr>
+        <tr><td>H<sub>1</sub></td><td>+0.80 Å</td><td>+0.60 Å</td></tr>
+        <tr><td>H<sub>2</sub></td><td>+0.80 Å</td><td>−0.60 Å</td></tr>
+    </table>
+    <p>The meter reads the dot product of the total dipole with a fixed unit sensing direction <code>e<sub>x</sub> = (1,0)</code>. The molecule is rotated 90° counterclockwise using the matrix <code>R = [[0, −1], [1, 0]]</code>.</p>
+    <ol>
+        <li><strong>Draw before computing.</strong> Sketch both O→H vectors, their individual dipole contributions, and the fixed +x meter direction.</li>
+        <li><strong>Add the physical contributions.</strong> Find each bond unit vector, each bond dipole vector, and the total dipole μ. Give components and magnitude in D.</li>
+        <li><strong>Let a matrix act.</strong> Multiply Rμ. Then separately compute Rμ<sub>1</sub> + Rμ<sub>2</sub> and compare with R(μ<sub>1</sub> + μ<sub>2</sub>).</li>
+        <li><strong>Ask what the meter reads.</strong> Compute μ·e<sub>x</sub> before rotation and (Rμ)·e<sub>x</sub> after rotation.</li>
+        <li><strong>Test what stays the same.</strong> Check the dipole magnitude before and after; now rotate the sensing direction by R too and recompute the dot product. Explain the difference between turning the molecule and merely redescribing the same geometry.</li>
+    </ol>
+    <div class="limit"><strong>Limit:</strong> No 3-D rotation formula is needed. The 2-D model isolates the role of direction and representation.</div>
+
+    <h2>Project 4: Two colors, two readings</h2>
+    <div class="level">LEVEL 4 · MEDIUM</div>
+    <p class="q"><strong>Chemical question:</strong> When two substances both affect both signals, can two instrument readings distinguish their amounts?</p>
+    <h3>Recognition prompts</h3>
+    <ul>
+        <li>What is mixed physically, and what is mixed in the instrument response?</li>
+        <li>Why can the reading at one wavelength be explained by several different mixtures?</li>
+        <li>What does the row-by-column product actually calculate?</li>
+    </ul>
+    <p>A sample contains dyes P and Q. A detector reads absorbance at wavelengths λ<sub>1</sub> and λ<sub>2</sub>. For this simulated linear model, the calibration sensitivities (in mM<sup>−1</sup>) are:</p>
+    <table>
+        <tr><th>Wavelength</th><th>Effect of 1 mM P</th><th>Effect of 1 mM Q</th></tr>
+        <tr><td>λ<sub>1</sub></td><td>0.40</td><td>0.10</td></tr>
+        <tr><td>λ<sub>2</sub></td><td>0.15</td><td>0.30</td></tr>
+    </table>
+    <p>Three prepared controls contain (P,Q) in mM: C<sub>1</sub> = (2,0), C<sub>2</sub> = (0,2), C<sub>3</sub> = (2,1). A blinded mixture produces the readings (A<sub>1</sub>, A<sub>2</sub>) = (0.90, 0.60). Absorbance is dimensionless.</p>
+    <ol>
+        <li><strong>Draw the coupling.</strong> Sketch arrows from both dyes to both wavelength readings; explain why a single calibration line for P would not suffice.</li>
+        <li><strong>Represent the mapping.</strong> Form the 2×2 sensitivity matrix M and a 2×3 concentration matrix C whose columns are the three controls. Label rows, columns, and units.</li>
+        <li><strong>Multiply with meaning.</strong> Compute MC by row-by-column multiplication. Explain one product entry in a complete chemical sentence.</li>
+        <li><strong>Solve the blind mixture.</strong> Write the two simultaneous equations and solve by substitution or elimination. Verify your concentrations by multiplying M by your result.</li>
+        <li><strong>Expose a tempting error.</strong> If you pretend Q does not absorb at λ<sub>1</sub>, what P concentration would you report? Compare it with the two-wavelength result and explain the discrepancy.</li>
+    </ol>
+    <div class="limit"><strong>Limit:</strong> Stay within matrix multiplication and two simultaneous linear equations. Matrix inverse and determinant are not needed.</div>
+
+    <hr>
+
+    <div class="notice">
+        <p><strong>Submit (for your assigned project):</strong> a 1–2-page scientific note with a graph/diagram, model, reproducible calculation, independent check, and chemical interpretation. Reply to your assignment email with your note as a PDF.</p>
+        <p><strong>Marking guide (20 points):</strong> recognition 4 · representation 4 · calculation 6 · check/limitation 4 · communication 2.</p>
+    </div>
+
+    <footer><a href="index.html">← Course home</a> · <a href="book/">Textbook</a> · <a href="book/problem-sets/index.html">Problem sets</a></footer>
+</div>
+</body>
+</html>
