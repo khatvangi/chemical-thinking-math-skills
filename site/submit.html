@@ -123,6 +123,16 @@ footer a { color: var(--text-muted); }
         <div class="msg" id="loginMsg"></div>
     </div>
 
+    <!-- assignment banner -->
+    <div class="card" id="assignCard" hidden>
+        <label>Your assignment</label>
+        <p id="assignText" style="margin:0"></p>
+        <p style="margin:0.4rem 0 0; font-size:0.88rem; color:var(--text-muted)">
+            Full instructions: <a href="takehome1.html" style="color:var(--accent)">Take-home Exam 1</a>.
+            Submit your 1–2-page note by replying to your assignment email with a PDF.
+        </p>
+    </div>
+
     <!-- submission -->
     <div class="card" id="submitCard" hidden>
         <label>Problem set</label>
@@ -186,6 +196,10 @@ async function doLogin(c, name) {
     }
     code = c;
     saveCode(c);
+    if (r.assigned_case) {
+        $("assignText").textContent = r.assigned_case;
+        $("assignCard").hidden = false;
+    }
     $("whoName").textContent = r.name;
     $("who").hidden = false;
     $("loginCard").hidden = true;
