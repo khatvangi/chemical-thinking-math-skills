@@ -27,4 +27,5 @@ site/.quarto/
 *.zip
 *.db
 .playwright-mcp/
-app/backend/secrets.json
+app/backend/secrets.json*
+mid1-*
