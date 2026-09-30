@@ -619,6 +619,26 @@ async def ps_instructor_download(upload_id: int, key: str, course: str = "chem29
                         media_type=row["content_type"] or "application/octet-stream")
 
 
+# ============== graded work handed back to students ==============
+# instructor drops marked pdfs in graded/<course>/<student_id>/<doc>.pdf;
+# each student fetches their own copies with their access code.
+
+GRADED_ROOT = Path(__file__).parent / "graded"
+
+
+@app.get("/ps/graded/{doc}")
+async def ps_graded(doc: str, code: str, course: str = "chem291"):
+    """download one of the student's own graded documents"""
+    student = _student_for_code(code, course)
+    if not re.fullmatch(r"[a-z0-9-]{1,40}", doc):
+        raise HTTPException(status_code=400, detail="Bad document name")
+    p = GRADED_ROOT / course / student["student_id"] / f"{doc}.pdf"
+    if not p.exists():
+        raise HTTPException(status_code=404, detail="No graded document with that name yet")
+    return FileResponse(str(p), filename=f"CHEM291_{doc}_graded.pdf",
+                        media_type="application/pdf")
+
+
 if __name__ == "__main__":
     import os
     import uvicorn
