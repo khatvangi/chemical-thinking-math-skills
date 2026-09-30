@@ -573,9 +573,25 @@ async def ps_delete_upload(upload_id: int, code: str, course: str = "chem291"):
     row = db.get_upload_row(upload_id)
     if not row or row["student_id"] != student["student_id"]:
         raise HTTPException(status_code=404, detail="No such file")
+    if row["assignment"].endswith("-returned"):
+        raise HTTPException(status_code=403, detail="Returned work cannot be deleted")
     Path(row["stored_path"]).unlink(missing_ok=True)
     db.delete_upload(upload_id)
     return {"success": True}
+
+
+@app.get("/ps/upload/{upload_id}/file")
+async def ps_student_download(upload_id: int, code: str, course: str = "chem291"):
+    """a student downloads one of their own files (e.g. marked work returned to them)"""
+    student = _student_for_code(code, course)
+    row = db.get_upload_row(upload_id)
+    if not row or row["student_id"] != student["student_id"] or row["course"] != course:
+        raise HTTPException(status_code=404, detail="No such file")
+    p = Path(row["stored_path"])
+    if not p.exists():
+        raise HTTPException(status_code=410, detail="File missing from disk")
+    return FileResponse(str(p), filename=row["original_name"],
+                        media_type=row["content_type"] or "application/octet-stream")
 
 
 @app.get("/ps/instructor/uploads")
