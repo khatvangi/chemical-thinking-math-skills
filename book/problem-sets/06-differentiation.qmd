@@ -1,0 +1,154 @@
+---
+title: "Problem Set 6 | Differentiation"
+subtitle: "Homework — CHANGE: the rate of anything, right now"
+format:
+  html:
+    toc: true
+---
+
+## Purpose
+
+You already compute *average* rates: a change divided by an interval. A calibration
+slope is one; so is "the concentration dropped 0.60 M in 10 minutes." But a reaction
+does not have one speed per ten minutes — it has a speed *now*, and a different speed
+a moment later. The derivative is the tool that turns "how much changed over an
+interval" into "how fast it is changing at this instant." Every problem below is a
+chemical or physical function of a **single variable**; everything else in it is a
+constant. For each derivative you take, write one sentence saying what the result
+means physically, and give its units.
+
+**The five rules you need** (nothing else is required):
+
+$$\frac{d}{dx}x^n = nx^{n-1} \qquad \frac{d}{dx}e^{ax} = ae^{ax} \qquad \frac{d}{dx}\ln x = \frac{1}{x}$$
+
+$$\frac{d}{dx}\big[f(x)+g(x)\big] = f'(x)+g'(x) \qquad \frac{d}{dx}\big[c\,f(x)\big] = c\,f'(x)$$
+
+## A. Before computing: what a derivative is
+
+### 1. Secant first, tangent second
+
+A reactant follows $[\mathrm{A}](t) = 0.80\,e^{-0.139t}$ (concentration in M, time in
+minutes).
+
+a. Compute the **average** rate of change between $t = 0$ and $t = 5.0$ min:
+$\big([\mathrm{A}](5) - [\mathrm{A}](0)\big)/5.0$. Give units.
+b. Now shrink the interval: compute the average rate between $t = 0$ and $t = 1.0$,
+then between $t = 0$ and $t = 0.1$ min.
+c. The three numbers you computed are approaching something. Predict what the
+instantaneous rate at $t = 0$ is, *before* using any differentiation rule. (You will
+check this prediction in Problem 7.)
+
+### 2. Units and signs without any calculation
+
+For each quantity, state the units and whether you expect it to be positive, negative,
+or either — no computation allowed:
+
+a. $\dfrac{d[\mathrm{A}]}{dt}$ for a reactant being consumed.
+b. $\dfrac{dA}{dc}$ for absorbance $A$ (dimensionless) versus concentration $c$ in mM.
+c. $\dfrac{dV}{dr}$ for the volume of a growing droplet, $V = \tfrac{4}{3}\pi r^3$.
+d. $\dfrac{dP}{dV}$ for a fixed amount of ideal gas at constant temperature.
+
+### 3. Read the graph
+
+Sketch (or imagine) the curve $[\mathrm{A}](t) = 0.80\,e^{-0.139t}$ from $t = 0$ to
+$t = 20$ min.
+
+a. Where is the derivative most negative — early or late? Say why in one sentence
+about the chemistry, not the mathematics.
+b. Does the derivative ever reach exactly zero at finite time? What does your answer
+say about "the reaction finishing"?
+
+## B. The rules, on functions you have already met
+
+Differentiate; then give units and one interpretation sentence.
+
+### 4. A calibration line is a constant derivative
+
+$A(c) = 0.140\,c + 0.020$ (absorbance versus concentration in mM). Find
+$\dfrac{dA}{dc}$. You have been using this derivative all semester — what did you call
+it?
+
+### 5. Product formed, production slowing
+
+Moles of product in a batch reactor: $n(t) = 3.0\,t - 0.25\,t^{2}$ ($n$ in mol, $t$ in
+hours, valid for $0 \le t \le 6$).
+
+a. Find $\dfrac{dn}{dt}$ and evaluate it at $t = 1.0$ and $t = 5.0$ h.
+b. At what time does production stop ($dn/dt = 0$)? What is happening chemically
+after that time, according to this model?
+
+### 6. Power laws from physics
+
+a. Ideal gas, fixed $n$ and $T$: $P(V) = \dfrac{nRT}{V}$. Write $P = nRT\,V^{-1}$,
+find $\dfrac{dP}{dV}$, and state its sign. Why must it have that sign physically?
+b. Coulomb potential energy between two charges: $V(r) = \dfrac{kq_1q_2}{r}$.
+Find $-\dfrac{dV}{dr}$ (this is the force). For two like charges, is the force
+positive (repulsive) or negative at every $r$?
+
+### 7. The exponential — the chemistry workhorse
+
+$[\mathrm{A}](t) = 0.80\,e^{-0.139t}$ (M, minutes).
+
+a. Find $\dfrac{d[\mathrm{A}]}{dt}$. Evaluate it at $t = 0$ — and compare with your
+prediction from Problem 1c.
+b. Show that your derivative can be rewritten as
+$\dfrac{d[\mathrm{A}]}{dt} = -0.139\,[\mathrm{A}](t)$. In words: the rate is
+proportional to how much is left. Why does that make chemical sense for molecules
+reacting independently?
+
+### 8. The logarithm — why the straight-line plot works
+
+Let $y(t) = \ln[\mathrm{A}](t) = \ln(0.80) - 0.139\,t$.
+
+a. Find $\dfrac{dy}{dt}$.
+b. One sentence: you plot $\ln[\mathrm{A}]$ against $t$ and lay a ruler on it. What
+quantity *is* the slope of that ruler? (This is the $k$-extraction you have done
+before — now named as a derivative.)
+
+## C. Medium: combining and checking
+
+### 9. Position, velocity, acceleration
+
+A molecule in a flow tube: $x(t) = 2.0 + 15.0\,t - 4.9\,t^{2}$ ($x$ in m, $t$ in s).
+
+a. Find the velocity $v(t) = dx/dt$ and acceleration $a(t) = dv/dt$, with units.
+b. At what time is the molecule momentarily at rest? How far has it traveled by then?
+
+### 10. The tempting error (explain, don't just fix)
+
+A classmate differentiates $[\mathrm{A}](t) = 0.80\,e^{-0.139t}$ and writes:
+"the exponential is its own derivative, so $\dfrac{d[\mathrm{A}]}{dt} = 0.80\,e^{-0.139t}$."
+
+a. Two independent reasons this must be wrong *before* any rule is applied: one from
+the **sign** (what is the concentration doing?) and one from the **units** (what units
+must $d[\mathrm{A}]/dt$ carry, and where can "per minute" possibly come from?).
+b. State the correct rule for $e^{at}$ and the correct derivative.
+
+### 11. The derivative at zero is where the shortcut comes from
+
+You showed on the exam that $e^{x} \approx 1 + x$ near $x = 0$.
+
+a. Compute the derivative of $e^{x}$ at $x = 0$.
+b. One sentence: the approximation $1 + x$ is a straight line — what is that line's
+slope, and why must it equal your answer from (a)? (A linear approximation *is* the
+tangent line.)
+
+### 12. Choose the model from its derivative (inverse direction)
+
+An instrument reports that a signal's **rate of change is constant** at
+$-0.025$ units per second, at every moment it measures.
+
+a. Which function family must the signal belong to: $y = y_0 e^{-kt}$,
+$y = y_0 - kt$, or $y = y_0/t$? Rule out the other two by differentiating them.
+b. What single later observation would expose the chosen model's breakdown? (Hint:
+what does this model predict the signal eventually does that a real physical signal
+usually cannot?)
+
+## Expectations
+
+1. State the rule you are using before using it.
+2. Carry units through **every** derivative — a derivative's units are always
+   (units of output)/(units of input).
+3. End each problem with one sentence of physical meaning.
+4. Submit on the [course submission page](../../submit.html) as **Set 6**, or hand in
+   on paper.

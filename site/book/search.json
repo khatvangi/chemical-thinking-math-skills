@@ -1482,5 +1482,65 @@
       "Problem Sets",
       "<span class='chapter-number'>G</span>  <span class='chapter-title'>Problem Set 5 | DIRECTION: Angles and Projections</span>"
     ]
+  },
+  {
+    "objectID": "problem-sets/06-differentiation.html",
+    "href": "problem-sets/06-differentiation.html",
+    "title": "Appendix H — Problem Set 6 | Differentiation",
+    "section": "",
+    "text": "Purpose\nYou already compute average rates: a change divided by an interval. A calibration slope is one; so is “the concentration dropped 0.60 M in 10 minutes.” But a reaction does not have one speed per ten minutes — it has a speed now, and a different speed a moment later. The derivative is the tool that turns “how much changed over an interval” into “how fast it is changing at this instant.” Every problem below is a chemical or physical function of a single variable; everything else in it is a constant. For each derivative you take, write one sentence saying what the result means physically, and give its units.\nThe five rules you need (nothing else is required):\n\\frac{d}{dx}x^n = nx^{n-1} \\qquad \\frac{d}{dx}e^{ax} = ae^{ax} \\qquad \\frac{d}{dx}\\ln x = \\frac{1}{x}\n\\frac{d}{dx}\\big[f(x)+g(x)\\big] = f'(x)+g'(x) \\qquad \\frac{d}{dx}\\big[c\\,f(x)\\big] = c\\,f'(x)",
+    "crumbs": [
+      "Appendices",
+      "Problem Sets",
+      "<span class='chapter-number'>H</span>  <span class='chapter-title'>Problem Set 6 | Differentiation</span>"
+    ]
+  },
+  {
+    "objectID": "problem-sets/06-differentiation.html#a.-before-computing-what-a-derivative-is",
+    "href": "problem-sets/06-differentiation.html#a.-before-computing-what-a-derivative-is",
+    "title": "Appendix H — Problem Set 6 | Differentiation",
+    "section": "A. Before computing: what a derivative is",
+    "text": "A. Before computing: what a derivative is\n\n1. Secant first, tangent second\nA reactant follows [\\mathrm{A}](t) = 0.80\\,e^{-0.139t} (concentration in M, time in minutes).\n\nCompute the average rate of change between t = 0 and t = 5.0 min: \\big([\\mathrm{A}](5) - [\\mathrm{A}](0)\\big)/5.0. Give units.\nNow shrink the interval: compute the average rate between t = 0 and t = 1.0, then between t = 0 and t = 0.1 min.\nThe three numbers you computed are approaching something. Predict what the instantaneous rate at t = 0 is, before using any differentiation rule. (You will check this prediction in Problem 7.)\n\n\n\n2. Units and signs without any calculation\nFor each quantity, state the units and whether you expect it to be positive, negative, or either — no computation allowed:\n\n\\dfrac{d[\\mathrm{A}]}{dt} for a reactant being consumed.\n\\dfrac{dA}{dc} for absorbance A (dimensionless) versus concentration c in mM.\n\\dfrac{dV}{dr} for the volume of a growing droplet, V = \\tfrac{4}{3}\\pi r^3.\n\\dfrac{dP}{dV} for a fixed amount of ideal gas at constant temperature.\n\n\n\n3. Read the graph\nSketch (or imagine) the curve [\\mathrm{A}](t) = 0.80\\,e^{-0.139t} from t = 0 to t = 20 min.\n\nWhere is the derivative most negative — early or late? Say why in one sentence about the chemistry, not the mathematics.\nDoes the derivative ever reach exactly zero at finite time? What does your answer say about “the reaction finishing”?",
+    "crumbs": [
+      "Appendices",
+      "Problem Sets",
+      "<span class='chapter-number'>H</span>  <span class='chapter-title'>Problem Set 6 | Differentiation</span>"
+    ]
+  },
+  {
+    "objectID": "problem-sets/06-differentiation.html#b.-the-rules-on-functions-you-have-already-met",
+    "href": "problem-sets/06-differentiation.html#b.-the-rules-on-functions-you-have-already-met",
+    "title": "Appendix H — Problem Set 6 | Differentiation",
+    "section": "B. The rules, on functions you have already met",
+    "text": "B. The rules, on functions you have already met\nDifferentiate; then give units and one interpretation sentence.\n\n4. A calibration line is a constant derivative\nA(c) = 0.140\\,c + 0.020 (absorbance versus concentration in mM). Find \\dfrac{dA}{dc}. You have been using this derivative all semester — what did you call it?\n\n\n5. Product formed, production slowing\nMoles of product in a batch reactor: n(t) = 3.0\\,t - 0.25\\,t^{2} (n in mol, t in hours, valid for 0 \\le t \\le 6).\n\nFind \\dfrac{dn}{dt} and evaluate it at t = 1.0 and t = 5.0 h.\nAt what time does production stop (dn/dt = 0)? What is happening chemically after that time, according to this model?\n\n\n\n6. Power laws from physics\n\nIdeal gas, fixed n and T: P(V) = \\dfrac{nRT}{V}. Write P = nRT\\,V^{-1}, find \\dfrac{dP}{dV}, and state its sign. Why must it have that sign physically?\nCoulomb potential energy between two charges: V(r) = \\dfrac{kq_1q_2}{r}. Find -\\dfrac{dV}{dr} (this is the force). For two like charges, is the force positive (repulsive) or negative at every r?\n\n\n\n7. The exponential — the chemistry workhorse\n[\\mathrm{A}](t) = 0.80\\,e^{-0.139t} (M, minutes).\n\nFind \\dfrac{d[\\mathrm{A}]}{dt}. Evaluate it at t = 0 — and compare with your prediction from Problem 1c.\nShow that your derivative can be rewritten as \\dfrac{d[\\mathrm{A}]}{dt} = -0.139\\,[\\mathrm{A}](t). In words: the rate is proportional to how much is left. Why does that make chemical sense for molecules reacting independently?\n\n\n\n8. The logarithm — why the straight-line plot works\nLet y(t) = \\ln[\\mathrm{A}](t) = \\ln(0.80) - 0.139\\,t.\n\nFind \\dfrac{dy}{dt}.\nOne sentence: you plot \\ln[\\mathrm{A}] against t and lay a ruler on it. What quantity is the slope of that ruler? (This is the k-extraction you have done before — now named as a derivative.)",
+    "crumbs": [
+      "Appendices",
+      "Problem Sets",
+      "<span class='chapter-number'>H</span>  <span class='chapter-title'>Problem Set 6 | Differentiation</span>"
+    ]
+  },
+  {
+    "objectID": "problem-sets/06-differentiation.html#c.-medium-combining-and-checking",
+    "href": "problem-sets/06-differentiation.html#c.-medium-combining-and-checking",
+    "title": "Appendix H — Problem Set 6 | Differentiation",
+    "section": "C. Medium: combining and checking",
+    "text": "C. Medium: combining and checking\n\n9. Position, velocity, acceleration\nA molecule in a flow tube: x(t) = 2.0 + 15.0\\,t - 4.9\\,t^{2} (x in m, t in s).\n\nFind the velocity v(t) = dx/dt and acceleration a(t) = dv/dt, with units.\nAt what time is the molecule momentarily at rest? How far has it traveled by then?\n\n\n\n10. The tempting error (explain, don’t just fix)\nA classmate differentiates [\\mathrm{A}](t) = 0.80\\,e^{-0.139t} and writes: “the exponential is its own derivative, so \\dfrac{d[\\mathrm{A}]}{dt} = 0.80\\,e^{-0.139t}.”\n\nTwo independent reasons this must be wrong before any rule is applied: one from the sign (what is the concentration doing?) and one from the units (what units must d[\\mathrm{A}]/dt carry, and where can “per minute” possibly come from?).\nState the correct rule for e^{at} and the correct derivative.\n\n\n\n11. The derivative at zero is where the shortcut comes from\nYou showed on the exam that e^{x} \\approx 1 + x near x = 0.\n\nCompute the derivative of e^{x} at x = 0.\nOne sentence: the approximation 1 + x is a straight line — what is that line’s slope, and why must it equal your answer from (a)? (A linear approximation is the tangent line.)\n\n\n\n12. Choose the model from its derivative (inverse direction)\nAn instrument reports that a signal’s rate of change is constant at -0.025 units per second, at every moment it measures.\n\nWhich function family must the signal belong to: y = y_0 e^{-kt}, y = y_0 - kt, or y = y_0/t? Rule out the other two by differentiating them.\nWhat single later observation would expose the chosen model’s breakdown? (Hint: what does this model predict the signal eventually does that a real physical signal usually cannot?)",
+    "crumbs": [
+      "Appendices",
+      "Problem Sets",
+      "<span class='chapter-number'>H</span>  <span class='chapter-title'>Problem Set 6 | Differentiation</span>"
+    ]
+  },
+  {
+    "objectID": "problem-sets/06-differentiation.html#expectations",
+    "href": "problem-sets/06-differentiation.html#expectations",
+    "title": "Appendix H — Problem Set 6 | Differentiation",
+    "section": "Expectations",
+    "text": "Expectations\n\nState the rule you are using before using it.\nCarry units through every derivative — a derivative’s units are always (units of output)/(units of input).\nEnd each problem with one sentence of physical meaning.\nSubmit on the course submission page as Set 6, or hand in on paper.",
+    "crumbs": [
+      "Appendices",
+      "Problem Sets",
+      "<span class='chapter-number'>H</span>  <span class='chapter-title'>Problem Set 6 | Differentiation</span>"
+    ]
   }
 ]

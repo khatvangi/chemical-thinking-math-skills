@@ -49,6 +49,7 @@ book:
         - problem-sets/03-collection.qmd
         - problem-sets/04-direction-vectors.qmd
         - problem-sets/05-angles-projections.qmd
+        - problem-sets/06-differentiation.qmd
 
 format:
   html:
