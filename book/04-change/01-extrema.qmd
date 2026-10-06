@@ -20,6 +20,10 @@ the one observation that turns the first question into the second.
 
 ## Where a maximum must hide
 
+**Watch the method unfold:** [Open the interactive extrema animation](extrema-studio.html).
+Switch between a reaction-yield maximum and a molecular-energy minimum, then scrub
+through the curve or let it play.
+
 Follow the yield in your mind. Early on, the yield is **rising**: $y' > 0$. Late, the
 destruction step wins and the yield is **falling**: $y' < 0$. Somewhere in between
 the curve stopped rising and started falling — and at that turning moment, for one

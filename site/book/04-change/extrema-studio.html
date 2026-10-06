@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1020">
+  <title>Finding extrema · Chemical Thinking</title>
+  <style>
+    :root{color-scheme:dark;--bg:#0b1020;--panel:#141d31;--edge:#2a3853;--ink:#eff5ff;--muted:#aabbd3;--cyan:#68e0d4;--gold:#ffd278;--rose:#ff8c9b}
+    *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 65% -15%,#243554 0,#0b1020 48%);color:var(--ink);font:16px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}button,input{font:inherit}button{cursor:pointer}a{color:var(--cyan)}.shell{max-width:1300px;margin:auto;padding:24px clamp(16px,4vw,48px) 60px}.top{display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);font-weight:800}.back{font-size:.88rem;color:var(--muted)}h1{font-size:clamp(2rem,4vw,3.8rem);line-height:1.1;letter-spacing:-.045em;margin:30px 0 8px}h1 em{font-style:normal;color:var(--cyan)}.intro{color:var(--muted);max-width:64ch;margin:0 0 25px}.tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:15px}.tabs button,.control button,.check{border:1px solid var(--edge);background:#18243a;color:var(--ink);border-radius:11px;padding:10px 16px;font-weight:700}.tabs button[aria-selected=true]{background:var(--cyan);color:#09202c;border-color:var(--cyan)}.grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(275px,.72fr);gap:16px}.stage,.side{border:1px solid var(--edge);border-radius:20px;background:linear-gradient(155deg,#152039,#10182a);box-shadow:0 16px 45px #0004}.stage{padding:20px}.side{padding:23px}.stage-top{display:flex;justify-content:space-between;align-items:flex-start;gap:15px}.eyebrow{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:800;color:var(--muted)}h2{font-size:1.23rem;margin:4px 0 0}.formula{color:var(--gold);font:1.03rem ui-monospace,SFMono-Regular,Consolas,monospace;white-space:nowrap}.plot{width:100%;height:auto;display:block;margin:6px auto 0;overflow:visible}.axis{stroke:#8392ae;stroke-width:1}.gridline{stroke:#3d4b63;stroke-width:1;stroke-dasharray:3 6}.curve{fill:none;stroke:var(--cyan);stroke-width:3.3;stroke-linecap:round;stroke-linejoin:round}.derivative{fill:none;stroke:var(--gold);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}.tangent{stroke:var(--rose);stroke-width:2.7}.guide{stroke:#9eacbf;stroke-width:1.25;stroke-dasharray:5 5}.point{fill:var(--rose);stroke:#fff;stroke-width:2}.dpoint{fill:var(--gold);stroke:#fff;stroke-width:1.6}.halo{fill:none;stroke:var(--gold);stroke-width:2}.chart-label{fill:#aabbd3;font:12px system-ui,sans-serif}.tick{fill:#95a8c5;font:11px ui-monospace,monospace}.badge{fill:#111a2b;stroke:#48617c}.badge-text{fill:#ffd278;font:700 12px system-ui,sans-serif}.control{display:flex;align-items:center;gap:11px;flex-wrap:wrap;margin-top:8px}.control button{min-width:86px}.control button:hover,.check:hover{border-color:var(--cyan)}.scrub{flex:1;min-width:170px;accent-color:var(--cyan)}.speed{display:flex;align-items:center;gap:5px;color:var(--muted);font-size:.85rem}.speed select{background:#18243a;color:var(--ink);border:1px solid var(--edge);padding:7px;border-radius:8px}.step-buttons{display:flex;gap:6px}.step-buttons button{min-width:43px;padding:9px}.status{display:flex;gap:9px;align-items:center;margin-top:16px;padding:12px 14px;border-radius:11px;background:#203149;color:#dce8f8;min-height:52px}.status-dot{height:9px;width:9px;flex:none;border-radius:50%;background:var(--cyan)}.side h3{font-size:1.05rem;margin:0 0 12px}.value{color:var(--gold);font:600 1.65rem ui-monospace,monospace;margin:2px 0 13px}.metric{border-top:1px solid var(--edge);padding:12px 0}.metric small{display:block;color:var(--muted);font-size:.78rem;margin-bottom:3px}.metric strong{font:600 1rem ui-monospace,monospace}.lesson{margin-top:15px;border:1px solid #405169;border-radius:14px;padding:16px;background:#1b2a40}.lesson strong{color:var(--cyan)}.lesson p{margin:8px 0 0;color:#d4e0f0;font-size:.91rem}.check{width:100%;margin-top:15px;text-align:left}.answer{margin:12px 0 0;color:#dce8f8;font-size:.91rem}.legend{display:flex;gap:20px;flex-wrap:wrap;font-size:.78rem;color:var(--muted);margin:0 4px 3px}.swatch{display:inline-block;width:17px;height:3px;vertical-align:middle;margin-right:6px}.foot{color:var(--muted);font-size:.83rem;margin-top:18px}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@media(max-width:850px){.grid{grid-template-columns:1fr}.stage,.side{padding:16px}.formula{white-space:normal;font-size:.84rem}.plot{min-height:330px}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+  </style>
+</head>
+<body>
+<main class="shell">
+  <div class="top"><span class="brand">Chemical Thinking / 4.1</span><a class="back" href="01-extrema.html">← Back to lesson</a></div>
+  <h1>Find where chemistry <em>turns.</em></h1>
+  <p class="intro">Follow a moving tangent, watch its slope cross zero, and decide whether you found the most product or the lowest energy. Drag the timeline to control every frame.</p>
+  <div class="tabs" role="tablist" aria-label="Choose a chemical example">
+    <button id="tab-yield" role="tab" aria-selected="true" type="button">01 · Maximum yield</button>
+    <button id="tab-bond" role="tab" aria-selected="false" type="button">02 · Minimum energy</button>
+  </div>
+  <div class="grid">
+    <section class="stage" aria-label="Animated function and derivative graphs">
+      <div class="stage-top"><div><div class="eyebrow" id="scenario-label">Reaction kinetics</div><h2 id="stage-title">When should the reaction stop?</h2></div><span class="formula" id="formula">y(t) = 6t² − t³</span></div>
+      <svg class="plot" id="plot" viewBox="0 0 760 550" role="img" aria-labelledby="plot-title plot-desc"><title id="plot-title">Animated extrema graph</title><desc id="plot-desc">The upper graph shows a chemical function and moving tangent; the lower graph shows its derivative at the same position.</desc>
+        <defs><clipPath id="upper-clip"><rect x="67" y="29" width="654" height="281"/></clipPath><clipPath id="lower-clip"><rect x="67" y="355" width="654" height="148"/></clipPath></defs>
+        <g id="static"></g><g clip-path="url(#upper-clip)"><path class="curve" id="function-path"/><line class="tangent" id="tangent"/><line class="guide" id="vertical-guide"/><circle class="point" id="function-point" r="7"/><circle class="halo" id="solution-ring" r="12"/></g><g clip-path="url(#lower-clip)"><path class="derivative" id="derivative-path"/><circle class="dpoint" id="derivative-point" r="6"/></g><g id="annotations"></g>
+      </svg>
+      <div class="legend"><span><i class="swatch" style="background:var(--cyan)"></i>function</span><span><i class="swatch" style="background:var(--rose)"></i>tangent</span><span><i class="swatch" style="background:var(--gold)"></i>derivative</span></div>
+      <div class="control"><button id="play" type="button" aria-label="Play animation">▶ Play</button><div class="step-buttons"><button id="prev" type="button" aria-label="Step backward">←</button><button id="next" type="button" aria-label="Step forward">→</button></div><label class="sr-only" for="scrub">Position on curve</label><input class="scrub" id="scrub" type="range" min="0" max="1000" value="90"><label class="speed">Speed <select id="speed"><option value="0.5">½×</option><option value="1" selected>1×</option><option value="2">2×</option></select></label></div>
+      <div class="status" aria-live="polite"><span class="status-dot"></span><span id="status-text">The reaction is gaining product.</span></div>
+    </section>
+    <aside class="side">
+      <div class="eyebrow">Current position</div><div class="value" id="position">t = 0.54 h</div>
+      <div class="metric"><small id="output-label">Product yield</small><strong id="output-value">1.59 g</strong></div>
+      <div class="metric"><small id="slope-label">First derivative · rate of yield change</small><strong id="slope-value">y′(t) = +5.61 g/h</strong></div>
+      <div class="metric"><small>Second derivative · curve shape</small><strong id="curvature-value">y″(t) = +8.76</strong></div>
+      <div class="lesson"><strong id="lesson-heading">1 · Find candidates</strong><p id="lesson-copy">At an interior maximum or minimum, the tangent is flat. Solve y′(t) = 0, then check what happens on each side.</p></div>
+      <button class="check" id="reveal" type="button" aria-expanded="false" aria-controls="answer">Show the worked result ↓</button><p class="answer" id="answer" hidden></p>
+    </aside>
+  </div>
+  <p class="foot">Model note: the reaction-yield curve is a teaching model. The bond example uses the reduced Lennard–Jones potential V(r) = r⁻¹² − 2r⁻⁶. Its coordinate r is dimensionless.</p>
+</main>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const svgNS = 'http://www.w3.org/2000/svg';
+  const models = {
+    yield: {lo:0,hi:6,ylo:-3,yhi:37,dlo:-40,dhi:16,zero:4,axis:'t (hours)',quantity:'y (grams)',daxis:'y′ (g/h)',formula:'y(t) = 6t² − t³',scenario:'Reaction kinetics',title:'When should the reaction stop?',f:x=>6*x*x-x*x*x,d:x=>12*x-3*x*x,dd:x=>12-6*x,position:x=>`t = ${x.toFixed(2)} h`,output:'Product yield',outunit:'g',slope:'First derivative · rate of yield change',slopeunit:'g/h',slopeSymbol:'y′(t)',curvatureSymbol:'y″(t)',answer:'y′(t) = 3t(4 − t) = 0 gives t = 0 and 4 h. Compare y(0) = 0, y(4) = 32, and y(6) = 0 g. The global maximum is 32 g at 4 h. Stop the reaction then.'},
+    bond: {lo:.85,hi:2.25,ylo:-1.25,yhi:1.9,dlo:-15,dhi:6,zero:1,axis:'r (reduced length)',quantity:'V (reduced energy)',daxis:'V′ (force sign reversed)',formula:'V(r) = r⁻¹² − 2r⁻⁶',scenario:'Molecular potential',title:'Where is the stable separation?',f:r=>r**-12-2*r**-6,d:r=>-12*r**-13+12*r**-7,dd:r=>156*r**-14-84*r**-8,position:r=>`r = ${r.toFixed(3)}`,output:'Potential energy',outunit:'',slope:'First derivative · energy slope',slopeunit:'',slopeSymbol:'V′(r)',curvatureSymbol:'V″(r)',answer:'V′(r) = −12r⁻¹³ + 12r⁻⁷ = 0 gives r = 1. There V(1) = −1 and V″(1) = 72 > 0, so this is a stable energy minimum. The force F = −V′ points back toward r = 1 on both sides.'}
+  };
+  let key='yield', fraction=.09, playing=false, lastTime=0, frame=0;
+  const S={left:68,right:720,top:30,bottom:309,lowerTop:356,lowerBottom:503};
+  const model=()=>models[key];
+  const xCoord=x=>S.left+(x-model().lo)/(model().hi-model().lo)*(S.right-S.left);
+  const yCoord=y=>S.bottom-(y-model().ylo)/(model().yhi-model().ylo)*(S.bottom-S.top);
+  const dCoord=d=>S.lowerBottom-(d-model().dlo)/(model().dhi-model().dlo)*(S.lowerBottom-S.lowerTop);
+  const el=(tag,attributes,parent)=>{const e=document.createElementNS(svgNS,tag);for(const [k,v] of Object.entries(attributes))e.setAttribute(k,v);parent.appendChild(e);return e};
+  const label=(parent,x,y,content,anchor='start',cls='chart-label')=>{const t=el('text',{x,y,'text-anchor':anchor,class:cls},parent);t.textContent=content;return t};
+  const signed=(n,digits=2)=>(n>=0?'+':'−')+Math.abs(n).toFixed(digits);
+  const within=(a,b,c)=>Math.max(a,Math.min(b,c));
+  function path(fn,transform,lower,upper){let result='',started=false;for(let i=0;i<=500;i++){const x=model().lo+(model().hi-model().lo)*i/500,y=fn(x);if(!Number.isFinite(y)||y<lower||y>upper){started=false;continue}result+=(started?'L':'M')+xCoord(x).toFixed(2)+' '+transform(y).toFixed(2)+' ';started=true}return result}
+  function staticGraph(){const m=model(),g=$('static');g.replaceChildren();$('annotations').replaceChildren();
+    for(let i=0;i<=4;i++){const x=S.left+(S.right-S.left)*i/4;el('line',{x1:x,y1:S.top,x2:x,y2:S.bottom,class:'gridline'},g);el('line',{x1:x,y1:S.lowerTop,x2:x,y2:S.lowerBottom,class:'gridline'},g);label(g,x,S.bottom+22,(m.lo+(m.hi-m.lo)*i/4).toFixed(key==='bond'?2:1),'middle','tick')}
+    for(const y of [S.top,S.bottom,S.lowerTop,S.lowerBottom])el('line',{x1:S.left,y1:y,x2:S.right,y2:y,class:'axis'},g);
+    if(m.ylo<0&&m.yhi>0)el('line',{x1:S.left,y1:yCoord(0),x2:S.right,y2:yCoord(0),class:'gridline'},g);
+    el('line',{x1:S.left,y1:dCoord(0),x2:S.right,y2:dCoord(0),class:'axis'},g);
+    label(g,S.left,S.top-9,m.quantity);label(g,S.right,S.bottom+35,m.axis,'end');label(g,S.left,S.lowerTop-10,m.daxis);
+    label(g,S.right,dCoord(0)-6,'0 slope','end');
+    const cx=xCoord(m.zero),cy=yCoord(m.f(m.zero));el('circle',{cx,cy,r:5,fill:'#ffd278'},g);
+    el('line',{x1:cx,y1:cy,x2:cx,y2:dCoord(0),class:'guide'},g);
+    $('function-path').setAttribute('d',path(m.f,yCoord,m.ylo,m.yhi));$('derivative-path').setAttribute('d',path(m.d,dCoord,m.dlo,m.dhi));
+  }
+  function update(){const m=model(),x=m.lo+fraction*(m.hi-m.lo),y=m.f(x),s=m.d(x),curv=m.dd(x),px=xCoord(x),py=yCoord(y),dp=dCoord(s);
+    $('scrub').value=Math.round(fraction*1000);$('position').textContent=m.position(x);$('output-value').textContent=y.toFixed(2)+(m.outunit?' '+m.outunit:'');$('slope-value').textContent=m.slopeSymbol+' = '+signed(s)+(m.slopeunit?' '+m.slopeunit:'');$('curvature-value').textContent=m.curvatureSymbol+' = '+signed(curv);
+    $('function-point').setAttribute('cx',px);$('function-point').setAttribute('cy',py);$('derivative-point').setAttribute('cx',px);$('derivative-point').setAttribute('cy',dp);
+    $('vertical-guide').setAttribute('x1',px);$('vertical-guide').setAttribute('x2',px);$('vertical-guide').setAttribute('y1',py);$('vertical-guide').setAttribute('y2',dp);
+    const tangentHalf=(m.hi-m.lo)*.10, x1=x-tangentHalf,x2=x+tangentHalf;$('tangent').setAttribute('x1',xCoord(x1));$('tangent').setAttribute('x2',xCoord(x2));$('tangent').setAttribute('y1',yCoord(y+s*(x1-x)));$('tangent').setAttribute('y2',yCoord(y+s*(x2-x)));
+    const near=Math.abs(x-m.zero)<(m.hi-m.lo)*.015;$('solution-ring').setAttribute('cx',xCoord(m.zero));$('solution-ring').setAttribute('cy',yCoord(m.f(m.zero)));$('solution-ring').style.opacity=near?'1':'.34';
+    let status,heading,copy;
+    if(key==='yield'){
+      if(near){status='The tangent is flat: y′ = 0. Yield is at its peak.';heading='2 · Classify the peak';copy='The slope changes from positive to negative. Also y″(4) = −12 < 0: a local maximum. Check the interval endpoints to confirm the global maximum.'}
+      else if(x<4){status='Yield is rising: y′ > 0. Keep the reaction going.';heading='1 · Track the slope';copy='A positive derivative means each extra moment makes more product. Move toward the point where the derivative reaches zero.'}
+      else{status='Yield is falling: y′ < 0. The reaction ran past the peak.';heading='3 · Check the edges';copy='The peak at 4 h is a candidate. Compare its 32 g with the endpoint yields: 0 g at both 0 h and 6 h.'}
+    }else{
+      if(near){status='The energy slope is zero and the curve bends upward: stable minimum.';heading='2 · Classify the well';copy='V″(1) = 72 > 0. The upward curvature makes this equilibrium stable: a small displacement produces a restoring force.'}
+      else if(x<1){status='Too compressed: V′ < 0, so F = −V′ pushes the atoms apart.';heading='1 · Follow the force';copy='Force is the negative energy slope. On the left wall it points right, toward the energy minimum.'}
+      else{status='Too separated: V′ > 0, so F = −V′ pulls the atoms together.';heading='3 · Read the chemistry';copy='On the right side force points left. Both directions lead to r = 1, the stable separation.'}
+    }
+    $('status-text').textContent=status;$('lesson-heading').textContent=heading;$('lesson-copy').textContent=copy;
+  }
+  function pause() {playing=false;cancelAnimationFrame(frame);$('play').textContent='▶ Play';$('play').setAttribute('aria-label','Play animation')}
+  function tick(now){if(!playing)return;const dt=Math.min(.06,(now-lastTime)/1000);lastTime=now;fraction+=dt*.12*Number($('speed').value);if(fraction>=1){fraction=1;update();pause();return}update();frame=requestAnimationFrame(tick)}
+  function choose(next){pause();key=next;fraction=next==='yield'?.09:.95;for(const id of ['yield','bond'])$('tab-'+id).setAttribute('aria-selected',String(id===key));const m=model();$('scenario-label').textContent=m.scenario;$('stage-title').textContent=m.title;$('formula').textContent=m.formula;$('output-label').textContent=m.output;$('slope-label').textContent=m.slope;$('answer').textContent=m.answer;$('answer').hidden=true;$('reveal').textContent='Show the worked result ↓';$('reveal').setAttribute('aria-expanded','false');staticGraph();update()}
+  $('tab-yield').addEventListener('click',()=>choose('yield'));$('tab-bond').addEventListener('click',()=>choose('bond'));
+  $('scrub').addEventListener('input',e=>{pause();fraction=Number(e.target.value)/1000;update()});
+  $('play').addEventListener('click',()=>{if(playing){pause();return}if(fraction>=1)fraction=0;playing=true;lastTime=performance.now();$('play').textContent='Ⅱ Pause';$('play').setAttribute('aria-label','Pause animation');frame=requestAnimationFrame(tick)});
+  $('prev').addEventListener('click',()=>{pause();fraction=within(0,1,fraction-.04);update()});$('next').addEventListener('click',()=>{pause();fraction=within(0,1,fraction+.04);update()});
+  $('reveal').addEventListener('click',()=>{const open=$('answer').hidden;$('answer').hidden=!open;$('reveal').setAttribute('aria-expanded',String(open));$('reveal').textContent=open?'Hide the worked result ↑':'Show the worked result ↓'});
+  document.addEventListener('keydown',e=>{if(e.target.matches('input,select,button'))return;if(e.key==='ArrowLeft'||e.key==='ArrowRight'){pause();fraction=within(0,1,fraction+(e.key==='ArrowRight'?.02:-.02));update()}});
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches)$('play').title='Animation plays only when requested';choose('yield');
+})();
+</script>
+</body>
+</html>
