@@ -208,6 +208,32 @@
         footer a:hover {
             color: var(--accent-teal);
         }
+
+        .quick-links {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.75rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .quick-links a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem 1.1rem;
+            border: 1px solid var(--bg-tertiary);
+            border-radius: 999px;
+            background: var(--bg-secondary);
+            transition: all 0.2s;
+        }
+
+        .quick-links a:hover {
+            color: var(--accent-teal);
+            border-color: var(--accent-teal);
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 <body>
@@ -223,33 +249,41 @@
             <p>Mathematical Foundations for Chemistry</p>
         </div>
 
-        <a href="lectures/all-lectures.html" class="course-card">
-            <div class="course-code">UNDERGRADUATE</div>
-            <h2 class="course-title">Math for Chemistry</h2>
-            <p class="course-subtitle">The Grammar of Reality</p>
+        <a href="book/" class="course-card">
+            <div class="course-code">INTERACTIVE TEXTBOOK</div>
+            <h2 class="course-title">Chemical Thinking</h2>
+            <p class="course-subtitle">The Mathematics of Chemical Reality</p>
             <div class="course-stats">
                 <div class="stat">
-                    <div class="stat-value">24</div>
-                    <div class="stat-label">Lectures</div>
+                    <div class="stat-value">15</div>
+                    <div class="stat-label">Sections</div>
                 </div>
                 <div class="stat">
-                    <div class="stat-value">9</div>
-                    <div class="stat-label">Primitives</div>
+                    <div class="stat-value">7</div>
+                    <div class="stat-label">Problem Sets</div>
                 </div>
                 <div class="stat">
-                    <div class="stat-value">3</div>
-                    <div class="stat-label">Modules</div>
+                    <div class="stat-value">16</div>
+                    <div class="stat-label">Interactive Figures</div>
                 </div>
             </div>
             <p class="course-desc">
-                Mathematical foundations for chemistry through cognitive primitives.
-                See patterns in reality, then summon the tools. Module 1 covers
-                structure (vectors, matrices, transformations). Module 2 covers
-                change (functions, derivatives, integrals). Module 3 covers
-                probability (distributions, eigenvalues).
+                Mathematical foundations for chemistry through cognitive primitives —
+                see the pattern in reality, then summon the tool. Module 1
+                (numbers &amp; counting, complex numbers, vectors, matrices &amp;
+                transformations) is complete, with animated figures and adaptive
+                practice in every section. Module 2 — CHANGE — is underway:
+                differentiation and extrema are live, from reaction yields to why
+                bonds have lengths.
             </p>
-            <span class="course-btn">Enter Course →</span>
+            <span class="course-btn">Open the Textbook →</span>
         </a>
+
+        <nav class="quick-links">
+            <a href="submit.html">Submit Answers</a>
+            <a href="book/problem-sets/index.html">Problem Sets 1–7</a>
+            <a href="takehome1.html">Take-home 1</a>
+        </nav>
     </main>
 
     <footer>
@@ -259,6 +293,10 @@
             <a href="book/problem-sets/index.html">Problem Sets</a>
             &nbsp;·&nbsp;
             <a href="takehome1.html">Take-home 1</a>
+            &nbsp;·&nbsp;
+            <a href="submit.html">Submit</a>
+            &nbsp;·&nbsp;
+            <a href="lectures/all-lectures.html">Lectures</a>
             &nbsp;·&nbsp;
             <a href="syllabus.html">Syllabus</a>
             &nbsp;·&nbsp;
