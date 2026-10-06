@@ -1,0 +1,170 @@
+---
+title: "Problem Set 7 | Extrema"
+subtitle: "Homework — finding maxima and minima with dy/dx = 0 and d²y/dx²"
+format:
+  html:
+    toc: true
+---
+
+## Purpose
+
+Chemistry asks "where is the most?" constantly: the optimal temperature, the
+equilibrium bond length, the pH where an enzyme works best, the moment to stop a
+reaction. This set trains the complete method — and only the method:
+
+1. **Differentiate** and solve $y' = 0$ → the stationary points (the only interior
+   candidates).
+2. **Classify** each with the second derivative: $y'' < 0$ → maximum (cap, $\cap$);
+   $y'' > 0$ → minimum (cup, $\cup$); $y'' = 0$ → *no verdict* — check the sign of
+   $y'$ on each side.
+3. **Check the endpoints** of the domain; they obey no tangent condition.
+4. **Interpret**: one sentence of chemical meaning, with units.
+
+The lesson behind this set is [§4.1 Extrema](../04-change/01-extrema.qmd) — read it
+first if you have not; the two interactive figures there are worth ten minutes.
+
+## Worked example — read this before the problems
+
+::: {.env .example}
+**An enzyme's best pH.** A simple model for an enzyme's activity (percent of maximum)
+as a function of pH, valid for $4 \le p \le 10$:
+$$a(p) = -2p^{2} + 28p - 58.$$
+Find the pH of peak activity, the peak value, and confirm it is a maximum.
+
+*Step 1 — differentiate, set to zero.* The power rule, term by term:
+$$a'(p) = -4p + 28.$$
+$a'(p) = 0$ gives $4p = 28$, so $p = 7$. One stationary point, and it lies inside
+the domain.
+
+*Step 2 — classify.* Differentiate again:
+$$a''(p) = -4 < 0 \quad\text{for every } p,$$
+a cap everywhere — so $p = 7$ is a maximum. (Note we did not need to plug $p = 7$ in:
+here $a''$ is a constant.)
+
+*Step 3 — endpoints.* $a(4) = -32 + 112 - 58 = 22$; $a(10) = -200 + 280 - 58 = 22$;
+$a(7) = -98 + 196 - 58 = 40$. The interior maximum wins.
+
+*Step 4 — interpret.* The enzyme works best at pH 7, at 40% of theoretical maximum
+activity; three pH units away in either direction, activity has fallen to 22%.
+
+*Check.* $a'(6) = +4 > 0$ (still improving as pH rises toward 7) and
+$a'(8) = -4 < 0$ (past the peak): the slope changes from rising to falling across
+$p = 7$, exactly what a maximum demands. Units: $a'$ is activity-percent per pH unit,
+zero at the peak — dimensionally consistent.
+:::
+
+Every problem below is this same four-step rhythm on a different function. Show all
+four steps each time.
+
+## A. Reading before computing
+
+### 1. The graph knows first
+
+A curve rises from the left, flattens at $x = 2$, falls until $x = 5$, flattens
+again, then rises to the edge of the plot at $x = 8$.
+
+a. Where is $y' = 0$?
+b. Classify each of those points (maximum or minimum) *from the story alone* —
+no formulas.
+c. What is the sign of $y''$ at each of them?
+
+### 2. Signs and units at a peak
+
+A product concentration $[\mathrm{P}](t)$ (in M, $t$ in minutes) reaches its highest
+value at $t = 12$ min.
+
+a. What is the value of $d[\mathrm{P}]/dt$ at $t = 12$, and what are its units?
+b. What is the *sign* of $d^{2}[\mathrm{P}]/dt^{2}$ there, and what are its units?
+c. One sentence: physically, why must the rate be zero at the moment of the peak?
+
+## B. The method, start to finish
+
+Use all four steps (differentiate/solve, classify, endpoints, interpret) on each.
+
+### 3. The reactor from Problem Set 6, finished
+
+$n(t) = 3.0\,t - 0.25\,t^{2}$ (mol, hours, $0 \le t \le 8$). In Set 6 you found
+where $dn/dt = 0$. Now classify that point with $n''$, check both endpoints, and
+report the maximum amount of product and when it occurs.
+
+### 4. A yield curve with a cubic twist
+
+$y(t) = 9t^{2} - t^{3}$ (grams, hours, $0 \le t \le 9$).
+
+a. Find both stationary points and classify each with $y''$.
+b. Check the endpoints and report the best stopping time and the yield there.
+c. One sentence: what is the destruction step doing to the curve after the peak?
+
+### 5. Why a bond has a length
+
+A simplified bond-energy model (reduced units):
+$$V(r) = \frac{1}{r^{2}} - \frac{2}{r}, \qquad r > 0.$$
+
+a. Write $V = r^{-2} - 2r^{-1}$ and find $V'(r)$. Solve $V'(r) = 0$.
+b. Compute $V''$ at that point and state what its sign tells you about the bond.
+c. Evaluate $V$ at the equilibrium separation. One sentence: what does this (negative)
+number mean, compared with $V \to 0$ as $r \to \infty$?
+d. If the atoms are pushed slightly closer than equilibrium, which way does the force
+$F = -dV/dr$ point? (Answer from the sign of $V'$, then say it in words.)
+
+### 6. Two stable isomers and the barrier between them
+
+A reaction coordinate has potential energy
+$$E(x) = x^{4} - 2x^{2} \qquad (-2 \le x \le 2),$$
+where $x$ is a structural coordinate and $E$ is in reduced units.
+
+a. Find all three stationary points and classify each.
+b. Which two are stable species, and which one is the transition state between them?
+c. What is the barrier height — the energy climb from a minimum to the top?
+d. One sentence: why does a *maximum* of $E$ deserve the name "transition state"?
+
+## C. Medium: logic, limits, and traps
+
+### 7. The 50:50 mixing maximum (the differentiation is done for you)
+
+The entropy of mixing two liquids at mole fraction $x$ is
+$S(x) = -R\,[\,x\ln x + (1-x)\ln(1-x)\,]$ for $0 < x < 1$. Its derivatives are
+**given** (they need a rule you don't have yet):
+$$S'(x) = -R\,\ln\!\frac{x}{1-x}, \qquad S''(x) = -R\left[\frac{1}{x} + \frac{1}{1-x}\right].$$
+
+a. Solve $S'(x) = 0$. (When is a logarithm zero?)
+b. Evaluate the sign of $S''$ at that composition and classify.
+c. One sentence: what does this say about which mixture is the most disordered?
+
+### 8. The tempting conclusion (explain why it is wrong)
+
+For $y = x^{3}$, a classmate computes $y'(0) = 0$ and announces "a minimum at
+$x = 0$."
+
+a. Compute $y''(0)$. What verdict does the second-derivative test actually deliver?
+b. Check the sign of $y'$ at $x = -0.1$ and $x = +0.1$. Is $x = 0$ a maximum, a
+minimum, or neither?
+c. One sentence: state the rule for what you must do whenever $y'' = 0$ at a
+stationary point.
+
+### 9. The endpoint trap
+
+A culture's biomass grows as $m(t) = 0.50\,t$ (grams, $0 \le t \le 8$ h).
+
+a. Try the method: solve $m'(t) = 0$. What happens?
+b. Where *is* the maximum biomass, and what is it?
+c. One sentence: what does this teach about relying on $dy/dx = 0$ alone?
+
+### 10. Inverse direction: from the derivative back to the curve
+
+You are told only this about a signal $s(T)$ measured against temperature:
+$s'(T)$ is positive for $T < 340$ K, zero at $T = 340$ K, and negative for
+$T > 340$ K; furthermore $s''(340) = -0.04$ units/K².
+
+a. What is happening to $s$ at 340 K? How confident can you be, and why?
+b. Sketch (roughly) what $s(T)$ must look like near 340 K.
+c. Propose one chemical system that could produce such a curve.
+
+## Expectations
+
+1. All four steps, every problem in Part B and C: differentiate/solve, classify,
+   endpoints, interpret.
+2. Units on every derivative and every answer with dimensions.
+3. When the second-derivative test is silent, say so explicitly and use the
+   sign-of-$y'$ fallback.
+4. Submit on the [course submission page](../../submit.html) as **Set 7**, or on paper.

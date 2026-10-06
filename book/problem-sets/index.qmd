@@ -16,6 +16,7 @@ These sets train you to recognize the mathematical structure of a chemical probl
 | 4 | [DIRECTION: vectors and bonds](04-direction-vectors.qmd) | §2.1–2.2 | components, magnitude, unit vectors, vector sums |
 | 5 | [DIRECTION: angles and projections](05-angles-projections.qmd) | §2.3 | dot product, projection, cross product |
 | 6 | [CHANGE: differentiation](06-differentiation.qmd) | Module 2 | derivatives of chemistry's functions: powers, exponentials, logarithms |
+| 7 | [CHANGE: extrema](07-extrema.qmd) | §4.1 | stationary points, second-derivative test, endpoints |
 
 For extended vector practice there is also a printable supplement: [Vector chemistry problem set (PDF)](vector_chemistry_problem_set_student.pdf).
 

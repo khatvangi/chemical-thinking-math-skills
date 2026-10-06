@@ -39,6 +39,9 @@ book:
         - 03-matrices/02-algebra.qmd
         - 03-matrices/03-transformations.qmd
         - 03-matrices/04-determinants.qmd
+    - part: "4 · Change"
+      chapters:
+        - 04-change/01-extrema.qmd
   appendices:
     - 99-answers.qmd
     - part: "Problem Sets"
@@ -50,6 +53,7 @@ book:
         - problem-sets/04-direction-vectors.qmd
         - problem-sets/05-angles-projections.qmd
         - problem-sets/06-differentiation.qmd
+        - problem-sets/07-extrema.qmd
 
 format:
   html:

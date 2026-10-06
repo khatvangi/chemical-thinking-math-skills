@@ -1077,6 +1077,94 @@
     ]
   },
   {
+    "objectID": "04-change/01-extrema.html",
+    "href": "04-change/01-extrema.html",
+    "title": "4.1 Extrema: Where Chemistry Settles",
+    "section": "",
+    "text": "The problem\nA synthetic chemist runs a two-step reaction in a flask. The product grows for a while — then the second step, which slowly destroys it, catches up. Stop the reaction too early and you leave yield unmade; stop too late and you have burned it. The yield as a function of time, from a kinetic model of the two steps, is\ny(t) = 6t^{2} - t^{3} \\qquad (y \\text{ in grams, } t \\text{ in hours, } 0 \\le t \\le 6).\nYou know from the last problem set what the derivative of this is and what it means: y'(t) is the rate of yield growth, in grams per hour, right now. The question the chemist actually cares about is different: when is the yield largest, and how large is it? The derivative tells you how fast y is changing at any moment you ask. It does not — at first glance — tell you where y is biggest. This section is about the one observation that turns the first question into the second.",
+    "crumbs": [
+      "4 · Change",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>4.1 Extrema: Where Chemistry Settles</span>"
+    ]
+  },
+  {
+    "objectID": "04-change/01-extrema.html#where-a-maximum-must-hide",
+    "href": "04-change/01-extrema.html#where-a-maximum-must-hide",
+    "title": "4.1 Extrema: Where Chemistry Settles",
+    "section": "Where a maximum must hide",
+    "text": "Where a maximum must hide\nFollow the yield in your mind. Early on, the yield is rising: y' &gt; 0. Late, the destruction step wins and the yield is falling: y' &lt; 0. Somewhere in between the curve stopped rising and started falling — and at that turning moment, for one instant, the yield was doing neither. The tangent line there is flat.\nThat is the entire idea, and it deserves to be stated as a condition:\n\nThe first-derivative condition. If a smooth function y(x) has a maximum or a minimum at an interior point x = c of its domain, then y'(c) = 0. Points where y' = 0 are called stationary points (the tangent is horizontal — the function is momentarily stationary).\n\nRead the logic direction carefully: every interior maximum or minimum is a stationary point, but not every stationary point is a maximum or minimum — we will meet the exception before the end of this section. The condition is a search warrant: it tells you the only interior places worth examining.\n\n\nBefore touching the slider: the yield curve y = 6t^2 - t^3 has two stationary points marked by hollow circles. Predict where they are — and predict the sign of y' just before and just after each one. Then drag (or press play) and watch the tangent line.\n\n\n\ntime t  ▶ sweep\n\n\n\n\n\n\n\n\nThe tangent is flat twice: at t = 4 (the maximum — rising before, falling after) and at t = 0 (a stationary start, climbing away). Notice what the readout shows at t = 4: y' = 0, but y'' is not zero — it is negative, and the curve is shaped like a cap. That second number is about to become the classifier.",
+    "crumbs": [
+      "4 · Change",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>4.1 Extrema: Where Chemistry Settles</span>"
+    ]
+  },
+  {
+    "objectID": "04-change/01-extrema.html#telling-tops-from-bottoms-the-second-derivative",
+    "href": "04-change/01-extrema.html#telling-tops-from-bottoms-the-second-derivative",
+    "title": "4.1 Extrema: Where Chemistry Settles",
+    "section": "Telling tops from bottoms: the second derivative",
+    "text": "Telling tops from bottoms: the second derivative\nA flat tangent happens at the top of a hill and at the bottom of a valley. The derivative alone cannot tell them apart — but the derivative of the derivative can. At a maximum the slope passes from positive through zero to negative: the slope is decreasing, so y'' &lt; 0. At a minimum the slope passes from negative to positive: increasing, so y'' &gt; 0. Geometrically, y'' &lt; 0 means the curve is curving downward like a cap (\\cap); y'' &gt; 0 means curving upward like a cup (\\cup). A cup holds its contents at a minimum; a cap sheds them from a maximum.\n\nThe second-derivative test. Suppose y'(c) = 0 at an interior point c. Then y''(c) &lt; 0 \\;\\Rightarrow\\; \\text{local maximum at } c, \\qquad\ny''(c) &gt; 0 \\;\\Rightarrow\\; \\text{local minimum at } c. If y''(c) = 0, the test is silent — not “it’s a maximum,” not “it’s a minimum,” just no verdict — and you must examine the sign of y' on each side of c.",
+    "crumbs": [
+      "4 · Change",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>4.1 Extrema: Where Chemistry Settles</span>"
+    ]
+  },
+  {
+    "objectID": "04-change/01-extrema.html#worked-example",
+    "href": "04-change/01-extrema.html#worked-example",
+    "title": "4.1 Extrema: Where Chemistry Settles",
+    "section": "Worked example",
+    "text": "Worked example\n\nExample 4.1.1 — the best time to stop the reaction. For y(t) = 6t^2 - t^3 on 0 \\le t \\le 6, find when the yield is largest and what it is.\nStep 1 — differentiate and set to zero. y'(t) = 12t - 3t^{2} = 3t\\,(4 - t) = 0 \\quad\\Rightarrow\\quad t = 0 \\;\\text{ or }\\; t = 4.\nStep 2 — classify with the second derivative. y''(t) = 12 - 6t, \\qquad y''(0) = +12 &gt; 0 \\;(\\text{minimum}), \\qquad y''(4) = -12 &lt; 0 \\;(\\text{maximum}).\nStep 3 — check the endpoints. The domain ends at t = 6: y(0) = 0, y(4) = 6(16) - 64 = 32 g, y(6) = 216 - 216 = 0 g. The interior maximum beats both endpoints.\nStep 4 — answer the chemist’s question. Stop the reaction at t = 4 h, harvesting 32 g. Running the full 6 h destroys everything you made.\nCheck. Units: y' in g/h, zero at an instant measured in hours — consistent. Limiting behavior: y'(1) = +9 g/h (still rising, too early to stop) and y'(5) = -15 g/h (already losing product) bracket the answer with the right signs. And the number is plausible: a maximum of 32 g between two zero endpoints.\n\nThat four-step rhythm — differentiate, solve, classify, check the edges — is the entire method, and it does not change no matter what function chemistry hands you.",
+    "crumbs": [
+      "4 · Change",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>4.1 Extrema: Where Chemistry Settles</span>"
+    ]
+  },
+  {
+    "objectID": "04-change/01-extrema.html#the-deepest-example-in-chemistry-why-bonds-have-lengths",
+    "href": "04-change/01-extrema.html#the-deepest-example-in-chemistry-why-bonds-have-lengths",
+    "title": "4.1 Extrema: Where Chemistry Settles",
+    "section": "The deepest example in chemistry: why bonds have lengths",
+    "text": "The deepest example in chemistry: why bonds have lengths\nTwo atoms approach each other. Too far apart, attraction pulls them in; too close, their electron clouds repel ferociously. The potential energy of the pair, in reduced units, is the Lennard-Jones curve V(r) = \\frac{1}{r^{12}} - \\frac{2}{r^{6}}, and the force between the atoms is F = -\\dfrac{dV}{dr} — the system is pushed downhill in energy.\nWhere does the pair come to rest? Exactly where the force vanishes: \\frac{dV}{dr} = -\\frac{12}{r^{13}} + \\frac{12}{r^{7}} = 0 \\quad\\Rightarrow\\quad r^{6} = 1 \\quad\\Rightarrow\\quad r = 1, with V(1) = -1. And is that rest stable? Differentiate again: \\;V''(1) = 156 - 84 = 72 &gt; 0 — a cup, a true minimum. Displace the atoms slightly and the force pushes them back.\nThe bond length of a molecule is the location of an energy minimum — a solved extremum problem. And the second derivative is not bookkeeping: V'' at the minimum is the stiffness of the bond, the force constant that sets its vibrational frequency in an IR spectrum. The first derivative tells you where the bond sits; the second tells you how it vibrates.\n\n\nSet the slider near r = 2 (a stretched pair) and predict: which way will the force arrow point? Now predict what happens if you press release — where will the atom end up, and will it stop there immediately or overshoot first?\n\n\n\nseparation r  ⬤ release the atom\n\n\n\n\n\n\n\n\nReleased from anywhere, the atom oscillates about r = 1 and settles there — the force is restoring on both sides precisely because V'' &gt; 0. That oscillation you watched is a molecular vibration; its frequency grows with the curvature V''. A stiffer cup (larger second derivative) means a faster vibration — which is why an IR spectrometer is, in the end, a second-derivative meter.",
+    "crumbs": [
+      "4 · Change",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>4.1 Extrema: Where Chemistry Settles</span>"
+    ]
+  },
+  {
+    "objectID": "04-change/01-extrema.html#remarks-and-cautions",
+    "href": "04-change/01-extrema.html#remarks-and-cautions",
+    "title": "4.1 Extrema: Where Chemistry Settles",
+    "section": "Remarks and cautions",
+    "text": "Remarks and cautions\n\nA flat tangent is not always a top or a bottom. Try y = x^{3} at x = 0: y'(0) = 0 and y''(0) = 0 — the test is silent, and rightly so, because the curve just pauses and keeps rising (y' = 3x^2 &gt; 0 on both sides). When y''(c) = 0, fall back to first principles: check the sign of y' on each side of c.\n\n\ny' = 0 only searches the interior. On a closed interval the largest value can sit at an endpoint, where the tangent need not be flat at all — a reaction stopped by the clock, not by the chemistry. Always evaluate the endpoints alongside the stationary points, as in Step 3 above.\n\n\nRemark. A maximum of y is a zero of y'. You have been using this backwards all course: when a plotted signal levels off, its derivative has dropped to zero. “Leveling off,” “turning over,” “settling” — chemistry’s vocabulary for equilibrium is the vocabulary of vanishing derivatives.",
+    "crumbs": [
+      "4 · Change",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>4.1 Extrema: Where Chemistry Settles</span>"
+    ]
+  },
+  {
+    "objectID": "04-change/01-extrema.html#summary",
+    "href": "04-change/01-extrema.html#summary",
+    "title": "4.1 Extrema: Where Chemistry Settles",
+    "section": "Summary",
+    "text": "Summary\nChemistry’s “where is the most?” and “where does it settle?” questions are answered by a two-derivative interrogation. The first derivative provides the search warrant: interior maxima and minima can hide only where y' = 0, so differentiate, set to zero, and solve. The second derivative provides the verdict: a negative y'' means a cap and a maximum, a positive y'' a cup and a minimum, and a zero y'' means no verdict at all — examine the slope’s sign on either side. Endpoints obey no tangent condition and must be checked by hand. The same four steps located a reaction’s optimal quench time and a molecule’s bond length; in the second case the curvature itself was physical, the stiffness that an IR spectrometer reads as a vibrational frequency. What the method does not yet answer: a bond vibrates about its minimum — how do we describe motion that endlessly trades position for speed? That is a differential equation, and it is where CHANGE goes next.",
+    "crumbs": [
+      "4 · Change",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>4.1 Extrema: Where Chemistry Settles</span>"
+    ]
+  },
+  {
+    "objectID": "04-change/01-extrema.html#practice-until-it-sticks",
+    "href": "04-change/01-extrema.html#practice-until-it-sticks",
+    "title": "4.1 Extrema: Where Chemistry Settles",
+    "section": "Practice until it sticks",
+    "text": "Practice until it sticks\nThis section’s exercise set is Problem Set 7 — Extrema, which opens with a second fully worked example before the problems begin.",
+    "crumbs": [
+      "4 · Change",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>4.1 Extrema: Where Chemistry Settles</span>"
+    ]
+  },
+  {
     "objectID": "99-answers.html",
     "href": "99-answers.html",
     "title": "Appendix A — Answers to Odd-Numbered Exercises",
@@ -1541,6 +1629,90 @@
       "Appendices",
       "Problem Sets",
       "<span class='chapter-number'>H</span>  <span class='chapter-title'>Problem Set 6 | Differentiation</span>"
+    ]
+  },
+  {
+    "objectID": "problem-sets/07-extrema.html",
+    "href": "problem-sets/07-extrema.html",
+    "title": "Appendix I — Problem Set 7 | Extrema",
+    "section": "",
+    "text": "Purpose\nChemistry asks “where is the most?” constantly: the optimal temperature, the equilibrium bond length, the pH where an enzyme works best, the moment to stop a reaction. This set trains the complete method — and only the method:\nThe lesson behind this set is §4.1 Extrema — read it first if you have not; the two interactive figures there are worth ten minutes.",
+    "crumbs": [
+      "Appendices",
+      "Problem Sets",
+      "<span class='chapter-number'>I</span>  <span class='chapter-title'>Problem Set 7 | Extrema</span>"
+    ]
+  },
+  {
+    "objectID": "problem-sets/07-extrema.html#purpose",
+    "href": "problem-sets/07-extrema.html#purpose",
+    "title": "Appendix I — Problem Set 7 | Extrema",
+    "section": "",
+    "text": "Differentiate and solve y' = 0 → the stationary points (the only interior candidates).\nClassify each with the second derivative: y'' &lt; 0 → maximum (cap, \\cap); y'' &gt; 0 → minimum (cup, \\cup); y'' = 0 → no verdict — check the sign of y' on each side.\nCheck the endpoints of the domain; they obey no tangent condition.\nInterpret: one sentence of chemical meaning, with units.",
+    "crumbs": [
+      "Appendices",
+      "Problem Sets",
+      "<span class='chapter-number'>I</span>  <span class='chapter-title'>Problem Set 7 | Extrema</span>"
+    ]
+  },
+  {
+    "objectID": "problem-sets/07-extrema.html#worked-example-read-this-before-the-problems",
+    "href": "problem-sets/07-extrema.html#worked-example-read-this-before-the-problems",
+    "title": "Appendix I — Problem Set 7 | Extrema",
+    "section": "Worked example — read this before the problems",
+    "text": "Worked example — read this before the problems\n\nAn enzyme’s best pH. A simple model for an enzyme’s activity (percent of maximum) as a function of pH, valid for 4 \\le p \\le 10: a(p) = -2p^{2} + 28p - 58. Find the pH of peak activity, the peak value, and confirm it is a maximum.\nStep 1 — differentiate, set to zero. The power rule, term by term: a'(p) = -4p + 28. a'(p) = 0 gives 4p = 28, so p = 7. One stationary point, and it lies inside the domain.\nStep 2 — classify. Differentiate again: a''(p) = -4 &lt; 0 \\quad\\text{for every } p, a cap everywhere — so p = 7 is a maximum. (Note we did not need to plug p = 7 in: here a'' is a constant.)\nStep 3 — endpoints. a(4) = -32 + 112 - 58 = 22; a(10) = -200 + 280 - 58 = 22; a(7) = -98 + 196 - 58 = 40. The interior maximum wins.\nStep 4 — interpret. The enzyme works best at pH 7, at 40% of theoretical maximum activity; three pH units away in either direction, activity has fallen to 22%.\nCheck. a'(6) = +4 &gt; 0 (still improving as pH rises toward 7) and a'(8) = -4 &lt; 0 (past the peak): the slope changes from rising to falling across p = 7, exactly what a maximum demands. Units: a' is activity-percent per pH unit, zero at the peak — dimensionally consistent.\n\nEvery problem below is this same four-step rhythm on a different function. Show all four steps each time.",
+    "crumbs": [
+      "Appendices",
+      "Problem Sets",
+      "<span class='chapter-number'>I</span>  <span class='chapter-title'>Problem Set 7 | Extrema</span>"
+    ]
+  },
+  {
+    "objectID": "problem-sets/07-extrema.html#a.-reading-before-computing",
+    "href": "problem-sets/07-extrema.html#a.-reading-before-computing",
+    "title": "Appendix I — Problem Set 7 | Extrema",
+    "section": "A. Reading before computing",
+    "text": "A. Reading before computing\n\n1. The graph knows first\nA curve rises from the left, flattens at x = 2, falls until x = 5, flattens again, then rises to the edge of the plot at x = 8.\n\nWhere is y' = 0?\nClassify each of those points (maximum or minimum) from the story alone — no formulas.\nWhat is the sign of y'' at each of them?\n\n\n\n2. Signs and units at a peak\nA product concentration [\\mathrm{P}](t) (in M, t in minutes) reaches its highest value at t = 12 min.\n\nWhat is the value of d[\\mathrm{P}]/dt at t = 12, and what are its units?\nWhat is the sign of d^{2}[\\mathrm{P}]/dt^{2} there, and what are its units?\nOne sentence: physically, why must the rate be zero at the moment of the peak?",
+    "crumbs": [
+      "Appendices",
+      "Problem Sets",
+      "<span class='chapter-number'>I</span>  <span class='chapter-title'>Problem Set 7 | Extrema</span>"
+    ]
+  },
+  {
+    "objectID": "problem-sets/07-extrema.html#b.-the-method-start-to-finish",
+    "href": "problem-sets/07-extrema.html#b.-the-method-start-to-finish",
+    "title": "Appendix I — Problem Set 7 | Extrema",
+    "section": "B. The method, start to finish",
+    "text": "B. The method, start to finish\nUse all four steps (differentiate/solve, classify, endpoints, interpret) on each.\n\n3. The reactor from Problem Set 6, finished\nn(t) = 3.0\\,t - 0.25\\,t^{2} (mol, hours, 0 \\le t \\le 8). In Set 6 you found where dn/dt = 0. Now classify that point with n'', check both endpoints, and report the maximum amount of product and when it occurs.\n\n\n4. A yield curve with a cubic twist\ny(t) = 9t^{2} - t^{3} (grams, hours, 0 \\le t \\le 9).\n\nFind both stationary points and classify each with y''.\nCheck the endpoints and report the best stopping time and the yield there.\nOne sentence: what is the destruction step doing to the curve after the peak?\n\n\n\n5. Why a bond has a length\nA simplified bond-energy model (reduced units): V(r) = \\frac{1}{r^{2}} - \\frac{2}{r}, \\qquad r &gt; 0.\n\nWrite V = r^{-2} - 2r^{-1} and find V'(r). Solve V'(r) = 0.\nCompute V'' at that point and state what its sign tells you about the bond.\nEvaluate V at the equilibrium separation. One sentence: what does this (negative) number mean, compared with V \\to 0 as r \\to \\infty?\nIf the atoms are pushed slightly closer than equilibrium, which way does the force F = -dV/dr point? (Answer from the sign of V', then say it in words.)\n\n\n\n6. Two stable isomers and the barrier between them\nA reaction coordinate has potential energy E(x) = x^{4} - 2x^{2} \\qquad (-2 \\le x \\le 2), where x is a structural coordinate and E is in reduced units.\n\nFind all three stationary points and classify each.\nWhich two are stable species, and which one is the transition state between them?\nWhat is the barrier height — the energy climb from a minimum to the top?\nOne sentence: why does a maximum of E deserve the name “transition state”?",
+    "crumbs": [
+      "Appendices",
+      "Problem Sets",
+      "<span class='chapter-number'>I</span>  <span class='chapter-title'>Problem Set 7 | Extrema</span>"
+    ]
+  },
+  {
+    "objectID": "problem-sets/07-extrema.html#c.-medium-logic-limits-and-traps",
+    "href": "problem-sets/07-extrema.html#c.-medium-logic-limits-and-traps",
+    "title": "Appendix I — Problem Set 7 | Extrema",
+    "section": "C. Medium: logic, limits, and traps",
+    "text": "C. Medium: logic, limits, and traps\n\n7. The 50:50 mixing maximum (the differentiation is done for you)\nThe entropy of mixing two liquids at mole fraction x is S(x) = -R\\,[\\,x\\ln x + (1-x)\\ln(1-x)\\,] for 0 &lt; x &lt; 1. Its derivatives are given (they need a rule you don’t have yet): S'(x) = -R\\,\\ln\\!\\frac{x}{1-x}, \\qquad S''(x) = -R\\left[\\frac{1}{x} + \\frac{1}{1-x}\\right].\n\nSolve S'(x) = 0. (When is a logarithm zero?)\nEvaluate the sign of S'' at that composition and classify.\nOne sentence: what does this say about which mixture is the most disordered?\n\n\n\n8. The tempting conclusion (explain why it is wrong)\nFor y = x^{3}, a classmate computes y'(0) = 0 and announces “a minimum at x = 0.”\n\nCompute y''(0). What verdict does the second-derivative test actually deliver?\nCheck the sign of y' at x = -0.1 and x = +0.1. Is x = 0 a maximum, a minimum, or neither?\nOne sentence: state the rule for what you must do whenever y'' = 0 at a stationary point.\n\n\n\n9. The endpoint trap\nA culture’s biomass grows as m(t) = 0.50\\,t (grams, 0 \\le t \\le 8 h).\n\nTry the method: solve m'(t) = 0. What happens?\nWhere is the maximum biomass, and what is it?\nOne sentence: what does this teach about relying on dy/dx = 0 alone?\n\n\n\n10. Inverse direction: from the derivative back to the curve\nYou are told only this about a signal s(T) measured against temperature: s'(T) is positive for T &lt; 340 K, zero at T = 340 K, and negative for T &gt; 340 K; furthermore s''(340) = -0.04 units/K².\n\nWhat is happening to s at 340 K? How confident can you be, and why?\nSketch (roughly) what s(T) must look like near 340 K.\nPropose one chemical system that could produce such a curve.",
+    "crumbs": [
+      "Appendices",
+      "Problem Sets",
+      "<span class='chapter-number'>I</span>  <span class='chapter-title'>Problem Set 7 | Extrema</span>"
+    ]
+  },
+  {
+    "objectID": "problem-sets/07-extrema.html#expectations",
+    "href": "problem-sets/07-extrema.html#expectations",
+    "title": "Appendix I — Problem Set 7 | Extrema",
+    "section": "Expectations",
+    "text": "Expectations\n\nAll four steps, every problem in Part B and C: differentiate/solve, classify, endpoints, interpret.\nUnits on every derivative and every answer with dimensions.\nWhen the second-derivative test is silent, say so explicitly and use the sign-of-y' fallback.\nSubmit on the course submission page as Set 7, or on paper.",
+    "crumbs": [
+      "Appendices",
+      "Problem Sets",
+      "<span class='chapter-number'>I</span>  <span class='chapter-title'>Problem Set 7 | Extrema</span>"
     ]
   }
 ]

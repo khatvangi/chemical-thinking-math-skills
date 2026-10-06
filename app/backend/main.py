@@ -414,7 +414,7 @@ except FileNotFoundError:
 # each course has its own instructor key, so instructor views are separate.
 COURSES = {"chem291": {"access_codes": _secrets.get("access_codes", []),
                        "instructor_key": _secrets.get("instructor_key", ""),
-                       "num_sets": 6}}
+                       "num_sets": 7}}
 for _name, _c in _secrets.get("courses", {}).items():
     COURSES[_name] = {"access_codes": _c.get("access_codes", []),
                       "instructor_key": _c.get("instructor_key", ""),

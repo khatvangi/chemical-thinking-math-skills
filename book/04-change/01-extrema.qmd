@@ -1,0 +1,200 @@
+---
+title: "4.1 Extrema: Where Chemistry Settles"
+---
+
+## The problem
+
+A synthetic chemist runs a two-step reaction in a flask. The product grows for a
+while — then the second step, which slowly destroys it, catches up. Stop the reaction
+too early and you leave yield unmade; stop too late and you have burned it. The yield
+as a function of time, from a kinetic model of the two steps, is
+
+$$y(t) = 6t^{2} - t^{3} \qquad (y \text{ in grams, } t \text{ in hours, } 0 \le t \le 6).$$
+
+You know from the last problem set what the derivative of this is and what it means:
+$y'(t)$ is the rate of yield growth, in grams per hour, *right now*. The question the
+chemist actually cares about is different: **when is the yield largest, and how large
+is it?** The derivative tells you how fast $y$ is changing at any moment you ask. It
+does not — at first glance — tell you where $y$ is *biggest*. This section is about
+the one observation that turns the first question into the second.
+
+## Where a maximum must hide
+
+Follow the yield in your mind. Early on, the yield is **rising**: $y' > 0$. Late, the
+destruction step wins and the yield is **falling**: $y' < 0$. Somewhere in between
+the curve stopped rising and started falling — and at that turning moment, for one
+instant, the yield was doing *neither*. The tangent line there is flat.
+
+That is the entire idea, and it deserves to be stated as a condition:
+
+::: {.env .theorem}
+**The first-derivative condition.** If a smooth function $y(x)$ has a maximum or a
+minimum at an interior point $x = c$ of its domain, then
+$$y'(c) = 0.$$
+Points where $y' = 0$ are called **stationary points** (the tangent is horizontal —
+the function is momentarily stationary).
+:::
+
+Read the logic direction carefully: every interior maximum or minimum is a stationary
+point, but not every stationary point is a maximum or minimum — we will meet the
+exception before the end of this section. The condition is a *search warrant*: it
+tells you the only interior places worth examining.
+
+::: {.widget-frame}
+::: {.widget-predict}
+Before touching the slider: the yield curve $y = 6t^2 - t^3$ has two stationary
+points marked by hollow circles. Predict where they are — and predict the sign of
+$y'$ just *before* and just *after* each one. Then drag (or press play) and watch the
+tangent line.
+:::
+::: {.widget-body}
+<div style="margin-bottom:0.6rem;">
+  <label>time t <input type="range" id="teT" min="0" max="6" value="0.6" step="0.02"></label>
+  <button id="tePlay" type="button">▶ sweep</button>
+</div>
+<canvas id="teCanvas" width="640" height="360"></canvas>
+<div class="widget-readout" id="teReadout"></div>
+:::
+::: {.widget-debrief}
+The tangent is flat twice: at $t = 4$ (the maximum — rising before, falling after)
+and at $t = 0$ (a stationary start, climbing away). Notice what the readout shows at
+$t = 4$: $y' = 0$, but $y''$ is *not* zero — it is negative, and the curve is shaped
+like a cap. That second number is about to become the classifier.
+:::
+:::
+
+## Telling tops from bottoms: the second derivative
+
+A flat tangent happens at the top of a hill *and* at the bottom of a valley. The
+derivative alone cannot tell them apart — but the derivative *of the derivative* can.
+At a maximum the slope passes from positive through zero to negative: the slope is
+**decreasing**, so $y'' < 0$. At a minimum the slope passes from negative to
+positive: increasing, so $y'' > 0$. Geometrically, $y'' < 0$ means the curve is
+curving downward like a cap ($\cap$); $y'' > 0$ means curving upward like a cup
+($\cup$). A cup holds its contents at a minimum; a cap sheds them from a maximum.
+
+::: {.env .theorem}
+**The second-derivative test.** Suppose $y'(c) = 0$ at an interior point $c$. Then
+$$y''(c) < 0 \;\Rightarrow\; \text{local maximum at } c, \qquad
+y''(c) > 0 \;\Rightarrow\; \text{local minimum at } c.$$
+If $y''(c) = 0$, the test is silent — not "it's a maximum," not "it's a minimum,"
+just *no verdict* — and you must examine the sign of $y'$ on each side of $c$.
+:::
+
+## Worked example
+
+::: {.env .example}
+**Example 4.1.1 — the best time to stop the reaction.** For
+$y(t) = 6t^2 - t^3$ on $0 \le t \le 6$, find when the yield is largest and what it is.
+
+*Step 1 — differentiate and set to zero.*
+$$y'(t) = 12t - 3t^{2} = 3t\,(4 - t) = 0 \quad\Rightarrow\quad t = 0 \;\text{ or }\; t = 4.$$
+
+*Step 2 — classify with the second derivative.*
+$$y''(t) = 12 - 6t, \qquad y''(0) = +12 > 0 \;(\text{minimum}), \qquad y''(4) = -12 < 0 \;(\text{maximum}).$$
+
+*Step 3 — check the endpoints.* The domain ends at $t = 6$:
+$y(0) = 0$, $y(4) = 6(16) - 64 = 32$ g, $y(6) = 216 - 216 = 0$ g.
+The interior maximum beats both endpoints.
+
+*Step 4 — answer the chemist's question.* Stop the reaction at $t = 4$ h, harvesting
+$32$ g. Running the full $6$ h destroys everything you made.
+
+*Check.* Units: $y'$ in g/h, zero at an instant measured in hours — consistent.
+Limiting behavior: $y'(1) = +9$ g/h (still rising, too early to stop) and
+$y'(5) = -15$ g/h (already losing product) bracket the answer with the right signs.
+And the number is plausible: a maximum of 32 g between two zero endpoints.
+:::
+
+That four-step rhythm — *differentiate, solve, classify, check the edges* — is the
+entire method, and it does not change no matter what function chemistry hands you.
+
+## The deepest example in chemistry: why bonds have lengths
+
+Two atoms approach each other. Too far apart, attraction pulls them in; too close,
+their electron clouds repel ferociously. The potential energy of the pair, in reduced
+units, is the Lennard-Jones curve
+$$V(r) = \frac{1}{r^{12}} - \frac{2}{r^{6}},$$
+and the force between the atoms is $F = -\dfrac{dV}{dr}$ — the system is pushed
+*downhill* in energy.
+
+Where does the pair come to rest? Exactly where the force vanishes:
+$$\frac{dV}{dr} = -\frac{12}{r^{13}} + \frac{12}{r^{7}} = 0 \quad\Rightarrow\quad r^{6} = 1 \quad\Rightarrow\quad r = 1,$$
+with $V(1) = -1$. And is that rest *stable*? Differentiate again:
+$\;V''(1) = 156 - 84 = 72 > 0$ — a cup, a true minimum. Displace the atoms slightly
+and the force pushes them back.
+
+**The bond length of a molecule is the location of an energy minimum — a solved
+extremum problem.** And the second derivative is not bookkeeping: $V''$ at the
+minimum is the *stiffness* of the bond, the force constant that sets its vibrational
+frequency in an IR spectrum. The first derivative tells you where the bond sits; the
+second tells you how it vibrates.
+
+::: {.widget-frame}
+::: {.widget-predict}
+Set the slider near $r = 2$ (a stretched pair) and predict: which way will the force
+arrow point? Now predict what happens if you press **release** — where will the atom
+end up, and will it stop there immediately or overshoot first?
+:::
+::: {.widget-body}
+<div style="margin-bottom:0.6rem;">
+  <label>separation r <input type="range" id="bwR" min="0.9" max="2.4" value="2.0" step="0.005"></label>
+  <button id="bwRelease" type="button">⬤ release the atom</button>
+</div>
+<canvas id="bwCanvas" width="640" height="360"></canvas>
+<div class="widget-readout" id="bwReadout"></div>
+:::
+::: {.widget-debrief}
+Released from anywhere, the atom oscillates about $r = 1$ and settles there — the
+force is restoring on *both* sides precisely because $V'' > 0$. That oscillation you
+watched is a molecular vibration; its frequency grows with the curvature $V''$.
+A stiffer cup (larger second derivative) means a faster vibration — which is why an
+IR spectrometer is, in the end, a second-derivative meter.
+:::
+:::
+
+## Remarks and cautions
+
+::: {.env .caution}
+**A flat tangent is not always a top or a bottom.** Try $y = x^{3}$ at $x = 0$:
+$y'(0) = 0$ and $y''(0) = 0$ — the test is silent, and rightly so, because the curve
+just pauses and keeps rising ($y' = 3x^2 > 0$ on *both* sides). When $y''(c) = 0$,
+fall back to first principles: check the sign of $y'$ on each side of $c$.
+:::
+
+::: {.env .caution}
+**$y' = 0$ only searches the interior.** On a closed interval the largest value can
+sit at an endpoint, where the tangent need not be flat at all — a reaction stopped by
+the clock, not by the chemistry. Always evaluate the endpoints alongside the
+stationary points, as in Step 3 above.
+:::
+
+::: {.env .remark}
+A maximum of $y$ is a *zero* of $y'$. You have been using this backwards all course:
+when a plotted signal levels off, its derivative has dropped to zero. "Leveling
+off," "turning over," "settling" — chemistry's vocabulary for equilibrium is the
+vocabulary of vanishing derivatives.
+:::
+
+## Summary
+
+Chemistry's "where is the most?" and "where does it settle?" questions are answered
+by a two-derivative interrogation. The first derivative provides the search warrant:
+interior maxima and minima can hide only where $y' = 0$, so differentiate, set to
+zero, and solve. The second derivative provides the verdict: a negative $y''$ means
+a cap and a maximum, a positive $y''$ a cup and a minimum, and a zero $y''$ means no
+verdict at all — examine the slope's sign on either side. Endpoints obey no tangent
+condition and must be checked by hand. The same four steps located a reaction's
+optimal quench time and a molecule's bond length; in the second case the curvature
+itself was physical, the stiffness that an IR spectrometer reads as a vibrational
+frequency. What the method does *not* yet answer: a bond vibrates about its minimum —
+how do we describe motion that endlessly trades position for speed? That is a
+differential equation, and it is where CHANGE goes next.
+
+## Practice until it sticks
+
+This section's exercise set is [Problem Set 7 — Extrema](../problem-sets/07-extrema.qmd),
+which opens with a second fully worked example before the problems begin.
+
+<script src="../js/widgets/tangent-explorer.js"></script>
+<script src="../js/widgets/bond-well.js"></script>
