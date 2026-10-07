@@ -141,6 +141,7 @@ a {
                   &::before { content: none; } }
 .env.example    { border-left-color: $slate;   &::before { content: "Worked Example"; color: $slate; } }
 .env.remark     { border-left-color: $gold;    &::before { content: "Remark"; color: $gold; } }
+.env.caution    { border-left-color: $oxblood; &::before { content: "Caution"; color: $oxblood; } }
 .env.check      { border-left-color: $moss; background: rgba($moss, 0.05);
                   &::before { content: "Check"; color: $moss; } }
 

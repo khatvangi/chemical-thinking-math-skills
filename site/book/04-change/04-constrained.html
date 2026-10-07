@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>3.4 Determinants and What They Mean – Chemical Thinking</title>
+<title>4.4 Constrained Extrema: Optimizing with a Budget – Chemical Thinking</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../04-change/01-derivative.html" rel="next">
-<link href="../03-matrices/03-transformations.html" rel="prev">
+<link href="../99-answers.html" rel="next">
+<link href="../04-change/03-extrema.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -294,7 +294,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../03-matrices/01-grids.html">3 · Matrices and Transformations</a></li><li class="breadcrumb-item"><a href="../03-matrices/04-determinants.html"><span class="chapter-title">3.4 Determinants and What They Mean</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../04-change/01-derivative.html">4 · Change</a></li><li class="breadcrumb-item"><a href="../04-change/04-constrained.html"><span class="chapter-title">4.4 Constrained Extrema: Optimizing with a Budget</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -437,7 +437,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../03-matrices/04-determinants.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">3.4 Determinants and What They Mean</span></a>
+  <a href="../03-matrices/04-determinants.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">3.4 Determinants and What They Mean</span></a>
   </div>
 </li>
       </ul>
@@ -468,7 +468,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../04-change/04-constrained.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">4.4 Constrained Extrema: Optimizing with a Budget</span></a>
+  <a href="../04-change/04-constrained.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">4.4 Constrained Extrema: Optimizing with a Budget</span></a>
   </div>
 </li>
       </ul>
@@ -555,9 +555,13 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#the-number-named" id="toc-the-number-named" class="nav-link active" data-scroll-target="#the-number-named">The number, named</a></li>
-  <li><a href="#what-it-means-for-transformations" id="toc-what-it-means-for-transformations" class="nav-link" data-scroll-target="#what-it-means-for-transformations">What it means for transformations</a></li>
-  <li><a href="#three-dimensions-and-the-crystallographer-paid" id="toc-three-dimensions-and-the-crystallographer-paid" class="nav-link" data-scroll-target="#three-dimensions-and-the-crystallographer-paid">Three dimensions, and the crystallographer paid</a></li>
+  <li><a href="#the-problem" id="toc-the-problem" class="nav-link active" data-scroll-target="#the-problem">The problem</a></li>
+  <li><a href="#one-budget-removes-one-knob" id="toc-one-budget-removes-one-knob" class="nav-link" data-scroll-target="#one-budget-removes-one-knob">One budget removes one knob</a></li>
+  <li><a href="#what-the-picture-says-tangency-and-parallel-gradients" id="toc-what-the-picture-says-tangency-and-parallel-gradients" class="nav-link" data-scroll-target="#what-the-picture-says-tangency-and-parallel-gradients">What the picture says: tangency and parallel gradients</a></li>
+  <li><a href="#a-second-system-how-a-chain-shares-a-stretch" id="toc-a-second-system-how-a-chain-shares-a-stretch" class="nav-link" data-scroll-target="#a-second-system-how-a-chain-shares-a-stretch">A second system: how a chain shares a stretch</a></li>
+  <li><a href="#does-the-even-split-ever-win-again-a-family-of-cases" id="toc-does-the-even-split-ever-win-again-a-family-of-cases" class="nav-link" data-scroll-target="#does-the-even-split-ever-win-again-a-family-of-cases">Does the even split ever win again? A family of cases</a></li>
+  <li><a href="#the-multiplier-is-a-price" id="toc-the-multiplier-is-a-price" class="nav-link" data-scroll-target="#the-multiplier-is-a-price">The multiplier is a price</a></li>
+  <li><a href="#the-physical-payoff-why-heat-flows-until-temperatures-match" id="toc-the-physical-payoff-why-heat-flows-until-temperatures-match" class="nav-link" data-scroll-target="#the-physical-payoff-why-heat-flows-until-temperatures-match">The physical payoff: why heat flows until temperatures match</a></li>
   <li><a href="#remarks-and-cautions" id="toc-remarks-and-cautions" class="nav-link" data-scroll-target="#remarks-and-cautions">Remarks and cautions</a></li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
   <li><a href="#practice-until-it-sticks" id="toc-practice-until-it-sticks" class="nav-link" data-scroll-target="#practice-until-it-sticks">Practice until it sticks</a></li>
@@ -568,9 +572,9 @@ window.Quarto = {
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../03-matrices/01-grids.html">3 · Matrices and Transformations</a></li><li class="breadcrumb-item"><a href="../03-matrices/04-determinants.html"><span class="chapter-title">3.4 Determinants and What They Mean</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../04-change/01-derivative.html">4 · Change</a></li><li class="breadcrumb-item"><a href="../04-change/04-constrained.html"><span class="chapter-title">4.4 Constrained Extrema: Optimizing with a Budget</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">3.4 Determinants and What They Mean</span></h1>
+<h1 class="title"><span class="chapter-title">4.4 Constrained Extrema: Optimizing with a Budget</span></h1>
 </div>
 
 
@@ -587,119 +591,125 @@ window.Quarto = {
 </header>
 
 
-<p>A crystallographer who has just solved a structure performs one last sanity check before submitting it: compute the crystal’s density and compare with the measured value. The formula is <span class="math inline">\rho = Z M / (N_A V)</span> — <span class="math inline">Z</span> formula units of molar mass <span class="math inline">M</span> in a cell of volume <span class="math inline">V</span> — and every quantity is in hand except <span class="math inline">V</span>. For a rectangular cell, volume is length × width × height. But real cells lean: the lattice vectors <span class="math inline">\mathbf{a}, \mathbf{b}, \mathbf{c}</span> of a monoclinic or triclinic crystal meet at oblique angles, the cell is a slanted box (a <em>parallelepiped</em>), and edge-lengths-multiplied is simply the wrong answer. Meanwhile, an unfinished thread dangles from Section <a href="../03-matrices/02-algebra.html">3.2</a>: the number <span class="math inline">ad - bc</span> appeared out of the algebra, decided single-handedly whether the dye assay could be solved, and left without explaining itself. This section is where the two mysteries turn out to be the same mystery. The number is called the determinant, and what it measures is <em>volume — with a sign</em>.</p>
-<section id="the-number-named" class="level2">
-<h2 class="anchored" data-anchor-id="the-number-named">The number, named</h2>
-<div class="env definition">
-<p><strong>Definition 3.4.1 (Determinant, 2×2).</strong> For <span class="math inline">A = \begin{pmatrix} a &amp; b \\ c &amp; d \end{pmatrix}</span>, the <strong>determinant</strong> is <span class="math display">
-\det A = ad - bc,
-</span> also written <span class="math inline">|A|</span>. Diagonal product minus anti-diagonal product.</p>
+<section id="the-problem" class="level2">
+<h2 class="anchored" data-anchor-id="the-problem">The problem</h2>
+<p>Two reagents are to be mixed for the elementary reaction <span class="math inline">\mathrm{A} + \mathrm{B} \to \mathrm{P}</span>, whose initial rate is <span class="math inline">k[\mathrm{A}][\mathrm{B}]</span>. Suppose a solubility limit (or a fixed ionic strength, or simply the capacity of the apparatus) caps the <em>total</em> concentration at <span class="math inline">[\mathrm{A}] + [\mathrm{B}] = C</span>. How should the budget be divided to get the fastest possible start?</p>
+<p>Section 4.3 taught us to find a maximum by solving <span class="math inline">y' = 0</span>, but it taught us for a function of <em>one</em> variable, and here there are two knobs: <span class="math inline">[\mathrm{A}]</span> and <span class="math inline">[\mathrm{B}]</span>. Try to ignore the cap and the question collapses — make both concentrations bigger and the rate grows without limit, so the unconstrained problem has no answer at all. It is the <strong>budget that gives the question its meaning</strong>. We have a quantity to make as large as possible (the <em>objective</em>, <span class="math inline">q = [\mathrm{A}][\mathrm{B}]</span>, which is the rate divided by <span class="math inline">k</span>) and a rule the choices must obey (the <em>constraint</em>, <span class="math inline">[\mathrm{A}]+[\mathrm{B}]=C</span>). This section is about how a constraint turns a two-knob problem back into one we already know how to solve — and what the solution means.</p>
+</section>
+<section id="one-budget-removes-one-knob" class="level2">
+<h2 class="anchored" data-anchor-id="one-budget-removes-one-knob">One budget removes one knob</h2>
+<p>The constraint is not an extra complication; it is a <em>relation</em> that removes one degree of freedom. If <span class="math inline">[\mathrm{A}]+[\mathrm{B}]=C</span>, then once you choose <span class="math inline">[\mathrm{A}]</span>, <span class="math inline">[\mathrm{B}]</span> is no longer yours to choose: <span class="math inline">[\mathrm{B}] = C - [\mathrm{A}]</span>. Substitute it into the objective and the two-knob function becomes a one-knob function, <span class="math display">q([\mathrm{A}]) = [\mathrm{A}]\,\big(C - [\mathrm{A}]\big),</span> and §4.3 applies unchanged. Geometrically, the allowed choices form a line through the <span class="math inline">[\mathrm{A}]</span>–<span class="math inline">[\mathrm{B}]</span> plane, and <span class="math inline">q</span> restricted to that line is the height of a landscape measured while walking along it. The <em>restricted function</em> is that height profile; its maximum is the answer.</p>
+<div class="env example">
+<p><strong>Example 4.4.1 — dividing a concentration budget.</strong> With <span class="math inline">C = 2.00</span> M, find the split of <span class="math inline">[\mathrm{A}]+[\mathrm{B}] = C</span> that maximizes the encounter factor <span class="math inline">q = [\mathrm{A}][\mathrm{B}]</span>.</p>
+<p><em>Setting it up.</em> One constraint, two variables: eliminate <span class="math inline">[\mathrm{B}]</span>. The domain is <span class="math inline">0 \le [\mathrm{A}] \le C</span> (concentrations cannot be negative).</p>
+<p><em>Solution.</em> <span class="math inline">q([\mathrm{A}]) = C[\mathrm{A}] - [\mathrm{A}]^{2}</span>, so by the power rule <span class="math display">\frac{dq}{d[\mathrm{A}]} = C - 2[\mathrm{A}] = 0 \quad\Rightarrow\quad [\mathrm{A}] = \frac{C}{2} = 1.00\ \text{M}, \quad [\mathrm{B}] = 1.00\ \text{M}.</span> The second derivative is <span class="math inline">d^{2}q/d[\mathrm{A}]^{2} = -2 &lt; 0</span>: a cap, a maximum. At the endpoints <span class="math inline">q = 0</span> (all A or all B means no encounters), so the interior point wins: <span class="math inline">q_{\max} = 1.00\ \text{M}^2</span>.</p>
+<p><em>Check.</em> Units: <span class="math inline">q</span> is in M². An uneven split <span class="math inline">0.5/1.5</span> gives <span class="math inline">q = 0.75</span> M², 25 % lower — consistent with a maximum at the even split. The result is also physically sensible: every encounter needs one A <em>and</em> one B, so starving either reagent hurts.</p>
 </div>
-<p>Section 3.2 established its first meaning by construction: <span class="math inline">A</span> is invertible exactly when <span class="math inline">\det A \neq 0</span>, because the inverse formula divides by it. The geometric meaning is the theorem the whole section leans on.</p>
+<div class="env proof remark">
+<p><span class="proof-title"><em>Remark</em>. </span>Both panels of the <a href="constrained-extrema-studio.html">constrained-extrema studio</a> show exactly this. On the left is the plane with contours of <span class="math inline">q</span> and the allowed line; on the right is the height profile along that line. Drag the point along the constraint and watch the profile’s tangent become flat at the even split. Change the total concentration <span class="math inline">C</span> and the optimum follows it.</p>
+</div>
+</section>
+<section id="what-the-picture-says-tangency-and-parallel-gradients" class="level2">
+<h2 class="anchored" data-anchor-id="what-the-picture-says-tangency-and-parallel-gradients">What the picture says: tangency and parallel gradients</h2>
+<p>The substitution trick works whenever you can solve the constraint for one variable. Its geometry, however, carries a deeper statement worth having. Draw the <strong>contours</strong> of the objective — the curves along which <span class="math inline">q</span> is constant (<span class="math inline">[\mathrm{A}][\mathrm{B}] = 0.4,\,1.0,\,1.7,\dots</span>, a family of hyperbolas). Walking along the constraint line, you cross contours, climbing or descending, until you reach a point where the line merely <em>grazes</em> a contour and turns back: the highest contour you can reach. <strong>At a constrained maximum, the constraint is tangent to a contour of the objective.</strong> If it crossed the contour, you could still step to a higher one.</p>
+<p>To say this with numbers, we need the vector that points uphill. When a function has two variables, its slope along each axis is an ordinary derivative with the <em>other</em> variable frozen.</p>
+<div class="env definition">
+<p><strong>Definition 4.4.1 (partial derivative, gradient).</strong> For <span class="math inline">f(x,y)</span>, the <em>partial derivative</em> <span class="math inline">\dfrac{\partial f}{\partial x}</span> is the ordinary derivative with respect to <span class="math inline">x</span> treating <span class="math inline">y</span> as a constant, and similarly for <span class="math inline">\dfrac{\partial f}{\partial y}</span>. The <em>gradient</em> is the vector <span class="math display">\nabla f = \left(\frac{\partial f}{\partial x},\; \frac{\partial f}{\partial y}\right),</span> which points in the direction of steepest ascent and is perpendicular to the contour through that point.</p>
+</div>
+<p>No new rules are involved — only the discipline of knowing which letter is the variable. For <span class="math inline">q = [\mathrm{A}][\mathrm{B}]</span>: <span class="math inline">\partial q/\partial[\mathrm{A}] = [\mathrm{B}]</span> (treat <span class="math inline">[\mathrm{B}]</span> as a constant multiplier) and <span class="math inline">\partial q/\partial[\mathrm{B}] = [\mathrm{A}]</span>, so <span class="math inline">\nabla q = ([\mathrm{B}],\,[\mathrm{A}])</span>. For the budget <span class="math inline">g = [\mathrm{A}]+[\mathrm{B}]</span>, <span class="math inline">\nabla g = (1,\,1)</span>, perpendicular to the constraint line.</p>
 <div class="env theorem">
-<p><strong>Theorem 3.4.2 (Determinant = signed area).</strong> Let <span class="math inline">\mathbf{u} = (a, c)</span> and <span class="math inline">\mathbf{v} = (b, d)</span> be the <em>columns</em> of <span class="math inline">A</span>. Then the parallelogram they span has <span class="math display">
-\text{area} = |\det A|,
-</span> and the sign of <span class="math inline">\det A</span> records orientation: positive when <span class="math inline">\mathbf{u}</span> turns counterclockwise to reach <span class="math inline">\mathbf{v}</span>, negative when clockwise.</p>
+<p><strong>Theorem 4.4.1 (parallel gradients).</strong> If <span class="math inline">f</span> has a maximum or minimum on the curve <span class="math inline">g(x,y) = c</span> at an interior point where <span class="math inline">\nabla g \neq 0</span>, then there is a number <span class="math inline">\lambda</span> such that <span class="math display">\nabla f = \lambda\,\nabla g.</span></p>
 </div>
 <div class="env proof">
-<p><span class="proof-title"><em>Proof</em>. </span>The parallelogram on <span class="math inline">\mathbf{u}, \mathbf{v}</span> with angle <span class="math inline">\theta</span> between them has area (base times height) <span class="math inline">|\mathbf{u}|\,|\mathbf{v}| \sin\theta</span>. Square it, and trade the sine for a cosine via <span class="math inline">\sin^2 = 1 - \cos^2</span>: <span class="math display">
-\text{area}^2 = |\mathbf{u}|^2 |\mathbf{v}|^2 (1 - \cos^2\theta) = |\mathbf{u}|^2 |\mathbf{v}|^2 - (\mathbf{u} \cdot \mathbf{v})^2 ,
-</span> using the §2.3 geometric form <span class="math inline">\mathbf{u} \cdot \mathbf{v} = |\mathbf{u}||\mathbf{v}|\cos\theta</span> to rewrite the second term. Now expand both terms in components and watch the algebra collapse: <span class="math display">
-(a^2 + c^2)(b^2 + d^2) - (ab + cd)^2
-= a^2 d^2 + c^2 b^2 - 2abcd
-= (ad - bc)^2 .
-</span> (The cross terms <span class="math inline">a^2b^2</span> and <span class="math inline">c^2d^2</span> cancel against the square’s expansion.) So <span class="math inline">\text{area} = |ad - bc|</span>. For the sign: rotating <span class="math inline">\mathbf{v}</span> continuously across the line of <span class="math inline">\mathbf{u}</span> takes <span class="math inline">\sin\theta</span> — and with it <span class="math inline">ad - bc</span> — through zero and out the other side negative; the sign is precisely which side of <span class="math inline">\mathbf{u}</span>’s line the vector <span class="math inline">\mathbf{v}</span> lies on, i.e., the handedness of the pair.</p>
+<p><span class="proof-title"><em>Proof</em>. </span>Move along the constraint with unit tangent direction <span class="math inline">\mathbf{t}</span>. When both variables change, the changes in <span class="math inline">f</span> from the two knobs add — the same “rates add” logic as in §4.2 — so the rate of change of <span class="math inline">f</span> along the curve is the dot product <span class="math inline">\nabla f\cdot\mathbf{t}</span>. At an extremum of <span class="math inline">f</span> restricted to the curve, that rate is zero (the first-derivative condition of §4.3), so <span class="math inline">\nabla f \perp \mathbf{t}</span>. But <span class="math inline">g</span> is constant along its own level curve, so likewise <span class="math inline">\nabla g \perp \mathbf{t}</span>. In the plane, two vectors that are both perpendicular to the same nonzero vector point along the same line; hence <span class="math inline">\nabla f = \lambda\nabla g</span> for some number <span class="math inline">\lambda</span>.</p>
 </div>
-<p>The identity in the middle of that proof — area² = (length product)² − (dot product)² — is Lagrange’s identity, and it is the exact algebraic sibling of Cauchy–Schwarz from §2.3: Cauchy–Schwarz says the dot product can’t exceed the length product, and Lagrange says the <em>deficit</em> is exactly the spanned area, squared. Perpendicular vectors waste none of their lengths on overlap and span maximal area; parallel vectors overlap entirely and span none.</p>
+<p>The theorem and the substitution method are the <em>same fact</em> seen two ways: setting the derivative along the line to zero is setting <span class="math inline">\nabla f\cdot\mathbf{t}</span> to zero. At the optimum of Example 4.4.1, <span class="math inline">\nabla q = ([\mathrm{B}],[\mathrm{A}]) = (1.00,\,1.00)</span> M <span class="math inline">= \lambda\,(1,1)</span>, so <span class="math inline">\lambda = 1.00</span> M <span class="math inline">= C/2</span>. The gradient arrows in the studio are parallel exactly at the optimum, and visibly <em>not</em> parallel anywhere else.</p>
 </section>
-<section id="what-it-means-for-transformations" class="level2">
-<h2 class="anchored" data-anchor-id="what-it-means-for-transformations">What it means for transformations</h2>
-<p>Section <a href="../03-matrices/03-transformations.html">3.3</a> taught us to read a matrix as a motion of space whose columns are the fates of <span class="math inline">\hat{\mathbf{x}}</span> and <span class="math inline">\hat{\mathbf{y}}</span>. Those two vectors span the unit square, area 1; after the transformation, their images — the columns — span a parallelogram of area <span class="math inline">|\det A|</span>. And because linear maps treat all of space uniformly (linearity is exactly the no-favoritism clause), <em>every</em> region’s area gets multiplied by the same factor:</p>
-<ul>
-<li><span class="math inline">|\det A|</span> is the transformation’s universal <strong>area scale factor</strong>;</li>
-<li><span class="math inline">\det A &lt; 0</span> means the map <strong>flips orientation</strong> — it is, or contains, a reflection. This is the one-number chirality flag promised in §3.3: rotations have <span class="math inline">\det R(\theta) = \cos^2\theta + \sin^2\theta = +1</span>, while every mirror has <span class="math inline">\det = -1</span>, which is why no amount of rotating (<span class="math inline">+1</span> times <span class="math inline">+1</span> forever) ever reproduces a reflection;</li>
-<li><span class="math inline">\det A = 0</span> means the columns are parallel (zero spanned area): the map <em>flattens</em> the plane onto a line, distinct inputs collide onto identical outputs, and no inverse can exist — §3.2’s singular matrices, now seen geometrically. The dye assay with proportional absorptivity columns didn’t fail by bad luck; its matrix crushed concentration space flat, and the measurement could not be un-crushed.</li>
-</ul>
-<p>All three bullets can be <em>watched</em>. Replay §3.3’s grid animation with this section’s eyes on the readout: the moving number is <span class="math inline">\det M(t)</span> as the plane deforms, the shaded square is the unit of area being priced, and the color flip at the instant the square turns inside-out is the sign changing hands.</p>
+<section id="a-second-system-how-a-chain-shares-a-stretch" class="level2">
+<h2 class="anchored" data-anchor-id="a-second-system-how-a-chain-shares-a-stretch">A second system: how a chain shares a stretch</h2>
+<p>The even split of Example 4.4.1 might tempt you to believe that “constrained optimum” means “divide equally.” A system with unequal parts corrects that. Two bonds in a chain (a polymer segment, or a flexible linker between two sites) are stretched so that their lengths <span class="math inline">r_1 + r_2</span> must equal a fixed total <span class="math inline">L</span> — the ends are held. In reduced units each bond is a spring with its own rest length (<span class="math inline">=1</span>) and stiffness: bond 1 is stiff and bond 2 is soft, <span class="math display">E = (r_1 - 1)^{2} + \tfrac12\,(r_2 - 1)^{2}.</span> How does the chain share the stretch, so as to minimize its total strain energy?</p>
+<div class="env example">
+<p><strong>Example 4.4.2 — sharing a fixed stretch.</strong> For <span class="math inline">L = 2.6</span>, find <span class="math inline">r_1</span> and <span class="math inline">r_2</span> that minimize <span class="math inline">E</span> subject to <span class="math inline">r_1 + r_2 = L</span>, with each <span class="math inline">r_i \ge 0.9</span>.</p>
+<p><em>Setting it up.</em> Eliminate <span class="math inline">r_2 = L - r_1</span>. Then <span class="math inline">E(r_1) = (r_1-1)^2 + \tfrac12(L - r_1 - 1)^2</span>, with domain <span class="math inline">0.9 \le r_1 \le L - 0.9 = 1.7</span>.</p>
+<p><em>Solution.</em> By the chain rule, <span class="math display">\frac{dE}{dr_1} = 2(r_1-1) - (L - r_1 - 1) = 3r_1 - L - 1 = 0 \;\Rightarrow\; r_1 = \frac{L+1}{3} = 1.20,\quad r_2 = 1.40.</span> <span class="math inline">\dfrac{d^{2}E}{dr_1^{2}} = 3 &gt; 0</span>: a cup, a minimum. Endpoints: <span class="math inline">E(0.9) = 0.255</span>, <span class="math inline">E(1.7) = 0.495</span>, both above <span class="math inline">E_{\min} = (L-2)^2/3 = 0.120</span>.</p>
+<p><em>Interpretation and check.</em> The stiff bond stretches by <span class="math inline">r_1 - 1 = 0.20</span>; the soft one by <span class="math inline">r_2 - 1 = 0.40</span>. <strong>The stiffer bond takes half the extension of the softer one — the shares are inversely proportional to stiffness.</strong> The gradient confirms the physics: <span class="math inline">\nabla E = \big(2(r_1-1),\; r_2-1\big) = (0.40,\,0.40) = \lambda(1,1)</span>, so <span class="math inline">\lambda = 0.40</span> — and <span class="math inline">0.40</span> is <em>the force in each bond</em>: springs in series carry the same tension, and the multiplier turns out to be that shared tension.</p>
+</div>
+<p>In molecular terms this is why strain in a stretched chain concentrates in its softest link, a first-principles reason behind mechanochemistry. The optimum was not an equal split, but it was the same procedure: eliminate, differentiate, classify, check the edges, interpret.</p>
+</section>
+<section id="does-the-even-split-ever-win-again-a-family-of-cases" class="level2">
+<h2 class="anchored" data-anchor-id="does-the-even-split-ever-win-again-a-family-of-cases">Does the even split ever win again? A family of cases</h2>
+<p>Back to the reagents. Real reactions are not all <span class="math inline">\mathrm{A}+\mathrm{B}</span>: an elementary step <span class="math inline">2\mathrm{A}+\mathrm{B}\to\mathrm{P}</span> has rate <span class="math inline">k[\mathrm{A}]^2[\mathrm{B}]</span> and, in general, <span class="math inline">k[\mathrm{A}]^{a}[\mathrm{B}]^{b}</span>. Keep the budget fixed and change only the exponents: for which feed ratio is the initial rate largest?</p>
 <div class="widget-frame">
 <div class="widget-predict">
-<p>Run <em>rotation 90°</em> and watch only the det readout: predict its value throughout the whole motion. Then run <em>shear</em> — the square leans hard; predict the final determinant before the animation ends.</p>
+<p>Before touching anything: for <span class="math inline">k[\mathrm{A}][\mathrm{B}]^{2}</span> with a total of <span class="math inline">0.60</span> M, predict the best <span class="math inline">[\mathrm{A}]</span> and <span class="math inline">[\mathrm{B}]</span>. Then predict what changes for <span class="math inline">[\mathrm{A}]^{2}[\mathrm{B}]</span>. Is it still an even split? Set the exponents and check.</p>
 </div>
 <div class="widget-body">
-<div style="display:flex; gap:1.2rem; flex-wrap:wrap; align-items:center; margin-bottom:0.6rem;">
-<p><label>matrix <select id="gtPreset"> <option value="shear">shear</option> <option value="rot90">rotation 90°</option> <option value="reflect">reflection σᵥ</option> <option value="scale">anisotropic scale</option> <option value="singular">singular collapse</option> </select> </label> <button id="gtPlay" type="button">▶ play</button> <label>scrub <input type="range" id="gtScrub" min="0" max="100" value="0"></label></p>
+<div style="margin-bottom:0.6rem;">
+<p><label>exponent a <input type="range" id="soA" min="1" max="4" value="1" step="1"></label> <label style="margin-left:1rem;">exponent b <input type="range" id="soB" min="1" max="4" value="2" step="1"></label> <label style="margin-left:1rem;">total C <input type="range" id="soC" min="0.2" max="2" value="0.6" step="0.05"></label></p>
 </div>
-<canvas id="gtCanvas" width="640" height="440">
+<div style="margin-bottom:0.6rem;">
+<p><label>[A] on the budget <input type="range" id="soX" min="0" max="1" value="0.15" step="0.005"></label> <button id="soPlay" type="button">▶ sweep</button></p>
+</div>
+<canvas id="soCanvas" width="640" height="340">
 </canvas>
-<div id="gtReadout" class="widget-readout">
+<div id="soReadout" class="widget-readout">
 
 </div>
 </div>
 <div class="widget-debrief">
-<p>The rotation holds <span class="math inline">\det = 1</span> for the <em>entire</em> motion — rigid turning never touches area or orientation. The shear ends at <span class="math inline">\det = 1</span> too, the surprise that Example 3.4.4’s leaning unit cell will monetize: slant costs no volume. The reflection passes through <span class="math inline">\det = 0</span> on its way to <span class="math inline">-1</span> — to turn the square inside out, the animation must momentarily flatten it — and the singular matrix parks there permanently: area annihilated, plane collapsed to a line, no inverse to be had at any price.</p>
+<p>The optimum sits at <span class="math inline">[\mathrm{A}]^{*} = \dfrac{a}{a+b}\,C</span>: for <span class="math inline">[\mathrm{A}][\mathrm{B}]^2</span> with <span class="math inline">0.60</span> M, <span class="math inline">[\mathrm{A}]^* = 0.20</span> M and <span class="math inline">[\mathrm{B}]^* = 0.40</span> M — a <span class="math inline">1\!:\!2</span> feed, not <span class="math inline">1\!:\!1</span>. The best mixture is the one in the <strong>stoichiometric ratio</strong> of the exponents. The gradient condition shows why: <span class="math inline">\partial q/\partial[\mathrm{A}] = a\,q/[\mathrm{A}]</span> and <span class="math inline">\partial q/\partial[\mathrm{B}] = b\,q/[\mathrm{B}]</span>, and since <span class="math inline">\nabla g = (1,1)</span> the two must be equal at the optimum, which forces <span class="math inline">[\mathrm{A}]/[\mathrm{B}] = a/b</span>. Notice the curve changes <em>shape</em> with the exponents — more lopsided, more cusp-like — but it keeps its single interior peak.</p>
 </div>
 </div>
-<p>Composition seals the story. Applying <span class="math inline">B</span> then <span class="math inline">A</span> scales areas by <span class="math inline">|\det B|</span>, then by <span class="math inline">|\det A|</span> — so the composite must scale by the product, and signs multiply for the same reason (two flips make a straight):</p>
-<div class="env theorem">
-<p><strong>Theorem 3.4.3 (Product rule).</strong> <span class="math inline">\det(AB) = \det(A)\,\det(B)</span>.</p>
-</div>
-<p>The geometric argument just given <em>is</em> the proof, granted the one fact that a linear map scales all areas equally (Exercise 8 verifies the rule by brute algebra for <span class="math inline">2 \times 2</span>, a satisfying if unilluminating check). Note what the rule instantly implies: <span class="math inline">\det(A^{-1}) = 1/\det A</span> (undoing a ×3 area stretch must be a ×⅓), and no product of nonsingular matrices is ever singular.</p>
+<p>For a termolecular step <span class="math inline">2\mathrm{A}+\mathrm{B}</span> with a <span class="math inline">0.90</span> M budget the best feed is <span class="math inline">0.60</span> M A and <span class="math inline">0.30</span> M B: <strong>feed the reagents in the ratio in which the reaction consumes them.</strong> The even split of Example 4.4.1 was not a general principle but the special case <span class="math inline">a = b = 1</span>.</p>
 </section>
-<section id="three-dimensions-and-the-crystallographer-paid" class="level2">
-<h2 class="anchored" data-anchor-id="three-dimensions-and-the-crystallographer-paid">Three dimensions, and the crystallographer paid</h2>
-<p>Everything scales up one dimension. The <span class="math inline">3 \times 3</span> determinant is computed by <em>cofactor expansion</em> along the top row — each entry times the <span class="math inline">2 \times 2</span> determinant of what remains when its row and column are struck out, with alternating signs: <span class="math display">
-\det \begin{pmatrix} a_1 &amp; b_1 &amp; c_1 \\ a_2 &amp; b_2 &amp; c_2 \\ a_3 &amp; b_3 &amp; c_3 \end{pmatrix}
-= a_1 \begin{vmatrix} b_2 &amp; c_2 \\ b_3 &amp; c_3 \end{vmatrix}
-- b_1 \begin{vmatrix} a_2 &amp; c_2 \\ a_3 &amp; c_3 \end{vmatrix}
-+ c_1 \begin{vmatrix} a_2 &amp; b_2 \\ a_3 &amp; b_3 \end{vmatrix},
-</span> and its absolute value is the <strong>volume of the parallelepiped</strong> spanned by the three column vectors — the slanted box, exactly the crystallographer’s unit cell.</p>
-<div class="env example">
-<p><strong>Example 3.4.4 (Density check on a monoclinic crystal).</strong> A monoclinic cell has lattice vectors (Å) <span class="math inline">\mathbf{a} = (9.8, 0, 0)</span>, <span class="math inline">\mathbf{b} = (0, 9.4, 0)</span>, <span class="math inline">\mathbf{c} = (-1.2, 0, 9.3)</span> — the <span class="math inline">\mathbf{c}</span> axis leans in the <span class="math inline">xz</span>-plane. The cell holds <span class="math inline">Z = 4</span> molecules of <span class="math inline">M = 180.2</span> g/mol. Find the cell volume and predicted density.</p>
-<p><em>Setting it up.</em> Columns into a matrix, cofactor expansion, then <span class="math inline">\rho = ZM/(N_A V)</span>.</p>
-<p><em>Solution.</em> <span class="math display">
-V = \left| \det \begin{pmatrix} 9.8 &amp; 0 &amp; -1.2 \\ 0 &amp; 9.4 &amp; 0 \\ 0 &amp; 0 &amp; 9.3 \end{pmatrix} \right|
-= \left| 9.8 \begin{vmatrix} 9.4 &amp; 0 \\ 0 &amp; 9.3 \end{vmatrix} - 0 + (-1.2) \begin{vmatrix} 0 &amp; 9.4 \\ 0 &amp; 0 \end{vmatrix} \right|
-= 9.8 \times 87.42 - 1.2 \times 0 = 856.7\ \text{Å}^3 .
-</span> Then, converting <span class="math inline">V = 856.7 \times 10^{-24}</span> cm³, <span class="math display">
-\rho = \frac{Z M}{N_A V} = \frac{4 \times 180.2}{(6.022 \times 10^{23})(856.7 \times 10^{-24})} = \frac{720.8}{515.9} = 1.40\ \text{g/cm}^3 .
-</span></p>
-<p><em>Check.</em> Units: g·mol⁻¹ over (mol⁻¹·cm³) is g/cm³ ✓. Magnitude: 1.40 g/cm³ is exactly where small-molecule organic crystals live (1.2–1.6) ✓. And the geometry teaches its own lesson: the lean of <span class="math inline">\mathbf{c}</span> — the <span class="math inline">-1.2</span> — <em>dropped out</em>, multiplied by a determinant of zeros. A sheared box has the same volume as the upright one with the same base and height; only naive edge-length multiplication (<span class="math inline">9.8 \times 9.4 \times \sqrt{1.2^2 + 9.3^2} = 863.8</span> Å³, wrong by 0.8%) is fooled by the slant. For strongly leaning triclinic cells the naive error grows to many percent — real referees catch real papers this way.</p>
+<section id="the-multiplier-is-a-price" class="level2">
+<h2 class="anchored" data-anchor-id="the-multiplier-is-a-price">The multiplier is a price</h2>
+<p>What <em>is</em> <span class="math inline">\lambda</span>? It has appeared three times — <span class="math inline">1.00</span> M for the reagents, <span class="math inline">0.40</span> for the chain tension — and each time it was found by comparing gradients. It has a meaning that checks out in both examples. Relax the budget slightly and ask how much the <em>optimal</em> value improves. For the reagents, the best possible <span class="math inline">q</span> at total <span class="math inline">C</span> is <span class="math inline">q^*(C) = C^{2}/4</span>, so <span class="math display">\frac{dq^*}{dC} = \frac{C}{2} = \lambda .</span> At <span class="math inline">C = 2.00</span> M this is <span class="math inline">1.00</span> M, exactly the <span class="math inline">\lambda</span> found before; and a numerical check agrees (<span class="math inline">q^*(1.6) - q^*(1.5) = 0.0775</span> over a <span class="math inline">0.1</span> M change, a rate of <span class="math inline">0.775</span> — the value of <span class="math inline">\lambda = C/2</span> at the midpoint). For the chain, the minimum strain is <span class="math inline">E^*(L) = (L-2)^2/3</span>, so <span class="math display">\frac{dE^*}{dL} = \frac{2(L-2)}{3} = 0.40 \quad\text{at } L = 2.6 = \lambda .</span> Here it is pure physics: the energy cost of stretching the held chain a little further is force times distance, so <span class="math inline">dE^*/dL</span> <em>is</em> the tension <span class="math inline">F</span>. In both examples <span class="math display">\boxed{\;\lambda = \frac{d(\text{optimal value})}{d(\text{budget})}\;}</span> — the <strong>price of the constraint</strong>, the amount the optimum improves per unit of extra budget. We have verified this in two cases rather than proved it in general, but it holds in general (it is the <em>shadow price</em> of optimization theory). Its units give it away: <span class="math inline">\lambda</span> carries (objective units) per (budget units) — M²/M, or energy per length, which is force.</p>
+</section>
+<section id="the-physical-payoff-why-heat-flows-until-temperatures-match" class="level2">
+<h2 class="anchored" data-anchor-id="the-physical-payoff-why-heat-flows-until-temperatures-match">The physical payoff: why heat flows until temperatures match</h2>
+<p>One more system, and the most important in chemistry, because its multiplier is a quantity you already know. Two bodies exchange energy but are isolated from everything else, so their energies obey a fixed total <span class="math inline">E_1 + E_2 = E</span>. Statistical mechanics tells us that a body with <span class="math inline">f</span> quadratic degrees of freedom has entropy <span class="math inline">S = \tfrac{f}{2}\ln E_i + \text{const}</span> (in units of <span class="math inline">k_B</span>) — more energy, more accessible microstates, with diminishing returns. Write <span class="math inline">a = f_1/2</span> and <span class="math inline">b = f_2/2</span>. The system will settle where the <em>total</em> entropy is largest: <span class="math display">S_{\text{tot}} = a\ln E_1 + b\ln E_2, \qquad E_1 + E_2 = E.</span></p>
+<p>Eliminate <span class="math inline">E_2 = E - E_1</span> and differentiate: <span class="math display">\frac{dS_{\text{tot}}}{dE_1} = \frac{a}{E_1} - \frac{b}{E - E_1} = 0 \;\Rightarrow\; E_1 = \frac{a}{a+b}\,E .</span> The second derivative <span class="math inline">-a/E_1^2 - b/E_2^2 &lt; 0</span> confirms a maximum. And the multiplier: <span class="math inline">\nabla S = (a/E_1,\; b/E_2) = \lambda\,(1,1)</span>, so <span class="math display">\frac{a}{E_1} = \frac{b}{E_2} = \lambda .</span> Now recall what <span class="math inline">dS/dE</span> <em>means</em> in thermodynamics: <span class="math inline">\dfrac{dS}{dE} = \dfrac{1}{T}</span>. The two slopes at the optimum are <span class="math inline">1/T_1</span> and <span class="math inline">1/T_2</span>, so <strong><span class="math inline">\lambda = 1/T</span> and the optimum is <span class="math inline">T_1 = T_2</span></strong>: thermal equilibrium is a constrained maximum of entropy, and the multiplier is the inverse temperature. The split <span class="math inline">E_1 = \frac{a}{a+b}E</span> gives each degree of freedom the same energy — <strong>equipartition</strong>, derived from a Lagrange condition.</p>
+<div class="widget-frame">
+<div class="widget-predict">
+<p>Body 1 has <span class="math inline">a = 3</span> (six modes), body 2 has <span class="math inline">a = 2</span> (four modes), sharing <span class="math inline">E = 10</span>. Place body 1 at <span class="math inline">E_1 = 8</span> (lots of energy). Predict: which body is hotter, and which way will energy flow? Then press <strong>let heat flow</strong> and watch the temperatures — and the total entropy — as the system relaxes.</p>
+</div>
+<div class="widget-body">
+<div style="margin-bottom:0.6rem;">
+<p><label>modes a <input type="range" id="ssA" min="1" max="5" value="3" step="1"></label> <label style="margin-left:1rem;">modes b <input type="range" id="ssB" min="1" max="5" value="2" step="1"></label> <label style="margin-left:1rem;">energy of body 1 <input type="range" id="ssE1" min="0.5" max="9.5" value="8" step="0.05"></label> <button id="ssRelax" type="button">▶ let heat flow</button></p>
+</div>
+<canvas id="ssCanvas" width="640" height="380">
+</canvas>
+<div id="ssReadout" class="widget-readout">
+
+</div>
+</div>
+<div class="widget-debrief">
+<p>At <span class="math inline">E_1 = 8</span> body 1 is the hot one (<span class="math inline">T_1 = E_1/a = 2.67 &gt; T_2 = E_2/b = 1.00</span>): energy flows from body 1 to body 2, the total entropy climbs, and the two inverse temperatures — the two tangent slopes — converge until they are equal at <span class="math inline">E_1 = 6</span>, <span class="math inline">E_2 = 4</span>, <span class="math inline">T = 2</span>. Heat flows from hot to cold <em>because that is the direction in which total entropy increases</em>. The slope bars equalizing is the picture of <span class="math inline">\nabla S = \lambda\nabla g</span> with <span class="math inline">\lambda = 1/T</span>.</p>
+</div>
 </div>
 </section>
 <section id="remarks-and-cautions" class="level2">
 <h2 class="anchored" data-anchor-id="remarks-and-cautions">Remarks and cautions</h2>
-<p><strong>Determinants belong to square matrices only.</strong> A non-square matrix maps between spaces of different dimensions; “volume scale factor” has no meaning for it, and neither does det. If you find yourself wanting <span class="math inline">\det</span> of a <span class="math inline">3 \times 2</span>, the question upstream is malformed.</p>
-<p><strong>The determinant is not linear in the matrix.</strong> <span class="math inline">\det(A + B) \neq \det A + \det B</span> in general — areas do not add when you add span vectors. Worse, and heavily examined: <span class="math inline">\det(cA) = c^2 \det A</span> for <span class="math inline">2 \times 2</span> (and <span class="math inline">c^3</span> for <span class="math inline">3 \times 3</span>), because <em>every</em> column picks up the factor <span class="math inline">c</span> and each contributes one power. Doubling a matrix quadruples areas.</p>
-<p><strong>“Nearly singular” is a laboratory condition, not just a mathematical one.</strong> A determinant close to zero means the columns are nearly parallel and the inverse divides by a small number, amplifying measurement noise enormously. For the dye assay: choose wavelengths where the two spectra differ in <em>shape</em>, making <span class="math inline">\det E</span> comfortably large — determinant magnitude is a quantitative experiment-design criterion, not an afterthought.</p>
-<p><strong>Signs carry physics; magnitudes carry geometry.</strong> Report volumes as <span class="math inline">|\det|</span>; read handedness from the sign. A negative “volume” in your work means the column vectors were taken in a left-handed order — harmless for <span class="math inline">V</span>, fatal if you were tracking chirality and dropped the sign.</p>
+<div class="env caution">
+<p><strong>Do not forget the constraint.</strong> Setting <em>both</em> partial derivatives of <span class="math inline">q</span> to zero, <span class="math inline">[\mathrm{B}] = 0</span> and <span class="math inline">[\mathrm{A}] = 0</span>, finds the unconstrained stationary point at the origin, where <span class="math inline">q = 0</span> — the wrong question’s answer. The constraint changes which points are admissible and which condition characterizes the best one. The right condition is <span class="math inline">\nabla f = \lambda\nabla g</span>, never <span class="math inline">\nabla f = 0</span>.</p>
+</div>
+<div class="env caution">
+<p><strong>Parallel gradients find candidates, not verdicts.</strong> Like <span class="math inline">y' = 0</span> in §4.3, the condition <span class="math inline">\nabla f = \lambda\nabla g</span> only says where an extremum <em>could</em> be. Classify it with the second derivative of the restricted function (or with the profile), and compare the endpoints of the allowed range — a budget has edges (zero concentration, a bond that cannot compress) where the tangent condition need not hold.</p>
+</div>
+<div class="env proof remark">
+<p><span class="proof-title"><em>Remark</em>. </span>Read units to identify <span class="math inline">\lambda</span>: it always carries (objective units) per (budget units). That is M²/M for the reagents, energy per length — a force — for the chain, and <span class="math inline">k_B</span> per energy — an inverse temperature — for the heat-sharing bodies. A multiplier whose units you cannot interpret is usually a signal to recheck the setup.</p>
+</div>
 </section>
 <section id="summary" class="level2">
 <h2 class="anchored" data-anchor-id="summary">Summary</h2>
-<p>The determinant — <span class="math inline">ad - bc</span> in two dimensions, cofactor expansion in three — is the signed volume spanned by a matrix’s columns, proved via Lagrange’s identity, which casts it as the exact geometric complement of the dot product: overlap squared plus span squared equals length-product squared. Read as a transformation, <span class="math inline">|\det A|</span> is the universal area/volume scale factor, its sign the orientation flag that separates rotations (<span class="math inline">+1</span>) from reflections (<span class="math inline">-1</span>) and hands chirality a one-number test, and its vanishing the geometric truth behind §3.2’s uninvertible matrices: a flattened space cannot be unflattened. Scale factors multiply under composition — <span class="math inline">\det(AB) = \det A \det B</span> — and the three-dimensional version prices the crystallographer’s slanted unit cell exactly, shear and all, closing the density check that opened the section. With grids that act (§3.1), an algebra that composes and undoes (§3.2), motions read from columns (§3.3), and a single number governing volume, orientation, and solvability, the matrix toolkit of Module 1 is complete — Module 2 asks what happens when things begin to <em>change</em>.</p>
-<div class="exercises">
-<p>Exercises</p>
-<ol type="1">
-<li><p>Compute the determinants: <span class="math inline">\begin{pmatrix} 3 &amp; 1 \\ 4 &amp; 2 \end{pmatrix}</span>, <span class="math inline">\begin{pmatrix} 2 &amp; 6 \\ 1 &amp; 3 \end{pmatrix}</span>, <span class="math inline">R(30°)</span>, <span class="math inline">\begin{pmatrix} 0 &amp; 1 \\ 1 &amp; 0 \end{pmatrix}</span>. For each: invertible? Orientation-preserving?</p></li>
-<li><p>Find the area of the parallelogram spanned by <span class="math inline">(5, 1)</span> and <span class="math inline">(2, 4)</span>, and the area of the triangle with vertices <span class="math inline">(0,0)</span>, <span class="math inline">(5,1)</span>, <span class="math inline">(2,4)</span>.</p></li>
-<li><p>Verify Theorem 3.4.3 numerically for <span class="math inline">A = \begin{pmatrix} 1 &amp; 2 \\ 3 &amp; 4 \end{pmatrix}</span>, <span class="math inline">B = \begin{pmatrix} 2 &amp; 0 \\ 1 &amp; 3 \end{pmatrix}</span>: compute <span class="math inline">AB</span>, then <span class="math inline">\det A</span>, <span class="math inline">\det B</span>, <span class="math inline">\det(AB)</span>.</p></li>
-<li><p>An orthorhombic cell has <span class="math inline">a = 7.1</span>, <span class="math inline">b = 9.6</span>, <span class="math inline">c = 11.2</span> Å with <span class="math inline">Z = 8</span> and <span class="math inline">M = 122.1</span> g/mol. Predict the density. (Rectangular — the determinant is the diagonal product, but say why.)</p></li>
-<li><p>Every symmetry operation of §3.3 satisfied <span class="math inline">\det = \pm 1</span>. Verify for <span class="math inline">C_2</span>, <span class="math inline">\sigma_v</span>, and <span class="math inline">R(120°)</span>, and explain physically why a symmetry operation could never have <span class="math inline">|\det| \neq 1</span>.</p></li>
-<li><p>Using the product rule: show <span class="math inline">\det(A^{-1}) = 1/\det A</span>, and compute <span class="math inline">\det(R(90°)\,\sigma_x\,R(90°)^{-1})</span> <em>without multiplying any matrices</em>. What kind of operation must that product be?</p></li>
-<li><p>★ Show that <span class="math inline">\det(cA) = c^2 \det A</span> for <span class="math inline">2 \times 2</span> matrices, both algebraically and by the area picture. A student halves every entry of a <span class="math inline">3 \times 3</span> lattice matrix and reports the volume halved — state their error and the correct factor.</p></li>
-<li><p>★ Prove Theorem 3.4.3 for <span class="math inline">2 \times 2</span> matrices by direct expansion: write out <span class="math inline">\det(AB)</span> from Definition 3.2.1’s product entries and grind until <span class="math inline">(ad-bc)(eh-fg)</span> appears. (Once in a life; the geometric proof is why it’s <em>true</em>, this is why it’s <em>certain</em>.)</p></li>
-<li><p>★ The assay matrix <span class="math inline">E = \begin{pmatrix} 12000 &amp; 6100 \\ 8000 &amp; 4000 \end{pmatrix}</span> M⁻¹cm⁻¹ has a small determinant relative to its entries. Compute <span class="math inline">\det E</span>, solve <span class="math inline">E\mathbf{c} = (0.60, 0.40)</span>, then re-solve with the slightly perturbed measurement <span class="math inline">(0.61, 0.40)</span> and report how much each concentration moved. One percent of absorbance noise became how many percent of concentration change? (This amplification is <em>ill-conditioning</em>, and <span class="math inline">\det</span> near zero is its warning light.)</p></li>
-<li><p>★★ For the tetrahedral tripod of §2.3 Exercise 8 — bond vectors <span class="math inline">(1,1,1)</span>, <span class="math inline">(1,-1,-1)</span>, <span class="math inline">(-1,1,-1)</span> — compute the <span class="math inline">3 \times 3</span> determinant and hence the volume of the parallelepiped the three bonds span. Then apply the reflection <span class="math inline">\text{diag}(-1, 1, 1)</span> to all three vectors and recompute: same volume, opposite sign. You have just performed, on one carbon center’s worth of geometry, the calculation that distinguishes a molecule from its mirror image.</p></li>
-</ol>
-</div>
+<p>When chemistry fixes a total — of concentration, of length, of energy — two variables become one, because the constraint removes a degree of freedom: solve it for one variable, substitute, and the extrema machinery of §4.3 applies to the restricted function. The geometry behind that algebra is tangency: at a constrained optimum the constraint grazes a contour of the objective, and the gradients of objective and constraint, which are both perpendicular to the allowed direction, are parallel, so <span class="math inline">\nabla f = \lambda\nabla g</span>. The optimum is not generally an even split — it divides the budget in the stoichiometric ratio for a rate law <span class="math inline">[\mathrm{A}]^a[\mathrm{B}]^b</span>, and inversely with stiffness for bonds in series — and the multiplier <span class="math inline">\lambda</span> is the price of the constraint, the rate at which the optimum improves per unit of extra budget, which turned out to be a tension for a stretched chain and an inverse temperature for two bodies sharing energy. What remains open: heat-sharing between two bodies is the simplest case of a far larger problem. With <span class="math inline">10^{23}</span> molecules and a single energy budget, how is the energy most probably distributed among them? The same optimization, applied to a vast number of variables, yields the Boltzmann distribution — and that is where the next module goes.</p>
 </section>
 <section id="practice-until-it-sticks" class="level2">
 <h2 class="anchored" data-anchor-id="practice-until-it-sticks">Practice until it sticks</h2>
-<div data-skill="determinants">
-
-</div>
-<script src="../js/widgets/grid-transform.js"></script>
-<script src="../../js/adaptive-engine.js"></script>
-<script src="../../js/skills/determinants.js"></script>
+<p>Work through <a href="../problem-sets/08-constrained.html">Problem Set 8 — Constrained Extrema</a>, which opens with a fully worked termolecular example, and return to the <a href="constrained-extrema-studio.html">constrained-extrema studio</a> to test your predictions.</p>
+<script src="../js/widgets/stoich-optimum.js"></script>
+<script src="../js/widgets/shared-slope.js"></script>
 
 
 </section>
@@ -1124,13 +1134,13 @@ V = \left| \det \begin{pmatrix} 9.8 &amp; 0 &amp; -1.2 \\ 0 &amp; 9.4 &amp; 0 \\
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../03-matrices/03-transformations.html" class="pagination-link" aria-label="3.3 Linear Transformations">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">3.3 Linear Transformations</span></span>
+      <a href="../04-change/03-extrema.html" class="pagination-link" aria-label="4.3 Extrema: Where Chemistry Settles">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">4.3 Extrema: Where Chemistry Settles</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../04-change/01-derivative.html" class="pagination-link" aria-label="4.1 The Derivative: A Ratio at One Moment">
-        <span class="nav-page-text"><span class="chapter-title">4.1 The Derivative: A Ratio at One Moment</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../99-answers.html" class="pagination-link" aria-label="Answers to Odd-Numbered Exercises">
+        <span class="nav-page-text"><span class="chapter-title">Answers to Odd-Numbered Exercises</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

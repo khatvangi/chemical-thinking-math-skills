@@ -1,6 +1,6 @@
 ---
 title: "Problem Set 7 | Extrema"
-subtitle: "Homework — finding maxima and minima with dy/dx = 0 and d²y/dx²"
+subtitle: "Companion to §4.3 — finding maxima and minima with dy/dx = 0 and d²y/dx²"
 format:
   html:
     toc: true
@@ -20,7 +20,7 @@ reaction. This set trains the complete method — and only the method:
 3. **Check the endpoints** of the domain; they obey no tangent condition.
 4. **Interpret**: one sentence of chemical meaning, with units.
 
-The lesson behind this set is [§4.1 Extrema](../04-change/01-extrema.qmd) — read it
+The lesson behind this set is [§4.3 Extrema](../04-change/03-extrema.qmd) — read it
 first if you have not; the two interactive figures there are worth ten minutes.
 
 ## Worked example — read this before the problems

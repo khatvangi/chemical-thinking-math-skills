@@ -1,0 +1,276 @@
+---
+title: "4.2 Rules of Differentiation"
+---
+
+## The problem
+
+The limit definition gave us a method, and Example 4.1.1 showed its price: expand,
+find the common factor, cancel, take the limit — for *every* function, from scratch.
+Chemistry does not hand us one function. It hands us the Arrhenius equation, Beer's
+law, the ideal-gas law, the Michaelis–Menten curve, Coulomb's law. If each needed its
+own expansion, differentiation would be a craft practiced by specialists.
+
+It is not, because of a structural fact worth saying aloud: **chemistry's functions are
+built from a very small set of pieces, glued together in a very small set of ways.**
+The pieces are powers $x^{n}$, exponentials $e^{ax}$, and logarithms $\ln x$. The ways
+of gluing are adding, scaling by a constant, multiplying, and nesting one function
+inside another. If we derive the derivative of each piece once, and the effect of each
+kind of gluing once, then every function in this chapter can be differentiated by
+*reading* it. Each rule below is therefore derived, not announced — because a rule you
+can rebuild is a rule you cannot misremember.
+
+## Gluing 1: sums and constant multiples — rates add
+
+Two reactions run in the same flask and both release gas: $n_1(t)$ and $n_2(t)$ moles.
+The total is $n = n_1 + n_2$, and its rate of change should be the sum of the two
+rates. The definition says exactly that, because the difference quotient of a sum is
+the sum of the difference quotients:
+$$\frac{(n_1+n_2)(t+h)-(n_1+n_2)(t)}{h} = \frac{n_1(t+h)-n_1(t)}{h} + \frac{n_2(t+h)-n_2(t)}{h}.$$
+A constant factor passes straight through for the same reason — a detector with gain
+$g$ reports $g\,c(t)$, so its signal changes $g$ times as fast as the concentration it
+tracks.
+
+::: {.env .theorem}
+**Theorem 4.2.1 (linearity).** $\;\dfrac{d}{dx}\big[a\,f(x) + b\,g(x)\big] = a\,f'(x) + b\,g'(x)$ for constants $a, b$.
+:::
+
+## Piece 1: powers
+
+For $f(x) = x^{n}$ the definition requires expanding $(x+h)^{n}$. For $n = 2$ we did it:
+$x^2 + 2xh + h^2$. For $n = 3$:
+$(x+h)^3 = x^3 + 3x^2h + 3xh^2 + h^3$. The pattern is what matters. Subtract $x^{n}$
+and divide by $h$: the first term of the expansion cancels, the second survives as
+$n\,x^{n-1}$ with its $h$ divided out, and every remaining term still carries at
+least one factor of $h$ — so it vanishes in the limit.
+
+::: {.env .theorem}
+**Theorem 4.2.2 (power rule).** $\;\dfrac{d}{dx}\,x^{n} = n\,x^{n-1}$, for every real exponent $n$.
+:::
+
+The exponent need not be a positive integer. Check $n = -1$ directly:
+$\dfrac{1/(x+h) - 1/x}{h} = \dfrac{-h}{x(x+h)\,h} = \dfrac{-1}{x(x+h)} \to -\dfrac{1}{x^{2}}$,
+which is the power rule with $n = -1$. Two laws of chemistry fall out immediately.
+The ideal-gas pressure at fixed $n$ and $T$ is $P = nRT\,V^{-1}$, so
+$\dfrac{dP}{dV} = -\dfrac{nRT}{V^{2}}$: the pressure falls as the volume grows, and falls
+*faster* when the gas is compressed. And the Coulomb energy of two charges,
+$V(r) = kq_1q_2\,r^{-1}$, gives a force $F = -\dfrac{dV}{dr} = \dfrac{kq_1q_2}{r^{2}}$ — the
+inverse-square law is nothing but the derivative of an inverse-first-power energy.
+
+## Piece 2: the exponential
+
+The exponential is the one function whose definition-quotient we already took apart:
+all dependence on the position factors out, leaving $(e^{h}-1)/h$, which settles to $1$
+— that is what the number $e$ *is*. So $\dfrac{d}{dx}\,e^{x} = e^{x}$: the function
+whose rate of change at every point equals its own value. Section 4.1 showed the
+same structure with a rate constant in the exponent. The rule for a general
+exponent $a$ needs the next kind of gluing.
+
+## Gluing 2: composition — rates multiply
+
+$[\mathrm{A}](t) = 0.80\,e^{-0.139t}$ is not a pure exponential in $t$; it is an
+exponential of a *different quantity*, $u = -0.139\,t$, which is itself a function of
+time. This is nesting, and it needs a rule. Think of it as a chain of cause and
+effect: time changes $u$ at one rate, and $u$ changes $[\mathrm{A}]$ at another. If
+$u$ changes $-0.139$ units per minute and $[\mathrm{A}]$ changes by $[\mathrm{A}]$ molar
+per unit of $u$, then $[\mathrm{A}]$ changes by the *product* per minute.
+
+::: {.env .theorem}
+**Theorem 4.2.3 (chain rule).** If $y = F(u)$ and $u = g(x)$, then
+$$\frac{dy}{dx} = \frac{dy}{du}\cdot\frac{du}{dx}.$$
+:::
+
+*Why rates multiply.* A small change $\Delta x$ produces a change $\Delta u \approx g'(x)\,\Delta x$,
+which in turn produces $\Delta y \approx F'(u)\,\Delta u = F'(u)\,g'(x)\,\Delta x$. Divide by
+$\Delta x$ and shrink: the two conversion factors multiply.
+
+For the decaying reactant: $\dfrac{dy}{du} = 0.80\,e^{u} = [\mathrm{A}]$ and
+$\dfrac{du}{dt} = -0.139$ min$^{-1}$, so
+$$\frac{d[\mathrm{A}]}{dt} = [\mathrm{A}] \cdot (-0.139\ \text{min}^{-1}) = -0.139\,[\mathrm{A}].$$
+**The units check this rule for free.** $\dfrac{dy}{du}$ is in M per (dimensionless $u$),
+$\dfrac{du}{dt}$ is in min$^{-1}$, and their product is M/min — the only unit a rate of
+change of concentration can have. The factor $-0.139$ that the chain rule contributes is
+not optional decoration; it is the *only* place the "per minute" can come from.
+Generalizing, $\dfrac{d}{dx}\,e^{ax} = a\,e^{ax}$.
+
+::: {.widget-frame}
+::: {.widget-predict}
+At $t = 0$ the rate of $[\mathrm{A}] = 0.80\,e^{-kt}$ is $-0.80\,k$ M/min. Predict the
+effect of *doubling* $k$ from $0.139$ to $0.278$ on the rate at $t = 0$ — and then on
+the rate at $t = 10$ min. Will the second change be the same, bigger, or the *opposite
+direction* from the first? Then set $k$ and $t$ and test yourself.
+:::
+::: {.widget-body}
+<div style="margin-bottom:0.6rem;">
+  <label>rate constant k <input type="range" id="cfK" min="0.05" max="0.40" value="0.139" step="0.001"></label>
+  <label style="margin-left:1.2rem;">time t <input type="range" id="cfT" min="0" max="20" value="0" step="0.1"></label>
+</div>
+<canvas id="cfCanvas" width="640" height="340"></canvas>
+<div class="widget-readout" id="cfReadout"></div>
+:::
+::: {.widget-debrief}
+Doubling $k$ doubles the rate at $t = 0$ (from $-0.111$ to $-0.222$ M/min), but at
+$t = 10$ min it *halves* it (from $-0.0277$ to $-0.0138$ M/min). The chain factor $k$
+makes the decay steeper, but a faster decay has used up its reactant sooner — by
+$t=10$ there is almost nothing left to react. The dashed line is a classmate's tempting
+answer, $d[\mathrm{A}]/dt = +[\mathrm{A}]$ (the chain factor dropped): it points the
+wrong way entirely, which no concentration that is *falling* can do.
+:::
+:::
+
+::: {.env .example}
+**Example 4.2.1 — how sensitive is a rate constant to temperature?** The Arrhenius
+equation is $k(T) = A\,e^{-E_a/(RT)}$. Find $dk/dT$, and for $E_a = 75$ kJ/mol at
+$T = 298$ K, how fast does $k$ change per kelvin, as a fraction of itself?
+
+*Setting it up.* The exponent is a function of $T$: $u(T) = -\dfrac{E_a}{R}\,T^{-1}$.
+Outer function $A\,e^{u}$; inner function $u(T)$. Chain rule, with the power rule
+inside.
+
+*Solution.* $\dfrac{du}{dT} = +\dfrac{E_a}{R}\,T^{-2} = \dfrac{E_a}{RT^{2}}$ and
+$\dfrac{dk}{du} = A\,e^{u} = k$, so
+$$\frac{dk}{dT} = k\cdot\frac{E_a}{RT^{2}}, \qquad\text{i.e.}\qquad \frac{1}{k}\frac{dk}{dT} = \frac{E_a}{RT^{2}}.$$
+Numerically, $\dfrac{E_a}{RT^{2}} = \dfrac{75\,000}{8.314 \times 298.15^{2}} = 0.101$ K$^{-1}$:
+the rate constant grows by about **10 % per kelvin**.
+
+*Check.* Units: $E_a/(RT^{2})$ is (J/mol)/((J/mol·K)·K²) $=$ K$^{-1}$, a per-kelvin
+fractional rate — consistent. Magnitude: a 10 % gain per kelvin means the rate
+doubles about every $\ln 2/0.101 \approx 6.8$ K; for $E_a = 55$ kJ/mol the same
+calculation gives 9.3 K — the familiar "rate doubles every ten degrees" rule of thumb,
+now seen to belong to a particular activation energy rather than to chemistry in
+general. (Over a *finite* 10 K the exact ratio is 2.67, while the derivative
+extrapolated naively gives 2.76 — a local rate is a good guide, not an identity.)
+:::
+
+## Piece 3: the logarithm — the straight line explained
+
+The logarithm's derivative follows from the exponential by the chain rule. If
+$y = \ln x$ then $e^{y} = x$; differentiating both sides with respect to $x$ and
+applying the chain rule to the left gives $e^{y}\,y' = 1$, so $y' = 1/e^{y} = 1/x$.
+
+::: {.env .theorem}
+**Theorem 4.2.4.** $\;\dfrac{d}{dx}\ln x = \dfrac{1}{x}$ for $x > 0$, and by the chain rule $\dfrac{d}{dt}\ln f(t) = \dfrac{f'(t)}{f(t)}$.
+:::
+
+The second form says that the derivative of $\ln f$ is the *fractional rate of
+change* of $f$ — the rate divided by the amount. Apply it to first-order decay:
+$$\frac{d}{dt}\ln[\mathrm{A}] = \frac{d[\mathrm{A}]/dt}{[\mathrm{A}]} = \frac{-k[\mathrm{A}]}{[\mathrm{A}]} = -k.$$
+A constant. A function whose derivative is constant everywhere is a straight line, so
+$\ln[\mathrm{A}]$ plotted against $t$ is exactly straight with slope $-k$. This is the
+proof of the diagnostic you used on the exam: **the ln-plot's slope is $-k$ because the
+fractional rate of a first-order reaction does not change.** A curved ln-plot means the
+fractional rate is changing — a different order, or a different mechanism.
+
+## Gluing 3: the product rule — a rectangle that grows
+
+When two quantities that both change are multiplied — the encounter factor
+$q = [\mathrm{A}][\mathrm{B}]$, say, when both concentrations are changing — the
+product's rate has two contributions. Picture a rectangle of area $A\times B$. Let the
+width grow by $\Delta A$ and the height by $\Delta B$:
+
+```{=html}
+<svg viewBox="0 0 360 180" role="img" aria-label="Rectangle of area A times B growing by strips Delta A and Delta B" style="max-width:380px;display:block;margin:1rem auto;">
+  <rect x="20" y="50" width="170" height="110" fill="currentColor" fill-opacity="0.10" stroke="currentColor" stroke-width="1.5"/>
+  <rect x="190" y="50" width="45" height="110" fill="#b7893a" fill-opacity="0.35" stroke="currentColor" stroke-width="1"/>
+  <rect x="20" y="20" width="170" height="30" fill="#0e6862" fill-opacity="0.35" stroke="currentColor" stroke-width="1"/>
+  <rect x="190" y="20" width="45" height="30" fill="#8a3524" fill-opacity="0.45" stroke="currentColor" stroke-width="1"/>
+  <text x="105" y="112" text-anchor="middle" font-size="17" font-style="italic" fill="currentColor">A · B</text>
+  <text x="212" y="112" text-anchor="middle" font-size="13" fill="currentColor">B·ΔA</text>
+  <text x="105" y="40" text-anchor="middle" font-size="13" fill="currentColor">A·ΔB</text>
+  <text x="212" y="40" text-anchor="middle" font-size="10" fill="currentColor">ΔAΔB</text>
+  <text x="105" y="176" text-anchor="middle" font-size="12" fill="currentColor">A</text>
+  <text x="212" y="176" text-anchor="middle" font-size="12" fill="currentColor">ΔA</text>
+</svg>
+```
+
+The new area is the old rectangle plus two thin strips plus a tiny corner:
+$\Delta(AB) = B\,\Delta A + A\,\Delta B + \Delta A\,\Delta B$. Divide by $\Delta t$ and
+shrink. The two strips each keep a factor of one small quantity over $\Delta t$ and
+survive; the corner carries *two* small factors, one of which is left over after
+dividing, so it vanishes.
+
+::: {.env .theorem}
+**Theorem 4.2.5 (product rule).** $\;\dfrac{d}{dx}\big[f(x)\,g(x)\big] = f'(x)\,g(x) + f(x)\,g'(x).$
+:::
+
+Two chemical uses are worth fixing now. First, if A is consumed at rate
+$-0.20$ M/min while B is consumed at $-0.05$ M/min, with $[\mathrm{A}]=1.0$ M and
+$[\mathrm{B}] = 0.60$ M, the encounter factor changes at
+$(-0.20)(0.60) + (1.0)(-0.05) = -0.17$ M²/min — the sum of "A's change times B's
+level" and "B's change times A's level." Second, and with a view to the *next but one*
+section: if the two concentrations are tied by a fixed total, $[\mathrm{B}] = C - [\mathrm{A}]$,
+then $\dfrac{d}{d[\mathrm{A}]}\big([\mathrm{A}](C-[\mathrm{A}])\big) = (1)(C - [\mathrm{A}]) + [\mathrm{A}](-1) = C - 2[\mathrm{A}]$,
+which vanishes at an even split. That one line is the whole of §4.4.
+
+Division needs no new rule: $f/g = f\cdot g^{-1}$, so the product rule, the power
+rule, and the chain rule together give
+$$\frac{d}{dx}\frac{f}{g} = \frac{f'g - fg'}{g^{2}}.$$
+
+::: {.env .example}
+**Example 4.2.2 — diminishing returns in an enzyme.** The Michaelis–Menten rate is
+$v(S) = \dfrac{V_{\max}\,S}{K_m + S}$. With $V_{\max} = 10\ \mu\text{M/s}$ and
+$K_m = 2.0$ mM, how much does the rate gain per extra millimolar of substrate at
+$S = 0.5$, $2$, and $8$ mM?
+
+*Setting it up.* Write $v = V_{\max}\,S\,(K_m + S)^{-1}$: a product of $S$ with a
+nested power, so product rule, power rule, and chain rule all appear.
+
+*Solution.*
+$$\frac{dv}{dS} = V_{\max}\left[(K_m+S)^{-1} - S\,(K_m+S)^{-2}\right] = \frac{V_{\max}\,K_m}{(K_m+S)^{2}}.$$
+Numerically (in $\mu$M s$^{-1}$ mM$^{-1}$): at $S = 0.5$: $3.20$; at $S = 2$: $1.25$; at $S = 8$: $0.20$.
+
+*Check.* Units: (μM/s) per mM — rate per concentration, as a derivative should be.
+Limiting cases: $dv/dS$ is always positive (more substrate never slows the enzyme)
+and falls toward zero as $S \to \infty$ — the saturation plateau. At
+$S = K_m = 2$ mM the rate is exactly half of $V_{\max}$ ($v = 5.00\ \mu$M/s), which is
+the definition of $K_m$. And the *marginal* benefit of substrate fell by a factor of
+sixteen between 0.5 and 8 mM while the rate itself only rose from 2.0 to 8.0:
+diminishing returns, quantified.
+:::
+
+## Remarks and cautions
+
+::: {.env .caution}
+**The chain factor.** $\dfrac{d}{dt}\,0.80\,e^{-0.139t}$ is *not* $0.80\,e^{-0.139t}$. The
+exponential reproduces itself only when the exponent is the bare variable; otherwise
+the derivative of the exponent multiplies. Two instant tests catch the omission:
+the **sign** (a falling concentration cannot have a positive derivative) and the
+**units** (the result must carry "per minute", and only the factor $-0.139$ min$^{-1}$
+can supply it).
+:::
+
+::: {.env .caution}
+**The product rule does not act term by term.** $(fg)' \neq f'g'$. Test it on $f=g=x$:
+$(x^{2})' = 2x$, but $f'g' = 1$. The product rule has two terms *because* both factors
+are changing — two strips of the rectangle.
+:::
+
+::: {.env .caution}
+**Power or exponential?** In $x^{n}$ the variable is the *base*; in $e^{ax}$ it is the
+*exponent*. $\dfrac{d}{dx}\,e^{x} \neq x\,e^{x-1}$. A concentration that depends on time
+through an exponent is an exponential, and its derivative stays proportional to itself.
+:::
+
+## Summary
+
+Chemistry's functions are assemblies of powers, exponentials, and logarithms combined
+by addition, scaling, multiplication, and nesting, so a handful of derivations buys
+the derivative of nearly anything we will meet. Sums and constants pass through
+(rates add); powers lose one degree and gain the old degree as a coefficient, which is
+how $P \propto V^{-1}$ gives the pressure's compression sensitivity and a $1/r$ energy
+gives an inverse-square force; the exponential differentiates to a multiple of itself;
+and a nested function differentiates by *multiplying* the rates of the two links in the
+chain — a rule whose units alone expose the commonest mistake of dropping the inner
+factor. From the chain rule come the logarithm's derivative $1/x$ and the proof that a
+first-order ln-plot is a straight line of slope $-k$; from the rectangle comes the
+product rule and, through it, the quotient rule behind Michaelis–Menten saturation.
+Rules like these can find where a function turns, and the next section does exactly
+that. What they cannot yet handle is a turning point with a *budget* attached — two
+quantities that must share a fixed total — which is the subject of §4.4.
+
+## Practice until it sticks
+
+[Problem Set 6](../problem-sets/06-differentiation.qmd) applies these rules to the
+chemistry and physics functions of this section; Problems 7 and 10 target the chain
+factor directly.
+
+<script src="../js/widgets/chain-factor.js"></script>

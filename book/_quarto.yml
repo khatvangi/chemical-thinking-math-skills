@@ -4,6 +4,8 @@ project:
   resources:
     - js
     - 04-change/extrema-studio.html
+    - 04-change/constrained-extrema-studio.html
+    - 04-change/derivative-studio.html
     - problem-sets/vector_chemistry_problem_set_student.pdf
 
 book:
@@ -42,7 +44,10 @@ book:
         - 03-matrices/04-determinants.qmd
     - part: "4 · Change"
       chapters:
-        - 04-change/01-extrema.qmd
+        - 04-change/01-derivative.qmd
+        - 04-change/02-rules.qmd
+        - 04-change/03-extrema.qmd
+        - 04-change/04-constrained.qmd
   appendices:
     - 99-answers.qmd
     - part: "Problem Sets"
@@ -55,6 +60,7 @@ book:
         - problem-sets/05-angles-projections.qmd
         - problem-sets/06-differentiation.qmd
         - problem-sets/07-extrema.qmd
+        - problem-sets/08-constrained.qmd
 
 format:
   html:

@@ -1077,91 +1077,410 @@
     ]
   },
   {
-    "objectID": "04-change/01-extrema.html",
-    "href": "04-change/01-extrema.html",
-    "title": "4.1 Extrema: Where Chemistry Settles",
+    "objectID": "04-change/01-derivative.html",
+    "href": "04-change/01-derivative.html",
+    "title": "4.1 The Derivative: A Ratio at One Moment",
+    "section": "",
+    "text": "The problem\nA chemist follows the disappearance of a reactant A and fits the concentration to [\\mathrm{A}](t) = 0.80\\,e^{-0.139\\,t} \\qquad ([\\mathrm{A}] \\text{ in M},\\; t \\text{ in minutes}). Her kinetics textbook says that the rate at which A disappears is proportional to how much A is present right now. Notice the phrase. A rate law is a statement about a single instant: it ties the speed at this moment to the concentration at this moment. But every rate we have computed so far was a rate over an interval — “0.60 M lost in ten minutes,” or the slope of a calibration line between two standards. How does one extract a speed at one moment from a function that only gives concentrations at moments?\nThe question has the shape of a trap, and it is worth seeing the trap clearly before escaping it. A speed is a change divided by an elapsed time. At a single instant, no time elapses and nothing changes: the ratio is zero divided by zero. The rest of this section is the story of how that meaningless ratio becomes the most useful quantity in physical chemistry.",
+    "crumbs": [
+      "4 · Change",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>4.1 The Derivative: A Ratio at One Moment</span>"
+    ]
+  },
+  {
+    "objectID": "04-change/01-derivative.html#what-an-average-rate-is-and-what-is-wrong-with-it",
+    "href": "04-change/01-derivative.html#what-an-average-rate-is-and-what-is-wrong-with-it",
+    "title": "4.1 The Derivative: A Ratio at One Moment",
+    "section": "What an average rate is, and what is wrong with it",
+    "text": "What an average rate is, and what is wrong with it\nPick any two times, t and t+h. The average rate of change of [\\mathrm{A}] over that interval is \\frac{[\\mathrm{A}](t+h)-[\\mathrm{A}](t)}{h} \\qquad (\\text{units: M/min}). Geometrically it is the slope of the secant line through the two points on the graph. This is a perfectly good physical quantity — but ask it for the rate at t = 0 and it gives an unsettling answer. Starting at t=0 and looking forward five minutes gives -0.080 M/min; looking forward one minute gives -0.104 M/min; looking forward a tenth of a minute gives -0.110 M/min. Three different answers for the same moment.\nThe reason is that each answer quietly contains a choice you made: the length h of the interval. An average rate is a property of the interval you picked, not of the chemistry at the moment you care about. What we want is the average rate with that arbitrary choice removed.",
+    "crumbs": [
+      "4 · Change",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>4.1 The Derivative: A Ratio at One Moment</span>"
+    ]
+  },
+  {
+    "objectID": "04-change/01-derivative.html#shrinking-the-interval-the-ratio-settles",
+    "href": "04-change/01-derivative.html#shrinking-the-interval-the-ratio-settles",
+    "title": "4.1 The Derivative: A Ratio at One Moment",
+    "section": "Shrinking the interval: the ratio settles",
+    "text": "Shrinking the interval: the ratio settles\nIf the choice of h is the problem, let it shrink and watch what the quotient does. The table follows [\\mathrm{A}](t) = 0.80\\,e^{-0.139t} from t = 0.\n\n\n\n\n\n\n\n\nh (min)\nchange in [\\mathrm{A}] (M)\nquotient \\Delta[\\mathrm{A}]/h (M/min)\n\n\n\n\n5\n-0.40074\n-0.08015\n\n\n1\n-0.10382\n-0.10382\n\n\n0.1\n-0.01104\n-0.11043\n\n\n0.01\n-0.00111\n-0.11112\n\n\n0.001\n-0.00011\n-0.11119\n\n\n\nLook at the middle column and then at the last one, because the whole idea lives in the contrast between them. The change in concentration is collapsing toward zero — by a factor of ten each row — and so is the elapsed time h. Both parts of the ratio are vanishing. Yet the ratio does not vanish; it creeps toward a definite number, -0.1112 M/min. A ratio of two vanishing quantities need not vanish. When numerator and denominator shrink together in step, the ratio can settle. That settled value — which no single interval produces but which every short enough interval approximates — is what “the rate at an instant” has to mean.\n\nRemark. Press play in the derivative studio and watch both quantities collapse while the quotient locks onto its limit. Then move the anchor time t_0: the limit changes with the moment you ask about, so the instantaneous rate is itself a function of time.",
+    "crumbs": [
+      "4 · Change",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>4.1 The Derivative: A Ratio at One Moment</span>"
+    ]
+  },
+  {
+    "objectID": "04-change/01-derivative.html#making-it-a-definition",
+    "href": "04-change/01-derivative.html#making-it-a-definition",
+    "title": "4.1 The Derivative: A Ratio at One Moment",
+    "section": "Making it a definition",
+    "text": "Making it a definition\nThe table suggests a definition, and the symbols are worth reading in words.\n\nDefinition 4.1.1 (derivative). For a function f and a point x, the derivative of f at x is the number the difference quotient settles to as the interval shrinks: f'(x) = \\lim_{h \\to 0}\\; \\frac{f(x+h) - f(x)}{h}, whenever that limit exists. In Leibniz’s notation the same number is written \\dfrac{df}{dx}.\n\nThree readings of \\dfrac{df}{dx} are useful and should be held together. It is the instantaneous rate: how fast f is changing per unit x at this moment. It is the slope of the tangent line: the secant line pivots toward the tangent as h \\to 0. And it is the best straight-line approximation: near x, the function behaves like the line through (x, f(x)) with slope f'(x) — the very reason that the shortcut e^{x} \\approx 1 + x you used on the exam works near zero. Notice too what the symbol is not: \\frac{df}{dx} is not a fraction of two tiny numbers to be cancelled. It is the name of the settled value of a ratio, and its units are always (units of output) per (unit of input) — here M/min.",
+    "crumbs": [
+      "4 · Change",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>4.1 The Derivative: A Ratio at One Moment</span>"
+    ]
+  },
+  {
+    "objectID": "04-change/01-derivative.html#why-you-cannot-just-set-h-0-and-what-actually-happens",
+    "href": "04-change/01-derivative.html#why-you-cannot-just-set-h-0-and-what-actually-happens",
+    "title": "4.1 The Derivative: A Ratio at One Moment",
+    "section": "Why you cannot just set h = 0 — and what actually happens",
+    "text": "Why you cannot just set h = 0 — and what actually happens\nIf the quotient is 0/0 at h = 0, how can its value at h near zero be meaningful? Because the algebra can often remove the problem before h goes to zero. The common factor that makes the numerator vanish is also in the denominator; cancel it while h \\neq 0, and what is left has no difficulty at h = 0.\nTake the simplest nontrivial function, f(t) = t^{2}: \\frac{(t+h)^{2} - t^{2}}{h} = \\frac{2th + h^{2}}{h} = 2t + h \\;\\longrightarrow\\; 2t \\quad (h \\to 0). The numerator is not merely small: it is h times something (2t + h). That structure — numerator proportional to h — is exactly what lets the ratio survive the collapse.\n\nExample 4.1.1 — a filling reactor, from the definition. The product amount in a batch reactor is n(t) = 3.0\\,t - 0.25\\,t^{2} (mol, t in hours). Find n'(t) and then the rate at t = 2 h.\nSetting it up. The derivative is the settled value of [\\,n(t+h) - n(t)\\,]/h. Everything hinges on expanding n(t+h) and spotting the common factor.\nSolution. n(t+h) - n(t) = 3.0h - 0.25\\,(2th + h^{2}) = h\\,(3.0 - 0.50\\,t - 0.25\\,h). Dividing by h: \\frac{n(t+h)-n(t)}{h} = 3.0 - 0.50\\,t - 0.25\\,h \\;\\longrightarrow\\; n'(t) = 3.0 - 0.50\\,t \\quad (h \\to 0). At t = 2 h: n'(2) = 2.0 mol/h.\nCheck. At t = 2 the quotient is 2.0 - 0.25\\,h, so the numerical values for h = 2,\\, 1,\\, 0.5,\\, 0.1 are 1.50,\\, 1.75,\\, 1.875,\\, 1.975 mol/h, creeping to 2.0 exactly as the formula says. Units: mol per hour. Limiting case: at t = 0 the rate is 3.0 mol/h, the initial rate, and it falls linearly as the reactor depletes its reagent — the sign and trend a filling-then-saturating process should have.",
+    "crumbs": [
+      "4 · Change",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>4.1 The Derivative: A Ratio at One Moment</span>"
+    ]
+  },
+  {
+    "objectID": "04-change/01-derivative.html#the-exponential-where-first-order-kinetics-comes-from",
+    "href": "04-change/01-derivative.html#the-exponential-where-first-order-kinetics-comes-from",
+    "title": "4.1 The Derivative: A Ratio at One Moment",
+    "section": "The exponential: where first-order kinetics comes from",
+    "text": "The exponential: where first-order kinetics comes from\nNow return to the chemist’s function. Writing [\\mathrm{A}](t+h) = 0.80\\,e^{-0.139t}\\,e^{-0.139h}, the quotient becomes \\frac{[\\mathrm{A}](t+h)-[\\mathrm{A}](t)}{h} = 0.80\\,e^{-0.139\\,t}\\cdot\\frac{e^{-0.139\\,h} - 1}{h} = [\\mathrm{A}](t)\\cdot\\frac{e^{-0.139\\,h} - 1}{h}. Something remarkable has happened: the whole dependence on the moment t has factored out as [\\mathrm{A}](t), and all the h-dependence sits in one clean factor. That factor settles as h shrinks:\n\n\n\n\n\n\n\n\n\n\nh\n1\n0.1\n0.01\n0.001\n\n\n\n\n\\dfrac{e^{-0.139h}-1}{h}\n-0.12977\n-0.13804\n-0.13890\n-0.13899\n\n\n\n— toward -0.139. Therefore \\frac{d[\\mathrm{A}]}{dt} = -0.139\\,[\\mathrm{A}](t). This is the chemical payoff of the section. The statement “the rate of disappearance is proportional to the amount present” is not an extra physical assumption stacked on top of the exponential: it is what the exponential is, read through the definition of the derivative. Conversely, a first-order rate law -d[\\mathrm{A}]/dt = k[\\mathrm{A}] forces the concentration to decay exponentially. At t = 0 the rate is -0.139 \\times 0.80 = -0.1112 M/min — the number the table was approaching — and at t = 10 min, with 0.199 M left, it has fallen to -0.0277 M/min. The same curve has a different slope at every moment, which is why the derivative is itself a function.",
+    "crumbs": [
+      "4 · Change",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>4.1 The Derivative: A Ratio at One Moment</span>"
+    ]
+  },
+  {
+    "objectID": "04-change/01-derivative.html#remarks-and-cautions",
+    "href": "04-change/01-derivative.html#remarks-and-cautions",
+    "title": "4.1 The Derivative: A Ratio at One Moment",
+    "section": "Remarks and cautions",
+    "text": "Remarks and cautions\n\nAn average rate is not an instantaneous rate. Reporting -0.080 M/min as “the rate at t=0” because you measured over five minutes is the secant-for-tangent error. The two agree only when the curve is straight (a zero-order reaction), and the gap between them is exactly what shrinking h closes.\n\n\nUnits come with the derivative. d[\\mathrm{A}]/dt is in M/min, not M. A derivative reported without its “per-input” unit is incomplete — and, as the next section will show, a missing unit is the quickest way to catch a dropped factor.\n\n\nRemark. The limit must come out the same whether h shrinks through positive values (looking forward) or negative values (looking back). At a sharp corner — the kink in a heating curve at a phase boundary, say — the two disagree and no derivative exists there. Smooth chemical functions do not have this problem.",
+    "crumbs": [
+      "4 · Change",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>4.1 The Derivative: A Ratio at One Moment</span>"
+    ]
+  },
+  {
+    "objectID": "04-change/01-derivative.html#summary",
+    "href": "04-change/01-derivative.html#summary",
+    "title": "4.1 The Derivative: A Ratio at One Moment",
+    "section": "Summary",
+    "text": "Summary\nA rate over an interval is a ratio, and the interval length is an arbitrary choice that contaminates the answer; the rate at an instant is that same ratio with the choice removed. Shrinking the interval makes numerator and denominator both vanish, yet the ratio settles to a definite number whenever the numerator is proportional to h — the algebraic fact that lets us cancel h before letting it go to zero. That settled value is the derivative, readable three ways: as an instantaneous rate, as a tangent slope, and as the best straight-line approximation, with units of output per input. For the exponential decay [\\mathrm{A}] = 0.80\\,e^{-0.139t} the whole moment dependence factors out and the derivative is -0.139\\,[\\mathrm{A}] — first-order kinetics, derived rather than assumed. What the limit definition does not give us is speed: each function required its own expansion and its own cancellation. The next section asks whether chemistry’s functions are built from a few pieces whose derivatives we can establish once and reuse forever.",
+    "crumbs": [
+      "4 · Change",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>4.1 The Derivative: A Ratio at One Moment</span>"
+    ]
+  },
+  {
+    "objectID": "04-change/01-derivative.html#practice-until-it-sticks",
+    "href": "04-change/01-derivative.html#practice-until-it-sticks",
+    "title": "4.1 The Derivative: A Ratio at One Moment",
+    "section": "Practice until it sticks",
+    "text": "Practice until it sticks\nProblems 1–3 and 7 of Problem Set 6 are the secant-to-tangent exercises for this section; the animated version is in the derivative studio.",
+    "crumbs": [
+      "4 · Change",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>4.1 The Derivative: A Ratio at One Moment</span>"
+    ]
+  },
+  {
+    "objectID": "04-change/02-rules.html",
+    "href": "04-change/02-rules.html",
+    "title": "4.2 Rules of Differentiation",
+    "section": "",
+    "text": "The problem\nThe limit definition gave us a method, and Example 4.1.1 showed its price: expand, find the common factor, cancel, take the limit — for every function, from scratch. Chemistry does not hand us one function. It hands us the Arrhenius equation, Beer’s law, the ideal-gas law, the Michaelis–Menten curve, Coulomb’s law. If each needed its own expansion, differentiation would be a craft practiced by specialists.\nIt is not, because of a structural fact worth saying aloud: chemistry’s functions are built from a very small set of pieces, glued together in a very small set of ways. The pieces are powers x^{n}, exponentials e^{ax}, and logarithms \\ln x. The ways of gluing are adding, scaling by a constant, multiplying, and nesting one function inside another. If we derive the derivative of each piece once, and the effect of each kind of gluing once, then every function in this chapter can be differentiated by reading it. Each rule below is therefore derived, not announced — because a rule you can rebuild is a rule you cannot misremember.",
+    "crumbs": [
+      "4 · Change",
+      "<span class='chapter-number'>17</span>  <span class='chapter-title'>4.2 Rules of Differentiation</span>"
+    ]
+  },
+  {
+    "objectID": "04-change/02-rules.html#gluing-1-sums-and-constant-multiples-rates-add",
+    "href": "04-change/02-rules.html#gluing-1-sums-and-constant-multiples-rates-add",
+    "title": "4.2 Rules of Differentiation",
+    "section": "Gluing 1: sums and constant multiples — rates add",
+    "text": "Gluing 1: sums and constant multiples — rates add\nTwo reactions run in the same flask and both release gas: n_1(t) and n_2(t) moles. The total is n = n_1 + n_2, and its rate of change should be the sum of the two rates. The definition says exactly that, because the difference quotient of a sum is the sum of the difference quotients: \\frac{(n_1+n_2)(t+h)-(n_1+n_2)(t)}{h} = \\frac{n_1(t+h)-n_1(t)}{h} + \\frac{n_2(t+h)-n_2(t)}{h}. A constant factor passes straight through for the same reason — a detector with gain g reports g\\,c(t), so its signal changes g times as fast as the concentration it tracks.\n\nTheorem 4.2.1 (linearity). \\;\\dfrac{d}{dx}\\big[a\\,f(x) + b\\,g(x)\\big] = a\\,f'(x) + b\\,g'(x) for constants a, b.",
+    "crumbs": [
+      "4 · Change",
+      "<span class='chapter-number'>17</span>  <span class='chapter-title'>4.2 Rules of Differentiation</span>"
+    ]
+  },
+  {
+    "objectID": "04-change/02-rules.html#piece-1-powers",
+    "href": "04-change/02-rules.html#piece-1-powers",
+    "title": "4.2 Rules of Differentiation",
+    "section": "Piece 1: powers",
+    "text": "Piece 1: powers\nFor f(x) = x^{n} the definition requires expanding (x+h)^{n}. For n = 2 we did it: x^2 + 2xh + h^2. For n = 3: (x+h)^3 = x^3 + 3x^2h + 3xh^2 + h^3. The pattern is what matters. Subtract x^{n} and divide by h: the first term of the expansion cancels, the second survives as n\\,x^{n-1} with its h divided out, and every remaining term still carries at least one factor of h — so it vanishes in the limit.\n\nTheorem 4.2.2 (power rule). \\;\\dfrac{d}{dx}\\,x^{n} = n\\,x^{n-1}, for every real exponent n.\n\nThe exponent need not be a positive integer. Check n = -1 directly: \\dfrac{1/(x+h) - 1/x}{h} = \\dfrac{-h}{x(x+h)\\,h} = \\dfrac{-1}{x(x+h)} \\to -\\dfrac{1}{x^{2}}, which is the power rule with n = -1. Two laws of chemistry fall out immediately. The ideal-gas pressure at fixed n and T is P = nRT\\,V^{-1}, so \\dfrac{dP}{dV} = -\\dfrac{nRT}{V^{2}}: the pressure falls as the volume grows, and falls faster when the gas is compressed. And the Coulomb energy of two charges, V(r) = kq_1q_2\\,r^{-1}, gives a force F = -\\dfrac{dV}{dr} = \\dfrac{kq_1q_2}{r^{2}} — the inverse-square law is nothing but the derivative of an inverse-first-power energy.",
+    "crumbs": [
+      "4 · Change",
+      "<span class='chapter-number'>17</span>  <span class='chapter-title'>4.2 Rules of Differentiation</span>"
+    ]
+  },
+  {
+    "objectID": "04-change/02-rules.html#piece-2-the-exponential",
+    "href": "04-change/02-rules.html#piece-2-the-exponential",
+    "title": "4.2 Rules of Differentiation",
+    "section": "Piece 2: the exponential",
+    "text": "Piece 2: the exponential\nThe exponential is the one function whose definition-quotient we already took apart: all dependence on the position factors out, leaving (e^{h}-1)/h, which settles to 1 — that is what the number e is. So \\dfrac{d}{dx}\\,e^{x} = e^{x}: the function whose rate of change at every point equals its own value. Section 4.1 showed the same structure with a rate constant in the exponent. The rule for a general exponent a needs the next kind of gluing.",
+    "crumbs": [
+      "4 · Change",
+      "<span class='chapter-number'>17</span>  <span class='chapter-title'>4.2 Rules of Differentiation</span>"
+    ]
+  },
+  {
+    "objectID": "04-change/02-rules.html#gluing-2-composition-rates-multiply",
+    "href": "04-change/02-rules.html#gluing-2-composition-rates-multiply",
+    "title": "4.2 Rules of Differentiation",
+    "section": "Gluing 2: composition — rates multiply",
+    "text": "Gluing 2: composition — rates multiply\n[\\mathrm{A}](t) = 0.80\\,e^{-0.139t} is not a pure exponential in t; it is an exponential of a different quantity, u = -0.139\\,t, which is itself a function of time. This is nesting, and it needs a rule. Think of it as a chain of cause and effect: time changes u at one rate, and u changes [\\mathrm{A}] at another. If u changes -0.139 units per minute and [\\mathrm{A}] changes by [\\mathrm{A}] molar per unit of u, then [\\mathrm{A}] changes by the product per minute.\n\nTheorem 4.2.3 (chain rule). If y = F(u) and u = g(x), then \\frac{dy}{dx} = \\frac{dy}{du}\\cdot\\frac{du}{dx}.\n\nWhy rates multiply. A small change \\Delta x produces a change \\Delta u \\approx g'(x)\\,\\Delta x, which in turn produces \\Delta y \\approx F'(u)\\,\\Delta u = F'(u)\\,g'(x)\\,\\Delta x. Divide by \\Delta x and shrink: the two conversion factors multiply.\nFor the decaying reactant: \\dfrac{dy}{du} = 0.80\\,e^{u} = [\\mathrm{A}] and \\dfrac{du}{dt} = -0.139 min^{-1}, so \\frac{d[\\mathrm{A}]}{dt} = [\\mathrm{A}] \\cdot (-0.139\\ \\text{min}^{-1}) = -0.139\\,[\\mathrm{A}]. The units check this rule for free. \\dfrac{dy}{du} is in M per (dimensionless u), \\dfrac{du}{dt} is in min^{-1}, and their product is M/min — the only unit a rate of change of concentration can have. The factor -0.139 that the chain rule contributes is not optional decoration; it is the only place the “per minute” can come from. Generalizing, \\dfrac{d}{dx}\\,e^{ax} = a\\,e^{ax}.\n\n\nAt t = 0 the rate of [\\mathrm{A}] = 0.80\\,e^{-kt} is -0.80\\,k M/min. Predict the effect of doubling k from 0.139 to 0.278 on the rate at t = 0 — and then on the rate at t = 10 min. Will the second change be the same, bigger, or the opposite direction from the first? Then set k and t and test yourself.\n\n\n\nrate constant k  time t \n\n\n\n\n\n\n\n\nDoubling k doubles the rate at t = 0 (from -0.111 to -0.222 M/min), but at t = 10 min it halves it (from -0.0277 to -0.0138 M/min). The chain factor k makes the decay steeper, but a faster decay has used up its reactant sooner — by t=10 there is almost nothing left to react. The dashed line is a classmate’s tempting answer, d[\\mathrm{A}]/dt = +[\\mathrm{A}] (the chain factor dropped): it points the wrong way entirely, which no concentration that is falling can do.\n\n\n\nExample 4.2.1 — how sensitive is a rate constant to temperature? The Arrhenius equation is k(T) = A\\,e^{-E_a/(RT)}. Find dk/dT, and for E_a = 75 kJ/mol at T = 298 K, how fast does k change per kelvin, as a fraction of itself?\nSetting it up. The exponent is a function of T: u(T) = -\\dfrac{E_a}{R}\\,T^{-1}. Outer function A\\,e^{u}; inner function u(T). Chain rule, with the power rule inside.\nSolution. \\dfrac{du}{dT} = +\\dfrac{E_a}{R}\\,T^{-2} = \\dfrac{E_a}{RT^{2}} and \\dfrac{dk}{du} = A\\,e^{u} = k, so \\frac{dk}{dT} = k\\cdot\\frac{E_a}{RT^{2}}, \\qquad\\text{i.e.}\\qquad \\frac{1}{k}\\frac{dk}{dT} = \\frac{E_a}{RT^{2}}. Numerically, \\dfrac{E_a}{RT^{2}} = \\dfrac{75\\,000}{8.314 \\times 298.15^{2}} = 0.101 K^{-1}: the rate constant grows by about 10 % per kelvin.\nCheck. Units: E_a/(RT^{2}) is (J/mol)/((J/mol·K)·K²) = K^{-1}, a per-kelvin fractional rate — consistent. Magnitude: a 10 % gain per kelvin means the rate doubles about every \\ln 2/0.101 \\approx 6.8 K; for E_a = 55 kJ/mol the same calculation gives 9.3 K — the familiar “rate doubles every ten degrees” rule of thumb, now seen to belong to a particular activation energy rather than to chemistry in general. (Over a finite 10 K the exact ratio is 2.67, while the derivative extrapolated naively gives 2.76 — a local rate is a good guide, not an identity.)",
+    "crumbs": [
+      "4 · Change",
+      "<span class='chapter-number'>17</span>  <span class='chapter-title'>4.2 Rules of Differentiation</span>"
+    ]
+  },
+  {
+    "objectID": "04-change/02-rules.html#piece-3-the-logarithm-the-straight-line-explained",
+    "href": "04-change/02-rules.html#piece-3-the-logarithm-the-straight-line-explained",
+    "title": "4.2 Rules of Differentiation",
+    "section": "Piece 3: the logarithm — the straight line explained",
+    "text": "Piece 3: the logarithm — the straight line explained\nThe logarithm’s derivative follows from the exponential by the chain rule. If y = \\ln x then e^{y} = x; differentiating both sides with respect to x and applying the chain rule to the left gives e^{y}\\,y' = 1, so y' = 1/e^{y} = 1/x.\n\nTheorem 4.2.4. \\;\\dfrac{d}{dx}\\ln x = \\dfrac{1}{x} for x &gt; 0, and by the chain rule \\dfrac{d}{dt}\\ln f(t) = \\dfrac{f'(t)}{f(t)}.\n\nThe second form says that the derivative of \\ln f is the fractional rate of change of f — the rate divided by the amount. Apply it to first-order decay: \\frac{d}{dt}\\ln[\\mathrm{A}] = \\frac{d[\\mathrm{A}]/dt}{[\\mathrm{A}]} = \\frac{-k[\\mathrm{A}]}{[\\mathrm{A}]} = -k. A constant. A function whose derivative is constant everywhere is a straight line, so \\ln[\\mathrm{A}] plotted against t is exactly straight with slope -k. This is the proof of the diagnostic you used on the exam: the ln-plot’s slope is -k because the fractional rate of a first-order reaction does not change. A curved ln-plot means the fractional rate is changing — a different order, or a different mechanism.",
+    "crumbs": [
+      "4 · Change",
+      "<span class='chapter-number'>17</span>  <span class='chapter-title'>4.2 Rules of Differentiation</span>"
+    ]
+  },
+  {
+    "objectID": "04-change/02-rules.html#gluing-3-the-product-rule-a-rectangle-that-grows",
+    "href": "04-change/02-rules.html#gluing-3-the-product-rule-a-rectangle-that-grows",
+    "title": "4.2 Rules of Differentiation",
+    "section": "Gluing 3: the product rule — a rectangle that grows",
+    "text": "Gluing 3: the product rule — a rectangle that grows\nWhen two quantities that both change are multiplied — the encounter factor q = [\\mathrm{A}][\\mathrm{B}], say, when both concentrations are changing — the product’s rate has two contributions. Picture a rectangle of area A\\times B. Let the width grow by \\Delta A and the height by \\Delta B:\n\n  \n  \n  \n  \n  A · B\n  B·ΔA\n  A·ΔB\n  ΔAΔB\n  A\n  ΔA\n\nThe new area is the old rectangle plus two thin strips plus a tiny corner: \\Delta(AB) = B\\,\\Delta A + A\\,\\Delta B + \\Delta A\\,\\Delta B. Divide by \\Delta t and shrink. The two strips each keep a factor of one small quantity over \\Delta t and survive; the corner carries two small factors, one of which is left over after dividing, so it vanishes.\n\nTheorem 4.2.5 (product rule). \\;\\dfrac{d}{dx}\\big[f(x)\\,g(x)\\big] = f'(x)\\,g(x) + f(x)\\,g'(x).\n\nTwo chemical uses are worth fixing now. First, if A is consumed at rate -0.20 M/min while B is consumed at -0.05 M/min, with [\\mathrm{A}]=1.0 M and [\\mathrm{B}] = 0.60 M, the encounter factor changes at (-0.20)(0.60) + (1.0)(-0.05) = -0.17 M²/min — the sum of “A’s change times B’s level” and “B’s change times A’s level.” Second, and with a view to the next but one section: if the two concentrations are tied by a fixed total, [\\mathrm{B}] = C - [\\mathrm{A}], then \\dfrac{d}{d[\\mathrm{A}]}\\big([\\mathrm{A}](C-[\\mathrm{A}])\\big) = (1)(C - [\\mathrm{A}]) + [\\mathrm{A}](-1) = C - 2[\\mathrm{A}], which vanishes at an even split. That one line is the whole of §4.4.\nDivision needs no new rule: f/g = f\\cdot g^{-1}, so the product rule, the power rule, and the chain rule together give \\frac{d}{dx}\\frac{f}{g} = \\frac{f'g - fg'}{g^{2}}.\n\nExample 4.2.2 — diminishing returns in an enzyme. The Michaelis–Menten rate is v(S) = \\dfrac{V_{\\max}\\,S}{K_m + S}. With V_{\\max} = 10\\ \\mu\\text{M/s} and K_m = 2.0 mM, how much does the rate gain per extra millimolar of substrate at S = 0.5, 2, and 8 mM?\nSetting it up. Write v = V_{\\max}\\,S\\,(K_m + S)^{-1}: a product of S with a nested power, so product rule, power rule, and chain rule all appear.\nSolution. \\frac{dv}{dS} = V_{\\max}\\left[(K_m+S)^{-1} - S\\,(K_m+S)^{-2}\\right] = \\frac{V_{\\max}\\,K_m}{(K_m+S)^{2}}. Numerically (in \\muM s^{-1} mM^{-1}): at S = 0.5: 3.20; at S = 2: 1.25; at S = 8: 0.20.\nCheck. Units: (μM/s) per mM — rate per concentration, as a derivative should be. Limiting cases: dv/dS is always positive (more substrate never slows the enzyme) and falls toward zero as S \\to \\infty — the saturation plateau. At S = K_m = 2 mM the rate is exactly half of V_{\\max} (v = 5.00\\ \\muM/s), which is the definition of K_m. And the marginal benefit of substrate fell by a factor of sixteen between 0.5 and 8 mM while the rate itself only rose from 2.0 to 8.0: diminishing returns, quantified.",
+    "crumbs": [
+      "4 · Change",
+      "<span class='chapter-number'>17</span>  <span class='chapter-title'>4.2 Rules of Differentiation</span>"
+    ]
+  },
+  {
+    "objectID": "04-change/02-rules.html#remarks-and-cautions",
+    "href": "04-change/02-rules.html#remarks-and-cautions",
+    "title": "4.2 Rules of Differentiation",
+    "section": "Remarks and cautions",
+    "text": "Remarks and cautions\n\nThe chain factor. \\dfrac{d}{dt}\\,0.80\\,e^{-0.139t} is not 0.80\\,e^{-0.139t}. The exponential reproduces itself only when the exponent is the bare variable; otherwise the derivative of the exponent multiplies. Two instant tests catch the omission: the sign (a falling concentration cannot have a positive derivative) and the units (the result must carry “per minute”, and only the factor -0.139 min^{-1} can supply it).\n\n\nThe product rule does not act term by term. (fg)' \\neq f'g'. Test it on f=g=x: (x^{2})' = 2x, but f'g' = 1. The product rule has two terms because both factors are changing — two strips of the rectangle.\n\n\nPower or exponential? In x^{n} the variable is the base; in e^{ax} it is the exponent. \\dfrac{d}{dx}\\,e^{x} \\neq x\\,e^{x-1}. A concentration that depends on time through an exponent is an exponential, and its derivative stays proportional to itself.",
+    "crumbs": [
+      "4 · Change",
+      "<span class='chapter-number'>17</span>  <span class='chapter-title'>4.2 Rules of Differentiation</span>"
+    ]
+  },
+  {
+    "objectID": "04-change/02-rules.html#summary",
+    "href": "04-change/02-rules.html#summary",
+    "title": "4.2 Rules of Differentiation",
+    "section": "Summary",
+    "text": "Summary\nChemistry’s functions are assemblies of powers, exponentials, and logarithms combined by addition, scaling, multiplication, and nesting, so a handful of derivations buys the derivative of nearly anything we will meet. Sums and constants pass through (rates add); powers lose one degree and gain the old degree as a coefficient, which is how P \\propto V^{-1} gives the pressure’s compression sensitivity and a 1/r energy gives an inverse-square force; the exponential differentiates to a multiple of itself; and a nested function differentiates by multiplying the rates of the two links in the chain — a rule whose units alone expose the commonest mistake of dropping the inner factor. From the chain rule come the logarithm’s derivative 1/x and the proof that a first-order ln-plot is a straight line of slope -k; from the rectangle comes the product rule and, through it, the quotient rule behind Michaelis–Menten saturation. Rules like these can find where a function turns, and the next section does exactly that. What they cannot yet handle is a turning point with a budget attached — two quantities that must share a fixed total — which is the subject of §4.4.",
+    "crumbs": [
+      "4 · Change",
+      "<span class='chapter-number'>17</span>  <span class='chapter-title'>4.2 Rules of Differentiation</span>"
+    ]
+  },
+  {
+    "objectID": "04-change/02-rules.html#practice-until-it-sticks",
+    "href": "04-change/02-rules.html#practice-until-it-sticks",
+    "title": "4.2 Rules of Differentiation",
+    "section": "Practice until it sticks",
+    "text": "Practice until it sticks\nProblem Set 6 applies these rules to the chemistry and physics functions of this section; Problems 7 and 10 target the chain factor directly.",
+    "crumbs": [
+      "4 · Change",
+      "<span class='chapter-number'>17</span>  <span class='chapter-title'>4.2 Rules of Differentiation</span>"
+    ]
+  },
+  {
+    "objectID": "04-change/03-extrema.html",
+    "href": "04-change/03-extrema.html",
+    "title": "4.3 Extrema: Where Chemistry Settles",
     "section": "",
     "text": "The problem\nA synthetic chemist runs a two-step reaction in a flask. The product grows for a while — then the second step, which slowly destroys it, catches up. Stop the reaction too early and you leave yield unmade; stop too late and you have burned it. The yield as a function of time, from a kinetic model of the two steps, is\ny(t) = 6t^{2} - t^{3} \\qquad (y \\text{ in grams, } t \\text{ in hours, } 0 \\le t \\le 6).\nYou know from the last problem set what the derivative of this is and what it means: y'(t) is the rate of yield growth, in grams per hour, right now. The question the chemist actually cares about is different: when is the yield largest, and how large is it? The derivative tells you how fast y is changing at any moment you ask. It does not — at first glance — tell you where y is biggest. This section is about the one observation that turns the first question into the second.",
     "crumbs": [
       "4 · Change",
-      "<span class='chapter-number'>16</span>  <span class='chapter-title'>4.1 Extrema: Where Chemistry Settles</span>"
+      "<span class='chapter-number'>18</span>  <span class='chapter-title'>4.3 Extrema: Where Chemistry Settles</span>"
     ]
   },
   {
-    "objectID": "04-change/01-extrema.html#where-a-maximum-must-hide",
-    "href": "04-change/01-extrema.html#where-a-maximum-must-hide",
-    "title": "4.1 Extrema: Where Chemistry Settles",
+    "objectID": "04-change/03-extrema.html#where-a-maximum-must-hide",
+    "href": "04-change/03-extrema.html#where-a-maximum-must-hide",
+    "title": "4.3 Extrema: Where Chemistry Settles",
     "section": "Where a maximum must hide",
-    "text": "Where a maximum must hide\nWatch the method unfold: Open the interactive extrema animation. Switch between a reaction-yield maximum and a molecular-energy minimum, then scrub through the curve or let it play.\nFollow the yield in your mind. Early on, the yield is rising: y' &gt; 0. Late, the destruction step wins and the yield is falling: y' &lt; 0. Somewhere in between the curve stopped rising and started falling — and at that turning moment, for one instant, the yield was doing neither. The tangent line there is flat.\nThat is the entire idea, and it deserves to be stated as a condition:\n\nThe first-derivative condition. If a smooth function y(x) has a maximum or a minimum at an interior point x = c of its domain, then y'(c) = 0. Points where y' = 0 are called stationary points (the tangent is horizontal — the function is momentarily stationary).\n\nRead the logic direction carefully: every interior maximum or minimum is a stationary point, but not every stationary point is a maximum or minimum — we will meet the exception before the end of this section. The condition is a search warrant: it tells you the only interior places worth examining.\n\n\nBefore touching the slider: the yield curve y = 6t^2 - t^3 has two stationary points marked by hollow circles. Predict where they are — and predict the sign of y' just before and just after each one. Then drag (or press play) and watch the tangent line.\n\n\n\ntime t  ▶ sweep\n\n\n\n\n\n\n\n\nThe tangent is flat twice: at t = 4 (the maximum — rising before, falling after) and at t = 0 (a stationary start, climbing away). Notice what the readout shows at t = 4: y' = 0, but y'' is not zero — it is negative, and the curve is shaped like a cap. That second number is about to become the classifier.",
+    "text": "Where a maximum must hide\nWatch the method unfold: Open the interactive extrema animation. Switch between a reaction-yield maximum and a molecular-energy minimum, then scrub through the curve or let it play.\nFor the next step, §4.4 Constrained Extrema finds the best point when two chemical quantities must add to a fixed total; its interactive studio is a good preview.\nFollow the yield in your mind. Early on, the yield is rising: y' &gt; 0. Late, the destruction step wins and the yield is falling: y' &lt; 0. Somewhere in between the curve stopped rising and started falling — and at that turning moment, for one instant, the yield was doing neither. The tangent line there is flat.\nThat is the entire idea, and it deserves to be stated as a condition:\n\nThe first-derivative condition. If a smooth function y(x) has a maximum or a minimum at an interior point x = c of its domain, then y'(c) = 0. Points where y' = 0 are called stationary points (the tangent is horizontal — the function is momentarily stationary).\n\nRead the logic direction carefully: every interior maximum or minimum is a stationary point, but not every stationary point is a maximum or minimum — we will meet the exception before the end of this section. The condition is a search warrant: it tells you the only interior places worth examining.\n\n\nBefore touching the slider: the yield curve y = 6t^2 - t^3 has two stationary points marked by hollow circles. Predict where they are — and predict the sign of y' just before and just after each one. Then drag (or press play) and watch the tangent line.\n\n\n\ntime t  ▶ sweep\n\n\n\n\n\n\n\n\nThe tangent is flat twice: at t = 4 (the maximum — rising before, falling after) and at t = 0 (a stationary start, climbing away). Notice what the readout shows at t = 4: y' = 0, but y'' is not zero — it is negative, and the curve is shaped like a cap. That second number is about to become the classifier.",
     "crumbs": [
       "4 · Change",
-      "<span class='chapter-number'>16</span>  <span class='chapter-title'>4.1 Extrema: Where Chemistry Settles</span>"
+      "<span class='chapter-number'>18</span>  <span class='chapter-title'>4.3 Extrema: Where Chemistry Settles</span>"
     ]
   },
   {
-    "objectID": "04-change/01-extrema.html#telling-tops-from-bottoms-the-second-derivative",
-    "href": "04-change/01-extrema.html#telling-tops-from-bottoms-the-second-derivative",
-    "title": "4.1 Extrema: Where Chemistry Settles",
+    "objectID": "04-change/03-extrema.html#telling-tops-from-bottoms-the-second-derivative",
+    "href": "04-change/03-extrema.html#telling-tops-from-bottoms-the-second-derivative",
+    "title": "4.3 Extrema: Where Chemistry Settles",
     "section": "Telling tops from bottoms: the second derivative",
     "text": "Telling tops from bottoms: the second derivative\nA flat tangent happens at the top of a hill and at the bottom of a valley. The derivative alone cannot tell them apart — but the derivative of the derivative can. At a maximum the slope passes from positive through zero to negative: the slope is decreasing, so y'' &lt; 0. At a minimum the slope passes from negative to positive: increasing, so y'' &gt; 0. Geometrically, y'' &lt; 0 means the curve is curving downward like a cap (\\cap); y'' &gt; 0 means curving upward like a cup (\\cup). A cup holds its contents at a minimum; a cap sheds them from a maximum.\n\nThe second-derivative test. Suppose y'(c) = 0 at an interior point c. Then y''(c) &lt; 0 \\;\\Rightarrow\\; \\text{local maximum at } c, \\qquad\ny''(c) &gt; 0 \\;\\Rightarrow\\; \\text{local minimum at } c. If y''(c) = 0, the test is silent — not “it’s a maximum,” not “it’s a minimum,” just no verdict — and you must examine the sign of y' on each side of c.",
     "crumbs": [
       "4 · Change",
-      "<span class='chapter-number'>16</span>  <span class='chapter-title'>4.1 Extrema: Where Chemistry Settles</span>"
+      "<span class='chapter-number'>18</span>  <span class='chapter-title'>4.3 Extrema: Where Chemistry Settles</span>"
     ]
   },
   {
-    "objectID": "04-change/01-extrema.html#worked-example",
-    "href": "04-change/01-extrema.html#worked-example",
-    "title": "4.1 Extrema: Where Chemistry Settles",
+    "objectID": "04-change/03-extrema.html#worked-example",
+    "href": "04-change/03-extrema.html#worked-example",
+    "title": "4.3 Extrema: Where Chemistry Settles",
     "section": "Worked example",
-    "text": "Worked example\n\nExample 4.1.1 — the best time to stop the reaction. For y(t) = 6t^2 - t^3 on 0 \\le t \\le 6, find when the yield is largest and what it is.\nStep 1 — differentiate and set to zero. y'(t) = 12t - 3t^{2} = 3t\\,(4 - t) = 0 \\quad\\Rightarrow\\quad t = 0 \\;\\text{ or }\\; t = 4.\nStep 2 — classify with the second derivative. y''(t) = 12 - 6t, \\qquad y''(0) = +12 &gt; 0 \\;(\\text{minimum}), \\qquad y''(4) = -12 &lt; 0 \\;(\\text{maximum}).\nStep 3 — check the endpoints. The domain ends at t = 6: y(0) = 0, y(4) = 6(16) - 64 = 32 g, y(6) = 216 - 216 = 0 g. The interior maximum beats both endpoints.\nStep 4 — answer the chemist’s question. Stop the reaction at t = 4 h, harvesting 32 g. Running the full 6 h destroys everything you made.\nCheck. Units: y' in g/h, zero at an instant measured in hours — consistent. Limiting behavior: y'(1) = +9 g/h (still rising, too early to stop) and y'(5) = -15 g/h (already losing product) bracket the answer with the right signs. And the number is plausible: a maximum of 32 g between two zero endpoints.\n\nThat four-step rhythm — differentiate, solve, classify, check the edges — is the entire method, and it does not change no matter what function chemistry hands you.",
+    "text": "Worked example\n\nExample 4.3.1 — the best time to stop the reaction. For y(t) = 6t^2 - t^3 on 0 \\le t \\le 6, find when the yield is largest and what it is.\nStep 1 — differentiate and set to zero. y'(t) = 12t - 3t^{2} = 3t\\,(4 - t) = 0 \\quad\\Rightarrow\\quad t = 0 \\;\\text{ or }\\; t = 4.\nStep 2 — classify with the second derivative. y''(t) = 12 - 6t, \\qquad y''(0) = +12 &gt; 0 \\;(\\text{minimum}), \\qquad y''(4) = -12 &lt; 0 \\;(\\text{maximum}).\nStep 3 — check the endpoints. The domain ends at t = 6: y(0) = 0, y(4) = 6(16) - 64 = 32 g, y(6) = 216 - 216 = 0 g. The interior maximum beats both endpoints.\nStep 4 — answer the chemist’s question. Stop the reaction at t = 4 h, harvesting 32 g. Running the full 6 h destroys everything you made.\nCheck. Units: y' in g/h, zero at an instant measured in hours — consistent. Limiting behavior: y'(1) = +9 g/h (still rising, too early to stop) and y'(5) = -15 g/h (already losing product) bracket the answer with the right signs. And the number is plausible: a maximum of 32 g between two zero endpoints.\n\nThat four-step rhythm — differentiate, solve, classify, check the edges — is the entire method, and it does not change no matter what function chemistry hands you.",
     "crumbs": [
       "4 · Change",
-      "<span class='chapter-number'>16</span>  <span class='chapter-title'>4.1 Extrema: Where Chemistry Settles</span>"
+      "<span class='chapter-number'>18</span>  <span class='chapter-title'>4.3 Extrema: Where Chemistry Settles</span>"
     ]
   },
   {
-    "objectID": "04-change/01-extrema.html#the-deepest-example-in-chemistry-why-bonds-have-lengths",
-    "href": "04-change/01-extrema.html#the-deepest-example-in-chemistry-why-bonds-have-lengths",
-    "title": "4.1 Extrema: Where Chemistry Settles",
+    "objectID": "04-change/03-extrema.html#the-deepest-example-in-chemistry-why-bonds-have-lengths",
+    "href": "04-change/03-extrema.html#the-deepest-example-in-chemistry-why-bonds-have-lengths",
+    "title": "4.3 Extrema: Where Chemistry Settles",
     "section": "The deepest example in chemistry: why bonds have lengths",
     "text": "The deepest example in chemistry: why bonds have lengths\nTwo atoms approach each other. Too far apart, attraction pulls them in; too close, their electron clouds repel ferociously. The potential energy of the pair, in reduced units, is the Lennard-Jones curve V(r) = \\frac{1}{r^{12}} - \\frac{2}{r^{6}}, and the force between the atoms is F = -\\dfrac{dV}{dr} — the system is pushed downhill in energy.\nWhere does the pair come to rest? Exactly where the force vanishes: \\frac{dV}{dr} = -\\frac{12}{r^{13}} + \\frac{12}{r^{7}} = 0 \\quad\\Rightarrow\\quad r^{6} = 1 \\quad\\Rightarrow\\quad r = 1, with V(1) = -1. And is that rest stable? Differentiate again: \\;V''(1) = 156 - 84 = 72 &gt; 0 — a cup, a true minimum. Displace the atoms slightly and the force pushes them back.\nThe bond length of a molecule is the location of an energy minimum — a solved extremum problem. And the second derivative is not bookkeeping: V'' at the minimum is the stiffness of the bond, the force constant that sets its vibrational frequency in an IR spectrum. The first derivative tells you where the bond sits; the second tells you how it vibrates.\n\n\nSet the slider near r = 2 (a stretched pair) and predict: which way will the force arrow point? Now predict what happens if you press release — where will the atom end up, and will it stop there immediately or overshoot first?\n\n\n\nseparation r  ⬤ release the atom\n\n\n\n\n\n\n\n\nReleased from anywhere, the atom oscillates about r = 1 and settles there — the force is restoring on both sides precisely because V'' &gt; 0. That oscillation you watched is a molecular vibration; its frequency grows with the curvature V''. A stiffer cup (larger second derivative) means a faster vibration — which is why an IR spectrometer is, in the end, a second-derivative meter.",
     "crumbs": [
       "4 · Change",
-      "<span class='chapter-number'>16</span>  <span class='chapter-title'>4.1 Extrema: Where Chemistry Settles</span>"
+      "<span class='chapter-number'>18</span>  <span class='chapter-title'>4.3 Extrema: Where Chemistry Settles</span>"
     ]
   },
   {
-    "objectID": "04-change/01-extrema.html#remarks-and-cautions",
-    "href": "04-change/01-extrema.html#remarks-and-cautions",
-    "title": "4.1 Extrema: Where Chemistry Settles",
+    "objectID": "04-change/03-extrema.html#remarks-and-cautions",
+    "href": "04-change/03-extrema.html#remarks-and-cautions",
+    "title": "4.3 Extrema: Where Chemistry Settles",
     "section": "Remarks and cautions",
     "text": "Remarks and cautions\n\nA flat tangent is not always a top or a bottom. Try y = x^{3} at x = 0: y'(0) = 0 and y''(0) = 0 — the test is silent, and rightly so, because the curve just pauses and keeps rising (y' = 3x^2 &gt; 0 on both sides). When y''(c) = 0, fall back to first principles: check the sign of y' on each side of c.\n\n\ny' = 0 only searches the interior. On a closed interval the largest value can sit at an endpoint, where the tangent need not be flat at all — a reaction stopped by the clock, not by the chemistry. Always evaluate the endpoints alongside the stationary points, as in Step 3 above.\n\n\nRemark. A maximum of y is a zero of y'. You have been using this backwards all course: when a plotted signal levels off, its derivative has dropped to zero. “Leveling off,” “turning over,” “settling” — chemistry’s vocabulary for equilibrium is the vocabulary of vanishing derivatives.",
     "crumbs": [
       "4 · Change",
-      "<span class='chapter-number'>16</span>  <span class='chapter-title'>4.1 Extrema: Where Chemistry Settles</span>"
+      "<span class='chapter-number'>18</span>  <span class='chapter-title'>4.3 Extrema: Where Chemistry Settles</span>"
     ]
   },
   {
-    "objectID": "04-change/01-extrema.html#summary",
-    "href": "04-change/01-extrema.html#summary",
-    "title": "4.1 Extrema: Where Chemistry Settles",
+    "objectID": "04-change/03-extrema.html#summary",
+    "href": "04-change/03-extrema.html#summary",
+    "title": "4.3 Extrema: Where Chemistry Settles",
     "section": "Summary",
     "text": "Summary\nChemistry’s “where is the most?” and “where does it settle?” questions are answered by a two-derivative interrogation. The first derivative provides the search warrant: interior maxima and minima can hide only where y' = 0, so differentiate, set to zero, and solve. The second derivative provides the verdict: a negative y'' means a cap and a maximum, a positive y'' a cup and a minimum, and a zero y'' means no verdict at all — examine the slope’s sign on either side. Endpoints obey no tangent condition and must be checked by hand. The same four steps located a reaction’s optimal quench time and a molecule’s bond length; in the second case the curvature itself was physical, the stiffness that an IR spectrometer reads as a vibrational frequency. What the method does not yet answer: a bond vibrates about its minimum — how do we describe motion that endlessly trades position for speed? That is a differential equation, and it is where CHANGE goes next.",
     "crumbs": [
       "4 · Change",
-      "<span class='chapter-number'>16</span>  <span class='chapter-title'>4.1 Extrema: Where Chemistry Settles</span>"
+      "<span class='chapter-number'>18</span>  <span class='chapter-title'>4.3 Extrema: Where Chemistry Settles</span>"
     ]
   },
   {
-    "objectID": "04-change/01-extrema.html#practice-until-it-sticks",
-    "href": "04-change/01-extrema.html#practice-until-it-sticks",
-    "title": "4.1 Extrema: Where Chemistry Settles",
+    "objectID": "04-change/03-extrema.html#practice-until-it-sticks",
+    "href": "04-change/03-extrema.html#practice-until-it-sticks",
+    "title": "4.3 Extrema: Where Chemistry Settles",
     "section": "Practice until it sticks",
     "text": "Practice until it sticks\nThis section’s exercise set is Problem Set 7 — Extrema, which opens with a second fully worked example before the problems begin.",
     "crumbs": [
       "4 · Change",
-      "<span class='chapter-number'>16</span>  <span class='chapter-title'>4.1 Extrema: Where Chemistry Settles</span>"
+      "<span class='chapter-number'>18</span>  <span class='chapter-title'>4.3 Extrema: Where Chemistry Settles</span>"
+    ]
+  },
+  {
+    "objectID": "04-change/04-constrained.html",
+    "href": "04-change/04-constrained.html",
+    "title": "4.4 Constrained Extrema: Optimizing with a Budget",
+    "section": "",
+    "text": "The problem\nTwo reagents are to be mixed for the elementary reaction \\mathrm{A} + \\mathrm{B} \\to \\mathrm{P}, whose initial rate is k[\\mathrm{A}][\\mathrm{B}]. Suppose a solubility limit (or a fixed ionic strength, or simply the capacity of the apparatus) caps the total concentration at [\\mathrm{A}] + [\\mathrm{B}] = C. How should the budget be divided to get the fastest possible start?\nSection 4.3 taught us to find a maximum by solving y' = 0, but it taught us for a function of one variable, and here there are two knobs: [\\mathrm{A}] and [\\mathrm{B}]. Try to ignore the cap and the question collapses — make both concentrations bigger and the rate grows without limit, so the unconstrained problem has no answer at all. It is the budget that gives the question its meaning. We have a quantity to make as large as possible (the objective, q = [\\mathrm{A}][\\mathrm{B}], which is the rate divided by k) and a rule the choices must obey (the constraint, [\\mathrm{A}]+[\\mathrm{B}]=C). This section is about how a constraint turns a two-knob problem back into one we already know how to solve — and what the solution means.",
+    "crumbs": [
+      "4 · Change",
+      "<span class='chapter-number'>19</span>  <span class='chapter-title'>4.4 Constrained Extrema: Optimizing with a Budget</span>"
+    ]
+  },
+  {
+    "objectID": "04-change/04-constrained.html#one-budget-removes-one-knob",
+    "href": "04-change/04-constrained.html#one-budget-removes-one-knob",
+    "title": "4.4 Constrained Extrema: Optimizing with a Budget",
+    "section": "One budget removes one knob",
+    "text": "One budget removes one knob\nThe constraint is not an extra complication; it is a relation that removes one degree of freedom. If [\\mathrm{A}]+[\\mathrm{B}]=C, then once you choose [\\mathrm{A}], [\\mathrm{B}] is no longer yours to choose: [\\mathrm{B}] = C - [\\mathrm{A}]. Substitute it into the objective and the two-knob function becomes a one-knob function, q([\\mathrm{A}]) = [\\mathrm{A}]\\,\\big(C - [\\mathrm{A}]\\big), and §4.3 applies unchanged. Geometrically, the allowed choices form a line through the [\\mathrm{A}]–[\\mathrm{B}] plane, and q restricted to that line is the height of a landscape measured while walking along it. The restricted function is that height profile; its maximum is the answer.\n\nExample 4.4.1 — dividing a concentration budget. With C = 2.00 M, find the split of [\\mathrm{A}]+[\\mathrm{B}] = C that maximizes the encounter factor q = [\\mathrm{A}][\\mathrm{B}].\nSetting it up. One constraint, two variables: eliminate [\\mathrm{B}]. The domain is 0 \\le [\\mathrm{A}] \\le C (concentrations cannot be negative).\nSolution. q([\\mathrm{A}]) = C[\\mathrm{A}] - [\\mathrm{A}]^{2}, so by the power rule \\frac{dq}{d[\\mathrm{A}]} = C - 2[\\mathrm{A}] = 0 \\quad\\Rightarrow\\quad [\\mathrm{A}] = \\frac{C}{2} = 1.00\\ \\text{M}, \\quad [\\mathrm{B}] = 1.00\\ \\text{M}. The second derivative is d^{2}q/d[\\mathrm{A}]^{2} = -2 &lt; 0: a cap, a maximum. At the endpoints q = 0 (all A or all B means no encounters), so the interior point wins: q_{\\max} = 1.00\\ \\text{M}^2.\nCheck. Units: q is in M². An uneven split 0.5/1.5 gives q = 0.75 M², 25 % lower — consistent with a maximum at the even split. The result is also physically sensible: every encounter needs one A and one B, so starving either reagent hurts.\n\n\nRemark. Both panels of the constrained-extrema studio show exactly this. On the left is the plane with contours of q and the allowed line; on the right is the height profile along that line. Drag the point along the constraint and watch the profile’s tangent become flat at the even split. Change the total concentration C and the optimum follows it.",
+    "crumbs": [
+      "4 · Change",
+      "<span class='chapter-number'>19</span>  <span class='chapter-title'>4.4 Constrained Extrema: Optimizing with a Budget</span>"
+    ]
+  },
+  {
+    "objectID": "04-change/04-constrained.html#what-the-picture-says-tangency-and-parallel-gradients",
+    "href": "04-change/04-constrained.html#what-the-picture-says-tangency-and-parallel-gradients",
+    "title": "4.4 Constrained Extrema: Optimizing with a Budget",
+    "section": "What the picture says: tangency and parallel gradients",
+    "text": "What the picture says: tangency and parallel gradients\nThe substitution trick works whenever you can solve the constraint for one variable. Its geometry, however, carries a deeper statement worth having. Draw the contours of the objective — the curves along which q is constant ([\\mathrm{A}][\\mathrm{B}] = 0.4,\\,1.0,\\,1.7,\\dots, a family of hyperbolas). Walking along the constraint line, you cross contours, climbing or descending, until you reach a point where the line merely grazes a contour and turns back: the highest contour you can reach. At a constrained maximum, the constraint is tangent to a contour of the objective. If it crossed the contour, you could still step to a higher one.\nTo say this with numbers, we need the vector that points uphill. When a function has two variables, its slope along each axis is an ordinary derivative with the other variable frozen.\n\nDefinition 4.4.1 (partial derivative, gradient). For f(x,y), the partial derivative \\dfrac{\\partial f}{\\partial x} is the ordinary derivative with respect to x treating y as a constant, and similarly for \\dfrac{\\partial f}{\\partial y}. The gradient is the vector \\nabla f = \\left(\\frac{\\partial f}{\\partial x},\\; \\frac{\\partial f}{\\partial y}\\right), which points in the direction of steepest ascent and is perpendicular to the contour through that point.\n\nNo new rules are involved — only the discipline of knowing which letter is the variable. For q = [\\mathrm{A}][\\mathrm{B}]: \\partial q/\\partial[\\mathrm{A}] = [\\mathrm{B}] (treat [\\mathrm{B}] as a constant multiplier) and \\partial q/\\partial[\\mathrm{B}] = [\\mathrm{A}], so \\nabla q = ([\\mathrm{B}],\\,[\\mathrm{A}]). For the budget g = [\\mathrm{A}]+[\\mathrm{B}], \\nabla g = (1,\\,1), perpendicular to the constraint line.\n\nTheorem 4.4.1 (parallel gradients). If f has a maximum or minimum on the curve g(x,y) = c at an interior point where \\nabla g \\neq 0, then there is a number \\lambda such that \\nabla f = \\lambda\\,\\nabla g.\n\n\nProof. Move along the constraint with unit tangent direction \\mathbf{t}. When both variables change, the changes in f from the two knobs add — the same “rates add” logic as in §4.2 — so the rate of change of f along the curve is the dot product \\nabla f\\cdot\\mathbf{t}. At an extremum of f restricted to the curve, that rate is zero (the first-derivative condition of §4.3), so \\nabla f \\perp \\mathbf{t}. But g is constant along its own level curve, so likewise \\nabla g \\perp \\mathbf{t}. In the plane, two vectors that are both perpendicular to the same nonzero vector point along the same line; hence \\nabla f = \\lambda\\nabla g for some number \\lambda.\n\nThe theorem and the substitution method are the same fact seen two ways: setting the derivative along the line to zero is setting \\nabla f\\cdot\\mathbf{t} to zero. At the optimum of Example 4.4.1, \\nabla q = ([\\mathrm{B}],[\\mathrm{A}]) = (1.00,\\,1.00) M = \\lambda\\,(1,1), so \\lambda = 1.00 M = C/2. The gradient arrows in the studio are parallel exactly at the optimum, and visibly not parallel anywhere else.",
+    "crumbs": [
+      "4 · Change",
+      "<span class='chapter-number'>19</span>  <span class='chapter-title'>4.4 Constrained Extrema: Optimizing with a Budget</span>"
+    ]
+  },
+  {
+    "objectID": "04-change/04-constrained.html#a-second-system-how-a-chain-shares-a-stretch",
+    "href": "04-change/04-constrained.html#a-second-system-how-a-chain-shares-a-stretch",
+    "title": "4.4 Constrained Extrema: Optimizing with a Budget",
+    "section": "A second system: how a chain shares a stretch",
+    "text": "A second system: how a chain shares a stretch\nThe even split of Example 4.4.1 might tempt you to believe that “constrained optimum” means “divide equally.” A system with unequal parts corrects that. Two bonds in a chain (a polymer segment, or a flexible linker between two sites) are stretched so that their lengths r_1 + r_2 must equal a fixed total L — the ends are held. In reduced units each bond is a spring with its own rest length (=1) and stiffness: bond 1 is stiff and bond 2 is soft, E = (r_1 - 1)^{2} + \\tfrac12\\,(r_2 - 1)^{2}. How does the chain share the stretch, so as to minimize its total strain energy?\n\nExample 4.4.2 — sharing a fixed stretch. For L = 2.6, find r_1 and r_2 that minimize E subject to r_1 + r_2 = L, with each r_i \\ge 0.9.\nSetting it up. Eliminate r_2 = L - r_1. Then E(r_1) = (r_1-1)^2 + \\tfrac12(L - r_1 - 1)^2, with domain 0.9 \\le r_1 \\le L - 0.9 = 1.7.\nSolution. By the chain rule, \\frac{dE}{dr_1} = 2(r_1-1) - (L - r_1 - 1) = 3r_1 - L - 1 = 0 \\;\\Rightarrow\\; r_1 = \\frac{L+1}{3} = 1.20,\\quad r_2 = 1.40. \\dfrac{d^{2}E}{dr_1^{2}} = 3 &gt; 0: a cup, a minimum. Endpoints: E(0.9) = 0.255, E(1.7) = 0.495, both above E_{\\min} = (L-2)^2/3 = 0.120.\nInterpretation and check. The stiff bond stretches by r_1 - 1 = 0.20; the soft one by r_2 - 1 = 0.40. The stiffer bond takes half the extension of the softer one — the shares are inversely proportional to stiffness. The gradient confirms the physics: \\nabla E = \\big(2(r_1-1),\\; r_2-1\\big) = (0.40,\\,0.40) = \\lambda(1,1), so \\lambda = 0.40 — and 0.40 is the force in each bond: springs in series carry the same tension, and the multiplier turns out to be that shared tension.\n\nIn molecular terms this is why strain in a stretched chain concentrates in its softest link, a first-principles reason behind mechanochemistry. The optimum was not an equal split, but it was the same procedure: eliminate, differentiate, classify, check the edges, interpret.",
+    "crumbs": [
+      "4 · Change",
+      "<span class='chapter-number'>19</span>  <span class='chapter-title'>4.4 Constrained Extrema: Optimizing with a Budget</span>"
+    ]
+  },
+  {
+    "objectID": "04-change/04-constrained.html#does-the-even-split-ever-win-again-a-family-of-cases",
+    "href": "04-change/04-constrained.html#does-the-even-split-ever-win-again-a-family-of-cases",
+    "title": "4.4 Constrained Extrema: Optimizing with a Budget",
+    "section": "Does the even split ever win again? A family of cases",
+    "text": "Does the even split ever win again? A family of cases\nBack to the reagents. Real reactions are not all \\mathrm{A}+\\mathrm{B}: an elementary step 2\\mathrm{A}+\\mathrm{B}\\to\\mathrm{P} has rate k[\\mathrm{A}]^2[\\mathrm{B}] and, in general, k[\\mathrm{A}]^{a}[\\mathrm{B}]^{b}. Keep the budget fixed and change only the exponents: for which feed ratio is the initial rate largest?\n\n\nBefore touching anything: for k[\\mathrm{A}][\\mathrm{B}]^{2} with a total of 0.60 M, predict the best [\\mathrm{A}] and [\\mathrm{B}]. Then predict what changes for [\\mathrm{A}]^{2}[\\mathrm{B}]. Is it still an even split? Set the exponents and check.\n\n\n\nexponent a  exponent b  total C \n\n\n[A] on the budget  ▶ sweep\n\n\n\n\n\n\n\n\nThe optimum sits at [\\mathrm{A}]^{*} = \\dfrac{a}{a+b}\\,C: for [\\mathrm{A}][\\mathrm{B}]^2 with 0.60 M, [\\mathrm{A}]^* = 0.20 M and [\\mathrm{B}]^* = 0.40 M — a 1\\!:\\!2 feed, not 1\\!:\\!1. The best mixture is the one in the stoichiometric ratio of the exponents. The gradient condition shows why: \\partial q/\\partial[\\mathrm{A}] = a\\,q/[\\mathrm{A}] and \\partial q/\\partial[\\mathrm{B}] = b\\,q/[\\mathrm{B}], and since \\nabla g = (1,1) the two must be equal at the optimum, which forces [\\mathrm{A}]/[\\mathrm{B}] = a/b. Notice the curve changes shape with the exponents — more lopsided, more cusp-like — but it keeps its single interior peak.\n\n\nFor a termolecular step 2\\mathrm{A}+\\mathrm{B} with a 0.90 M budget the best feed is 0.60 M A and 0.30 M B: feed the reagents in the ratio in which the reaction consumes them. The even split of Example 4.4.1 was not a general principle but the special case a = b = 1.",
+    "crumbs": [
+      "4 · Change",
+      "<span class='chapter-number'>19</span>  <span class='chapter-title'>4.4 Constrained Extrema: Optimizing with a Budget</span>"
+    ]
+  },
+  {
+    "objectID": "04-change/04-constrained.html#the-multiplier-is-a-price",
+    "href": "04-change/04-constrained.html#the-multiplier-is-a-price",
+    "title": "4.4 Constrained Extrema: Optimizing with a Budget",
+    "section": "The multiplier is a price",
+    "text": "The multiplier is a price\nWhat is \\lambda? It has appeared three times — 1.00 M for the reagents, 0.40 for the chain tension — and each time it was found by comparing gradients. It has a meaning that checks out in both examples. Relax the budget slightly and ask how much the optimal value improves. For the reagents, the best possible q at total C is q^*(C) = C^{2}/4, so \\frac{dq^*}{dC} = \\frac{C}{2} = \\lambda . At C = 2.00 M this is 1.00 M, exactly the \\lambda found before; and a numerical check agrees (q^*(1.6) - q^*(1.5) = 0.0775 over a 0.1 M change, a rate of 0.775 — the value of \\lambda = C/2 at the midpoint). For the chain, the minimum strain is E^*(L) = (L-2)^2/3, so \\frac{dE^*}{dL} = \\frac{2(L-2)}{3} = 0.40 \\quad\\text{at } L = 2.6 = \\lambda . Here it is pure physics: the energy cost of stretching the held chain a little further is force times distance, so dE^*/dL is the tension F. In both examples \\boxed{\\;\\lambda = \\frac{d(\\text{optimal value})}{d(\\text{budget})}\\;} — the price of the constraint, the amount the optimum improves per unit of extra budget. We have verified this in two cases rather than proved it in general, but it holds in general (it is the shadow price of optimization theory). Its units give it away: \\lambda carries (objective units) per (budget units) — M²/M, or energy per length, which is force.",
+    "crumbs": [
+      "4 · Change",
+      "<span class='chapter-number'>19</span>  <span class='chapter-title'>4.4 Constrained Extrema: Optimizing with a Budget</span>"
+    ]
+  },
+  {
+    "objectID": "04-change/04-constrained.html#the-physical-payoff-why-heat-flows-until-temperatures-match",
+    "href": "04-change/04-constrained.html#the-physical-payoff-why-heat-flows-until-temperatures-match",
+    "title": "4.4 Constrained Extrema: Optimizing with a Budget",
+    "section": "The physical payoff: why heat flows until temperatures match",
+    "text": "The physical payoff: why heat flows until temperatures match\nOne more system, and the most important in chemistry, because its multiplier is a quantity you already know. Two bodies exchange energy but are isolated from everything else, so their energies obey a fixed total E_1 + E_2 = E. Statistical mechanics tells us that a body with f quadratic degrees of freedom has entropy S = \\tfrac{f}{2}\\ln E_i + \\text{const} (in units of k_B) — more energy, more accessible microstates, with diminishing returns. Write a = f_1/2 and b = f_2/2. The system will settle where the total entropy is largest: S_{\\text{tot}} = a\\ln E_1 + b\\ln E_2, \\qquad E_1 + E_2 = E.\nEliminate E_2 = E - E_1 and differentiate: \\frac{dS_{\\text{tot}}}{dE_1} = \\frac{a}{E_1} - \\frac{b}{E - E_1} = 0 \\;\\Rightarrow\\; E_1 = \\frac{a}{a+b}\\,E . The second derivative -a/E_1^2 - b/E_2^2 &lt; 0 confirms a maximum. And the multiplier: \\nabla S = (a/E_1,\\; b/E_2) = \\lambda\\,(1,1), so \\frac{a}{E_1} = \\frac{b}{E_2} = \\lambda . Now recall what dS/dE means in thermodynamics: \\dfrac{dS}{dE} = \\dfrac{1}{T}. The two slopes at the optimum are 1/T_1 and 1/T_2, so \\lambda = 1/T and the optimum is T_1 = T_2: thermal equilibrium is a constrained maximum of entropy, and the multiplier is the inverse temperature. The split E_1 = \\frac{a}{a+b}E gives each degree of freedom the same energy — equipartition, derived from a Lagrange condition.\n\n\nBody 1 has a = 3 (six modes), body 2 has a = 2 (four modes), sharing E = 10. Place body 1 at E_1 = 8 (lots of energy). Predict: which body is hotter, and which way will energy flow? Then press let heat flow and watch the temperatures — and the total entropy — as the system relaxes.\n\n\n\nmodes a  modes b  energy of body 1  ▶ let heat flow\n\n\n\n\n\n\n\n\nAt E_1 = 8 body 1 is the hot one (T_1 = E_1/a = 2.67 &gt; T_2 = E_2/b = 1.00): energy flows from body 1 to body 2, the total entropy climbs, and the two inverse temperatures — the two tangent slopes — converge until they are equal at E_1 = 6, E_2 = 4, T = 2. Heat flows from hot to cold because that is the direction in which total entropy increases. The slope bars equalizing is the picture of \\nabla S = \\lambda\\nabla g with \\lambda = 1/T.",
+    "crumbs": [
+      "4 · Change",
+      "<span class='chapter-number'>19</span>  <span class='chapter-title'>4.4 Constrained Extrema: Optimizing with a Budget</span>"
+    ]
+  },
+  {
+    "objectID": "04-change/04-constrained.html#remarks-and-cautions",
+    "href": "04-change/04-constrained.html#remarks-and-cautions",
+    "title": "4.4 Constrained Extrema: Optimizing with a Budget",
+    "section": "Remarks and cautions",
+    "text": "Remarks and cautions\n\nDo not forget the constraint. Setting both partial derivatives of q to zero, [\\mathrm{B}] = 0 and [\\mathrm{A}] = 0, finds the unconstrained stationary point at the origin, where q = 0 — the wrong question’s answer. The constraint changes which points are admissible and which condition characterizes the best one. The right condition is \\nabla f = \\lambda\\nabla g, never \\nabla f = 0.\n\n\nParallel gradients find candidates, not verdicts. Like y' = 0 in §4.3, the condition \\nabla f = \\lambda\\nabla g only says where an extremum could be. Classify it with the second derivative of the restricted function (or with the profile), and compare the endpoints of the allowed range — a budget has edges (zero concentration, a bond that cannot compress) where the tangent condition need not hold.\n\n\nRemark. Read units to identify \\lambda: it always carries (objective units) per (budget units). That is M²/M for the reagents, energy per length — a force — for the chain, and k_B per energy — an inverse temperature — for the heat-sharing bodies. A multiplier whose units you cannot interpret is usually a signal to recheck the setup.",
+    "crumbs": [
+      "4 · Change",
+      "<span class='chapter-number'>19</span>  <span class='chapter-title'>4.4 Constrained Extrema: Optimizing with a Budget</span>"
+    ]
+  },
+  {
+    "objectID": "04-change/04-constrained.html#summary",
+    "href": "04-change/04-constrained.html#summary",
+    "title": "4.4 Constrained Extrema: Optimizing with a Budget",
+    "section": "Summary",
+    "text": "Summary\nWhen chemistry fixes a total — of concentration, of length, of energy — two variables become one, because the constraint removes a degree of freedom: solve it for one variable, substitute, and the extrema machinery of §4.3 applies to the restricted function. The geometry behind that algebra is tangency: at a constrained optimum the constraint grazes a contour of the objective, and the gradients of objective and constraint, which are both perpendicular to the allowed direction, are parallel, so \\nabla f = \\lambda\\nabla g. The optimum is not generally an even split — it divides the budget in the stoichiometric ratio for a rate law [\\mathrm{A}]^a[\\mathrm{B}]^b, and inversely with stiffness for bonds in series — and the multiplier \\lambda is the price of the constraint, the rate at which the optimum improves per unit of extra budget, which turned out to be a tension for a stretched chain and an inverse temperature for two bodies sharing energy. What remains open: heat-sharing between two bodies is the simplest case of a far larger problem. With 10^{23} molecules and a single energy budget, how is the energy most probably distributed among them? The same optimization, applied to a vast number of variables, yields the Boltzmann distribution — and that is where the next module goes.",
+    "crumbs": [
+      "4 · Change",
+      "<span class='chapter-number'>19</span>  <span class='chapter-title'>4.4 Constrained Extrema: Optimizing with a Budget</span>"
+    ]
+  },
+  {
+    "objectID": "04-change/04-constrained.html#practice-until-it-sticks",
+    "href": "04-change/04-constrained.html#practice-until-it-sticks",
+    "title": "4.4 Constrained Extrema: Optimizing with a Budget",
+    "section": "Practice until it sticks",
+    "text": "Practice until it sticks\nWork through Problem Set 8 — Constrained Extrema, which opens with a fully worked termolecular example, and return to the constrained-extrema studio to test your predictions.",
+    "crumbs": [
+      "4 · Change",
+      "<span class='chapter-number'>19</span>  <span class='chapter-title'>4.4 Constrained Extrema: Optimizing with a Budget</span>"
     ]
   },
   {
@@ -1636,7 +1955,7 @@
     "href": "problem-sets/07-extrema.html",
     "title": "Appendix I — Problem Set 7 | Extrema",
     "section": "",
-    "text": "Purpose\nChemistry asks “where is the most?” constantly: the optimal temperature, the equilibrium bond length, the pH where an enzyme works best, the moment to stop a reaction. This set trains the complete method — and only the method:\nThe lesson behind this set is §4.1 Extrema — read it first if you have not; the two interactive figures there are worth ten minutes.",
+    "text": "Purpose\nChemistry asks “where is the most?” constantly: the optimal temperature, the equilibrium bond length, the pH where an enzyme works best, the moment to stop a reaction. This set trains the complete method — and only the method:\nThe lesson behind this set is §4.3 Extrema — read it first if you have not; the two interactive figures there are worth ten minutes.",
     "crumbs": [
       "Appendices",
       "Problem Sets",
@@ -1713,6 +2032,90 @@
       "Appendices",
       "Problem Sets",
       "<span class='chapter-number'>I</span>  <span class='chapter-title'>Problem Set 7 | Extrema</span>"
+    ]
+  },
+  {
+    "objectID": "problem-sets/08-constrained.html",
+    "href": "problem-sets/08-constrained.html",
+    "title": "Appendix J — Problem Set 8 | Constrained Extrema",
+    "section": "",
+    "text": "Purpose\nChemistry fixes totals: total concentration, total length, total energy. When two quantities must share a budget, the best split is a constrained extremum. This set trains one method, with the §4.3 steps inside it:\nRead §4.4 first; the two interactive figures and the constrained-extrema studio are worth ten minutes before you start.",
+    "crumbs": [
+      "Appendices",
+      "Problem Sets",
+      "<span class='chapter-number'>J</span>  <span class='chapter-title'>Problem Set 8 | Constrained Extrema</span>"
+    ]
+  },
+  {
+    "objectID": "problem-sets/08-constrained.html#purpose",
+    "href": "problem-sets/08-constrained.html#purpose",
+    "title": "Appendix J — Problem Set 8 | Constrained Extrema",
+    "section": "",
+    "text": "Name the objective f (what you want largest or smallest) and the constraint g (the budget). Count the free variables — one budget removes one.\nEliminate: solve the constraint for one variable and substitute, so f becomes a function of a single variable. (Equivalent check: \\nabla f = \\lambda\\nabla g.)\nSolve and classify: set the derivative to zero, classify with the second derivative, and check the endpoints of the allowed range.\nInterpret: units, one sentence of chemistry, and — when asked — what \\lambda means.",
+    "crumbs": [
+      "Appendices",
+      "Problem Sets",
+      "<span class='chapter-number'>J</span>  <span class='chapter-title'>Problem Set 8 | Constrained Extrema</span>"
+    ]
+  },
+  {
+    "objectID": "problem-sets/08-constrained.html#worked-example-read-this-before-the-problems",
+    "href": "problem-sets/08-constrained.html#worked-example-read-this-before-the-problems",
+    "title": "Appendix J — Problem Set 8 | Constrained Extrema",
+    "section": "Worked example — read this before the problems",
+    "text": "Worked example — read this before the problems\n\nThe best feed for a termolecular step. The elementary reaction 2\\mathrm{A}+\\mathrm{B}\\to\\mathrm{P} has initial rate k[\\mathrm{A}]^{2}[\\mathrm{B}]. With the total concentration capped at [\\mathrm{A}]+[\\mathrm{B}] = 0.90 M, find the feed that maximizes the rate, and the value of q = [\\mathrm{A}]^{2}[\\mathrm{B}] there.\nStep 1 — name and count. Objective q = [\\mathrm{A}]^{2}[\\mathrm{B}] (units M³). Constraint g = [\\mathrm{A}]+[\\mathrm{B}] = 0.90 M. Two variables, one constraint: one free variable. Domain 0 \\le [\\mathrm{A}] \\le 0.90.\nStep 2 — eliminate. [\\mathrm{B}] = 0.90 - [\\mathrm{A}], so q([\\mathrm{A}]) = [\\mathrm{A}]^{2}\\,(0.90 - [\\mathrm{A}]) = 0.90\\,[\\mathrm{A}]^{2} - [\\mathrm{A}]^{3}.\nStep 3 — solve and classify. By the power rule, q'([\\mathrm{A}]) = 1.80\\,[\\mathrm{A}] - 3\\,[\\mathrm{A}]^{2} = 3\\,[\\mathrm{A}]\\,(0.60 - [\\mathrm{A}]) = 0, so [\\mathrm{A}] = 0 or 0.60 M. Then q'' = 1.80 - 6[\\mathrm{A}]: q''(0.60) = -1.80 &lt; 0, a cap and a maximum; q''(0) = +1.80 &gt; 0, a minimum (where q = 0). Endpoints: q(0) = 0 and q(0.90) = 0. The interior maximum wins: q_{\\max} = (0.60)^{2}(0.30) = 0.108\\ \\text{M}^{3}.\nStep 4 — interpret. The best feed is 0.60 M A and 0.30 M B — a 2\\!:\\!1 ratio, which is exactly the ratio in which 2\\mathrm{A}+\\mathrm{B} consumes the reagents.\nCheck. Test a neighbouring split: 0.50/0.40 would be 0.25 \\times 0.40 = 0.100 &lt; 0.108 ✓. Gradient check: \\nabla q = (2[\\mathrm{A}][\\mathrm{B}],\\,[\\mathrm{A}]^{2}) = (0.36,\\,0.36) M² = \\lambda\\,(1,1) with \\lambda = 0.36 M² — parallel to \\nabla g = (1,1) ✓, and the units of \\lambda are M³ per M, as the “objective per budget” rule predicts.\n\nEvery problem below uses this four-step rhythm. Show all four steps each time.",
+    "crumbs": [
+      "Appendices",
+      "Problem Sets",
+      "<span class='chapter-number'>J</span>  <span class='chapter-title'>Problem Set 8 | Constrained Extrema</span>"
+    ]
+  },
+  {
+    "objectID": "problem-sets/08-constrained.html#a.-reading-before-computing",
+    "href": "problem-sets/08-constrained.html#a.-reading-before-computing",
+    "title": "Appendix J — Problem Set 8 | Constrained Extrema",
+    "section": "A. Reading before computing",
+    "text": "A. Reading before computing\n\n1. The contour story\nOn a contour map of an objective q, a constraint line crosses the contour q=1.0 at two points, touches the contour q = 1.7 at exactly one point, and never reaches the contour q = 2.5.\n\nWhere on the line is the maximum of q?\nWhat is the slope of q along the line at that point?\nWhy can the maximum not be at either point where the line merely crosses the q=1.0 contour?\n\n\n\n2. Objective, constraint, free variables\nFor each system, name the objective, the constraint, and how many free variables remain:\n\nInitial rate k[\\mathrm{A}][\\mathrm{B}] of \\mathrm{A}+\\mathrm{B}\\to\\mathrm{P} with [\\mathrm{A}]+[\\mathrm{B}] = 0.50 M.\nStrain energy of two bonds in series when the two ends of the chain are held a fixed distance apart.\nTotal entropy of two bodies that share a fixed total energy.\nOne sentence: what do (a)–(c) have in common that lets the §4.3 method apply?",
+    "crumbs": [
+      "Appendices",
+      "Problem Sets",
+      "<span class='chapter-number'>J</span>  <span class='chapter-title'>Problem Set 8 | Constrained Extrema</span>"
+    ]
+  },
+  {
+    "objectID": "problem-sets/08-constrained.html#b.-the-method-start-to-finish",
+    "href": "problem-sets/08-constrained.html#b.-the-method-start-to-finish",
+    "title": "Appendix J — Problem Set 8 | Constrained Extrema",
+    "section": "B. The method, start to finish",
+    "text": "B. The method, start to finish\n\n3. The even split, with a new budget\nFor q = [\\mathrm{A}][\\mathrm{B}] with [\\mathrm{A}]+[\\mathrm{B}] = 1.50 M: find the optimum split, the maximum q (with units), classify it with the second derivative, check the endpoints, and find \\lambda from \\nabla q = \\lambda\\nabla g.\n\n\n4. When the exponents differ\nThe elementary step \\mathrm{A}+3\\mathrm{B}\\to\\mathrm{P} has initial rate k[\\mathrm{A}][\\mathrm{B}]^{3}, with [\\mathrm{A}]+[\\mathrm{B}] = 1.20 M.\n\nFind the feed that maximizes q = [\\mathrm{A}][\\mathrm{B}]^{3}. (Hint: after eliminating, use the product rule and the chain rule on (1.20-[\\mathrm{A}])^{3} — or check against the gradient condition a/[\\mathrm{A}] = b/[\\mathrm{B}] from §4.4.)\nClassify it and give the maximum q with units.\nCompare with the even split [\\mathrm{A}]=[\\mathrm{B}]=0.60 M. How much smaller is the rate there?\nOne sentence: what is the feed ratio, and how does it relate to the reaction stoichiometry?\n\n\n\n5. Who stretches more?\nTwo bonds in a chain have strain energy E = 3x_1^{2} + x_2^{2} (reduced units), where x_1,x_2 \\ge 0 are their extensions. The chain’s ends are held so that x_1 + x_2 = 4.\n\nFind x_1, x_2 and the minimum E. Classify with E'' and check both endpoints.\nCompute the force in each bond, F_1 = dE_1/dx_1 and F_2 = dE_2/dx_2. What do you notice, and what is its relation to \\lambda?\nWhich bond stretches more? Compare the ratio x_1\\!:\\!x_2 with the ratio of the stiffnesses (3\\!:\\!1 in the coefficients of E).\nOne sentence of chemistry: which bond of a loaded chain carries most of the extension?\n\n\n\n6. The multiplier is a price\n\nFor Problem 3 the best value is q^{*}(C) = C^{2}/4. Compute dq^{*}/dC at C = 1.50 M and compare with your \\lambda.\nEstimate \\big[q^{*}(1.60) - q^{*}(1.50)\\big]/0.10. Is it close to \\lambda? Why is it slightly different?\nFor Problem 5 the best strain is E^{*}(\\Delta) = \\tfrac34\\Delta^{2} with \\Delta = x_1+x_2. Compute dE^{*}/d\\Delta at \\Delta = 4 and compare with the force in (5b).\nOne sentence for each part: what does \\lambda tell the experimentalist?",
+    "crumbs": [
+      "Appendices",
+      "Problem Sets",
+      "<span class='chapter-number'>J</span>  <span class='chapter-title'>Problem Set 8 | Constrained Extrema</span>"
+    ]
+  },
+  {
+    "objectID": "problem-sets/08-constrained.html#c.-medium-traps-physics-and-reasoning-backwards",
+    "href": "problem-sets/08-constrained.html#c.-medium-traps-physics-and-reasoning-backwards",
+    "title": "Appendix J — Problem Set 8 | Constrained Extrema",
+    "section": "C. Medium: traps, physics, and reasoning backwards",
+    "text": "C. Medium: traps, physics, and reasoning backwards\n\n7. The tempting error (explain why it is wrong)\nA classmate maximizes q = [\\mathrm{A}][\\mathrm{B}] subject to [\\mathrm{A}]+[\\mathrm{B}] = C by setting both partial derivatives to zero: \\partial q/\\partial[\\mathrm{A}] = 0 and \\partial q/\\partial[\\mathrm{B}] = 0.\n\nCarry this out. What point do you get, and what is q there?\nExplain, in terms of the constraint, why that is not the answer.\nState the condition that replaces “\\nabla q = 0” for a constrained problem.\n\n\n\n8. Why heat flows until temperatures match\nTwo bodies share a fixed total energy E_1+E_2 = 10 (arbitrary units, k_B = 1). Their total entropy is S = 3\\ln E_1 + 2\\ln E_2, and each body’s temperature obeys 1/T_i = dS_i/dE_i.\n\nEliminate E_2 and find the E_1 that maximizes S.\nCheck the second derivative is negative.\nEvaluate 3/E_1 and 2/E_2 at the optimum. What do the two numbers represent, and what is their common value \\lambda in terms of temperature?\nFind T_1 = E_1/3 and T_2 = E_2/2 at the optimum. What do you notice?\nSuppose the bodies start at E_1 = 8. Compute dS/dE_1 there. Which way does energy flow, and which body is hotter?\nOne sentence: why does heat flow from hot to cold, in terms of entropy?\n\n\n\n9. Inverse direction: from the optimum back to the gradient\n\nA function f, restricted to the line x+y=4, has its maximum at a point where \\partial f/\\partial x = 5. What must \\partial f/\\partial y be there?\nNow the constraint is 2x + y = 6 and, at the constrained optimum, \\partial f/\\partial x = 8. What is \\partial f/\\partial y?\nOne sentence: how must \\nabla f be oriented relative to the constraint line at an optimum, and why?",
+    "crumbs": [
+      "Appendices",
+      "Problem Sets",
+      "<span class='chapter-number'>J</span>  <span class='chapter-title'>Problem Set 8 | Constrained Extrema</span>"
+    ]
+  },
+  {
+    "objectID": "problem-sets/08-constrained.html#expectations",
+    "href": "problem-sets/08-constrained.html#expectations",
+    "title": "Appendix J — Problem Set 8 | Constrained Extrema",
+    "section": "Expectations",
+    "text": "Expectations\n\nAll four steps in every Part B and C problem: name and count, eliminate, solve and classify and check endpoints, interpret.\nUnits on every derivative, every optimum, and every \\lambda.\nA multiplier is always (objective units) per (budget units); say what it means physically whenever asked.\nSubmit on the course submission page as Set 8, or on paper.",
+    "crumbs": [
+      "Appendices",
+      "Problem Sets",
+      "<span class='chapter-number'>J</span>  <span class='chapter-title'>Problem Set 8 | Constrained Extrema</span>"
     ]
   }
 ]

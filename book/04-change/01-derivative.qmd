@@ -1,0 +1,194 @@
+---
+title: "4.1 The Derivative: A Ratio at One Moment"
+---
+
+## The problem
+
+A chemist follows the disappearance of a reactant A and fits the concentration to
+$$[\mathrm{A}](t) = 0.80\,e^{-0.139\,t} \qquad ([\mathrm{A}] \text{ in M},\; t \text{ in minutes}).$$
+Her kinetics textbook says that the rate at which A disappears is proportional to
+how much A is present *right now*. Notice the phrase. A rate law is a statement
+about a single instant: it ties the speed at this moment to the concentration at this
+moment. But every rate we have computed so far was a rate over an *interval* —
+"0.60 M lost in ten minutes," or the slope of a calibration line between two
+standards. How does one extract a speed at *one moment* from a function that only
+gives concentrations at moments?
+
+The question has the shape of a trap, and it is worth seeing the trap clearly before
+escaping it. A speed is a change divided by an elapsed time. At a single instant, no
+time elapses and nothing changes: the ratio is zero divided by zero. The rest of this
+section is the story of how that meaningless ratio becomes the most useful quantity
+in physical chemistry.
+
+## What an average rate is, and what is wrong with it
+
+Pick any two times, $t$ and $t+h$. The *average rate* of change of $[\mathrm{A}]$ over
+that interval is
+$$\frac{[\mathrm{A}](t+h)-[\mathrm{A}](t)}{h} \qquad (\text{units: M/min}).$$
+Geometrically it is the slope of the *secant line* through the two points on the
+graph. This is a perfectly good physical quantity — but ask it for the rate at
+$t = 0$ and it gives an unsettling answer. Starting at $t=0$ and looking forward
+five minutes gives $-0.080$ M/min; looking forward one minute gives $-0.104$ M/min;
+looking forward a tenth of a minute gives $-0.110$ M/min. Three different answers for
+the *same moment*.
+
+The reason is that each answer quietly contains a choice you made: the length $h$ of
+the interval. An average rate is a property of the interval you picked, not of the
+chemistry at the moment you care about. What we want is the average rate with that
+arbitrary choice removed.
+
+## Shrinking the interval: the ratio settles
+
+If the choice of $h$ is the problem, let it shrink and watch what the quotient does.
+The table follows $[\mathrm{A}](t) = 0.80\,e^{-0.139t}$ from $t = 0$.
+
+| $h$ (min) | change in $[\mathrm{A}]$ (M) | quotient $\Delta[\mathrm{A}]/h$ (M/min) |
+|:---:|:---:|:---:|
+| 5 | $-0.40074$ | $-0.08015$ |
+| 1 | $-0.10382$ | $-0.10382$ |
+| 0.1 | $-0.01104$ | $-0.11043$ |
+| 0.01 | $-0.00111$ | $-0.11112$ |
+| 0.001 | $-0.00011$ | $-0.11119$ |
+
+Look at the middle column and then at the last one, because the whole idea lives in
+the contrast between them. The change in concentration is collapsing toward zero —
+by a factor of ten each row — and so is the elapsed time $h$. Both parts of the ratio
+are vanishing. Yet the *ratio* does not vanish; it creeps toward a definite number,
+$-0.1112$ M/min. **A ratio of two vanishing quantities need not vanish. When
+numerator and denominator shrink together in step, the ratio can settle.** That
+settled value — which no single interval produces but which every short enough interval
+approximates — is what "the rate at an instant" has to mean.
+
+::: {.env .remark}
+Press play in the [derivative studio](derivative-studio.html) and watch both
+quantities collapse while the quotient locks onto its limit. Then move the anchor
+time $t_0$: the limit changes with the moment you ask about, so the instantaneous
+rate is itself a *function* of time.
+:::
+
+## Making it a definition
+
+The table suggests a definition, and the symbols are worth reading in words.
+
+::: {.env .definition}
+**Definition 4.1.1 (derivative).** For a function $f$ and a point $x$, the
+*derivative* of $f$ at $x$ is the number the difference quotient settles to as the
+interval shrinks:
+$$f'(x) = \lim_{h \to 0}\; \frac{f(x+h) - f(x)}{h},$$
+whenever that limit exists. In Leibniz's notation the same number is written
+$\dfrac{df}{dx}$.
+:::
+
+Three readings of $\dfrac{df}{dx}$ are useful and should be held together. It is the
+**instantaneous rate**: how fast $f$ is changing per unit $x$ at this moment. It is
+the **slope of the tangent line**: the secant line pivots toward the tangent as
+$h \to 0$. And it is the **best straight-line approximation**: near $x$, the function
+behaves like the line through $(x, f(x))$ with slope $f'(x)$ — the very reason that
+the shortcut $e^{x} \approx 1 + x$ you used on the exam works near zero.
+Notice too what the symbol is *not*: $\frac{df}{dx}$ is not a fraction of two tiny
+numbers to be cancelled. It is the name of the settled value of a ratio, and its
+units are always (units of output) per (unit of input) — here M/min.
+
+## Why you cannot just set $h = 0$ — and what actually happens
+
+If the quotient is $0/0$ at $h = 0$, how can its value at $h$ near zero be
+meaningful? Because the algebra can often remove the problem *before* $h$ goes to
+zero. The common factor that makes the numerator vanish is also in the denominator;
+cancel it while $h \neq 0$, and what is left has no difficulty at $h = 0$.
+
+Take the simplest nontrivial function, $f(t) = t^{2}$:
+$$\frac{(t+h)^{2} - t^{2}}{h} = \frac{2th + h^{2}}{h} = 2t + h \;\longrightarrow\; 2t \quad (h \to 0).$$
+The numerator is not merely small: it is $h$ times something ($2t + h$). That
+structure — *numerator proportional to $h$* — is exactly what lets the ratio survive
+the collapse.
+
+::: {.env .example}
+**Example 4.1.1 — a filling reactor, from the definition.** The product amount in a
+batch reactor is $n(t) = 3.0\,t - 0.25\,t^{2}$ (mol, $t$ in hours). Find $n'(t)$ and
+then the rate at $t = 2$ h.
+
+*Setting it up.* The derivative is the settled value of
+$[\,n(t+h) - n(t)\,]/h$. Everything hinges on expanding $n(t+h)$ and spotting the
+common factor.
+
+*Solution.*
+$$n(t+h) - n(t) = 3.0h - 0.25\,(2th + h^{2}) = h\,(3.0 - 0.50\,t - 0.25\,h).$$
+Dividing by $h$:
+$$\frac{n(t+h)-n(t)}{h} = 3.0 - 0.50\,t - 0.25\,h \;\longrightarrow\; n'(t) = 3.0 - 0.50\,t \quad (h \to 0).$$
+At $t = 2$ h: $n'(2) = 2.0$ mol/h.
+
+*Check.* At $t = 2$ the quotient is $2.0 - 0.25\,h$, so the numerical values for
+$h = 2,\, 1,\, 0.5,\, 0.1$ are $1.50,\, 1.75,\, 1.875,\, 1.975$ mol/h, creeping to $2.0$
+exactly as the formula says. Units: mol per hour. Limiting case: at $t = 0$ the rate
+is $3.0$ mol/h, the *initial* rate, and it falls linearly as the reactor depletes
+its reagent — the sign and trend a filling-then-saturating process should have.
+:::
+
+## The exponential: where first-order kinetics comes from
+
+Now return to the chemist's function. Writing $[\mathrm{A}](t+h) = 0.80\,e^{-0.139t}\,e^{-0.139h}$,
+the quotient becomes
+$$\frac{[\mathrm{A}](t+h)-[\mathrm{A}](t)}{h} = 0.80\,e^{-0.139\,t}\cdot\frac{e^{-0.139\,h} - 1}{h} = [\mathrm{A}](t)\cdot\frac{e^{-0.139\,h} - 1}{h}.$$
+Something remarkable has happened: the whole dependence on the moment $t$ has factored
+out as $[\mathrm{A}](t)$, and all the $h$-dependence sits in one clean factor. That
+factor settles as $h$ shrinks:
+
+| $h$ | 1 | 0.1 | 0.01 | 0.001 |
+|:---:|:---:|:---:|:---:|:---:|
+| $\dfrac{e^{-0.139h}-1}{h}$ | $-0.12977$ | $-0.13804$ | $-0.13890$ | $-0.13899$ |
+
+— toward $-0.139$. Therefore
+$$\frac{d[\mathrm{A}]}{dt} = -0.139\,[\mathrm{A}](t).$$
+This is the chemical payoff of the section. The statement "the rate of disappearance
+is proportional to the amount present" is not an extra physical assumption stacked on
+top of the exponential: it is what the exponential *is*, read through the definition
+of the derivative. Conversely, a first-order rate law $-d[\mathrm{A}]/dt = k[\mathrm{A}]$
+forces the concentration to decay exponentially. At $t = 0$ the rate is
+$-0.139 \times 0.80 = -0.1112$ M/min — the number the table was approaching — and at
+$t = 10$ min, with $0.199$ M left, it has fallen to $-0.0277$ M/min. The *same* curve
+has a different slope at every moment, which is why the derivative is itself a
+function.
+
+## Remarks and cautions
+
+::: {.env .caution}
+**An average rate is not an instantaneous rate.** Reporting $-0.080$ M/min as "the
+rate at $t=0$" because you measured over five minutes is the secant-for-tangent
+error. The two agree only when the curve is straight (a zero-order reaction), and the
+gap between them is exactly what shrinking $h$ closes.
+:::
+
+::: {.env .caution}
+**Units come with the derivative.** $d[\mathrm{A}]/dt$ is in M/min, not M. A derivative
+reported without its "per-input" unit is incomplete — and, as the next section will
+show, a missing unit is the quickest way to catch a dropped factor.
+:::
+
+::: {.env .remark}
+The limit must come out the same whether $h$ shrinks through positive values
+(looking forward) or negative values (looking back). At a sharp corner — the kink in
+a heating curve at a phase boundary, say — the two disagree and no derivative exists
+there. Smooth chemical functions do not have this problem.
+:::
+
+## Summary
+
+A rate over an interval is a ratio, and the interval length is an arbitrary choice
+that contaminates the answer; the rate at an instant is that same ratio with the
+choice removed. Shrinking the interval makes numerator and denominator both vanish,
+yet the ratio settles to a definite number whenever the numerator is proportional to
+$h$ — the algebraic fact that lets us cancel $h$ before letting it go to zero. That
+settled value is the derivative, readable three ways: as an instantaneous rate, as a
+tangent slope, and as the best straight-line approximation, with units of output per
+input. For the exponential decay $[\mathrm{A}] = 0.80\,e^{-0.139t}$ the whole moment
+dependence factors out and the derivative is $-0.139\,[\mathrm{A}]$ — first-order
+kinetics, derived rather than assumed. What the limit definition does *not* give us
+is speed: each function required its own expansion and its own cancellation. The next
+section asks whether chemistry's functions are built from a few pieces whose
+derivatives we can establish once and reuse forever.
+
+## Practice until it sticks
+
+Problems 1–3 and 7 of [Problem Set 6](../problem-sets/06-differentiation.qmd) are the
+secant-to-tangent exercises for this section; the animated version is in the
+[derivative studio](derivative-studio.html).

@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1020">
+  <title>From a ratio to a rate · Chemical Thinking</title>
+  <style>
+    :root{color-scheme:dark;--bg:#0b1020;--panel:#141d31;--edge:#2a3853;--ink:#eff5ff;--muted:#aabbd3;--cyan:#68e0d4;--gold:#ffd278;--rose:#ff8c9b}
+    *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 65% -15%,#243554 0,#0b1020 48%);color:var(--ink);font:16px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}button,input{font:inherit}button{cursor:pointer}a{color:var(--cyan)}.shell{max-width:1300px;margin:auto;padding:24px clamp(16px,4vw,48px) 60px}.top{display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--cyan);font-weight:800}.back{font-size:.88rem;color:var(--muted)}h1{font-size:clamp(2rem,4vw,3.8rem);line-height:1.1;letter-spacing:-.045em;margin:30px 0 8px}h1 em{font-style:normal;color:var(--cyan)}.intro{color:var(--muted);max-width:64ch;margin:0 0 25px}.tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:15px}.tabs button,.control button,.check{border:1px solid var(--edge);background:#18243a;color:var(--ink);border-radius:11px;padding:10px 16px;font-weight:700}.tabs button[aria-selected=true]{background:var(--cyan);color:#09202c;border-color:var(--cyan)}.grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(275px,.72fr);gap:16px}.stage,.side{border:1px solid var(--edge);border-radius:20px;background:linear-gradient(155deg,#152039,#10182a);box-shadow:0 16px 45px #0004}.stage{padding:20px}.side{padding:23px}.stage-top{display:flex;justify-content:space-between;align-items:flex-start;gap:15px}.eyebrow{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:800;color:var(--muted)}h2{font-size:1.23rem;margin:4px 0 0}.formula{color:var(--gold);font:1.03rem ui-monospace,SFMono-Regular,Consolas,monospace;white-space:nowrap}.plot{width:100%;height:auto;display:block;margin:6px auto 0;overflow:visible}.axis{stroke:#8392ae;stroke-width:1}.gridline{stroke:#3d4b63;stroke-width:1;stroke-dasharray:3 6}.curve{fill:none;stroke:var(--cyan);stroke-width:3.3;stroke-linecap:round;stroke-linejoin:round}.derivative{fill:none;stroke:var(--gold);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}.tangent{stroke:var(--rose);stroke-width:2.7}.guide{stroke:#9eacbf;stroke-width:1.25;stroke-dasharray:5 5}.point{fill:var(--rose);stroke:#fff;stroke-width:2}.dpoint{fill:var(--gold);stroke:#fff;stroke-width:1.6}.halo{fill:none;stroke:var(--gold);stroke-width:2}.chart-label{fill:#aabbd3;font:12px system-ui,sans-serif}.tick{fill:#95a8c5;font:11px ui-monospace,monospace}.badge{fill:#111a2b;stroke:#48617c}.badge-text{fill:#ffd278;font:700 12px system-ui,sans-serif}.control{display:flex;align-items:center;gap:11px;flex-wrap:wrap;margin-top:8px}.control button{min-width:86px}.control button:hover,.check:hover{border-color:var(--cyan)}.scrub{flex:1;min-width:170px;accent-color:var(--cyan)}.speed{display:flex;align-items:center;gap:5px;color:var(--muted);font-size:.85rem}.speed select{background:#18243a;color:var(--ink);border:1px solid var(--edge);padding:7px;border-radius:8px}.step-buttons{display:flex;gap:6px}.step-buttons button{min-width:43px;padding:9px}.status{display:flex;gap:9px;align-items:center;margin-top:16px;padding:12px 14px;border-radius:11px;background:#203149;color:#dce8f8;min-height:52px}.status-dot{height:9px;width:9px;flex:none;border-radius:50%;background:var(--cyan)}.side h3{font-size:1.05rem;margin:0 0 12px}.value{color:var(--gold);font:600 1.65rem ui-monospace,monospace;margin:2px 0 13px}.metric{border-top:1px solid var(--edge);padding:12px 0}.metric small{display:block;color:var(--muted);font-size:.78rem;margin-bottom:3px}.metric strong{font:600 1rem ui-monospace,monospace}.lesson{margin-top:15px;border:1px solid #405169;border-radius:14px;padding:16px;background:#1b2a40}.lesson strong{color:var(--cyan)}.lesson p{margin:8px 0 0;color:#d4e0f0;font-size:.91rem}.check{width:100%;margin-top:15px;text-align:left}.answer{margin:12px 0 0;color:#dce8f8;font-size:.91rem}.legend{display:flex;gap:20px;flex-wrap:wrap;font-size:.78rem;color:var(--muted);margin:0 4px 3px}.swatch{display:inline-block;width:17px;height:3px;vertical-align:middle;margin-right:6px}.foot{color:var(--muted);font-size:.83rem;margin-top:18px}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@media(max-width:850px){.grid{grid-template-columns:1fr}.stage,.side{padding:16px}.formula{white-space:normal;font-size:.84rem}.plot{min-height:330px}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+  
+.exact{stroke:var(--gold);stroke-width:2.2;stroke-dasharray:7 5}.legh{stroke:var(--cyan);stroke-width:2.2;stroke-dasharray:2 4}.legy{stroke:var(--gold);stroke-width:2.2;stroke-dasharray:2 4}.param{display:flex;align-items:center;gap:12px;margin-top:12px;color:var(--muted);font-size:.9rem}.param input{flex:1;max-width:260px;accent-color:var(--cyan)}.param strong{color:var(--gold);font-family:ui-monospace,monospace}.limit-line{stroke:var(--gold);stroke-width:1.6;stroke-dasharray:7 5}
+</style>
+</head>
+<body>
+<main class="shell">
+  <div class="top"><span class="brand">Chemical Thinking / 4.1</span><a class="back" href="01-derivative.html">← Back to lesson</a></div>
+  <h1>From a ratio to a <em>rate.</em></h1>
+  <p class="intro">Shrink the interval and watch two quantities vanish while their ratio does not. The secant pivots into the tangent, and the quotient settles on the derivative.</p>
+  <div class="tabs" role="tablist" aria-label="Choose a chemical example">
+    <button id="tab-decay" role="tab" aria-selected="true" type="button">01 · Decaying reactant</button>
+    <button id="tab-reactor" role="tab" aria-selected="false" type="button">02 · Filling reactor</button>
+  </div>
+  <div class="grid">
+    <section class="stage" aria-label="Animated secant-to-tangent graph">
+      <div class="stage-top"><div><div class="eyebrow" id="scenario-label">First-order kinetics</div><h2 id="stage-title">How fast is A disappearing at one moment?</h2></div><span class="formula" id="formula">[A](t) = 0.80 e<sup>−0.139t</sup></span></div>
+      <svg class="plot" id="plot" viewBox="0 0 760 550" role="img" aria-labelledby="plot-title plot-desc"><title id="plot-title">Secant line approaching a tangent</title><desc id="plot-desc">The upper graph shows a chemical function with a secant line through two points whose spacing h shrinks; the lower graph shows the secant slope as a function of h approaching the derivative.</desc>
+        <defs><clipPath id="upper-clip"><rect x="67" y="29" width="654" height="281"/></clipPath><clipPath id="lower-clip"><rect x="67" y="355" width="654" height="148"/></clipPath></defs>
+        <g id="static"></g>
+        <g clip-path="url(#upper-clip)"><path class="curve" id="function-path"/><line class="exact" id="exact-line"/><line class="tangent" id="secant"/><line class="legh" id="leg-h"/><line class="legy" id="leg-y"/><circle class="dpoint" id="anchor-pt" r="6.5"/><circle class="point" id="second-pt" r="6.5"/></g>
+        <g clip-path="url(#lower-clip)"><path class="derivative" id="quot-path"/><line class="limit-line" id="limit"/><circle class="point" id="quot-pt" r="6.5"/></g>
+        <g id="annotations"></g>
+      </svg>
+      <div class="legend"><span><i class="swatch" style="background:var(--cyan)"></i>function</span><span><i class="swatch" style="background:var(--rose)"></i>secant (average rate)</span><span><i class="swatch" style="background:var(--gold)"></i>tangent / limit (derivative)</span></div>
+      <div class="control"><button id="play" type="button" aria-label="Play animation">▶ Shrink h</button><div class="step-buttons"><button id="prev" type="button" aria-label="Larger interval">←</button><button id="next" type="button" aria-label="Smaller interval">→</button></div><label class="sr-only" for="scrub">Interval size</label><input class="scrub" id="scrub" type="range" min="0" max="1000" value="0"><label class="speed">Speed <select id="speed"><option value="0.5">½×</option><option value="1" selected>1×</option><option value="2">2×</option></select></label></div>
+      <div class="param"><label for="anchor" id="anchor-label">Anchor time t₀</label><input id="anchor" type="range" min="0" max="10" step="0.1" value="0"><strong id="anchor-value">0.0 min</strong></div>
+      <div class="status" aria-live="polite"><span class="status-dot"></span><span id="status-text">A long interval: the secant misses the tangent.</span></div>
+    </section>
+    <aside class="side">
+      <div class="eyebrow">Current interval</div><div class="value" id="position">h = 8.00 min</div>
+      <div class="metric"><small id="num-label">Numerator · change in [A]</small><strong id="num-value">Δ[A] = −0.5369 M</strong></div>
+      <div class="metric"><small>Denominator · elapsed time</small><strong id="den-value">h = 8.0000 min</strong></div>
+      <div class="metric"><small>Ratio · average rate over the interval</small><strong id="quot-value">−0.0671 M/min</strong></div>
+      <div class="metric"><small>Derivative · the limit as h → 0</small><strong id="exact-value">−0.1112 M/min</strong></div>
+      <div class="lesson"><strong id="lesson-heading">1 · An average rate depends on your choice of h</strong><p id="lesson-copy">Each interval gives a different answer for the same moment. The choice of h, not the chemistry, is steering the number.</p></div>
+      <button class="check" id="reveal" type="button" aria-expanded="false" aria-controls="answer">Show why the ratio settles ↓</button><p class="answer" id="answer" hidden></p>
+    </aside>
+  </div>
+  <p class="foot">Model note: the decay curve is the lesson's first-order example, [A](t) = 0.80 e<sup>−0.139t</sup> (M, minutes). The reactor curve is the batch-reactor example n(t) = 3.0t − 0.25t² (mol, hours). Both are teaching models.</p>
+</main>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const svgNS = 'http://www.w3.org/2000/svg';
+  const models = {
+    decay: {tlo:0,thi:20,ylo:0,yhi:0.9,hmax:8,hmin:0.005,amax:10,a0:0,
+      f:t=>0.8*Math.exp(-0.139*t), d:t=>-0.139*0.8*Math.exp(-0.139*t),
+      axis:'t (min)',quantity:'[A] (M)',qaxis:'average rate Δ[A]/h (M/min)',haxis:'interval h (min)',
+      scenario:'First-order kinetics',title:'How fast is A disappearing at one moment?',formula:'[A](t) = 0.80 e<sup>−0.139t</sup>',
+      anchorLabel:'Anchor time t₀',aunit:'min',yname:'[A]',yunit:'M',qunit:'M/min',hunit:'min',dsym:'d[A]/dt',
+      numLabel:'Numerator · change in [A]',
+      answer:t0=>`Δ[A]/h = [A](t₀)·(e^(−0.139h) − 1)/h. All the dependence on t₀ factors out as [A](t₀); the h-factor settles at −0.139 (−0.12977, −0.13804, −0.13890, −0.13899 for h = 1, 0.1, 0.01, 0.001). So d[A]/dt = −0.139·[A](t₀) = ${(-0.139*0.8*Math.exp(-0.139*t0)).toFixed(4)} M/min at t₀ = ${t0.toFixed(1)} min — first-order kinetics, derived from the definition.`},
+    reactor:{tlo:0,thi:8,ylo:0,yhi:10,hmax:4,hmin:0.005,amax:4,a0:2,
+      f:t=>3*t-0.25*t*t, d:t=>3-0.5*t,
+      axis:'t (h)',quantity:'n (mol)',qaxis:'average rate Δn/h (mol/h)',haxis:'interval h (h)',
+      scenario:'Batch reactor',title:'How fast is product forming at one moment?',formula:'n(t) = 3.0t − 0.25t²',
+      anchorLabel:'Anchor time t₀',aunit:'h',yname:'n',yunit:'mol',qunit:'mol/h',hunit:'h',dsym:'dn/dt',
+      numLabel:'Numerator · change in n',
+      answer:t0=>`n(t₀+h) − n(t₀) = h·(3 − 0.5t₀ − 0.25h), so the quotient is exactly 3 − 0.5t₀ − 0.25h: a straight line in h whose intercept at h = 0 is the derivative, n′(t₀) = 3 − 0.5t₀ = ${(3-0.5*t0).toFixed(2)} mol/h at t₀ = ${t0.toFixed(1)} h. The numerator is proportional to h — that is why the ratio survives the collapse.`}
+  };
+  let key='decay', frac=0, playing=false, lastTime=0, frame=0, t0=0;
+  const S={left:68,right:720,top:30,bottom:309,lowerTop:356,lowerBottom:503};
+  const m=()=>models[key];
+  const hAt=()=>m().hmin+(m().hmax-m().hmin)*Math.pow(1-frac,2.2);
+  const xU=t=>S.left+(t-m().tlo)/(m().thi-m().tlo)*(S.right-S.left);
+  const yU=y=>S.bottom-(y-m().ylo)/(m().yhi-m().ylo)*(S.bottom-S.top);
+  const xL=h=>S.left+h/m().hmax*(S.right-S.left);
+  let qlo=0,qhi=1;
+  const yL=q=>S.lowerBottom-(q-qlo)/(qhi-qlo)*(S.lowerBottom-S.lowerTop);
+  const quot=(a,h)=>(m().f(a+h)-m().f(a))/h;
+  const el=(tag,at,parent)=>{const e=document.createElementNS(svgNS,tag);for(const [k,v] of Object.entries(at))e.setAttribute(k,v);parent.appendChild(e);return e};
+  const label=(parent,x,y,c,anchor='start',cls='chart-label')=>{const t=el('text',{x,y,'text-anchor':anchor,class:cls},parent);t.textContent=c;return t};
+  const fmt=(n,d)=>(n<0?'−':'')+Math.abs(n).toFixed(d);
+  function lowerRange(){const mm=m();let lo=Infinity,hi=-Infinity;for(let i=0;i<=200;i++){const h=mm.hmin+(mm.hmax-mm.hmin)*i/200,q=quot(t0,h);lo=Math.min(lo,q);hi=Math.max(hi,q)}const e=mm.d(t0);lo=Math.min(lo,e);hi=Math.max(hi,e);const pad=(hi-lo)*0.18||0.1;qlo=lo-pad;qhi=hi+pad}
+  function paths(){const mm=m();let d='';for(let i=0;i<=400;i++){const t=mm.tlo+(mm.thi-mm.tlo)*i/400;d+=(i?'L':'M')+xU(t).toFixed(2)+' '+yU(mm.f(t)).toFixed(2)+' '}$('function-path').setAttribute('d',d);
+    let q='';for(let i=0;i<=200;i++){const h=mm.hmin+(mm.hmax-mm.hmin)*i/200;q+=(i?'L':'M')+xL(h).toFixed(2)+' '+yL(quot(t0,h)).toFixed(2)+' '}$('quot-path').setAttribute('d',q);
+    const e=mm.d(t0);$('limit').setAttribute('x1',xL(0));$('limit').setAttribute('x2',xL(mm.hmax));$('limit').setAttribute('y1',yL(e));$('limit').setAttribute('y2',yL(e));
+    // tangent (exact) line across the window
+    const y0=mm.f(t0);$('exact-line').setAttribute('x1',xU(mm.tlo));$('exact-line').setAttribute('x2',xU(mm.thi));$('exact-line').setAttribute('y1',yU(y0+e*(mm.tlo-t0)));$('exact-line').setAttribute('y2',yU(y0+e*(mm.thi-t0)))}
+  function staticGraph(){const mm=m(),g=$('static');g.replaceChildren();lowerRange();
+    for(let i=0;i<=4;i++){const x=S.left+(S.right-S.left)*i/4;el('line',{x1:x,y1:S.top,x2:x,y2:S.bottom,class:'gridline'},g);el('line',{x1:x,y1:S.lowerTop,x2:x,y2:S.lowerBottom,class:'gridline'},g);
+      label(g,x,S.bottom+22,(mm.tlo+(mm.thi-mm.tlo)*i/4).toFixed(key==='decay'?0:1),'middle','tick');label(g,x,S.lowerBottom+20,(mm.hmax*i/4).toFixed(key==='decay'?0:1),'middle','tick')}
+    for(const y of [S.top,S.bottom,S.lowerTop,S.lowerBottom])el('line',{x1:S.left,y1:y,x2:S.right,y2:y,class:'axis'},g);
+    label(g,S.left,S.top-9,mm.quantity);label(g,S.right,S.bottom+35,mm.axis,'end');label(g,S.left,S.lowerTop-10,mm.qaxis);label(g,S.right,S.lowerBottom+35,mm.haxis+' → 0 is the instant','end');
+    paths();$('annotations').replaceChildren();label($('annotations'),S.right-4,yL(mm.d(t0))-8,'derivative (limit at h = 0)','end','tick')}
+  function update(){const mm=m(),h=hAt(),y0=mm.f(t0),y1=mm.f(t0+h),q=(y1-y0)/h,e=mm.d(t0);
+    $('scrub').value=Math.round(frac*1000);
+    // secant through the two points, drawn across the window
+    $('secant').setAttribute('x1',xU(mm.tlo));$('secant').setAttribute('x2',xU(mm.thi));$('secant').setAttribute('y1',yU(y0+q*(mm.tlo-t0)));$('secant').setAttribute('y2',yU(y0+q*(mm.thi-t0)));
+    $('anchor-pt').setAttribute('cx',xU(t0));$('anchor-pt').setAttribute('cy',yU(y0));$('second-pt').setAttribute('cx',xU(t0+h));$('second-pt').setAttribute('cy',yU(y1));
+    // right-triangle legs: horizontal h, vertical Δy
+    $('leg-h').setAttribute('x1',xU(t0));$('leg-h').setAttribute('x2',xU(t0+h));$('leg-h').setAttribute('y1',yU(y0));$('leg-h').setAttribute('y2',yU(y0));
+    $('leg-y').setAttribute('x1',xU(t0+h));$('leg-y').setAttribute('x2',xU(t0+h));$('leg-y').setAttribute('y1',yU(y0));$('leg-y').setAttribute('y2',yU(y1));
+    $('quot-pt').setAttribute('cx',xL(h));$('quot-pt').setAttribute('cy',yL(q));
+    $('position').textContent='h = '+h.toFixed(3)+' '+mm.hunit;
+    $('num-value').textContent='Δ'+mm.yname+' = '+fmt(y1-y0,4)+' '+mm.yunit;
+    $('den-value').textContent='h = '+h.toFixed(4)+' '+mm.hunit;
+    $('quot-value').textContent=fmt(q,5)+' '+mm.qunit;
+    $('exact-value').textContent=mm.dsym+' = '+fmt(e,5)+' '+mm.qunit;
+    $('anchor-value').textContent=t0.toFixed(1)+' '+mm.aunit;
+    const rel=Math.abs(q-e)/Math.max(Math.abs(e),1e-9);let status,head,copy;
+    if(h>mm.hmax*0.3){status='A long interval: the secant misses the tangent. Change h and the answer changes.';head='1 · An average rate depends on your choice of h';copy='Each interval gives a different answer for the same moment. The choice of h, not the chemistry, is steering the number.'}
+    else if(h>mm.hmax*0.02){status='Shorter interval: both Δ'+mm.yname+' and h are shrinking, and the secant is pivoting toward the tangent.';head='2 · Numerator and denominator collapse together';copy='Watch the two metrics on the left of the ratio shrink toward zero — but the ratio below them is moving less and less. They are vanishing in step.'}
+    else{status='Both parts are nearly zero, yet the ratio is within '+(rel*100).toFixed(2)+'% of the derivative.';head='3 · The ratio has settled';copy='Δ'+mm.yname+' and h are tiny, but their quotient is stable. That settled value is the derivative: the instantaneous rate at t₀.'}
+    $('status-text').textContent=status;$('lesson-heading').textContent=head;$('lesson-copy').textContent=copy;
+    if(!$('answer').hidden)$('answer').textContent=mm.answer(t0)}
+  function pause(){playing=false;cancelAnimationFrame(frame);$('play').textContent='▶ Shrink h';$('play').setAttribute('aria-label','Play animation')}
+  function tick(now){if(!playing)return;const dt=Math.min(.06,(now-lastTime)/1000);lastTime=now;frac+=dt*.16*Number($('speed').value);if(frac>=1){frac=1;update();pause();return}update();frame=requestAnimationFrame(tick)}
+  function choose(next){pause();key=next;frac=0;const mm=m();t0=mm.a0;for(const id of ['decay','reactor'])$('tab-'+id).setAttribute('aria-selected',String(id===key));
+    $('anchor').max=mm.amax;$('anchor').value=t0;$('scenario-label').textContent=mm.scenario;$('stage-title').textContent=mm.title;$('formula').innerHTML=mm.formula;$('num-label').textContent=mm.numLabel;
+    $('answer').hidden=true;$('reveal').textContent='Show why the ratio settles ↓';$('reveal').setAttribute('aria-expanded','false');staticGraph();update()}
+  $('tab-decay').addEventListener('click',()=>choose('decay'));$('tab-reactor').addEventListener('click',()=>choose('reactor'));
+  $('scrub').addEventListener('input',e=>{pause();frac=Number(e.target.value)/1000;update()});
+  $('anchor').addEventListener('input',e=>{pause();t0=Number(e.target.value);staticGraph();update()});
+  $('play').addEventListener('click',()=>{if(playing){pause();return}if(frac>=1)frac=0;playing=true;lastTime=performance.now();$('play').textContent='Ⅱ Pause';$('play').setAttribute('aria-label','Pause animation');frame=requestAnimationFrame(tick)});
+  $('prev').addEventListener('click',()=>{pause();frac=Math.max(0,frac-.05);update()});$('next').addEventListener('click',()=>{pause();frac=Math.min(1,frac+.05);update()});
+  $('reveal').addEventListener('click',()=>{const open=$('answer').hidden;$('answer').hidden=!open;$('reveal').setAttribute('aria-expanded',String(open));$('reveal').textContent=open?'Hide the explanation ↑':'Show why the ratio settles ↓';if(open)$('answer').textContent=m().answer(t0)});
+  document.addEventListener('keydown',e=>{if(e.target.matches('input,select,button'))return;if(e.key==='ArrowLeft'||e.key==='ArrowRight'){pause();frac=Math.max(0,Math.min(1,frac+(e.key==='ArrowRight'?.03:-.03)));update()}});
+  choose('decay');
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,168 @@
+---
+title: "Problem Set 8 | Constrained Extrema"
+subtitle: "Companion to §4.4 — optimizing with a budget"
+format:
+  html:
+    toc: true
+---
+
+## Purpose
+
+Chemistry fixes totals: total concentration, total length, total energy. When two
+quantities must share a budget, the best split is a *constrained* extremum. This set
+trains one method, with the §4.3 steps inside it:
+
+1. **Name** the objective $f$ (what you want largest or smallest) and the constraint
+   $g$ (the budget). Count the free variables — one budget removes one.
+2. **Eliminate**: solve the constraint for one variable and substitute, so $f$ becomes a
+   function of a single variable. (Equivalent check: $\nabla f = \lambda\nabla g$.)
+3. **Solve and classify**: set the derivative to zero, classify with the second
+   derivative, and **check the endpoints** of the allowed range.
+4. **Interpret**: units, one sentence of chemistry, and — when asked — what $\lambda$ means.
+
+Read [§4.4](../04-change/04-constrained.qmd) first; the two interactive figures and the
+[constrained-extrema studio](../04-change/constrained-extrema-studio.html) are worth
+ten minutes before you start.
+
+## Worked example — read this before the problems
+
+::: {.env .example}
+**The best feed for a termolecular step.** The elementary reaction $2\mathrm{A}+\mathrm{B}\to\mathrm{P}$
+has initial rate $k[\mathrm{A}]^{2}[\mathrm{B}]$. With the total concentration capped at
+$[\mathrm{A}]+[\mathrm{B}] = 0.90$ M, find the feed that maximizes the rate, and the
+value of $q = [\mathrm{A}]^{2}[\mathrm{B}]$ there.
+
+*Step 1 — name and count.* Objective $q = [\mathrm{A}]^{2}[\mathrm{B}]$ (units M³).
+Constraint $g = [\mathrm{A}]+[\mathrm{B}] = 0.90$ M. Two variables, one constraint: one free
+variable. Domain $0 \le [\mathrm{A}] \le 0.90$.
+
+*Step 2 — eliminate.* $[\mathrm{B}] = 0.90 - [\mathrm{A}]$, so
+$$q([\mathrm{A}]) = [\mathrm{A}]^{2}\,(0.90 - [\mathrm{A}]) = 0.90\,[\mathrm{A}]^{2} - [\mathrm{A}]^{3}.$$
+
+*Step 3 — solve and classify.* By the power rule,
+$$q'([\mathrm{A}]) = 1.80\,[\mathrm{A}] - 3\,[\mathrm{A}]^{2} = 3\,[\mathrm{A}]\,(0.60 - [\mathrm{A}]) = 0,$$
+so $[\mathrm{A}] = 0$ or $0.60$ M. Then $q'' = 1.80 - 6[\mathrm{A}]$:
+$q''(0.60) = -1.80 < 0$, a cap and a **maximum**; $q''(0) = +1.80 > 0$, a minimum (where
+$q = 0$). Endpoints: $q(0) = 0$ and $q(0.90) = 0$. The interior maximum wins:
+$$q_{\max} = (0.60)^{2}(0.30) = 0.108\ \text{M}^{3}.$$
+
+*Step 4 — interpret.* The best feed is $0.60$ M A and $0.30$ M B — a $2\!:\!1$ ratio, which is
+exactly the ratio in which $2\mathrm{A}+\mathrm{B}$ consumes the reagents.
+
+*Check.* Test a neighbouring split: $0.50/0.40$ would be $0.25 \times 0.40 = 0.100 < 0.108$ ✓.
+Gradient check: $\nabla q = (2[\mathrm{A}][\mathrm{B}],\,[\mathrm{A}]^{2}) = (0.36,\,0.36)$ M²
+$= \lambda\,(1,1)$ with $\lambda = 0.36$ M² — parallel to $\nabla g = (1,1)$ ✓, and the units
+of $\lambda$ are M³ per M, as the "objective per budget" rule predicts.
+:::
+
+Every problem below uses this four-step rhythm. Show all four steps each time.
+
+## A. Reading before computing
+
+### 1. The contour story
+
+On a contour map of an objective $q$, a constraint line crosses the contour $q=1.0$ at
+two points, touches the contour $q = 1.7$ at exactly one point, and never reaches
+the contour $q = 2.5$.
+
+a. Where on the line is the maximum of $q$?
+b. What is the slope of $q$ *along the line* at that point?
+c. Why can the maximum not be at either point where the line merely *crosses* the
+$q=1.0$ contour?
+
+### 2. Objective, constraint, free variables
+
+For each system, name the objective, the constraint, and how many free variables remain:
+
+a. Initial rate $k[\mathrm{A}][\mathrm{B}]$ of $\mathrm{A}+\mathrm{B}\to\mathrm{P}$ with $[\mathrm{A}]+[\mathrm{B}] = 0.50$ M.
+b. Strain energy of two bonds in series when the two ends of the chain are held a fixed distance apart.
+c. Total entropy of two bodies that share a fixed total energy.
+d. One sentence: what do (a)–(c) have in common that lets the §4.3 method apply?
+
+## B. The method, start to finish
+
+### 3. The even split, with a new budget
+
+For $q = [\mathrm{A}][\mathrm{B}]$ with $[\mathrm{A}]+[\mathrm{B}] = 1.50$ M: find the optimum split, the
+maximum $q$ (with units), classify it with the second derivative, check the endpoints, and
+find $\lambda$ from $\nabla q = \lambda\nabla g$.
+
+### 4. When the exponents differ
+
+The elementary step $\mathrm{A}+3\mathrm{B}\to\mathrm{P}$ has initial rate $k[\mathrm{A}][\mathrm{B}]^{3}$,
+with $[\mathrm{A}]+[\mathrm{B}] = 1.20$ M.
+
+a. Find the feed that maximizes $q = [\mathrm{A}][\mathrm{B}]^{3}$. *(Hint: after eliminating,
+use the product rule and the chain rule on $(1.20-[\mathrm{A}])^{3}$ — or check against
+the gradient condition $a/[\mathrm{A}] = b/[\mathrm{B}]$ from §4.4.)*
+b. Classify it and give the maximum $q$ with units.
+c. Compare with the even split $[\mathrm{A}]=[\mathrm{B}]=0.60$ M. How much smaller is the rate there?
+d. One sentence: what is the feed ratio, and how does it relate to the reaction stoichiometry?
+
+### 5. Who stretches more?
+
+Two bonds in a chain have strain energy $E = 3x_1^{2} + x_2^{2}$ (reduced units), where
+$x_1,x_2 \ge 0$ are their extensions. The chain's ends are held so that
+$x_1 + x_2 = 4$.
+
+a. Find $x_1$, $x_2$ and the minimum $E$. Classify with $E''$ and check both endpoints.
+b. Compute the force in each bond, $F_1 = dE_1/dx_1$ and $F_2 = dE_2/dx_2$. What do you
+notice, and what is its relation to $\lambda$?
+c. Which bond stretches more? Compare the ratio $x_1\!:\!x_2$ with the ratio of the
+stiffnesses ($3\!:\!1$ in the coefficients of $E$).
+d. One sentence of chemistry: which bond of a loaded chain carries most of the extension?
+
+### 6. The multiplier is a price
+
+a. For Problem 3 the best value is $q^{*}(C) = C^{2}/4$. Compute $dq^{*}/dC$ at $C = 1.50$ M
+and compare with your $\lambda$.
+b. Estimate $\big[q^{*}(1.60) - q^{*}(1.50)\big]/0.10$. Is it close to $\lambda$? Why is it
+slightly different?
+c. For Problem 5 the best strain is $E^{*}(\Delta) = \tfrac34\Delta^{2}$ with $\Delta = x_1+x_2$.
+Compute $dE^{*}/d\Delta$ at $\Delta = 4$ and compare with the force in (5b).
+d. One sentence for each part: what does $\lambda$ tell the experimentalist?
+
+## C. Medium: traps, physics, and reasoning backwards
+
+### 7. The tempting error (explain why it is wrong)
+
+A classmate maximizes $q = [\mathrm{A}][\mathrm{B}]$ subject to $[\mathrm{A}]+[\mathrm{B}] = C$ by
+setting both partial derivatives to zero: $\partial q/\partial[\mathrm{A}] = 0$ and
+$\partial q/\partial[\mathrm{B}] = 0$.
+
+a. Carry this out. What point do you get, and what is $q$ there?
+b. Explain, in terms of the constraint, why that is not the answer.
+c. State the condition that replaces "$\nabla q = 0$" for a constrained problem.
+
+### 8. Why heat flows until temperatures match
+
+Two bodies share a fixed total energy $E_1+E_2 = 10$ (arbitrary units, $k_B = 1$). Their
+total entropy is $S = 3\ln E_1 + 2\ln E_2$, and each body's temperature obeys
+$1/T_i = dS_i/dE_i$.
+
+a. Eliminate $E_2$ and find the $E_1$ that maximizes $S$.
+b. Check the second derivative is negative.
+c. Evaluate $3/E_1$ and $2/E_2$ at the optimum. What do the two numbers represent, and
+what is their common value $\lambda$ in terms of temperature?
+d. Find $T_1 = E_1/3$ and $T_2 = E_2/2$ at the optimum. What do you notice?
+e. Suppose the bodies start at $E_1 = 8$. Compute $dS/dE_1$ there. Which way does energy
+flow, and which body is hotter?
+f. One sentence: why does heat flow from hot to cold, in terms of entropy?
+
+### 9. Inverse direction: from the optimum back to the gradient
+
+a. A function $f$, restricted to the line $x+y=4$, has its maximum at a point where
+$\partial f/\partial x = 5$. What must $\partial f/\partial y$ be there?
+b. Now the constraint is $2x + y = 6$ and, at the constrained optimum,
+$\partial f/\partial x = 8$. What is $\partial f/\partial y$?
+c. One sentence: how must $\nabla f$ be oriented relative to the constraint line at an
+optimum, and why?
+
+## Expectations
+
+1. All four steps in every Part B and C problem: name and count, eliminate, solve and
+   classify and check endpoints, interpret.
+2. Units on every derivative, every optimum, and every $\lambda$.
+3. A multiplier is always (objective units) per (budget units); say what it means
+   physically whenever asked.
+4. Submit on the [course submission page](../../submit.html) as **Set 8**, or on paper.

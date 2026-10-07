@@ -1,5 +1,7 @@
 ---
-title: "4.1 Extrema: Where Chemistry Settles"
+title: "4.3 Extrema: Where Chemistry Settles"
+aliases:
+  - /04-change/01-extrema.html
 ---
 
 ## The problem
@@ -23,6 +25,10 @@ the one observation that turns the first question into the second.
 **Watch the method unfold:** [Open the interactive extrema animation](extrema-studio.html).
 Switch between a reaction-yield maximum and a molecular-energy minimum, then scrub
 through the curve or let it play.
+
+For the next step, [§4.4 Constrained Extrema](04-constrained.qmd) finds the best point
+when two chemical quantities must add to a fixed total; its
+[interactive studio](constrained-extrema-studio.html) is a good preview.
 
 Follow the yield in your mind. Early on, the yield is **rising**: $y' > 0$. Late, the
 destruction step wins and the yield is **falling**: $y' < 0$. Somewhere in between
@@ -88,7 +94,7 @@ just *no verdict* — and you must examine the sign of $y'$ on each side of $c$.
 ## Worked example
 
 ::: {.env .example}
-**Example 4.1.1 — the best time to stop the reaction.** For
+**Example 4.3.1 — the best time to stop the reaction.** For
 $y(t) = 6t^2 - t^3$ on $0 \le t \le 6$, find when the yield is largest and what it is.
 
 *Step 1 — differentiate and set to zero.*
