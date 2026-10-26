@@ -1,12 +1,14 @@
 ---
 title: "Problem Set 9 | Maclaurin and Taylor Series"
-subtitle: "Practice — replacing a hard function by a short polynomial"
+subtitle: "Companion to §4.5 — replacing a hard function by a short polynomial"
 format:
   html:
     toc: true
 ---
 
 ## Purpose
+
+Read [§4.5](../04-change/05-taylor.qmd) first; its figure shows the polynomial growing toward the curve.
 
 Chemistry is full of functions we cannot evaluate in our heads: $e^{-kt}$, $\ln K$, $\sin\theta$,
 $1/T$. Near a point we know well, each of them behaves like a short polynomial, and the

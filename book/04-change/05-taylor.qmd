@@ -1,0 +1,150 @@
+---
+title: "4.5 Taylor Series: A Function from Its Derivatives at One Point"
+---
+
+## The problem
+
+A first-order decay is $[\mathrm{A}]/[\mathrm{A}]_0 = e^{-kt}$. Every kinetics student learns a
+shortcut: for a short time, $e^{-kt}\approx 1-kt$. With $k=0.050\ \mathrm{s^{-1}}$ and
+$t=2.0$ s the shortcut gives $0.900$, the true value is $0.9048$, and the shortcut is
+off by half a percent. Wait twenty seconds ($kt=1$) and the shortcut says the reactant is
+*gone* ($1-1=0$) while $e^{-1}=0.368$ of it remains. Why does the shortcut work, how
+good is it, and can it be improved without computing an exponential?
+
+The question matters because chemistry runs on functions that cannot be evaluated by hand
+($e^{-\varepsilon/k_BT}$, $\ln K$, $\sin\theta$, $1/T$), yet near a state we understand they
+behave simply. We want a systematic way to replace a hard function by a short polynomial,
+with an honest estimate of how far to trust it.
+
+## What a good local copy must do
+
+Suppose we know a function only at one point $a$, but we know its derivatives there.
+A copy of $f$ built from that information should *agree with $f$ as far as the information goes*.
+The simplest copy is a constant that matches the value, $f(a)$. A better one also has the
+same slope: $f(a)+f'(a)(x-a)$ — the tangent line from §4.1. Better still, it should bend the
+same way, so its second derivative should match $f''(a)$. Each extra derivative we match
+buys a better copy near $a$.
+
+Take $f(x)=e^{x}$ at $a=0$, where every derivative equals $1$. Try the polynomial
+$p(x)=c_0+c_1x+c_2x^{2}+c_3x^{3}$ and demand $p(0)=p'(0)=p''(0)=p'''(0)=1$.
+Differentiating gives $p(0)=c_0$, $p'(0)=c_1$, $p''(0)=2c_2$, $p'''(0)=6c_3$. Setting each to $1$:
+$$c_0=1,\quad c_1=1,\quad c_2=\tfrac12,\quad c_3=\tfrac16.$$
+The factorials are not decoration. They are exactly what cancels the factor that the power
+rule produces when a term is differentiated $k$ times: $\dfrac{d^{k}}{dx^{k}}\,x^{k} = k!$.
+
+::: {.env .definition}
+**Definition 4.5.1 (Taylor and Maclaurin series).** For a function $f$ with derivatives at $a$,
+$$f(x)\;\approx\; f(a)+f'(a)(x-a)+\frac{f''(a)}{2!}(x-a)^{2}+\frac{f'''(a)}{3!}(x-a)^{3}+\cdots$$
+is the *Taylor series of $f$ about $a$*. When $a=0$ it is called the *Maclaurin series*.
+Stopping after the $(x-a)^{N}$ term gives the *polynomial of order $N$*.
+:::
+
+## Examples, each from a derivative table
+
+::: {.env .example}
+**Example 4.5.1 — the decay shortcut, improved.** Since $\dfrac{d^{k}}{dx^{k}}e^{-x}=(-1)^{k}e^{-x}$,
+the derivatives at $0$ are $1,-1,1,-1,\dots$ and
+$$e^{-x}\approx 1-x+\frac{x^{2}}{2}-\frac{x^{3}}{6}.$$
+Set $x=kt=0.10$: $1-0.1+0.005-0.000167=0.904833$, against the exact $0.904837$. The textbook
+shortcut $1-kt$ is just the first two terms; the *next* term, $+(kt)^{2}/2$, is exactly
+the size of the shortcut's error (0.005).
+
+*Check.* At $x=0$ the series gives $1$ ✓. At $x=1$ ($kt=1$) it gives $1-1+0.5-0.1667=0.333$, not
+$0.368$ — the series is losing accuracy as $x$ grows, which is the point of the next section.
+:::
+
+::: {.env .example}
+**Example 4.5.2 — expanding about a point other than zero.** Take $f(x)=\sqrt{x}$ about $a=4$.
+The derivatives are $f'=\dfrac{1}{2\sqrt{x}}$, $f''=-\dfrac{1}{4x^{3/2}}$, which at $4$ give
+$f(4)=2$, $f'(4)=\tfrac14$, $f''(4)=-\tfrac{1}{32}$. Hence
+$$\sqrt{x}\approx 2+\tfrac14(x-4)-\tfrac1{64}(x-4)^{2}.$$
+At $x=4.4$: $2+0.1-0.0025=2.0975$ against the exact $2.0976$. *Why $a=4$ and not $a=0$?*
+Because we know $\sqrt4$ exactly, and $0.4$ is a small step away. The expansion point should
+be a place where you know the answer, near where you want it.
+:::
+
+## See it grow
+
+::: {.widget-frame}
+::: {.widget-predict}
+For $e^{x}$, how many terms do you think you need before the polynomial and the curve are
+indistinguishable on $-1\le x\le 1$? On $-3\le x\le 3$? Then repeat with $\sin x$: its
+polynomial uses only odd powers. Predict first, then raise the order.
+:::
+::: {.widget-body}
+<div style="margin-bottom:0.6rem;">
+  <label>function <select id="tfFunc"><option value="exp">e^x</option><option value="sin">sin x</option><option value="ln">ln(1+x)</option></select></label>
+  <label style="margin-left:1.2rem;">order N <input type="range" id="tfN" min="1" max="9" value="1" step="1"></label>
+  <label style="margin-left:1.2rem;">test point x <input type="range" id="tfX" min="-2.9" max="2.9" value="0.5" step="0.05"></label>
+</div>
+<canvas id="tfCanvas" width="640" height="340"></canvas>
+<div class="widget-readout" id="tfReadout"></div>
+:::
+::: {.widget-debrief}
+Near $x=0$ the polynomial hugs the curve after only two or three terms, and the agreement
+spreads outward as you raise the order. For $e^{x}$ and $\sin x$ it eventually covers the
+whole window. For $\ln(1+x)$ it never does: past $x=1$ the polynomial wanders off no matter
+how many terms are kept, and at $x\le-1$ the function does not exist at all. A series has a
+*radius* beyond which it fails.
+:::
+:::
+
+## When can I trust it?
+
+The terms of a series for $e^{x}$ are $x^{k}/k!$. For small $x$ they shrink fast, so dropping
+the later ones barely matters; the first dropped term is a good estimate of the error. For
+$x=5$ the terms are $1,5,12.5,20.8,26.0,\dots$ — still *growing* — and four terms give $39.3$
+against $148.4$. The rule is therefore practical rather than mysterious: **the polynomial
+is trustworthy when $|x-a|$ is small enough that successive terms are shrinking quickly.**
+Some series (ours for $\ln(1+x)$) fail beyond a fixed radius; others ($e^{x}$, $\sin x$) never do, but
+may need many terms for large $x$.
+
+## What chemists do with it
+
+::: {.env .example}
+**Example 4.5.3 — the harmonic approximation.** A diatomic bond is modelled by the Morse
+potential $V(x)=D\,(1-e^{-ax})^{2}$, with $x$ the stretch from equilibrium. Using
+$e^{-ax}\approx 1-ax+\tfrac{(ax)^{2}}{2}$, we get $1-e^{-ax}\approx ax-\tfrac{(ax)^{2}}{2}$, and to
+lowest order
+$$V(x)\approx D\,(ax)^{2}=\tfrac12\,(2Da^{2})\,x^{2}.$$
+This is Hooke's law with force constant $k=2Da^{2}$. For $D=5.0$ eV and $a=1.9\ \text{Å}^{-1}$,
+$k=2(5.0)(1.9)^{2}=36\ \mathrm{eV/Å^{2}}$. Every spring-like picture of a bond —
+vibrational spectroscopy included — is the *first nonzero term* of a Taylor series.
+
+*Check.* Units: $D\,a^{2}$ is energy per length squared ✓. And the approximation is only good for small stretch;
+it cannot describe dissociation, where $V\to D$ rather than growing without bound.
+:::
+
+The same device linearises temperature dependence. Expanding $1/T$ about $T_0$ gives
+$1/T\approx 1/T_0-(T-T_0)/T_0^{2}$, so a $10$ K rise from $300$ K changes $1/T$ by only
+about $3\%$ — and Arrhenius plots, which are linear in $1/T$, are nearly straight over short ranges.
+
+## Cautions
+
+::: {.env .caution}
+**Stay near the expansion point.** $1-kt$ for $kt=1$ predicts zero reactant. A polynomial is a
+local statement; use it only where the next term is much smaller than the last.
+:::
+
+::: {.env .caution}
+**Radians, and expansion point.** $\sin\theta\approx\theta$ holds only with $\theta$ in
+radians (the derivative $\cos\theta$ equals $1$ at $0$ only then). And $\ln x$ has *no*
+Maclaurin series: it is undefined at $0$, so expand $\ln(1+x)$, or expand $\ln x$ about $a=1$.
+:::
+
+## Summary
+
+A function known only at one point can be copied by a polynomial whose coefficients are the
+derivatives there divided by factorials, so that value, slope, curvature and higher
+derivatives all agree at that point. The first two terms recover the tangent line, the next
+term measures the curvature, and the size of the first dropped term estimates the error. The
+copy is local: it is excellent near the expansion point and degrades with distance, and some
+series stop working beyond a fixed radius. In chemistry the pattern appears as $e^{-kt}\approx
+1-kt$, $\sin\theta\approx\theta$, the linearisation of $1/T$, and the harmonic approximation of a bond.
+
+## Practice until it sticks
+
+[Problem Set 9](../problem-sets/09-series.qmd) builds each of these series from a derivative
+table and compares every polynomial with the exact value.
+
+<script src="../js/widgets/taylor-fit.js"></script>

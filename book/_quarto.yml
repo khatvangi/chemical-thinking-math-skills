@@ -48,6 +48,7 @@ book:
         - 04-change/02-rules.qmd
         - 04-change/03-extrema.qmd
         - 04-change/04-constrained.qmd
+        - 04-change/05-taylor.qmd
   appendices:
     - 99-answers.qmd
     - part: "Problem Sets"

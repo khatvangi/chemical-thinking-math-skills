@@ -18,7 +18,7 @@ These sets train you to recognize the mathematical structure of a chemical probl
 | 6 | [CHANGE: differentiation](06-differentiation.qmd) | §4.1–4.2 | derivatives of chemistry's functions: powers, exponentials, logarithms |
 | 7 | [CHANGE: extrema](07-extrema.qmd) | §4.3 | stationary points, second-derivative test, endpoints |
 | 8 | [CHANGE: constrained extrema](08-constrained.qmd) | §4.4 | budgets, elimination, parallel gradients, the multiplier |
-| 9 | [Maclaurin and Taylor series](09-series.qmd) | practice | derivative tables, short polynomials, error checks |
+| 9 | [Maclaurin and Taylor series](09-series.qmd) | §4.5 | derivative tables, short polynomials, error checks |
 
 For extended vector practice there is also a printable supplement: [Vector chemistry problem set (PDF)](vector_chemistry_problem_set_student.pdf).
 
