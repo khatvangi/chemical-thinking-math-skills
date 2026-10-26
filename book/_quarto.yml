@@ -61,6 +61,7 @@ book:
         - problem-sets/06-differentiation.qmd
         - problem-sets/07-extrema.qmd
         - problem-sets/08-constrained.qmd
+        - problem-sets/09-series.qmd
 
 format:
   html:

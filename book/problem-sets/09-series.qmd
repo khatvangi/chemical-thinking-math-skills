@@ -1,0 +1,158 @@
+---
+title: "Problem Set 9 | Maclaurin and Taylor Series"
+subtitle: "Practice — replacing a hard function by a short polynomial"
+format:
+  html:
+    toc: true
+---
+
+## Purpose
+
+Chemistry is full of functions we cannot evaluate in our heads: $e^{-kt}$, $\ln K$, $\sin\theta$,
+$1/T$. Near a point we know well, each of them behaves like a short polynomial, and the
+polynomial is built from **derivatives at that point**. This set is simple practice in
+building that polynomial and checking it against the real value.
+
+The recipe has three steps:
+
+1. **Differentiate** $f$ as many times as you need (usually 2 or 3).
+2. **Evaluate** $f, f', f'', \dots$ at the expansion point $a$.
+3. **Assemble** the polynomial and **test** it against the exact value.
+
+$$f(x) \approx f(a) + f'(a)\,(x-a) + \frac{f''(a)}{2!}\,(x-a)^{2} + \frac{f'''(a)}{3!}\,(x-a)^{3} + \cdots$$
+
+When $a = 0$ this is called the **Maclaurin series**; for any other $a$ it is the **Taylor series**
+about $a$. The factorials are there so that the polynomial and $f$ share the same value, slope,
+curvature, and so on, at $a$. The series is good **near $a$** and gets worse as $|x-a|$ grows.
+
+## Worked example 1 — a Maclaurin series
+
+::: {.env .example}
+**Expand $f(x)=e^{x}$ about $a=0$ through $x^{3}$, then estimate $e^{0.1}$.**
+
+*Step 1 — differentiate.* Every derivative of $e^{x}$ is $e^{x}$: $f' = f'' = f''' = e^{x}$.
+
+*Step 2 — evaluate at $0$.* $f(0)=f'(0)=f''(0)=f'''(0)=1$.
+
+*Step 3 — assemble.*
+$$e^{x} \approx 1 + x + \frac{x^{2}}{2!} + \frac{x^{3}}{3!} = 1 + x + \frac{x^{2}}{2} + \frac{x^{3}}{6}.$$
+
+*Test.* At $x = 0.1$:
+$1 + 0.1 + 0.005 + 0.000167 = 1.105167$. A calculator gives $e^{0.1} = 1.105171$, so the
+error is $4\times10^{-6}$. Dropping to two terms ($1 + x = 1.100$) is off by $0.005$, so each extra term helps.
+Check that the polynomial gets $x=0$ exactly right: it gives $1 = e^{0}$ ✓.
+:::
+
+## Worked example 2 — a Taylor series about $a \ne 0$
+
+::: {.env .example}
+**Expand $f(x)=\sqrt{x}$ about $a=4$ through $(x-4)^{2}$, then estimate $\sqrt{4.4}$.**
+
+*Why not Maclaurin?* $\sqrt{x}$ has infinite slope at $0$ and we know nothing useful there. But
+$\sqrt{4}=2$ is known exactly, so expand about $a=4$.
+
+*Step 1 — differentiate.* $f' = \dfrac{1}{2\sqrt{x}}$, $\quad f'' = -\dfrac{1}{4\,x^{3/2}}$.
+
+*Step 2 — evaluate at $4$.* $f(4)=2$, $\;f'(4)=\dfrac{1}{4}$, $\;f''(4)=-\dfrac{1}{4\cdot 8} = -\dfrac{1}{32}$.
+
+*Step 3 — assemble.*
+$$\sqrt{x} \approx 2 + \frac{1}{4}(x-4) - \frac{1}{64}(x-4)^{2}.$$
+(the $64$ is $2!\times 32$.)
+
+*Test.* At $x = 4.4$, $x-4 = 0.4$:
+$2 + 0.1 - \dfrac{0.16}{64} = 2 + 0.1 - 0.0025 = 2.0975$.
+A calculator gives $\sqrt{4.4}=2.09762$, so the error is $1\times 10^{-4}$.
+:::
+
+Both examples used the same three steps. Do the same in every problem below.
+
+## A. Maclaurin series ($a=0$)
+
+### 1. Four standard series
+
+Build each Maclaurin polynomial from derivatives at $0$ (show the derivative table):
+
+a. $e^{-x}$ through $x^{3}$.
+b. $\sin x$ through $x^{3}$.
+c. $\cos x$ through $x^{4}$.
+d. $\ln(1+x)$ through $x^{3}$.
+
+*Hint for (d): $f' = 1/(1+x)$; keep differentiating.*
+
+### 2. First-order decay
+
+A first-order reaction has $[\mathrm{A}]/[\mathrm{A}]_0 = e^{-kt}$ with $k = 0.050\ \mathrm{s^{-1}}$.
+
+a. Use your series from 1a with $x = kt$ (so $e^{-kt}\approx 1 - kt + (kt)^{2}/2 - (kt)^{3}/6$) to estimate $[\mathrm{A}]/[\mathrm{A}]_0$ at $t = 2.0$ s.
+b. Compare with the exact value $e^{-0.10}=0.904837$. What is the error?
+c. The *one-term* shortcut is $1 - kt$. What does it give, and what is its error?
+d. One sentence: for what kind of $kt$ is the shortcut $1 - kt$ safe?
+
+### 3. Small angles
+
+a. Use $\sin\theta \approx \theta - \theta^{3}/6$ and $\cos\theta\approx 1-\theta^{2}/2$ to estimate $\sin 0.20$ and $\cos 0.20$ (radians).
+b. Compare with $\sin 0.20=0.198669$ and $\cos 0.20=0.980067$.
+c. What does the simplest approximation $\sin\theta\approx\theta$ give, and by what percent is it off?
+d. One sentence: why must $\theta$ be in radians?
+
+### 4. A Boltzmann factor
+
+For an energy gap that is small compared with $k_BT$, let $x = \varepsilon/k_BT = 0.20$.
+
+a. Estimate $e^{-x}$ with the series from 1a through $x^{3}$.
+b. Compare with the exact $e^{-0.20}=0.818731$.
+c. Estimate the fraction $e^{-x}$ for $x = 2.0$ with the same three-term series and compare with the exact $0.135335$. What happened, and why?
+
+## B. Taylor series about $a \neq 0$
+
+### 5. The logarithm about $x=1$
+
+a. Show that $f(x)=\ln x$ has $f(1)=0$, $f'(1)=1$, $f''(1)=-1$, $f'''(1)=2$.
+b. Write the Taylor polynomial through $(x-1)^{3}$.
+c. Estimate $\ln 1.1$ and $\ln 1.2$ and compare with $0.095310$ and $0.182322$.
+d. Why can there be no Maclaurin series for $\ln x$ about $x=0$?
+
+### 6. A square root about $a=9$
+
+a. Expand $f(x)=\sqrt{x}$ about $a=9$ through $(x-9)^{2}$.
+b. Estimate $\sqrt{9.5}$ and compare with $3.082207$.
+c. One sentence: why is $a=9$ a better choice than $a=4$ for this number?
+
+### 7. The exponential about $a=2$
+
+a. Show that every derivative of $e^{x}$ at $a=2$ equals $e^{2}=7.389$.
+b. Write the Taylor polynomial through $(x-2)^{2}$.
+c. Estimate $e^{2.1}$ and compare with $8.1662$.
+
+### 8. Temperature dependence of $1/T$
+
+Rate constants depend on $1/T$ (Arrhenius). Expand $f(T)=1/T$ about $T_0=300$ K.
+
+a. Find $f'(T)$ and $f''(T)$ and evaluate them at $300$ K, with units.
+b. Write the Taylor polynomial through $(T-300)^{2}$.
+c. Estimate $1/310$ with two terms (through $(T-300)$) and with three terms. Compare with $1/310 = 0.0032258\ \mathrm{K^{-1}}$.
+d. One sentence of chemistry: the one-term result is $1/T_0 - \Delta T/T_0^{2}$. Why does a $10$ K rise change $1/T$ by only about $3\%$?
+
+## C. Reading the series
+
+### 9. How many terms do I need?
+
+a. For $x = 0.5$, compute $1+x$, $1 + x + x^{2}/2$, and $1+x+x^{2}/2+x^{3}/6$ and compare with $e^{0.5}=1.64872$.
+b. Does each added term move you closer to the exact value?
+c. Repeat for $x=0.1$ (use Worked example 1). Which $x$ needs more terms to reach $0.1\%$ accuracy, and why?
+
+### 10. The tempting error
+
+A classmate writes "$e^{x} \approx 1 + x + x^{2}/2 + x^{3}/6$, so $e^{5} \approx 1+5+12.5+20.8 = 39.3$."
+
+a. Compare with the exact $e^{5}=148.41$.
+b. Explain in one sentence why the series failed here although it worked at $x=0.1$.
+c. State the rule of thumb: when is a Maclaurin polynomial trustworthy?
+
+## Expectations
+
+1. For every series, show the **derivative table**: $f$, $f'$, $f''$, … evaluated at $a$.
+2. Write the polynomial before substituting numbers.
+3. State the expansion point $a$ and keep $(x-a)$ together.
+4. Always compare with the exact value and report the error. Show units where there are any.
+5. Submit on the [course submission page](../../submit.html) as **Set 9**, or on paper.
